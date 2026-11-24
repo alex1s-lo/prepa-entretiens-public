@@ -2821,7 +2821,7 @@ window.PREPA_BANQUE = {
    "type": "ouverte",
    "question": "« Ton stage actuel est dans un autre secteur (par exemple l'énergie), mais tu postules en finance de marché. Qu'est-ce que tu en retiens pour nous ? »",
    "solution": "À préparer avec tes vrais éléments (Mes histoires → « Ton stage actuel »). Pistes de lien, à n'utiliser que si elles correspondent à ce que tu fais :\n- travail sur des données réelles, bruitées et incomplètes (et ce que ça apprend sur la validation) ;\n- modélisation sous incertitude (prévision, risque, optimisation) ;\n- outils (Python, statistiques) et rigueur de production (code relu, tests, documentation) ;\n- contact avec des opérationnels : expliquer un modèle à quelqu'un qui n'est pas quant ;\n- curiosité pour les marchés de l'énergie (volatilité, prix négatifs, spark spreads), ce qui intéresse aussi les desks de matières premières.\nTermine par ce que tu cherches en plus chez eux : la finance de marché au quotidien, un retour plus rapide entre idée et résultat.",
-   "en": "\"Your current internship is in energy but you apply to a markets role. What do you take from it for us?\""
+   "en": "\"Your current internship is in another sector but you apply to a markets role. What do you take from it for us?\""
   },
   {
    "id": "fit-ouverture-presente-toi",

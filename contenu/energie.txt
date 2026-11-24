@@ -121,7 +121,7 @@ profils: hf mm banque risque data
 --- question
 « Ton stage actuel est dans un autre secteur (par exemple l'énergie), mais tu postules en finance de marché. Qu'est-ce que tu en retiens pour nous ? »
 --- en
-"Your current internship is in energy but you apply to a markets role. What do you take from it for us?"
+"Your current internship is in another sector but you apply to a markets role. What do you take from it for us?"
 --- solution
 À préparer avec tes vrais éléments (Mes histoires → « Ton stage actuel »). Pistes de lien, à n'utiliser que si elles correspondent à ce que tu fais :
 - travail sur des données réelles, bruitées et incomplètes (et ce que ça apprend sur la validation) ;

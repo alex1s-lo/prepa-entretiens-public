@@ -1,7 +1,7 @@
 // Fichier généré par construire.py : ne pas modifier à la main.
 // Usage hors ligne quand l'application est servie en http(s) (GitHub Pages) ; inactif en ouverture locale (file://).
 // Stratégie « réseau d'abord » : en ligne on reçoit toujours la dernière version, hors ligne on lit le cache.
-const VERSION = 'prepa-c3a6308099e0';
+const VERSION = 'prepa-36cb448abb59';
 const FICHIERS = [
   './index.html',
   './manifest.webmanifest',
