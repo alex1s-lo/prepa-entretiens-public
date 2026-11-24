@@ -1,0 +1,199 @@
+# Motivation et parcours. Les solutions donnent une méthode et une trame, jamais de faits inventés :
+# écris tes vraies réponses dans « Mes histoires » et répète-les à voix haute.
+
+=== fit-ouverture-presente-toi
+theme: fit
+niveau: 1
+profils: hf mm banque risque data
+--- question
+« Présente-toi. »
+--- en
+"Tell me about yourself."
+--- solution
+60 à 90 secondes, préparées mot pour mot (Mes histoires → « Présente-toi ») :
+1. **Qui tu es** : formation, année, ce qui t'a amené aux maths financières (une phrase).
+2. **Ce que tu as fait** : ton stage actuel (une phrase, avec ce que tu y fais concrètement), un projet quant choisi pour ce poste (une phrase, avec un résultat ou une leçon).
+3. **Ce que tu cherches** : un stage de césure de 5 à 6 mois à partir de [mois de début], dans ce type d'équipe, et pourquoi.
+Termine sur une porte ouverte (« je pourrai vous parler de mon projet de surface de volatilité »), l'intervieweur rebondit souvent dessus.
+--- piege
+Réciter le CV ligne par ligne, ou parler cinq minutes. L'intervieweur a ton CV : il veut un fil conducteur et une voix.
+
+=== fit-ouverture-parcours
+theme: fit
+niveau: 1
+profils: hf mm banque risque data
+--- question
+« Walk me through your CV » : déroule ton parcours.
+--- en
+"Walk me through your CV."
+--- solution
+Dans l'ordre chronologique, en expliquant les **choix** (pourquoi cette école, cette mention, ce stage, ces projets) et ce que chaque étape t'a appris, jusqu'au poste visé. Chaque étape doit rendre la suivante logique : l'intervieweur cherche une trajectoire cohérente vers la finance quantitative.
+Deux minutes maximum ; garde les détails pour les relances.
+
+=== fit-pourquoi-quant
+theme: fit
+niveau: 1
+profils: hf mm banque risque data
+--- question
+« Pourquoi la finance quantitative ? »
+--- en
+"Why quantitative finance?"
+--- solution
+Évite « j'aime les maths et la finance ». Structure :
+1. un **déclic concret** (un cours, un problème, un projet) ;
+2. ce qui te plaît dans le **travail réel** : modéliser, confronter un modèle aux données, avoir un retour rapide et mesurable, travailler sur des problèmes ouverts ;
+3. une **preuve** que tu l'as déjà fait par toi-même (un de tes projets, ce qu'il t'a appris, par exemple qu'un bon backtest est d'abord un backtest honnête).
+Adapte la fin au poste : recherche (signaux, statistiques), pricing (modèles, rigueur), trading (décision rapide sous incertitude).
+
+=== fit-pourquoi-nous
+theme: fit
+niveau: 1
+profils: hf mm banque risque data
+--- question
+« Pourquoi nous ? Pourquoi cette équipe ? »
+--- en
+"Why us? Why this team?"
+--- solution
+Trois éléments précis, préparés pour chaque entreprise (notes dans le Journal) :
+1. ce que fait **l'équipe** (lu dans l'annonce, sur le site, dans leurs publications ou présentations) ;
+2. le **lien** avec ce que tu as fait ou étudié ;
+3. ce que tu veux **apprendre** là précisément.
+Une banque, un fonds systématique et un teneur de marché n'attendent pas la même réponse. Une phrase générique (« entreprise prestigieuse, leader de son secteur ») ne compte pas.
+
+=== fit-cesure
+theme: fit
+niveau: 1
+profils: hf mm banque risque data
+--- question
+« Pourquoi une césure ? Et que feras-tu après le stage ? »
+--- en
+"Why a gap year? What will you do after the internship?"
+--- solution
+Présente le calendrier comme un choix : stage actuel jusqu'à sa date de fin, puis 5 à 6 mois en finance quantitative à partir de [mois de début], avant la suite de ta formation. Dis ce que la césure t'apporte (deux expériences longues et différentes, tester le métier avant le stage de fin d'études) et ce que tu vises ensuite. Si l'entreprise recrute ses stagiaires de fin d'études ou ses jeunes diplômés parmi ses stagiaires, dis que cette perspective t'intéresse (si c'est vrai).
+
+=== fit-stage-actuel
+theme: fit
+niveau: 1
+profils: hf mm banque risque data
+--- question
+« Parle-moi de ton stage actuel. »
+--- en
+"Tell me about your current internship."
+--- solution
+Méthode STAR, en 1 à 2 minutes :
+- **Situation** : l'équipe, son rôle, l'enjeu ;
+- **Tâche** : ce qu'on t'a confié ;
+- **Action** : ce que **toi** tu as fait, avec quels outils et quelles méthodes ;
+- **Résultat** : un chiffre ou un effet concret, et ce qui a été fait de ton travail ;
+- **Lien** avec le poste : données, modélisation, risque, code, rigueur, communication avec des non-spécialistes.
+Prépare la version courte et la version détaillée : on te relancera sur un point technique.
+
+=== fit-echec
+theme: fit
+niveau: 2
+profils: hf mm banque risque data
+--- question
+« Parle-moi d'un échec. »
+--- en
+"Tell me about a failure."
+--- solution
+Un vrai échec, pas un faux défaut (« je travaille trop »). Ce qui s'est passé, ta part de responsabilité, comment tu l'as diagnostiqué, ce que tu as changé ensuite, et la preuve que tu l'appliques depuis.
+Un bon matériau, si tu l'as vraiment vécu : le premier réglage du projet stat arb (Sharpe nul malgré de vraies paires cointégrées), diagnostiqué comme un manque de puissance et un problème de comparaisons multiples, puis le réglage final choisi après coup et la pénalité honnête (Sharpe déflaté).
+
+=== fit-equipe
+theme: fit
+niveau: 2
+profils: hf mm banque risque data
+--- question
+« Raconte une situation où tu n'étais pas d'accord avec un collègue ou un responsable. »
+--- en
+"Tell me about a time you disagreed with a colleague or manager."
+--- solution
+Une situation précise (projet d'école, stage, association, sport). Montre : que tu as compris la position de l'autre, que tu as argumenté avec des **faits** (données, test, prototype), que tu as su accepter la décision finale ou changer d'avis devant un meilleur argument, et ce qui en est sorti. En trading et en recherche, l'intervieweur cherche quelqu'un qui défend une idée sans s'y accrocher.
+
+=== fit-qualites-defauts
+theme: fit
+niveau: 1
+profils: hf mm banque risque data
+--- question
+« Quelles sont tes qualités et tes défauts ? »
+--- en
+"What are your strengths and weaknesses?"
+--- solution
+Deux qualités utiles au poste, chacune prouvée par un exemple court. Un défaut réel mais compatible avec le poste, et ce que tu fais concrètement pour le corriger (par exemple : « j'ai tendance à vouloir tout comprendre avant d'avancer ; j'ai appris à fixer une limite de temps puis à demander »). Évite les faux défauts et les défauts rédhibitoires pour le poste.
+
+=== fit-ia
+theme: fit
+niveau: 1
+profils: hf mm banque risque data
+--- question
+« Comment utilises-tu l'IA pour coder ? »
+--- en
+"How do you use AI when you code?"
+--- solution
+Question de plus en plus fréquente. Réponse honnête et mature :
+- ce pour quoi tu l'utilises (écrire un premier jet, explorer une bibliothèque, chercher un bug, relire) ;
+- ce que tu fais toujours toi-même : comprendre chaque ligne, tester (des tests contre des cas connus, comme les contrôles de tes projets), vérifier les résultats contre une vérité connue ;
+- ses limites que tu as constatées : erreurs subtiles, code plausible mais faux, d'où l'importance des tests.
+Ne cache pas son usage sur tes projets, et propose de détailler n'importe quelle partie.
+
+=== fit-plan-b
+theme: fit
+niveau: 2
+profils: hf mm banque risque data
+--- question
+« Tu postules aussi en data science et en trading ? Qu'est-ce que tu veux vraiment faire ? »
+--- en
+"You also apply to data science and trading roles. What do you really want to do?"
+--- solution
+Montre la cohérence plutôt que de nier : le fil rouge est de modéliser des données bruitées et de décider sous incertitude, avec les mathématiques appliquées. Puis dis clairement ce qui te fait préférer le poste en face de toi, et pourquoi ce stage précis est le meilleur pour toi maintenant. L'intervieweur vérifie surtout que tu ne partiras pas au premier entretien ailleurs.
+
+=== fit-pression
+theme: fit
+niveau: 1
+profils: hf mm banque risque data
+--- question
+« Comment réagis-tu sous pression ? Donne un exemple. »
+--- en
+"How do you handle pressure? Give an example."
+--- solution
+Un exemple concret (examen, échéance de projet, compétition, stage) avec ce que tu as fait : prioriser, découper, communiquer tôt quand un délai ne tient pas, garder une routine. Chez un teneur de marché, la vraie réponse est ton comportement pendant l'entretien lui-même : rester calme quand on te contredit ou quand tu te trompes, corriger sans te justifier.
+
+=== fit-cinq-ans
+theme: fit
+niveau: 1
+profils: hf mm banque risque data
+--- question
+« Où te vois-tu dans cinq ans ? »
+--- en
+"Where do you see yourself in five years?"
+--- solution
+Une réponse ambitieuse mais réaliste, liée au métier : avoir acquis une expertise (modélisation, recherche, trading), prendre en charge des sujets de bout en bout, encadrer peut-être des stagiaires. Inutile de promettre de rester toute ta vie ; montre que ce stage est une étape cohérente de ce chemin.
+
+=== fit-dernieres-nouvelles
+theme: fit
+niveau: 1
+profils: hf mm banque risque data
+--- question
+« Qu'as-tu lu récemment qui t'a intéressé (un article, un livre, un papier de recherche) ? »
+--- en
+"What have you read recently that interested you?"
+--- solution
+Prépare une lecture réelle et récente, liée au métier si possible (un papier de recherche, un chapitre de livre de référence, un article sur un sujet de marché). Dis en deux phrases ce qu'elle apporte, une limite ou une question qu'elle t'a posée, et ce que tu en as fait (un essai de code, une discussion). Références classiques pour se lancer : Hull (produits dérivés), Gatheral (« The Volatility Surface »), Shreve (calcul stochastique), López de Prado (« Advances in Financial Machine Learning »), Bouchaud et al. (« Trades, Quotes and Prices »), Zhou (« A Practical Guide to Quantitative Finance Interviews »).
+
+=== fit-questions-a-poser
+theme: fit
+niveau: 1
+profils: hf mm banque risque data
+--- question
+« As-tu des questions pour nous ? »
+--- en
+"Do you have any questions for us?"
+--- solution
+Toujours oui : deux ou trois questions préparées (Mes histoires → « Mes questions à poser »). Exemples :
+- « À quoi ressemble une journée type dans l'équipe ? »
+- « Sur quel projet a travaillé votre dernier stagiaire, et qu'est-il devenu ? »
+- « Comment une idée passe-t-elle de la recherche à la production ? »
+- « Quels outils et langages utilisez-vous au quotidien ? »
+- « Qu'est-ce qui distingue un stagiaire excellent d'un bon stagiaire ici ? »
+Évite le salaire et les questions dont la réponse est sur le site. Une question qui rebondit sur ce qui a été dit pendant l'entretien vaut encore mieux.

@@ -1,0 +1,129 @@
+# Machine learning et data science, troisième série (profil data, ton plan B).
+
+=== ml-acp-variance
+theme: ml
+niveau: 1
+profils: data hf risque
+type: numerique
+reponse: 4/(4+2+1+1)
+duree: 90
+--- question
+Une ACP sur la matrice de covariance de quatre variables donne les valeurs propres 4, 2, 1 et 1. Quelle part de la variance totale la première composante explique-t-elle ?
+--- en
+A PCA on the covariance matrix of four variables gives eigenvalues 4, 2, 1, 1. What share of total variance does the first component explain?
+--- solution
+La variance totale est la somme des valeurs propres (la trace de la matrice) : 4/(4 + 2 + 1 + 1) = **50 %**. Les deux premières composantes : 75 %.
+Sur des variables standardisées (matrice de corrélation), la somme des valeurs propres vaudrait le nombre de variables, 4 : ces valeurs propres ne peuvent donc pas venir d'une matrice de corrélation de 4 variables.
+--- piege
+Faire une ACP sur des variables d'échelles différentes sans les standardiser : la variable de plus grande variance domine la première composante.
+--- relances
+- Que vaut la somme des valeurs propres d'une matrice de corrélation de 4 variables ? (4)
+
+=== ml-cote-logistique
+theme: ml
+niveau: 2
+profils: data hf risque
+type: numerique
+reponse: exp(0.7)
+tolerance: 0.01
+duree: 120
+--- question
+Dans une régression logistique de défaut, le coefficient de la variable « endettement » vaut 0,7. Par combien la cote du défaut (p/(1 − p)) est-elle multipliée quand l'endettement augmente d'une unité ?
+--- en
+In a default logistic regression, the leverage coefficient is 0.7. By what factor are the default odds multiplied when leverage rises by one unit?
+--- solution
+e^{0,7} ≈ **2,01** : la cote double environ. La probabilité, elle, ne double pas : l'effet sur p dépend du niveau de départ (dp/dx = β p(1 − p), maximal autour de p = 1/2).
+
+=== ml-matrice-confusion
+theme: ml
+niveau: 1
+profils: data hf risque
+type: numerique
+reponse: 90/(90+30)
+duree: 120
+--- question
+Sur 1 000 transactions, un modèle de fraude signale 120 alertes, dont 90 vraies fraudes ; il y a 100 fraudes au total. Quelle est la précision du modèle ?
+--- en
+Out of 1,000 transactions, a fraud model raises 120 alerts, 90 of which are real frauds; there are 100 frauds in total. What is the model's precision?
+--- solution
+Vrais positifs 90, faux positifs 30, faux négatifs 10, vrais négatifs 870. Précision = 90/120 = **0,75** ; rappel = 90/100 = 0,9 ; taux de faux positifs = 30/900 ≈ 3,3 % ; exactitude = 960/1 000 = 96 %.
+--- relances
+- Quel seuil choisir ? (celui qui minimise le coût attendu : coût d'une fraude manquée × faux négatifs + coût d'une alerte × faux positifs)
+
+=== ml-ridge-retrecissement
+theme: ml
+niveau: 2
+profils: data hf
+type: numerique
+reponse: 1/(1+1)
+duree: 120
+--- question
+Avec des variables explicatives orthonormées (XᵀX = n·I), la régression Ridge multiplie chaque coefficient des moindres carrés par n/(n + λ). Avec n = 250 observations et λ = 250, quel facteur de rétrécissement ?
+--- en
+With orthonormal regressors (XᵀX = n·I), Ridge multiplies each OLS coefficient by n/(n + λ). With n = 250 and λ = 250, what shrinkage factor?
+--- solution
+250/(250 + 250) = **0,5** : chaque coefficient est divisé par deux. Ridge rétrécit tous les coefficients dans la même proportion dans ce cas, alors que le Lasso soustrait un seuil et met à zéro les petits coefficients (seuillage doux).
+
+=== ml-surapprentissage-signes
+theme: ml
+niveau: 1
+profils: data hf
+--- question
+Comment reconnais-tu un modèle qui sur-apprend, et que fais-tu ?
+--- en
+How do you recognize an overfitting model, and what do you do?
+--- solution
+Signes : erreur très faible à l'entraînement et nettement plus forte en validation ; performance qui se dégrade quand on ajoute des variables ou de la complexité ; résultats instables d'un échantillon ou d'une graine à l'autre ; coefficients ou importances qui changent beaucoup ; en finance, un backtest trop beau (Sharpe très élevé, peu de pertes).
+Remèdes : simplifier (moins de variables, modèle moins profond), régulariser (L1, L2, dropout, arrêt précoce), plus de données, validation plus stricte (walk-forward, échantillon de test gelé), et se méfier du nombre de variantes essayées.
+
+=== ml-arret-precoce
+theme: ml
+niveau: 2
+profils: data hf
+--- question
+Qu'est-ce que l'arrêt précoce (early stopping) pour un réseau de neurones ou un gradient boosting ? Quel piège en séries temporelles ?
+--- en
+What is early stopping for neural networks or gradient boosting? What is the time-series pitfall?
+--- solution
+On suit l'erreur sur un échantillon de validation pendant l'entraînement et on s'arrête quand elle cesse de baisser (avec une patience de quelques itérations), en gardant le meilleur modèle. C'est une régularisation : moins d'itérations, modèle plus simple.
+Piège : l'échantillon de validation sert à choisir le nombre d'itérations, il n'est donc plus un échantillon de test. En séries temporelles, il doit être **postérieur** à l'entraînement (et antérieur au test final), sinon le modèle « voit » le futur.
+
+=== ml-desequilibre-classes
+theme: ml
+niveau: 2
+profils: data hf risque
+--- question
+Tes données ont 1 % de positifs. Faut-il rééchantillonner (sous-échantillonnage, sur-échantillonnage, SMOTE) ? Quelles conséquences sur les probabilités prédites ?
+--- en
+Your data has 1% positives. Should you resample (undersampling, oversampling, SMOTE)? What happens to predicted probabilities?
+--- solution
+Ce n'est pas obligatoire : souvent, un modèle probabiliste bien régularisé, une pondération des classes et un **seuil** choisi selon les coûts suffisent. Le rééchantillonnage peut aider certains algorithmes à apprendre la classe rare, mais il **déforme les probabilités** : un modèle entraîné sur 50 % de positifs surestime fortement la probabilité réelle (qui est de 1 % en moyenne). Il faut alors recalibrer (correction par le taux de base, calibration de Platt ou isotonique sur des données non rééchantillonnées). SMOTE invente des points synthétiques et peut créer des fuites si on l'applique avant le découpage en validation croisée.
+
+=== ml-features-finance
+theme: ml
+niveau: 2
+profils: data hf
+--- question
+Quelles variables construirais-tu pour prédire le rendement à 5 jours d'une action, et comment éviterais-tu les pièges ?
+--- en
+Which features would you build to predict a stock's 5-day return, and how would you avoid pitfalls?
+--- solution
+Exemples : rendements passés sur plusieurs horizons (retour à la moyenne à court terme, momentum sur plusieurs mois), volatilité récente, volume relatif, écart au secteur, révisions d'analystes, valorisation, surprises de résultats, variables de marché (taux, volatilité implicite).
+Pièges et parades :
+- **Normaliser** en coupe transversale (rangs ou z-scores par date) pour retirer l'effet marché et les échelles différentes.
+- **Données point-in-time** et décalage d'un jour pour ne rien utiliser avant sa publication.
+- **Étiquettes qui se chevauchent** (rendements à 5 jours calculés chaque jour) : validation purgée, écarts-types corrigés.
+- **Neutraliser** les expositions indésirables (secteur, taille, bêta) si l'on veut un signal spécifique.
+- Tester la **stabilité** dans le temps et le coût de transaction du signal.
+
+=== ml-regression-quantile
+theme: ml
+niveau: 3
+profils: data hf risque
+--- question
+Qu'est-ce que la régression quantile ? Quand la préférer à la régression des moindres carrés en finance ?
+--- en
+What is quantile regression? When is it preferable to least squares in finance?
+--- solution
+Elle estime un quantile conditionnel (par exemple le 5ᵉ centile du rendement sachant des variables) en minimisant une perte asymétrique (« pinball ») : τ·e si l'erreur e est positive, (τ − 1)·e sinon. Pour τ = 0,5, c'est la médiane (perte absolue), robuste aux valeurs extrêmes.
+Usages : VaR conditionnelle (CAViaR), effet des variables sur les queues de distribution plutôt que sur la moyenne, données à queues épaisses ou hétéroscédastiques. Les moindres carrés modélisent seulement la moyenne conditionnelle et sont sensibles aux valeurs extrêmes.

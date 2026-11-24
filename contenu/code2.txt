@@ -1,0 +1,242 @@
+# Code, deuxième série : SQL (souvent demandé en data science et en recherche), C++, Python.
+
+=== sql-group-by
+theme: algo
+niveau: 1
+profils: data hf risque
+--- question
+Table `rendements(ticker, jour, r)`. Écris une requête SQL qui donne, pour chaque ticker ayant au moins 200 observations, le rendement moyen et l'écart-type, triés par rendement moyen décroissant.
+--- en
+Table returns(ticker, day, r). Write a SQL query giving, for each ticker with at least 200 observations, the mean return and standard deviation, sorted by mean descending.
+--- solution
+```sql
+SELECT ticker,
+       AVG(r)         AS moyenne,
+       STDDEV_SAMP(r) AS ecart_type,
+       COUNT(*)       AS n
+FROM rendements
+GROUP BY ticker
+HAVING COUNT(*) >= 200
+ORDER BY moyenne DESC;
+```
+`WHERE` filtre les lignes avant le regroupement, `HAVING` filtre les groupes après. Le nom exact de la fonction d'écart-type dépend du moteur (`STDDEV`, `STDEV`…).
+
+=== sql-fenetre
+theme: algo
+niveau: 2
+profils: data hf risque
+--- question
+Même table `rendements(ticker, jour, r)`. Calcule pour chaque ligne la moyenne mobile du rendement sur les 20 dernières observations du même ticker.
+--- en
+Compute, for each row, the 20-observation moving average of r for the same ticker.
+--- solution
+Fonction de fenêtre :
+```sql
+SELECT ticker, jour, r,
+       AVG(r) OVER (
+         PARTITION BY ticker
+         ORDER BY jour
+         ROWS BETWEEN 19 PRECEDING AND CURRENT ROW
+       ) AS moyenne_20
+FROM rendements;
+```
+Contrairement à `GROUP BY`, une fonction de fenêtre garde toutes les lignes. Attention : les 19 premières lignes de chaque ticker ont une moyenne sur moins de 20 valeurs ; filtrer avec un `COUNT(*) OVER (...)` si besoin.
+--- relances
+- Rendement de la veille ? (`LAG(r) OVER (PARTITION BY ticker ORDER BY jour)`)
+- Rang de chaque ticker par jour ? (`RANK() OVER (PARTITION BY jour ORDER BY r DESC)`)
+
+=== sql-rendement-lag
+theme: algo
+niveau: 2
+profils: data hf risque
+--- question
+Table `prix(ticker, jour, cloture)`. Calcule le rendement quotidien de chaque ticker en SQL.
+--- en
+Table prices(ticker, day, close). Compute each ticker's daily return in SQL.
+--- solution
+```sql
+SELECT ticker, jour,
+       cloture / LAG(cloture) OVER (PARTITION BY ticker ORDER BY jour) - 1 AS rendement
+FROM prix;
+```
+La première ligne de chaque ticker donne NULL. Pièges : jours manquants (le rendement couvre alors plusieurs jours), prix non ajustés des dividendes et divisions d'actions, division par zéro.
+
+=== sql-jointures
+theme: algo
+niveau: 1
+profils: data hf risque
+--- question
+Différence entre `INNER JOIN` et `LEFT JOIN` ? Une table `ordres` a 1 000 lignes, `clients` 100 ; combien de lignes renvoie `ordres LEFT JOIN clients ON ordres.client_id = clients.id` ?
+--- en
+Difference between INNER JOIN and LEFT JOIN? How many rows does orders LEFT JOIN clients return?
+--- solution
+- `INNER JOIN` : seulement les lignes qui ont une correspondance des deux côtés.
+- `LEFT JOIN` : toutes les lignes de la table de gauche, complétées par NULL quand il n'y a pas de correspondance.
+Si `clients.id` est unique : exactement **1 000 lignes** (une par ordre). Si `id` n'est pas unique dans `clients`, chaque ordre est dupliqué autant de fois qu'il a de correspondances : plus de 1 000 lignes. C'est la cause classique des sommes gonflées après une jointure.
+
+=== sql-dedoublonnage
+theme: algo
+niveau: 2
+profils: data hf
+--- question
+Une table `cotations(ticker, horodatage, prix)` contient plusieurs lignes par ticker. Garde uniquement la dernière cotation de chaque ticker.
+--- en
+Keep only the latest quote per ticker from quotes(ticker, ts, price).
+--- solution
+```sql
+SELECT ticker, horodatage, prix
+FROM (
+  SELECT *, ROW_NUMBER() OVER (PARTITION BY ticker ORDER BY horodatage DESC) AS rang
+  FROM cotations
+) t
+WHERE rang = 1;
+```
+Alternative : jointure avec `SELECT ticker, MAX(horodatage) ... GROUP BY ticker`, mais elle renvoie plusieurs lignes en cas d'égalité d'horodatage, alors que `ROW_NUMBER` en garde une seule.
+
+=== sql-null
+theme: algo
+niveau: 2
+profils: data hf risque
+--- question
+Quels pièges pose NULL en SQL ?
+--- en
+What pitfalls does NULL create in SQL?
+--- solution
+- `NULL = NULL` n'est pas vrai mais **inconnu** : utiliser `IS NULL` / `IS NOT NULL`.
+- `COUNT(*)` compte les lignes, `COUNT(colonne)` ignore les NULL ; `AVG` ignore les NULL (la moyenne ne porte que sur les valeurs présentes).
+- `WHERE x NOT IN (SELECT y ...)` ne renvoie **rien** si la sous-requête contient un NULL ; préférer `NOT EXISTS`.
+- Toute opération arithmétique avec NULL donne NULL : `COALESCE(x, 0)` si 0 a un sens.
+- Les NULL ne sont pas égaux entre eux dans une jointure : les lignes à clé NULL disparaissent d'un `INNER JOIN`.
+
+=== cpp-virtuel
+theme: algo
+niveau: 3
+profils: banque mm
+--- question
+Comment fonctionne un appel de fonction virtuelle en C++ ? Quel est son coût, et pourquoi les systèmes à faible latence l'évitent-ils parfois ?
+--- en
+How does a virtual function call work in C++? What does it cost, and why do low-latency systems sometimes avoid it?
+--- solution
+Chaque classe polymorphe a une table de fonctions virtuelles (vtable) ; chaque objet contient un pointeur vers la vtable de sa classe. Un appel virtuel = lire ce pointeur, lire l'adresse dans la table, appel indirect.
+Coût : quelques nanosecondes en soi, mais surtout il **empêche l'inlining** et peut provoquer une mauvaise prédiction de branchement et des défauts de cache. Dans une boucle critique, c'est mesurable.
+Alternatives : polymorphisme statique par templates (CRTP), `std::variant` avec `std::visit`, `final` pour permettre la dévirtualisation par le compilateur. Toujours mesurer avant d'optimiser.
+
+=== cpp-comportement-indefini
+theme: algo
+niveau: 2
+profils: banque mm
+--- question
+Qu'est-ce qu'un comportement indéfini en C++ ? Donne des exemples.
+--- en
+What is undefined behavior in C++? Give examples.
+--- solution
+Une opération pour laquelle la norme n'impose aucun résultat : le programme peut sembler marcher, planter, ou être « optimisé » de façon surprenante par le compilateur, qui suppose que le comportement indéfini n'arrive jamais.
+Exemples : lire au-delà d'un tableau, déréférencer un pointeur nul ou libéré (dangling), dépassement d'entier **signé**, variable non initialisée, deux `delete` sur le même pointeur, modification d'un objet pendant qu'on itère dessus (itérateurs invalidés après `push_back` sur un `vector`), course de données entre threads.
+Outils : sanitizers (`-fsanitize=address,undefined`), avertissements du compilateur, Valgrind.
+
+=== cpp-move
+theme: algo
+niveau: 2
+profils: banque mm
+--- question
+Qu'est-ce que la sémantique de déplacement (move) en C++11 ? Que fait `std::move` ?
+--- en
+What are move semantics in C++11? What does std::move do?
+--- solution
+Une référence rvalue (`T&&`) désigne un objet temporaire dont on peut « voler » les ressources (le tampon d'un `std::vector` ou d'une `std::string`) au lieu de les copier : le constructeur et l'affectation par déplacement transfèrent un pointeur au lieu de copier les données (O(1) au lieu de O(n)).
+`std::move` ne déplace rien : c'est une conversion en rvalue qui **autorise** le déplacement. Après un déplacement, l'objet source est dans un état valide mais non spécifié.
+Règle des cinq : si une classe définit un destructeur, un constructeur de copie ou une affectation, elle doit en général définir les cinq (ou aucun, en s'appuyant sur des membres RAII).
+
+=== py-copie
+theme: algo
+niveau: 1
+profils: hf mm data banque
+--- question
+Que contient `m` après ce code, et pourquoi ?
+```python
+m = [[0] * 3] * 3
+m[0][0] = 1
+```
+--- en
+What does m contain after m = [[0]*3]*3; m[0][0] = 1, and why?
+--- solution
+`[[1, 0, 0], [1, 0, 0], [1, 0, 0]]` : `* 3` répète la **référence** à la même liste intérieure ; les trois lignes sont le même objet.
+Correction : `m = [[0] * 3 for _ in range(3)]`. Même famille de pièges : `b = a` (même objet), `a.copy()` (copie superficielle : les objets intérieurs sont partagés), `copy.deepcopy(a)` (copie complète).
+
+=== py-decorateur
+theme: algo
+niveau: 2
+profils: hf mm data
+--- question
+Écris un décorateur Python qui mesure et affiche la durée d'exécution d'une fonction.
+--- en
+Write a Python decorator that measures and prints a function's run time.
+--- solution
+```python
+import functools
+import time
+
+def chronometre(f):
+    @functools.wraps(f)            # garde le nom et la documentation de f
+    def enveloppe(*args, **kwargs):
+        debut = time.perf_counter()
+        try:
+            return f(*args, **kwargs)
+        finally:
+            print(f"{f.__name__} : {time.perf_counter() - debut:.3f} s")
+    return enveloppe
+
+@chronometre
+def calcul(n):
+    return sum(i * i for i in range(n))
+```
+Un décorateur est une fonction qui prend une fonction et en renvoie une autre ; `@chronometre` équivaut à `calcul = chronometre(calcul)`. `perf_counter` est l'horloge adaptée aux mesures de durée.
+
+=== algo-fusion-intervalles
+theme: algo
+niveau: 2
+profils: hf mm data banque
+--- question
+On te donne des intervalles [début, fin] (par exemple des périodes où une stratégie est en position). Fusionne ceux qui se chevauchent.
+--- en
+Merge overlapping intervals.
+--- solution
+Trier par début, puis balayer :
+```python
+def fusionner(intervalles):
+    res = []
+    for debut, fin in sorted(intervalles):
+        if res and debut <= res[-1][1]:
+            res[-1][1] = max(res[-1][1], fin)
+        else:
+            res.append([debut, fin])
+    return res
+```
+O(n log n) à cause du tri. Cas limites : intervalles inclus l'un dans l'autre (d'où le `max`), intervalles qui se touchent (choisir `<=` ou `<` selon la convention).
+
+=== algo-k-plus-grands
+theme: algo
+niveau: 2
+profils: hf mm data
+--- question
+Trouve les k plus grandes valeurs d'une liste de n nombres (n très grand, k petit). Quelle complexité ?
+--- en
+Find the k largest values among n numbers (n huge, k small). Complexity?
+--- solution
+- Trier tout : O(n log n).
+- **Tas min de taille k** : parcourir la liste, garder les k plus grandes vues ; O(n log k) et mémoire O(k), utilisable en flux : `heapq.nlargest(k, donnees)`.
+- **Quickselect** : partitionner autour d'un pivot comme dans le tri rapide, ne continuer que du côté utile ; O(n) en moyenne, O(n²) au pire (pivot aléatoire ou médiane des médianes). `numpy.partition` le fait.
+
+=== algo-paires-nombre
+theme: algo
+niveau: 1
+profils: hf mm data banque
+type: numerique
+reponse: 1000*999/2
+duree: 45
+--- question
+Une double boucle compare chaque paire d'éléments d'une liste de 1 000 éléments une seule fois. Combien de comparaisons ?
+--- en
+A nested loop compares each pair of 1,000 elements once. How many comparisons?
+--- solution
+C(1 000, 2) = 1 000 × 999/2 = **499 500** : c'est le O(n²) qui devient prohibitif quand n grandit (50 milliards pour n = 316 000).

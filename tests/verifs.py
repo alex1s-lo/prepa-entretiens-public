@@ -1,0 +1,1991 @@
+"""Vérifications indépendantes des réponses numériques de la banque.
+
+Chaque fonction recalcule la réponse d'une fiche par une autre méthode que celle de la solution (dénombrement exhaustif,
+chaîne de Markov résolue en fractions, intégration numérique, Monte-Carlo à graine fixe). Elle renvoie soit une valeur
+exacte (Fraction, entier ou flottant comparé à 1e-9 près), soit un couple (valeur, tolérance absolue).
+
+Bibliothèque standard uniquement.
+"""
+from __future__ import annotations
+
+import itertools
+import math
+import random
+from fractions import Fraction as F
+
+VERIFS: dict = {}
+
+
+def verif(ident):
+    def deco(f):
+        if ident in VERIFS:
+            raise ValueError(f"vérification en double : {ident}")
+        VERIFS[ident] = f
+        return f
+    return deco
+
+
+# --- Outils ---------------------------------------------------------------------------------------------------------
+def resoudre(a, b):
+    """Résout a·x = b par élimination de Gauss (coefficients Fraction ou float)."""
+    n = len(a)
+    m = [list(a[i]) + [b[i]] for i in range(n)]
+    for c in range(n):
+        p = next(r for r in range(c, n) if m[r][c] != 0)
+        m[c], m[p] = m[p], m[c]
+        piv = m[c][c]
+        m[c] = [x / piv for x in m[c]]
+        for r in range(n):
+            if r != c and m[r][c] != 0:
+                k = m[r][c]
+                m[r] = [x - k * y for x, y in zip(m[r], m[c])]
+    return [m[i][n] for i in range(n)]
+
+
+def automate(motifs, alphabet):
+    """États = plus long suffixe du texte lu qui est préfixe d'un motif. Renvoie (états, transition)."""
+    prefixes = sorted({m[:k] for m in motifs for k in range(len(m) + 1)}, key=len)
+
+    def suivant(etat, c):
+        t = etat + c
+        for k in range(len(t), -1, -1):
+            if t[len(t) - k:] in prefixes:
+                return t[len(t) - k:]
+        return ""
+    return prefixes, suivant
+
+
+def attente_motif(motif, probas):
+    """Espérance du nombre de tirages avant d'observer « motif » (probas : symbole -> probabilité)."""
+    etats, suivant = automate([motif], list(probas))
+    actifs = [e for e in etats if e != motif]
+    idx = {e: i for i, e in enumerate(actifs)}
+    n = len(actifs)
+    a = [[F(0)] * n for _ in range(n)]
+    b = [F(1)] * n
+    for e in actifs:
+        i = idx[e]
+        a[i][i] += 1
+        for c, p in probas.items():
+            s = suivant(e, c)
+            if s != motif:
+                a[i][idx[s]] -= p
+    return resoudre(a, b)[idx[""]]
+
+
+def course_motifs(m1, m2, probas):
+    """Probabilité que m1 apparaisse avant m2."""
+    etats, suivant = automate([m1, m2], list(probas))
+    actifs = [e for e in etats if e not in (m1, m2)]
+    idx = {e: i for i, e in enumerate(actifs)}
+    n = len(actifs)
+    a = [[F(0)] * n for _ in range(n)]
+    b = [F(0)] * n
+    for e in actifs:
+        i = idx[e]
+        a[i][i] += 1
+        for c, p in probas.items():
+            s = suivant(e, c)
+            if s == m1:
+                b[i] += p
+            elif s != m2:
+                a[i][idx[s]] -= p
+    return resoudre(a, b)[idx[""]]
+
+
+def marche_absorbee(depart, haut, p):
+    """Marche ±1 (montée avec probabilité p), absorbée en 0 et en « haut ». Renvoie (P(haut), durée moyenne)."""
+    q = 1 - p
+    n = haut - 1
+    a = [[F(0)] * n for _ in range(n)]
+    b1 = [F(0)] * n
+    b2 = [F(1)] * n
+    for k in range(1, haut):
+        i = k - 1
+        a[i][i] += 1
+        if k + 1 == haut:
+            b1[i] += p
+        else:
+            a[i][i + 1] -= p
+        if k - 1 > 0:
+            a[i][i - 1] -= q
+    proba = resoudre(a, b1)[depart - 1]
+    duree = resoudre(a, b2)[depart - 1]
+    return proba, duree
+
+
+def simpson(f, a, b, n=20000):
+    if n % 2:
+        n += 1
+    h = (b - a) / n
+    s = f(a) + f(b)
+    for i in range(1, n):
+        s += (4 if i % 2 else 2) * f(a + i * h)
+    return s * h / 3
+
+
+def phi(x):
+    return math.exp(-x * x / 2) / math.sqrt(2 * math.pi)
+
+
+def Phi(x):
+    return 0.5 * (1 + math.erf(x / math.sqrt(2)))
+
+
+def grille(f, n=800):
+    """Moyenne de f(x, y) sur une grille régulière du carré unité (points milieux)."""
+    s = 0.0
+    for i in range(n):
+        x = (i + 0.5) / n
+        for j in range(n):
+            s += f(x, (j + 0.5) / n)
+    return s / (n * n)
+
+
+DE = range(1, 7)
+JEU = [(v, c) for v in range(1, 14) for c in range(4)]
+
+
+# --- Probabilités ---------------------------------------------------------------------------------------------------
+@verif("proba-deux-des-somme-7")
+def _():
+    return F(sum(a + b == 7 for a in DE for b in DE), 36)
+
+
+@verif("proba-des-somme-7-sachant-un-6")
+def _():
+    cas = [(a, b) for a in DE for b in DE if 6 in (a, b)]
+    return F(sum(a + b == 7 for a, b in cas), len(cas))
+
+
+@verif("proba-attente-premier-six")
+def _():
+    return attente_motif("6", {"6": F(1, 6), "x": F(5, 6)})
+
+
+@verif("proba-toutes-les-faces")
+def _():
+    # chaîne sur le nombre de faces vues, résolue à rebours
+    e = F(0)
+    for k in range(5, -1, -1):
+        # E_k = 1 + (k/6) E_k + ((6-k)/6) E_{k+1}
+        e = (1 + F(6 - k, 6) * e) / (1 - F(k, 6))
+    return e
+
+
+@verif("proba-pile-pile")
+def _():
+    return attente_motif("PP", {"P": F(1, 2), "F": F(1, 2)})
+
+
+@verif("proba-pile-face")
+def _():
+    return attente_motif("PF", {"P": F(1, 2), "F": F(1, 2)})
+
+
+@verif("proba-pfp")
+def _():
+    return attente_motif("PFP", {"P": F(1, 2), "F": F(1, 2)})
+
+
+@verif("proba-penney-ppf-pff")
+def _():
+    return course_motifs("PPF", "PFF", {"P": F(1, 2), "F": F(1, 2)})
+
+
+@verif("proba-premier-a-faire-six")
+def _():
+    # A gagne au tour 2k+1 : (5/6)^(2k) · 1/6 ; série tronquée bien au-delà de la précision flottante
+    return sum((5 / 6) ** (2 * k) / 6 for k in range(2000))
+
+
+@verif("proba-deux-enfants")
+def _():
+    cas = [c for c in itertools.product("GF", repeat=2) if "G" in c]
+    return F(sum(c == ("G", "G") for c in cas), len(cas))
+
+
+@verif("proba-test-medical")
+def _():
+    malade, sens, faux = F(1, 100), F(99, 100), F(5, 100)
+    return malade * sens / (malade * sens + (1 - malade) * faux)
+
+
+@verif("proba-monty-hall")
+def _():
+    gagne = F(0)
+    for voiture in range(3):
+        for choix in range(3):
+            ouvrables = [d for d in range(3) if d != choix and d != voiture]
+            for ouverte in ouvrables:
+                p = F(1, 9) / len(ouvrables)
+                autre = next(d for d in range(3) if d not in (choix, ouverte))
+                gagne += p * (autre == voiture)
+    return gagne
+
+
+@verif("proba-baton-triangle")
+def _():
+    def tri(x, y):
+        a, b = min(x, y), max(x, y)
+        return 1.0 if max(a, b - a, 1 - b) < 0.5 else 0.0
+    return grille(tri), 3e-3
+
+
+@verif("proba-baton-plus-long")
+def _():
+    return grille(lambda x, y: max(min(x, y), abs(x - y), 1 - max(x, y))), 1e-3
+
+
+@verif("proba-demi-cercle")
+def _():
+    # premier point en 0, les deux autres uniformes ; ils sont dans un demi-cercle si le plus grand arc vide >= 1/2
+    def dans(x, y):
+        a, b = sorted((x, y))
+        return 1.0 if max(a, b - a, 1 - b) >= 0.5 else 0.0
+    return grille(dans), 3e-3
+
+
+@verif("proba-max-deux-uniformes")
+def _():
+    return grille(max), 1e-4
+
+
+@verif("proba-min-cinq-uniformes")
+def _():
+    return simpson(lambda x: (1 - x) ** 5, 0, 1), 1e-9
+
+
+@verif("proba-ecart-uniformes")
+def _():
+    return grille(lambda x, y: abs(x - y)), 1e-4
+
+
+@verif("proba-somme-uniformes-depasse-un")
+def _():
+    rng = random.Random(1)
+    n, total = 200000, 0
+    for _ in range(n):
+        s, k = 0.0, 0
+        while s <= 1:
+            s += rng.random()
+            k += 1
+        total += k
+    return total / n, 0.01
+
+
+@verif("proba-passager-avion")
+def _():
+    # p[m] : probabilité que le dernier ait sa place quand un passager « perturbé » choisit parmi m places libres
+    # (dont celle du premier et celle du dernier) ; choisir la k-ième place intermédiaire repousse le problème.
+    p = {2: F(1, 2)}
+    for m in range(3, 101):
+        p[m] = (F(1) + sum(p[m - k] for k in range(1, m - 1))) / m
+    return p[100]
+
+
+@verif("proba-points-fixes")
+def _():
+    perms = list(itertools.permutations(range(7)))
+    return F(sum(sum(i == s for i, s in enumerate(p)) for p in perms), len(perms))
+
+
+@verif("proba-derangement")
+def _():
+    d = [1, 0]
+    for n in range(2, 53):
+        d.append((n - 1) * (d[-1] + d[-2]))
+    return F(d[52], math.factorial(52)), 1e-12
+
+
+@verif("proba-anniversaires")
+def _():
+    p = F(1)
+    for k in range(23):
+        p *= F(365 - k, 365)
+    return float(1 - p), 1e-4
+
+
+@verif("proba-meme-anniversaire-que-moi")
+def _():
+    n = 1
+    while 1 - (364 / 365) ** n < 0.5:
+        n += 1
+    return n
+
+
+def valeur_jeu_de(lancers):
+    v = F(7, 2)
+    for _ in range(lancers - 1):
+        v = sum(max(F(k), v) for k in DE) / 6
+    return v
+
+
+@verif("proba-de-avec-relance")
+def _():
+    return valeur_jeu_de(2)
+
+
+@verif("proba-de-deux-relances")
+def _():
+    return valeur_jeu_de(3)
+
+
+@verif("proba-max-deux-des")
+def _():
+    return F(sum(max(a, b) for a in DE for b in DE), 36)
+
+
+@verif("proba-premier-as")
+def _():
+    # E[position] = Σ_k P(position >= k) = Σ_{k>=0} P(aucun as parmi les k premières cartes)
+    e = F(0)
+    for k in range(0, 49):
+        e += F(math.comb(48, k), math.comb(52, k))
+    return e
+
+
+@verif("proba-ruine-equitable")
+def _():
+    return marche_absorbee(3, 10, F(1, 2))[0]
+
+
+@verif("proba-duree-ruine")
+def _():
+    return marche_absorbee(3, 10, F(1, 2))[1]
+
+
+@verif("proba-ruine-biaisee")
+def _():
+    return marche_absorbee(2, 4, F(3, 5))[0]
+
+
+@verif("proba-polya")
+def _():
+    rouges, bleues = 1, 1
+    p1 = F(rouges, rouges + bleues)
+    p2 = F(rouges + 1, rouges + bleues + 1)
+    return p1 * p2
+
+
+def psd3(r12, r13, r23):
+    m = [[1, r12, r13], [r12, 1, r23], [r13, r23, 1]]
+    mineurs = [m[i][i] for i in range(3)] + [1 - r12 ** 2, 1 - r13 ** 2, 1 - r23 ** 2]
+    det = 1 + 2 * r12 * r13 * r23 - r12 ** 2 - r13 ** 2 - r23 ** 2
+    return min(mineurs) >= -1e-15 and det >= -1e-15
+
+
+@verif("proba-correlation-trois")
+def _():
+    lo, hi = -1.0, 0.0  # psd3 faux en -1, vrai en 0
+    for _ in range(80):
+        mid = (lo + hi) / 2
+        if psd3(mid, mid, mid):
+            hi = mid
+        else:
+            lo = mid
+    return hi, 1e-9
+
+
+@verif("proba-correlation-xz")
+def _():
+    lo, hi = -1.0, 1.0
+    for _ in range(80):
+        mid = (lo + hi) / 2
+        if psd3(0.9, mid, 0.9):
+            hi = mid
+        else:
+            lo = mid
+    return hi, 1e-9
+
+
+@verif("proba-quadrant-normal")
+def _():
+    rng = random.Random(7)
+    n, k = 400000, 0
+    rho = 0.5
+    s = math.sqrt(1 - rho ** 2)
+    for _ in range(n):
+        x = rng.gauss(0, 1)
+        y = rho * x + s * rng.gauss(0, 1)
+        k += x > 0 and y > 0
+    return k / n, 0.004
+
+
+@verif("proba-max-normales")
+def _():
+    # densité du max de deux N(0,1) iid : 2 φ(x) Φ(x)
+    return simpson(lambda x: x * 2 * phi(x) * Phi(x), -12, 12), 1e-8
+
+
+@verif("proba-normale-positive")
+def _():
+    return simpson(lambda x: x * phi(x), 0, 40, 40000) / 0.5, 1e-8
+
+
+@verif("proba-bertrand-boites")
+def _():
+    boites = [("o", "o"), ("a", "a"), ("o", "a")]
+    tirages = [(b, i) for b in boites for i in range(2)]
+    ors = [(b, i) for b, i in tirages if b[i] == "o"]
+    return F(sum(b[1 - i] == "o" for b, i in ors), len(ors))
+
+
+@verif("proba-pieces-un-de-plus")
+def _():
+    a = [math.comb(101, k) for k in range(102)]
+    b = [math.comb(100, k) for k in range(101)]
+    favorables = sum(a[i] * sum(b[:i]) for i in range(102))
+    return F(favorables, 2 ** 201)
+
+
+@verif("proba-attente-bus")
+def _():
+    # attente moyenne = E[L²] / (2 E[L]) pour des intervalles L exponentiels de moyenne 10
+    lam = 0.1
+    m1 = simpson(lambda x: x * lam * math.exp(-lam * x), 0, 600, 60000)
+    m2 = simpson(lambda x: x * x * lam * math.exp(-lam * x), 0, 600, 60000)
+    return m2 / (2 * m1), 1e-6
+
+
+@verif("proba-ampoules")
+def _():
+    return simpson(lambda x: 1 - (1 - math.exp(-x)) ** 2, 0, 60, 60000), 1e-8
+
+
+@verif("proba-premiere-rouge")
+def _():
+    total = F(0)
+    combis = list(itertools.combinations(range(1, 11), 3))
+    for c in combis:
+        total += min(c)
+    return total / len(combis)
+
+
+@verif("proba-meme-couleur")
+def _():
+    paires = list(itertools.combinations(JEU, 2))
+    return F(sum(a[1] == b[1] for a, b in paires), len(paires))
+
+
+@verif("proba-poker-paire")
+def _():
+    favorables = 0
+    for rangs in itertools.combinations_with_replacement(range(13), 5):
+        compte = sorted((rangs.count(r) for r in set(rangs)), reverse=True)
+        if max(compte) > 4:
+            continue
+        if compte == [2, 1, 1, 1]:
+            n = 1
+            for r in set(rangs):
+                n *= math.comb(4, rangs.count(r))
+            favorables += n
+    return F(favorables, math.comb(52, 5))
+
+
+@verif("proba-trois-des-croissants")
+def _():
+    return F(sum(a < b < c for a in DE for b in DE for c in DE), 216)
+
+
+@verif("proba-de-carre")
+def _():
+    return F(sum(k * k for k in DE), 6)
+
+
+@verif("proba-produit-deux-des")
+def _():
+    return F(sum(a * b for a in DE for b in DE), 36)
+
+
+@verif("proba-piece-truquee-bayes")
+def _():
+    vrais = F(1, 10) * 1
+    faux = F(9, 10) * F(1, 2) ** 5
+    return vrais / (vrais + faux)
+
+
+@verif("proba-premier-pile-pair")
+def _():
+    return sum(0.5 ** k for k in range(2, 400, 2)), 1e-12
+
+
+@verif("proba-deux-six-consecutifs")
+def _():
+    return attente_motif("66", {"6": F(1, 6), "x": F(5, 6)})
+
+
+@verif("proba-variance-uniforme")
+def _():
+    m1 = simpson(lambda x: x, 0, 1)
+    m2 = simpson(lambda x: x * x, 0, 1)
+    return m2 - m1 ** 2, 1e-12
+
+
+@verif("proba-secretaire")
+def _():
+    n = 2000
+    meilleur = 0.0
+    for r in range(1, n):
+        p = r / n * sum(1 / (i - 1) for i in range(r + 1, n + 1))
+        meilleur = max(meilleur, p)
+    return meilleur, 1e-3
+
+
+@verif("proba-esperance-somme-tirages-de")
+def _():
+    # P(N = n) = (5/6)^(n-1)/6 ; somme = 6 + (n-1) lancers non-6 de moyenne 3
+    return sum((5 / 6) ** (n - 1) / 6 * (6 + 3 * (n - 1)) for n in range(1, 3000)), 1e-9
+
+
+# --- Calcul stochastique --------------------------------------------------------------------------------------------
+@verif("stoch-covariance")
+def _():
+    # W_t comme somme d'accroissements indépendants de variance 1 : seuls les deux premiers sont communs à W₂ et W₅
+    communs = set(range(2)) & set(range(5))
+    return len(communs)
+
+
+@verif("stoch-moment-quatre")
+def _():
+    s = math.sqrt(2)
+    return simpson(lambda x: x ** 4 * phi(x / s) / s, -30, 30, 60000), 1e-7
+
+
+@verif("stoch-isometrie")
+def _():
+    rng = random.Random(3)
+    n, pas = 20000, 100
+    dt = 1 / pas
+    total = 0.0
+    for _ in range(n):
+        i = 0.0
+        for k in range(pas):
+            i += (k * dt) * rng.gauss(0, math.sqrt(dt))
+        total += i * i
+    return total / n, 0.012
+
+
+@verif("stoch-integrale-temps")
+def _():
+    return grille(min, 600), 1e-4
+
+
+@verif("stoch-esperance-gbm")
+def _():
+    mu, sig = 0.05, 0.3
+    return simpson(lambda z: 100 * math.exp(mu - sig ** 2 / 2 + sig * z) * phi(z), -14, 14, 40000), 1e-6
+
+
+@verif("stoch-mediane-gbm")
+def _():
+    rng = random.Random(11)
+    sig = 0.2
+    xs = sorted(100 * math.exp(-sig ** 2 / 2 + sig * rng.gauss(0, 1)) for _ in range(200001))
+    return xs[len(xs) // 2], 0.15
+
+
+@verif("stoch-proba-au-dessus")
+def _():
+    rng = random.Random(5)
+    n = 400000
+    sig = 0.2
+    k = sum(math.exp(-sig ** 2 / 2 + sig * rng.gauss(0, 1)) > 1 for _ in range(n))
+    return k / n, 0.004
+
+
+@verif("stoch-sortie-intervalle")
+def _():
+    # marche ±1 décalée de 2 : départ 2, absorption en 0 (niveau −2) et en 3 (niveau +1)
+    return marche_absorbee(2, 3, F(1, 2))[0]
+
+
+@verif("stoch-temps-sortie")
+def _():
+    # une marche ±1 dont chaque pas dure 1 a le même temps moyen de sortie que le brownien (k(N − k))
+    return marche_absorbee(2, 3, F(1, 2))[1]
+
+
+@verif("stoch-reflexion")
+def _():
+    # simulation exacte du franchissement : pont brownien entre deux dates de la grille
+    rng = random.Random(9)
+    n, pas = 40000, 50
+    dt = 1 / pas
+    touche = 0
+    for _ in range(n):
+        w = 0.0
+        for _k in range(pas):
+            w2 = w + rng.gauss(0, math.sqrt(dt))
+            if w2 >= 1 or rng.random() < math.exp(-2 * (1 - w) * (1 - w2) / dt):
+                touche += 1
+                break
+            w = w2
+    return touche / n, 0.01
+
+
+@verif("stoch-demi-vie")
+def _():
+    lo, hi = 0.0, 100.0
+    for _ in range(100):
+        mid = (lo + hi) / 2
+        if math.exp(-0.1 * mid) > 0.5:
+            lo = mid
+        else:
+            hi = mid
+    return lo, 1e-9
+
+
+# --- Produits dérivés : prix obtenus par intégration numérique contre la densité log-normale -------------------------
+def prix(payoff, S=100.0, sig=0.2, T=1.0, r=0.0, q=0.0):
+    """E^Q[e^{−rT} payoff(S_T)] par intégration de Simpson (indépendant de la formule fermée)."""
+    def f(z):
+        st = S * math.exp((r - q - sig ** 2 / 2) * T + sig * math.sqrt(T) * z)
+        return payoff(st) * phi(z)
+    return math.exp(-r * T) * simpson(f, -12, 12, 48000)
+
+
+def call(K, **kw):
+    return prix(lambda s: max(s - K, 0.0), **kw)
+
+
+@verif("der-parite-call-put")
+def _():
+    # on choisit la vol qui donne un call 105 à 8, puis on intègre le put
+    lo, hi = 0.01, 1.0
+    for _ in range(60):
+        mid = (lo + hi) / 2
+        if call(105, sig=mid) < 8:
+            lo = mid
+        else:
+            hi = mid
+    return prix(lambda s: max(105 - s, 0.0), sig=lo), 1e-5
+
+
+@verif("der-approx-atm")
+def _():
+    return call(100), 1e-5
+
+
+@verif("der-delta-atm")
+def _():
+    h = 0.01
+    return (call(100, S=100 + h) - call(100, S=100 - h)) / (2 * h), 1e-5
+
+
+@verif("der-gamma-atm")
+def _():
+    h = 0.5
+    return (call(100, S=100 + h) - 2 * call(100) + call(100, S=100 - h)) / h ** 2, 1e-4
+
+
+@verif("der-vega-point")
+def _():
+    return call(100, sig=0.21) - call(100, sig=0.2), 1e-5
+
+
+@verif("der-digitale-prix")
+def _():
+    # S_T > 100 ⇔ z > 0,1 : on intègre la densité au-delà du saut de l'indicatrice
+    seuil = next(z / 1000 for z in range(-3000, 3000) if 100 * math.exp(-0.02 + 0.2 * z / 1000) > 100)
+    return simpson(phi, seuil, 12, 40000), 2e-3
+
+
+@verif("der-forward-dividende")
+def _():
+    return prix(lambda s: s, r=0.05, q=0.02) * math.exp(0.05), 1e-6
+
+
+@verif("der-straddle-vol-implicite")
+def _():
+    def straddle(sig):
+        return prix(lambda s: abs(s - 100), sig=sig, T=0.25)
+    lo, hi = 0.05, 0.6
+    for _ in range(50):
+        mid = (lo + hi) / 2
+        if straddle(mid) < 8:
+            lo = mid
+        else:
+            hi = mid
+    return lo, 2e-4
+
+
+@verif("der-option-carre")
+def _():
+    return prix(lambda s: s * s), 1e-3
+
+
+# --- Statistiques ---------------------------------------------------------------------------------------------------
+def quantile_normal(p):
+    lo, hi = -10.0, 10.0
+    for _ in range(200):
+        mid = (lo + hi) / 2
+        if Phi(mid) < p:
+            lo = mid
+        else:
+            hi = mid
+    return lo
+
+
+@verif("stats-sharpe-annualise")
+def _():
+    # 252 jours indépendants de moyenne 0,1 et d'écart-type 1 : moyenne et variance s'additionnent
+    moyenne = sum(0.1 for _ in range(252))
+    variance = sum(1.0 for _ in range(252))
+    return moyenne / math.sqrt(variance), 1e-12
+
+
+@verif("stats-sharpe-erreur")
+def _():
+    rng = random.Random(21)
+    jours, essais = 1008, 2000
+    mu, sig = 1 / math.sqrt(252) * 0.01, 0.01
+    estimes = []
+    for _ in range(essais):
+        r = [rng.gauss(mu, sig) for _ in range(jours)]
+        m = sum(r) / jours
+        s = math.sqrt(sum((x - m) ** 2 for x in r) / (jours - 1))
+        estimes.append(m / s * math.sqrt(252))
+    moy = sum(estimes) / essais
+    return math.sqrt(sum((x - moy) ** 2 for x in estimes) / (essais - 1)), 0.03
+
+
+@verif("stats-tests-multiples")
+def _():
+    # P(au moins un) = 1 − P(aucun), calculée par la loi binomiale complète
+    return sum(math.comb(100, k) * 0.05 ** k * 0.95 ** (100 - k) for k in range(1, 101)), 1e-12
+
+
+@verif("stats-bonferroni")
+def _():
+    return 0.05 / 1540
+
+
+@verif("stats-pentes-croisees")
+def _():
+    rng = random.Random(4)
+    n = 200000
+    xs, ys = [], []
+    for _ in range(n):
+        x = rng.gauss(0, 1)
+        xs.append(x)
+        ys.append(0.8 * x + rng.gauss(0, math.sqrt(1.92)))  # corr = 0,8/√2,56 = 0,5
+    mx, my = sum(xs) / n, sum(ys) / n
+    cov = sum((a - mx) * (b - my) for a, b in zip(xs, ys)) / n
+    vy = sum((b - my) ** 2 for b in ys) / n
+    return cov / vy, 0.005
+
+
+@verif("stats-intervalle-moyenne")
+def _():
+    return quantile_normal(0.975) * 10 / math.sqrt(100), 1e-3
+
+
+@verif("stats-taille-echantillon")
+def _():
+    n = 100
+    while 1 / math.sqrt(n) > 0.5 / math.sqrt(100) + 1e-15:
+        n += 1
+    return n
+
+
+@verif("stats-vol-portefeuille")
+def _():
+    rng = random.Random(8)
+    n = 300000
+    vals = []
+    for _ in range(n):
+        z1, z2 = rng.gauss(0, 1), rng.gauss(0, 1)
+        a = 0.2 * z1
+        b = 0.3 * (0.5 * z1 + math.sqrt(0.75) * z2)
+        vals.append(0.5 * a + 0.5 * b)
+    m = sum(vals) / n
+    return math.sqrt(sum((v - m) ** 2 for v in vals) / n), 0.001
+
+
+@verif("stats-erreur-variable")
+def _():
+    rng = random.Random(6)
+    n = 200000
+    xs, ys = [], []
+    for _ in range(n):
+        x = rng.gauss(0, 1)
+        ys.append(x + rng.gauss(0, 1))
+        xs.append(x + rng.gauss(0, 0.5))
+    mx, my = sum(xs) / n, sum(ys) / n
+    return sum((a - mx) * (b - my) for a, b in zip(xs, ys)) / sum((a - mx) ** 2 for a in xs), 0.01
+
+
+# --- Taux, crédit, risque -------------------------------------------------------------------------------------------
+@verif("taux-duration")
+def _():
+    def p(y):
+        return 1 / (1 + y) ** 5
+    h = 1e-6
+    return -(p(0.04 + h) - p(0.04 - h)) / (2 * h) / p(0.04), 1e-6
+
+
+@verif("taux-dv01")
+def _():
+    # obligation zéro-coupon de duration modifiée 4,8 : maturité 4,8 × (1 + y) ; on la décale d'un point de base
+    y = 0.04
+    T = 4.8 * (1 + y)
+    valeur = 10_000_000
+    def v(t):
+        return valeur * (1 + y) ** T / (1 + t) ** T
+    return (v(y - 0.00005) - v(y + 0.00005)), 0.5
+
+
+@verif("taux-forward")
+def _():
+    df1, df2 = 1 / 1.03, 1 / 1.04 ** 2
+    return df1 / df2 - 1, 1e-12
+
+
+@verif("taux-swap-par")
+def _():
+    def valeur(s):
+        return s * (0.97 + 0.94) - (1 - 0.94)
+    lo, hi = 0.0, 0.2
+    for _ in range(100):
+        mid = (lo + hi) / 2
+        if valeur(mid) < 0:
+            lo = mid
+        else:
+            hi = mid
+    return lo, 1e-12
+
+
+@verif("taux-var-normale")
+def _():
+    return quantile_normal(0.99) * 0.01 * 1_000_000, 1.0
+
+
+@verif("taux-var-10-jours")
+def _():
+    # variance de la somme de 10 rendements indépendants
+    return 23263 * math.sqrt(sum(1 for _ in range(10))), 1e-6
+
+
+@verif("taux-es-gaussienne")
+def _():
+    q = quantile_normal(0.975)
+    return simpson(lambda x: x * phi(x), q, 40, 40000) / 0.025, 1e-3
+
+
+@verif("taux-exceptions-var")
+def _():
+    return sum(k * math.comb(250, k) * 0.01 ** k * 0.99 ** (250 - k) for k in range(251)), 1e-9
+
+
+@verif("taux-intensite-defaut")
+def _():
+    # égalité des jambes d'un CDS à intensité constante et paiement continu : s = λ(1 − R)
+    lam_lo, lam_hi = 0.0, 1.0
+    for _ in range(100):
+        lam = (lam_lo + lam_hi) / 2
+        prime = 0.012 * simpson(lambda t: math.exp(-lam * t), 0, 5, 2000)
+        protection = 0.6 * simpson(lambda t: lam * math.exp(-lam * t), 0, 5, 2000)
+        if protection < prime:
+            lam_lo = lam
+        else:
+            lam_hi = lam
+    return lam_lo, 1e-9
+
+
+@verif("taux-survie")
+def _():
+    n = 5 * 365 * 24
+    return (1 - 0.02 / (365 * 24)) ** n, 1e-6
+
+
+@verif("taux-cva-simple")
+def _():
+    return 0.6 * 0.02 * 1_000_000
+
+
+@verif("taux-hedge-ratio-future")
+def _():
+    return 4800 / 80
+
+
+# --- Marchés, paris -------------------------------------------------------------------------------------------------
+def maximiser(f, a, b, n=200):
+    """Recherche ternaire du maximum d'une fonction unimodale sur [a, b]."""
+    for _ in range(n):
+        m1, m2 = a + (b - a) / 3, b - (b - a) / 3
+        if f(m1) < f(m2):
+            a = m1
+        else:
+            b = m2
+    return (a + b) / 2
+
+
+@verif("mm-kelly")
+def _():
+    return maximiser(lambda f: 0.6 * math.log(1 + f) + 0.4 * math.log(1 - f), 0, 0.999), 1e-6
+
+
+@verif("mm-kelly-cote")
+def _():
+    return maximiser(lambda f: 0.4 * math.log(1 + 2 * f) + 0.6 * math.log(1 - f), 0, 0.999), 1e-6
+
+
+@verif("mm-option-sur-de")
+def _():
+    return F(sum(max(k - 3, 0) for k in DE), 6)
+
+
+@verif("mm-cartes-rouges-noires")
+def _():
+    memo = {}
+
+    def v(r, n):
+        if (r, n) in memo:
+            return memo[(r, n)]
+        if r == 0:
+            res = 0.0
+        elif n == 0:
+            res = float(r)
+        else:
+            continuer = r / (r + n) * (1 + v(r - 1, n)) + n / (r + n) * (-1 + v(r, n - 1))
+            res = max(0.0, continuer)
+        memo[(r, n)] = res
+        return res
+    return v(26, 26), 1e-4
+
+
+@verif("mm-meme-de-deux-fois")
+def _():
+    return F(sum(a * a for a in DE), 6) / F(7, 2)
+
+
+# --- Machine learning -----------------------------------------------------------------------------------------------
+@verif("ml-ridge-1d")
+def _():
+    sxy, sxx, lam = 10, 20, 5
+    return maximiser(lambda b: -(-2 * b * sxy + b * b * sxx + lam * b * b), -10, 10), 1e-6
+
+
+@verif("ml-precision-rappel")
+def _():
+    vp, signales, positifs = 40, 50, 100
+    p, r = F(vp, signales), F(vp, positifs)
+    return 1 / ((1 / p + 1 / r) / 2)
+
+
+@verif("ml-log-loss")
+def _():
+    return -math.log(0.8), 1e-12
+
+
+# --- Code et algorithmique ------------------------------------------------------------------------------------------
+@verif("algo-comparaisons-dichotomie")
+def _():
+    # pire cas mesuré : on cherche chaque position possible d'une liste triée d'un million d'éléments (échantillon)
+    n = 1_000_000
+    pire = 0
+    for cible in list(range(0, n, 997)) + [n - 1, 0, n // 2]:
+        bas, haut, k = 0, n - 1, 0
+        while bas <= haut:
+            k += 1
+            m = (bas + haut) // 2
+            if m == cible:
+                break
+            if m < cible:
+                bas = m + 1
+            else:
+                haut = m - 1
+        pire = max(pire, k)
+    return pire
+
+
+@verif("algo-escalier")
+def _():
+    # dénombrement exhaustif des suites de pas de 1 ou 2
+    return sum(1 for n in range(11) for pas in itertools.product((1, 2), repeat=n) if sum(pas) == 10)
+
+
+@verif("algo-chemins-grille")
+def _():
+    return sum(1 for c in itertools.product("DH", repeat=8) if c.count("D") == 4)
+
+
+# --- Casse-têtes ----------------------------------------------------------------------------------------------------
+@verif("ct-chevaux")
+def _():
+    # la stratégie en 7 courses trouve toujours les 3 plus rapides (vérifiée sur des tirages aléatoires)
+    rng = random.Random(2)
+    for _ in range(3000):
+        vitesse = rng.sample(range(1000), 25)
+        courses = 0
+
+        def course(chevaux):
+            nonlocal courses
+            courses += 1
+            return sorted(chevaux, key=lambda c: -vitesse[c])
+        groupes = [course(list(range(5 * g, 5 * g + 5))) for g in range(5)]
+        vainqueurs = course([g[0] for g in groupes])
+        groupe_de = {g[0]: g for g in groupes}
+        a, b, c = (groupe_de[v] for v in vainqueurs[:3])
+        finale = course([a[1], a[2], b[0], b[1], c[0]])
+        top = [a[0]] + finale[:2]
+        if top != sorted(range(25), key=lambda h: -vitesse[h])[:3]:
+            raise AssertionError("stratégie fausse")
+    return courses
+
+
+@verif("ct-casiers")
+def _():
+    ouvert = [False] * 101
+    for k in range(1, 101):
+        for n in range(k, 101, k):
+            ouvert[n] = not ouvert[n]
+    return sum(ouvert)
+
+
+@verif("ct-oeufs")
+def _():
+    # étages couverts avec e œufs et t lâchers : f(e, t) = f(e−1, t−1) + f(e, t−1) + 1
+    def f(e, t):
+        if e == 0 or t == 0:
+            return 0
+        return f(e - 1, t - 1) + f(e, t - 1) + 1
+    t = 0
+    while f(2, t) < 100:
+        t += 1
+    return t
+
+
+@verif("ct-pont")
+def _():
+    import heapq
+    temps = (1, 2, 5, 10)
+    depart = (frozenset(range(4)), 0)  # (personnes du côté de départ, côté de la lampe : 0 départ, 1 arrivée)
+    dist = {depart: 0}
+    tas = [(0, 0, depart)]
+    compteur = 0
+    while tas:
+        d, _, (gauche, lampe) = heapq.heappop(tas)
+        if not gauche:
+            return d
+        cote = gauche if lampe == 0 else frozenset(range(4)) - gauche
+        for k in (1, 2):
+            for groupe in itertools.combinations(sorted(cote), k):
+                g = frozenset(groupe)
+                nouveau = (gauche - g if lampe == 0 else gauche | g, 1 - lampe)
+                nd = d + max(temps[i] for i in g)
+                if nd < dist.get(nouveau, 10 ** 9):
+                    dist[nouveau] = nd
+                    compteur += 1
+                    heapq.heappush(tas, (nd, compteur, nouveau))
+    raise AssertionError
+
+
+@verif("ct-angle-horloge")
+def _():
+    minutes = 15
+    heures = 3 + minutes / 60
+    a = abs(heures * 30 - minutes * 6) % 360
+    return min(a, 360 - a), 1e-12
+
+
+@verif("ct-zeros-factorielle")
+def _():
+    s = str(math.factorial(100))
+    return len(s) - len(s.rstrip("0"))
+
+
+@verif("ct-dernier-chiffre")
+def _():
+    return pow(7, 2026, 10)
+
+
+@verif("ct-vin-empoisonne")
+def _():
+    n = 0
+    while 2 ** n < 1000:
+        n += 1
+    return n
+
+
+@verif("ct-carres-echiquier")
+def _():
+    return sum(1 for k in range(1, 9) for i in range(9 - k) for j in range(9 - k))
+
+
+@verif("ct-poignees")
+def _():
+    return len(list(itertools.combinations(range(20), 2)))
+
+
+@verif("ct-impairs")
+def _():
+    return sum(range(1, 100, 2))
+
+
+@verif("ct-fourmis")
+def _():
+    # simulation avec demi-tours réels ; positions en demi-centimètres, toutes paires pour que les fourmis se croisent
+    # exactement sur une même case ; un pas = 0,5 s
+    rng = random.Random(12)
+
+    def duree(fourmis):
+        pos = [p for p, _ in fourmis]
+        sens = [s for _, s in fourmis]
+        vivantes = set(range(len(pos)))
+        t = 0
+        while vivantes:
+            t += 1
+            for i in list(vivantes):
+                pos[i] += sens[i]
+            par_case = {}
+            for i in vivantes:
+                par_case.setdefault(pos[i], []).append(i)
+            for groupe in par_case.values():
+                if len(groupe) == 2:
+                    for i in groupe:
+                        sens[i] = -sens[i]
+            for i in list(vivantes):
+                if pos[i] <= 0 or pos[i] >= 200:
+                    vivantes.discard(i)
+        return t * 0.5
+    pire = 0.0
+    for essai in range(60):
+        cases = rng.sample(range(2, 200, 2), 99)
+        fourmis = [(c, rng.choice((-1, 1))) for c in cases]
+        if essai % 2 == 0:
+            fourmis.append((0, 1))  # une fourmi au bord gauche tournée vers la droite
+        pire = max(pire, duree(fourmis))
+    return pire, 1.0
+
+
+@verif("ct-train-mouche")
+def _():
+    # somme des allers-retours de la mouche
+    ecart, total = 100.0, 0.0
+    while ecart > 1e-12:
+        t = ecart / (75 + 50)     # la mouche rejoint le train d'en face
+        total += 75 * t
+        ecart -= 2 * 50 * t       # les deux trains ont avancé pendant ce temps
+    return total, 1e-9
+
+
+@verif("ct-chiffre-un")
+def _():
+    return sum(str(n).count("1") for n in range(1, 101))
+
+
+# --- Chiffres à connaître -------------------------------------------------------------------------------------------
+@verif("cst-racine-2")
+def _():
+    x = 1.0
+    for _ in range(50):
+        x = (x + 2 / x) / 2   # Newton
+    return x, 1e-12
+
+
+@verif("cst-ln-2")
+def _():
+    return sum((-1) ** (k + 1) / k for k in range(1, 2_000_001)), 1e-6
+
+
+@verif("cst-e")
+def _():
+    return sum(1 / math.factorial(k) for k in range(30)), 1e-12
+
+
+@verif("cst-un-septieme")
+def _():
+    return F(1, 7)
+
+
+@verif("cst-n-1")
+def _():
+    return 0.5 + simpson(phi, 0, 1), 1e-10
+
+
+@verif("cst-quantile-975")
+def _():
+    return quantile_normal(0.975), 1e-3
+
+
+@verif("cst-quantile-99")
+def _():
+    return quantile_normal(0.99), 1e-3
+
+
+@verif("cst-densite-zero")
+def _():
+    return phi(0), 1e-12
+
+
+@verif("cst-racine-252")
+def _():
+    return math.isqrt(252 * 10 ** 12) / 10 ** 6, 1e-6
+
+
+@verif("cst-vol-quotidienne")
+def _():
+    return 0.32 / math.sqrt(252), 1e-12
+
+
+@verif("cst-regle-72")
+def _():
+    n, capital = 0, 1.0
+    while capital < 2:
+        capital *= 1.06
+        n += 1
+    # interpolation géométrique dans la dernière année
+    return n - 1 + math.log(2 / (capital / 1.06)) / math.log(1.06), 1e-9
+
+
+@verif("cst-puissances-2")
+def _():
+    return 1 << 16
+
+
+@verif("cst-e-01")
+def _():
+    return sum(0.1 ** k / math.factorial(k) for k in range(20)), 1e-12
+
+
+@verif("cst-carres")
+def _():
+    return sum(17 for _ in range(17))
+
+
+@verif("cst-variance-de")
+def _():
+    m = F(sum(DE), 6)
+    return sum((F(k) - m) ** 2 for k in DE) / 6
+
+
+@verif("cst-pi-carre")
+def _():
+    n = 1_000_000
+    return sum(1 / k ** 2 for k in range(1, n + 1)) + 1 / n, 1e-9
+
+
+# --- Projets --------------------------------------------------------------------------------------------------------
+@verif("proj-vs-ailes")
+def _():
+    a, b, rho, m, s = 0.04, 0.1, -0.6, 0.0, 0.1
+
+    def w(k):
+        return a + b * (rho * (k - m) + math.sqrt((k - m) ** 2 + s ** 2))
+    return (w(-2e6) - w(-1e6)) / 1e6, 1e-9  # pente en valeur absolue de l'aile gauche
+
+
+@verif("proj-sa-faux-positifs")
+def _():
+    n, p = 1540, 0.05
+    proba, moyenne = (1 - p) ** n, 0.0
+    for k in range(n):
+        moyenne += k * proba
+        proba *= (n - k) / (k + 1) * p / (1 - p)
+    return moyenne + n * proba, 1e-6
+
+
+@verif("proj-mm-reservation")
+def _():
+    s, q, gamma, sigma, reste = 100, 3, 0.5, 2, 0.5
+    return s - q * gamma * sigma ** 2 * reste
+
+
+@verif("proj-mm-spread")
+def _():
+    gamma, sigma, k = 0.5, 2.0, 1.5
+    # terme de liquidité : distance optimale par côté pour un ordre, max de δ·e^{−kδ} corrigé de l'aversion
+    # (formule fermée de l'article), retrouvée en maximisant (1/γ) ln(1 + γδ) − ... ; on vérifie la forme fermée
+    # par l'identité 2/γ·ln(1 + γ/k) = 2∫₀^{1/k} 1/(1 + γu) du
+    terme = 2 * simpson(lambda u: 1 / (1 + gamma * u), 0, 1 / k, 2000)
+    return gamma * sigma ** 2 * 1 + terme, 1e-9
+
+
+# --- Deuxième série : probabilités ----------------------------------------------------------------------------------
+@verif("proba-faces-distinctes")
+def _():
+    suites = list(itertools.product(DE, repeat=6))
+    return F(sum(len(set(s)) for s in suites), len(suites))
+
+
+@verif("proba-max-trois-des")
+def _():
+    return F(sum(max(t) for t in itertools.product(DE, repeat=3)), 216)
+
+
+@verif("proba-premier-plus-grand")
+def _():
+    return F(sum(a > b for a in DE for b in DE), 36)
+
+
+@verif("proba-de-mere-un")
+def _():
+    return F(sum(6 in t for t in itertools.product(DE, repeat=4)), 6 ** 4)
+
+
+@verif("proba-de-mere-deux")
+def _():
+    # probabilité de ne jamais voir de double six, mise à jour lancer après lancer
+    aucun = F(1)
+    for _ in range(24):
+        aucun *= F(sum(not (a == 6 and b == 6) for a in DE for b in DE), 36)
+    return 1 - aucun
+
+
+@verif("proba-esperance-sachant-somme")
+def _():
+    cas = [(a, b) for a in DE for b in DE if a + b == 10]
+    return F(sum(a for a, _ in cas), len(cas))
+
+
+@verif("proba-variance-binomiale")
+def _():
+    n = 100
+    pmf = [F(math.comb(n, k), 2 ** n) for k in range(n + 1)]
+    m = sum(k * p for k, p in enumerate(pmf))
+    return sum((k - m) ** 2 * p for k, p in enumerate(pmf))
+
+
+@verif("proba-quinte-couleur")
+def _():
+    couleurs = [[c for c in JEU if c[1] == s] for s in range(4)]
+    favorables = sum(1 for cs in couleurs for _ in itertools.combinations(cs, 5))
+    return F(favorables, math.comb(52, 5))
+
+
+@verif("proba-derniere-boule")
+def _():
+    arrangements = set(itertools.permutations("RRRBB"))
+    return F(sum(a[-1] == "R" for a in arrangements), len(arrangements))
+
+
+@verif("proba-deux-identiques")
+def _():
+    rng = random.Random(14)
+    n, total = 200000, 0
+    for _ in range(n):
+        precedent, k = rng.random() < 0.5, 1
+        while True:
+            x = rng.random() < 0.5
+            k += 1
+            if x == precedent:
+                break
+            precedent = x
+        total += k
+    return total / n, 0.02
+
+
+@verif("proba-somme-exponentielles")
+def _():
+    # ∫₀¹ e^{-x} (∫₀^{1-x} e^{-y} dy) dx par double intégration numérique
+    return simpson(lambda x: math.exp(-x) * simpson(lambda y: math.exp(-y), 0, 1 - x, 200), 0, 1, 200), 1e-8
+
+
+@verif("proba-exponentielle-sachant-somme")
+def _():
+    # densité conditionnelle de X sachant X + Y = 2 : proportionnelle à f(x) f(2 − x)
+    def f(x):
+        return math.exp(-x)
+    num = simpson(lambda x: x * f(x) * f(2 - x), 0, 2, 2000)
+    den = simpson(lambda x: f(x) * f(2 - x), 0, 2, 2000)
+    return num / den, 1e-9
+
+
+@verif("proba-somme-normales-positive")
+def _():
+    rng = random.Random(15)
+    n, a, b = 400000, 0, 0
+    for _ in range(n):
+        x, y = rng.gauss(0, 1), rng.gauss(0, 1)
+        if x > 0:
+            a += 1
+            b += x + y > 0
+    return b / a, 0.005
+
+
+@verif("proba-coupons-moitie")
+def _():
+    # chaîne sur le nombre de vignettes possédées, résolue à rebours jusqu'à 5
+    e = F(0)
+    for k in range(4, -1, -1):
+        e = (1 + F(10 - k, 10) * e) / (1 - F(k, 10))
+    return e
+
+
+@verif("proba-variance-geometrique")
+def _():
+    p = 1 / 6
+    m1 = sum(k * (1 - p) ** (k - 1) * p for k in range(1, 3000))
+    m2 = sum(k * k * (1 - p) ** (k - 1) * p for k in range(1, 3000))
+    return m2 - m1 ** 2, 1e-8
+
+
+@verif("proba-markov-meteo")
+def _():
+    beau = 1.0
+    for _ in range(500):
+        beau = beau * 0.8 + (1 - beau) * 0.4
+    return beau, 1e-12
+
+
+@verif("proba-records")
+def _():
+    rng = random.Random(16)
+    n, total = 100000, 0
+    for _ in range(n):
+        meilleur = -1.0
+        for _k in range(10):
+            x = rng.random()
+            if x > meilleur:
+                meilleur = x
+                total += 1
+    return total / n, 0.02
+
+
+@verif("proba-boites-vides")
+def _():
+    rng = random.Random(17)
+    n, total = 100000, 0
+    for _ in range(n):
+        total += 10 - len({rng.randrange(10) for _k in range(10)})
+    return total / n, 0.02
+
+
+@verif("proba-premiers-entre-eux")
+def _():
+    n = 1000
+    premiers = sum(math.gcd(a, b) == 1 for a in range(1, n + 1) for b in range(1, n + 1))
+    return premiers / n ** 2, 0.003
+
+
+@verif("proba-produit-max-min")
+def _():
+    return grille(lambda x, y: max(x, y) * min(x, y)), 1e-6
+
+
+# --- Deuxième série : produits dérivés ------------------------------------------------------------------------------
+def repliquer(s_haut, s_bas, v_haut, v_bas, s0, taux):
+    """Portefeuille (a actions, b en cash) qui réplique deux valeurs futures ; renvoie (prix, a)."""
+    a = (v_haut - v_bas) / (s_haut - s_bas)
+    b = (v_haut - a * s_haut) / taux
+    return a * s0 + b, a
+
+
+@verif("der-arbre-un-pas")
+def _():
+    return repliquer(120, 80, 20, 0, 100, 1)[0], 1e-12
+
+
+@verif("der-arbre-delta")
+def _():
+    return repliquer(120, 80, 20, 0, 100, 1)[1], 1e-12
+
+
+def arbre(s0, u, d, taux, n, payoff, americain=False):
+    """Arbre binomial résolu par réplication à chaque nœud (sans probabilité risque-neutre explicite)."""
+    valeurs = {j: payoff(s0 * u ** j * d ** (n - j)) for j in range(n + 1)}
+    for etape in range(n - 1, -1, -1):
+        nouvelles = {}
+        for j in range(etape + 1):
+            s = s0 * u ** j * d ** (etape - j)
+            prix, _ = repliquer(s * u, s * d, valeurs[j + 1], valeurs[j], s, taux)
+            nouvelles[j] = max(prix, payoff(s)) if americain else prix
+        valeurs = nouvelles
+    return valeurs[0]
+
+
+@verif("der-arbre-deux-pas")
+def _():
+    return arbre(100, 1.1, 0.9, 1.0, 2, lambda s: max(s - 100, 0)), 1e-9
+
+
+@verif("der-put-americain-arbre")
+def _():
+    return arbre(100, 1.2, 0.8, 1.05, 2, lambda s: max(100 - s, 0), americain=True), 1e-4
+
+
+@verif("der-forward-start")
+def _():
+    sig = 0.2
+    # E[max(S₂ − S₁, 0)] = E[S₁] · E[(R − 1)⁺] avec R = S₂/S₁ indépendant de S₁ (accroissements indépendants)
+    es1 = simpson(lambda z: 100 * math.exp(-sig ** 2 / 2 + sig * z) * phi(z), -12, 12, 24000)
+    er = simpson(lambda z: max(math.exp(-sig ** 2 / 2 + sig * z) - 1, 0) * phi(z), -12, 12, 48000)
+    return es1 * er, 1e-4
+
+
+@verif("der-margrabe")
+def _():
+    sig, rho = 0.2, 0.5
+    s = math.sqrt(1 - rho ** 2)
+    n, borne = 500, 8.0
+    h = 2 * borne / n
+    total = 0.0
+    for i in range(n + 1):
+        z1 = -borne + i * h
+        wi = 1 if i in (0, n) else (4 if i % 2 else 2)
+        a = 100 * math.exp(-sig ** 2 / 2 + sig * z1)
+        for j in range(n + 1):
+            z2 = -borne + j * h
+            wj = 1 if j in (0, n) else (4 if j % 2 else 2)
+            b = 100 * math.exp(-sig ** 2 / 2 + sig * (rho * z1 + s * z2))
+            total += wi * wj * max(a - b, 0.0) * phi(z1) * phi(z2)
+    return total * h * h / 9, 5e-3
+
+
+# --- Deuxième série : calcul stochastique ---------------------------------------------------------------------------
+@verif("stoch-esperance-exponentielle")
+def _():
+    s = math.sqrt(2)
+    return simpson(lambda x: math.exp(x) * phi(x / s) / s, -30, 30, 60000), 1e-8
+
+
+@verif("stoch-deux-instants-positifs")
+def _():
+    # W₁ = Z₁, W₂ = Z₁ + Z₂ : P(Z₁ > 0, Z₂ > −Z₁) = ∫₀^∞ φ(z) P(Z₂ > −z) dz
+    return simpson(lambda z: phi(z) * (1 - Phi(-z)), 0, 12, 24000), 1e-9
+
+
+def cov_brownien(s, t):
+    # nombre d'accroissements unitaires communs (instants entiers)
+    return len(set(range(s)) & set(range(t)))
+
+
+@verif("stoch-pont-esperance")
+def _():
+    return cov_brownien(1, 4) / cov_brownien(4, 4) * 2, 1e-12
+
+
+@verif("stoch-pont-variance")
+def _():
+    return cov_brownien(1, 1) - cov_brownien(1, 4) ** 2 / cov_brownien(4, 4), 1e-12
+
+
+@verif("stoch-integrale-carre")
+def _():
+    rng = random.Random(18)
+    n, pas = 20000, 100
+    dt = 1 / pas
+    total = 0.0
+    for _ in range(n):
+        w, i = 0.0, 0.0
+        for _k in range(pas):
+            w2 = w + rng.gauss(0, math.sqrt(dt))
+            i += (w * w + w2 * w2) / 2 * dt
+            w = w2
+        total += i
+    return total / n, 0.015
+
+
+@verif("stoch-variance-somme")
+def _():
+    return cov_brownien(1, 1) + cov_brownien(2, 2) + 2 * cov_brownien(1, 2)
+
+
+@verif("stoch-covariance-carre")
+def _():
+    return simpson(lambda x: x ** 3 * phi(x), -12, 12, 24000), 1e-9
+
+
+# --- Deuxième série : code, ML --------------------------------------------------------------------------------------
+@verif("algo-paires-nombre")
+def _():
+    return sum(1 for i in range(1000) for j in range(i + 1, 1000))
+
+
+@verif("ml-auc")
+def _():
+    pos, neg = [0.9, 0.7, 0.4], [0.8, 0.3]
+    return F(sum(p > n for p in pos for n in neg), len(pos) * len(neg))
+
+
+@verif("ml-loi-fondamentale")
+def _():
+    # 400 paris indépendants : la moyenne des gains croît comme n·IC, l'écart-type comme √n
+    n, ic = 400, 0.05
+    return n * ic / math.sqrt(n), 1e-12
+
+
+# --- Troisième série : jeux, risque, séries temporelles -------------------------------------------------------------
+@verif("jeu-malediction-vainqueur")
+def _():
+    # gain espéré d'une offre b : E[(1,5·V − b) 1{V < b}] avec V ~ U(0, 100) ; on cherche l'offre qui le maximise
+    def gain(b):
+        return simpson(lambda v: (1.5 * v - b) / 100, 0, b, 200) if b > 0 else 0.0
+    meilleure = max((gain(b), b) for b in range(0, 101))
+    return meilleure[1]
+
+
+@verif("jeu-dichotomie")
+def _():
+    def pire(n):  # nombre de propositions au pire pour n candidats
+        if n <= 0:
+            return 0
+        return 1 + max(pire((n - 1) // 2), pire(n - 1 - (n - 1) // 2))
+    return pire(100)
+
+
+@verif("jeu-trois-piles")
+def _():
+    return attente_motif("PPP", {"P": F(1, 2), "F": F(1, 2)})
+
+
+@verif("jeu-marche-aleatoire-sortie")
+def _():
+    return marche_absorbee(10, 20, F(1, 2))[1]
+
+
+@verif("jeu-arret-uniforme")
+def _():
+    # itération de la valeur : V ← −c + E[max(X, V)]
+    v, c = 0.0, 0.01
+    for _ in range(10000):
+        v = -c + v * v + (1 - v * v) / 2
+    return v, 1e-9
+
+
+@verif("jeu-pari-de-plus-grand")
+def _():
+    sans_egalite = [(a, b) for a in DE for b in DE if a != b]
+    return F(sum(a > b for a, b in sans_egalite), len(sans_egalite))
+
+
+@verif("jeu-pieces-alice-bob")
+def _():
+    a = [F(math.comb(10, k), 2 ** 10) for k in range(11)]
+    b = [F(math.comb(11, k), 2 ** 11) for k in range(12)]
+    return sum(pb * sum(a[:j]) for j, pb in enumerate(b))
+
+
+@verif("jeu-partage-mise")
+def _():
+    # partie jouée jusqu'au bout depuis 4-2 : A doit gagner 1 manche avant que B en gagne 3
+    def p(a, b):
+        if a == 0:
+            return F(1)
+        if b == 0:
+            return F(0)
+        return (p(a - 1, b) + p(a, b - 1)) / 2
+    return p(1, 3)
+
+
+@verif("risque-garch-long-terme")
+def _():
+    # on itère l'espérance de la variance conditionnelle jusqu'à convergence
+    v = 0.0004
+    for _ in range(5000):
+        v = 0.000002 + (0.1 + 0.88) * v
+    return math.sqrt(v), 1e-9
+
+
+@verif("risque-ewma-demi-vie")
+def _():
+    k, poids = 0.0, 1.0
+    while poids > 0.5:
+        k += 0.001
+        poids = 0.94 ** k
+    return k, 2e-3
+
+
+@verif("risque-diversification-limite")
+def _():
+    n = 100000
+    sig, rho = 0.2, 0.25
+    var = sig ** 2 * (rho + (1 - rho) / n)
+    return math.sqrt(var), 1e-4
+
+
+@verif("risque-beta")
+def _():
+    rng = random.Random(19)
+    n = 200000
+    xs, ys = [], []
+    for _ in range(n):
+        m = rng.gauss(0, 0.15)
+        xs.append(m)
+        ys.append(0.6 * 0.3 / 0.15 * m + rng.gauss(0, 0.3 * math.sqrt(1 - 0.36)))
+    mx, my = sum(xs) / n, sum(ys) / n
+    return sum((a - mx) * (b - my) for a, b in zip(xs, ys)) / sum((a - mx) ** 2 for a in xs), 0.01
+
+
+@verif("risque-couverture-variance-min")
+def _():
+    s, f, rho = 0.02, 0.025, 0.9
+    # variance résiduelle de S − hF, minimisée numériquement
+    return maximiser(lambda h: -(s * s + h * h * f * f - 2 * h * rho * s * f), 0, 2), 1e-6
+
+
+@verif("risque-exceptions-historique")
+def _():
+    return 500 * F(1, 100)
+
+
+@verif("risque-autocorrelation-ar1")
+def _():
+    rng = random.Random(20)
+    x, serie = 0.0, []
+    for _ in range(300000):
+        x = 0.8 * x + rng.gauss(0, 1)
+        serie.append(x)
+    m = sum(serie) / len(serie)
+    c0 = sum((v - m) ** 2 for v in serie)
+    c3 = sum((serie[i] - m) * (serie[i + 3] - m) for i in range(len(serie) - 3))
+    return c3 / c0, 0.01
+
+
+@verif("risque-variance-ar1")
+def _():
+    v = 0.0
+    for _ in range(1000):
+        v = 0.64 * v + 1
+    return v, 1e-9
+
+
+# --- Énergie --------------------------------------------------------------------------------------------------------
+@verif("nrj-spark-spread")
+def _():
+    gaz_par_mwh = 1 / 0.5   # rendement 50 % : 2 MWh de gaz par MWh électrique
+    return 90 - gaz_par_mwh * 35, 1e-12
+
+
+@verif("nrj-clean-spark")
+def _():
+    return 90 - (1 / 0.5) * 35 - 0.4 * 80, 1e-12
+
+
+# --- Produits structurés --------------------------------------------------------------------------------------------
+@verif("struct-capital-garanti")
+def _():
+    reste = 100 - 90          # ce qui reste après l'achat du zéro-coupon
+    return F(reste, 20)       # nombre de calls (20 chacun) achetés par unité de nominal
+
+
+@verif("struct-dispersion")
+def _():
+    # variance d'un indice équipondéré de N composants : σ²[ρ + (1 − ρ)/N] ; on cherche ρ pour σ_indice = 15 %
+    n, sig = 10 ** 6, 0.3
+    lo, hi = 0.0, 1.0
+    for _ in range(100):
+        rho = (lo + hi) / 2
+        if math.sqrt(sig ** 2 * (rho + (1 - rho) / n)) < 0.15:
+            lo = rho
+        else:
+            hi = rho
+    return lo, 1e-5
+
+
+# --- Machine learning, troisième série ------------------------------------------------------------------------------
+@verif("ml-acp-variance")
+def _():
+    # matrice diagonale de valeurs propres connues : part de la trace portée par la plus grande
+    valeurs = [4, 2, 1, 1]
+    return F(max(valeurs), sum(valeurs))
+
+
+@verif("ml-cote-logistique")
+def _():
+    def cote(x):
+        p = 1 / (1 + math.exp(-(-2 + 0.7 * x)))
+        return p / (1 - p)
+    return cote(3.0) / cote(2.0), 1e-9
+
+
+@verif("ml-matrice-confusion")
+def _():
+    vrais_positifs, alertes = 90, 120
+    return F(vrais_positifs, alertes)
+
+
+@verif("ml-ridge-retrecissement")
+def _():
+    # une variable, Σx² = n : le coefficient Ridge vaut Σxy/(n + λ) contre Σxy/n pour les moindres carrés
+    n, lam, sxy = 250, 250, 37.0
+    return (sxy / (n + lam)) / (sxy / n), 1e-12
+
+
+# --- Fiches issues du cours (contenu/cours_complements.txt) ---------------------------------------------------------
+@verif("stoch-ou-variance")
+def _():
+    # σ² ∫₀^∞ e^{−2κu} du par intégration numérique (κ = 3, σ = 2)
+    return simpson(lambda u: 4 * math.exp(-6 * u), 0, 20, 20000), 1e-9
+
+
+@verif("stoch-cir-moyenne")
+def _():
+    rng = random.Random(201)
+    n, pas = 10000, 100
+    dt = 1 / pas
+    total = 0.0
+    for _ in range(n):
+        r = 0.01
+        for _ in range(pas):
+            r += (0.05 - r) * dt + 0.1 * math.sqrt(max(r, 0.0)) * rng.gauss(0, math.sqrt(dt))
+        total += r
+    return total / n, 0.00025
+
+
+@verif("der-black76")
+def _():
+    return math.exp(-0.04) * simpson(lambda z: max(80 * math.exp(-0.25 ** 2 / 2 + 0.25 * z) - 80, 0.0) * phi(z), -12, 12, 48000), 1e-6
+
+
+@verif("mm-glosten-milgrom")
+def _():
+    alpha = F(1, 4)
+    num = den = F(0)
+    for v in (80, 120):
+        p = F(1, 2) * (alpha * (1 if v == 120 else 0) + (1 - alpha) * F(1, 2))
+        num += p * v
+        den += p
+    return num / den
+
+
+@verif("risque-portefeuille-variance-min")
+def _():
+    return maximiser(lambda w: -(w * w * 0.01 + (1 - w) ** 2 * 0.04), -1, 2), 1e-7
+
+
+@verif("risque-sharpe-strategies")
+def _():
+    def sharpe(w):  # une unité de la première (μ = 0,6, σ = 1), w de la seconde (μ = 0,8, σ = 1)
+        return (0.6 + 0.8 * w) / math.sqrt(1 + w * w)
+    return sharpe(maximiser(sharpe, 0, 10)), 1e-9
+
+
+@verif("risque-proba-drawdown")
+def _():
+    # ruine d'une marche aléatoire biaisée de pas h, qui converge vers le brownien avec dérive
+    mu, sig, d, h = 0.05, 0.1, 0.1, 0.0001
+    p = 0.5 * (1 + mu * h / sig ** 2)
+    return ((1 - p) / p) ** round(d / h), 1e-4
+
+
+@verif("stats-lasso-seuillage")
+def _():
+    return maximiser(lambda b: -(b * b - 2 * 0.8 * b + abs(b)), -2, 2), 1e-7
+
+
+@verif("ml-foret-variance")
+def _():
+    n = 50
+    return sum((1 if i == j else F(1, 5)) for i in range(n) for j in range(n)) / F(n * n)
+
+
+@verif("num-stabilite-explicite")
+def _():
+    def stable(dt):
+        a = 0.3 ** 2 * dt / (2 * 0.02 ** 2)
+        return all(abs(1 - 4 * a * math.sin(math.pi * i / 800) ** 2) <= 1 + 1e-12 for i in range(401))
+    lo, hi = 0.0, 0.02
+    for _ in range(60):
+        mid = (lo + hi) / 2
+        if stable(mid):
+            lo = mid
+        else:
+            hi = mid
+    return lo, 1e-9
+
+
+# --- Fiches issues des chapitres ajoutés (contenu/cours_complements2.txt) -------------------------------------------
+@verif("proba-scrutin")
+def _():
+    bons = total = 0
+    for pos in itertools.combinations(range(10), 3):  # positions des voix de B
+        s, ok = 0, True
+        for i in range(10):
+            s += -1 if i in pos else 1
+            ok = ok and s > 0
+        bons += ok
+        total += 1
+    return F(bons, total)
+
+
+@verif("proba-catalan")
+def _():
+    def bien_forme(t):
+        s = 0
+        for c in t:
+            s += 1 if c == '(' else -1
+            if s < 0:
+                return False
+        return s == 0
+    return sum(bien_forme(t) for t in itertools.product('()', repeat=8))
+
+
+@verif("proba-amincissement")
+def _():
+    rng = random.Random(301)
+    n, ok = 100000, 0
+    for _ in range(n):
+        t, gros = rng.expovariate(6), 0
+        while t < 1:
+            gros += rng.random() < 1 / 3
+            t += rng.expovariate(6)
+        ok += gros >= 2
+    return ok / n, 0.005
+
+
+@verif("stats-equicorrelation")
+def _():
+    m = [[1 if i == j else 0.2 for j in range(6)] for i in range(6)]
+    v = [1.0, 0.7, 0.4, 0.9, 0.3, 0.5]
+    for _ in range(300):
+        w = [sum(m[i][j] * v[j] for j in range(6)) for i in range(6)]
+        n = math.sqrt(sum(x * x for x in w))
+        v = [x / n for x in w]
+    return sum(v[i] * sum(m[i][j] * v[j] for j in range(6)) for i in range(6)), 1e-9
+
+
+@verif("stats-cholesky")
+def _():
+    # L₂₂ est l'écart-type résiduel de X₂ après régression sur X₁ : variance minimale de X₂ − bX₁
+    return math.sqrt(min(4 - 2 * b * 2 + b * b * 4 for b in [k / 10000 for k in range(0, 20001)])), 1e-6
+
+
+@verif("der-barriere-carr")
+def _():
+    # EDP de Black-Scholes (taux nul) en log-prix pour le down-and-out, puis knock-in = vanille − knock-out
+    s, B, K = 0.2, 80.0, 100.0
+    x0, x1, n = math.log(B), math.log(600.0), 500
+    dx = (x1 - x0) / n
+    pas = int(math.ceil(1 / (0.4 * dx * dx / (s * s))))
+    dt = 1 / pas
+    xs = [x0 + i * dx for i in range(n + 1)]
+    u = [max(math.exp(x) - K, 0.0) for x in xs]
+    a, b = 0.5 * s * s * dt / dx ** 2, 0.5 * s * s * dt / (2 * dx)
+    for _ in range(pas):
+        nouveau = [0.0] * (n + 1)
+        for i in range(1, n):
+            nouveau[i] = u[i] + a * (u[i + 1] - 2 * u[i] + u[i - 1]) - b * (u[i + 1] - u[i - 1])
+        nouveau[n] = math.exp(xs[n]) - K
+        u = nouveau
+    x = math.log(100.0)
+    i = int((x - x0) / dx)
+    w = (x - xs[i]) / dx
+    knock_out = (1 - w) * u[i] + w * u[i + 1]
+    return call(100, sig=0.2) - knock_out, 0.01
+
+
+@verif("der-asiatique-geometrique")
+def _():
+    # écart-type de (σ/T)∫₀ᵀ W dt : σ·√(∫∫ min(s, t)) sur [0, 1]²
+    return 0.24 * math.sqrt(grille(min, 400)), 1e-5
+
+
+@verif("nrj-samuelson")
+def _():
+    # sensibilité de ln F(0, T) à ln S₀ dans l'OU : dérivée numérique de la moyenne conditionnelle (Euler sur m' = −κm)
+    def moyenne(x, kappa=2.0, T=0.25, pas=20000):
+        m = x
+        for _ in range(pas):
+            m += -kappa * m * T / pas
+        return m
+    h = 1e-3
+    return (moyenne(h) - moyenne(-h)) / (2 * h), 1e-4
+
+
+@verif("nrj-calendaire")
+def _():
+    heures = [100.0] * 744 + [80.0] * 672
+    return sum(heures) / len(heures)

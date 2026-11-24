@@ -1,0 +1,404 @@
+# Statistiques et économétrie : tests, régression, séries temporelles, pièges des backtests.
+
+=== stats-p-valeur
+theme: stats
+niveau: 1
+profils: hf data risque banque
+--- question
+Qu'est-ce qu'une p-valeur ? Qu'est-ce qu'elle n'est pas ?
+--- en
+What is a p-value? What is it not?
+--- solution
+La p-valeur est la probabilité, **si l'hypothèse nulle est vraie**, d'observer une statistique au moins aussi extrême que celle observée.
+Ce qu'elle n'est pas :
+- la probabilité que l'hypothèse nulle soit vraie ;
+- la probabilité que le résultat soit dû au hasard ;
+- une mesure de la taille de l'effet (un effet minuscule devient « significatif » avec assez de données).
+Sous H₀ (statistique continue), la p-valeur est uniforme sur [0, 1] : en testant 100 stratégies sans aucun pouvoir prédictif, environ 5 auront p < 0,05.
+--- relances
+- Pourquoi est-ce dangereux en recherche quantitative ? (on teste des milliers de signaux : il faut corriger les comparaisons multiples)
+
+=== stats-erreurs
+theme: stats
+niveau: 1
+profils: hf data risque banque
+--- question
+Erreur de première espèce, erreur de seconde espèce, puissance : définis-les et donne un exemple en trading.
+--- en
+Define type I error, type II error and power, with a trading example.
+--- solution
+- **Erreur de 1ʳᵉ espèce (α)** : rejeter H₀ alors qu'elle est vraie. Exemple : croire qu'un signal prédit les rendements alors qu'il n'a aucun pouvoir (faux positif), puis le trader.
+- **Erreur de 2ᵉ espèce (β)** : ne pas rejeter H₀ alors qu'elle est fausse. Exemple : jeter un vrai signal faute de données.
+- **Puissance = 1 − β** : probabilité de détecter un effet qui existe. Elle augmente avec la taille de l'échantillon et la taille de l'effet.
+Dans ton projet stat arb, le premier réglage (252 jours, demi-vie 15 jours) manquait de puissance : le test ADF ne détectait pas les vraies paires.
+
+=== stats-sharpe-annualise
+theme: stats
+niveau: 1
+profils: hf mm data risque
+type: numerique
+reponse: 0.1*sqrt(252)
+duree: 60
+--- question
+Une stratégie a un Sharpe quotidien de 0,1 (rendement moyen divisé par l'écart-type, en données journalières). Quel est son Sharpe annualisé (252 jours) ?
+--- en
+A strategy has a daily Sharpe ratio of 0.1. What is its annualized Sharpe (252 trading days)?
+--- solution
+La moyenne est multipliée par 252, l'écart-type par √252 : Sharpe annuel = 0,1 × √252 ≈ **1,59**.
+Hypothèse : rendements indépendants d'un jour à l'autre. Avec de l'autocorrélation positive, cette règle surestime le Sharpe (Lo, 2002).
+--- relances
+- Un Sharpe annuel de 2 correspond à quel Sharpe mensuel ? (2/√12 ≈ 0,58)
+
+=== stats-sharpe-erreur
+theme: stats
+niveau: 2
+profils: hf data risque
+type: numerique
+reponse: sqrt((1+1/504)/4)
+tolerance: 0.02
+duree: 180
+--- question
+Tu estimes un Sharpe annuel de 1 à partir de 4 ans de rendements quotidiens (gaussiens, indépendants). Quel est environ l'écart-type de cet estimateur ?
+--- en
+You estimate an annual Sharpe of 1 from 4 years of daily returns (i.i.d. normal). What is the approximate standard error of the estimate?
+--- indice
+Formule de Lo pour un Sharpe par période estimé sur n périodes : Var ≈ (1 + SR²/2)/n. Le Sharpe quotidien est minuscule.
+--- solution
+Sharpe quotidien : 1/√252 ; Var(SR̂_quotidien) ≈ (1 + 1/504)/1 008. On annualise en multipliant l'écart-type par √252 : √(252/1 008) ≈ **0,50**. Règle à retenir : écart-type ≈ 1/√(nombre d'années).
+Un Sharpe estimé de 1 sur 4 ans est donc compatible avec un vrai Sharpe entre 0 et 2 (± 2 écarts-types). Il faut beaucoup d'années pour distinguer un bon gérant d'un chanceux.
+Dans ton projet stat arb, l'intervalle de confiance du Sharpe vient d'un bootstrap par blocs (1,99 à 3,82), plus réaliste quand les rendements sont autocorrélés ou à queues épaisses.
+--- relances
+- Combien d'années pour que l'écart-type tombe à 0,25 ? (16 ans)
+- Avec des rendements annuels seulement, que devient la formule ? (√((1 + SR²/2)/T) : le terme SR²/2 n'est plus négligeable)
+
+=== stats-tests-multiples
+theme: stats
+niveau: 1
+profils: hf data risque
+type: numerique
+reponse: 1-0.95^100
+duree: 120
+--- question
+Tu testes 100 signaux indépendants qui n'ont en réalité aucun pouvoir prédictif, chacun au seuil de 5 %. Probabilité qu'au moins un ressorte « significatif » ?
+--- en
+You test 100 independent signals with no real predictive power, each at the 5% level. What is the probability that at least one comes out significant?
+--- solution
+1 − 0,95¹⁰⁰ ≈ **99,4 %**. En moyenne, 5 signaux seront faussement significatifs.
+Corrections : Bonferroni (seuil α/m), Holm, contrôle du taux de fausses découvertes (Benjamini-Hochberg), Sharpe déflaté, et surtout un échantillon de validation jamais utilisé pour choisir.
+--- relances
+- Seuil de Bonferroni pour 100 tests à 5 % ? (0,0005)
+- Pourquoi Bonferroni est-il trop conservateur quand les tests sont corrélés ?
+
+=== stats-bonferroni
+theme: stats
+niveau: 1
+profils: hf data risque
+type: numerique
+reponse: 0.05/1540
+tolerance: 0.01
+duree: 90
+--- question
+Dans ton projet stat arb, tu as testé 1 540 paires. Quel seuil de p-valeur faudrait-il par paire avec une correction de Bonferroni pour garder un risque global de 5 % ?
+--- en
+You tested 1,540 pairs. What per-pair p-value threshold would a Bonferroni correction require for a 5% family-wise error rate?
+--- solution
+0,05/1 540 ≈ **3,2 × 10⁻⁵**. Sans correction, on attend ~77 paires faussement cointégrées : c'est ce qui a fait échouer ton premier réglage (des marches aléatoires avec une statistique ADF ≈ −5).
+Alternative plus puissante : Benjamini-Hochberg (contrôle du taux de fausses découvertes), ou une présélection économique (même secteur) qui réduit le nombre de tests.
+
+=== stats-biais-backtest
+theme: stats
+niveau: 1
+profils: hf data risque mm
+--- question
+Cite les principaux biais qui rendent un backtest trop optimiste.
+--- en
+List the main biases that make a backtest too optimistic.
+--- solution
+- **Regard vers le futur** (look-ahead) : utiliser une information pas encore disponible (prix de clôture pour trader à la clôture, données révisées, normalisation sur tout l'échantillon). Ton projet stat arb a un test dédié.
+- **Biais du survivant** : ne garder que les actifs qui existent aujourd'hui (les faillites ont disparu).
+- **Sur-apprentissage, data snooping** : essayer beaucoup de variantes et garder la meilleure ; d'où le Sharpe déflaté et le contrôle négatif.
+- **Coûts sous-estimés** : spread, impact de marché, coûts d'emprunt des titres, frais ; capacité.
+- **Biais de sélection de période** : choisir une fenêtre favorable.
+- **Fuite d'information** dans la validation : validation croisée aléatoire sur des séries temporelles.
+--- relances
+- Comment s'en protéger ? (walk-forward, échantillon de test gelé, données point-in-time, univers historique complet, coûts conservateurs, contrôle négatif)
+
+=== stats-ols-hypotheses
+theme: stats
+niveau: 1
+profils: hf data risque banque
+--- question
+Quelles sont les hypothèses de la régression linéaire par moindres carrés (MCO), et que se passe-t-il si chacune est violée ?
+--- en
+What are the OLS assumptions, and what happens when each is violated?
+--- solution
+Modèle y = Xβ + ε.
+- **Exogénéité** E[ε | X] = 0 : sinon les coefficients sont biaisés (variable omise, causalité inverse, erreur de mesure sur X).
+- **Pas de colinéarité parfaite** : sinon β n'est pas identifiable ; une forte colinéarité gonfle les variances.
+- **Homoscédasticité** : sinon les estimateurs restent sans biais mais les écarts-types sont faux (écarts-types de White).
+- **Pas d'autocorrélation des erreurs** : idem, écarts-types faux (Newey-West) ; fréquent en séries temporelles.
+- **Normalité des erreurs** : utile seulement pour les tests exacts en petit échantillon.
+Sous les quatre premières, MCO est le meilleur estimateur linéaire sans biais (Gauss-Markov).
+--- relances
+- Formule de β̂ ? ((XᵀX)⁻¹Xᵀy)
+
+=== stats-pentes-croisees
+theme: stats
+niveau: 2
+profils: hf data risque
+type: numerique
+reponse: 0.25/0.8
+duree: 150
+--- question
+La corrélation entre x et y vaut 0,5. La pente de la régression de y sur x vaut 0,8. Que vaut la pente de la régression de x sur y ?
+--- en
+corr(x, y) = 0.5 and the slope of y regressed on x is 0.8. What is the slope of x regressed on y?
+--- solution
+Pente(y|x) = ρ σ_y/σ_x et pente(x|y) = ρ σ_x/σ_y : leur produit vaut ρ² = 0,25. Donc pente(x|y) = 0,25/0,8 = **0,3125**.
+--- piege
+Répondre 1/0,8 = 1,25 : les deux régressions minimisent des erreurs différentes (verticales et horizontales), elles ne sont pas inverses l'une de l'autre sauf si |ρ| = 1.
+--- relances
+- Lien avec le choix de β dans un pairs trading ? (régresser A sur B ou B sur A ne donne pas le même ratio de couverture ; alternatives : moindres carrés totaux, Johansen)
+
+=== stats-donnees-doublees
+theme: stats
+niveau: 2
+profils: hf data
+--- question
+Tu dupliques par erreur toutes les lignes de ton jeu de données avant une régression. Que deviennent les coefficients, les écarts-types et les t-stats ?
+--- en
+You accidentally duplicate every row of your dataset before running a regression. What happens to coefficients, standard errors and t-stats?
+--- solution
+- Les **coefficients** ne changent pas (XᵀX et Xᵀy sont simplement multipliés par 2).
+- La variance estimée des résidus ne change presque pas, mais (XᵀX)⁻¹ est divisé par 2 : les **écarts-types sont divisés par √2**.
+- Les **t-stats sont multipliées par √2** : la régression paraît plus significative qu'elle ne l'est.
+Même phénomène, moins visible, avec des rendements sur fenêtres glissantes qui se chevauchent : les observations ne sont pas indépendantes, il faut corriger les écarts-types (Newey-West, Hansen-Hodrick).
+
+=== stats-r2
+theme: stats
+niveau: 1
+profils: hf data risque
+--- question
+Que mesure le R² ? Un R² de 1 % est-il forcément inutile en finance ?
+--- en
+What does R² measure? Is an R² of 1% necessarily useless in finance?
+--- solution
+R² = part de la variance de y expliquée par le modèle = 1 − SCR/SCT ; en régression simple, R² = ρ².
+Un R² de 1 % sur des rendements quotidiens peut valoir beaucoup : une corrélation de 0,1 entre prévision et rendement, appliquée sur des milliers de paris indépendants, donne un Sharpe élevé (loi fondamentale de la gestion active : IR ≈ IC × √(nombre de paris indépendants)).
+À l'inverse, un R² élevé entre deux séries de **prix** (non stationnaires) peut être une régression fallacieuse.
+--- relances
+- R² ajusté ? (pénalise le nombre de variables)
+
+=== stats-regression-fallacieuse
+theme: stats
+niveau: 2
+profils: hf data risque
+--- question
+Tu régresses le prix d'une action sur celui d'une autre et tu trouves R² = 0,9 et une t-stat de 40. Est-ce une bonne nouvelle ?
+--- en
+You regress one stock's price on another's and find R² = 0.9 with a t-stat of 40. Is that good news?
+--- solution
+Pas forcément : deux marches aléatoires indépendantes donnent souvent des R² élevés et des t-stats énormes (Granger-Newbold, 1974). Les prix ne sont pas stationnaires et les erreurs sont fortement autocorrélées : les tests usuels ne s'appliquent pas.
+Ce qu'il faut faire : régresser les **rendements** (stationnaires), ou tester la **cointégration** (le résidu est-il stationnaire ? Engle-Granger avec les valeurs critiques de MacKinnon, ou Johansen). C'est la démarche de ton projet stat arb.
+
+=== stats-stationnarite
+theme: stats
+niveau: 1
+profils: hf data risque
+--- question
+Qu'est-ce qu'une série stationnaire ? Les prix le sont-ils ? Les rendements ?
+--- en
+What is a stationary time series? Are prices stationary? Returns?
+--- solution
+Stationnarité (faible) : moyenne et variance constantes, autocovariance qui ne dépend que de l'écart entre les dates.
+- Les **prix** ne le sont pas : ils se comportent comme des marches aléatoires (racine unitaire), leur variance croît avec le temps.
+- Les **rendements** le sont approximativement, mais leur volatilité varie (regroupement de volatilité, GARCH), leurs queues sont épaisses, et les régimes changent.
+Tests : ADF (H₀ : racine unitaire), KPSS (H₀ : stationnarité).
+
+=== stats-adf
+theme: stats
+niveau: 2
+profils: hf data risque
+--- question
+Explique le test de Dickey-Fuller augmenté. Pourquoi les valeurs critiques changent-elles quand on l'applique aux résidus d'une régression ?
+--- en
+Explain the augmented Dickey-Fuller test. Why do critical values change when it is applied to regression residuals?
+--- solution
+On régresse Δx_t = α + γ x_{t−1} + Σ δ_i Δx_{t−i} + ε_t et on teste H₀ : γ = 0 (racine unitaire) contre γ < 0 (retour à la moyenne). La statistique est la t-stat de γ, mais sous H₀ elle ne suit pas une loi de Student : valeurs critiques de Dickey-Fuller (≈ −2,86 à 5 % avec constante).
+Sur des **résidus** d'Engle-Granger, la régression a déjà choisi β pour rendre le résidu le plus stationnaire possible : la statistique est biaisée vers des valeurs négatives, d'où des valeurs critiques plus sévères (MacKinnon ; −3,90 à 1 % dans ton projet pour deux séries).
+Lien avec la demi-vie : φ = 1 + γ, demi-vie = −ln 2/ln φ.
+--- relances
+- Que sont les retards (Δx_{t−i}) ? (ils absorbent l'autocorrélation des erreurs ; ton projet utilise un ADF sans retard, c'est une limite)
+
+=== stats-mle-exponentielle
+theme: stats
+niveau: 1
+profils: hf data risque banque
+--- question
+Tu observes n durées x₁, …, xₙ supposées exponentielles de paramètre λ. Estimateur du maximum de vraisemblance de λ ?
+--- en
+You observe n durations assumed exponential with rate λ. What is the MLE of λ?
+--- solution
+Log-vraisemblance : n ln λ − λ Σxᵢ. Dérivée nulle : n/λ − Σxᵢ = 0, donc **λ̂ = 1/x̄**.
+Il est biaisé en petit échantillon (E[λ̂] = nλ/(n − 1)) mais convergent ; sa variance asymptotique est λ²/n (inverse de l'information de Fisher).
+--- relances
+- Propriétés générales du maximum de vraisemblance ? (convergent, asymptotiquement normal et efficace, invariant par reparamétrisation)
+
+=== stats-variance-n-moins-un
+theme: stats
+niveau: 1
+profils: hf data risque banque
+--- question
+Pourquoi divise-t-on par n − 1 et non par n pour estimer une variance ?
+--- en
+Why divide by n − 1 rather than n when estimating a variance?
+--- solution
+Les écarts sont mesurés à la moyenne empirique x̄, qui est elle-même ajustée aux données : Σ(xᵢ − x̄)² est en moyenne plus petit que Σ(xᵢ − μ)². Précisément E[Σ(xᵢ − x̄)²] = (n − 1)σ² : on a perdu un degré de liberté. Diviser par n − 1 rend l'estimateur sans biais (correction de Bessel).
+L'écart-type obtenu (racine) reste légèrement biaisé, et l'estimateur en 1/n a une erreur quadratique plus faible : sans biais ne veut pas dire meilleur.
+
+=== stats-intervalle-moyenne
+theme: stats
+niveau: 1
+profils: hf data risque banque
+type: numerique
+reponse: 1.96
+tolerance: 0.01
+duree: 90
+--- question
+Sur 100 observations indépendantes d'écart-type 10, quelle est la demi-largeur d'un intervalle de confiance à 95 % pour la moyenne ?
+--- en
+With 100 i.i.d. observations of standard deviation 10, what is the half-width of a 95% confidence interval for the mean?
+--- solution
+Erreur standard = σ/√n = 10/10 = 1, demi-largeur = 1,96 × 1 ≈ **1,96**.
+--- relances
+- Combien d'observations pour diviser la largeur par 2 ? (4 fois plus : 400)
+
+=== stats-taille-echantillon
+theme: stats
+niveau: 1
+profils: hf data risque
+type: numerique
+reponse: 400
+duree: 60
+--- question
+Avec 100 observations, ton intervalle de confiance sur une moyenne est trop large. Combien d'observations faut-il pour diviser sa largeur par deux ?
+--- en
+With 100 observations your confidence interval for a mean is too wide. How many observations are needed to halve its width?
+--- solution
+La largeur est en 1/√n : pour la diviser par 2, il faut 4 fois plus de données, **400**.
+
+=== stats-vol-portefeuille
+theme: stats
+niveau: 1
+profils: hf data risque mm banque
+type: numerique
+reponse: sqrt(0.25*0.04+0.25*0.09+2*0.25*0.5*0.2*0.3)
+duree: 150
+--- question
+Un portefeuille 50/50 contient deux actifs de volatilités 20 % et 30 %, corrélés à 0,5. Volatilité du portefeuille ?
+--- en
+A 50/50 portfolio holds two assets with vols of 20% and 30% and correlation 0.5. Portfolio volatility?
+--- solution
+σ² = 0,25 × 0,04 + 0,25 × 0,09 + 2 × 0,25 × 0,5 × 0,2 × 0,3 = 0,01 + 0,0225 + 0,015 = 0,0475, donc σ ≈ **21,8 %**, moins que la moyenne des volatilités (25 %) : c'est la diversification.
+--- relances
+- Et avec une corrélation de −1 ? (|0,1 − 0,15| = 5 %)
+- Quels poids minimisent la variance ? (w₁ = (σ₂² − ρσ₁σ₂)/(σ₁² + σ₂² − 2ρσ₁σ₂) = 0,06/0,07 ≈ 86 %)
+
+=== stats-heteroscedasticite
+theme: stats
+niveau: 2
+profils: hf data risque
+--- question
+Qu'est-ce que l'hétéroscédasticité ? Comment la détecter et la corriger ? Et l'autocorrélation des résidus ?
+--- en
+What is heteroskedasticity? How do you detect and correct it? And residual autocorrelation?
+--- solution
+Hétéroscédasticité : la variance des erreurs dépend des variables ou du temps (très fréquent : la volatilité des rendements varie).
+- Détection : graphique des résidus, tests de Breusch-Pagan ou de White.
+- Correction : écarts-types robustes de White (les coefficients MCO restent sans biais), moindres carrés pondérés si la forme est connue, modélisation GARCH.
+Autocorrélation : test de Durbin-Watson ou de Ljung-Box ; écarts-types de **Newey-West** (robustes à l'hétéroscédasticité et à l'autocorrélation), indispensables avec des fenêtres de rendements qui se chevauchent.
+
+=== stats-erreur-variable
+theme: stats
+niveau: 3
+profils: hf data risque
+type: numerique
+reponse: 0.8
+duree: 240
+--- question
+Vrai modèle : y = x + ε. Mais tu n'observes que x̃ = x + u, avec Var(x) = 1, Var(u) = 0,25, u indépendant du reste. Vers quelle valeur tend la pente estimée de y sur x̃ ?
+--- en
+True model y = x + ε, but you only observe x̃ = x + u with Var(x) = 1, Var(u) = 0.25, u independent. What does the OLS slope of y on x̃ converge to?
+--- solution
+Pente = Cov(y, x̃)/Var(x̃) = Var(x)/(Var(x) + Var(u)) = 1/1,25 = **0,8**. C'est le biais d'atténuation : le bruit de mesure sur la variable explicative tire la pente vers zéro.
+En finance : les bêtas estimés avec des variables bruitées sont trop faibles ; corrections par variables instrumentales ou en agrégeant (portefeuilles) pour réduire le bruit.
+
+=== stats-pca-taux
+theme: stats
+niveau: 2
+profils: hf data risque banque
+--- question
+Tu fais une ACP des variations quotidiennes de la courbe des taux (2 à 30 ans). Que trouves-tu, et à quoi ça sert ?
+--- en
+You run a PCA on daily changes of the yield curve (2y to 30y). What do you find and what is it used for?
+--- solution
+Trois facteurs expliquent la quasi-totalité de la variance (souvent plus de 95 %) :
+1. **niveau** : tous les taux bougent ensemble ;
+2. **pente** : courts et longs en sens opposés ;
+3. **courbure** : le milieu de la courbe contre les extrémités.
+Usages : réduire la dimension pour la gestion du risque (couvrir le niveau et la pente), construire des stratégies de valeur relative (papillons neutres en niveau et pente), simuler des scénarios cohérents.
+Précautions : faire l'ACP sur des variations (stationnaires), pas sur des niveaux ; vecteurs propres instables dans le temps ; signe arbitraire.
+
+=== stats-colinearite
+theme: stats
+niveau: 2
+profils: hf data
+--- question
+Deux variables explicatives sont corrélées à 0,98. Qu'arrive-t-il à ta régression, et que fais-tu ?
+--- en
+Two regressors are 0.98 correlated. What happens to your regression and what do you do?
+--- solution
+Les coefficients deviennent instables : grandes variances, signes qui changent d'un échantillon à l'autre, coefficients individuellement non significatifs alors que le modèle l'est globalement. La prévision reste correcte tant que la colinéarité persiste.
+Remèdes : retirer ou combiner les variables (leur somme, leur différence), régularisation Ridge (qui stabilise exactement ce cas), ACP, ou accepter l'instabilité si seule la prévision compte. Diagnostic : facteur d'inflation de la variance VIF = 1/(1 − R²_j) ≈ 25 ici.
+
+=== stats-correlation-rendements
+theme: stats
+niveau: 2
+profils: hf data risque mm
+--- question
+La corrélation entre deux actions vaut 0,6 en rendements quotidiens et 0,2 en rendements mensuels. Comment est-ce possible ?
+--- en
+Two stocks have 0.6 correlation in daily returns but 0.2 in monthly returns. How is that possible?
+--- solution
+Les corrélations dépendent de l'horizon. Causes possibles :
+- dynamiques différentes à long terme (une action suit le marché au jour le jour mais ses résultats propres dominent sur un mois) ;
+- autocorrélations et corrélations croisées décalées (retour à la moyenne relatif, l'une réagit avec retard à l'autre) ;
+- effets de microstructure à haute fréquence (bruit de fixing, asynchronie des cours, effet Epps : corrélation plus faible à très haute fréquence) ;
+- simple bruit d'estimation : peu de points mensuels, intervalle de confiance large.
+Conséquence pratique : estime la corrélation à l'horizon de détention de ta stratégie.
+
+=== stats-bootstrap
+theme: stats
+niveau: 2
+profils: hf data risque
+--- question
+Qu'est-ce que le bootstrap ? Pourquoi utilises-tu un bootstrap par blocs pour un Sharpe dans ton projet stat arb ?
+--- en
+What is the bootstrap? Why use a block bootstrap for a Sharpe ratio?
+--- solution
+Bootstrap : on rééchantillonne avec remise les données observées pour approcher la loi d'un estimateur (écart-type, intervalle de confiance) sans hypothèse de loi.
+Le bootstrap simple suppose les observations indépendantes. Les rendements d'une stratégie sont autocorrélés (positions tenues plusieurs jours, régimes de volatilité) : tirer des jours isolés casse cette dépendance et donne des intervalles trop étroits. Le **bootstrap par blocs** tire des blocs de jours consécutifs, ce qui préserve la dépendance à court terme. Choix de la longueur de bloc : de l'ordre de la mémoire de la série (quelques jours à quelques semaines).
+
+=== stats-sharpe-deflate
+theme: stats
+niveau: 3
+profils: hf data
+--- question
+Qu'est-ce que le Sharpe déflaté et pourquoi l'as-tu utilisé ?
+--- en
+What is the deflated Sharpe ratio and why did you use it?
+--- solution
+Quand on essaie N variantes et qu'on garde la meilleure, son Sharpe est biaisé vers le haut : même sans aucun effet, le maximum de N Sharpe estimés est positif. Le Sharpe déflaté (Bailey et López de Prado) calcule la probabilité que le vrai Sharpe soit positif en comparant le Sharpe observé au maximum attendu sous l'hypothèse nulle pour N essais, et en tenant compte de la longueur de l'échantillon, de l'asymétrie et de l'aplatissement des rendements.
+Dans ton projet, le réglage final a été choisi après un premier essai raté : le compter comme 10 essais est une façon honnête de reconnaître ce choix. Limite : le nombre « effectif » d'essais est difficile à connaître.
+--- relances
+- Ordre de grandeur du maximum de N Sharpe nuls ? (≈ √(2 ln N) × écart-type de l'estimateur)

@@ -1,0 +1,207 @@
+# Chiffres à connaître par cœur : ils servent pour les approximations de tête pendant l'entretien.
+
+=== cst-racine-2
+theme: constantes
+niveau: 1
+profils: mm hf banque risque data
+type: numerique
+reponse: sqrt(2)
+tolerance: 0.001
+duree: 20
+--- question
+√2 ≈ ? (3 décimales)
+--- solution
+**√2 ≈ 1,414** ; √3 ≈ 1,732 ; √5 ≈ 2,236 ; √10 ≈ 3,162.
+
+=== cst-ln-2
+theme: constantes
+niveau: 1
+profils: mm hf banque risque data
+type: numerique
+reponse: ln(2)
+tolerance: 0.001
+duree: 20
+--- question
+ln 2 ≈ ? (3 décimales)
+--- solution
+**ln 2 ≈ 0,693** ; ln 3 ≈ 1,099 ; ln 10 ≈ 2,303. Sert pour les demi-vies (ln 2/κ) et la règle de 72 (temps de doublement ≈ 72/taux en %).
+
+=== cst-e
+theme: constantes
+niveau: 1
+profils: mm hf banque risque data
+type: numerique
+reponse: e
+tolerance: 0.0005
+duree: 20
+--- question
+e ≈ ? (3 décimales) Et 1/e ?
+--- solution
+**e ≈ 2,718** (2,718281828…) ; 1/e ≈ 0,368. 1/e revient dans les dérangements, le problème de la secrétaire et (1 − 1/n)ⁿ.
+
+=== cst-un-septieme
+theme: constantes
+niveau: 1
+profils: mm hf banque
+type: numerique
+reponse: 1/7
+tolerance: 0.0005
+duree: 20
+--- question
+1/7 en décimal ? (4 décimales)
+--- solution
+**1/7 = 0,142857…** (période de 6 chiffres) ; 2/7 = 0,2857… ; 1/6 = 0,1667 ; 1/8 = 0,125 ; 1/9 = 0,111… ; 1/11 = 0,0909… ; 1/12 = 0,0833.
+
+=== cst-n-1
+theme: constantes
+niveau: 1
+profils: mm hf banque risque data
+type: numerique
+reponse: N(1)
+tolerance: 0.002
+duree: 20
+--- question
+N(1) = P(Z ≤ 1) pour Z normale centrée réduite ≈ ? (3 décimales)
+--- solution
+**N(1) ≈ 0,841**. Donc P(|Z| ≤ 1) ≈ 68 %, P(|Z| ≤ 2) ≈ 95 %, P(|Z| ≤ 3) ≈ 99,7 %.
+
+=== cst-quantile-975
+theme: constantes
+niveau: 1
+profils: mm hf banque risque data
+type: numerique
+reponse: 1.96
+tolerance: 0.003
+duree: 20
+--- question
+Quantile à 97,5 % de la loi normale centrée réduite ?
+--- solution
+**1,96** (intervalle de confiance à 95 %). À 95 % : 1,645 ; à 99 % : 2,326 ; à 99,5 % : 2,576.
+
+=== cst-quantile-99
+theme: constantes
+niveau: 1
+profils: mm hf banque risque data
+type: numerique
+reponse: 2.3263
+tolerance: 0.003
+duree: 20
+--- question
+Quantile à 99 % de la loi normale centrée réduite (utilisé pour la VaR 99 %) ?
+--- solution
+**2,326**. À 95 % : 1,645.
+
+=== cst-densite-zero
+theme: constantes
+niveau: 1
+profils: mm hf banque risque
+type: numerique
+reponse: 1/sqrt(2*pi)
+tolerance: 0.003
+duree: 20
+--- question
+1/√(2π), la densité de la loi normale en 0 ≈ ?
+--- solution
+**≈ 0,399**, soit environ 0,4 : c'est le « 0,4 » de l'approximation d'un call à la monnaie (0,4 σ S √T). φ(1) ≈ 0,242 ; φ(2) ≈ 0,054.
+
+=== cst-racine-252
+theme: constantes
+niveau: 1
+profils: mm hf banque risque data
+type: numerique
+reponse: sqrt(252)
+tolerance: 0.003
+duree: 20
+--- question
+√252 ≈ ? (nombre de jours de bourse par an, pour annualiser une volatilité)
+--- solution
+**√252 ≈ 15,87**, souvent arrondi à 16. Une volatilité annuelle de 16 % correspond à un mouvement quotidien typique de 1 %. √12 ≈ 3,46 ; √52 ≈ 7,21.
+
+=== cst-vol-quotidienne
+theme: constantes
+niveau: 1
+profils: mm hf banque risque
+type: numerique
+reponse: 0.32/sqrt(252)
+tolerance: 0.02
+duree: 30
+--- question
+Une action a une volatilité annuelle de 32 %. Quel mouvement quotidien typique (un écart-type), en % ?
+--- solution
+32 %/√252 ≈ 32/16 ≈ **2 % par jour**.
+
+=== cst-regle-72
+theme: constantes
+niveau: 1
+profils: mm hf banque risque data
+type: numerique
+reponse: ln(2)/ln(1.06)
+tolerance: 0.02
+duree: 30
+--- question
+Combien d'années pour doubler un capital placé à 6 % par an ?
+--- solution
+Règle de 72 : 72/6 = **12 ans** (exactement ln 2/ln 1,06 ≈ 11,9).
+
+=== cst-puissances-2
+theme: constantes
+niveau: 1
+profils: mm hf banque data
+type: numerique
+reponse: 2^16
+duree: 20
+--- question
+2¹⁶ = ?
+--- solution
+**65 536**. 2¹⁰ = 1 024 ≈ 10³ ; 2²⁰ ≈ 10⁶ ; 2³² ≈ 4,3 × 10⁹.
+
+=== cst-e-01
+theme: constantes
+niveau: 1
+profils: mm hf banque risque
+type: numerique
+reponse: exp(0.1)
+tolerance: 0.002
+duree: 30
+--- question
+e^{0,1} ≈ ? (de tête)
+--- solution
+1 + x + x²/2 = 1 + 0,1 + 0,005 ≈ **1,105**. Pour x petit, e^x ≈ 1 + x et ln(1 + x) ≈ x − x²/2.
+
+=== cst-carres
+theme: constantes
+niveau: 1
+profils: mm hf banque data
+type: numerique
+reponse: 17^2
+duree: 20
+--- question
+17² = ?
+--- solution
+**289**. À connaître : les carrés jusqu'à 25 (169, 196, 225, 256, 289, 324, 361, 400, 441, 484, 529, 576, 625). Astuce : (a + b)² = a² + 2ab + b², par exemple 47² = 2 500 − 300 + 9 = 2 209.
+
+=== cst-variance-de
+theme: constantes
+niveau: 1
+profils: mm hf banque
+type: numerique
+reponse: 35/12
+tolerance: 0.002
+duree: 30
+--- question
+Variance d'un dé équilibré à six faces ?
+--- solution
+E[X²] − E[X]² = 91/6 − 49/4 = **35/12 ≈ 2,917** ; écart-type ≈ 1,708. Pour la somme de n dés : variance 35n/12.
+
+=== cst-pi-carre
+theme: constantes
+niveau: 1
+profils: mm hf banque
+type: numerique
+reponse: pi^2/6
+tolerance: 0.002
+duree: 30
+--- question
+Σ 1/n² (n de 1 à l'infini) = ?
+--- solution
+**π²/6 ≈ 1,645** (problème de Bâle). À connaître aussi : Σ 1/n diverge (≈ ln n + 0,577), Σ xⁿ = 1/(1 − x), Σ n xⁿ⁻¹ = 1/(1 − x)².

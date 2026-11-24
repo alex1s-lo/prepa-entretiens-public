@@ -1,0 +1,85 @@
+# Les essentiels : les questions qui reviennent le plus souvent en entretien de stage quant.
+# Si le temps manque, maîtrise d'abord celles-ci (Révisions → Par thème → Les essentiels). Un identifiant par ligne.
+
+# Probabilités
+proba-deux-des-somme-7
+proba-attente-premier-six
+proba-toutes-les-faces
+proba-pile-pile
+proba-premier-a-faire-six
+proba-test-medical
+proba-monty-hall
+proba-baton-triangle
+proba-max-deux-uniformes
+proba-ruine-equitable
+proba-de-avec-relance
+proba-anniversaires
+proba-points-fixes
+proba-correlation-trois
+proba-passager-avion
+proba-de-mere-un
+
+# Calcul stochastique
+stoch-definition-brownien
+stoch-ito-carre
+stoch-integrale-w-dw
+stoch-gbm
+stoch-martingale-exponentielle
+stoch-ornstein-uhlenbeck
+stoch-girsanov
+
+# Produits dérivés
+der-formule-bs
+der-hypotheses-bs
+der-parite-call-put
+der-approx-atm
+der-delta-atm
+der-greeks-signes
+der-gamma-theta
+der-smile
+der-risque-neutre
+der-edp-bs
+der-arbre-un-pas
+der-call-americain
+
+# Statistiques, taux, risque
+stats-p-valeur
+stats-tests-multiples
+stats-biais-backtest
+stats-ols-hypotheses
+stats-sharpe-annualise
+stats-stationnarite
+taux-duration
+taux-var-es
+
+# Marchés et paris
+mm-kelly
+mm-faire-un-marche
+mm-selection-adverse
+
+# Machine learning
+ml-biais-variance
+ml-l1-l2
+ml-validation-temporelle
+ml-fuite-information
+
+# Code et casse-têtes
+algo-achat-vente-une-fois
+algo-two-sum
+algo-mutable-defaut
+ct-chevaux
+ct-oeufs
+ct-casiers
+
+# Projets types
+proj-ia-et-synthetique
+proj-vs-pitch
+proj-sa-pitch
+proj-mm-pitch
+proj-sa-sharpe-haut
+
+# Motivation
+fit-ouverture-presente-toi
+fit-pourquoi-quant
+fit-pourquoi-nous
+fit-questions-a-poser

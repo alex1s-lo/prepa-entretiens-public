@@ -1,0 +1,305 @@
+# Taux, crédit, risque de marché et XVA.
+
+=== taux-duration
+theme: taux
+niveau: 1
+profils: banque risque hf
+type: numerique
+reponse: 5/1.04
+duree: 90
+--- question
+Un zéro-coupon de maturité 5 ans a un rendement de 4 % (composition annuelle). Quelle est sa duration modifiée ?
+--- en
+A 5-year zero-coupon bond yields 4% (annual compounding). What is its modified duration?
+--- solution
+Duration de Macaulay d'un zéro-coupon = sa maturité, 5 ans. Duration modifiée = D/(1 + y) = 5/1,04 ≈ **4,81**.
+Lecture : si le taux monte de 1 point, le prix baisse d'environ 4,81 %.
+--- relances
+- Duration d'une obligation à coupons ? (moyenne des dates de flux pondérée par leur valeur actualisée : inférieure à la maturité)
+- En composition continue ? (duration modifiée = duration de Macaulay)
+
+=== taux-dv01
+theme: taux
+niveau: 1
+profils: banque risque hf
+type: numerique
+reponse: 10000000*4.8*0.0001
+duree: 60
+--- question
+Une position obligataire vaut 10 millions d'euros avec une duration modifiée de 4,8. Quelle est sa DV01 (variation de valeur pour 1 point de base) ?
+--- en
+A bond position is worth €10m with a modified duration of 4.8. What is its DV01?
+--- solution
+DV01 ≈ valeur × duration modifiée × 0,0001 = 10 000 000 × 4,8 × 0,0001 = **4 800 €** par point de base.
+--- relances
+- Comment couvrir cette position avec un future de DV01 80 € par contrat ? (60 contrats vendus)
+
+=== taux-convexite
+theme: taux
+niveau: 2
+profils: banque risque hf
+--- question
+Qu'est-ce que la convexité d'une obligation, et pourquoi est-elle appréciée ?
+--- en
+What is bond convexity and why is it valuable?
+--- solution
+La duration est l'approximation au premier ordre de la variation de prix ; la convexité est le terme du second ordre :
+ΔP/P ≈ −D_mod Δy + ½ C (Δy)².
+Une convexité positive fait que le prix monte plus quand les taux baissent qu'il ne baisse quand les taux montent : c'est un avantage quand la volatilité des taux est forte, que le marché fait payer (rendement plus faible à duration égale).
+Les obligations remboursables par anticipation et les MBS ont une convexité négative (l'émetteur rembourse quand les taux baissent).
+
+=== taux-forward
+theme: taux
+niveau: 1
+profils: banque risque hf
+type: numerique
+reponse: 1.04^2/1.03-1
+duree: 120
+--- question
+Les taux zéro-coupon sont de 3 % à 1 an et 4 % à 2 ans (composition annuelle). Quel taux forward 1 an dans 1 an ?
+--- en
+Zero rates are 3% for 1 year and 4% for 2 years (annual compounding). What is the 1-year rate one year forward?
+--- solution
+Absence d'arbitrage : (1,04)² = 1,03 × (1 + f), donc f = 1,0816/1,03 − 1 ≈ **5,01 %**.
+Approximation rapide : 2 × 4 % − 3 % = 5 %.
+
+=== taux-swap-par
+theme: taux
+niveau: 2
+profils: banque risque
+type: numerique
+reponse: (1-0.94)/(0.97+0.94)
+duree: 180
+--- question
+Les facteurs d'actualisation sont 0,97 à 1 an et 0,94 à 2 ans. Quel est le taux fixe d'un swap 2 ans à paiements annuels qui vaut zéro aujourd'hui ?
+--- en
+Discount factors are 0.97 (1y) and 0.94 (2y). What is the par fixed rate of a 2-year annual swap?
+--- solution
+La jambe variable vaut 1 − DF(T) (elle se réplique par un prêt au jour le jour renouvelé), la jambe fixe vaut S × Σ DF(tᵢ).
+S = (1 − 0,94)/(0,97 + 0,94) = 0,06/1,91 ≈ **3,14 %**.
+--- relances
+- Pourquoi la jambe variable vaut-elle 1 − DF(T) ? (recevoir les taux variables plus le nominal à la fin équivaut à placer 1 aujourd'hui)
+- Comment construire une courbe à partir de swaps ? (bootstrap successif des facteurs d'actualisation)
+
+=== taux-swap-definition
+theme: taux
+niveau: 1
+profils: banque risque hf
+--- question
+Qu'est-ce qu'un swap de taux d'intérêt ? Qui l'utilise et pourquoi ?
+--- en
+What is an interest rate swap? Who uses it and why?
+--- solution
+Échange périodique de flux d'intérêts sur un nominal qui n'est pas échangé : une jambe fixe contre une jambe variable indexée sur un taux de référence (€STR, SOFR, Euribor).
+Usages : une entreprise endettée à taux variable se couvre contre la hausse des taux ; une banque ajuste la duration de son bilan ; un assureur allonge la duration de son actif ; un fonds prend une position sur les taux sans acheter d'obligations.
+Valeur : différence des valeurs actuelles des deux jambes ; à la mise en place, le taux fixe est choisi pour qu'elle soit nulle (taux de swap « par »).
+--- relances
+- Qu'est-ce que la transition des IBOR ? (remplacement du LIBOR par des taux au jour le jour issus de transactions : SOFR, €STR, SONIA)
+
+=== taux-courbe-inversee
+theme: taux
+niveau: 2
+profils: banque risque hf
+--- question
+Que signifie une courbe des taux inversée ? Quelles théories expliquent la forme de la courbe ?
+--- en
+What does an inverted yield curve mean? Which theories explain the shape of the curve?
+--- solution
+Courbe inversée : les taux courts sont au-dessus des taux longs. Le marché anticipe en général des baisses de taux directeurs, souvent liées à un ralentissement attendu ; historiquement, l'inversion a souvent précédé des récessions aux États-Unis, mais pas de façon mécanique.
+Théories :
+- **anticipations** : les taux longs sont la moyenne des taux courts futurs attendus ;
+- **prime de terme** : les investisseurs exigent un supplément pour détenir du long ;
+- **habitat préféré / segmentation** : offre et demande propres à chaque maturité (fonds de pension, banques centrales).
+
+=== taux-var-normale
+theme: taux
+niveau: 1
+profils: risque banque hf
+type: numerique
+reponse: 2.3263*10000
+tolerance: 0.005
+duree: 90
+--- question
+Un portefeuille de 1 million d'euros a une volatilité quotidienne de 1 %. VaR à 1 jour, 99 %, en supposant des rendements gaussiens centrés ? (quantile N(0,1) à 99 % : 2,326)
+--- en
+A €1m portfolio has 1% daily volatility. One-day 99% VaR under centered normal returns? (99% normal quantile: 2.326)
+--- solution
+VaR = 2,326 × 1 % × 1 000 000 ≈ **23 260 €** : une perte qui ne devrait être dépassée qu'un jour sur cent.
+--- relances
+- VaR à 10 jours ? (× √10 ≈ 73 600 €, en supposant des rendements indépendants)
+- Pourquoi l'hypothèse gaussienne est-elle dangereuse ? (queues épaisses : la VaR gaussienne sous-estime les pertes extrêmes)
+
+=== taux-var-10-jours
+theme: taux
+niveau: 1
+profils: risque banque
+type: numerique
+reponse: 23263*sqrt(10)
+tolerance: 0.005
+duree: 60
+--- question
+La VaR 99 % à 1 jour d'un portefeuille vaut 23 263 €. Quelle VaR à 10 jours avec la règle de la racine du temps ?
+--- en
+The 1-day 99% VaR is €23,263. What is the 10-day VaR using the square-root-of-time rule?
+--- solution
+23 263 × √10 ≈ **73 565 €**. Hypothèses : rendements indépendants et identiquement distribués, portefeuille inchangé sur 10 jours. Avec du retour à la moyenne la règle surestime le risque ; avec de l'autocorrélation positive ou des régimes de volatilité, elle le sous-estime.
+
+=== taux-var-es
+theme: taux
+niveau: 1
+profils: risque banque hf
+--- question
+VaR et Expected Shortfall : différences, avantages et défauts de chacune.
+--- en
+VaR vs Expected Shortfall: differences, pros and cons.
+--- solution
+- **VaR à α** : le quantile de la perte ; « on ne perdra pas plus que X avec probabilité α ». Simple, facile à backtester, mais muette sur l'ampleur des pertes au-delà, et **non sous-additive** (la VaR d'un portefeuille peut dépasser la somme des VaR : elle peut pénaliser la diversification).
+- **ES à α** : la perte moyenne au-delà de la VaR. Mesure cohérente (sous-additive), sensible aux queues, mais plus difficile à estimer et à backtester.
+Le cadre réglementaire FRTB est passé d'une VaR 99 % à une ES 97,5 % (valeurs proches pour une gaussienne : 2,33σ et 2,34σ).
+Méthodes de calcul : paramétrique (variance-covariance), historique, Monte-Carlo.
+
+=== taux-es-gaussienne
+theme: taux
+niveau: 2
+profils: risque banque hf
+type: numerique
+reponse: phi(1.96)/0.025
+tolerance: 0.005
+duree: 180
+--- question
+Pour une perte gaussienne centrée réduite, que vaut l'Expected Shortfall à 97,5 % (en nombre d'écarts-types) ?
+--- en
+For a standard normal loss, what is the 97.5% Expected Shortfall (in standard deviations)?
+--- indice
+ES = E[L | L > q] avec q = 1,96 ; utilise E[X·1{X>q}] = φ(q).
+--- solution
+ES = φ(1,96)/(1 − 0,975) = 0,0584/0,025 ≈ **2,34 σ**, à comparer à la VaR 99 % (2,33 σ).
+
+=== taux-exceptions-var
+theme: taux
+niveau: 1
+profils: risque banque
+type: numerique
+reponse: 2.5
+duree: 60
+--- question
+Combien d'exceptions (pertes supérieures à la VaR) attend-on en un an (250 jours) pour une VaR 99 % bien calibrée ?
+--- en
+How many exceptions do you expect over 250 days for a well-calibrated 99% VaR?
+--- solution
+250 × 1 % = **2,5**. Le nombre d'exceptions suit une loi binomiale (250 ; 0,01).
+Feux tricolores de Bâle : 0 à 4 exceptions vert, 5 à 9 orange, 10 ou plus rouge. Test de Kupiec (fréquence), test de Christoffersen (indépendance : les exceptions ne doivent pas être groupées).
+--- relances
+- Probabilité d'au moins 5 exceptions si le modèle est juste ? (≈ 10,8 %)
+
+=== taux-intensite-defaut
+theme: taux
+niveau: 1
+profils: risque banque hf
+type: numerique
+reponse: 0.012/0.6
+duree: 90
+--- question
+Un CDS cote 120 points de base, le taux de recouvrement est supposé de 40 %. Intensité de défaut approximative ?
+--- en
+A CDS trades at 120 bp with an assumed 40% recovery. Approximate default intensity?
+--- solution
+Règle du triangle de crédit : spread ≈ λ(1 − R), donc λ ≈ 0,012/0,6 = **2 % par an**.
+--- relances
+- Probabilité de survie à 5 ans ? (e^{−0,1} ≈ 90,5 %)
+
+=== taux-survie
+theme: taux
+niveau: 1
+profils: risque banque
+type: numerique
+reponse: exp(-0.1)
+duree: 60
+--- question
+Intensité de défaut constante de 2 % par an. Probabilité de survie à 5 ans ?
+--- en
+Constant default intensity of 2% per year. Five-year survival probability?
+--- solution
+S(5) = e^{−0,02 × 5} = e^{−0,1} ≈ **90,5 %**.
+
+=== taux-cva-simple
+theme: taux
+niveau: 1
+profils: risque banque
+type: numerique
+reponse: 0.6*0.02*1000000
+duree: 120
+--- question
+Exposition positive attendue de 1 million d'euros sur un an, probabilité de défaut de la contrepartie sur l'année de 2 %, recouvrement 40 %, actualisation ignorée. CVA approximative ?
+--- en
+Expected positive exposure of €1m over one year, 2% one-year default probability, 40% recovery, ignoring discounting. Approximate CVA?
+--- solution
+CVA ≈ (1 − R) × PD × EPE = 0,6 × 0,02 × 1 000 000 = **12 000 €**.
+Formule générale : CVA = (1 − R) Σ DF(tᵢ) EE(tᵢ) PD(tᵢ₋₁, tᵢ).
+--- relances
+- Qu'est-ce que le risque de corrélation défavorable (wrong-way risk) ? (l'exposition augmente quand la contrepartie se dégrade : un put sur une banque acheté à cette même banque)
+
+=== taux-xva
+theme: taux
+niveau: 2
+profils: risque banque
+--- question
+Quels sont les principaux ajustements XVA et que représentent-ils ?
+--- en
+What are the main XVA adjustments and what do they represent?
+--- solution
+Ajustements au prix « sans risque » d'un dérivé de gré à gré :
+- **CVA** : coût du risque de défaut de la contrepartie ;
+- **DVA** : symétrique, propre risque de défaut (gain comptable controversé) ;
+- **FVA** : coût de financement des flux et du collatéral non couvert ;
+- **ColVA** : effets des conditions du contrat de collatéral (rémunération, devise) ;
+- **MVA** : coût de financement de la marge initiale ;
+- **KVA** : coût du capital réglementaire immobilisé.
+Calcul : simulation Monte-Carlo de l'exposition future de tout le portefeuille d'une contrepartie (compensation, collatéral), ce qui demande des modèles hybrides et beaucoup de calcul (différentiation automatique adjointe pour les sensibilités).
+
+=== taux-validation-modele
+theme: taux
+niveau: 2
+profils: risque banque
+--- question
+En quoi consiste la validation de modèles dans une banque ? Que regarderais-tu pour valider un modèle de pricing ?
+--- en
+What does model validation involve at a bank? What would you check to validate a pricing model?
+--- solution
+Une équipe indépendante des développeurs vérifie qu'un modèle est adapté à son usage et en mesure le risque (le « risque de modèle »).
+Pour un modèle de pricing :
+- **cadre théorique** : hypothèses, adéquation au produit (smile, sauts, taux stochastiques) ;
+- **implémentation** : réimplémentation indépendante, comparaison à des cas à formule fermée, convergence numérique (pas de grille, nombre de trajectoires) ;
+- **calibration** : stabilité des paramètres, qualité d'ajustement, sensibilité aux données ;
+- **tests de stress et cas limites** : paramètres extrêmes, maturités courtes, taux négatifs ;
+- **comparaison à des modèles alternatifs** pour chiffrer le risque de modèle, réserves éventuelles ;
+- **suivi** : backtests, P&L explain.
+Ton projet de surface de volatilité est un petit exercice de ce type : vérité connue, contrôles d'arbitrage, limites documentées.
+
+=== taux-modeles-taux-courts
+theme: taux
+niveau: 3
+profils: banque risque
+--- question
+Compare les modèles de Vasicek, CIR et Hull-White.
+--- en
+Compare the Vasicek, CIR and Hull-White short-rate models.
+--- solution
+- **Vasicek** : dr = κ(θ − r) dt + σ dW. Gaussien, formules fermées pour les zéro-coupons, mais taux négatifs possibles (longtemps vu comme un défaut, devenu réaliste en zone euro).
+- **CIR** : dr = κ(θ − r) dt + σ√r dW. Taux positifs (Feller : 2κθ ≥ σ²), volatilité qui croît avec le niveau, formules fermées.
+- **Hull-White** : Vasicek avec θ(t) dépendant du temps, choisi pour reproduire exactement la courbe des taux d'aujourd'hui. Très utilisé pour les produits de taux simples et les XVA ; la volatilité σ(t) se calibre sur des swaptions.
+Limites communes : un seul facteur, donc taux parfaitement corrélés entre maturités ; d'où les modèles à deux facteurs et le LMM.
+
+=== taux-hedge-ratio-future
+theme: taux
+niveau: 1
+profils: banque risque
+type: numerique
+reponse: 4800/80
+duree: 60
+--- question
+Ta position obligataire a une DV01 de 4 800 €. Un contrat future a une DV01 de 80 €. Combien de contrats vendre pour couvrir le risque de taux ?
+--- en
+Your bond position has a DV01 of €4,800. A futures contract has a DV01 of €80. How many contracts do you sell to hedge?
+--- solution
+4 800/80 = **60 contrats** vendus. La couverture n'est parfaite que pour un déplacement parallèle de la courbe : risque de pente si les maturités diffèrent, et risque de base entre l'obligation et le future.

@@ -1,0 +1,137 @@
+# Calcul stochastique, deuxième série.
+
+=== stoch-esperance-exponentielle
+theme: stoch
+niveau: 1
+profils: banque risque hf
+type: numerique
+reponse: e
+duree: 90
+--- question
+W est un mouvement brownien standard. Que vaut E[e^{W₂}] ?
+--- en
+Compute E[e^{W₂}] for a standard Brownian motion.
+--- solution
+Pour X ~ N(0, σ²), E[e^X] = e^{σ²/2}. Ici σ² = 2 : **e ≈ 2,718**.
+C'est pour cela que e^{W_t − t/2} est une martingale.
+
+=== stoch-deux-instants-positifs
+theme: stoch
+niveau: 2
+profils: banque risque hf mm
+type: numerique
+reponse: 3/8
+duree: 240
+--- question
+Probabilité qu'un brownien standard soit positif à la fois en t = 1 et en t = 2 ?
+--- en
+Probability that a standard Brownian motion is positive at both t = 1 and t = 2?
+--- indice
+corr(W₁, W₂) = √(1/2) ; formule des quadrants pour un couple gaussien.
+--- solution
+corr(W₁, W₂) = 1/√2. P = 1/4 + arcsin(1/√2)/(2π) = 1/4 + (π/4)/(2π) = **3/8**.
+Autre méthode : P(W₁ > 0, W₂ − W₁ > −W₁) = E[1{W₁>0} Φ(W₁)] = 3/8.
+
+=== stoch-pont-esperance
+theme: stoch
+niveau: 2
+profils: banque risque hf
+type: numerique
+reponse: 0.5
+duree: 180
+--- question
+On sait que W₄ = 2. Que vaut E[W₁ | W₄ = 2] ?
+--- en
+Given W₄ = 2, what is E[W₁ | W₄ = 2]?
+--- solution
+Pont brownien : E[W_s | W_t = x] = (s/t)·x = (1/4) × 2 = **0,5**. Interpolation linéaire entre 0 et la valeur connue.
+--- relances
+- Variance conditionnelle ? (s(t − s)/t = 3/4)
+- Usage en Monte-Carlo ? (construire une trajectoire en raffinant par ponts browniens, ce qui améliore le quasi-Monte-Carlo ; corriger les franchissements de barrière entre deux dates)
+
+=== stoch-pont-variance
+theme: stoch
+niveau: 2
+profils: banque risque hf
+type: numerique
+reponse: 0.75
+duree: 150
+--- question
+Que vaut Var(W₁ | W₄) ?
+--- en
+What is Var(W₁ | W₄)?
+--- solution
+s(t − s)/t = 1 × 3/4 = **0,75**, quelle que soit la valeur de W₄. L'incertitude est maximale au milieu de l'intervalle (s = t/2).
+
+=== stoch-integrale-carre
+theme: stoch
+niveau: 1
+profils: banque risque hf
+type: numerique
+reponse: 1/2
+duree: 90
+--- question
+Que vaut E[∫₀¹ W_t² dt] ?
+--- en
+Compute E[∫₀¹ W_t² dt].
+--- solution
+Fubini : ∫₀¹ E[W_t²] dt = ∫₀¹ t dt = **1/2**.
+
+=== stoch-variance-somme
+theme: stoch
+niveau: 1
+profils: banque risque hf mm
+type: numerique
+reponse: 5
+duree: 60
+--- question
+Que vaut Var(W₁ + W₂) ?
+--- en
+What is Var(W₁ + W₂)?
+--- solution
+Var(W₁) + Var(W₂) + 2Cov(W₁, W₂) = 1 + 2 + 2 × 1 = **5**. Ou : W₁ + W₂ = 2W₁ + (W₂ − W₁), variance 4 + 1.
+--- piege
+Oublier la covariance (répondre 3).
+
+=== stoch-covariance-carre
+theme: stoch
+niveau: 1
+profils: banque risque hf
+type: numerique
+reponse: 0
+duree: 60
+--- question
+Que vaut Cov(W_t, W_t²) ?
+--- en
+What is Cov(W_t, W_t²)?
+--- solution
+E[W_t³] − E[W_t]E[W_t²] = 0 − 0 = **0** (moment impair d'une gaussienne centrée). W_t et W_t² sont pourtant fortement dépendants : covariance nulle ne veut pas dire indépendance.
+
+=== stoch-temps-atteinte
+theme: stoch
+niveau: 3
+profils: banque risque hf mm
+--- question
+Soit τ le premier instant où un brownien standard atteint 1. τ est-il fini ? Quelle est son espérance ? Sa loi ?
+--- en
+Let τ be the first time a standard Brownian motion hits 1. Is τ finite? What is its expectation? Its distribution?
+--- solution
+- τ est fini presque sûrement (le brownien en dimension 1 est récurrent).
+- Mais **E[τ] = +∞** : sinon, par le théorème d'arrêt, E[W_τ] = 1 serait égal à E[W₀] = 0.
+- Par le principe de réflexion : P(τ ≤ t) = P(max_{[0,t]} W ≥ 1) = 2(1 − Φ(1/√t)). Densité ~ t^{−3/2} pour t grand : queue lourde (loi de Lévy).
+- Transformée de Laplace : E[e^{−λτ}] = e^{−√(2λ)}.
+--- relances
+- Avec une dérive μ > 0 ? (E[τ] = 1/μ)
+
+=== stoch-ito-produit
+theme: stoch
+niveau: 2
+profils: banque risque hf
+--- question
+Calcule d(X_t Y_t) pour deux processus d'Itô. Application : d(t·W_t) et d(S_t/B_t) avec B_t = e^{rt}.
+--- en
+Compute d(X_t Y_t) for two Itô processes. Apply to d(tW_t) and d(S_t/B_t) with B_t = e^{rt}.
+--- solution
+Formule du produit : **d(XY) = X dY + Y dX + d⟨X, Y⟩**.
+- d(tW_t) = t dW + W dt (t est déterministe : pas de covariation).
+- S actualisé : d(S/B) = (1/B) dS − (rS/B) dt = (S/B)[(μ − r) dt + σ dW]. Sous la probabilité risque-neutre (μ remplacé par r), le terme en dt disparaît : l'actif actualisé est une martingale.

@@ -1,0 +1,132 @@
+# Marchés de l'énergie : un intervieweur te demandera presque sûrement d'en parler, surtout si ton stage ou ton parcours touche à l'énergie.
+# Ces fiches sont générales : relie-les à ce que tu fais vraiment pendant ton stage, sans inventer.
+
+=== nrj-specificites-electricite
+theme: marches
+niveau: 1
+profils: mm hf banque risque
+--- question
+Qu'est-ce qui rend l'électricité différente des autres matières premières pour un quant ?
+--- en
+What makes electricity different from other commodities for a quant?
+--- solution
+- **Non stockable** à grande échelle (ou très cher : batteries, barrages, STEP) : l'offre doit égaler la demande à chaque instant, d'où des **pics de prix** et une volatilité très forte.
+- **Saisonnalité** à plusieurs échelles : heure de la journée, jour de la semaine, saison (chauffage, climatisation).
+- **Retour à la moyenne** rapide après les chocs (pannes, vagues de froid), avec des sauts.
+- **Livraison sur une période** (une heure, un jour, un mois, un trimestre, une année ; produits base et pointe) plutôt qu'à une date.
+- **Dépendance à la météo** (température, vent, ensoleillement, hydraulicité) et aux combustibles (gaz, charbon) et au prix du CO₂.
+- **Prix négatifs** possibles.
+Conséquence : les modèles de type Black-Scholes s'appliquent mal au prix spot ; on modélise plutôt la courbe forward, avec retour à la moyenne, saisonnalité et sauts.
+--- relances
+- Pourquoi la volatilité implicite des contrats proches est-elle bien plus forte que celle des contrats lointains ? (effet Samuelson : les chocs se dissipent avant les maturités lointaines)
+
+=== nrj-prix-negatifs
+theme: marches
+niveau: 1
+profils: mm hf banque risque
+--- question
+Comment le prix de l'électricité peut-il devenir négatif ?
+--- en
+How can electricity prices become negative?
+--- solution
+Quand l'offre dépasse la demande et que certains producteurs préfèrent **payer** pour continuer à produire plutôt que s'arrêter :
+- centrales peu flexibles (nucléaire, charbon) dont l'arrêt et le redémarrage coûtent cher ;
+- renouvelables subventionnées par un prix garanti ou une prime par MWh produit, qui continuent de produire tant que la subvention compense le prix négatif ;
+- faible demande (week-end, jours fériés, nuit) et forte production solaire ou éolienne ;
+- capacités d'export et de stockage saturées.
+Les prix négatifs sont surtout observés sur le marché spot (day-ahead et infrajournalier), pour quelques heures. Ils incitent au stockage et à la flexibilité (effacement, pilotage de la demande).
+
+=== nrj-spark-spread
+theme: marches
+niveau: 1
+profils: mm hf banque risque
+type: numerique
+reponse: 90-2*35
+duree: 120
+--- question
+Une centrale au gaz a un rendement de 50 % (il faut 2 MWh de gaz pour produire 1 MWh d'électricité). L'électricité vaut 90 €/MWh, le gaz 35 €/MWh. Quel est le spark spread (marge brute par MWh électrique, hors CO₂) ?
+--- en
+A gas plant has 50% efficiency (heat rate 2). Power is €90/MWh, gas €35/MWh. What is the spark spread per MWh of electricity (excluding CO₂)?
+--- solution
+Spark spread = prix de l'électricité − taux de chaleur × prix du gaz = 90 − 2 × 35 = **20 €/MWh**.
+La centrale produit quand le spread couvre ses coûts variables : c'est une **option** sur le spread (voir la fiche sur la valeur d'une centrale).
+--- relances
+- Et le « clean spark spread » ? (on retire aussi le coût du CO₂ : émissions par MWh électrique × prix du quota)
+- Et pour une centrale à charbon ? (dark spread)
+
+=== nrj-clean-spark
+theme: marches
+niveau: 2
+profils: mm hf banque risque
+type: numerique
+reponse: 90-2*35-0.4*80
+duree: 150
+--- question
+Même centrale (rendement 50 %, électricité 90 €/MWh, gaz 35 €/MWh). Elle émet 0,4 tonne de CO₂ par MWh électrique et le quota coûte 80 €/t. Que vaut le clean spark spread ? La centrale doit-elle produire ?
+--- en
+Same plant (heat rate 2, power €90, gas €35). It emits 0.4 t CO₂ per MWh and allowances cost €80/t. Clean spark spread? Should it run?
+--- solution
+90 − 2 × 35 − 0,4 × 80 = 90 − 70 − 32 = **−12 €/MWh**. Négatif : produire à ces prix fait perdre de l'argent sur les coûts variables, la centrale ne devrait pas tourner (sauf contraintes techniques, services au réseau ou couverture déjà vendue).
+
+=== nrj-centrale-option
+theme: marches
+niveau: 3
+profils: mm hf banque risque
+--- question
+Pourquoi dit-on qu'une centrale électrique est une option ? Comment la valoriserais-tu ?
+--- en
+Why is a power plant an option? How would you value it?
+--- solution
+Pour chaque heure, l'exploitant peut produire (et gagner le spread P − H·G − c) ou s'arrêter (gain nul) : le gain est **max(P − H·G − c, 0)**, une option d'échange (spread option) entre électricité et gaz. La centrale est une suite d'options horaires : sa valeur augmente avec la volatilité du spread et diminue avec la corrélation électricité-gaz (comme l'option de Margrabe).
+Valorisation :
+- approche simple : somme d'options de spread (formule de Margrabe si c = 0, approximation de Kirk sinon) sur les forwards ;
+- approche réaliste : Monte-Carlo de prix horaires (retour à la moyenne, saisonnalité, sauts, corrélation) avec contraintes techniques (temps de démarrage, coûts de démarrage, durée minimale de fonctionnement) résolues par programmation dynamique ou Longstaff-Schwartz.
+C'est aussi la logique de la couverture : vendre à terme la production attendue (le delta) et ajuster.
+
+=== nrj-schwartz
+theme: stoch
+niveau: 3
+profils: banque risque hf
+--- question
+Quel modèle simple utiliserais-tu pour le prix spot d'une matière première qui revient vers une moyenne ? Que devient le prix forward ?
+--- en
+Which simple model would you use for a mean-reverting commodity spot price? What does the forward price become?
+--- solution
+Modèle de Schwartz à un facteur : le logarithme du prix suit un Ornstein-Uhlenbeck,
+d ln S = κ(μ − ln S) dt + σ dW (on ajoute une saisonnalité déterministe pour l'électricité).
+Le log du forward F(t, T) est une moyenne pondérée entre le log spot actuel et le niveau de long terme, avec un poids e^{−κ(T−t)} sur le spot : les forwards lointains bougent peu quand le spot bouge. Leur volatilité vaut σ e^{−κ(T−t)} : c'est l'**effet Samuelson** (volatilité décroissante avec la maturité).
+Extensions : modèle à deux facteurs (court terme et long terme, Schwartz-Smith), sauts et changements de régime pour les pics de l'électricité.
+--- relances
+- Lien avec tes projets ? (le spread du projet stat arb est aussi un processus d'Ornstein-Uhlenbeck : même demi-vie ln 2/κ)
+
+=== nrj-couverture-producteur
+theme: marches
+niveau: 2
+profils: mm hf banque risque
+--- question
+Un producteur d'électricité veut se protéger contre une baisse des prix l'an prochain. Que peut-il faire, et quels risques restent ?
+--- en
+A power producer wants to protect against lower prices next year. What can it do, and what risks remain?
+--- solution
+- **Vendre à terme** (forwards ou futures base et pointe) une partie de la production attendue : prix bloqué, mais il renonce à la hausse.
+- **Acheter des puts** sur les futures : plancher de prix en gardant la hausse, contre une prime.
+- **Contrats de long terme** avec des clients (PPA).
+Risques restants : **risque de volume** (production incertaine : panne, météo, disponibilité ; si on a vendu plus que ce qu'on produit, il faut racheter au prix du moment, souvent quand il est élevé), **risque de base** (profil horaire ou zone géographique différents du contrat couvert), risque de contrepartie et de liquidité (appels de marge importants quand les prix montent, comme en 2022).
+On couvre en général progressivement (par tranches sur plusieurs années) plutôt que d'un coup.
+
+=== nrj-parler-stage
+theme: fit
+niveau: 1
+profils: hf mm banque risque data
+--- question
+« Ton stage actuel est dans un autre secteur (par exemple l'énergie), mais tu postules en finance de marché. Qu'est-ce que tu en retiens pour nous ? »
+--- en
+"Your current internship is in energy but you apply to a markets role. What do you take from it for us?"
+--- solution
+À préparer avec tes vrais éléments (Mes histoires → « Ton stage actuel »). Pistes de lien, à n'utiliser que si elles correspondent à ce que tu fais :
+- travail sur des données réelles, bruitées et incomplètes (et ce que ça apprend sur la validation) ;
+- modélisation sous incertitude (prévision, risque, optimisation) ;
+- outils (Python, statistiques) et rigueur de production (code relu, tests, documentation) ;
+- contact avec des opérationnels : expliquer un modèle à quelqu'un qui n'est pas quant ;
+- curiosité pour les marchés de l'énergie (volatilité, prix négatifs, spark spreads), ce qui intéresse aussi les desks de matières premières.
+Termine par ce que tu cherches en plus chez eux : la finance de marché au quotidien, un retour plus rapide entre idée et résultat.

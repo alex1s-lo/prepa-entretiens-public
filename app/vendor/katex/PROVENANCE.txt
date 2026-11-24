@@ -1,0 +1,2 @@
+KaTeX 0.16.11 (https://katex.org), licence MIT (voir LICENSE). Copié depuis le paquet npm « katex » :
+dist/katex.min.js, dist/katex.min.css (polices limitées au woff2) et dist/fonts/*.woff2.

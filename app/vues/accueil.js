@@ -1,0 +1,123 @@
+// Accueil : le programme du jour, le prochain entretien, et la question du jour.
+(function (racine) {
+  'use strict';
+  const P = racine.Prepa;
+  const o = P.outils;
+  const A = P.app;
+
+  // Fiche « du jour » : même fiche toute la journée, choisie parmi les questions de niveau 2 et 3 des profils visés.
+  function ficheDuJour(jour) {
+    const profils = A.etat.reglages.profils;
+    const liste = A.banque().fiches.filter(function (f) {
+      return f.niveau >= 2 && ['probas', 'casse-tete', 'stoch', 'derives', 'stats'].indexOf(f.theme) >= 0 && P.srs.pertinence(f, profils) > 0;
+    });
+    if (!liste.length) return null;
+    let h = 0;
+    for (let i = 0; i < jour.length; i++) h = (h * 31 + jour.charCodeAt(i)) >>> 0;
+    return liste[h % liste.length];
+  }
+
+  // Cours : le premier chapitre pas encore lu (le mode d'emploi compte), ou une démonstration à refaire quand tout est lu.
+  function tacheCours(etat, aujourd) {
+    const chapitres = (racine.PREPA_COURS || { chapitres: [] }).chapitres;
+    const lus = (etat.cours && etat.cours.lus) || {};
+    const suivant = chapitres.filter(function (c) { return !lus[c.id]; })[0];
+    const fait = (aujourd.cours || 0) > 0;
+    // répétition espacée : les exercices et démonstrations dus passent avant le chapitre suivant
+    const dus = P.cours && P.cours.aRefaire ? P.cours.aRefaire() : { exercices: [], demos: [] };
+    const nEx = dus.exercices.length, nDem = dus.demos.length;
+    if (nEx + nDem > 0) {
+      const morceaux = [];
+      if (nEx) morceaux.push(nEx + ' exercice' + (nEx > 1 ? 's' : ''));
+      if (nDem) morceaux.push(nDem + ' démonstration' + (nDem > 1 ? 's' : ''));
+      return { fait: false, titre: 'Cours', detail: morceaux.join(' et ') + ' à refaire (répétition espacée)', lien: '#cours', bouton: 'Refaire' };
+    }
+    return {
+      fait: fait,
+      titre: 'Cours',
+      detail: fait ? 'Fait aujourd’hui' : suivant ? 'Chapitre ' + suivant.numero + ' : ' + suivant.titre + ' (une section, crayon en main, puis ses exercices)' :
+        'Tous les chapitres sont lus : refais sans notes une des 15 démonstrations incontournables',
+      lien: suivant ? '#cours/c=' + suivant.id : '#cours',
+      bouton: 'Lire'
+    };
+  }
+
+  function rendre(main) {
+    const etat = A.etat;
+    const jour = A.aujourdhui();
+    const aujourd = etat.jours[jour] || {};
+    const toutes = A.fiches();
+    const dues = A.dues();
+    const restantNeuves = Math.max(0, etat.reglages.nouveauxParJour - (aujourd.nouvelles || 0));
+    const neuvesDispo = toutes.filter(function (f) { return !etat.cartes[f.id] && P.srs.pertinence(f, etat.reglages.profils) > 0; }).length;
+    const aFaire = dues + Math.min(restantNeuves, neuvesDispo);
+    const debutant = !Object.keys(etat.jours).length;
+    const prochain = A.prochainEntretien();
+    const calculFait = etat.calcul.some(function (s) { return s.date === jour; });
+    const blancFait = etat.entretiens.some(function (s) { return s.date === jour; });
+    const marcheFait = etat.marche.some(function (s) { return s.date === jour; });
+    const histoiresManquantes = P.histoires.HISTOIRES.filter(function (h) { return !(etat.histoires[h.id] || '').trim(); });
+    // entretien blanc un jour sur deux, market making l'autre (plus souvent si le profil prioritaire est le trading)
+    const parite = o.ecartJours('2026-01-01', jour) % 2 === 0;
+    const proposeMarche = etat.reglages.profils[0] === 'mm' || !parite;
+
+    let html = '<h1>Aujourd’hui</h1><p class="doux">' + o.dateLisible(jour) + ' · environ 30 à 45 minutes, tous les jours, valent mieux que trois heures le week-end.</p>';
+
+    if (debutant) {
+      html += '<div class="carte"><h2 style="margin-top:0">Par où commencer</h2><ol>' +
+        '<li><a href="#reglages">Réglages</a> : choisis le type de poste que tu vises en priorité et complète ton profil.</li>' +
+        '<li><a href="#revisions">Révisions</a> : fais ta première session (15 questions). Réponds à voix haute avant de regarder la solution.</li>' +
+        '<li><a href="#calcul">Calcul mental</a> : un sprint de 2 minutes pour connaître ton niveau de départ.</li>' +
+        '<li><a href="#cours">Cours</a> : lis le mode d’emploi, puis le chapitre 1 (espérance, variance, covariance), le plus rentable pour les entretiens.</li>' +
+        '<li><a href="#histoires">Mes histoires</a> : écris ta réponse à « Présente-toi ».</li>' +
+        '<li><a href="#guides">Guides</a> : lis « Comment répondre à une question technique » et le plan de préparation.</li></ol>' +
+        '<p class="petit doux">Ta progression reste dans ce navigateur. Pense à l’exporter de temps en temps (Réglages).</p></div>';
+    }
+
+    if (prochain) {
+      const n = o.ecartJours(jour, prochain.date);
+      html += '<div class="carte" style="border-left:4px solid var(--accent)"><div class="ligne"><div><div class="bloc-titre" style="margin-top:0">Prochain entretien</div>' +
+        '<h2 style="margin:0">' + o.echapper(prochain.entreprise) + ' · ' + (n === 0 ? 'aujourd’hui' : n === 1 ? 'demain' : 'dans ' + n + ' jours') + '</h2>' +
+        '<p class="petit doux" style="margin:0">' + o.echapper(prochain.type || '') + (prochain.poste ? ' · ' + o.echapper(prochain.poste) : '') + '</p></div><span class="espace"></span>' +
+        '<a class="bouton principal" href="#journal">Liste de préparation</a></div></div>';
+    }
+
+    const taches = [
+      { fait: aFaire === 0 && (aujourd.revues || 0) > 0, titre: 'Révisions', detail: aFaire ? aFaire + ' question' + (aFaire > 1 ? 's' : '') + ' (' + dues + ' à revoir, ' + Math.min(restantNeuves, neuvesDispo) + ' nouvelles)' : ((aujourd.revues || 0) ? 'Fait : ' + aujourd.revues + ' questions aujourd’hui' : 'Rien de prévu'), lien: '#revisions', bouton: 'Réviser' },
+      { fait: calculFait, titre: 'Calcul mental', detail: calculFait ? 'Fait aujourd’hui' : 'Un sprint de 2 minutes, ou le test de 80 questions', lien: '#calcul', bouton: 'S’entraîner' },
+      tacheCours(etat, aujourd),
+      proposeMarche ?
+        { fait: marcheFait, titre: 'Market making', detail: marcheFait ? 'Fait aujourd’hui' : 'Une ou deux parties sur la somme de dés', lien: '#marche', bouton: 'Jouer' } :
+        { fait: blancFait, titre: 'Entretien blanc', detail: blancFait ? 'Fait aujourd’hui' : 'Un entretien court, à voix haute', lien: '#entretien', bouton: 'Commencer' }
+    ];
+    const essentiels = toutes.filter(function (x) { return x.essentiel; });
+    const me = A.maitriseMoyenne(essentiels);
+    if (essentiels.length && me < 0.8) {
+      taches.push({ fait: false, titre: 'Les essentiels', detail: Math.round(100 * me) + ' % maîtrisés : les ' + essentiels.length + ' questions les plus fréquentes, à connaître en priorité', lien: '#revisions/onglet=themes/theme=essentiels/mode=libre', bouton: 'Réviser' });
+    }
+    if (histoiresManquantes.length) {
+      taches.push({ fait: false, titre: 'Mes histoires', detail: 'À écrire : « ' + histoiresManquantes[0].titre + ' »' + (histoiresManquantes.length > 1 ? ' (+' + (histoiresManquantes.length - 1) + ')' : ''), lien: '#histoires', bouton: 'Écrire' });
+    }
+    html += '<div class="carte"><h2 style="margin-top:0">Programme du jour</h2><ul class="liste-fiches">' + taches.map(function (t) {
+      return '<li><div class="ligne"><span class="etiquette ' + (t.fait ? 'succes' : '') + '">' + (t.fait ? '✓ fait' : 'à faire') + '</span><b>' + o.echapper(t.titre) + '</b>' +
+        '<span class="petit doux">' + o.echapper(t.detail) + '</span><span class="espace"></span><a class="bouton' + (t.fait ? '' : ' principal') + '" href="' + t.lien + '">' + t.bouton + '</a></div></li>';
+    }).join('') + '</ul></div>';
+
+    const f = ficheDuJour(jour);
+    if (f) {
+      html += '<div class="carte"><div class="bloc-titre" style="margin-top:0">Question du jour</div><div class="ligne petit">' + P.composants.etiquettes(f) + '</div>' +
+        '<div class="question">' + o.markdown(f.question) + '</div><a class="bouton" href="#revisions/fiche=' + encodeURIComponent(f.id) + '">Y répondre</a></div>';
+    }
+
+    const vues = toutes.filter(function (x) { return etat.cartes[x.id]; }).length;
+    const prev = P.srs.previsions(toutes, etat.cartes, jour, 7);
+    html += '<div class="grille"><div class="carte"><div class="chiffre">' + A.serie() + ' j</div><div class="legende">série d’entraînement</div></div>' +
+      '<div class="carte"><div class="chiffre">' + vues + '</div><div class="legende">questions travaillées sur ' + toutes.length + '</div></div>' +
+      '<div class="carte"><div class="legende" style="margin-bottom:6px">Révisions prévues cette semaine</div><div class="histogramme" style="height:50px">' +
+      prev.map(function (v) { const m = Math.max.apply(null, prev.concat([1])); return '<span class="' + (v ? '' : 'vide') + '" style="height:' + Math.max(4, Math.round(100 * v / m)) + '%" title="' + v + '"></span>'; }).join('') +
+      '</div><div class="axe"><span>auj.</span><span></span><span></span><span></span><span></span><span></span><span>+6</span></div></div></div>';
+    main.innerHTML = html;
+  }
+
+  A.enregistrerVue({ id: 'accueil', titre: 'Aujourd’hui', court: 'Accueil', icone: '⌂', ordre: 1, rendre: rendre });
+})(this);

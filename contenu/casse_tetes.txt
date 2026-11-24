@@ -1,0 +1,315 @@
+# Casse-têtes et estimations : raisonnement, pas de formule à connaître.
+
+=== ct-chevaux
+theme: casse-tete
+niveau: 2
+profils: mm hf banque data
+type: numerique
+reponse: 7
+duree: 300
+--- question
+25 chevaux, une piste où 5 chevaux courent à la fois, pas de chronomètre (on ne voit que l'ordre d'arrivée). Combien de courses au minimum pour trouver les 3 plus rapides ?
+--- en
+25 horses, a track that fits 5 at a time, no stopwatch. Minimum number of races to find the 3 fastest?
+--- indice
+5 courses de groupes, puis une course des 5 vainqueurs. Quels chevaux peuvent encore être 2ᵉ ou 3ᵉ ?
+--- solution
+1. 5 courses de 5 : on classe chaque groupe.
+2. 6ᵉ course : les 5 vainqueurs. Le gagnant (A1) est le plus rapide de tous.
+3. Candidats pour les places 2 et 3 : A2, A3 (groupe du 1ᵉʳ), B1, B2 (groupe du 2ᵉ de la course 6), C1 (groupe du 3ᵉ). Tous les autres ont au moins trois chevaux plus rapides. 7ᵉ course avec ces 5 : les deux premiers sont les 2ᵉ et 3ᵉ.
+Total : **7 courses**.
+--- relances
+- Et pour trouver seulement le plus rapide ? (6 courses)
+
+=== ct-cordes
+theme: casse-tete
+niveau: 1
+profils: mm hf banque data
+--- question
+Deux cordes brûlent chacune en exactement une heure, mais de façon irrégulière (la moitié de la corde ne brûle pas forcément en 30 minutes). Comment mesurer 45 minutes ?
+--- en
+Two ropes each burn in exactly one hour, but unevenly. How do you measure 45 minutes?
+--- solution
+Allume la corde A par les deux bouts et la corde B par un bout. A brûle en 30 minutes. À cet instant, allume l'autre bout de B : il lui restait 30 minutes de combustion, elle finit en 15 minutes. Total : **45 minutes**.
+
+=== ct-casiers
+theme: casse-tete
+niveau: 2
+profils: mm hf banque data
+type: numerique
+reponse: 10
+duree: 180
+--- question
+100 casiers fermés. Le passage k (k = 1 à 100) change l'état (ouvert/fermé) de tous les casiers dont le numéro est multiple de k. Combien de casiers sont ouverts à la fin ?
+--- en
+100 closed lockers. On pass k (k = 1 to 100) you toggle every locker whose number is a multiple of k. How many lockers are open at the end?
+--- solution
+Le casier n est touché une fois par diviseur de n. Les diviseurs vont par paires (d, n/d), sauf quand d = n/d : seuls les carrés parfaits ont un nombre impair de diviseurs. Carrés jusqu'à 100 : 1, 4, …, 100, soit **10 casiers**.
+
+=== ct-oeufs
+theme: casse-tete
+niveau: 3
+profils: mm hf banque data
+type: numerique
+reponse: 14
+duree: 420
+--- question
+Tu as deux œufs identiques et un immeuble de 100 étages. Tu veux trouver le plus haut étage d'où un œuf peut tomber sans casser. Combien de lâchers au pire avec la meilleure stratégie ?
+--- en
+Two identical eggs, a 100-floor building. Find the highest floor from which an egg survives. Minimum number of drops in the worst case?
+--- indice
+Si tu disposes de n lâchers au total, de quel étage lâcher le premier œuf ?
+--- solution
+Avec n lâchers, on lâche le premier œuf à l'étage n ; s'il casse, on teste un à un les n − 1 étages en dessous avec le second. S'il ne casse pas, on monte de n − 1 étages, puis n − 2, etc. On couvre n + (n − 1) + … + 1 = n(n + 1)/2 étages. Il faut n(n + 1)/2 ≥ 100, donc **n = 14** (14 × 15/2 = 105). Étages du premier œuf : 14, 27, 39, 50, 60, 69, 77, 84, 90, 95, 99, 100.
+--- relances
+- Avec trois œufs ? (9 lâchers : C(n,1) + C(n,2) + C(n,3) ≥ 100)
+
+=== ct-pont
+theme: casse-tete
+niveau: 2
+profils: mm hf banque data
+type: numerique
+reponse: 17
+duree: 300
+--- question
+Quatre personnes doivent traverser un pont la nuit avec une seule lampe ; au plus deux personnes à la fois, et la lampe doit accompagner chaque traversée. Elles mettent 1, 2, 5 et 10 minutes ; un groupe avance au rythme du plus lent. Temps minimal ?
+--- en
+Four people cross a bridge at night with one torch; at most two at a time, the torch must go with each crossing. They take 1, 2, 5 and 10 minutes; a pair walks at the slower pace. Minimum total time?
+--- solution
+1 et 2 traversent (2), 1 revient (1), 5 et 10 traversent (10), 2 revient (2), 1 et 2 traversent (2) : **17 minutes**.
+L'astuce : faire traverser les deux plus lents ensemble. La stratégie « 1 accompagne tout le monde » donne 19.
+
+=== ct-angle-horloge
+theme: casse-tete
+niveau: 1
+profils: mm hf banque data
+type: numerique
+reponse: 7.5
+duree: 120
+--- question
+Quel angle (en degrés) forment les aiguilles d'une horloge à 3 h 15 ?
+--- en
+What is the angle (in degrees) between the clock hands at 3:15?
+--- solution
+L'aiguille des minutes est sur 3 (90°). Celle des heures a avancé d'un quart d'heure au-delà de 3 : 90° + 15 × 0,5° = 97,5°. Angle : **7,5°**.
+--- relances
+- Combien de fois par jour les aiguilles se superposent-elles ? (22)
+
+=== ct-zeros-factorielle
+theme: casse-tete
+niveau: 1
+profils: mm hf banque data
+type: numerique
+reponse: 24
+duree: 120
+--- question
+Par combien de zéros se termine 100! ?
+--- en
+How many trailing zeros does 100! have?
+--- solution
+Chaque zéro vient d'un facteur 10 = 2 × 5 ; les 2 sont plus nombreux que les 5. Facteurs 5 : ⌊100/5⌋ + ⌊100/25⌋ = 20 + 4 = **24**.
+
+=== ct-dernier-chiffre
+theme: casse-tete
+niveau: 1
+profils: mm hf banque data
+type: numerique
+reponse: 9
+duree: 120
+--- question
+Quel est le dernier chiffre de 7²⁰²⁶ ?
+--- en
+What is the last digit of 7^2026?
+--- solution
+Les derniers chiffres des puissances de 7 forment le cycle 7, 9, 3, 1 (période 4). 2026 = 4 × 506 + 2 : même dernier chiffre que 7², soit **9**.
+
+=== ct-vin-empoisonne
+theme: casse-tete
+niveau: 2
+profils: mm hf banque data
+type: numerique
+reponse: 10
+duree: 240
+--- question
+Une bouteille sur 1 000 est empoisonnée ; le poison tue en 24 h, même à dose infime. Tu as 24 h pour la trouver. Combien de rats de laboratoire faut-il au minimum ?
+--- en
+One of 1,000 bottles is poisoned; the poison kills within 24 hours even in tiny doses. You have 24 hours. Minimum number of rats needed?
+--- solution
+Numérote les bouteilles en binaire (10 bits suffisent : 2¹⁰ = 1 024 ≥ 1 000). Le rat i boit de chaque bouteille dont le bit i vaut 1. L'ensemble des rats morts donne l'écriture binaire de la bouteille empoisonnée : **10 rats**.
+--- relances
+- Et si tu as 48 heures (deux vagues de tests) ? (chaque rat a 3 issues : mort au jour 1, au jour 2, vivant ; 3⁷ = 2 187 ≥ 1 000, donc 7 rats)
+
+=== ct-carres-echiquier
+theme: casse-tete
+niveau: 1
+profils: mm hf banque data
+type: numerique
+reponse: 204
+duree: 120
+--- question
+Combien de carrés (de toutes tailles) contient un échiquier de 8 × 8 ?
+--- en
+How many squares of all sizes are there on an 8×8 chessboard?
+--- solution
+Un carré de côté k peut se placer de (9 − k)² façons : Σ_{k=1}^{8} k² = 8 × 9 × 17/6 = **204**.
+--- relances
+- Et combien de rectangles ? (C(9,2)² = 1 296)
+
+=== ct-poignees
+theme: casse-tete
+niveau: 1
+profils: mm hf banque data
+type: numerique
+reponse: 190
+duree: 60
+--- question
+20 personnes se serrent toutes la main deux à deux une fois. Combien de poignées de main ?
+--- en
+20 people each shake hands once with everyone else. How many handshakes?
+--- solution
+C(20, 2) = 20 × 19/2 = **190**.
+
+=== ct-impairs
+theme: casse-tete
+niveau: 1
+profils: mm hf banque data
+type: numerique
+reponse: 2500
+duree: 60
+--- question
+Que vaut 1 + 3 + 5 + … + 99 (somme des nombres impairs jusqu'à 99) ?
+--- en
+Compute 1 + 3 + 5 + … + 99.
+--- solution
+Il y a 50 termes ; la somme des n premiers impairs vaut n² : **2 500**. (Ou : 50 termes de moyenne 50.)
+
+=== ct-fourmis
+theme: casse-tete
+niveau: 2
+profils: mm hf banque data
+type: numerique
+reponse: 100
+duree: 240
+--- question
+100 fourmis sont posées au hasard sur un bâton d'un mètre, chacune orientée au hasard vers la gauche ou la droite. Elles avancent à 1 cm/s ; quand deux fourmis se rencontrent, elles font demi-tour ; une fourmi qui atteint un bout tombe. Au pire, combien de secondes avant que toutes soient tombées ?
+--- en
+100 ants are placed randomly on a 1 m stick, each facing left or right at random, moving at 1 cm/s. When two ants meet they both turn around; ants fall off at the ends. In the worst case, how many seconds until all have fallen?
+--- solution
+Deux fourmis qui se croisent et font demi-tour se comportent exactement comme si elles se traversaient (on échange juste leurs noms). Chaque « trajectoire » parcourt au plus 100 cm : **100 secondes** au pire.
+
+=== ct-train-mouche
+theme: casse-tete
+niveau: 1
+profils: mm hf banque data
+type: numerique
+reponse: 75
+duree: 120
+--- question
+Deux trains distants de 100 km roulent l'un vers l'autre à 50 km/h chacun. Une mouche fait des allers-retours entre eux à 75 km/h jusqu'à ce qu'ils se rencontrent. Quelle distance parcourt-elle ?
+--- en
+Two trains 100 km apart approach each other at 50 km/h each. A fly shuttles between them at 75 km/h until they meet. How far does the fly travel?
+--- solution
+Les trains se rencontrent après 1 heure ; la mouche vole pendant 1 heure : **75 km**. Inutile de sommer la série infinie des allers-retours.
+
+=== ct-chiffre-un
+theme: casse-tete
+niveau: 1
+profils: mm hf banque data
+type: numerique
+reponse: 21
+duree: 120
+--- question
+Combien de fois écrit-on le chiffre 1 en écrivant tous les nombres de 1 à 100 ?
+--- en
+How many times do you write the digit 1 when writing all numbers from 1 to 100?
+--- solution
+Unités : 1, 11, 21, …, 91 → 10. Dizaines : 10 à 19 → 10. Centaines : 100 → 1. Total **21**.
+
+=== ct-pieces-balance
+theme: casse-tete
+niveau: 2
+profils: mm hf banque data
+--- question
+Tu as 12 pièces dont une fausse, plus lourde ou plus légère (tu ne sais pas). Avec une balance à deux plateaux, comment la trouver en 3 pesées et savoir si elle est plus lourde ou plus légère ?
+--- en
+12 coins, one counterfeit that is heavier or lighter (unknown). Find it and determine heavier/lighter in 3 weighings on a balance.
+--- solution
+Argument de comptage : 24 possibilités (12 pièces × 2 sens) et 3³ = 27 issues pour trois pesées : c'est possible en principe, à condition que chaque pesée sépare bien les cas.
+Stratégie : pesée 1 : {1,2,3,4} contre {5,6,7,8}.
+- **Équilibre** : la fausse est parmi 9 à 12. Pesée 2 : {9,10,11} contre {1,2,3} (vraies). Si équilibre, c'est 12 : pesée 3 contre une vraie pour savoir le sens. Sinon on connaît le sens (lourd ou léger) et il reste 3 pièces : pesée 3 de 9 contre 10.
+- **Déséquilibre**, disons {1,2,3,4} plus lourd : soit l'une de 1 à 4 est lourde, soit l'une de 5 à 8 est légère. Pesée 2 : {1,2,5} contre {3,6,9}. Si le côté gauche est plus lourd : 1 ou 2 lourde, ou 6 légère ; pesée 3 : 1 contre 2 (équilibre → 6). Si le côté droit est plus lourd : 3 lourde ou 5 légère ; pesée 3 : 3 contre 9. Si équilibre : 4 lourde ou 7, 8 légère ; pesée 3 : 7 contre 8 (équilibre → 4).
+Ce qui est évalué : l'argument d'information (chaque pesée a 3 issues) et la capacité à organiser les cas.
+--- relances
+- Jusqu'à combien de pièces peut-on aller en 3 pesées ? (12 si on doit aussi trouver le sens ; 13 si on a une pièce vraie de référence)
+
+=== ct-chapeaux
+theme: casse-tete
+niveau: 3
+profils: mm hf
+--- question
+100 prisonniers en file indienne portent un chapeau noir ou blanc. Chacun voit les chapeaux devant lui, pas le sien ni ceux de derrière. En partant du dernier de la file, chacun dit à haute voix une couleur ; ceux qui disent la couleur de leur propre chapeau sont libérés. Ils se concertent avant. Combien peuvent être sauvés à coup sûr ?
+--- en
+100 prisoners in a line wear black or white hats; each sees the hats in front only. Starting from the back, each says a color aloud; those naming their own hat color go free. They can agree on a strategy beforehand. How many can be saved for sure?
+--- solution
+**99** à coup sûr. Le dernier annonce la parité du nombre de chapeaux noirs qu'il voit (« noir » = impair). Il a une chance sur deux pour lui-même. Chacun des suivants connaît cette parité, voit les chapeaux devant lui et a entendu les réponses (justes) de ceux de derrière : il en déduit la couleur de son chapeau.
+Idée clé : une seule information (un bit de parité) suffit, et chaque réponse transmet de l'information aux suivants.
+
+=== ct-pirates
+theme: casse-tete
+niveau: 3
+profils: mm hf
+--- question
+Cinq pirates rationnels, classés par ancienneté, se partagent 100 pièces d'or. Le plus ancien propose un partage ; si au moins la moitié des pirates (lui compris) l'accepte, c'est fini ; sinon il est jeté par-dessus bord et le suivant propose. Chacun veut d'abord survivre, puis maximiser son or, puis voir les autres jetés à l'eau. Que propose le premier ?
+--- en
+Five rational pirates split 100 gold coins. The most senior proposes a split; if at least half (including him) accept, done; otherwise he is thrown overboard. Each wants to survive, then maximize gold, then see others thrown overboard. What does the first pirate propose?
+--- solution
+Raisonnement à rebours (en appelant les pirates 1 à 5, 5 étant le plus ancien) :
+- 2 pirates : le 2 garde tout (sa voix suffit) : (100, 0).
+- 3 pirates : le 3 doit acheter une voix ; le pirate 1 aurait 0 sinon, 1 pièce lui suffit : (1, 0, 99).
+- 4 pirates : il faut 2 voix ; le pirate 2 aurait 0 dans le cas à 3 : (0, 1, 0, 99).
+- 5 pirates : il faut 3 voix ; acheter les pirates 1 et 3 (qui auraient 0 dans le cas à 4) avec 1 pièce chacun : **98 pour le plus ancien, 1 pour les pirates 1 et 3, 0 pour les autres**.
+Ce qui est évalué : l'induction à rebours, comme en théorie des jeux et en évaluation d'options américaines.
+
+=== ct-interrupteurs
+theme: casse-tete
+niveau: 1
+profils: mm hf banque data
+--- question
+Trois interrupteurs au rez-de-chaussée commandent une ampoule au grenier, que tu ne peux voir qu'en montant. Tu ne montes qu'une fois. Comment savoir quel interrupteur commande l'ampoule ?
+--- en
+Three switches downstairs control one bulb in the attic; you may go up only once. How do you identify the right switch?
+--- solution
+Allume le 1 pendant quelques minutes, éteins-le, allume le 2, monte. Ampoule allumée : interrupteur 2. Éteinte mais chaude : 1. Éteinte et froide : 3. L'astuce est d'utiliser une deuxième information (la chaleur) : trois états avec une seule observation.
+
+=== ct-fermi-pianos
+theme: casse-tete
+niveau: 1
+profils: mm hf banque data risque
+--- question
+Combien y a-t-il d'accordeurs de pianos à Paris ? (Question d'estimation : raisonne à voix haute.)
+--- en
+How many piano tuners are there in Paris? (Estimation question: reason aloud.)
+--- solution
+Ce qui compte est la décomposition et la cohérence, pas le chiffre. Un exemple :
+- Paris intra-muros : ~2 millions d'habitants, ~1 million de foyers.
+- Foyers avec un piano : ~3 % → 30 000 pianos ; plus écoles, conservatoires, salles : disons 40 000.
+- Accord : en moyenne une fois par an.
+- Un accordeur : ~3 accords par jour, ~220 jours par an → ~650 accords par an.
+- Besoin : 40 000/650 ≈ **60 accordeurs** (ordre de grandeur : quelques dizaines à une centaine).
+Méthode : annoncer la structure, arrondir franchement, vérifier par une seconde approche (par exemple le nombre de magasins de pianos), donner une fourchette et dire quelle hypothèse est la plus incertaine.
+
+=== ct-fermi-stations
+theme: casse-tete
+niveau: 1
+profils: mm hf banque data risque
+--- question
+Combien y a-t-il de stations-service en France ? Raisonne à voix haute.
+--- en
+How many gas stations are there in France? Reason aloud.
+--- solution
+Approche par la demande :
+- ~40 millions de voitures, ~13 000 km par an, 6 L/100 km → ~800 L par voiture et par an, soit ~32 milliards de litres (plus utilitaires et poids lourds : disons 45 milliards).
+- Une station vend ~3 à 5 millions de litres par an (quelques milliers de litres par jour, un peu plus pour les grandes surfaces).
+- 45 milliards / 4 millions ≈ **11 000 stations**.
+Contrôle par l'offre : ~35 000 communes, une station pour 3 à 4 communes en moyenne → 10 000. Cohérent (l'ordre de grandeur réel est de l'ordre de 10 000).
+Dire quelle hypothèse est la plus fragile (volume par station) et comment l'affiner.

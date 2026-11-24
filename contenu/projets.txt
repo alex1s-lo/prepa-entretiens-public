@@ -1,0 +1,426 @@
+# Trois projets types (surface de volatilité, arbitrage statistique, market making), sur données synthétiques : ce qu'un intervieweur va creuser. Chiffres d'implémentations de référence.
+# Avant un entretien : relance ton code, change un paramètre, relis tes limites.
+
+=== proj-ia-et-synthetique
+theme: projets
+niveau: 1
+profils: hf banque mm risque data
+--- question
+« Tes projets tournent sur des données synthétiques et ont été écrits avec une IA. Qu'est-ce qu'ils prouvent, alors ? »
+--- en
+"Your projects run on synthetic data and were written with AI help. So what do they prove?"
+--- solution
+Réponse franche et courte, puis du concret :
+- **Synthétique, par choix** : on connaît la vérité, donc on peut mesurer l'erreur (RMSE de la surface contre la vraie surface Heston), tester des cas limites, et vérifier qu'une stratégie ne gagne pas quand l'effet n'existe pas (contrôle négatif du stat arb : Sharpe −0,19). Les résultats valident le code et la méthode, pas une performance de marché, et c'est écrit dans chaque README.
+- **IA** : oui, pour une partie du code. Ce que tu as fait toi : lancer, relire, changer les paramètres, comprendre chaque choix et chaque limite (à dire seulement si c'est vrai : idéalement, les exercices d'extension : « pour que ce soit vraiment le tien »).
+- **Preuve immédiate** : propose d'expliquer n'importe quelle partie, ou un échec et son diagnostic (le minimum local de SVI, le Sharpe nul du premier réglage, le bug de compteur du market making).
+--- piege
+Survendre (« ma stratégie a un Sharpe de 2,9 ») ou se justifier longuement : les deux font mauvaise impression.
+
+=== proj-vs-pitch
+theme: projets
+niveau: 1
+profils: banque risque hf mm
+--- question
+Présente ton projet de surface de volatilité en deux minutes.
+--- en
+Walk me through your volatility surface project in two minutes.
+--- solution
+Trame possible (à dire avec tes mots) :
+1. **Problème** : construire une surface de volatilité implicite lisse et sans arbitrage à partir de cotations bruitées, et savoir mesurer si elle est juste.
+2. **Données** : un marché synthétique généré par un modèle de Heston (prix semi-analytique par fonction caractéristique), bruité de 0,2 point de vol : 6 maturités de 0,1 à 2 ans × 21 strikes. On connaît la vraie surface.
+3. **Méthode** : une tranche SVI « raw » par maturité, calibrée par moindres carrés avec plusieurs points de départ et une pénalité d'arbitrage papillon ; contrôles papillon (g(k) ≥ 0, Gatheral-Jacquier) et calendaire (variance totale croissante en T) ; interpolation linéaire de la variance totale entre maturités.
+4. **Résultats** : RMSE de 0,07 point de vol contre la vraie surface (moins que le bruit injecté) ; pas d'arbitrage sur le domaine coté.
+5. **Ce que j'ai appris** : un premier ajustement sans pénalité tombait dans un minimum local qui collait aux données mais impliquait une densité négative ; et deux tranches calibrées séparément peuvent se croiser loin dans l'aile.
+6. **Limites et suite** : données réelles (bid/ask, pondération par vega, forward implicite), calibration jointe type SSVI.
+
+=== proj-vs-variance-totale
+theme: projets
+niveau: 1
+profils: banque risque hf
+--- question
+Pourquoi paramétrer la surface en variance totale w = σ²T et en log-moneyness k = ln(K/F) ?
+--- en
+Why parametrize the surface in total variance w = σ²T and log-moneyness k = ln(K/F)?
+--- solution
+- **Log-moneyness par rapport au forward** : elle enlève l'effet du portage (taux, dividendes) et rend les tranches comparables entre maturités ; à k = 0 on est à la monnaie forward.
+- **Variance totale** : c'est la quantité qui entre directement dans Black-Scholes (σ√T), elle s'additionne dans le temps, et l'absence d'arbitrage calendaire s'écrit simplement : w(k, T) croissante en T à k fixé. Interpoler linéairement w en T préserve cette croissance si les tranches la respectent.
+--- relances
+- Pourquoi pas interpoler la volatilité directement ? (une interpolation linéaire en σ peut créer de l'arbitrage calendaire)
+
+=== proj-vs-svi
+theme: projets
+niveau: 2
+profils: banque risque hf
+--- question
+Écris la paramétrisation SVI « raw » et donne le rôle de chaque paramètre.
+--- en
+Write the raw SVI parametrization and the role of each parameter.
+--- solution
+w(k) = a + b [ρ(k − m) + √((k − m)² + σ²)].
+- **a** : niveau général de variance ;
+- **b** : pente des ailes (b ≥ 0) ;
+- **ρ** ∈ (−1, 1) : asymétrie, le skew (ρ < 0 pour les actions) ;
+- **m** : translation horizontale du smile ;
+- **σ** > 0 : courbure au centre (arrondi du minimum).
+Ailes asymptotiquement linéaires de pentes b(1 + ρ) à droite et b(1 − ρ) à gauche, ce qui est cohérent avec la formule des moments de Lee (pente ≤ 2 en variance totale).
+Avantages : peu de paramètres interprétables, ailes cohérentes avec la théorie, conditions d'arbitrage explicites.
+
+=== proj-vs-ailes
+theme: projets
+niveau: 2
+profils: banque risque hf
+type: numerique
+reponse: 0.1*(1+0.6)
+duree: 90
+--- question
+Dans une tranche SVI avec b = 0,1 et ρ = −0,6, quelle est la pente asymptotique de l'aile gauche (k → −∞) de la variance totale ? Respecte-t-elle la borne de Lee ?
+--- en
+In an SVI slice with b = 0.1 and ρ = −0.6, what is the asymptotic left-wing slope of total variance? Does it satisfy Lee's bound?
+--- solution
+Pente gauche = b(1 − ρ) = 0,1 × 1,6 = **0,16** ; pente droite b(1 + ρ) = 0,04. Bien en dessous de la borne de Lee (2) : aucun problème de moments.
+
+=== proj-vs-papillon
+theme: projets
+niveau: 2
+profils: banque risque hf
+--- question
+Qu'est-ce que l'arbitrage papillon, et comment le contrôles-tu dans ton projet ?
+--- en
+What is butterfly arbitrage and how do you check for it in your project?
+--- solution
+Un butterfly (long C(K − h), short 2 C(K), long C(K + h)) a un payoff positif ; son prix doit l'être aussi : le prix du call doit être convexe en K. Par Breeden-Litzenberger, ∂²C/∂K² est la densité risque-neutre : une concavité, c'est une densité négative.
+En variance totale, Gatheral et Jacquier traduisent cette condition par **g(k) ≥ 0**, avec
+g(k) = (1 − k w'/(2w))² − (w'²/4)(1/w + 1/4) + w''/2.
+Dans le projet : contrôle a posteriori de g sur |k| ≤ 1,5 pour chaque tranche, et pénalité dans la fonction d'ajustement. Toutes les tranches finales vérifient g ≥ 0.
+--- relances
+- Que garantit ce contrôle hors de la grille testée ? (rien en toute rigueur : il faudrait des conditions suffisantes sur les paramètres, comme en SSVI)
+
+=== proj-vs-calendaire
+theme: projets
+niveau: 2
+profils: banque risque hf
+--- question
+Qu'est-ce que l'arbitrage calendaire, et quelle limite as-tu constatée ?
+--- en
+What is calendar arbitrage, and what limitation did you observe?
+--- solution
+À strike forward fixé (k fixé), la variance totale doit croître avec la maturité : sinon un calendar spread (vendre court, acheter long) aurait un prix négatif pour un payoff positif (sans dividendes ni taux, ou en termes de forward).
+Dans le projet : 0 violation sur le domaine coté (k de −0,5 à 0,4), mais en extrapolant loin dans l'aile (k ≈ 0,8), les tranches T = 1 et T = 1,5, calibrées indépendamment, se croisent. Leçon : calibrer tranche par tranche ne garantit rien entre tranches ; il faut une contrainte jointe ou une paramétrisation de surface (SSVI).
+
+=== proj-vs-minimum-local
+theme: projets
+niveau: 2
+profils: banque risque hf
+--- question
+Pourquoi lances-tu l'optimisation SVI depuis plusieurs points de départ ? Raconte ce qui s'est passé.
+--- en
+Why do you run the SVI fit from several starting points? Tell me what happened.
+--- solution
+La fonction d'erreur de SVI n'est pas convexe : un optimiseur local s'arrête dans le minimum le plus proche du point de départ. Dans le projet, un premier essai sans pénalité de papillon a trouvé pour T = 1 un minimum local (ρ = 0,92, m = 0,63) qui ajustait bien les cotations mais impliquait une densité négative (g min = −2,17).
+Corrections : plusieurs points de départ, pénalité sur g < 0 dans l'objectif, et m borné près des données.
+Message pour l'intervieweur : un bon ajustement aux données ne suffit pas, il faut vérifier la cohérence financière (ici, l'absence d'arbitrage).
+
+=== proj-vs-otm
+theme: projets
+niveau: 1
+profils: banque risque hf mm
+--- question
+Pourquoi utilises-tu les options hors de la monnaie pour construire la surface ?
+--- en
+Why do you use out-of-the-money options to build the surface?
+--- solution
+Une option très dans la monnaie vaut presque sa valeur intrinsèque ; sa valeur temps est minuscule, donc la volatilité implicite qu'on en tire est très sensible au moindre bruit de prix (vega faible). Les options hors de la monnaie (puts sous le forward, calls au-dessus) portent toute l'information de volatilité. Par la parité, call et put de même strike ont la même volatilité implicite : on ne perd rien.
+En pratique : elles sont aussi plus liquides.
+
+=== proj-vs-rmse
+theme: projets
+niveau: 1
+profils: banque risque hf
+--- question
+Ton erreur de calibration est de 0,07 point de vol. C'est bien ?
+--- en
+Your calibration error is 0.07 vol points. Is that good?
+--- solution
+Ça valide le code, pas une performance de marché :
+- elle est mesurée contre une **vérité connue** (la surface Heston), ce qui est impossible sur de vraies cotations ;
+- elle est **inférieure au bruit injecté** (0,2 point) : le modèle lisse le bruit au lieu de l'apprendre, signe qu'il ne sur-ajuste pas ;
+- erreur maximale 0,19 point.
+Sur de vraies données, on mesurerait plutôt l'erreur contre les cotations, relativement au spread bid-ask (une erreur à l'intérieur du spread est acceptable), et la stabilité des paramètres d'un jour à l'autre.
+
+=== proj-vs-heston
+theme: projets
+niveau: 3
+profils: banque risque hf
+--- question
+Comment calcules-tu les prix Heston dans ton projet ? Qu'est-ce que le « little Heston trap » ?
+--- en
+How do you compute Heston prices in your project? What is the "little Heston trap"?
+--- solution
+Prix semi-analytique : la fonction caractéristique du log-prix est connue en forme fermée ; on obtient les probabilités P₁ et P₂ de la formule C = S P₁ − K e^{−rT} P₂ par inversion de Gil-Pelaez, c'est-à-dire une intégrale numérique (`scipy.integrate.quad`) de Re[e^{−iu ln K} φ(u)/(iu)].
+« Little Heston trap » (Albrecher et al.) : la formule d'origine contient un logarithme complexe qui peut sauter de branche quand u ou T grandissent, ce qui produit des prix faux. Une écriture équivalente des termes évite ces discontinuités.
+Puis on inverse Black-Scholes (méthode de Brent) pour obtenir la volatilité implicite « vraie ».
+--- relances
+- Alternative plus rapide pour beaucoup de strikes ? (Carr-Madan par FFT, ou méthode COS)
+
+=== proj-vs-donnees-reelles
+theme: projets
+niveau: 2
+profils: banque risque hf mm
+--- question
+Que changerais-tu pour calibrer ta surface sur de vraies cotations ?
+--- en
+What would you change to calibrate your surface on real quotes?
+--- solution
+- Utiliser bid et ask, pondérer les erreurs par vega ou par l'inverse du spread ; accepter une erreur à l'intérieur du spread.
+- Déduire le **forward implicite** de la parité call-put (plutôt que de supposer taux et dividendes), et traiter les dividendes discrets.
+- Filtrer les cotations périmées ou aberrantes, les options trop peu liquides, et les options américaines (dé-américaniser si besoin).
+- Calibrer une surface jointe sans arbitrage (SSVI ou contraintes entre tranches) et surveiller la stabilité des paramètres dans le temps.
+
+=== proj-sa-pitch
+theme: projets
+niveau: 1
+profils: hf data risque mm
+--- question
+Présente ton projet d'arbitrage statistique en deux minutes.
+--- en
+Walk me through your statistical arbitrage project in two minutes.
+--- solution
+Trame possible :
+1. **Problème** : trouver des paires d'actifs dont l'écart revient à la moyenne, et trader cet écart sans se mentir sur la performance.
+2. **Données** : un marché synthétique de 18 actifs (6 paires réellement cointégrées, spread Ornstein-Uhlenbeck de demi-vie 8 jours, 6 actifs isolés, un facteur commun) : la vérité est connue.
+3. **Méthode** : sélection par Engle-Granger écrit à la main (OLS puis ADF, seuil 1 %, valeur critique de MacKinnon), filtre de demi-vie ; signal z-score (entrée à 2, sortie à 0,5, stop à 4) ; backtest walk-forward (504 jours de formation, 63 de trading, paramètres figés) ; coûts de 5 points de base.
+4. **Validation** : Sharpe 2,87 avec un intervalle bootstrap par blocs de 1,99 à 3,82 ; contrôle négatif (mêmes règles sans cointégration) à −0,19 ; Sharpe déflaté.
+5. **Ce que j'ai appris** : le premier réglage donnait un Sharpe nul : test trop peu puissant et 1 540 paires testées, donc des faux positifs. J'ai changé le réglage après avoir vu ce résultat, ce que le Sharpe déflaté prend en compte.
+6. **Limites** : spread parfaitement OU, β fixe, pas de rupture de régime ni de coûts d'emprunt.
+--- piege
+Présenter le Sharpe de 2,87 comme une performance : il prouve que le pipeline fonctionne quand l'effet existe, rien de plus.
+
+=== proj-sa-coint-corr
+theme: projets
+niveau: 1
+profils: hf data risque mm
+--- question
+Quelle différence entre corrélation et cointégration ? Pourquoi ton projet utilise-t-il la cointégration ?
+--- en
+What is the difference between correlation and cointegration? Why does your project use cointegration?
+--- solution
+- **Corrélation** : les rendements bougent ensemble à court terme. Deux prix très corrélés peuvent s'éloigner indéfiniment.
+- **Cointégration** : deux prix non stationnaires ont une combinaison linéaire stationnaire (le spread y − βx revient à sa moyenne).
+Pour du pairs trading, c'est le retour du spread à sa moyenne qui fait gagner : la cointégration est la bonne propriété. Exemple : deux marches aléatoires indépendantes peuvent avoir des rendements corrélés par hasard sur une période ; un ivrogne et son chien en laisse (cointégrés) peuvent avoir des pas peu corrélés.
+
+=== proj-sa-engle-granger
+theme: projets
+niveau: 2
+profils: hf data risque
+--- question
+Décris la procédure d'Engle-Granger telle que tu l'as codée.
+--- en
+Describe the Engle-Granger procedure as you implemented it.
+--- solution
+1. Régression OLS des log-prix : ln y = α + β ln x + ε.
+2. Test de Dickey-Fuller sur les résidus : Δε_t = γ ε_{t−1} + u_t ; H₀ : γ = 0 (pas de cointégration).
+3. Comparer la t-stat de γ aux valeurs critiques de **MacKinnon** (−3,90 à 1 % pour deux séries), plus sévères que celles d'un ADF classique car les résidus ont été estimés pour avoir l'air stationnaires.
+4. Filtres supplémentaires : demi-vie (−ln 2/ln(1 + γ)) inférieure à 40 jours, β > 0 ; on garde les 5 meilleures paires.
+Limites : ADF sans retard, valeurs critiques asymptotiques, résultat dépendant de la variable choisie comme expliquée (Johansen est symétrique).
+
+=== proj-sa-faux-positifs
+theme: projets
+niveau: 1
+profils: hf data risque
+type: numerique
+reponse: 1540*0.05
+duree: 60
+--- question
+Ton premier réglage testait 1 540 paires au seuil de 5 %. Combien de paires « cointégrées » par pur hasard attend-on s'il n'y en avait aucune ?
+--- en
+Your first setup tested 1,540 pairs at the 5% level. How many spurious "cointegrated" pairs do you expect if none were real?
+--- solution
+1 540 × 0,05 = **77** faux positifs (si les tests étaient indépendants). Dans le projet, des paires de marches aléatoires passaient le test avec une statistique d'environ −5, et aucune vraie paire n'était retenue. D'où la réduction de l'univers et le seuil à 1 %.
+
+=== proj-sa-walk-forward
+theme: projets
+niveau: 1
+profils: hf data risque mm
+--- question
+Qu'est-ce qu'un backtest walk-forward, et comment t'es-tu assuré de ne pas regarder le futur ?
+--- en
+What is a walk-forward backtest, and how did you make sure you did not look ahead?
+--- solution
+On estime tout (choix des paires, β, moyenne et écart-type du spread) sur une fenêtre passée (504 jours), puis on trade la fenêtre suivante (63 jours) avec ces paramètres **figés** ; on avance et on recommence. Le résultat hors échantillon est la concaténation des fenêtres de trading.
+Garde-fous : le signal à la clôture de t − 1 décide de la position qui touche le rendement de t ; un test unitaire dédié (`test_pas_de_regard_vers_le_futur`) vérifie qu'on ne peut pas utiliser une donnée future. Ce test a été ajouté après la correction d'un vrai bug de décalage d'un jour entre signal et rendement.
+
+=== proj-sa-sharpe-haut
+theme: projets
+niveau: 1
+profils: hf data risque mm
+--- question
+« Ton Sharpe de 2,9, c'est énorme. Pourquoi ne le tradeons-nous pas demain ? »
+--- en
+"Your Sharpe of 2.9 is huge. Why don't we trade it tomorrow?"
+--- solution
+Parce qu'il est obtenu sur un marché synthétique où la cointégration existe **par construction** (spread OU parfait de demi-vie 8 jours). Il prouve que le pipeline sait gagner quand l'effet existe, et qu'il ne gagne pas quand l'effet n'existe pas (contrôle négatif : −0,19 en moyenne sur 10 graines). Il ne dit rien des marchés réels, où les relations sont plus faibles, changent de régime et disparaissent quand trop de monde les trade. Un Sharpe de 2,9 sur données réelles serait plutôt le signe d'une erreur.
+
+=== proj-sa-echec-reel
+theme: projets
+niveau: 2
+profils: hf data risque mm
+--- question
+Qu'est-ce qui ferait échouer cette stratégie sur de vraies données ?
+--- en
+What would make this strategy fail on real data?
+--- solution
+- **Rupture de la relation** (fusion, changement d'activité, régime de marché) : le spread ne revient plus.
+- **β instable** : figé sur la fenêtre de formation alors qu'il dérive (piste : filtre de Kalman).
+- **Coûts** : spread bid-ask, impact, coût d'emprunt des titres vendus à découvert ; ton propre test montre qu'à 50 pb le Sharpe tombe à 0,31.
+- **Capacité et crowding** : tout le monde trade les mêmes paires, les sorties se font en même temps (août 2007).
+- **Pertes corrélées** : plusieurs stops touchés ensemble lors d'un choc de marché.
+- **Biais de survie** dans la sélection des paires et l'univers.
+
+=== proj-sa-stop
+theme: projets
+niveau: 2
+profils: hf data mm
+--- question
+Pourquoi un stop à |z| > 4 ? Que se passerait-il sans ?
+--- en
+Why a stop at |z| > 4? What would happen without it?
+--- solution
+Si le spread s'écarte autant, l'hypothèse de cointégration est probablement cassée : on coupe une position qui ne reviendra peut-être jamais, et on limite la perte. C'est un choix **arbitraire**, à tester (2,5 ? 3 ? 5 ?), et il a un coût : sur une vraie paire, on coupe parfois juste avant le retour. Sans stop, une seule rupture de relation peut effacer des mois de gains (rendements très asymétriques).
+
+=== proj-sa-beta-dynamique
+theme: projets
+niveau: 3
+profils: hf data
+--- question
+Comment estimerais-tu un β qui varie dans le temps ?
+--- en
+How would you estimate a time-varying hedge ratio β?
+--- solution
+- **Fenêtre glissante** : simple, mais bruitée et en retard.
+- **Filtre de Kalman** : modèle état-espace où β_t suit une marche aléatoire (β_t = β_{t−1} + η_t) et y_t = β_t x_t + ε_t. Le filtre met à jour β et son incertitude à chaque observation ; le rapport des variances de η et ε règle la réactivité.
+- **Pondération exponentielle** des observations.
+Risque : un β trop réactif absorbe le spread lui-même (le signal disparaît).
+
+=== proj-sa-couts
+theme: projets
+niveau: 1
+profils: hf data mm risque
+--- question
+Comment ta stratégie réagit-elle aux coûts de transaction ? Qu'en conclus-tu ?
+--- en
+How does your strategy react to transaction costs? What do you conclude?
+--- solution
+Sharpe de 3,15 sans coûts, 2,87 à 5 points de base, 2,00 à 20 pb, 0,31 à 50 pb. La rentabilité dépend directement de la qualité d'exécution : une stratégie qui retourne souvent ses positions est très sensible aux coûts. Sur données réelles, il faut aussi l'impact de marché (qui croît avec la taille) et le coût d'emprunt des titres : la capacité de la stratégie est limitée.
+
+=== proj-mm-pitch
+theme: projets
+niveau: 1
+profils: mm hf banque
+--- question
+Présente ton projet de market making en deux minutes.
+--- en
+Walk me through your market-making project in two minutes.
+--- solution
+Trame possible :
+1. **Problème** : un teneur de marché gagne le spread mais porte un risque d'inventaire ; comment coter pour équilibrer les deux ?
+2. **Modèle** : Avellaneda-Stoikov (2008). Prix milieu brownien, exécutions qui arrivent avec une intensité λ(δ) = A e^{−kδ} (plus on cote loin, moins on est exécuté). Prix de réservation décalé selon l'inventaire, spread optimal.
+3. **Méthode** : simulateur Monte-Carlo vectorisé (4 000 trajectoires en moins d'une seconde), comparaison avec un teneur naïf symétrique de même demi-spread moyen (comparaison équitable).
+4. **Résultats** : A-S divise par 2 l'écart-type du PnL (5,9 contre 12,1) et par 3 l'inventaire final, pour un PnL moyen plus bas (45 contre 56) : ratio PnL/risque de 7,7 contre 4,7. Balayage de γ : compromis rendement-risque.
+5. **Ce que j'ai appris** : un bug de comptage d'ordres trouvé par un test qui comparait au bon taux d'exécution en temps discret.
+6. **Limites** : pas de sélection adverse, pas de file d'attente, une seule taille d'ordre, prix brownien arithmétique.
+
+=== proj-mm-reservation
+theme: projets
+niveau: 1
+profils: mm hf banque
+type: numerique
+reponse: 100-3*0.5*4*0.5
+duree: 120
+--- question
+Avellaneda-Stoikov : prix milieu s = 100, inventaire q = +3, aversion γ = 0,5, σ = 2, temps restant T − t = 0,5. Prix de réservation ?
+--- en
+Avellaneda-Stoikov: mid s = 100, inventory q = +3, γ = 0.5, σ = 2, T − t = 0.5. Reservation price?
+--- solution
+r = s − q γ σ² (T − t) = 100 − 3 × 0,5 × 4 × 0,5 = **97**.
+Long de 3 unités, le teneur valorise l'actif sous le milieu : il abaisse ses deux cotations pour vendre plus facilement et acheter moins. Le décalage croît avec l'inventaire, l'aversion au risque, la volatilité et le temps restant.
+
+=== proj-mm-spread
+theme: projets
+niveau: 2
+profils: mm hf banque
+type: numerique
+reponse: 0.5*4*1+(2/0.5)*ln(1+0.5/1.5)
+duree: 180
+--- question
+Avec les paramètres de ton projet (σ = 2, k = 1,5, γ = 0,5) et T − t = 1, que vaut le spread total optimal d'Avellaneda-Stoikov ?
+--- en
+With your project's parameters (σ = 2, k = 1.5, γ = 0.5) and T − t = 1, what is the optimal total Avellaneda-Stoikov spread?
+--- solution
+Spread = γσ²(T − t) + (2/γ) ln(1 + γ/k) = 0,5 × 4 × 1 + 4 ln(4/3) ≈ 2 + 1,151 = **≈ 3,15**.
+Le premier terme rémunère le risque d'inventaire (il diminue à l'approche de la fin) ; le second vient du compromis prix / probabilité d'exécution (k grand : la demande est sensible au prix, on cote serré).
+--- relances
+- Que devient le second terme quand γ → 0 ? (2/k : le teneur neutre au risque maximise seulement l'espérance)
+
+=== proj-mm-intensite
+theme: projets
+niveau: 2
+profils: mm hf data
+--- question
+Que représente l'intensité λ(δ) = A e^{−kδ}, et comment calibrerais-tu A et k sur de vraies données ?
+--- en
+What does the intensity λ(δ) = A e^{−kδ} represent, and how would you calibrate A and k on real data?
+--- solution
+C'est le taux auquel un ordre placé à une distance δ du milieu est exécuté : A est l'activité du marché (exécutions par unité de temps au milieu), k la sensibilité à la distance.
+Calibration : à partir des données de carnet et de transactions, mesurer la fréquence à laquelle le prix atteint (ou les ordres traversent) chaque distance δ, puis régresser ln(fréquence) sur δ : la pente donne −k, l'ordonnée ln A. Vérifier que l'exponentielle convient (souvent la décroissance est différente loin du milieu) et que les paramètres sont stables selon l'heure de la journée.
+
+=== proj-mm-moins-de-pnl
+theme: projets
+niveau: 1
+profils: mm hf
+--- question
+Ta stratégie Avellaneda-Stoikov gagne moins en moyenne que le teneur naïf. Pourquoi serait-elle meilleure ?
+--- en
+Your Avellaneda-Stoikov strategy earns less on average than the naive market maker. Why would it be better?
+--- solution
+Elle refuse des échanges qui augmenteraient l'inventaire et recentre ses prix : elle capture moins de spread (PnL moyen 45 contre 56) mais divise le risque par 2 (écart-type 5,9 contre 12,1) et l'inventaire final par 3. Le ratio PnL/risque passe de 4,7 à 7,7. C'est un choix de risque, pas une amélioration gratuite : on peut ensuite augmenter la taille pour retrouver le même PnL avec moins de risque, et un desk avec des limites de risque préfère ce profil.
+--- relances
+- Que montre le balayage de γ ? (plus γ est grand, plus l'inventaire et le risque baissent, et plus le PnL moyen baisse : de 60 à 21 quand γ passe de 0,01 à 2)
+
+=== proj-mm-manque
+theme: projets
+niveau: 2
+profils: mm hf
+--- question
+Qu'est-ce qui manque à ton simulateur pour ressembler à un vrai marché ?
+--- en
+What is missing from your simulator compared with a real market?
+--- solution
+- **Sélection adverse** : les exécutions sont indépendantes du mouvement futur, alors qu'en réalité on est surtout exécuté quand le prix va contre soi. C'est la limite principale.
+- **File d'attente et priorité** : position dans le carnet, tick size, annulations.
+- **Frais et rebates**, latence.
+- **Tailles d'ordres** variables, limites d'inventaire dures.
+- **Dynamique de prix** : brownien arithmétique contre rendements, sauts, volatilité stochastique, signaux (déséquilibre du carnet).
+Exercice d'extension : ajouter de la sélection adverse et voir si A-S gagne encore.
+
+=== proj-mm-taux-execution
+theme: projets
+niveau: 3
+profils: mm hf
+--- question
+Ton test du taux d'exécution compare le nombre d'ordres exécutés à 2·pas·(1 − e^{−λdt}) et non à 2λT. Pourquoi ?
+--- en
+Your execution-rate test compares fills to 2·steps·(1 − e^{−λdt}) rather than 2λT. Why?
+--- solution
+En temps continu, un processus de Poisson d'intensité λ donne λT exécutions en moyenne par côté. Le simulateur est en temps discret et autorise **au plus une exécution par côté et par pas** : la probabilité d'au moins une exécution sur un pas est 1 − e^{−λdt}. L'espérance exacte du simulateur est donc 2 × nombre de pas × (1 − e^{−λdt}), un peu moins que 2λT. Comparer au bon chiffre a permis de détecter un vrai bug : le compteur faisait `bool + bool`, ce qui en NumPy est un OU logique, et sous-comptait les doubles exécutions.
+
+=== proj-mm-hjb
+theme: projets
+niveau: 3
+profils: mm hf banque
+--- question
+D'où vient la formule d'Avellaneda-Stoikov ?
+--- en
+Where does the Avellaneda-Stoikov formula come from?
+--- solution
+Le teneur maximise l'espérance d'une utilité exponentielle (CARA, aversion γ) de sa richesse finale. Le problème de contrôle stochastique donne une équation de Hamilton-Jacobi-Bellman en (t, s, q, cash). L'utilité exponentielle permet de séparer le cash ; un développement (ansatz quadratique en l'inventaire q) donne le prix de réservation r = s − qγσ²(T − t), puis l'optimisation des distances de cotation donne le spread. La solution utilisée est une approximation (les auteurs eux-mêmes linéarisent) ; Guéant, Lehalle et Fernandez-Tapia en donnent une version avec limite d'inventaire et solution asymptotique.

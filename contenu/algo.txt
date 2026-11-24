@@ -1,0 +1,483 @@
+# Code et algorithmique : exercices d'entretien en Python, et questions de langage (Python, C++).
+
+=== algo-achat-vente-une-fois
+theme: algo
+niveau: 1
+profils: hf mm data banque
+--- question
+On te donne la liste des prix d'une action, jour par jour. Écris une fonction qui renvoie le meilleur gain possible avec un seul achat suivi d'une seule vente. Complexité ?
+--- en
+Given a list of daily stock prices, write a function returning the maximum profit from one buy followed by one sell. Complexity?
+--- indice
+Parcours la liste une seule fois en retenant le plus bas prix vu jusqu'ici.
+--- solution
+```python
+def meilleur_gain(prix):
+    plus_bas = float("inf")
+    meilleur = 0
+    for p in prix:
+        plus_bas = min(plus_bas, p)
+        meilleur = max(meilleur, p - plus_bas)
+    return meilleur
+```
+Temps O(n), mémoire O(1). La solution naïve (toutes les paires) est en O(n²).
+--- relances
+- Et si on peut faire autant d'allers-retours qu'on veut ? (somme des hausses quotidiennes positives)
+- Et avec au plus deux transactions ? (programmation dynamique à quatre états, O(n))
+- Comment renvoyer aussi les dates d'achat et de vente ?
+
+=== algo-kadane
+theme: algo
+niveau: 1
+profils: hf mm data banque
+--- question
+Trouve la somme maximale d'un sous-tableau contigu (par exemple sur une liste de PnL quotidiens). Complexité ?
+--- en
+Find the maximum sum of a contiguous subarray (e.g. over a list of daily P&Ls). Complexity?
+--- solution
+Algorithme de Kadane : la meilleure somme qui se termine en i est soit x[i], soit x[i] + la meilleure qui se termine en i − 1.
+```python
+def somme_max(x):
+    courant = meilleur = x[0]
+    for v in x[1:]:
+        courant = max(v, courant + v)
+        meilleur = max(meilleur, courant)
+    return meilleur
+```
+O(n) en temps, O(1) en mémoire.
+--- relances
+- Lien avec le drawdown maximal ? (même idée : plus grande baisse depuis un plus haut, en suivant le maximum courant de la courbe de PnL cumulé)
+
+=== algo-drawdown
+theme: algo
+niveau: 1
+profils: hf mm data risque
+--- question
+Écris une fonction qui calcule le drawdown maximal d'une courbe de valeur de portefeuille.
+--- en
+Write a function computing the maximum drawdown of a portfolio value series.
+--- solution
+```python
+def drawdown_max(valeurs):
+    sommet = valeurs[0]
+    pire = 0.0
+    for v in valeurs:
+        sommet = max(sommet, v)
+        pire = min(pire, v / sommet - 1)
+    return pire          # par exemple -0.16 pour -16 %
+```
+O(n). En NumPy : `(v / np.maximum.accumulate(v) - 1).min()`.
+--- relances
+- Durée du drawdown maximal ? (garder la date du sommet et compter jusqu'au retour au sommet)
+
+=== algo-two-sum
+theme: algo
+niveau: 1
+profils: hf mm data banque
+--- question
+Dans une liste d'entiers, trouve deux éléments dont la somme vaut une cible donnée. Fais mieux que O(n²).
+--- en
+In a list of integers, find two elements summing to a target. Do better than O(n²).
+--- solution
+Dictionnaire des valeurs déjà vues :
+```python
+def deux_somme(x, cible):
+    vus = {}
+    for i, v in enumerate(x):
+        if cible - v in vus:
+            return vus[cible - v], i
+        vus[v] = i
+    return None
+```
+O(n) en moyenne en temps et en mémoire. Alternative : trier puis deux pointeurs, O(n log n) et O(1) mémoire supplémentaire.
+
+=== algo-moyenne-mobile
+theme: algo
+niveau: 1
+profils: hf mm data
+--- question
+Calcule la moyenne mobile sur k jours d'une série de n prix en O(n), sans recalculer chaque somme.
+--- en
+Compute the k-day moving average of n prices in O(n) without recomputing each sum.
+--- solution
+Somme glissante : on ajoute l'entrant et on retire le sortant.
+```python
+def moyenne_mobile(x, k):
+    res, s = [], 0.0
+    for i, v in enumerate(x):
+        s += v
+        if i >= k:
+            s -= x[i - k]
+        if i >= k - 1:
+            res.append(s / k)
+    return res
+```
+En NumPy : `c = np.cumsum(np.insert(x, 0, 0)); (c[k:] - c[:-k]) / k`. En pandas : `serie.rolling(k).mean()`.
+--- relances
+- Attention aux erreurs d'arrondi qui s'accumulent sur de très longues séries (recalculer la somme de temps en temps, ou sommation de Kahan)
+- Et un écart-type glissant ? (sommes glissantes de x et de x², ou algorithme de Welford pour la stabilité)
+
+=== algo-mediane-flux
+theme: algo
+niveau: 2
+profils: hf mm data
+--- question
+Des prix arrivent un par un. Maintiens la médiane de tout ce qui a été reçu, avec un coût faible par prix.
+--- en
+Prices arrive one at a time. Maintain the running median efficiently.
+--- solution
+Deux tas : un tas max pour la moitié basse, un tas min pour la moitié haute, de tailles égales à un près.
+```python
+import heapq
+
+class Mediane:
+    def __init__(self):
+        self.bas = []   # tas max (valeurs opposées)
+        self.haut = []  # tas min
+
+    def ajouter(self, x):
+        heapq.heappush(self.bas, -x)
+        heapq.heappush(self.haut, -heapq.heappop(self.bas))
+        if len(self.haut) > len(self.bas):
+            heapq.heappush(self.bas, -heapq.heappop(self.haut))
+
+    def mediane(self):
+        if len(self.bas) > len(self.haut):
+            return -self.bas[0]
+        return (-self.bas[0] + self.haut[0]) / 2
+```
+O(log n) par insertion, O(1) pour lire la médiane.
+
+=== algo-reservoir
+theme: algo
+niveau: 2
+profils: hf mm data
+--- question
+Un flux de transactions de longueur inconnue (trop grand pour la mémoire) défile. Comment tirer une transaction uniformément au hasard en une seule passe ?
+--- en
+A stream of trades of unknown length passes by. How do you sample one uniformly at random in a single pass?
+--- solution
+Échantillonnage par réservoir : garder le i-ème élément avec probabilité 1/i.
+```python
+import random
+
+def tirer(flux):
+    choix = None
+    for i, x in enumerate(flux, start=1):
+        if random.random() < 1 / i:
+            choix = x
+    return choix
+```
+Preuve : l'élément i est choisi (1/i) puis jamais remplacé : (1/i)·(i/(i+1))·…·((n−1)/n) = 1/n.
+Pour k éléments : garder les k premiers, puis remplacer un élément au hasard avec probabilité k/i.
+
+=== algo-melange
+theme: algo
+niveau: 2
+profils: hf mm data
+--- question
+Écris un mélange uniforme d'une liste. Pourquoi « échanger chaque élément avec une position tirée dans toute la liste » est-il biaisé ?
+--- en
+Write a uniform shuffle. Why is "swap each element with a random position anywhere in the list" biased?
+--- solution
+Fisher-Yates :
+```python
+import random
+
+def melanger(x):
+    for i in range(len(x) - 1, 0, -1):
+        j = random.randint(0, i)   # j dans [0, i]
+        x[i], x[j] = x[j], x[i]
+```
+La version naïve (j dans [0, n − 1] à chaque étape) produit nⁿ suites de tirages équiprobables pour n! permutations ; nⁿ n'est pas un multiple de n! (pour n = 3 : 27 et 6), donc certaines permutations sont plus probables.
+
+=== algo-rand7
+theme: algo
+niveau: 2
+profils: hf mm data
+--- question
+Tu as une fonction rand5() qui renvoie un entier uniforme de 1 à 5. Construis rand7().
+--- en
+Given rand5() returning a uniform integer in 1..5, build rand7().
+--- solution
+Rejet : deux appels donnent un entier uniforme de 0 à 24 ; on garde les 21 premiers.
+```python
+def rand7():
+    while True:
+        n = 5 * (rand5() - 1) + (rand5() - 1)   # uniforme sur 0..24
+        if n < 21:
+            return n % 7 + 1
+```
+Probabilité d'accepter : 21/25 ; nombre moyen d'appels à rand5 : 2 × 25/21 ≈ 2,38.
+--- piege
+rand5() + rand5() n'est pas uniforme (loi triangulaire).
+
+=== algo-recherche-binaire
+theme: algo
+niveau: 1
+profils: hf mm data banque
+--- question
+Écris une recherche dichotomique. Comment l'utiliser pour calculer une volatilité implicite ?
+--- en
+Write a binary search. How do you use it to compute an implied volatility?
+--- solution
+```python
+def vol_implicite(prix_marche, prix_bs, bas=1e-4, haut=5.0, tol=1e-8):
+    # prix_bs(sigma) est croissant en sigma : on coupe l'intervalle en deux
+    while haut - bas > tol:
+        milieu = (bas + haut) / 2
+        if prix_bs(milieu) < prix_marche:
+            bas = milieu
+        else:
+            haut = milieu
+    return (bas + haut) / 2
+```
+Le prix d'une option est strictement croissant en σ (vega > 0) : la dichotomie converge toujours, en log₂((haut − bas)/tol) itérations. Newton (σ ← σ − (C(σ) − C_marché)/vega) converge beaucoup plus vite mais peut diverger loin de la monnaie (vega minuscule) ; on combine souvent les deux (Brent, comme dans ton projet).
+--- relances
+- Combien d'itérations pour passer d'un intervalle de 5 à une précision de 10⁻⁸ ? (environ 29)
+
+=== algo-comparaisons-dichotomie
+theme: algo
+niveau: 1
+profils: hf mm data banque
+type: numerique
+reponse: 20
+duree: 60
+--- question
+Au pire, combien de comparaisons faut-il pour trouver un élément par dichotomie dans une liste triée d'un million d'éléments ?
+--- en
+In the worst case, how many comparisons does binary search need in a sorted list of one million elements?
+--- solution
+On divise par deux à chaque étape : il faut ⌈log₂(1 000 001)⌉ = **20** comparaisons (2²⁰ = 1 048 576).
+
+=== algo-parentheses
+theme: algo
+niveau: 1
+profils: hf mm data banque
+--- question
+Vérifie qu'une chaîne de parenthèses, crochets et accolades est bien équilibrée.
+--- en
+Check whether a string of brackets is balanced.
+--- solution
+Une pile :
+```python
+def equilibre(s):
+    paires = {")": "(", "]": "[", "}": "{"}
+    pile = []
+    for c in s:
+        if c in "([{":
+            pile.append(c)
+        elif c in paires:
+            if not pile or pile.pop() != paires[c]:
+                return False
+    return not pile
+```
+O(n).
+
+=== algo-lru
+theme: algo
+niveau: 2
+profils: hf mm data
+--- question
+Implémente un cache LRU (on évince l'élément le moins récemment utilisé) avec des opérations en O(1).
+--- en
+Implement an LRU cache with O(1) operations.
+--- solution
+Table de hachage + liste doublement chaînée ; en Python, `OrderedDict` fait les deux :
+```python
+from collections import OrderedDict
+
+class CacheLRU:
+    def __init__(self, capacite):
+        self.capacite = capacite
+        self.d = OrderedDict()
+
+    def lire(self, cle):
+        if cle not in self.d:
+            return None
+        self.d.move_to_end(cle)
+        return self.d[cle]
+
+    def ecrire(self, cle, valeur):
+        self.d[cle] = valeur
+        self.d.move_to_end(cle)
+        if len(self.d) > self.capacite:
+            self.d.popitem(last=False)
+```
+Pour mettre en cache une fonction pure : `functools.lru_cache`.
+
+=== algo-escalier
+theme: algo
+niveau: 1
+profils: hf mm data banque
+type: numerique
+reponse: 89
+duree: 120
+--- question
+De combien de façons peut-on monter un escalier de 10 marches en faisant des pas de 1 ou 2 marches ?
+--- en
+In how many ways can you climb a 10-step staircase taking 1 or 2 steps at a time?
+--- solution
+f(n) = f(n − 1) + f(n − 2), f(1) = 1, f(2) = 2 : suite de Fibonacci décalée. f(10) = **89**.
+```python
+def facons(n):
+    a, b = 1, 1
+    for _ in range(n):
+        a, b = b, a + b
+    return a
+```
+La récursion naïve est exponentielle ; la mémoïsation ou l'itération est en O(n).
+
+=== algo-chemins-grille
+theme: algo
+niveau: 1
+profils: hf mm data banque
+type: numerique
+reponse: comb(8,4)
+duree: 90
+--- question
+Sur une grille, combien de chemins vont du coin (0, 0) au coin (4, 4) en ne faisant que des pas vers la droite ou vers le haut ?
+--- en
+How many lattice paths go from (0, 0) to (4, 4) using only right and up steps?
+--- solution
+Il faut 8 pas dont 4 vers la droite : C(8, 4) = **70**.
+--- relances
+- Lien avec un arbre binomial ? (nombre de chemins menant à un nœud = coefficient binomial)
+
+=== algo-mutable-defaut
+theme: algo
+niveau: 1
+profils: hf mm data banque
+--- question
+Que fait ce code, et pourquoi ?
+```python
+def ajouter(x, liste=[]):
+    liste.append(x)
+    return liste
+
+print(ajouter(1))
+print(ajouter(2))
+```
+--- en
+What does this code print, and why? (mutable default argument)
+--- solution
+Il affiche `[1]` puis `[1, 2]`. La valeur par défaut est évaluée **une seule fois**, à la définition de la fonction : la même liste est partagée entre les appels.
+Correction :
+```python
+def ajouter(x, liste=None):
+    if liste is None:
+        liste = []
+    liste.append(x)
+    return liste
+```
+
+=== algo-gil
+theme: algo
+niveau: 2
+profils: hf mm data banque
+--- question
+Qu'est-ce que le GIL en Python ? Comment accélérer un calcul lourd en Python ?
+--- en
+What is the GIL in Python? How do you speed up heavy computation in Python?
+--- solution
+Le Global Interpreter Lock empêche plusieurs threads d'exécuter du bytecode Python en même temps dans un même processus (CPython). Les threads aident pour les entrées-sorties (réseau, disque), pas pour le calcul pur.
+Pour accélérer :
+- **vectoriser** avec NumPy (boucles en C, qui libèrent souvent le GIL) ;
+- **multiprocessing** / `concurrent.futures.ProcessPoolExecutor` pour paralléliser sur plusieurs cœurs ;
+- compiler les boucles chaudes : Numba, Cython, ou une extension C++ ;
+- mieux : un meilleur algorithme (O(n) au lieu de O(n²)).
+Profiler d'abord (`cProfile`) avant d'optimiser. (Des versions récentes de CPython proposent une construction expérimentale sans GIL.)
+
+=== algo-generateurs
+theme: algo
+niveau: 1
+profils: hf mm data
+--- question
+Qu'est-ce qu'un générateur en Python ? Quand l'utiliser ?
+--- en
+What is a Python generator? When would you use one?
+--- solution
+Une fonction avec `yield` renvoie un itérateur qui produit les valeurs à la demande, en gardant son état entre deux appels. Rien n'est calculé à l'avance ni stocké en entier.
+Usages : lire un gros fichier de cotations ligne par ligne, flux infinis, pipelines de traitement paresseux ; expressions génératrices `(x * x for x in data)` au lieu de listes quand on ne parcourt qu'une fois.
+```python
+def lignes_valides(chemin):
+    with open(chemin) as f:
+        for ligne in f:
+            if ligne.strip():
+                yield ligne.split(",")
+```
+
+=== algo-dict-complexite
+theme: algo
+niveau: 1
+profils: hf mm data banque
+--- question
+Quelle est la complexité de la recherche dans une liste, un dictionnaire et un ensemble Python ? Comment fonctionne un dictionnaire ?
+--- en
+What is the lookup complexity in a Python list, dict and set? How does a dict work?
+--- solution
+- `x in liste` : O(n) (parcours).
+- `x in dict` / `x in set` : O(1) en moyenne, O(n) au pire (collisions).
+Un dictionnaire est une table de hachage : la clé est hachée pour trouver une case ; les collisions sont résolues par adressage ouvert ; la table est agrandie quand elle se remplit (coût amorti O(1)). Les clés doivent être hachables (immuables : pas de liste comme clé). Depuis Python 3.7, l'ordre d'insertion est conservé.
+
+=== algo-numpy-vectorisation
+theme: algo
+niveau: 1
+profils: hf mm data banque
+--- question
+Pourquoi une opération NumPy vectorisée est-elle beaucoup plus rapide qu'une boucle Python ? Qu'est-ce que le broadcasting ?
+--- en
+Why is a vectorized NumPy operation much faster than a Python loop? What is broadcasting?
+--- solution
+Une boucle Python manipule des objets un par un (typage dynamique, appels de fonction, allocation). NumPy stocke des données homogènes contiguës en mémoire et exécute la boucle en C compilé, souvent avec des instructions SIMD : facteur 10 à 100.
+**Broadcasting** : règles qui étendent virtuellement les dimensions de taille 1 pour combiner des tableaux de formes différentes sans copie. Exemple : `prix (n, 1) - strikes (1, m)` donne une matrice (n, m) de payoffs. Un simulateur de market making vectorise 4 000 trajectoires de cette façon.
+--- relances
+- Piège classique ? (une forme (n,) contre (n, 1) produit une matrice (n, n) par broadcasting au lieu d'une erreur)
+
+=== algo-pandas-pieges
+theme: algo
+niveau: 2
+profils: hf data
+--- question
+Cite des pièges courants avec pandas sur des données financières.
+--- en
+List common pandas pitfalls with financial data.
+--- solution
+- **Alignement sur l'index** : additionner deux séries aux dates différentes produit des NaN silencieux.
+- `shift` : `rendement.shift(-1)` regarde le futur ; vérifier le sens de chaque décalage (source classique de regard vers le futur).
+- `fillna(method="ffill")` sur des prix d'actifs disparus prolonge des cotations fictives.
+- **Affectation en chaîne** (`df[df.a > 0]["b"] = 1`) qui ne modifie pas le DataFrame d'origine ; utiliser `.loc`.
+- `merge` qui multiplie les lignes quand la clé n'est pas unique.
+- Fuseaux horaires et heures de clôture différentes selon les marchés.
+- `rolling` avec `center=True` : utilise des données futures.
+- `pct_change` sur des séries avec des NaN ou des dividendes non ajustés.
+
+=== algo-flottants
+theme: algo
+niveau: 2
+profils: hf mm data banque
+--- question
+Pourquoi 0,1 + 0,2 ≠ 0,3 en Python ? Quelles conséquences en finance, et comment les gérer ?
+--- en
+Why is 0.1 + 0.2 != 0.3 in Python? What are the consequences in finance and how do you handle them?
+--- solution
+Les flottants sont stockés en binaire (IEEE 754, 53 bits de mantisse) : 0,1 n'a pas de représentation binaire exacte, l'erreur d'arrondi apparaît dans la somme (0,30000000000000004).
+Conséquences : comparaisons d'égalité fausses, accumulation d'erreurs sur de longues sommes, **annulation catastrophique** quand on soustrait deux nombres proches (différences finies avec un pas trop petit, variance calculée comme E[X²] − E[X]²).
+Remèdes : comparer avec une tolérance (`math.isclose`), `decimal.Decimal` ou des entiers (centimes) pour la comptabilité, sommation de Kahan ou `math.fsum`, algorithmes stables (Welford pour la variance), pas de différences finies adapté (≈ √ε × échelle).
+
+=== algo-cpp-bases
+theme: algo
+niveau: 2
+profils: banque mm
+--- question
+Questions C++ fréquentes en banque et chez les teneurs de marché : pointeur ou référence, destructeur virtuel, RAII, pointeurs intelligents. Explique-les.
+--- en
+Common C++ questions: pointer vs reference, virtual destructor, RAII, smart pointers. Explain them.
+--- solution
+- **Référence** : alias d'un objet existant, jamais nulle, non réaffectable. **Pointeur** : adresse, peut être nul, réaffectable, arithmétique possible.
+- **Destructeur virtuel** : indispensable dans une classe de base destinée au polymorphisme ; sinon `delete` via un pointeur de base n'appelle pas le destructeur de la classe dérivée (comportement indéfini, fuites).
+- **RAII** : une ressource (mémoire, fichier, verrou) est acquise dans le constructeur et libérée dans le destructeur ; la libération est garantie même en cas d'exception.
+- **Pointeurs intelligents** : `std::unique_ptr` (propriété unique, déplaçable, sans surcoût), `std::shared_ptr` (compteur de références, attention aux cycles : `weak_ptr`).
+- Aussi : sémantique de déplacement (`std::move`), `const` correct, passage par référence constante pour éviter des copies, `vector` contre `list` (localité mémoire).
+--- relances
+- Pourquoi `std::vector` est-il presque toujours plus rapide que `std::list`, même pour des insertions ? (mémoire contiguë et cache du processeur)

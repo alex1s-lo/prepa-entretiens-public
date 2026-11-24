@@ -1,0 +1,511 @@
+# Produits dérivés et pricing : Black-Scholes, Greeks, volatilité, méthodes numériques.
+
+=== der-formule-bs
+theme: derives
+niveau: 1
+profils: banque risque hf mm
+--- question
+Écris la formule de Black-Scholes pour un call européen et explique d₁ et d₂.
+--- en
+Write the Black-Scholes formula for a European call and explain d₁ and d₂.
+--- solution
+C = S N(d₁) − K e^{−rT} N(d₂), avec
+d₁ = [ln(S/K) + (r + σ²/2)T] / (σ√T), d₂ = d₁ − σ√T.
+- **N(d₂)** est la probabilité risque-neutre que le call finisse dans la monnaie.
+- **N(d₁)** est le delta, et la probabilité d'exercice sous la mesure qui prend l'action comme numéraire.
+- Avec un dividende continu q : remplacer S par S e^{−qT} (et r par r − q dans d₁).
+Lecture : le call vaut « ce que je reçois » (l'action si exercice) moins « ce que je paie » (K actualisé si exercice).
+--- relances
+- Et le put ? (K e^{−rT} N(−d₂) − S N(−d₁))
+- Que devient C quand σ → 0 ? (max(S − K e^{−rT}, 0)) ; quand σ → ∞ ? (S)
+
+=== der-hypotheses-bs
+theme: derives
+niveau: 1
+profils: banque risque hf mm
+--- question
+Quelles sont les hypothèses du modèle de Black-Scholes, et lesquelles sont les plus fausses en pratique ?
+--- en
+What are the Black-Scholes assumptions, and which ones fail most in practice?
+--- solution
+Hypothèses : prix log-normal (brownien géométrique) à volatilité constante ; taux sans risque constant ; pas de coûts de transaction ni de contraintes de vente à découvert ; couverture continue ; pas d'arbitrage ; marché liquide.
+Les plus fausses :
+- **volatilité constante** : le smile et la structure par terme le contredisent ; la volatilité est stochastique et corrélée au prix (effet de levier) ;
+- **trajectoires continues** : il y a des sauts (annonces, krachs) ;
+- **couverture continue sans coût** : on couvre en discret, avec des coûts, d'où un risque résiduel (gamma).
+Le modèle reste utilisé comme langage : on cote les options en volatilité implicite.
+--- relances
+- Pourquoi dit-on que Black-Scholes est « le mauvais nombre dans la mauvaise formule pour obtenir le bon prix » ? (on met dans la formule la volatilité implicite qui reproduit le prix de marché)
+
+=== der-parite-call-put
+theme: derives
+niveau: 1
+profils: banque risque hf mm
+type: numerique
+reponse: 13
+duree: 90
+--- question
+Un call européen de strike 105 et de maturité 1 an vaut 8. Le sous-jacent vaut 100, il ne verse pas de dividende et les taux sont nuls. Que vaut le put de même strike et de même maturité ?
+--- en
+A 1-year European call struck at 105 is worth 8. Spot is 100, no dividends, zero rates. What is the put with the same strike and maturity worth?
+--- solution
+Parité : C − P = S − K e^{−rT}, donc P = C − S + K = 8 − 100 + 105 = **13**.
+Démonstration : long call + short put = (S_T − K) dans tous les cas = un forward ; par absence d'arbitrage, même prix aujourd'hui.
+--- relances
+- La parité dépend-elle d'un modèle ? (non : seulement de l'absence d'arbitrage, pour des options européennes)
+- Et pour des options américaines ? (seulement des inégalités : S − K ≤ C − P ≤ S − K e^{−rT} sans dividende)
+
+=== der-approx-atm
+theme: derives
+niveau: 1
+profils: banque risque hf mm
+type: numerique
+reponse: 100*(N(0.1)-N(-0.1))
+tolerance: 0.01
+duree: 120
+--- question
+Estime de tête le prix d'un call à la monnaie, S = K = 100, σ = 20 %, maturité 1 an, taux nuls.
+--- en
+Estimate mentally the price of an at-the-money call: S = K = 100, σ = 20%, 1 year, zero rates.
+--- indice
+Approximation à la monnaie : C ≈ 0,4·σ·S·√T (car 1/√(2π) ≈ 0,4).
+--- solution
+C ≈ 0,4 × 0,2 × 100 × 1 = **8** (valeur exacte : 100(2N(0,1) − 1) ≈ 7,97).
+L'approximation vient d'un développement de N au voisinage de 0 : C ≈ S σ√T / √(2π).
+--- relances
+- Prix du straddle à la monnaie ? (≈ 0,8 σ S √T ≈ 16)
+- Si la maturité passe à 3 mois ? (divisé par 2, car √(1/4) = 1/2)
+
+=== der-delta-atm
+theme: derives
+niveau: 1
+profils: banque risque hf mm
+type: numerique
+reponse: N(0.1)
+duree: 90
+--- question
+Delta d'un call à la monnaie (S = K = 100), σ = 20 %, maturité 1 an, taux nuls ? Pourquoi n'est-il pas exactement 0,5 ?
+--- en
+Delta of an ATM call (S = K = 100), σ = 20%, 1 year, zero rates? Why isn't it exactly 0.5?
+--- solution
+Δ = N(d₁) avec d₁ = σ√T/2 = 0,1 : **Δ ≈ 0,540**.
+Il dépasse 0,5 à cause du terme +σ²/2 : la loi log-normale est asymétrique à droite. Le call de delta 0,5 a un strike un peu au-dessus du forward (K = F e^{σ²T/2}).
+--- relances
+- Delta du put ? (N(d₁) − 1 ≈ −0,46)
+- Que devient le delta d'un call à la monnaie quand la maturité tend vers 0 ? (0,5)
+
+=== der-gamma-atm
+theme: derives
+niveau: 2
+profils: banque risque hf mm
+type: numerique
+reponse: phi(0.1)/(100*0.2)
+tolerance: 0.01
+duree: 150
+--- question
+Gamma d'un call à la monnaie, S = K = 100, σ = 20 %, maturité 1 an, taux nuls ? De combien le delta bouge-t-il si le sous-jacent prend 1 point ?
+--- en
+Gamma of an ATM call, S = K = 100, σ = 20%, T = 1, zero rates? How much does delta move for a 1-point move in spot?
+--- solution
+Γ = φ(d₁)/(Sσ√T) = φ(0,1)/20 ≈ 0,397/20 ≈ **0,0198**. Une hausse d'un point fait passer le delta d'environ 0,540 à 0,560.
+Ordre de grandeur à retenir : à la monnaie, Γ ≈ 0,4/(Sσ√T).
+--- relances
+- Où le gamma est-il maximal ? (près de la monnaie, et il explose quand la maturité tend vers 0)
+- Quel lien entre gamma et vega pour une option vanille ? (Vega = Γ S² σ T)
+
+=== der-vega-point
+theme: derives
+niveau: 2
+profils: banque risque hf mm
+type: numerique
+reponse: 100*(2*N(0.105)-1)-100*(2*N(0.1)-1)
+tolerance: 0.01
+duree: 150
+--- question
+Un call à la monnaie (S = K = 100, maturité 1 an, taux nuls) est coté avec 20 % de volatilité. De combien augmente son prix si la volatilité passe à 21 % ?
+--- en
+An ATM call (S = K = 100, 1 year, zero rates) is priced at 20% vol. By how much does its price increase if vol goes to 21%?
+--- solution
+Vega = S√T φ(d₁) ≈ 100 × 0,397 ≈ 39,7 par unité de volatilité, soit **≈ 0,40 par point de vol**. Le calcul exact (7,97 → 8,36) donne 0,397.
+Approximation : à la monnaie, le prix est presque linéaire en σ (0,4 S √T par unité), d'où vega ≈ 0,4 S √T.
+--- relances
+- Où le vega est-il maximal ? (près de la monnaie ; il croît avec la maturité en √T)
+- Pourquoi les options longues sont-elles surtout un pari sur la vol, les courtes sur le gamma ?
+
+=== der-digitale-prix
+theme: derives
+niveau: 2
+profils: banque risque hf mm
+type: numerique
+reponse: N(-0.1)
+duree: 150
+--- question
+Que vaut une option digitale qui paie 1 si S_T > 100 (S₀ = 100, σ = 20 %, maturité 1 an, taux nuls) ?
+--- en
+Price of a digital option paying 1 if S_T > 100 (S₀ = 100, σ = 20%, T = 1, zero rates)?
+--- solution
+Prix = e^{−rT} N(d₂) avec d₂ = −σ√T/2 = −0,1 : **≈ 0,460**.
+Ce n'est pas 0,5 : sous la mesure risque-neutre avec taux nuls, la médiane de S_T est sous 100.
+--- relances
+- Comment répliquer une digitale avec des calls ? (call spread serré : [C(K − ε) − C(K + ε)]/(2ε), donc digitale = −∂C/∂K)
+- En quoi le smile change-t-il le prix ? (digitale = −∂C/∂K au total : −∂C_BS/∂K − Vega·∂σ/∂K ; avec un skew négatif, la digitale call coûte plus cher que N(d₂))
+
+=== der-digitale-replication
+theme: derives
+niveau: 2
+profils: banque risque mm
+--- question
+Pourquoi les digitales sont-elles difficiles à couvrir près de l'échéance ? Comment les banques gèrent-elles ce risque ?
+--- en
+Why are digital options hard to hedge close to expiry? How do banks manage it?
+--- solution
+Près de l'échéance et du strike, le delta d'une digitale (≈ densité au strike) devient énorme et change de signe très vite : le gamma est explosif, la couverture en delta demande des volumes déraisonnables (« pin risk »).
+Gestion : on la risque-manage comme un **call spread** légèrement décalé dans le sens conservateur (« overhedge », par exemple entre K − ε et K), ce qui borne les Greeks et facture la différence au client. Le prix inclut aussi le skew (dérivée de la vol implicite en K).
+
+=== der-greeks-signes
+theme: derives
+niveau: 1
+profils: banque risque hf mm
+--- question
+Pour un call acheté et un put acheté, donne le signe de delta, gamma, vega, theta et rho.
+--- en
+For a long call and a long put, give the sign of delta, gamma, vega, theta and rho.
+--- solution
+| Greek | Call acheté | Put acheté |
+|---|---|---|
+| Delta | + (entre 0 et 1) | − (entre −1 et 0) |
+| Gamma | + | + (même gamma que le call) |
+| Vega | + | + |
+| Theta | − en général | − en général (peut être + pour un put européen très dans la monnaie) |
+| Rho | + | − |
+Être long d'une option, c'est être long de la convexité (gamma, vega) et payer le temps (theta).
+--- relances
+- Pourquoi le gamma d'un call et celui d'un put de même strike sont-ils égaux ? (parité : call − put = forward, dont le gamma est nul)
+
+=== der-gamma-theta
+theme: derives
+niveau: 2
+profils: banque risque hf mm
+--- question
+Quelle relation lie theta et gamma pour un portefeuille couvert en delta ? Comment l'interpréter ?
+--- en
+What relation links theta and gamma for a delta-hedged portfolio? How do you interpret it?
+--- solution
+L'EDP de Black-Scholes s'écrit Θ + rSΔ + ½σ²S²Γ = rV. Pour un portefeuille delta-neutre et avec r ≈ 0 : **Θ ≈ −½σ²S²Γ**.
+Interprétation : être long gamma (on gagne sur les grands mouvements, dans les deux sens) se paie par une perte de valeur temps chaque jour. Sur un pas dt, le PnL d'une position couverte est ≈ ½ΓS²[(ΔS/S)² − σ²dt] : on gagne si le marché bouge plus que la volatilité implicite.
+--- relances
+- Un market maker vend des options et se couvre en delta : quand gagne-t-il ? (si la volatilité réalisée est inférieure à l'implicite vendue)
+
+=== der-pnl-couverture
+theme: derives
+niveau: 3
+profils: banque risque hf mm
+--- question
+Tu achètes une option à 20 % de volatilité implicite et tu la couvres en delta jusqu'à l'échéance. La volatilité réalisée est de 25 %. Gagnes-tu de l'argent ? De quoi dépend le PnL ?
+--- en
+You buy an option at 20% implied vol and delta-hedge it until expiry. Realized vol is 25%. Do you make money? What does the P&L depend on?
+--- solution
+Le PnL instantané de la position couverte vaut ½ΓS²(σ_réalisée² − σ_implicite²)dt. Avec 25 % > 20 %, tu gagnes **en espérance**, mais le gain total est
+½ ∫ Γ_t S_t² (σ_r² − σ_i²) dt :
+il dépend du chemin. Si le sous-jacent bouge beaucoup quand l'option est loin de la monnaie (gamma faible), tu gagnes peu ; s'il bouge près du strike à l'approche de l'échéance (gamma fort), tu gagnes beaucoup.
+Détails : si tu couvres avec le delta calculé à la vol implicite, le PnL dépend du chemin ; avec le delta à la vol réalisée (inconnue a priori), le PnL final est déterministe mais le PnL intermédiaire fluctue.
+--- relances
+- Comment parier sur la volatilité sans cette dépendance au chemin ? (swap de variance : son payoff est la variance réalisée moins le strike, répliqué par un portefeuille d'options pondérées en 1/K²)
+
+=== der-call-americain
+theme: derives
+niveau: 2
+profils: banque risque hf
+--- question
+Pourquoi n'est-il jamais optimal d'exercer tôt un call américain sur une action sans dividende ? Et un put ?
+--- en
+Why is it never optimal to exercise early an American call on a non-dividend-paying stock? What about a put?
+--- solution
+Call sans dividende : C ≥ S − K e^{−rT} > S − K (pour r > 0). L'option vaut toujours plus que sa valeur d'exercice : mieux vaut la vendre (ou garder la protection contre une baisse et payer K plus tard). Donc call américain = call européen.
+Put : exercer tôt peut être optimal si le put est très dans la monnaie, car recevoir K tout de suite rapporte des intérêts, ce qui peut valoir plus que la valeur temps restante. Le put américain vaut strictement plus que l'européen (si r > 0).
+Avec des dividendes, exercer un call juste avant le détachement peut être optimal.
+--- relances
+- Comment pricer un put américain ? (arbre binomial, EDP avec contrainte d'obstacle, Monte-Carlo de Longstaff-Schwartz)
+
+=== der-convexite-strike
+theme: derives
+niveau: 2
+profils: banque risque hf mm
+--- question
+Pourquoi le prix d'un call doit-il être décroissant et convexe en fonction du strike ? Que représente ∂²C/∂K² ?
+--- en
+Why must the call price be decreasing and convex in the strike? What does ∂²C/∂K² represent?
+--- solution
+- **Décroissant** : un call de strike plus bas paie toujours au moins autant. Sinon : acheter le call de strike bas, vendre celui de strike haut = arbitrage.
+- **Convexe** : un butterfly (C(K − h) − 2C(K) + C(K + h)) a un payoff positif ou nul, donc un prix positif ou nul.
+- **Breeden-Litzenberger** : ∂²C/∂K² = e^{−rT} q(K), où q est la densité risque-neutre de S_T. Une convexité violée équivaut à une densité négative : arbitrage papillon.
+C'est exactement ce que contrôle la condition g(k) ≥ 0 de Gatheral-Jacquier dans ton projet de surface de volatilité.
+--- relances
+- Quelles bornes encadrent la pente ∂C/∂K ? (entre −e^{−rT} et 0)
+
+=== der-bornes
+theme: derives
+niveau: 1
+profils: banque risque hf mm
+--- question
+Donne des bornes de non-arbitrage pour le prix d'un call européen (sans dividende).
+--- en
+Give no-arbitrage bounds for the price of a European call (no dividends).
+--- solution
+**max(S − K e^{−rT}, 0) ≤ C ≤ S.**
+- C ≤ S : le call paie au plus S_T.
+- C ≥ S − K e^{−rT} : le call domine un forward acheté (payoff max(S_T − K, 0) ≥ S_T − K).
+- C ≥ 0.
+Pour un put : max(K e^{−rT} − S, 0) ≤ P ≤ K e^{−rT}.
+
+=== der-smile
+theme: derives
+niveau: 2
+profils: banque risque hf mm
+--- question
+Pourquoi observe-t-on un smile, et plus précisément un skew négatif, sur les options d'actions ?
+--- en
+Why is there a volatility smile, and more precisely a negative skew, on equity options?
+--- solution
+Si Black-Scholes était vrai, la volatilité implicite serait la même pour tous les strikes. Le smile traduit des queues de distribution plus épaisses que la log-normale. Le skew actions (puts de strike bas plus chers en vol) vient :
+- de l'asymétrie des rendements : les krachs sont plus brutaux que les hausses ;
+- de l'**effet de levier** et de la corrélation négative spot-vol : quand le marché baisse, la volatilité monte ;
+- de la **demande de protection** : les investisseurs achètent des puts, les teneurs de marché, vendeurs, demandent une prime.
+Historiquement, le skew actions s'est fortement creusé après le krach de 1987.
+Sur le change, le smile est plus symétrique ; sur certaines matières premières, le skew peut être positif (peur des hausses).
+--- relances
+- Quels modèles reproduisent le smile ? (volatilité locale, volatilité stochastique, sauts, SABR)
+- Que dit le skew de la distribution risque-neutre ? (queue gauche épaisse, asymétrie négative)
+
+=== der-forward-dividende
+theme: derives
+niveau: 1
+profils: banque risque hf mm
+type: numerique
+reponse: 100*exp(0.03)
+duree: 60
+--- question
+Action à 100, taux continu 5 %, dividende continu 2 %. Prix forward à 1 an ?
+--- en
+Stock at 100, continuous rate 5%, continuous dividend yield 2%. One-year forward price?
+--- solution
+F = S e^{(r − q)T} = 100 e^{0,03} ≈ **103,05**.
+Réplication : emprunter S pour acheter l'action, recevoir les dividendes, rembourser S e^{rT} ; le forward doit coûter ce que coûte ce portage.
+--- relances
+- Et avec un dividende discret D versé avant l'échéance ? (F = (S − D e^{−rt_D}) e^{rT})
+
+=== der-forward-futures
+theme: derives
+niveau: 2
+profils: banque risque mm
+--- question
+Quelle différence entre un forward et un futures ? Leurs prix sont-ils égaux ?
+--- en
+What is the difference between a forward and a futures contract? Are their prices equal?
+--- solution
+- **Forward** : contrat de gré à gré, réglé à l'échéance, avec risque de contrepartie (aujourd'hui souvent collatéralisé).
+- **Futures** : contrat standardisé, coté, avec chambre de compensation et appels de marge **quotidiens** (règlement au jour le jour).
+Prix : égaux si les taux sont déterministes. Avec des taux stochastiques corrélés au sous-jacent, le futures diffère : si le sous-jacent monte quand les taux montent, les gains de marge sont réinvestis à taux élevés, le futures vaut plus que le forward (ajustement de convexité, important sur les futures de taux).
+
+=== der-barriere-parite
+theme: derives
+niveau: 2
+profils: banque risque mm
+--- question
+Qu'est-ce qu'une option à barrière « knock-out » ? Quelle relation entre knock-in et knock-out ?
+--- en
+What is a knock-out barrier option? What relation links knock-in and knock-out options?
+--- solution
+Une knock-out est une option vanille qui disparaît si le sous-jacent touche une barrière avant l'échéance ; une knock-in n'existe que si la barrière est touchée.
+**Knock-in + knock-out = vanille** (même strike, barrière, maturité) : exactement l'une des deux est active à l'échéance.
+Une barrière coûte donc moins cher que la vanille. Points de vigilance : surveillance discrète ou continue (correction de Broadie-Glasserman), gamma et vega très forts près de la barrière, sensibilité au smile (prix différent en vol locale et en vol stochastique).
+--- relances
+- Un up-and-out call avec une barrière sous le strike vaut combien ? (0 : il faut passer au-dessus du strike donc toucher la barrière)
+
+=== der-asiatique
+theme: derives
+niveau: 2
+profils: banque risque mm
+--- question
+Une option asiatique (sur la moyenne du sous-jacent) est-elle plus ou moins chère qu'une option européenne de même strike ? Pourquoi ?
+--- en
+Is an Asian option (on the average price) cheaper or more expensive than the corresponding European option? Why?
+--- solution
+Moins chère (à la monnaie) : la moyenne est moins volatile que le prix final. Pour un brownien, la moyenne sur [0, T] a une variance T/3 contre T pour la valeur finale : volatilité effective ≈ σ/√3.
+Pas de formule fermée pour la moyenne arithmétique (une somme de log-normales n'est pas log-normale) : Monte-Carlo, avec l'asiatique géométrique (formule fermée) comme variable de contrôle.
+--- relances
+- Pourquoi les acheteurs de matières premières aiment-elles les asiatiques ? (elles couvrent un coût moyen sur la période et sont moins manipulables à une date précise)
+
+=== der-monte-carlo-variance
+theme: derives
+niveau: 2
+profils: banque risque hf
+--- question
+Comment réduire la variance d'un estimateur Monte-Carlo de prix d'option ? Donne trois méthodes.
+--- en
+How do you reduce the variance of a Monte Carlo option-pricing estimator? Give three methods.
+--- solution
+L'erreur standard vaut σ/√N : diviser l'erreur par 10 coûte 100 fois plus de trajectoires, d'où l'intérêt de réduire σ.
+- **Variables antithétiques** : utiliser Z et −Z ; efficace si le payoff est monotone en Z.
+- **Variable de contrôle** : ajouter c(Y − E[Y]) avec Y corrélé au payoff et E[Y] connu (le sous-jacent actualisé, une asiatique géométrique, un call vanille).
+- **Échantillonnage préférentiel** : tirer davantage là où le payoff compte (options très hors de la monnaie), corriger par le rapport de vraisemblance.
+- Aussi : quasi-Monte-Carlo (suites de Sobol), stratification, conditionnement.
+--- relances
+- Comment calculer un delta par Monte-Carlo ? (différences finies avec les mêmes tirages, méthode trajectorielle, rapport de vraisemblance)
+
+=== der-differences-finies
+theme: derives
+niveau: 3
+profils: banque risque
+--- question
+Tu résous l'EDP de Black-Scholes par différences finies. Schéma explicite, implicite ou Crank-Nicolson : avantages et pièges ?
+--- en
+You solve the Black-Scholes PDE by finite differences. Explicit, implicit or Crank-Nicolson: pros and pitfalls?
+--- solution
+- **Explicite** : simple, mais stable seulement si Δt ≤ Δx²/(σ²S²) environ (condition de type CFL) : pas de temps minuscules quand la grille s'affine.
+- **Implicite** : inconditionnellement stable, système tridiagonal à résoudre à chaque pas (algorithme de Thomas, O(n)), précision d'ordre 1 en temps.
+- **Crank-Nicolson** : ordre 2 en temps et stable, mais produit des oscillations parasites sur des payoffs non lisses (digitales, strike d'un call) : on démarre par quelques pas implicites (lissage de Rannacher).
+Autres points : conditions aux bords, grille en log S, maillage resserré autour du strike et des barrières.
+
+=== der-vol-locale-stochastique
+theme: derives
+niveau: 3
+profils: banque risque hf
+--- question
+Volatilité locale (Dupire) ou volatilité stochastique (Heston) : quelles différences, et quand cela change-t-il le prix ?
+--- en
+Local volatility (Dupire) vs stochastic volatility (Heston): what are the differences, and when does it matter for pricing?
+--- solution
+- **Volatilité locale** : σ(t, S) déterministe, déduite de toute la surface de vanilles par la formule de Dupire. Elle reproduit exactement les vanilles d'aujourd'hui.
+- **Volatilité stochastique** : la variance a sa propre dynamique (Heston : retour à la moyenne, vol de vol, corrélation spot-vol). Calibration approximative du smile, surtout pour les maturités courtes.
+Les deux peuvent donner les mêmes vanilles mais pas la même **dynamique du smile** : en vol locale, quand le spot bouge, le smile se déplace dans le sens opposé à celui observé sur le marché (critique de Hagan et al., 2002, à l'origine de SABR), et les smiles futurs (forward) s'aplatissent ; en vol stochastique, le smile se déplace avec le spot et les smiles futurs gardent leur forme. Les produits sensibles au smile forward (options à départ différé, cliquets, barrières, variance options) ont des prix très différents. D'où des modèles mixtes : vol locale stochastique (LSV).
+--- relances
+- Formule de Dupire ? (σ²(K, T) = (∂C/∂T + (r − q)K ∂C/∂K + qC) / (½K² ∂²C/∂K²))
+
+=== der-heston
+theme: derives
+niveau: 2
+profils: banque risque hf
+--- question
+Écris le modèle de Heston et le rôle de chaque paramètre. Qu'est-ce que la condition de Feller ?
+--- en
+Write the Heston model and the role of each parameter. What is the Feller condition?
+--- solution
+dS = μS dt + √v S dW₁, dv = κ(θ − v) dt + ξ√v dW₂, d⟨W₁, W₂⟩ = ρ dt.
+- v₀ : variance actuelle (niveau des vols courtes) ;
+- θ : variance de long terme (niveau des vols longues) ;
+- κ : vitesse de retour à θ (forme de la structure par terme) ;
+- ξ : volatilité de la variance (courbure du smile) ;
+- ρ : corrélation spot-variance (pente du skew ; ρ < 0 pour les actions).
+**Feller** : 2κθ ≥ ξ² garantit que la variance ne touche pas 0. Souvent violée par les calibrations, d'où des schémas de simulation adaptés (QE d'Andersen).
+Prix : semi-analytique par la fonction caractéristique et une intégrale de Fourier (Gil-Pelaez, Carr-Madan), avec la forme « little Heston trap » pour éviter les discontinuités du logarithme complexe : c'est ce que fait un projet de surface de volatilité.
+--- relances
+- Pourquoi ρ < 0 donne-t-il un skew négatif ? (quand le spot baisse, la variance monte : queue gauche épaisse)
+
+=== der-sabr
+theme: derives
+niveau: 3
+profils: banque risque
+--- question
+Qu'est-ce que le modèle SABR et où est-il utilisé ?
+--- en
+What is the SABR model and where is it used?
+--- solution
+dF = α F^β dW₁, dα = ν α dW₂, d⟨W₁, W₂⟩ = ρ dt, sur le forward F.
+- α : niveau de volatilité ; β : forme du « backbone » (comment la vol à la monnaie bouge avec F ; souvent fixé) ; ρ : pente du skew ; ν : vol de vol, courbure du smile.
+Utilisé surtout en **taux** (swaptions, caps) grâce à la formule asymptotique de Hagan qui donne directement une volatilité implicite. Limite : la formule peut donner des densités négatives pour des strikes très bas ; variantes sans arbitrage et « shifted SABR » pour les taux négatifs.
+
+=== der-risque-neutre
+theme: derives
+niveau: 1
+profils: banque risque hf mm
+--- question
+Explique la valorisation risque-neutre à quelqu'un qui ne la connaît pas. Pourquoi le rendement espéré de l'action n'apparaît-il pas dans le prix d'une option ?
+--- en
+Explain risk-neutral pricing to a layperson. Why doesn't the expected return of the stock appear in the option price?
+--- solution
+Une option peut être **répliquée** par un portefeuille dynamique d'action et de cash (couverture en delta). Par absence d'arbitrage, son prix est le coût de cette réplication, quelles que soient les préférences des investisseurs. Comme le portefeuille couvert est sans risque, on peut faire le calcul « comme si » tout le monde était neutre au risque : tous les actifs rapportent alors le taux sans risque, et le prix est l'espérance actualisée du payoff sous cette probabilité Q.
+Le rendement espéré μ disparaît parce que le risque directionnel est neutralisé par la couverture : seule la volatilité compte. μ influence les probabilités réelles d'exercice, pas le prix.
+--- relances
+- Que se passe-t-il si le marché n'est pas complet (sauts, vol stochastique) ? (plusieurs mesures risque-neutres possibles : le prix dépend du prix du risque choisi, calibré au marché)
+
+=== der-edp-bs
+theme: derives
+niveau: 2
+profils: banque risque hf
+--- question
+Redémontre l'équation aux dérivées partielles de Black-Scholes.
+--- en
+Derive the Black-Scholes PDE.
+--- indice
+Portefeuille Π = V − ΔS, applique Itô à V(t, S), choisis Δ pour annuler le terme en dW.
+--- solution
+dS = μS dt + σS dW. Par Itô : dV = (V_t + μS V_S + ½σ²S² V_SS) dt + σS V_S dW.
+Portefeuille Π = V − Δ S : dΠ = dV − Δ dS. Avec **Δ = V_S**, le terme en dW (et μ) disparaît :
+dΠ = (V_t + ½σ²S² V_SS) dt.
+Sans risque, il doit rapporter le taux sans risque : dΠ = rΠ dt = r(V − S V_S) dt. D'où
+**V_t + rS V_S + ½σ²S² V_SS − rV = 0**, avec la condition terminale V(T, S) = payoff.
+
+=== der-straddle-vol-implicite
+theme: derives
+niveau: 2
+profils: mm hf banque
+type: numerique
+reponse: 0.2006
+tolerance: 0.01
+duree: 180
+--- question
+Un straddle à la monnaie de maturité 3 mois sur un sous-jacent à 100 (taux nuls) cote 8. Quelle volatilité implicite, de tête ?
+--- en
+A 3-month ATM straddle on an underlying at 100 (zero rates) trades at 8. What implied volatility, mentally?
+--- indice
+Straddle à la monnaie ≈ 0,8·σ·S·√T.
+--- solution
+8 ≈ 0,8 × σ × 100 × √0,25 = 40σ, donc **σ ≈ 20 %** (l'inversion exacte de Black-Scholes donne 20,06 %).
+Réflexe utile chez un teneur de marché : un straddle à la monnaie coûte environ l'écart-type du sous-jacent à l'échéance × 0,8 (car E|Z| = √(2/π) ≈ 0,8).
+--- relances
+- Le mouvement quotidien moyen attendu correspondant ? (σ/√252 ≈ 1,26 % par jour, soit environ 1 point)
+
+=== der-option-carre
+theme: derives
+niveau: 3
+profils: banque risque hf
+type: numerique
+reponse: 10000*exp(0.04)
+duree: 300
+--- question
+Dans Black-Scholes avec taux nuls, S₀ = 100, σ = 20 %, combien vaut un contrat qui paie S_T² dans 1 an ?
+--- en
+In Black-Scholes with zero rates, S₀ = 100, σ = 20%, what is the price of a contract paying S_T² in one year?
+--- solution
+Sous Q, S_T = S₀ exp(−σ²T/2 + σW_T), donc S_T² = S₀² exp(−σ²T + 2σW_T) et E[S_T²] = S₀² exp(−σ²T + 2σ²T) = S₀² e^{σ²T}.
+Prix : 10 000 × e^{0,04} ≈ **10 408,1**.
+--- relances
+- Plus généralement, prix de S_T^n ? (S₀ⁿ exp(n(r − σ²/2)T + n²σ²T/2) × e^{−rT})
+
+=== der-proba-exercice
+theme: derives
+niveau: 2
+profils: banque risque hf mm
+--- question
+Un call a un delta de 0,30. Peut-on dire qu'il a 30 % de chances de finir dans la monnaie ?
+--- en
+A call has a delta of 0.30. Can you say it has a 30% chance of finishing in the money?
+--- solution
+À peu près, mais pas exactement :
+- la probabilité risque-neutre d'exercice est N(d₂), légèrement inférieure à N(d₁) = delta ;
+- la probabilité réelle dépend de la dérive réelle μ, pas de r.
+En pratique les traders utilisent le delta comme approximation rapide de la probabilité d'exercice, en sachant que l'écart grandit avec σ√T.
+
+=== der-sensibilite-taux-dividendes
+theme: derives
+niveau: 1
+profils: banque risque mm
+--- question
+Comment le prix d'un call varie-t-il quand les taux montent ? Et quand un dividende plus élevé est annoncé ?
+--- en
+How does a call price change when rates rise? And when a higher dividend is announced?
+--- solution
+- **Taux en hausse** : le forward S e^{rT} monte et le strike actualisé K e^{−rT} baisse : le call prend de la valeur (rho > 0), le put en perd.
+- **Dividende plus élevé** : le forward baisse (l'action perd le dividende au détachement) : le call perd de la valeur, le put en gagne.
+Raisonner en forward évite les erreurs : un call est un call sur le forward.

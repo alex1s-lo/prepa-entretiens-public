@@ -1,0 +1,16 @@
+{
+  "name": "Prépa entretiens quant",
+  "short_name": "Prépa",
+  "description": "Préparation aux entretiens de stage quant : révisions espacées, calcul mental, entretiens blancs, market making.",
+  "lang": "fr",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f6f5f1",
+  "theme_color": "#2f5d8a",
+  "icons": [
+    { "src": "app/icone-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "app/icone-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "app/icone-masquable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

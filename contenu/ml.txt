@@ -1,0 +1,230 @@
+# Machine learning appliqué à la finance.
+
+=== ml-biais-variance
+theme: ml
+niveau: 1
+profils: data hf
+--- question
+Explique le compromis biais-variance avec un exemple.
+--- en
+Explain the bias-variance trade-off with an example.
+--- solution
+Erreur de prévision attendue = biais² + variance + bruit irréductible.
+- **Biais** : erreur due à un modèle trop simple (une droite pour une relation courbe) : sous-apprentissage.
+- **Variance** : sensibilité du modèle à l'échantillon d'entraînement (un polynôme de degré 20 change complètement si on change quelques points) : sur-apprentissage.
+Augmenter la complexité réduit le biais et augmente la variance ; on choisit la complexité par validation (croisée ou hors échantillon).
+En finance, le rapport signal/bruit est très faible : la variance domine, d'où des modèles simples, fortement régularisés, et beaucoup de méfiance envers les bons résultats en échantillon.
+
+=== ml-l1-l2
+theme: ml
+niveau: 1
+profils: data hf
+--- question
+Ridge (L2) ou Lasso (L1) : quelles différences ? Pourquoi le Lasso met-il des coefficients exactement à zéro ?
+--- en
+Ridge (L2) vs Lasso (L1): differences? Why does Lasso set coefficients exactly to zero?
+--- solution
+On ajoute λ‖β‖² (Ridge) ou λ‖β‖₁ (Lasso) à la somme des carrés des résidus.
+- **Ridge** : rétrécit tous les coefficients vers 0 sans les annuler ; stabilise les variables colinéaires (répartit le poids) ; solution fermée (XᵀX + λI)⁻¹Xᵀy.
+- **Lasso** : produit des solutions creuses (sélection de variables) ; avec des variables colinéaires, en garde une arbitrairement.
+Géométrie : la boule L1 est un losange dont les coins sont sur les axes ; les courbes de niveau de l'erreur la touchent le plus souvent en un coin, donc avec des coefficients nuls. La boule L2 est ronde : pas de coin.
+Elastic net : mélange des deux. Vue bayésienne : Ridge = a priori gaussien, Lasso = a priori de Laplace.
+--- relances
+- Faut-il normaliser les variables avant ? (oui : la pénalité dépend de l'échelle)
+
+=== ml-ridge-1d
+theme: ml
+niveau: 2
+profils: data hf
+type: numerique
+reponse: 10/(20+5)
+duree: 120
+--- question
+Régression Ridge à une variable, sans constante : Σxᵢyᵢ = 10, Σxᵢ² = 20, pénalité λ = 5. Coefficient estimé ? (Et sans pénalité ?)
+--- en
+One-variable Ridge regression without intercept: Σxy = 10, Σx² = 20, λ = 5. Estimated coefficient? (And without penalty?)
+--- solution
+β̂ = Σxy/(Σx² + λ) = 10/25 = **0,4**, contre 10/20 = 0,5 sans pénalité : le coefficient est rétréci vers zéro.
+
+=== ml-validation-temporelle
+theme: ml
+niveau: 2
+profils: data hf
+--- question
+Pourquoi la validation croisée classique (k-fold aléatoire) est-elle dangereuse sur des données financières ? Que fais-tu à la place ?
+--- en
+Why is standard random k-fold cross-validation dangerous on financial data? What do you do instead?
+--- solution
+Les observations sont dépendantes dans le temps (autocorrélation, étiquettes construites sur des fenêtres futures qui se chevauchent) : des points de test « voient » des points d'entraînement voisins, ce qui gonfle les performances (fuite d'information). Et le futur sert à prédire le passé.
+À la place :
+- **walk-forward** : entraîner sur le passé, tester sur la période suivante, avancer (comme dans ton projet stat arb) ;
+- **k-fold purgé avec embargo** (López de Prado) : retirer de l'entraînement les observations dont l'étiquette chevauche la période de test, plus une marge après ;
+- un échantillon final jamais utilisé pour choisir quoi que ce soit.
+
+=== ml-fuite-information
+theme: ml
+niveau: 1
+profils: data hf
+--- question
+Donne trois exemples de fuite d'information (data leakage) dans un modèle de prévision de rendements.
+--- en
+Give three examples of data leakage in a return-forecasting model.
+--- solution
+1. **Normaliser sur tout l'échantillon** (moyenne et écart-type calculés avec les données futures) avant de découper entraînement et test.
+2. **Données non point-in-time** : utiliser des résultats d'entreprise révisés, ou publiés après la date de décision ; utiliser la composition actuelle d'un indice (biais du survivant).
+3. **Décalage d'un jour** : le signal utilise le prix de clôture du jour qu'on prétend trader à la clôture (c'est le bug corrigé dans ton projet stat arb).
+4. **Sélection de variables ou d'hyperparamètres** sur l'échantillon de test.
+5. **Étiquettes qui se chevauchent** entre entraînement et test (rendements à 20 jours calculés chaque jour).
+
+=== ml-foret-boosting
+theme: ml
+niveau: 2
+profils: data hf
+--- question
+Forêt aléatoire ou gradient boosting : comment fonctionnent-ils et quand choisir l'un ou l'autre ?
+--- en
+Random forest vs gradient boosting: how do they work and when would you pick one?
+--- solution
+- **Forêt aléatoire** : beaucoup d'arbres profonds entraînés en parallèle sur des échantillons bootstrap et des sous-ensembles aléatoires de variables, puis moyennés. Réduit la **variance** ; robuste, peu de réglages, difficile à sur-apprendre gravement.
+- **Gradient boosting** (XGBoost, LightGBM) : arbres peu profonds ajoutés un à un, chacun corrigeant les erreurs (le gradient de la perte) des précédents, avec un taux d'apprentissage. Réduit le **biais** ; souvent plus précis sur données tabulaires, mais plus sensible aux réglages et au sur-apprentissage (arrêt précoce).
+En finance (signal faible), la forêt ou un boosting très régularisé, et toujours une comparaison avec un modèle linéaire simple.
+
+=== ml-surapprentissage-finance
+theme: ml
+niveau: 2
+profils: data hf
+--- question
+Pourquoi le machine learning est-il plus difficile en prévision de rendements qu'en reconnaissance d'images ?
+--- en
+Why is machine learning harder for return prediction than for image recognition?
+--- solution
+- **Rapport signal/bruit minuscule** : une corrélation de 0,05 entre prévision et rendement est déjà excellente.
+- **Non-stationnarité** : les relations changent (régimes, nouveaux acteurs) ; les signaux connus s'arbitrent et disparaissent.
+- **Peu de données indépendantes** : 20 ans de données quotidiennes, c'est 5 000 points très bruités et dépendants.
+- **Réflexivité** : trader un signal modifie les prix.
+- **Coûts et capacité** : un signal prédictif peut ne pas survivre aux coûts.
+D'où : modèles simples, régularisation forte, validation stricte, interprétabilité, économie du signal (pourquoi devrait-il marcher ?).
+
+=== ml-metriques-desequilibre
+theme: ml
+niveau: 1
+profils: data hf risque
+--- question
+Tu détectes des fraudes (0,1 % des transactions). Ton modèle a 99,9 % d'exactitude. Est-ce bien ? Quelles métriques utiliser ?
+--- en
+You detect fraud (0.1% of transactions). Your model has 99.9% accuracy. Is that good? Which metrics should you use?
+--- solution
+Non : prédire « jamais de fraude » donne déjà 99,9 %. Métriques adaptées :
+- **précision** (parmi les alertes, combien de vraies fraudes) et **rappel** (parmi les fraudes, combien détectées) ; F1 ;
+- courbe précision-rappel et son aire (plus informative que l'AUC ROC quand les positifs sont rares) ;
+- coût métier : coût d'une fraude manquée contre coût d'une fausse alerte, pour choisir le seuil.
+Traitement : pondération des classes, sous- ou sur-échantillonnage, seuil adapté.
+
+=== ml-precision-rappel
+theme: ml
+niveau: 1
+profils: data hf risque
+type: numerique
+reponse: 2*0.8*0.4/(0.8+0.4)
+duree: 120
+--- question
+Il y a 100 cas positifs. Ton modèle en signale 50, dont 40 sont de vrais positifs. Que vaut le score F1 ?
+--- en
+There are 100 positive cases. Your model flags 50, of which 40 are true positives. What is the F1 score?
+--- solution
+Précision = 40/50 = 0,8 ; rappel = 40/100 = 0,4. F1 = 2PR/(P + R) = 0,64/1,2 ≈ **0,533** (moyenne harmonique : pénalise le déséquilibre).
+
+=== ml-log-loss
+theme: ml
+niveau: 1
+profils: data hf
+type: numerique
+reponse: -ln(0.8)
+duree: 60
+--- question
+Un classifieur prédit une probabilité 0,8 pour un exemple dont l'étiquette vraie est 1. Que vaut l'entropie croisée (log-loss) de cet exemple, en logarithme népérien ?
+--- en
+A classifier predicts 0.8 for an example whose true label is 1. What is the log-loss for that example (natural log)?
+--- solution
+−ln(0,8) ≈ **0,223**. Une prédiction de 0,01 pour une étiquette 1 coûterait −ln(0,01) ≈ 4,6 : la log-loss punit sévèrement la confiance mal placée.
+
+=== ml-regression-logistique
+theme: ml
+niveau: 1
+profils: data hf risque
+--- question
+Explique la régression logistique : modèle, fonction de perte, interprétation des coefficients.
+--- en
+Explain logistic regression: model, loss function, coefficient interpretation.
+--- solution
+P(y = 1 | x) = σ(βᵀx) = 1/(1 + e^{−βᵀx}). On maximise la vraisemblance, ce qui revient à minimiser l'entropie croisée (convexe : pas de minimum local). Pas de formule fermée : Newton (IRLS) ou descente de gradient.
+Interprétation : e^{β_j} est le facteur multiplicatif de la **cote** P/(1 − P) quand x_j augmente de 1.
+Usages : score de crédit (probabilité de défaut), classification de régimes. Limites : frontière linéaire (sauf variables construites), séparation parfaite (coefficients infinis sans régularisation).
+
+=== ml-importance-variables
+theme: ml
+niveau: 2
+profils: data hf
+--- question
+Comment mesurer l'importance des variables d'un modèle ? Quels pièges ?
+--- en
+How do you measure feature importance? What are the pitfalls?
+--- solution
+- **Importance par impureté** (MDI) des arbres : rapide, mais biaisée vers les variables continues ou à nombreuses modalités, et calculée en échantillon.
+- **Importance par permutation** (MDA) : baisse de performance hors échantillon quand on mélange une variable. Plus fiable, mais deux variables corrélées se partagent (ou se masquent) l'importance.
+- **SHAP** : contributions additives par observation, fondées sur les valeurs de Shapley ; coûteux, mêmes difficultés avec la corrélation.
+Pièges : importance ≠ causalité ; variables corrélées ; importance en échantillon qui reflète le sur-apprentissage. Solution partielle : regrouper les variables corrélées (importance par groupe).
+
+=== ml-descente-gradient
+theme: ml
+niveau: 2
+profils: data hf
+--- question
+Explique la descente de gradient stochastique. Que se passe-t-il si le taux d'apprentissage est trop grand ou trop petit ?
+--- en
+Explain stochastic gradient descent. What happens if the learning rate is too large or too small?
+--- solution
+On met à jour θ ← θ − η ∇L(θ) en estimant le gradient sur un mini-lot au lieu de tout l'échantillon : moins cher par pas, bruité, ce bruit aidant parfois à sortir de mauvais minima.
+- η trop grand : oscillations, divergence.
+- η trop petit : convergence très lente, blocage sur des plateaux.
+Améliorations : momentum, Adam (pas adaptatif par paramètre), décroissance du taux, normalisation des variables (un problème mal conditionné force un petit η).
+--- relances
+- Pourquoi normaliser les variables accélère-t-il la convergence ? (courbes de niveau plus rondes : le gradient pointe vers le minimum)
+
+=== ml-pca
+theme: ml
+niveau: 1
+profils: data hf risque
+--- question
+Qu'est-ce que l'analyse en composantes principales ? Comment l'utiliserais-tu sur des rendements d'actions ?
+--- en
+What is PCA? How would you use it on stock returns?
+--- solution
+On cherche les directions orthogonales de variance maximale : vecteurs propres de la matrice de covariance (ou corrélation), triés par valeur propre. On garde les premières composantes pour réduire la dimension.
+Sur des rendements d'actions : la première composante est presque toujours le **marché** (tous les poids du même signe), les suivantes des secteurs ou des styles. Usages : modèles de risque factoriels, débruitage de la matrice de covariance (théorie des matrices aléatoires : les valeurs propres sous le seuil de Marchenko-Pastur sont du bruit), résidus pour de l'arbitrage statistique (Avellaneda-Lee).
+Précautions : normaliser, instabilité des vecteurs propres, non-stationnarité.
+
+=== ml-k-means
+theme: ml
+niveau: 1
+profils: data hf
+--- question
+Comment fonctionne l'algorithme des k-moyennes ? Quelles limites ?
+--- en
+How does k-means work? What are its limits?
+--- solution
+Initialiser k centres ; répéter jusqu'à stabilité : affecter chaque point au centre le plus proche, puis recalculer chaque centre comme la moyenne de ses points. Minimise la somme des distances au carré intra-groupes (localement).
+Limites : k à choisir (méthode du coude, silhouette) ; dépend de l'initialisation (k-means++ et plusieurs essais) ; suppose des groupes sphériques de tailles comparables ; sensible aux échelles et aux valeurs aberrantes.
+En finance : regrouper des actifs par profil de corrélation (plutôt avec une distance fondée sur la corrélation, ou un regroupement hiérarchique).
+
+=== ml-normalisation
+theme: ml
+niveau: 1
+profils: data hf
+--- question
+Quand faut-il normaliser les variables ? Comment le faire sans fuite d'information sur des séries temporelles ?
+--- en
+When should you scale features? How do you do it without leakage on time series?
+--- solution
+Nécessaire pour les modèles sensibles aux échelles : régularisation (Ridge, Lasso), distances (k-moyennes, k plus proches voisins), descente de gradient, réseaux de neurones, ACP. Inutile pour les arbres.
+Sans fuite : calculer moyenne et écart-type sur l'échantillon d'entraînement seulement (ou sur une fenêtre glissante du passé), et les appliquer tels quels au test. En séries temporelles, préférer des normalisations glissantes (z-score sur 60 jours passés), ou des rangs en coupe transversale (chaque date séparément).

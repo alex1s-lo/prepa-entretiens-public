@@ -1,0 +1,116 @@
+# Produits structurés : fréquents dans les entretiens de structuration et de strats actions des banques françaises.
+
+=== struct-capital-garanti
+theme: derives
+niveau: 1
+profils: banque risque mm
+type: numerique
+reponse: (100-90)/20
+duree: 150
+--- question
+On construit un produit à capital garanti à 5 ans sur un indice. Un zéro-coupon qui rembourse 100 dans 5 ans coûte 90. Un call à la monnaie à 5 ans sur l'indice coûte 20 % du nominal. Pour 100 investis, quel taux de participation à la hausse peut-on offrir (sans marge) ?
+--- en
+A 5-year capital-guaranteed note on an index: a zero-coupon paying 100 in 5 years costs 90, a 5-year ATM call costs 20% of notional. For 100 invested, what upside participation can be offered (no margin)?
+--- solution
+On achète le zéro-coupon (90) pour garantir le capital ; il reste 10 pour acheter des calls à 20 chacun (en % du nominal) : participation = 10/20 = **50 %** de la hausse de l'indice.
+Leviers pour améliorer la participation : taux plus élevés (zéro-coupon moins cher), maturité plus longue, plafonner la hausse (call spread), moyenne asiatique (call moins cher), capital garanti partiel. La marge de la banque se prend sur ces 10.
+--- relances
+- Pourquoi ces produits étaient-ils difficiles à construire quand les taux étaient nuls ou négatifs ? (le zéro-coupon coûte presque 100 : il ne reste rien pour l'option)
+
+=== struct-reverse-convertible
+theme: derives
+niveau: 1
+profils: banque risque mm
+--- question
+Qu'est-ce qu'un reverse convertible ? Pourquoi paie-t-il un coupon élevé ?
+--- en
+What is a reverse convertible? Why does it pay a high coupon?
+--- solution
+Une obligation courte qui paie un coupon élevé ; à l'échéance, si l'action sous-jacente a baissé sous un niveau (souvent le strike, ou une barrière), l'investisseur est remboursé en actions (ou en cash équivalent) au lieu du nominal.
+Décomposition : **obligation + vente d'un put** (éventuellement down-and-in). Le coupon élevé = intérêt de l'obligation + prime du put vendu. L'investisseur est vendeur de volatilité et porte le risque de baisse ; le coupon est d'autant plus élevé que la volatilité implicite est haute.
+--- relances
+- Qui est long volatilité dans l'opération ? (la banque, qui a acheté le put à l'investisseur, et se couvre en delta)
+
+=== struct-autocall
+theme: derives
+niveau: 2
+profils: banque risque
+--- question
+Explique le fonctionnement d'un autocall et ses principaux risques pour la banque qui le vend.
+--- en
+Explain how an autocallable works and its main risks for the issuing bank.
+--- solution
+À chaque date d'observation (par exemple annuelle), si le sous-jacent est au-dessus de son niveau initial (barrière de rappel), le produit est remboursé par anticipation avec un coupon (souvent cumulatif). Sinon il continue. À l'échéance, si le sous-jacent n'a jamais été rappelé et termine sous une barrière de protection (par exemple −40 %), l'investisseur subit la baisse : il a vendu un **put down-and-in**.
+Pour l'investisseur : coupon attrayant en marché stable ou modérément haussier, risque de perte en capital en cas de forte baisse. Pour la banque :
+- gestion des **barrières** (gamma et vega très concentrés près des barrières et des dates d'observation) ;
+- sensibilité au **skew** et à la **volatilité future** (durée de vie aléatoire) ;
+- risque de **dividendes** (la banque est souvent exposée aux dividendes futurs via sa couverture) ;
+- si plusieurs sous-jacents (worst-of) : risque de **corrélation** ;
+- concentration : toutes les banques ont des positions semblables, ce qui peut amplifier les mouvements de volatilité et de dividendes en crise (comme en 2020).
+
+=== struct-worst-of
+theme: derives
+niveau: 3
+profils: banque risque
+--- question
+Comment la valeur d'un put sur le moins performant de plusieurs actions (worst-of) dépend-elle de leur corrélation ? Et celle d'un call worst-of ?
+--- en
+How does the value of a worst-of put on several stocks depend on their correlation? And a worst-of call?
+--- solution
+Le moins bon de plusieurs actifs est d'autant plus bas que les actifs se dispersent, c'est-à-dire que leur corrélation est faible.
+- **Put worst-of** : il paie quand le moins bon est bas ; sa valeur **diminue quand la corrélation augmente** (moins de dispersion). Avec une corrélation de 1 et des actifs identiques, il vaut un put simple ; avec une corrélation faible, nettement plus.
+- **Call worst-of** : il faut que tous montent ; sa valeur **augmente avec la corrélation**.
+Les produits worst-of offrent donc des coupons plus élevés (l'investisseur vend un put worst-of, plus cher), en échange d'un risque accru. Pour la banque, la corrélation est un paramètre peu observable (peu d'instruments cotés), difficile à couvrir : un risque de modèle important.
+--- relances
+- Comment estimer la corrélation implicite ? (à partir des options sur indice et des options sur ses composants : dispersion)
+
+=== struct-dispersion
+theme: derives
+niveau: 3
+profils: banque hf mm
+type: numerique
+reponse: (0.15/0.3)^2
+tolerance: 0.01
+duree: 300
+--- question
+Un indice équipondéré très diversifié a des composants de même volatilité implicite 30 %. La volatilité implicite de l'indice est de 15 %. Quelle corrélation implicite moyenne entre composants ? (Approximation pour un grand nombre de composants.)
+--- en
+A broad equally weighted index has components with 30% implied vol each, and the index implied vol is 15%. What average implied correlation? (Large-N approximation.)
+--- solution
+Pour N grand, σ²_indice ≈ ρ σ² (le risque spécifique se diversifie). ρ ≈ (15/30)² = **0,25**.
+Un trade de **dispersion** vend la volatilité de l'indice et achète celle des composants (ou l'inverse) : c'est un pari sur l'écart entre corrélation implicite et corrélation réalisée. La corrélation implicite est en général au-dessus de la réalisée (prime de risque de corrélation).
+
+=== struct-cliquet
+theme: derives
+niveau: 3
+profils: banque risque
+--- question
+Qu'est-ce qu'une option cliquet, et pourquoi son prix dépend-il beaucoup du modèle ?
+--- en
+What is a cliquet option and why is its price highly model-dependent?
+--- solution
+Une suite d'options à départ différé : chaque période (par exemple chaque mois), on regarde la performance de la période, souvent plafonnée et planchée localement (entre −2 % et +2 %), puis on somme les performances, avec parfois un plancher global.
+Son prix dépend de la distribution des rendements **futurs** de chaque période, donc du **smile forward** (le smile qu'on observera dans le futur), qui n'est pas observable aujourd'hui. Volatilité locale et volatilité stochastique, calibrées sur les mêmes vanilles, donnent des prix très différents : les cliquets ont causé des pertes importantes à certaines banques au début des années 2000 et ont poussé à l'usage de modèles à volatilité stochastique.
+
+=== struct-greques-barriere
+theme: derives
+niveau: 2
+profils: banque risque mm
+--- question
+Tu es long d'un put down-and-in de strike 100 et de barrière 70, à l'approche de l'échéance, le sous-jacent valant 71. Que dire de tes Greeks ?
+--- en
+You are long a down-and-in put, strike 100, barrier 70, close to expiry, spot at 71. What about your Greeks?
+--- solution
+Juste au-dessus de la barrière, près de l'échéance : si le sous-jacent touche 70, tu reçois un put très dans la monnaie (valeur ≈ 30) ; sinon presque rien. La valeur saute donc d'environ 0 à 30 autour de 70 : **delta énorme** (très négatif), **gamma** et **vega** extrêmes et instables, qui changent de signe de part et d'autre de la barrière. La couverture en delta est impraticable (il faudrait vendre une quantité énorme d'actions juste au-dessus de 70). En pratique, les desks lissent la barrière (barrière décalée dans le sens conservateur, « barrier shift ») et facturent ce coût, et ils surveillent le risque de « pin » autour des barrières.
+
+=== struct-couverture-dividendes
+theme: derives
+niveau: 2
+profils: banque risque
+--- question
+Pourquoi une banque qui vend beaucoup de produits structurés sur indices actions est-elle exposée aux dividendes futurs ? Comment se couvre-t-elle ?
+--- en
+Why is a bank that sells many equity-index structured products exposed to future dividends? How does it hedge?
+--- solution
+Le forward d'un indice baisse quand les dividendes attendus montent : F ≈ S e^{rT} − dividendes capitalisés. Or la banque, en vendant des autocalls et des reverse convertibles, **achète des puts** aux investisseurs. Un put vaut plus quand le forward est bas, c'est-à-dire quand les dividendes attendus sont élevés : la banque est donc **longue des dividendes**. Si les dividendes futurs baissent, le forward monte et ses puts perdent de la valeur. Comme toutes les banques vendent des produits semblables, cette exposition est concentrée et pèse sur le prix des dividendes futurs.
+Couverture : **futures sur dividendes** (indices de dividendes cotés, par exemple sur l'Euro Stoxx 50) et swaps de dividendes. Les dividendes réels peuvent chuter brutalement (suspensions en 2020), ce qui a provoqué des pertes sur ces positions.

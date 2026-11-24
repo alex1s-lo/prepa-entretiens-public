@@ -1,0 +1,62 @@
+# Machine learning et recherche, deuxième série.
+
+=== ml-auc
+theme: ml
+niveau: 2
+profils: data hf risque
+type: numerique
+reponse: 4/6
+duree: 180
+--- question
+Un classifieur donne les scores 0,9 ; 0,7 ; 0,4 à trois exemples positifs et 0,8 ; 0,3 à deux exemples négatifs. Que vaut l'AUC (aire sous la courbe ROC) ?
+--- en
+A classifier scores three positives 0.9, 0.7, 0.4 and two negatives 0.8, 0.3. What is the ROC AUC?
+--- indice
+L'AUC est la probabilité qu'un positif tiré au hasard ait un score plus élevé qu'un négatif tiré au hasard.
+--- solution
+On compare les 3 × 2 = 6 paires (positif, négatif) : 0,9 bat 0,8 et 0,3 ; 0,7 bat 0,3 ; 0,4 bat 0,3. 4 paires bien ordonnées sur 6 : **AUC = 2/3**.
+Cette lecture (statistique de Mann-Whitney) montre que l'AUC ne dépend que du classement des scores, pas de leur calibration.
+--- relances
+- AUC d'un classifieur aléatoire ? (0,5)
+
+=== ml-loi-fondamentale
+theme: ml
+niveau: 2
+profils: hf data
+type: numerique
+reponse: 0.05*sqrt(400)
+duree: 120
+--- question
+Ton signal a une corrélation de 0,05 avec les rendements futurs (information coefficient) et tu peux prendre 400 paris indépendants par an. Quel ratio d'information annuel approximatif ?
+--- en
+Your signal has a 0.05 correlation with future returns and you can take 400 independent bets a year. Approximate annual information ratio?
+--- solution
+Loi fondamentale de la gestion active (Grinold) : IR ≈ IC × √(largeur) = 0,05 × √400 = **1**.
+Message : une prévision faible appliquée à beaucoup de paris indépendants peut donner une bonne stratégie, d'où l'intérêt des univers larges et des horizons courts. Limites : les paris sont rarement indépendants (facteurs communs), et les coûts croissent avec la rotation.
+
+=== ml-desequilibre-temporel
+theme: ml
+niveau: 2
+profils: data hf
+--- question
+Ton modèle de classification de la direction du marché du lendemain a 54 % d'exactitude sur l'échantillon de test. Est-ce bon ? Comment le savoir ?
+--- en
+Your next-day market direction classifier is 54% accurate out of sample. Is that good? How do you know?
+--- solution
+Ça dépend :
+- **Référence naïve** : si le marché a monté 54 % des jours sur la période de test, « toujours hausse » fait aussi bien. Comparer à la meilleure stratégie triviale.
+- **Significativité** : sur 250 jours, l'écart-type de l'exactitude d'un classifieur au hasard est √(0,25/250) ≈ 3,2 % ; 54 % n'est qu'à environ 1,3 écart-type de 50 %.
+- **Économie** : l'exactitude ignore l'ampleur des mouvements ; un modèle juste sur les petits jours et faux sur les grands perd de l'argent. Évaluer le PnL après coûts, le Sharpe, le drawdown.
+- **Stabilité** : performance par sous-période, et absence de fuite d'information.
+
+=== ml-arbre-decision
+theme: ml
+niveau: 1
+profils: data hf risque
+--- question
+Comment un arbre de décision choisit-il ses séparations ? Pourquoi un arbre seul sur-apprend-il facilement ?
+--- en
+How does a decision tree choose its splits? Why does a single tree overfit easily?
+--- solution
+À chaque nœud, il teste toutes les variables et tous les seuils, et choisit la séparation qui réduit le plus l'impureté : indice de Gini ou entropie en classification, variance (erreur quadratique) en régression. Il recommence récursivement sur chaque sous-ensemble.
+Un arbre profond peut isoler chaque observation dans sa feuille : biais faible mais variance énorme. Remèdes : profondeur maximale, nombre minimal d'observations par feuille, élagage, et surtout les ensembles (forêts aléatoires, boosting).

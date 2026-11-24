@@ -1,0 +1,197 @@
+# Risque de marché, séries temporelles et gestion de portefeuille.
+
+=== risque-garch-long-terme
+theme: stats
+niveau: 2
+profils: risque hf banque data
+type: numerique
+reponse: sqrt(0.000002/(1-0.1-0.88))
+duree: 180
+--- question
+Un GARCH(1,1) σ²ₜ = ω + α ε²ₜ₋₁ + β σ²ₜ₋₁ a ω = 0,000002, α = 0,10, β = 0,88 (rendements quotidiens). Quelle est la volatilité quotidienne de long terme ?
+--- en
+A GARCH(1,1) with ω = 0.000002, α = 0.10, β = 0.88 (daily returns). What is the long-run daily volatility?
+--- solution
+Variance de long terme : ω/(1 − α − β) = 0,000002/0,02 = 0,0001, soit une volatilité de **1 % par jour** (environ 16 % par an).
+α + β = 0,98 mesure la persistance : un choc de volatilité met longtemps à se dissiper (demi-vie ln 0,5/ln 0,98 ≈ 34 jours).
+--- relances
+- Que se passe-t-il si α + β ≥ 1 ? (pas de variance de long terme finie : modèle intégré, IGARCH, dont l'EWMA est un cas particulier)
+
+=== risque-ewma-demi-vie
+theme: stats
+niveau: 2
+profils: risque hf banque data
+type: numerique
+reponse: ln(0.5)/ln(0.94)
+duree: 120
+--- question
+Une volatilité EWMA (RiskMetrics) utilise λ = 0,94 : σ²ₜ = λσ²ₜ₋₁ + (1 − λ)r²ₜ₋₁. Quelle est la demi-vie du poids des observations, en jours ?
+--- en
+An EWMA volatility uses λ = 0.94. What is the half-life of the observation weights, in days?
+--- solution
+Le poids d'une observation vieille de k jours est proportionnel à λᵏ. Demi-vie : ln 0,5/ln 0,94 ≈ **11,2 jours**. L'estimateur réagit vite, mais il est bruité et n'a pas de retour vers une moyenne de long terme.
+
+=== risque-diversification-limite
+theme: stats
+niveau: 2
+profils: risque hf banque data mm
+type: numerique
+reponse: 0.2*sqrt(0.25)
+duree: 180
+--- question
+Un portefeuille équipondéré contient un très grand nombre d'actions, chacune de volatilité 20 %, toutes corrélées deux à deux à 0,25. Vers quelle volatilité tend le portefeuille ?
+--- en
+An equally weighted portfolio of many stocks, each with 20% vol and pairwise correlation 0.25. What does portfolio volatility converge to?
+--- solution
+Variance avec N actifs : σ²[ρ + (1 − ρ)/N] → σ²ρ. Volatilité limite : σ√ρ = 20 % × 0,5 = **10 %**. Le risque spécifique se diversifie, le risque commun (le marché) non.
+--- relances
+- Et en période de crise, quand les corrélations montent vers 0,8 ? (≈ 17,9 % : la diversification disparaît quand on en a le plus besoin)
+
+=== risque-beta
+theme: stats
+niveau: 1
+profils: risque hf banque data
+type: numerique
+reponse: 0.6*0.3/0.15
+duree: 90
+--- question
+Une action a une volatilité de 30 %, le marché de 15 %, et leur corrélation vaut 0,6. Quel est le bêta de l'action ?
+--- en
+A stock has 30% vol, the market 15%, correlation 0.6. What is the stock's beta?
+--- solution
+β = Cov(r, r_m)/Var(r_m) = ρ σ/σ_m = 0,6 × 30/15 = **1,2**. Pour couvrir 1 million d'euros de cette action contre le marché, il faut vendre 1,2 million d'euros d'indice.
+--- relances
+- Quelle part de la variance de l'action la couverture élimine-t-elle ? (ρ² = 36 %)
+
+=== risque-couverture-variance-min
+theme: taux
+niveau: 2
+profils: risque banque mm
+type: numerique
+reponse: 0.9*0.02/0.025
+duree: 150
+--- question
+Tu couvres une position avec un contrat à terme. La volatilité quotidienne de la position est 2 %, celle du contrat 2,5 %, leur corrélation 0,9. Quel ratio de couverture minimise la variance ?
+--- en
+You hedge a position with futures. Daily vol of the position is 2%, of the futures 2.5%, correlation 0.9. Minimum-variance hedge ratio?
+--- solution
+h* = ρ σ_S/σ_F = 0,9 × 2/2,5 = **0,72**. La variance résiduelle vaut (1 − ρ²) σ_S² : il reste un risque de base (19 % de la variance).
+
+=== risque-var-historique
+theme: taux
+niveau: 1
+profils: risque banque hf
+--- question
+Comment calcule-t-on une VaR historique ? Avantages et limites ?
+--- en
+How do you compute a historical VaR? Pros and cons?
+--- solution
+On rejoue sur le portefeuille d'aujourd'hui les variations de facteurs de risque observées sur une fenêtre passée (par exemple 500 jours), on obtient 500 PnL hypothétiques, et la VaR 99 % est (environ) la 5ᵉ pire perte.
+- **Avantages** : pas d'hypothèse de loi, capture les queues épaisses et les corrélations réelles, facile à expliquer.
+- **Limites** : dépend entièrement de la fenêtre (un krach hors fenêtre n'existe pas) ; très peu d'observations dans la queue (estimation bruitée) ; réagit tard aux changements de régime et fait des sauts quand un gros choc sort de la fenêtre ; suppose que le passé est représentatif.
+Variantes : pondération temporelle, rééchelonnement par la volatilité actuelle (filtered historical simulation), VaR stressée sur une période de crise.
+
+=== risque-exceptions-historique
+theme: taux
+niveau: 1
+profils: risque banque
+type: numerique
+reponse: 500*0.01
+duree: 45
+--- question
+Avec 500 jours d'historique, combien de scénarios de perte se trouvent au-delà d'une VaR historique à 99 % ?
+--- en
+With 500 days of history, how many loss scenarios lie beyond a 99% historical VaR?
+--- solution
+500 × 1 % = **5** scénarios : la VaR est estimée à partir de la 5ᵉ ou 6ᵉ pire perte, et l'Expected Shortfall 99 % est la moyenne de ces 5 pertes. Cinq points, c'est très peu : d'où l'instabilité des mesures de queue.
+
+=== risque-stress-test
+theme: taux
+niveau: 2
+profils: risque banque hf
+--- question
+Qu'est-ce qu'un stress test et en quoi complète-t-il la VaR ?
+--- en
+What is a stress test and how does it complement VaR?
+--- solution
+On évalue la perte du portefeuille dans des scénarios extrêmes mais plausibles, sans probabilité attachée :
+- **historiques** : rejouer 1987, 2008, mars 2020, une crise de taux ;
+- **hypothétiques** : choc de taux de +200 pb, krach de −30 % avec hausse de la volatilité, écartement des spreads de crédit ;
+- **inversés** : chercher le scénario qui ferait perdre un montant donné (ce qui casse vraiment le portefeuille).
+La VaR décrit les pertes « normales » sur un horizon court ; le stress test regarde la queue et les ruptures (corrélations qui montent, liquidité qui disparaît). Difficulté : choisir des scénarios cohérents entre facteurs.
+
+=== risque-correlation-crise
+theme: taux
+niveau: 2
+profils: risque hf banque mm
+--- question
+Pourquoi dit-on que « les corrélations tendent vers 1 en période de crise » ? Conséquences pour un gestionnaire de risque ?
+--- en
+Why do people say "correlations go to 1 in a crisis"? Consequences for a risk manager?
+--- solution
+Lors des chocs, un facteur commun domine (fuite vers la qualité, ventes forcées, appels de marge, désendettement) : les actifs risqués baissent ensemble. Une partie de l'effet est aussi statistique : la corrélation mesurée augmente mécaniquement quand la volatilité du facteur commun augmente.
+Conséquences : la diversification estimée en période calme surestime la protection ; les VaR fondées sur des corrélations récentes sous-estiment le risque de crise ; il faut des corrélations stressées, des stress tests, et regarder la dépendance de queue (copules), pas seulement la corrélation linéaire.
+
+=== risque-liquidite
+theme: taux
+niveau: 2
+profils: risque banque hf mm
+--- question
+Qu'est-ce que le risque de liquidité de marché ? Comment l'intégrer dans une mesure de risque ?
+--- en
+What is market liquidity risk? How do you include it in a risk measure?
+--- solution
+Le risque de ne pas pouvoir déboucler une position rapidement sans faire bouger le prix (spread qui s'écarte, profondeur qui disparaît, impact de marché), surtout en période de stress et pour des positions grandes devant le volume échangé.
+Intégration : horizon de liquidation par actif (FRTB : horizons de 10 à 120 jours selon la classe d'actifs), coût de sortie ajouté à la VaR (moitié du spread, impact en racine carrée du volume), limites de concentration par rapport au volume quotidien, stress tests de liquidité.
+
+=== risque-autocorrelation-ar1
+theme: stats
+niveau: 1
+profils: hf data risque
+type: numerique
+reponse: 0.8^3
+duree: 60
+--- question
+Un processus AR(1) xₜ = 0,8 xₜ₋₁ + εₜ est stationnaire. Que vaut son autocorrélation au retard 3 ?
+--- en
+A stationary AR(1) xₜ = 0.8 xₜ₋₁ + εₜ. What is its lag-3 autocorrelation?
+--- solution
+ρ(k) = φᵏ = 0,8³ = **0,512**. Décroissance géométrique ; la variance stationnaire vaut σ_ε²/(1 − φ²) = σ_ε²/0,36.
+--- relances
+- Et l'autocorrélation partielle au retard 2 ? (0 : signature d'un AR(1))
+
+=== risque-variance-ar1
+theme: stats
+niveau: 2
+profils: hf data risque
+type: numerique
+reponse: 1/(1-0.64)
+duree: 90
+--- question
+xₜ = 0,8 xₜ₋₁ + εₜ avec Var(εₜ) = 1. Variance stationnaire de x ?
+--- en
+xₜ = 0.8 xₜ₋₁ + εₜ with Var(ε) = 1. Stationary variance of x?
+--- solution
+Var(x) = 0,64 Var(x) + 1, donc Var(x) = 1/0,36 ≈ **2,78**. Quand φ → 1, la variance explose : on s'approche d'une marche aléatoire (racine unitaire).
+
+=== risque-sharpe-levier
+theme: stats
+niveau: 1
+profils: hf risque mm data
+--- question
+Si tu doubles le levier d'une stratégie (financement au taux sans risque), que deviennent son rendement excédentaire, sa volatilité et son ratio de Sharpe ?
+--- en
+If you double a strategy's leverage (financed at the risk-free rate), what happens to excess return, volatility and Sharpe ratio?
+--- solution
+Rendement excédentaire × 2, volatilité × 2 : le **Sharpe ne change pas**. C'est pour cela qu'on compare des stratégies par leur Sharpe et non par leur rendement. Mais le drawdown maximal, le risque de ruine et le risque de financement (appels de marge, coûts d'emprunt plus élevés que le taux sans risque) augmentent : le Sharpe n'est pas toute l'histoire.
+
+=== risque-drawdown-attendu
+theme: stats
+niveau: 2
+profils: hf risque mm
+--- question
+Une stratégie a un Sharpe de 1 et une volatilité de 10 % par an. Un drawdown de 15 % au bout de deux ans signifie-t-il qu'elle ne marche plus ?
+--- en
+A strategy with Sharpe 1 and 10% annual vol suffers a 15% drawdown after two years. Does it mean it stopped working?
+--- solution
+Pas forcément. Avec un Sharpe de 1, les drawdowns de 1,5 volatilité annuelle ne sont pas rares sur quelques années : un mouvement brownien avec une dérive égale à la volatilité connaît régulièrement des baisses de cette ampleur. Il faut comparer le drawdown à sa distribution attendue (par simulation avec le Sharpe et la volatilité supposés), regarder si les causes sont identifiables (régime de marché, crowding, coûts) et si le comportement du signal a changé (prédictions, rotation), avant de conclure. À l'inverse, fixer à l'avance une règle de coupure évite de rationaliser après coup.
