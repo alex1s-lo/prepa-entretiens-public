@@ -88,7 +88,7 @@
   function ligne(texte) { return avecChapitres(o.enLigne(jetonsChapitres(texte), OPTIONS)); }
 
   // Titre d'un encadré : libellé (« Théorème »), texte avec formules, puis les fiches citées sous forme de pastilles.
-  function titreBloc(libelle, titre) {
+  function titreBloc(libelle, titre, numero) {
     const ids = [];
     const noter = function (bloc) { bloc.replace(/\[\[fiche:([a-z0-9-]+)\]\]/g, function (_, id) { ids.push(id); return ''; }); return ''; };
     let t = String(titre || '').replace(/\s*\(((?:\s*\[\[fiche:[a-z0-9-]+\]\]\s*,?)+)\)/g, function (_, g) { return noter(g); });
@@ -99,11 +99,21 @@
       return '<a class="lien-fiche lien-fiche-court" href="#revisions/fiche=' + encodeURIComponent(id) + '" title="' +
         o.echapper('S’entraîner : ' + o.resume(f.question, 90)) + '"><span aria-hidden="true">↻</span> fiche</a>';
     }).join('');
-    return '<span class="libelle-bloc">' + o.echapper(libelle) + '</span>' +
+    return '<span class="libelle-bloc">' + o.echapper(libelle) + (numero ? ' ' + numero + '.' : '') + '</span>' +
       (t ? '<span class="titre-bloc">' + ligne(t) + '</span>' : '') + pastilles;
   }
 
-  function rendreBloc(b, chap) {
+  // Numérotation par chapitre, comme dans un polycopié : définitions d'un côté, résultats (théorèmes et propriétés)
+  // de l'autre, exemples et exercices chacun de leur côté.
+  const COMPTEURS = { definition: 'definition', theoreme: 'resultat', propriete: 'resultat', exemple: 'exemple', exercice: 'exercice' };
+  function numeroter(genre, compteurs) {
+    const c = COMPTEURS[genre];
+    if (!c || !compteurs) return 0;
+    compteurs[c] = (compteurs[c] || 0) + 1;
+    return compteurs[c];
+  }
+
+  function rendreBloc(b, chap, compteurs) {
     const corps = b.lignes.join('\n');
     if (b.genre === 'widget') {
       return '<div class="widget" data-widget="' + o.echapper(b.titre) + '" data-parametres="' + o.echapper(corps.trim()) + '"></div>';
@@ -118,8 +128,9 @@
       const solution = lignes.slice(k + 1).join('\n');
       const fait = normaliser(etatCours().exercices[id]);
       const du = fait && fait.echeance <= A.aujourdhui();
+      const nEx = numeroter('exercice', compteurs);
       return '<div class="bloc bloc-exercice" data-exercice="' + o.echapper(id) + '" id="ex-' + o.echapper(id) + '">' +
-        '<div class="bloc-titre-cours"><span class="libelle-bloc">Exercice</span>' +
+        '<div class="bloc-titre-cours"><span class="libelle-bloc">Exercice' + (nEx ? ' ' + nEx + '.' : '') + '</span>' +
         (fait ? '<span class="etiquette ' + (du || fait.juste === false ? 'alerte' : 'succes') + '" data-statut-ex>' + (du ? 'à refaire' : fait.juste === false ? 'à revoir' : 'fait') + '</span>' :
           '<span class="etiquette" data-statut-ex>à faire</span>') + '</div>' +
         md(enonce) +
@@ -129,21 +140,23 @@
         (meta.reponse ? '' : '<div class="ligne" style="margin-top:8px"><button class="discret" data-ex-fait>J’ai fait cet exercice</button></div>') +
         '</div>';
     }
-    const titre = titreBloc(LIBELLES[b.genre] || b.genre, b.titre);
+    const numero = numeroter(b.genre, compteurs);
+    const titre = titreBloc(LIBELLES[b.genre] || b.genre, b.titre, numero);
     if (b.genre === 'preuve') {
       return '<details class="bloc bloc-preuve" open><summary class="bloc-titre-cours">' + titre + '</summary>' + md(corps) +
         '<p class="fin-preuve" aria-hidden="true">∎</p></details>';
     }
-    return '<div class="bloc bloc-' + b.genre + '"><div class="bloc-titre-cours">' + titre + '</div>' + md(corps) + '</div>';
+    return '<div class="bloc bloc-' + b.genre + (numero ? ' bloc-numerote' : '') + '"><div class="bloc-titre-cours">' + titre + '</div>' + md(corps) + '</div>';
   }
 
   // Sections du chapitre (titres « ## ») : une ancre chacune pour la table des matières.
   function rendreChapitreHtml(chap) {
     const segments = decouper(chap.texte);
+    const compteurs = {};
     let html = '';
     let n = 0;
     segments.forEach(function (s) {
-      if (s.type === 'bloc') { html += rendreBloc(s, chap); return; }
+      if (s.type === 'bloc') { html += rendreBloc(s, chap, compteurs); return; }
       // découpe le Markdown sur les titres de section pour poser les ancres
       const morceaux = s.texte.split(/\n(?=## )/);
       morceaux.forEach(function (m) {
@@ -311,8 +324,14 @@
     main.innerHTML = '<div class="cours-cadre"><aside class="cours-toc" aria-label="Sommaire du chapitre"><p class="petit"><a href="#cours">← Tous les chapitres</a></p>' +
       '<details class="toc-plan" open><summary class="bloc-titre">Chapitre ' + chap.numero + ' · sommaire</summary><ol>' + toc + '</ol></details>' +
       (chap.fiches.length ? '<p class="petit"><a href="#revisions/chapitre=' + chap.id + '">S’entraîner : ' + chap.fiches.length + ' fiches</a></p>' : '') + '</aside>' +
-      '<article class="cours-article"><p class="petit doux">' + o.echapper(chap.partie) + ' · chapitre ' + chap.numero + (chap.duree ? ' · ' + o.echapper(chap.duree) : '') + '</p>' +
-      '<h1>' + o.echapper(chap.titre) + '</h1><p class="chapo">' + ligne(chap.resume) + '</p>' +
+      '<article class="cours-article"><header class="tete-chapitre"><div class="tete-titre"><p class="tete-partie">' + o.echapper(chap.partie) +
+      (chap.duree ? ' · ' + o.echapper(chap.duree) : '') + '</p><h1>' + o.echapper(chap.titre) + '</h1></div>' +
+      '<div class="tete-numero" aria-label="Chapitre ' + chap.numero + '"><span>Chapitre</span><b>' + chap.numero + '</b></div></header>' +
+      '<p class="chapo">' + ligne(chap.resume) + '</p>' +
+      (chap.sections.length ? '<nav class="sommaire-chapitre" aria-label="Sommaire"><p class="sommaire-titre">Sommaire</p><ol>' + chap.sections.map(function (t, k) {
+        return '<li><a href="#cours/c=' + chap.id + '/s=' + (k + 1) + '" data-ancre="s-' + (k + 1) + '"><span class="sommaire-num">' + (k + 1) + '</span>' +
+          '<span class="sommaire-texte">' + ligne(t) + '</span></a></li>';
+      }).join('') + '</ol></nav>' : '') +
       rendreChapitreHtml(chap) +
       '<div class="carte fin-chapitre"><h2 style="margin-top:0">Et maintenant ?</h2>' +
       (chap.fiches.length ? '<p>Les ' + chap.fiches.length + ' fiches de ce chapitre, en révision espacée : elles reviendront ensuite au bon moment avec les autres.</p>' +

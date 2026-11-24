@@ -540,3 +540,192 @@ article.guide { padding: 36px 44px; max-width: 52rem; line-height: 1.7; }
 .toc-plan > summary::after { content: ""; width: 7px; height: 7px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: rotate(45deg); margin: 0 4px 3px; transition: transform .15s; }
 .toc-plan[open] > summary::after { transform: rotate(-135deg); margin-bottom: -3px; }
 @media (min-width: 1101px) { .toc-plan > summary { pointer-events: none; } .toc-plan > summary::after { display: none; } }
+
+/* --- Cours façon polycopié ---------------------------------------------------------------------------------------
+   Inspiré des polycopiés de classes préparatoires écrits en LaTeX : police Computer Modern (celle de KaTeX, déjà
+   embarquée hors ligne), texte justifié, sections numérotées, blocs numérotés avec un onglet de couleur par nature
+   (définition en bleu, propriété en rose, théorème en orange, méthode en vert), démonstration encadrée. */
+:root {
+  --poly-police: KaTeX_Main, "Latin Modern Roman", "CMU Serif", "Computer Modern", Georgia, "Times New Roman", serif;
+  --def: #3f4fc4; --def-doux: #e9ebfb; --def-fond: #f3f4fd;
+  --prop: #b8365a; --prop-doux: #fbe6ec; --prop-fond: #fdf3f6;
+  --thm: #b75a10; --thm-doux: #fde9d6; --thm-fond: #fff6ec;
+  --meth: #2c7a3b; --meth-doux: #e3f2e5; --meth-fond: #f3faf4;
+  --entr: #7a2e6b; --entr-doux: #f6e6f2; --entr-fond: #fcf5fa;
+  --att: #b42318;
+  --exo: #5b6270; --exo-doux: #eef0f3;
+  --dem: #8b929e;
+}
+:root[data-theme="dark"] {
+  --def: #9aa6ff; --def-doux: #232a52; --def-fond: #181c33;
+  --prop: #ff8fb0; --prop-doux: #45202d; --prop-fond: #2a1820;
+  --thm: #ffb067; --thm-doux: #4a2d12; --thm-fond: #2b1e10;
+  --meth: #7dd48c; --meth-doux: #1d3a23; --meth-fond: #142318;
+  --entr: #e59ad3; --entr-doux: #40203a; --entr-fond: #261725;
+  --att: #ff8f84; --exo: #a8b0bd; --exo-doux: #222830; --dem: #5d6572;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --def: #9aa6ff; --def-doux: #232a52; --def-fond: #181c33;
+    --prop: #ff8fb0; --prop-doux: #45202d; --prop-fond: #2a1820;
+    --thm: #ffb067; --thm-doux: #4a2d12; --thm-fond: #2b1e10;
+    --meth: #7dd48c; --meth-doux: #1d3a23; --meth-fond: #142318;
+    --entr: #e59ad3; --entr-doux: #40203a; --entr-fond: #261725;
+    --att: #ff8f84; --exo: #a8b0bd; --exo-doux: #222830; --dem: #5d6572;
+  }
+}
+
+.cours-article {
+  font-family: var(--poly-police); font-size: 1.1875rem; line-height: 1.6; max-width: 46rem;
+  text-align: justify; hyphens: auto; -webkit-hyphens: auto; counter-reset: section;
+}
+.cours-article p, .cours-article li { text-wrap: pretty; }
+.cours-article .katex { font-size: 1.02em; }
+.cours-article h1, .cours-article h2, .cours-article h3, .cours-article h4 { font-family: var(--poly-police); letter-spacing: 0; text-align: left; hyphens: manual; }
+.cours-article b, .cours-article strong { font-weight: 700; }
+.cours-article ul { list-style: none; padding-left: 1.6em; }
+.cours-article ul > li { position: relative; }
+.cours-article ul > li::before { content: "—"; position: absolute; left: -1.5em; color: var(--texte-doux); }
+.cours-article ol > li::marker { font-weight: 700; color: var(--texte); }
+.cours-article button, .cours-article input, .cours-article select, .cours-article .etiquette, .cours-article .lien-fiche,
+.cours-article .widget, .cours-article .carte, .cours-article .nav-chapitres, .cours-article .ligne, .cours-article code,
+.cours-article .tableau { font-family: var(--police); text-align: left; hyphens: manual; }
+.cours-article code { font-family: var(--mono); }
+.cours-article .widget, .cours-article .carte { font-size: 1rem; line-height: 1.6; }
+.cours-article table { font-family: var(--poly-police); font-size: 1rem; }
+.cours-article .tableau { font-family: var(--poly-police); }
+
+/* Page d'ouverture : titre à gauche, grand numéro à droite, puis le sommaire à points de conduite */
+.tete-chapitre { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin: 8px 0 18px; padding-bottom: 18px; }
+.tete-partie { font-family: var(--police); font-size: .8125rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--texte-faible); margin: 0 0 10px; }
+.cours-article .tete-chapitre h1 { font-size: 2.5rem; font-weight: 400; line-height: 1.15; margin: 0; text-wrap: balance; }
+.tete-numero { flex: none; display: flex; flex-direction: column; align-items: flex-end; line-height: 1; }
+.tete-numero span { font-family: var(--poly-police); font-size: 1.6rem; margin-bottom: 4px; }
+.tete-numero b { font-family: "Helvetica Neue", Helvetica, Arial, var(--police); font-size: 6.5rem; font-weight: 600; letter-spacing: -.04em; line-height: .85; }
+.cours-article .chapo { font-style: italic; font-size: 1.125rem; color: var(--texte-doux); margin: 0 0 26px; text-align: left; }
+.sommaire-chapitre { margin: 0 0 40px; text-align: left; }
+.sommaire-titre { font-weight: 700; font-size: 1.125rem; margin: 0; padding-bottom: 4px; border-bottom: 1px solid var(--texte); }
+.sommaire-chapitre ol { list-style: none; margin: 0; padding: 8px 0 10px; border-bottom: 1px solid var(--texte); }
+.sommaire-chapitre li { margin: 0; }
+.sommaire-chapitre a { display: flex; align-items: baseline; gap: 8px; padding: 3px 0 3px 1.2em; color: var(--texte); text-decoration: none; font-size: 1rem; }
+.sommaire-chapitre a::after { content: ""; flex: 1; order: 3; border-bottom: 1.5px dotted var(--texte-faible); transform: translateY(-4px); min-width: 2em; }
+.sommaire-chapitre a:hover { color: var(--accent); }
+.sommaire-num { min-width: 1.2em; font-weight: 700; }
+.sommaire-num::after { content: "."; }
+.sommaire-texte { order: 2; }
+
+/* Sections numérotées « 1. », sous-sections « 1.1. » */
+.cours-article .section-cours {
+  counter-increment: section; counter-reset: soussection; font-size: 1.6rem; font-weight: 700; border-top: 0; padding-top: 0; margin-top: 2.2em;
+}
+.cours-article .section-cours::before { content: counter(section) ". "; }
+.cours-article > h3 { counter-increment: soussection; font-size: 1.3rem; font-weight: 700; margin: 1.6em 0 .6em 1em; }
+.cours-article > h3::before { content: counter(section) "." counter(soussection) ". "; }
+
+/* Blocs : principe commun */
+.cours-article .bloc { position: relative; border: 0; border-radius: 0; background: none; box-shadow: none; padding: 0; margin: 34px 0 26px; }
+.cours-article .bloc > :last-child { margin-bottom: 0; }
+.cours-article .bloc-titre-cours { font-family: var(--poly-police); font-size: 1.0625rem; font-weight: 700; color: inherit; margin: 0; gap: 4px 8px; text-align: left; }
+.cours-article .bloc-titre-cours .libelle-bloc { font-size: inherit; letter-spacing: 0; text-transform: none; font-weight: 700; }
+.cours-article .bloc-titre-cours .titre-bloc { color: inherit; }
+.cours-article .bloc-numerote .titre-bloc::before { content: "("; }
+.cours-article .bloc-numerote .titre-bloc::after { content: ")"; }
+.cours-article .lien-fiche-court { font-weight: 600; align-self: center; }
+
+/* Définition, propriété : onglet posé sur le bord haut, fond dégradé, filet à gauche */
+.cours-article .bloc-definition, .cours-article .bloc-propriete {
+  --c: var(--def); --c-doux: var(--def-doux); --c-fond: var(--def-fond);
+  border-left: 4px solid color-mix(in srgb, var(--c) 55%, transparent);
+  background: linear-gradient(90deg, var(--c-fond), color-mix(in srgb, var(--c-fond) 30%, transparent) 85%);
+  padding: 0 20px 16px 18px;
+}
+.cours-article .bloc-propriete { --c: var(--prop); --c-doux: var(--prop-doux); --c-fond: var(--prop-fond); }
+.cours-article .bloc-definition > .bloc-titre-cours, .cours-article .bloc-propriete > .bloc-titre-cours {
+  display: inline-flex; color: var(--c); background: var(--c-doux); border: 1px solid color-mix(in srgb, var(--c) 40%, transparent);
+  border-radius: 7px; padding: 3px 12px; margin: -16px 0 10px -26px; box-shadow: 0 1px 2px rgba(16, 24, 40, .08); max-width: calc(100% + 26px);
+}
+
+/* Théorème : encadré arrondi, bandeau de titre, ombre portée */
+.cours-article .bloc-theoreme {
+  border: 1px solid color-mix(in srgb, var(--thm) 45%, transparent); border-radius: 12px; background: var(--thm-fond);
+  box-shadow: 0 3px 10px -2px color-mix(in srgb, var(--thm) 30%, transparent); padding: 0 22px 18px; overflow: hidden;
+}
+.cours-article .bloc-theoreme > .bloc-titre-cours {
+  color: var(--thm); background: var(--thm-doux); margin: 0 -22px 14px; padding: 10px 22px;
+  border-bottom: 1px solid color-mix(in srgb, var(--thm) 30%, transparent);
+}
+
+/* Méthode, en entretien, attention : cadre complet et étiquette centrée sur le bord haut */
+.cours-article .bloc-methode, .cours-article .bloc-entretien, .cours-article .bloc-attention {
+  --c: var(--meth); --c-fond: var(--meth-fond);
+  border: 1.5px solid color-mix(in srgb, var(--c) 70%, transparent); border-radius: 3px; padding: 0 20px 16px;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--c) 14%, var(--surface)), var(--surface) 92%); box-shadow: 0 4px 6px -4px rgba(16, 24, 40, .25);
+}
+.cours-article .bloc-entretien { --c: var(--entr); --c-fond: var(--entr-fond); }
+.cours-article .bloc-attention { --c: var(--att); box-shadow: none; background: var(--surface); }
+.cours-article .bloc-methode > .bloc-titre-cours, .cours-article .bloc-entretien > .bloc-titre-cours, .cours-article .bloc-attention > .bloc-titre-cours {
+  display: flex; justify-content: center; width: fit-content; max-width: 92%; margin: -15px auto 10px; padding: 2px 16px; text-align: center;
+  color: var(--c); background: var(--surface); border: 1.5px solid color-mix(in srgb, var(--c) 45%, transparent); border-radius: 7px;
+}
+.cours-article .bloc-methode > .bloc-titre-cours .libelle-bloc::after,
+.cours-article .bloc-entretien > .bloc-titre-cours .libelle-bloc::after { content: " :"; }
+.cours-article .bloc-methode > .bloc-titre-cours .libelle-bloc:last-child::after,
+.cours-article .bloc-entretien > .bloc-titre-cours .libelle-bloc:last-child::after { content: ""; }
+
+/* Démonstration : titre posé sur le filet du haut, filet épais à gauche, ombre légère */
+.cours-article .bloc-preuve {
+  border-top: 1px solid var(--dem); border-left: 5px solid var(--dem); padding: 0 18px 12px 18px;
+  box-shadow: 3px 3px 6px -3px rgba(16, 24, 40, .25); background: none; margin-top: 30px;
+}
+.cours-article .bloc-preuve > summary.bloc-titre-cours {
+  display: inline-flex; margin: -.85em 0 8px -4px; padding: 0 8px; background: var(--fond); color: var(--texte); cursor: pointer;
+  border-bottom: 1px solid var(--texte);
+}
+.cours-article .bloc-preuve:not([open]) { padding-bottom: 4px; }
+.cours-article .fin-preuve { margin-top: 2px; color: var(--texte-doux); }
+
+/* Exercice : encadré gris arrondi avec bandeau */
+.cours-article .bloc-exercice {
+  border: 1px solid var(--bord-fort); border-radius: 10px; background: var(--surface); padding: 0 20px 16px; overflow: hidden;
+  box-shadow: 0 2px 6px -2px rgba(16, 24, 40, .15);
+}
+.cours-article .bloc-exercice > .bloc-titre-cours {
+  color: var(--exo); background: var(--exo-doux); margin: 0 -20px 14px; padding: 9px 20px; border-bottom: 1px solid var(--bord); align-items: center;
+}
+
+/* Exemple, intuition : intertitre en gras dans le texte, à la manière de « Exemple. » et « Remarque. » */
+.cours-article .bloc-exemple, .cours-article .bloc-intuition { margin: 22px 0; padding-left: 16px; border-left: 2px solid var(--bord-fort); }
+.cours-article .bloc-exemple > .bloc-titre-cours, .cours-article .bloc-intuition > .bloc-titre-cours { margin-bottom: 4px; }
+.cours-article .bloc-intuition > .bloc-titre-cours .libelle-bloc { font-style: italic; }
+.cours-article .bloc-intuition { border-left-style: dotted; }
+
+/* Sommaire latéral : numéros de section */
+.cours-toc ol { counter-reset: toc; }
+.cours-toc li { counter-increment: toc; }
+.cours-toc li a::before { content: counter(toc) ". "; color: var(--texte-faible); font-variant-numeric: tabular-nums; }
+@media (max-width: 1100px) { .toc-plan { display: none; } .cours-toc { padding: 10px 16px; } }
+
+@media (max-width: 760px) {
+  .cours-article { font-size: 1.0625rem; text-align: left; }
+  .tete-chapitre { gap: 12px; }
+  .cours-article .tete-chapitre h1 { font-size: 1.75rem; }
+  .tete-numero span { font-size: 1.1rem; }
+  .tete-numero b { font-size: 4rem; }
+  .cours-article .section-cours { font-size: 1.35rem; }
+  .cours-article > h3 { margin-left: 0; font-size: 1.15rem; }
+  .cours-article .bloc-definition, .cours-article .bloc-propriete { padding: 0 14px 14px 12px; }
+  .cours-article .bloc-definition > .bloc-titre-cours, .cours-article .bloc-propriete > .bloc-titre-cours { margin-left: -18px; }
+  .cours-article .bloc-theoreme, .cours-article .bloc-exercice { padding-left: 14px; padding-right: 14px; }
+  .cours-article .bloc-theoreme > .bloc-titre-cours, .cours-article .bloc-exercice > .bloc-titre-cours { margin-left: -14px; margin-right: -14px; padding-left: 14px; }
+  .cours-article .bloc-methode, .cours-article .bloc-entretien, .cours-article .bloc-attention { padding: 0 14px 14px; }
+}
+@media print {
+  .cours-article { font-size: 11pt; }
+  .cours-article .bloc-preuve > summary.bloc-titre-cours { background: #fff; }
+  .sommaire-chapitre { break-after: page; }
+}
+/* Justification : pas dans les paragraphes qui portent des liens vers les fiches (pastilles insécables) */
+.cours-article p:has(.lien-fiche), .cours-article li:has(.lien-fiche) { text-align: left; }
+.cours-article .lien-fiche { font-size: .78em; vertical-align: .08em; }
+.cours-article .solution-ex > summary { font-family: var(--police); font-size: .9375rem; font-weight: 600; }
+.cours-article .bloc-intuition > .bloc-titre-cours .libelle-bloc:not(:last-child)::after { content: "."; }
