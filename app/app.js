@@ -154,6 +154,38 @@
   // la barre du bas ; les autres passent par « Plus ».
   const PRINCIPALES = 5;
 
+  // Icônes au trait (24 × 24), dessinées pour l'application : une par section.
+  const TRACES = {
+    accueil: '<path d="M3.5 10.5 12 3.5l8.5 7"/><path d="M5.5 9v11h13V9"/><path d="M10 20v-6h4v6"/>',
+    cours: '<path d="M3 4.5h5.5A3.5 3.5 0 0 1 12 8v12a2.5 2.5 0 0 0-2.5-2.5H3z"/><path d="M21 4.5h-5.5A3.5 3.5 0 0 0 12 8v12a2.5 2.5 0 0 1 2.5-2.5H21z"/>',
+    revisions: '<rect x="3" y="7" width="13" height="13" rx="2"/><path d="M7.5 3.5H19a1.5 1.5 0 0 1 1.5 1.5v11.5"/>',
+    calcul: '<rect x="5" y="2.5" width="14" height="19" rx="2.5"/><path d="M8.5 6.5h7"/><path d="M8.5 11h.01M12 11h.01M15.5 11h.01M8.5 14.5h.01M12 14.5h.01M15.5 14.5h.01M8.5 18h.01M12 18h.01M15.5 18h.01"/>',
+    entretien: '<path d="M20.5 12a8 8 0 0 1-11.6 7.2L4 20.5l1.3-4.4A8 8 0 1 1 20.5 12z"/><path d="M8.5 12h.01M12 12h.01M15.5 12h.01"/>',
+    marche: '<path d="M3.5 3.5v17h17"/><path d="m7.5 14.5 3.5-4 3 2.5 5-6"/>',
+    histoires: '<path d="M12 20.5h8.5"/><path d="M16.2 3.8a2.1 2.1 0 0 1 3 3L7.5 18.5l-4 1 1-4z"/>',
+    journal: '<rect x="3.5" y="4.5" width="17" height="16" rx="2"/><path d="M16 2.5v4M8 2.5v4M3.5 10h17"/>',
+    guides: '<path d="M14 2.5H6.5a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V8z"/><path d="M14 2.5V8h5.5"/><path d="M8.5 13h7M8.5 17h4.5"/>',
+    progres: '<path d="M3.5 20.5h17"/><path d="M7 16.5v-5M12 16.5V6.5M17 16.5v-8"/>',
+    reglages: '<path d="M4 6.5h9M17 6.5h3M4 12h3M11 12h9M4 17.5h11M19 17.5h1"/><circle cx="15" cy="6.5" r="2"/><circle cx="9" cy="12" r="2"/><circle cx="17" cy="17.5" r="2"/>',
+    test: '<circle cx="12" cy="13.5" r="7.5"/><path d="M12 10v3.5l2 2M9.5 2.5h5"/>',
+    plus: '<circle cx="5.5" cy="12" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="18.5" cy="12" r="1.2"/>'
+  };
+  function icone(id, classe) {
+    const trace = TRACES[id];
+    if (!trace) return '';
+    return '<svg class="' + (classe || 'ico') + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" ' +
+      'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' + trace + '</svg>';
+  }
+
+  // Regroupement de la barre latérale (ordinateur) ; les sections absentes de la liste vont dans le dernier groupe.
+  const GROUPES = [
+    { titre: '', ids: ['accueil'] },
+    { titre: 'Apprendre', ids: ['cours', 'revisions', 'calcul'] },
+    { titre: 'S’entraîner', ids: ['entretien', 'marche'] },
+    { titre: 'Préparer', ids: ['histoires', 'journal', 'guides'] },
+    { titre: 'Suivi', ids: ['progres', 'reglages'] }
+  ];
+
   function rendreNavigation() {
     const nav = document.getElementById('navigation');
     const liste = Object.keys(vues).map(function (k) { return vues[k]; })
@@ -161,40 +193,50 @@
     const lien = function (v, classe) {
       const pastille = v.pastille ? v.pastille() : '';
       return '<a href="#' + v.id + '"' + (classe ? ' class="' + classe + '"' : '') + (vueCourante === v ? ' aria-current="page"' : '') +
-        '><span class="ico" aria-hidden="true">' + v.icone + '</span><span>' + o.echapper(v.court || v.titre) + '</span>' +
+        '>' + icone(v.id) + '<span class="nav-texte">' + o.echapper(v.court || v.titre) + '</span>' +
         (pastille ? '<span class="pastille">' + o.echapper(pastille) + '</span>' : '') + '</a>';
     };
+    const connus = {};
+    GROUPES.forEach(function (g) { g.ids.forEach(function (id) { connus[id] = true; }); });
+    const groupes = GROUPES.map(function (g) {
+      return { titre: g.titre, vues: liste.filter(function (v) { return g.ids.indexOf(v.id) >= 0; }) };
+    });
+    groupes[groupes.length - 1].vues = groupes[groupes.length - 1].vues.concat(liste.filter(function (v) { return !connus[v.id]; }));
     const secondaireActive = vueCourante && (vueCourante.ordre > PRINCIPALES || vueCourante.id === 'plus');
-    nav.innerHTML = liste.map(function (v) { return lien(v, v.ordre > PRINCIPALES ? 'secondaire' : ''); }).join('') +
+    nav.innerHTML = groupes.filter(function (g) { return g.vues.length; }).map(function (g) {
+      return (g.titre ? '<div class="nav-groupe" aria-hidden="true">' + o.echapper(g.titre) + '</div>' : '') +
+        g.vues.map(function (v) { return lien(v, v.ordre > PRINCIPALES ? 'secondaire' : ''); }).join('');
+    }).join('') +
       '<a href="#plus" class="plus-mobile"' + (secondaireActive ? ' aria-current="page"' : '') +
-      '><span class="ico" aria-hidden="true">\u22ef</span><span>Plus</span></a>';
+      '>' + icone('plus') + '<span class="nav-texte">Plus</span></a>';
   }
 
   // Écran « Plus » (téléphone) : les sections secondaires en grands boutons.
   enregistrerVue({
-    id: 'plus', titre: 'Plus', icone: '\u22ef', ordre: 99, cache: true,
+    id: 'plus', titre: 'Plus', icone: '⋯', ordre: 99, cache: true,
     rendre: function (main) {
       const liste = Object.keys(vues).map(function (k) { return vues[k]; })
         .filter(function (v) { return !v.cache && v.ordre > PRINCIPALES; }).sort(function (a, b) { return a.ordre - b.ordre; });
-      main.innerHTML = '<h1>Plus</h1><div class="grille">' + liste.map(function (v) {
-        return '<a class="carte bouton-section" href="#' + v.id + '"><span class="ico" aria-hidden="true">' + v.icone + '</span> ' +
-          o.echapper(v.titre) + '</a>';
+      main.innerHTML = '<h1>Plus</h1><div class="liste-sections">' + liste.map(function (v) {
+        return '<a class="bouton-section" href="#' + v.id + '">' + icone(v.id) + '<span>' + o.echapper(v.titre) + '</span>' +
+          '<svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a>';
       }).join('') + '</div>';
     }
   });
 
   function rafraichirEntete() {
-    const el = document.getElementById('entete-infos');
-    if (!el) return;
+    const zones = document.querySelectorAll('.entete-infos');
+    if (!zones.length) return;
     const s = serie();
+    const d = dues();
     const prochain = prochainEntretien();
-    let html = '<span title="Jours consécutifs d’entraînement">Série : <b>' + s + ' j</b></span>' +
-      '<span>À revoir : <b>' + dues() + '</b></span>';
+    let html = '<span class="info" title="Jours consécutifs d’entraînement"><span class="info-libelle">Série</span><b>' + s + ' j</b></span>' +
+      '<span class="info' + (d ? ' info-accent' : '') + '"><span class="info-libelle">À revoir</span><b>' + d + '</b></span>';
     if (prochain) {
       const n = o.ecartJours(aujourdhui(), prochain.date);
-      html += '<span>' + o.echapper(prochain.entreprise || 'Entretien') + ' : <b>' + (n === 0 ? 'aujourd’hui' : 'J−' + n) + '</b></span>';
+      html += '<span class="info"><span class="info-libelle">' + o.echapper(prochain.entreprise || 'Entretien') + '</span><b>' + (n === 0 ? 'aujourd’hui' : 'J−' + n) + '</b></span>';
     }
-    el.innerHTML = html;
+    zones.forEach(function (el) { el.innerHTML = html; });
   }
 
   // --- Composants communs ---------------------------------------------------------------------------------------------
@@ -327,6 +369,6 @@
     fiches: fiches, fiche: fiche, banque: P_BANQUE, nomTheme: nomTheme, maitriseMoyenne: maitriseMoyenne, dues: dues, prochainEntretien: prochainEntretien,
     toast: toast, el: el, telecharger: telecharger, exporter: exporter, restreint: restreint, fenetre: fenetre,
     confirmer: confirmer, copier: copier, donnerTexte: donnerTexte, importer: importer, reinitialiser: reinitialiser,
-    appliquerTheme: appliquerTheme, rendreNavigation: rendreNavigation, stockageOk: function () { return stockageOk; }
+    appliquerTheme: appliquerTheme, rendreNavigation: rendreNavigation, icone: icone, stockageOk: function () { return stockageOk; }
   };
 })(this);

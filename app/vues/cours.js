@@ -227,7 +227,7 @@
       const chap = chapitre(x[2]);
       return '<li><a href="#cours/c=' + x[2] + '/s=' + x[3] + '">Démonstration : ' + ligne(x[1]) + '</a> <span class="petit doux">chapitre ' + (chap ? chap.numero : '') + '</span></li>';
     }));
-    return '<div class="carte" data-a-refaire style="border-left:4px solid var(--alerte)"><h2 style="margin-top:0">À refaire aujourd’hui</h2>' +
+    return '<div class="carte" data-a-refaire style="border-left:3px solid var(--alerte)"><h2>À refaire aujourd’hui</h2>' +
       '<p class="petit doux">Répétition espacée : un exercice raté revient le lendemain, un exercice réussi après 3, 7, 21 puis 60 jours. Refais-le sans regarder la solution, puis valide ta réponse.</p>' +
       '<ul class="liste-demos">' + items.join('') + '</ul></div>';
   }
@@ -236,10 +236,11 @@
     const faits = etatCours().demos || {};
     const jour = A.aujourdhui();
     const n = INCONTOURNABLES.filter(function (x) { return faits[x[0]]; }).length;
-    return '<div class="carte" data-incontournables><h2 style="margin-top:0">Les 15 démonstrations à savoir refaire sans notes</h2>' +
+    return '<div class="carte" data-incontournables><div class="entete-carte"><h2>Les 15 démonstrations à savoir refaire sans notes</h2>' +
+      '<span class="legende" data-compte-demos>' + n + ' / ' + INCONTOURNABLES.length + ' maîtrisées</span></div>' +
       '<p class="petit doux">Elles reviennent dans presque tous les entretiens techniques. Coche une ligne quand tu sais la refaire au tableau, en parlant, en moins de cinq minutes. ' +
       'Elle te sera reproposée après 3 jours, puis 7, 21 et 60 : si tu y arrives encore, valide ; sinon, décoche et reprends le chapitre.</p>' +
-      '<p class="legende" data-compte-demos>' + n + ' / ' + INCONTOURNABLES.length + ' maîtrisées</p><ol class="liste-demos">' +
+      '<ol class="liste-demos">' +
       INCONTOURNABLES.map(function (x) {
         const chap = chapitre(x[2]);
         if (!chap) return '';
@@ -258,11 +259,11 @@
     d.chapitres.forEach(function (c) { (parParties[c.partie] = parParties[c.partie] || []).push(c); });
     const tous = d.chapitres.length;
     const lus = d.chapitres.filter(function (c) { return etatCours().lus[c.id]; }).length;
-    let html = '<h1>Cours</h1><div class="carte"><p>Le cours derrière les fiches : définitions, théorèmes et démonstrations complètes, calculs ' +
-      'détaillés ligne à ligne, exercices corrigés et simulations à manipuler. Chaque chapitre se termine par les fiches de révision qui s’y rattachent ; ' +
-      'depuis une fiche, le lien « Revoir le cours » ramène au bon chapitre.</p>' +
-      '<p class="legende">' + lus + ' chapitre' + (lus > 1 ? 's' : '') + ' lu' + (lus > 1 ? 's' : '') + ' sur ' + tous + '.</p></div>' +
-      rendreARefaire() + rendreIncontournables();
+    let html = '<h1>Cours</h1><p class="doux">Le cours derrière les fiches : définitions, théorèmes et démonstrations complètes, calculs ' +
+      'détaillés ligne à ligne, exercices corrigés et simulations à manipuler. Chaque chapitre se termine par les fiches de révision qui s’y rattachent.</p>' +
+      '<div class="progression-cours"><div class="barre"><span style="width:' + Math.round(100 * lus / Math.max(1, tous)) + '%"></span></div>' +
+      '<span class="legende">' + lus + ' chapitre' + (lus > 1 ? 's' : '') + ' lu' + (lus > 1 ? 's' : '') + ' sur ' + tous + '</span></div>' +
+      rendreARefaire();
     d.parties.forEach(function (p) {
       const liste = parParties[p];
       if (!liste) return;
@@ -276,6 +277,7 @@
           (c.fiches.length ? '<span>' + c.fiches.length + ' fiches liées</span>' : '') + '</div></a>';
       }).join('') + '</div>';
     });
+    html += '<h2 class="partie-cours">À savoir refaire</h2>' + rendreIncontournables();
     main.innerHTML = html;
     main.querySelectorAll('[data-demo]').forEach(function (c) {
       c.addEventListener('change', function () {
@@ -307,7 +309,7 @@
       return '<li><a href="#cours/c=' + chap.id + '/s=' + (k + 1) + '" data-ancre="s-' + (k + 1) + '">' + ligne(s) + '</a></li>';
     }).join('');
     main.innerHTML = '<div class="cours-cadre"><aside class="cours-toc" aria-label="Sommaire du chapitre"><p class="petit"><a href="#cours">← Tous les chapitres</a></p>' +
-      '<p class="bloc-titre" style="margin-top:6px">Chapitre ' + chap.numero + '</p><ol>' + toc + '</ol>' +
+      '<details class="toc-plan" open><summary class="bloc-titre">Chapitre ' + chap.numero + ' · sommaire</summary><ol>' + toc + '</ol></details>' +
       (chap.fiches.length ? '<p class="petit"><a href="#revisions/chapitre=' + chap.id + '">S’entraîner : ' + chap.fiches.length + ' fiches</a></p>' : '') + '</aside>' +
       '<article class="cours-article"><p class="petit doux">' + o.echapper(chap.partie) + ' · chapitre ' + chap.numero + (chap.duree ? ' · ' + o.echapper(chap.duree) : '') + '</p>' +
       '<h1>' + o.echapper(chap.titre) + '</h1><p class="chapo">' + ligne(chap.resume) + '</p>' +
@@ -321,6 +323,8 @@
       '<nav class="ligne nav-chapitres" aria-label="Chapitres voisins">' +
       (prec ? '<a class="bouton" href="#cours/c=' + prec.id + '">← ' + o.echapper(prec.titre) + '</a>' : '') + '<span class="espace"></span>' +
       (suiv ? '<a class="bouton" href="#cours/c=' + suiv.id + '">' + o.echapper(suiv.titre) + ' →</a>' : '') + '</nav></article></div>';
+    const plan = main.querySelector('.toc-plan');
+    if (plan && racine.matchMedia && racine.matchMedia('(max-width: 1100px)').matches) plan.open = false;
     brancher(main, chap);
     if (params.s) {
       const cible = main.querySelector('#s-' + params.s);

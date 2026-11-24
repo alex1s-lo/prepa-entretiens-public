@@ -147,6 +147,8 @@ node tests/navigateur.js captures/   # parcours complet, avec captures d'écran
 
 Ce dépôt est autonome : aucun serveur, aucune dépendance.
 
+La version publique du projet est mise à jour automatiquement à chaque modification (voir `outils/publier.py` et `.github/workflows/publier.yml`).
+
 ### Sur téléphone avec GitHub Pages
 
 Dans ce dépôt : Settings → Pages → « Deploy from a branch », branche `main`, dossier `/`. L'application est alors accessible à l'adresse `https://<ton-compte>.github.io/prepa-entretiens/`. Servie ainsi, l'application s'**installe** sur l'écran d'accueil du téléphone (menu du navigateur → « Ajouter à l'écran d'accueil ») et fonctionne **hors connexion** grâce à son service worker (`sw.js`, généré par `construire.py`). La page ne contient aucune donnée personnelle (ta progression reste dans chaque navigateur) ; mais si le dépôt est public, les fiches « Projets types » et le profil par défaut sont des exemples génériques, sans donnée personnelle. Pour passer ta progression du PC au téléphone : Réglages → Exporter, puis Importer sur le téléphone.

@@ -19,7 +19,7 @@
     main.innerHTML = '<h1>Guides</h1><p class="doux">À lire une fois en entier, puis à relire la veille d’un entretien.</p><div class="grille">' +
       guides.map(function (g) {
         const premiere = g.texte.split('\n').filter(function (l) { return l.trim() && !/^[#|>-]/.test(l.trim()); })[0] || '';
-        return '<a class="carte" href="#guides/g=' + g.id + '" style="text-decoration:none;color:inherit;display:block"><h3 style="margin-top:0">' +
+        return '<a class="carte carte-lien" href="#guides/g=' + g.id + '"><h3 style="margin-top:0">' +
           o.echapper(g.titre) + '</h3><p class="petit doux">' + o.enLigne(premiere.slice(0, 180)) + (premiere.length > 180 ? '…' : '') + '</p></a>';
       }).join('') + '</div>';
   }

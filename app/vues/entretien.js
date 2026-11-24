@@ -89,16 +89,16 @@
       '<label for="eb-duree">Durée</label><select id="eb-duree">' + Object.keys(DUREES).map(function (d) {
         return '<option value="' + d + '"' + (d === 'standard' ? ' selected' : '') + '>' + DUREES[d].nom + '</option>';
       }).join('') + '</select>' +
-      '<label class="case" style="margin-top:12px"><input type="checkbox" id="eb-projet" checked> Inclure une question sur un de mes projets</label>' +
+      '<div class="options"><label class="case"><input type="checkbox" id="eb-projet" checked> Inclure une question sur un de mes projets</label>' +
       '<label class="case"><input type="checkbox" id="eb-relances" checked> Relances de l\u2019intervieweur après les questions</label>' +
       '<label class="case"><input type="checkbox" id="eb-anglais"' + (etat.reglages.anglais ? ' checked' : '') + '> Questions en anglais quand c’est possible</label>' +
-      (P.composants.voixDisponible() ? '<label class="case"><input type="checkbox" id="eb-voix"' + (etat.reglages.lectureAuto ? ' checked' : '') + '> L’intervieweur lit chaque question à voix haute</label>' : '') +
-      '<div class="ligne" style="margin-top:14px"><button class="principal" type="submit">Commencer l’entretien</button>' +
+      (P.composants.voixDisponible() ? '<label class="case"><input type="checkbox" id="eb-voix"' + (etat.reglages.lectureAuto ? ' checked' : '') + '> L’intervieweur lit chaque question à voix haute</label>' : '') + '</div>' +
+      '<div class="ligne" style="margin-top:20px"><button class="principal" type="submit">Commencer l’entretien</button>' +
       '<a class="bouton" href="#entretien/vue=claude">Entretien oral avec Claude</a></div></form>');
-    main.appendChild(A.el('<div class="grille"><a class="carte bouton-section" href="#test"><span class="ico" aria-hidden="true">\u23f1</span>' +
-      '<span>Test en ligne chronométré<br><span class="petit doux" style="font-weight:400">Questions chiffrées, chrono global, solutions à la fin</span></span></a>' +
-      '<a class="carte bouton-section" href="#entretien/vue=claude"><span class="ico" aria-hidden="true">\u260e</span>' +
-      '<span>Entretien oral avec Claude<br><span class="petit doux" style="font-weight:400">Mode vocal de l\u2019application Claude</span></span></a></div>'));
+    main.appendChild(A.el('<div class="grille"><a class="carte tuile" href="#test"><span class="tuile-ico">' + A.icone('test') + '</span>' +
+      '<span><span class="tuile-titre">Test en ligne chronométré</span><span class="tuile-detail">Questions chiffrées, chrono global, solutions à la fin</span></span></a>' +
+      '<a class="carte tuile" href="#entretien/vue=claude"><span class="tuile-ico">' + A.icone('entretien') + '</span>' +
+      '<span><span class="tuile-titre">Entretien oral avec Claude</span><span class="tuile-detail">Mode vocal de l\u2019application Claude</span></span></a></div>'));
     main.appendChild(form);
     const attentes = form.querySelector('[data-attentes]');
     const majAttentes = function () { attentes.textContent = 'Ce qu’on attend souvent : ' + PROFILS[form.querySelector('#eb-profil').value].attentes; };
@@ -179,7 +179,7 @@
       '<div class="question">' + o.markdown(relance.question) + '</div>' +
       '<p class="petit doux">Réponds à voix haute, en une ou deux phrases.</p>' +
       '<div class="ligne" data-actions-relance><button class="principal" data-voir>' + (relance.reponse ? 'Voir la réponse attendue' : 'J\u2019ai répondu') + '</button>' +
-      (P.composants.voixDisponible() ? '<button class="discret" data-ecouter aria-label="Écouter la relance">\ud83d\udd0a</button>' : '') + '</div>' +
+      (P.composants.voixDisponible() ? '<button class="discret" data-ecouter aria-label="Écouter la relance"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg></button>' : '') + '</div>' +
       '<div data-reponse hidden></div></section>';
     const lire = function () { P.composants.parler(o.textePrononcable(relance.question, false), false); };
     if (A.etat.reglages.lectureAuto) setTimeout(lire, 300);

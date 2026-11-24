@@ -61,7 +61,7 @@
       '<div class="ligne petit">' + etiquettes(f) + '<span class="espace"></span>' +
       (opt.chrono ? '<span class="chrono" data-chrono>0:00</span>' : '') +
       (f.en ? '<button class="discret" data-langue title="Changer de langue (touche e)">' + (infos.anglais ? 'FR' : 'EN') + '</button>' : '') +
-      (voixDisponible() ? '<button class="discret" data-lire title="Écouter la question (touche l)" aria-label="Écouter la question">\ud83d\udd0a</button>' : '') +
+      (voixDisponible() ? '<button class="discret" data-lire title="Écouter la question (touche l)" aria-label="Écouter la question"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg></button>' : '') +
       '</div>' +
       '<div class="question" data-enonce>' + o.markdown(enonce()) + '</div>' +
       (f.type === 'numerique' ?

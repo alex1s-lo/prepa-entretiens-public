@@ -61,17 +61,17 @@
     const parite = o.ecartJours('2026-01-01', jour) % 2 === 0;
     const proposeMarche = etat.reglages.profils[0] === 'mm' || !parite;
 
-    let html = '<h1>Aujourd’hui</h1><p class="doux">' + o.dateLisible(jour) + ' · environ 30 à 45 minutes, tous les jours, valent mieux que trois heures le week-end.</p>';
+    let html = '<h1>Aujourd’hui</h1><p class="doux">' + o.dateLisible(jour) + ' · 30 à 45 minutes chaque jour valent mieux que trois heures le week-end.</p>';
 
     if (debutant) {
-      html += '<div class="carte"><h2 style="margin-top:0">Par où commencer</h2><ol>' +
+      html += '<div class="carte carte-mise-en-avant"><h2>Par où commencer</h2><ol class="etapes">' +
         '<li><a href="#reglages">Réglages</a> : choisis le type de poste que tu vises en priorité et complète ton profil.</li>' +
         '<li><a href="#revisions">Révisions</a> : fais ta première session (15 questions). Réponds à voix haute avant de regarder la solution.</li>' +
         '<li><a href="#calcul">Calcul mental</a> : un sprint de 2 minutes pour connaître ton niveau de départ.</li>' +
         '<li><a href="#cours">Cours</a> : lis le mode d’emploi, puis le chapitre 1 (espérance, variance, covariance), le plus rentable pour les entretiens.</li>' +
         '<li><a href="#histoires">Mes histoires</a> : écris ta réponse à « Présente-toi ».</li>' +
         '<li><a href="#guides">Guides</a> : lis « Comment répondre à une question technique » et le plan de préparation.</li></ol>' +
-        '<p class="petit doux">Ta progression reste dans ce navigateur. Pense à l’exporter de temps en temps (Réglages).</p></div>';
+        '<p class="legende" style="margin-top:14px">Ta progression reste dans ce navigateur. Pense à l’exporter de temps en temps (Réglages).</p></div>';
     }
 
     if (prochain) {
@@ -98,15 +98,20 @@
     if (histoiresManquantes.length) {
       taches.push({ fait: false, titre: 'Mes histoires', detail: 'À écrire : « ' + histoiresManquantes[0].titre + ' »' + (histoiresManquantes.length > 1 ? ' (+' + (histoiresManquantes.length - 1) + ')' : ''), lien: '#histoires', bouton: 'Écrire' });
     }
-    html += '<div class="carte"><h2 style="margin-top:0">Programme du jour</h2><ul class="liste-fiches">' + taches.map(function (t) {
-      return '<li><div class="ligne"><span class="etiquette ' + (t.fait ? 'succes' : '') + '">' + (t.fait ? '✓ fait' : 'à faire') + '</span><b>' + o.echapper(t.titre) + '</b>' +
-        '<span class="petit doux">' + o.echapper(t.detail) + '</span><span class="espace"></span><a class="bouton' + (t.fait ? '' : ' principal') + '" href="' + t.lien + '">' + t.bouton + '</a></div></li>';
+    const restantes = taches.filter(function (t) { return !t.fait; }).length;
+    const premiere = taches.filter(function (t) { return !t.fait; })[0];
+    const coche = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>';
+    html += '<div class="carte"><div class="entete-carte"><h2>Programme du jour</h2><span class="legende">' +
+      (restantes ? restantes + ' sur ' + taches.length + ' à faire' : 'Tout est fait') + '</span></div><ul class="liste-fiches taches">' + taches.map(function (t) {
+      return '<li class="tache' + (t.fait ? ' faite' : '') + '"><span class="tache-etat" title="' + (t.fait ? 'Fait' : 'À faire') + '">' + (t.fait ? coche : '') + '</span>' +
+        '<span class="tache-texte"><span class="tache-titre">' + o.echapper(t.titre) + '</span><span class="tache-detail">' + o.echapper(t.detail) + '</span></span>' +
+        '<a class="bouton' + (t === premiere ? ' principal' : '') + '" href="' + t.lien + '">' + t.bouton + '</a></li>';
     }).join('') + '</ul></div>';
 
     const f = ficheDuJour(jour);
     if (f) {
-      html += '<div class="carte"><div class="bloc-titre" style="margin-top:0">Question du jour</div><div class="ligne petit">' + P.composants.etiquettes(f) + '</div>' +
-        '<div class="question">' + o.markdown(f.question) + '</div><a class="bouton" href="#revisions/fiche=' + encodeURIComponent(f.id) + '">Y répondre</a></div>';
+      html += '<div class="carte"><div class="entete-carte"><h2>Question du jour</h2></div><div class="ligne petit" style="margin-bottom:12px">' + P.composants.etiquettes(f) + '</div>' +
+        '<div class="question">' + o.markdown(f.question) + '</div><div style="margin-top:16px"><a class="bouton" href="#revisions/fiche=' + encodeURIComponent(f.id) + '">Y répondre</a></div></div>';
     }
 
     const vues = toutes.filter(function (x) { return etat.cartes[x.id]; }).length;
