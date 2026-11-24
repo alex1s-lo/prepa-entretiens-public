@@ -555,23 +555,26 @@ article.guide { padding: 36px 44px; max-width: 52rem; line-height: 1.7; }
   --att: #b42318;
   --exo: #5b6270; --exo-doux: #eef0f3;
   --dem: #8b929e;
+  --teinte: 14%; --ombre-bloc: 0 3px 10px -2px rgba(183, 90, 16, .25);
 }
 :root[data-theme="dark"] {
-  --def: #9aa6ff; --def-doux: #232a52; --def-fond: #181c33;
-  --prop: #ff8fb0; --prop-doux: #45202d; --prop-fond: #2a1820;
-  --thm: #ffb067; --thm-doux: #4a2d12; --thm-fond: #2b1e10;
-  --meth: #7dd48c; --meth-doux: #1d3a23; --meth-fond: #142318;
-  --entr: #e59ad3; --entr-doux: #40203a; --entr-fond: #261725;
-  --att: #ff8f84; --exo: #a8b0bd; --exo-doux: #222830; --dem: #5d6572;
+  --def: #aab3dc; --def-doux: #1e2333; --def-fond: #181c26;
+  --prop: #d3a7b5; --prop-doux: #2a1f25; --prop-fond: #1f1a1e;
+  --thm: #d4b392; --thm-doux: #28221c; --thm-fond: #1c1a17;
+  --meth: #a5c9ab; --meth-doux: #1d2620; --meth-fond: #171d19;
+  --entr: #c9abc3; --entr-doux: #261f25; --entr-fond: #1d191d;
+  --att: #d9a39c; --exo: #a3abb8; --exo-doux: #1c2027; --dem: #474e59;
+  --teinte: 5%; --ombre-bloc: none;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --def: #9aa6ff; --def-doux: #232a52; --def-fond: #181c33;
-    --prop: #ff8fb0; --prop-doux: #45202d; --prop-fond: #2a1820;
-    --thm: #ffb067; --thm-doux: #4a2d12; --thm-fond: #2b1e10;
-    --meth: #7dd48c; --meth-doux: #1d3a23; --meth-fond: #142318;
-    --entr: #e59ad3; --entr-doux: #40203a; --entr-fond: #261725;
-    --att: #ff8f84; --exo: #a8b0bd; --exo-doux: #222830; --dem: #5d6572;
+    --def: #aab3dc; --def-doux: #1e2333; --def-fond: #181c26;
+    --prop: #d3a7b5; --prop-doux: #2a1f25; --prop-fond: #1f1a1e;
+    --thm: #d4b392; --thm-doux: #28221c; --thm-fond: #1c1a17;
+    --meth: #a5c9ab; --meth-doux: #1d2620; --meth-fond: #171d19;
+    --entr: #c9abc3; --entr-doux: #261f25; --entr-fond: #1d191d;
+    --att: #d9a39c; --exo: #a3abb8; --exo-doux: #1c2027; --dem: #474e59;
+    --teinte: 5%; --ombre-bloc: none;
   }
 }
 
@@ -648,7 +651,7 @@ article.guide { padding: 36px 44px; max-width: 52rem; line-height: 1.7; }
 /* Théorème : encadré arrondi, bandeau de titre, ombre portée */
 .cours-article .bloc-theoreme {
   border: 1px solid color-mix(in srgb, var(--thm) 45%, transparent); border-radius: 12px; background: var(--thm-fond);
-  box-shadow: 0 3px 10px -2px color-mix(in srgb, var(--thm) 30%, transparent); padding: 0 22px 18px; overflow: hidden;
+  box-shadow: var(--ombre-bloc); padding: 0 22px 18px; overflow: hidden;
 }
 .cours-article .bloc-theoreme > .bloc-titre-cours {
   color: var(--thm); background: var(--thm-doux); margin: 0 -22px 14px; padding: 10px 22px;
@@ -659,7 +662,7 @@ article.guide { padding: 36px 44px; max-width: 52rem; line-height: 1.7; }
 .cours-article .bloc-methode, .cours-article .bloc-entretien, .cours-article .bloc-attention {
   --c: var(--meth); --c-fond: var(--meth-fond);
   border: 1.5px solid color-mix(in srgb, var(--c) 70%, transparent); border-radius: 3px; padding: 0 20px 16px;
-  background: linear-gradient(180deg, color-mix(in srgb, var(--c) 14%, var(--surface)), var(--surface) 92%); box-shadow: 0 4px 6px -4px rgba(16, 24, 40, .25);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--c) var(--teinte), var(--surface)), var(--surface) 92%); box-shadow: 0 4px 6px -4px rgba(16, 24, 40, .25);
 }
 .cours-article .bloc-entretien { --c: var(--entr); --c-fond: var(--entr-fond); }
 .cours-article .bloc-attention { --c: var(--att); box-shadow: none; background: var(--surface); }
@@ -729,3 +732,13 @@ article.guide { padding: 36px 44px; max-width: 52rem; line-height: 1.7; }
 .cours-article .lien-fiche { font-size: .78em; vertical-align: .08em; }
 .cours-article .solution-ex > summary { font-family: var(--police); font-size: .9375rem; font-weight: 600; }
 .cours-article .bloc-intuition > .bloc-titre-cours .libelle-bloc:not(:last-child)::after { content: "."; }
+
+/* Mode sombre du cours : tons désaturés, filets discrets, pas d'ombre portée */
+:root[data-theme="dark"] .cours-article .bloc { box-shadow: none; }
+:root[data-theme="dark"] .cours-article .bloc-definition, :root[data-theme="dark"] .cours-article .bloc-propriete { border-left-color: color-mix(in srgb, var(--c) 35%, transparent); }
+:root[data-theme="dark"] .cours-article .bloc-titre-cours { box-shadow: none; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .cours-article .bloc { box-shadow: none; }
+  :root:not([data-theme="light"]) .cours-article .bloc-definition, :root:not([data-theme="light"]) .cours-article .bloc-propriete { border-left-color: color-mix(in srgb, var(--c) 35%, transparent); }
+  :root:not([data-theme="light"]) .cours-article .bloc-titre-cours { box-shadow: none; }
+}
