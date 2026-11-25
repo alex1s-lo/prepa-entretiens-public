@@ -1102,3 +1102,30 @@ a.ligne-qcm { text-decoration: none; }
 .carte-collection.obtenue.rarete-epique { border-color: #8a4fd6; }
 .carte-collection.obtenue.rarete-legendaire { border-color: #c58a00; }
 .carte-collection.obtenue .rarete-nom { color: var(--texte-doux); }
+
+/* QCM : apprendre en répondant (aides, correction détaillée, point de cours) */
+.aides-qcm { margin-top: 12px; gap: 8px; }
+.aides-qcm button { font-size: .88rem; }
+.indice-qcm { margin: 10px 0 0; }
+.libelle-point { display: inline-block; font-size: .72rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); margin-right: 6px; }
+.correction-detaillee { display: grid; gap: 10px; margin: 6px 0 14px; overflow-wrap: anywhere; }
+.bonne-reponse { border-left: 3px solid var(--succes); background: var(--succes-doux); border-radius: var(--rayon-petit); padding: 10px 14px; }
+.bonne-reponse .reponse-retenue { font-weight: 600; margin: 4px 0; }
+.bonne-reponse .justification { margin: 0; color: var(--texte-doux); }
+.solution-complete, .point-cours { border: 1px solid var(--bord); border-radius: var(--rayon-petit); padding: 10px 14px; background: var(--surface); }
+.solution-complete > summary, .point-cours > summary { font-weight: 550; line-height: 1.5; }
+.solution-complete pre, .point-cours pre { overflow-x: auto; max-width: 100%; }
+.enonce-origine { border-bottom: 1px dashed var(--bord); margin-bottom: 10px; padding-bottom: 6px; }
+.extrait-cours { font-size: .95rem; }
+.extrait-cours .bloc { margin: 10px 0; }
+.lire-suite { margin: 8px 0 0; }
+.avant-jouer { border: 1px solid var(--accent-bord); background: var(--accent-doux); border-radius: var(--rayon-petit); padding: 10px 14px; margin: 10px 0 14px; }
+.avant-jouer p { margin: 2px 0; }
+.liste-revoir { list-style: none; padding: 0; display: grid; gap: 8px; }
+.liste-revoir details.revoir { border: 1px solid var(--bord); border-radius: var(--rayon-petit); padding: 8px 12px; background: var(--surface); }
+.liste-revoir .correction-detaillee { margin-bottom: 4px; }
+.correction-boss .correction-detaillee { margin: 4px 0 0; }
+.correction-detaillee > *, .carte-qcm, .liste-revoir li { min-width: 0; max-width: 100%; }
+.extrait-cours, .solution-complete { overflow-wrap: anywhere; }
+.extrait-cours table, .solution-complete table { display: block; overflow-x: auto; max-width: 100%; }
+.extrait-cours .katex-display, .solution-complete .katex-display, .bonne-reponse .katex-display { overflow-x: auto; overflow-y: hidden; max-width: 100%; padding-bottom: 2px; }

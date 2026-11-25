@@ -66,7 +66,8 @@
     const fausses = faites.length - justes;
     main.innerHTML = '<h1>QCM</h1><p class="doux">Une question à choix multiples par fiche et par chapitre du cours. Les mauvaises réponses ' +
       'ne sont pas là pour faire nombre : ce sont les erreurs que l’on commet vraiment (oubli d’un cas, formule voisine, intuition trompeuse), ' +
-      'et chacune est expliquée après ta réponse. Ta progression ici est <strong>séparée</strong> des révisions : elle ne change pas le planning des fiches.</p>' +
+      'et chacune est expliquée après ta réponse. Tu ne connais pas encore la notion ? C’est prévu : « Voir le cours d’abord » affiche la section du cours qui l’explique, ' +
+      '« Je ne sais pas encore » montre la réponse sans pénalité, et chaque correction donne la solution rédigée pas à pas. Ta progression ici est <strong>séparée</strong> des révisions : elle ne change pas le planning des fiches.</p>' +
       '<div class="grille stats-ct">' +
       '<div class="carte"><div class="chiffre">' + qs.length + '</div><div class="legende">questions</div></div>' +
       '<div class="carte"><div class="chiffre" data-qcm-faites>' + faites.length + '</div><div class="legende">déjà répondues</div>' + barre(faites.length / Math.max(1, qs.length)) + '</div>' +
@@ -123,6 +124,157 @@
     return f ? f.question : '';
   }
 
+  // --- Apprendre en répondant : la section du cours qui explique la notion, la correction complète -----------------
+  // On suppose qu'on peut découvrir une notion par le QCM : chaque question mène à son explication (extrait du chapitre
+  // affiché sur place, solution rédigée de la fiche) au lieu de donner seulement la bonne lettre.
+  const VIDES = {};
+  ('avec dans pour sont plus cette elle elles nous vous leur leurs mais donc alors comme quand toute tous tout toutes entre sans sous etre fait faire meme ' +
+    'aussi bien encore deux quel quelle quels quelles vaut valeur ainsi chaque autre autres est-ce peut doit faut seulement toujours jamais exemple').split(' ').forEach(function (m) { VIDES[m] = true; });
+  function motsDe(t) {
+    const r = {};
+    o.sansTex(String(t || '')).normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().split(/[^a-z0-9]+/).forEach(function (m) {
+      if (m.length >= 4 && !VIDES[m]) r[m.length > 6 ? m.slice(0, 6) : m] = true;   // racine grossière : pluriels, accords
+    });
+    return r;
+  }
+  function bonneReponse(q) { return q.choix.filter(function (c) { return c.ok; })[0]; }
+  // Fiche d'une question et ses ancêtres (une variante hérite du cours de son problème parent)
+  function lignee(q) {
+    const r = [];
+    let f = estCours(q) ? null : A.fiche(q.cible);
+    while (f && r.length < 4) { r.push(f); f = f.parent ? A.fiche(f.parent) : null; }
+    return r;
+  }
+  function chapitresDe(q) {
+    if (!P.cours) return [];
+    if (estCours(q)) { const c = chapitre(q.cible.slice(6)); return c ? [c] : []; }
+    const l = lignee(q);
+    for (let k = 0; k < l.length; k++) { const c = P.cours.chapitresDeLaFiche(l[k].id); if (c.length) return c; }
+    return [];
+  }
+  // Fiche qu'aucun chapitre ne cite : on cherche dans les chapitres de son domaine, et on ne propose la section que
+  // si elle colle assez (sinon, la correction rédigée suffit).
+  const PROBAS = ['esperance-variance-covariance', 'denombrement-et-poisson', 'conditionnement-markov-martingales', 'lois-gaussiennes'];
+  const CHAPITRES_DOMAINE = {
+    probas: PROBAS,
+    stats: ['statistiques-et-regression', 'algebre-lineaire-covariances', 'lois-gaussiennes'],
+    stoch: ['mouvement-brownien', 'integrale-et-lemme-ito', 'equations-differentielles-stochastiques', 'conditionnement-markov-martingales'],
+    derives: ['arbitrage-et-risque-neutre', 'black-scholes', 'grecques-et-couverture', 'volatilite', 'options-exotiques', 'methodes-numeriques'],
+    taux: ['taux-et-credit', 'arbitrage-et-risque-neutre', 'equations-differentielles-stochastiques'],
+    marches: ['risque-et-portefeuille', 'market-making-et-microstructure', 'energie-et-matieres-premieres', 'volatilite', 'grecques-et-couverture'],
+    ml: ['machine-learning', 'statistiques-et-regression', 'algebre-lineaire-covariances'],
+    algo: ['code-et-algorithmique'],
+    'casse-tete:probas': PROBAS, 'casse-tete:denombrement': PROBAS, 'casse-tete:strategie': PROBAS
+  };
+  function chapitresVoisins(q) {
+    const f = lignee(q)[0];
+    if (!f) return [];
+    const ids = CHAPITRES_DOMAINE[f.theme === 'casse-tete' ? 'casse-tete:' + f.categorie : f.theme] || [];
+    return ids.map(chapitre).filter(Boolean);
+  }
+  const SEUIL_VOISIN = 1;
+  // La section la plus proche de la question : celle qui cite la fiche, sinon le meilleur recouvrement de mots
+  // (pondéré par leur rareté dans le chapitre).
+  // Candidats : chaque section, avec ses mots et ceux des fiches qu'elle cite (des problèmes voisins écrits comme
+  // la question, donc plus comparables que le texte du cours).
+  const cacheCands = {};
+  function candidats(chaps) {
+    const cle = chaps.map(function (c) { return c.id; }).join(',');
+    if (cacheCands[cle]) return cacheCands[cle];
+    const cands = [];
+    chaps.forEach(function (c) {
+      P.cours.sections(c).forEach(function (s) {
+        if (s.texte.trim().length < 80) return;
+        const ids = (s.texte.match(/\[\[fiche:([a-z0-9-]+)\]\]/g) || []).map(function (m) { return m.slice(8, -2); });
+        const fiches = ids.map(function (id) { const f = A.fiche(id); return f ? { mots: motsDe((f.titre || '') + ' ' + f.question) } : null; }).filter(Boolean);
+        cands.push({ chap: c, section: s, ids: ids, mots: motsDe(s.titre + ' ' + s.texte), titre: motsDe(s.titre), fiches: fiches });
+      });
+    });
+    const df = {};
+    cands.forEach(function (x) { Object.keys(x.mots).forEach(function (m) { df[m] = (df[m] || 0) + 1; }); });
+    cacheCands[cle] = { liste: cands, df: df };
+    return cacheCands[cle];
+  }
+  // Meilleure section : celle qui cite la fiche ; sinon recouvrement de mots pondéré par leur rareté, avec le cours et
+  // avec les fiches citées par la section. Mesuré sur les fiches citées (en masquant la citation) : bon chapitre
+  // ~9 fois sur 10 au-dessus du seuil, mais bonne section seulement ~6 fois sur 10 : pour une fiche non citée on
+  // ne propose donc que le chapitre.
+  function chercher(q, chaps, l) {
+    const c = candidats(chaps);
+    const n = c.liste.length;
+    const poids = function (m) { return Math.log(1 + n / (c.df[m] || 0.5)); };
+    const f = l[0];
+    const req = motsDe(f ? (f.titre || '') + ' ' + f.question : enonce(q) + ' ' + bonneReponse(q).t + ' ' + bonneReponse(q).pourquoi);
+    const cles = Object.keys(req);
+    const norme = cles.reduce(function (a, m) { return a + poids(m); }, 0) || 1;
+    let best = null;
+    c.liste.forEach(function (x) {
+      let sc = 0;
+      cles.forEach(function (m) { if (x.mots[m]) sc += poids(m) * (x.titre[m] ? 2 : 1); });
+      let voisins = 0;
+      x.fiches.forEach(function (g) {
+        let a = 0; cles.forEach(function (m) { if (g.mots[m]) a += poids(m); });
+        voisins = Math.max(voisins, a);
+      });
+      sc = (sc + 1.5 * voisins) / norme;
+      if (l.some(function (g) { return x.ids.indexOf(g.id) >= 0; })) sc += 10;
+      if (!best || sc > best.score) best = { chap: x.chap, section: x.section, score: sc };
+    });
+    return best;
+  }
+  const cachePoint = {};
+  function pointDeCours(q) {
+    if (Object.prototype.hasOwnProperty.call(cachePoint, q.id)) return cachePoint[q.id];
+    let res = null;
+    if (P.cours && P.cours.sections) {
+      const cites = chapitresDe(q);
+      const l = lignee(q);
+      if (cites.length) res = chercher(q, cites, l) || { chap: cites[0], section: null };
+      else {
+        const v = chapitresVoisins(q);
+        const b = v.length ? chercher(q, v, l) : null;
+        if (b && b.score >= SEUIL_VOISIN) res = { chap: b.chap, section: null, voisin: true };
+      }
+    }
+    cachePoint[q.id] = res;
+    return res;
+  }
+  function lienPoint(p) {
+    return '#cours/c=' + encodeURIComponent(p.chap.id) + (p.section && p.section.k ? '/s=' + p.section.k : '');
+  }
+  // Extrait du cours, replié ou ouvert
+  function blocCours(q, ouvert) {
+    const p = pointDeCours(q);
+    if (!p) return '';
+    const nomChap = 'chapitre ' + p.chap.numero + ', ' + o.echapper(p.chap.titre);
+    if (!p.section || !P.cours.extrait) {
+      return '<details class="point-cours"' + (ouvert ? ' open' : '') + ' data-point-cours><summary><span class="libelle-point">Le cours sur ce thème</span> ' + nomChap + '</summary>' +
+        (p.chap.resume ? '<p class="petit">Au programme du chapitre : ' + o.enLigne(p.chap.resume) + '</p>' : '') +
+        '<p class="petit lire-suite"><a href="' + lienPoint(p) + '">Ouvrir le chapitre →</a></p></details>';
+    }
+    const ex = P.cours.extrait(p.chap, p.section.texte);
+    return '<details class="point-cours"' + (ouvert ? ' open' : '') + ' data-point-cours><summary><span class="libelle-point">' + 'Le point de cours' + '</span> ' +
+      (p.section.k ? o.enLigne(p.section.titre) + ' <span class="doux">· ' + nomChap + '</span>' : nomChap) + '</summary>' +
+      '<div class="extrait-cours">' + ex.html + '</div>' +
+      '<p class="petit lire-suite"><a href="' + lienPoint(p) + '">' + (ex.coupe ? 'Démonstrations, exercices et suite dans le chapitre →' : 'Ouvrir cette section dans le chapitre →') + '</a></p></details>';
+  }
+  // Correction détaillée : la bonne réponse et sa justification, la solution rédigée de la fiche, le point de cours.
+  function correction(q, ouvert, sansBonne) {
+    const f = lignee(q)[0];
+    const bonne = bonneReponse(q);
+    let h = '<div class="correction-detaillee" data-correction>';
+    if (!sansBonne) h += '<div class="bonne-reponse"><span class="libelle-point">La bonne réponse</span><p class="reponse-retenue">' + o.enLigne(bonne.t) + '</p>' +
+      '<p class="justification">' + o.enLigne(bonne.pourquoi) + '</p></div>';
+    if (f && f.solution) {
+      h += '<details class="solution-complete"' + (ouvert ? ' open' : '') + ' data-solution-complete><summary><span class="libelle-point">Correction complète</span> pas à pas</summary>' +
+        (q.question ? '<div class="enonce-origine"><span class="legende">Le problème d’origine</span>' + o.markdown(f.question) + '</div>' : '') +
+        o.markdown(f.solution) +
+        (f.piege ? '<div class="encadre alerte"><strong>Le piège classique.</strong> ' + o.enLigne(f.piege) + '</div>' : '') + '</details>';
+    }
+    h += blocCours(q, ouvert && (!f || !f.solution));
+    return h + '</div>';
+  }
+
   // mode : { niveau } (campagne), { classee: domaine } (partie classée), ou rien
   function rendreSession(main, ids, mode) {
     mode = mode || {};
@@ -160,27 +312,37 @@
         '<ol class="choix-qcm" role="list">' + ordre.map(function (i, k) {
           return '<li><button type="button" class="choix" data-choix="' + i + '"><span class="lettre">' + LETTRES[k] + '</span>' +
             '<span class="texte-choix">' + o.enLigne(q.choix[i].t) + '</span></button><div class="pourquoi" hidden></div></li>';
-        }).join('') + '</ol><div data-qcm-suite></div></section>';
+        }).join('') + '</ol>' + aides() + '<div data-qcm-aide></div><div data-qcm-suite></div></section>';
+      let aide = false;   // indice ou cours consulté avant de répondre : pas de combo ni de cote en jeu
+      function aides() {
+        const f = lignee(q)[0];
+        const p = pointDeCours(q);
+        return '<div class="ligne aides-qcm" data-aides>' +
+          (p ? '<button type="button" class="discret" data-qcm-voir-cours title="L’explication de la notion, sans la réponse">Voir le cours d’abord</button>' : '') +
+          (f && f.indice ? '<button type="button" class="discret" data-qcm-indice>Un indice</button>' : '') +
+          '<span class="espace"></span><button type="button" class="discret" data-qcm-inconnu title="Montre la réponse et l’explication ; la question reviendra plus tard">Je ne sais pas encore <kbd>?</kbd></button></div>';
+      }
 
       function repondre(i) {
         if (repondu) return;
         repondu = true;
-        const juste = q.choix[i].ok;
+        const inconnu = i < 0;   // « Je ne sais pas encore » : on montre tout, sans pénalité de cote
+        const juste = !inconnu && q.choix[i].ok;
         resultats.push(juste);
         const s = suivi();
         const prec = s[q.id] || { n: 0, j: 0 };
         const dejaJusteAujourdhui = !!(prec.r && prec.d === A.aujourdhui());
         s[q.id] = { n: prec.n + 1, j: prec.j + (juste ? 1 : 0), r: juste, d: A.aujourdhui() };
         A.noterActivite('qcm');
-        if (juste) {
+        if (juste && !aide) {
           combo += 1;
           // le combo ne paie que sur une question pas déjà réussie aujourd'hui (pas de farming)
           if (jeu && !dejaJusteAujourdhui) bonusSession += P.jeu.ajouterBonus(A.etat, A.aujourdhui(), P.jeu.bonusCombo(combo));
           if (jeu) A.etat.jeu.meilleurCombo = Math.max(A.etat.jeu.meilleurCombo || 0, combo);
-        } else combo = 0;
-        A.son(juste ? (combo >= 3 ? 'combo' : 'juste') : 'faux');
+        } else if (!juste) combo = 0;
+        if (!inconnu) A.son(juste ? (combo >= 3 ? 'combo' : 'juste') : 'faux');
         let elo = null;
-        if (J2) { elo = P.jeu2.majElo(A.etat, A.contexteJeu(), q, juste); eloSession += elo.delta; }
+        if (J2 && !inconnu && !aide) { elo = P.jeu2.majElo(A.etat, A.contexteJeu(), q, juste); eloSession += elo.delta; }
         A.sauver();
         if (elo && mode.classee) {
           const ze = main.querySelector('[data-elo]');
@@ -195,13 +357,22 @@
           b.classList.add(c.ok ? 'bonne' : k === i ? 'mauvaise' : 'autre');
           if (k === i) b.setAttribute('aria-label', (c.ok ? 'Ta réponse, juste : ' : 'Ta réponse, fausse : ') + o.sansTex(c.t));
           const p = b.parentNode.querySelector('.pourquoi');
-          p.innerHTML = '<span class="verdict-choix">' + (c.ok ? 'Juste.' : k === i ? 'Ta réponse, fausse.' : 'Faux.') + '</span> ' + o.enLigne(c.pourquoi);
+          p.innerHTML = '<span class="verdict-choix">' + (c.ok ? (inconnu ? 'La bonne réponse.' : 'Juste.') : k === i ? 'Ta réponse, fausse.' : 'Faux.') + '</span> ' + o.enLigne(c.pourquoi);
           p.hidden = false;
         });
+        const za = main.querySelector('[data-aides]');
+        if (za) za.remove();
+        const zaide = main.querySelector('[data-qcm-aide]');
+        const coursDejaOuvert = !!(zaide && zaide.querySelector('[data-point-cours]'));
+        if (zaide) zaide.innerHTML = '';
         const fin = rang + 1 >= liste.length;
         const suite = main.querySelector('[data-qcm-suite]');
-        suite.innerHTML = '<div class="encadre ' + (juste ? 'succes' : 'erreur') + '"><strong>' + (juste ? 'Juste.' : 'Pas cette fois.') + '</strong> ' +
-          (juste ? 'Lis quand même pourquoi les autres réponses sont fausses : ce sont les pièges qu’on te tendra.' : 'Lis l’explication de ta réponse, puis celle de la bonne.') + '</div>' +
+        const message = inconnu ? '<div class="encadre info"><strong>Pas de souci, c’est fait pour apprendre.</strong> Lis la correction ci-dessous ; la question reviendra dans une prochaine session' +
+            (mode.classee ? ' (ta cote ne bouge pas)' : '') + '.</div>' :
+          '<div class="encadre ' + (juste ? 'succes' : 'erreur') + '"><strong>' + (juste ? 'Juste.' : 'Pas cette fois.') + '</strong> ' +
+          (juste ? 'Lis quand même pourquoi les autres réponses sont fausses : ce sont les pièges qu’on te tendra.' : 'Regarde pourquoi ta réponse ne marche pas, puis la correction complète ci-dessous.') + '</div>';
+        // ratée ou inconnue : correction ouverte ; juste : repliée, à consulter au besoin
+        suite.innerHTML = message + correction(q, !juste || coursDejaOuvert, false) +
           '<div class="ligne fin"><button class="principal" data-qcm-suivante>' + (fin ? 'Voir le bilan' : 'Question suivante') + ' <kbd>Entrée</kbd></button></div>';
         suite.querySelector('[data-qcm-suivante]').addEventListener('click', suivante);
         suite.querySelector('[data-qcm-suivante]').focus({ preventScroll: true });
@@ -213,10 +384,26 @@
       main.querySelectorAll('[data-choix]').forEach(function (b) {
         b.addEventListener('click', function () { repondre(Number(b.getAttribute('data-choix'))); });
       });
+      function brancherAides() {
+        const zaide = main.querySelector('[data-qcm-aide]');
+        const vc = main.querySelector('[data-qcm-voir-cours]');
+        if (vc) vc.addEventListener('click', function () {
+          aide = true; vc.remove();
+          zaide.insertAdjacentHTML('beforeend', blocCours(q, true));
+        });
+        const vi = main.querySelector('[data-qcm-indice]');
+        if (vi) vi.addEventListener('click', function () {
+          aide = true; vi.remove();
+          zaide.insertAdjacentHTML('afterbegin', '<div class="encadre info indice-qcm"><strong>Indice.</strong> ' + o.enLigne(lignee(q)[0].indice) + '</div>');
+        });
+        main.querySelector('[data-qcm-inconnu]').addEventListener('click', function () { repondre(-1); });
+      }
+      brancherAides();
       controle = {
         touche: function (e, saisie) {
           if (saisie) return false;
           if (!repondu) {
+            if (e.key === '?') { repondre(-1); return true; }
             const k = '1234567'.indexOf(e.key) >= 0 ? Number(e.key) - 1 : LETTRES.indexOf(e.key.toUpperCase());
             if (k >= 0 && k < ordre.length) { repondre(ordre[k]); return true; }
             return false;
@@ -245,8 +432,9 @@
             return '<li class="' + (x.reussie ? 'reussie' : '') + '"><span>' + (x.reussie ? '✓ ' : '') + o.echapper(x.titre) + '</span>' + barre(Math.min(1, x.fait / x.cible)) +
               '<span class="legende">' + Math.min(x.fait, x.cible) + ' / ' + x.cible + '</span></li>';
           }).join('') + '</ul>' + (rj.prochaine ? '<p class="petit" style="margin-bottom:0">Ensuite : <a href="' + rj.prochaine.lien + '">' + o.echapper(rj.prochaine.titre) + '</a></p>' : '') + '</div>' : '') +
-        (ratees.length ? '<h2>À revoir</h2><ul class="liens-fiches">' + ratees.map(function (q) {
-          return '<li>' + o.echapper(o.resume(o.sansTex(enonce(q)), 110)) + ' · ' + source(q) + '</li>';
+        (ratees.length ? '<h2>À revoir</h2><p class="petit doux">Clique sur une question pour revoir sa correction et le point de cours.</p><ul class="liste-revoir">' + ratees.map(function (q) {
+          return '<li><details class="revoir"><summary>' + o.echapper(o.resume(o.sansTex(enonce(q)), 110)) + '</summary>' +
+            '<p class="petit">' + source(q) + '</p>' + correction(q, true, false) + '</details></li>';
         }).join('') + '</ul>' : '') +
         '<div class="ligne" style="margin-top:16px">' +
         '<button class="principal" data-qcm-autre>Encore 10 <kbd>Entrée</kbd></button>' +
@@ -284,11 +472,14 @@
         '<p class="doux">' + (res.record ? 'Nouveau record sur ce niveau. ' : '') + (res.nouveauMonde ? 'Monde terminé : +' + P.jeu2.MONDE_XP + ' XP. ' : '') +
         (reussi ? (res.etoiles < 3 ? 'Une étoile de plus à ' + (res.etoiles === 1 ? '80 %' : '100 %') + '.' : '') : 'Il faut 60 % pour passer. Les questions changent à chaque partie.') +
         (bonusSession ? ' Combo : +' + bonusSession + ' XP.' : '') + '</p>' +
+        (!reussi && chapitre(niv.id.split(':')[0]) ? '<p class="petit">Avant de rejouer : <a href="#cours/c=' + encodeURIComponent(niv.id.split(':')[0]) + '" data-relire-chapitre>relis le chapitre ' +
+          chapitre(niv.id.split(':')[0]).numero + '</a>, ou déplie la correction des questions ratées ci-dessous.</p>' : '') +
         '<div class="ligne centre">' + (reussi && suivant ? '<a class="bouton principal" href="#campagne/n=' + encodeURIComponent(suivant.id) + '" data-niveau-suivant>Niveau suivant <kbd>Entrée</kbd></a>' : '') +
         '<a class="bouton' + (reussi && suivant ? '' : ' principal') + '" href="#qcm/niveau=' + encodeURIComponent(niv.id) + '/t=' + Date.now() + '" data-rejouer>Rejouer' + (reussi && suivant ? '' : ' <kbd>Entrée</kbd>') + '</a>' +
         '<a class="bouton" href="#campagne">Carte</a></div></section>' +
-        (ratees.length ? '<h2>À revoir</h2><ul class="liens-fiches">' + ratees.map(function (q) {
-          return '<li>' + o.echapper(o.resume(o.sansTex(enonce(q)), 110)) + ' · ' + source(q) + '</li>';
+        (ratees.length ? '<h2>À revoir</h2><p class="petit doux">Clique sur une question pour revoir sa correction et le point de cours.</p><ul class="liste-revoir">' + ratees.map(function (q) {
+          return '<li><details class="revoir"><summary>' + o.echapper(o.resume(o.sansTex(enonce(q)), 110)) + '</summary>' +
+            '<p class="petit">' + source(q) + '</p>' + correction(q, true, false) + '</details></li>';
         }).join('') + '</ul>' : '');
       const principal = main.querySelector('[data-niveau-suivant]') || main.querySelector('[data-rejouer]');
       controle = { touche: function (e, saisie) { if (!saisie && e.key === 'Enter') { principal.click(); return true; } return false; } };
@@ -443,7 +634,7 @@
           return '<li class="' + (juste ? 'juste' : 'faux') + '"><div class="question">' + o.markdown(enonce(q)) + '</div>' +
             (juste ? '' : '<p class="petit"><strong>Ta réponse :</strong> ' + (rep >= 0 ? o.enLigne(q.choix[rep].t) + ' · ' + o.enLigne(q.choix[rep].pourquoi) : 'aucune (temps écoulé)') + '</p>') +
             '<p class="petit"><strong>' + (juste ? 'Juste : ' : 'Bonne réponse : ') + '</strong>' + o.enLigne(bonne.t) + ' · ' + o.enLigne(bonne.pourquoi) + '</p>' +
-            '<p class="petit">' + source(q) + '</p></li>';
+            '<p class="petit">' + source(q) + '</p>' + correction(q, false, true) + '</li>';
         }).join('') + '</ol>';
       racine.scrollTo(0, 0);
     }
@@ -492,5 +683,5 @@
       if (controle && controle.touche(e, saisie)) e.preventDefault();
     }
   });
-  P.qcm = { toutes: toutes, domaine: domaine, tirer: tirer, duChapitre: duChapitre };
+  P.qcm = { toutes: toutes, domaine: domaine, tirer: tirer, duChapitre: duChapitre, pointDeCours: pointDeCours, correction: correction };
 })(this);

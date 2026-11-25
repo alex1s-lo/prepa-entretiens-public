@@ -38,10 +38,30 @@
       }).join('') + '</div></section>';
   }
 
+  // Chapitres du cours derrière un niveau : le sien, ou tous ceux du monde pour le boss ; aucun pour les énigmes.
+  function chapitresDuNiveau(niv, monde) {
+    const tous = (racine.PREPA_COURS && racine.PREPA_COURS.chapitres) || [];
+    const par = function (id) { return tous.filter(function (c) { return c.id === id; })[0]; };
+    let ids = [];
+    if (niv.boss && monde) ids = monde.niveaux.filter(function (x) { return !x.boss && !/^ct:/.test(x.id); }).map(function (x) { return x.id.split(':')[0]; });
+    else if (!/^ct:/.test(niv.id)) ids = [niv.id.split(':')[0]];
+    return ids.filter(function (v, i) { return ids.indexOf(v) === i; }).map(par).filter(Boolean);
+  }
+  function avantDeJouer(niv, monde) {
+    const chaps = chapitresDuNiveau(niv, monde);
+    const lien = function (c) { return '<a href="#cours/c=' + encodeURIComponent(c.id) + '">chapitre ' + c.numero + ', ' + o.echapper(c.titre) + '</a>' + (c.duree ? ' <span class="doux">(' + o.echapper(c.duree) + ')</span>' : ''); };
+    return '<div class="avant-jouer"><p class="libelle-point">Tu découvres la notion ?</p><p class="petit">' +
+      (chaps.length ? (niv.boss ? 'Ce boss mêle les chapitres ' : 'Deux façons d’apprendre : lis d’abord le ') + chaps.map(lien).join(', ') + ', ou lance-toi directement. ' :
+        'Ces énigmes reposent sur quelques idées astucieuses : lance-toi, ') +
+      'Pendant la partie, « Voir le cours d’abord » affiche l’explication de la notion, « Je ne sais pas encore » montre la réponse, et chaque correction est rédigée pas à pas. ' +
+      'Les questions ratées reviennent à la partie suivante.</p></div>';
+  }
+
   function rendre(main, params) {
     if (!P.jeu2 || !A.contexteJeu()) { main.innerHTML = '<h1>Campagne</h1><p class="doux">Indisponible.</p>'; return; }
     const camp = P.jeu2.campagne(A.etat, A.contexteJeu());
-    const choisi = params.n ? (function () { let r = null; camp.mondes.forEach(function (m) { m.niveaux.forEach(function (x) { if (x.id === params.n) r = x; }); }); return r; })() : null;
+    let mondeChoisi = null;
+    const choisi = params.n ? (function () { let r = null; camp.mondes.forEach(function (m) { m.niveaux.forEach(function (x) { if (x.id === params.n) { r = x; mondeChoisi = m; } }); }); return r; })() : null;
     const courant = camp.prochain;
     let h = '<h1>Campagne</h1><p class="doux">Ta candidature, de l’envoi du CV à l’offre, en ' + camp.total + ' niveaux. Une étoile pour passer (60 %), deux à 80 %, trois sans faute. ' +
       'Les questions changent à chaque partie et les ratées reviennent en priorité.</p>' +
@@ -51,7 +71,7 @@
     if (choisi) {
       h += '<section class="carte panneau-niveau" data-panneau><p class="tete-partie">Niveau ' + choisi.numero + (choisi.boss ? ' · boss du monde' : '') + '</p>' +
         '<h2>' + o.echapper(choisi.titre) + '</h2><p class="doux">' + o.echapper(choisi.sous) + ' · ' + choisi.n + ' questions, avec la correction après chaque réponse.</p>' +
-        '<p>' + etoiles(choisi.etoiles) + ' <span class="legende">' + (choisi.etoiles ? 'record' : 'pas encore joué') + '</span></p>' +
+        '<p>' + etoiles(choisi.etoiles) + ' <span class="legende">' + (choisi.etoiles ? 'record' : 'pas encore joué') + '</span></p>' + avantDeJouer(choisi, mondeChoisi) +
         '<div class="ligne">' + (choisi.debloque ? '<a class="bouton principal" href="#qcm/niveau=' + encodeURIComponent(choisi.id) + '" data-jouer>Jouer <kbd>Entrée</kbd></a>' :
           '<span class="doux">Verrouillé : réussis d’abord le niveau précédent.</span>') + '<a class="bouton" href="#campagne">Fermer</a></div></section>';
     } else if (courant) {

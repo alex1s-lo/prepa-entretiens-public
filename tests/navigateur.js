@@ -463,6 +463,37 @@ function verifier(cond, message) { if (!cond) throw new Error(message); }
   await page.waitForSelector('.choix-qcm [data-choix]');
   verifier(/Black-Scholes|Cours|chapitre/i.test(await page.textContent('.source-qcm')) || true, 'QCM du chapitre');
   verifier((await page.$$eval('.carte-qcm', (l) => l.length)) === 1, 'QCM du chapitre : une question affichée');
+  // --- Apprendre en répondant : cours avant de répondre, « Je ne sais pas encore », correction détaillée ---
+  const idsAide = await page.evaluate(() => {
+    const qs = window.Prepa.qcm.toutes();
+    const fiche = qs.find((q) => { const p = window.Prepa.qcm.pointDeCours(q); return !q.cible.startsWith('cours:') && p && p.section; });
+    const cours = qs.find((q) => q.cible.startsWith('cours:'));
+    return [fiche.id, cours.id];
+  });
+  const coteAvant = await page.evaluate(() => JSON.stringify(window.Prepa.app.etat.jeu.elo || {}));
+  await page.goto(URL + '#qcm/s=' + encodeURIComponent(idsAide.join(',')));
+  await page.waitForSelector('[data-qcm-voir-cours]');
+  await page.click('[data-qcm-voir-cours]');
+  await page.waitForSelector('[data-qcm-aide] [data-point-cours][open] .extrait-cours');
+  verifier((await page.textContent('[data-qcm-aide] .extrait-cours')).trim().length > 100, 'QCM : le cours s’affiche avant de répondre');
+  const fausse = await page.evaluate((id) => window.Prepa.qcm.toutes().find((x) => x.id === id).choix.findIndex((c) => !c.ok), idsAide[0]);
+  await page.click('[data-choix="' + fausse + '"]');
+  await page.waitForSelector('[data-correction]');
+  verifier(!!(await page.$('[data-correction] .bonne-reponse')), 'QCM : la bonne réponse est rappelée et justifiée');
+  verifier(!!(await page.$('[data-solution-complete][open]')), 'QCM : correction complète ouverte après une erreur');
+  verifier(!(await page.$('[data-aides]')), 'QCM : les aides disparaissent une fois répondu');
+  await page.click('[data-qcm-suivante]');
+  await page.waitForSelector('[data-qcm-inconnu]');
+  await page.keyboard.press('?');
+  await page.waitForSelector('[data-correction] [data-point-cours][open]');
+  verifier((await page.$$('.choix.bonne')).length === 1 && (await page.$$('.choix.mauvaise')).length === 0, 'QCM : « Je ne sais pas encore » montre la bonne réponse');
+  verifier(await page.evaluate((id) => window.Prepa.app.etat.qcm[id].r === false, idsAide[1]), 'QCM : une question inconnue reviendra');
+  verifier((await page.evaluate(() => JSON.stringify(window.Prepa.app.etat.jeu.elo || {}))) === coteAvant, 'QCM : pas de cote touchée sans réponse donnée ni avec aide');
+  verifier(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1), 'QCM : la correction tient dans la largeur');
+  await page.click('[data-qcm-suivante]');
+  await page.waitForSelector('.liste-revoir details.revoir');
+  await page.click('.liste-revoir details.revoir summary');
+  verifier(!!(await page.$('.liste-revoir details.revoir[open] [data-correction]')), 'QCM : le bilan redonne la correction des ratées');
 
   // --- Mode carrière : niveau, quêtes, épreuve chronométrée corrigée à la fin, désactivation ---
   await naviguer('carriere', 'Carrière');
@@ -500,7 +531,7 @@ function verifier(cond, message) { if (!cond) throw new Error(message); }
     await page.waitForTimeout(260);
   }
   await page.waitForSelector('.correction-boss');
-  verifier((await page.$$('.correction-boss li')).length === 12, 'épreuve : correction complète');
+  verifier((await page.$$('.correction-boss > li')).length === 12, 'épreuve : correction complète');
   verifier((await page.evaluate(() => window.Prepa.app.etat.jeu.boss.probas.meilleur)) === 1, 'épreuve : score enregistré');
   verifier((await page.evaluate(() => window.Prepa.app.resultatJeu().total)) > xpAvantBoss, 'épreuve : XP gagnée');
   verifier((await page.evaluate(() => window.Prepa.app.resultatJeu().desk.capital)) > 100000, 'épreuve : mise gagnée pour le desk');

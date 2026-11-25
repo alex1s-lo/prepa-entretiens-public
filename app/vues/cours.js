@@ -170,6 +170,42 @@
     return html;
   }
 
+  // Sections d'un chapitre (texte brut, découpé sur les titres « ## ») : k = 0 pour l'introduction, puis 1, 2…
+  // comme les ancres s-k du chapitre affiché.
+  const cacheSections = {};
+  function sections(chap) {
+    if (cacheSections[chap.id]) return cacheSections[chap.id];
+    const r = [{ k: 0, titre: 'Introduction', texte: '' }];
+    chap.texte.split('\n').forEach(function (l) {
+      const t = /^## (.*)$/.exec(l);
+      if (t) r.push({ k: r.length, titre: t[1], texte: '' });
+      else r[r.length - 1].texte += l + '\n';
+    });
+    cacheSections[chap.id] = r;
+    return r;
+  }
+  // Extrait lisible hors du chapitre (dans la correction d'un QCM) : le texte, les définitions, théorèmes, méthodes,
+  // exemples et pièges de la section ; démonstrations, exercices et widgets restent dans le chapitre.
+  function extrait(chap, texte, maxi) {
+    maxi = maxi || 2600;
+    let html = '';
+    let taille = 0;
+    let coupe = false;
+    decouper(texte).some(function (s) {
+      if (taille > maxi) { coupe = true; return true; }
+      if (s.type === 'bloc') {
+        if (s.genre === 'preuve' || s.genre === 'exercice' || s.genre === 'widget') { coupe = true; return false; }
+        html += rendreBloc(s, chap, null);
+        taille += s.lignes.join('\n').length;
+      } else if (s.texte.trim()) {
+        html += md(s.texte);
+        taille += s.texte.length;
+      }
+      return false;
+    });
+    return { html: html, coupe: coupe };
+  }
+
   // --- Vues ---------------------------------------------------------------------------------------------------------
   function progression(chap) {
     const ex = etatCours().exercices;
@@ -435,5 +471,5 @@
   }
 
   A.enregistrerVue({ id: 'cours', titre: 'Cours', icone: '∑', ordre: 2, rendre: rendre });
-  P.cours = { donnees: donnees, chapitre: chapitre, chapitresDeLaFiche: chapitresDeLaFiche, decouper: decouper, aRefaire: aRefaire, planifier: planifier };
+  P.cours = { donnees: donnees, chapitre: chapitre, chapitresDeLaFiche: chapitresDeLaFiche, sections: sections, extrait: extrait, decouper: decouper, aRefaire: aRefaire, planifier: planifier };
 })(this);
