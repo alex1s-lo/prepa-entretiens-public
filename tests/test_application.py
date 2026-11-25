@@ -14,7 +14,7 @@ NODE = shutil.which("node")
 @unittest.skipUnless(NODE, "Node.js absent")
 class TestJavaScript(unittest.TestCase):
     def test_modules(self):
-        r = subprocess.run([NODE, "--test", str(RACINE / "tests" / "js" / "modules.test.js"), str(RACINE / "tests" / "js" / "maths.test.js")],
+        r = subprocess.run([NODE, "--test", str(RACINE / "tests" / "js" / "modules.test.js"), str(RACINE / "tests" / "js" / "maths.test.js"), str(RACINE / "tests" / "js" / "synchro.test.js")],
                            capture_output=True, text=True, timeout=300)
         self.assertEqual(r.returncode, 0, r.stdout[-4000:] + r.stderr[-2000:])
 
@@ -49,9 +49,16 @@ class TestFichiers(unittest.TestCase):
         for f in [RACINE / "index.html", *fichiers, RACINE / "app" / "style.css"]:
             texte = f.read_text(encoding="utf-8")
             with self.subTest(fichier=f.name):
-                self.assertNotRegex(texte, r'(src|href)\s*=\s*["\']https?://', "ressource externe")
-                self.assertNotIn("fetch(", texte)
+                # aucune ressource chargée depuis Internet (les liens cliquables <a href> vers une aide restent permis)
+                self.assertNotRegex(texte, r'src\s*=\s*["\']https?://', "ressource externe")
+                self.assertNotRegex(texte, r'<link[^>]*href\s*=\s*["\']https?://', "feuille externe")
                 self.assertNotIn("XMLHttpRequest", texte)
+                if f.name == "synchro.js":
+                    # seule exception : la synchronisation facultative, vers l'API GitHub uniquement
+                    hotes = set(re.findall(r"https?://([^/'\"\s]+)", re.sub(r"^\s*//.*$", "", texte, flags=re.M)))
+                    self.assertEqual(hotes, {"api.github.com"}, "hôtes contactés par la synchronisation")
+                else:
+                    self.assertNotIn("fetch(", texte)
                 self.assertNotRegex(texte, r"@import\s+url\(\s*['\"]?https?://")
 
     def test_manifeste_et_cache(self):

@@ -14,6 +14,8 @@ Sur téléphone, la barre du bas garde les cinq sections du quotidien ; les autr
 
 Pas de serveur, pas de compte, pas de connexion Internet : la page ne charge rien de l'extérieur et n'envoie rien. La progression est enregistrée dans le navigateur ; **Réglages → Exporter** crée une sauvegarde à réimporter ailleurs (autre navigateur, téléphone).
 
+**Synchroniser téléphone et ordinateur** (facultatif, Réglages) : la progression est chiffrée sur l'appareil (AES-GCM, clé tirée d'une phrase de passe), puis déposée dans un dépôt GitHub **privé** qui t'appartient ; chaque appareil la fusionne avec la sienne, élément par élément (la modification la plus récente l'emporte, les historiques s'additionnent sans doublon). C'est automatique : à l'ouverture, une vingtaine de secondes après chaque réponse, au retour du réseau. Hors ligne, rien ne change : la synchronisation reprend dès que le réseau revient. Il faut une fois : un dépôt privé vide, un jeton GitHub « fine-grained » limité à ce dépôt (permission *Contents : Read and write*) et une phrase de passe ; le deuxième appareil se configure en collant un **code de liaison**. Le jeton et la phrase de passe restent dans le navigateur de chaque appareil et ne sont jamais synchronisés. « Tout effacer » n'efface que l'appareil : la copie synchronisée revient à la synchronisation suivante.
+
 ## Ce qu'il y a dedans
 
 | Écran | À quoi il sert |

@@ -424,6 +424,75 @@ function verifier(cond, message) { if (!cond) throw new Error(message); }
   verifier(await p4.$eval('[data-imprimer]', (b) => b.hidden), 'pas de bouton Imprimer dans la page publiée');
   await c4.close();
 
+  // --- Synchronisation entre deux appareils, avec un faux GitHub en mémoire (aucun appel réseau réel) ---
+  const depotFictif = { fichier: null, sha: null, ecritures: 0 };
+  const fauxGitHub = async (route) => {
+    const req = route.request();
+    const entetes = { 'access-control-allow-origin': '*', 'access-control-allow-headers': '*', 'access-control-allow-methods': 'GET, PUT, OPTIONS', 'content-type': 'application/json' };
+    const url = new globalThis.URL(req.url());
+    const auth = req.headers()['authorization'] || '';
+    if (req.method() === 'OPTIONS') return route.fulfill({ status: 204, headers: entetes, body: '' });
+    if (auth !== 'Bearer github_pat_essai') return route.fulfill({ status: 401, headers: entetes, body: '{}' });
+    if (url.pathname === '/repos/moi/prepa-sauvegarde') return route.fulfill({ status: 200, headers: entetes, body: '{}' });
+    if (url.pathname !== '/repos/moi/prepa-sauvegarde/contents/progression-prepa-entretiens.json') return route.fulfill({ status: 404, headers: entetes, body: '{}' });
+    if (req.method() === 'GET') {
+      if (!depotFictif.fichier) return route.fulfill({ status: 404, headers: entetes, body: '{}' });
+      return route.fulfill({ status: 200, headers: entetes, body: JSON.stringify({ content: depotFictif.fichier, sha: depotFictif.sha }) });
+    }
+    const corps = JSON.parse(req.postData() || '{}');
+    if (depotFictif.sha && corps.sha !== depotFictif.sha) return route.fulfill({ status: 409, headers: entetes, body: '{}' });
+    depotFictif.fichier = corps.content;
+    depotFictif.sha = 'sha' + (++depotFictif.ecritures);
+    return route.fulfill({ status: 201, headers: entetes, body: '{}' });
+  };
+  const appareil = async (nom) => {
+    const ctx = await navigateur.newContext({ viewport: { width: 1200, height: 900 } });
+    await ctx.route('https://api.github.com/**', fauxGitHub);
+    const pg = await ctx.newPage();
+    pg.on('pageerror', (e) => erreurs.push(nom + ' pageerror: ' + e.message));
+    await pg.goto(URL + '#reglages');
+    await pg.waitForSelector('[data-carte-synchro] h2');
+    return pg;
+  };
+  const pc = await appareil('pc');
+  await pc.evaluate(() => { const A = window.Prepa.app; A.etat.histoires.presente = 'Texte écrit sur le PC'; A.sauver(); });
+  await pc.fill('#s-depot', 'https://github.com/moi/prepa-sauvegarde');
+  await pc.fill('#s-jeton', 'github_pat_essai');
+  await pc.fill('#s-phrase', 'phrase de passe pour les essais');
+  await pc.click('[data-synchro-form] button[type="submit"]');
+  await pc.waitForFunction(() => !window.Prepa.app.synchroEtat.enCours && !!window.Prepa.app.configSynchro() && !!window.Prepa.app.configSynchro().derniere);
+  verifier(!!depotFictif.fichier, 'synchronisation : rien n’a été envoyé au dépôt');
+  const contenuDepot = Buffer.from(depotFictif.fichier, 'base64').toString('utf8');
+  verifier(contenuDepot.includes('prepa-entretiens-synchro') && !contenuDepot.includes('Texte écrit sur le PC'), 'synchronisation : le dépôt doit être chiffré');
+  await pc.click('[data-synchro-code]');
+  const code = await pc.inputValue('[data-synchro-code-texte]');
+  verifier(code.startsWith('PREPA1:'), 'code de liaison');
+
+  const tel = await appareil('tel');
+  await tel.click('text=J’ai déjà un code de liaison');
+  await tel.fill('[data-synchro-liaison]', code);
+  await tel.click('[data-synchro-lier]');
+  await tel.waitForFunction(() => !window.Prepa.app.synchroEtat.enCours && !!window.Prepa.app.configSynchro() && !!window.Prepa.app.configSynchro().derniere);
+  verifier((await tel.evaluate(() => window.Prepa.app.etat.histoires.presente)) === 'Texte écrit sur le PC', 'téléphone : progression du PC récupérée');
+  // une réponse sur le téléphone revient sur le PC
+  await tel.evaluate(() => { const A = window.Prepa.app; A.etat.notes['proba-monty-hall'] = 'Note du téléphone'; A.sauver(); });
+  await tel.click('[data-synchro-maintenant]');
+  await tel.waitForFunction(() => !window.Prepa.app.synchroEtat.enCours && /à jour|récupérée|mise à jour/.test(window.Prepa.app.synchroEtat.message));
+  await pc.click('[data-synchro-maintenant]');
+  await pc.waitForFunction(() => window.Prepa.app.etat.notes['proba-monty-hall'] === 'Note du téléphone');
+  verifier((await pc.evaluate(() => window.Prepa.app.etat.histoires.presente)) === 'Texte écrit sur le PC', 'PC : sa propre histoire conservée');
+  // mauvais jeton : message clair, aucune configuration gardée
+  const autre = await appareil('autre');
+  await autre.fill('#s-depot', 'moi/prepa-sauvegarde');
+  await autre.fill('#s-jeton', 'github_pat_faux');
+  await autre.fill('#s-phrase', 'phrase de passe pour les essais');
+  await autre.click('[data-synchro-form] button[type="submit"]');
+  await autre.waitForSelector('[data-synchro-statut] .etiquette.erreur');
+  verifier(/Jeton refusé/.test(await autre.textContent('[data-synchro-statut]')), 'mauvais jeton : message');
+  verifier(!(await autre.evaluate(() => window.Prepa.app.configSynchro())), 'mauvais jeton : configuration non gardée');
+  if (CAPTURES) await pc.screenshot({ path: path.join(CAPTURES, '17-synchronisation.png'), fullPage: false });
+  await pc.context().close(); await tel.context().close(); await autre.context().close();
+
   // --- Téléphone : pas de défilement horizontal sur chaque écran ---
   const mobile = await navigateur.newContext({ viewport: { width: 375, height: 740 }, deviceScaleFactor: 1 });
   const p2 = await mobile.newPage();

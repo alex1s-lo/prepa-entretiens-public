@@ -27,6 +27,7 @@
 
   let etat = etatVide();
   let stockageOk = true;
+  let empreinte = {};  // éléments tels qu'au dernier enregistrement (pour horodater les modifications)
 
   function fusionner(base, lu) {
     const e = Object.assign(base, lu || {});
@@ -48,9 +49,11 @@
       stockageOk = false;
       etat = etatVide();
     }
+    empreinte = P.synchro ? P.synchro.entrees(etat) : {};
   }
 
   function sauver() {
+    if (P.synchro) empreinte = P.synchro.horodater(etat, empreinte, Date.now());
     try {
       racine.localStorage.setItem(CLE, JSON.stringify(etat));
       stockageOk = true;
@@ -59,6 +62,70 @@
       stockageOk = false;
     }
     rafraichirEntete();
+    planifierSynchro();
+  }
+
+  // --- Synchronisation entre appareils (voir synchro.js) --------------------------------------------------------------
+  const CLE_SYNCHRO = 'prepa-entretiens-synchro';
+  const synchroEtat = { enCours: false, message: '', erreur: false };
+  let minuteurSynchro = null;
+
+  function configSynchro() {
+    try {
+      const c = JSON.parse(racine.localStorage.getItem(CLE_SYNCHRO) || 'null');
+      return c && c.depot && c.jeton && c.phrase ? c : null;
+    } catch (e) { return null; }
+  }
+  function ecrireConfigSynchro(c) {
+    try {
+      if (c) racine.localStorage.setItem(CLE_SYNCHRO, JSON.stringify(c));
+      else racine.localStorage.removeItem(CLE_SYNCHRO);
+    } catch (e) { /* stockage indisponible */ }
+  }
+  // Installe un état fusionné sans changer d'objet (les écrans ouverts gardent leur référence).
+  function remplacerEtat(nouveau) {
+    const propre = fusionner(etatVide(), JSON.parse(JSON.stringify(nouveau)));
+    Object.keys(etat).forEach(function (k) { delete etat[k]; });
+    Object.assign(etat, propre);
+    empreinte = P.synchro.entrees(etat);
+    try { racine.localStorage.setItem(CLE, JSON.stringify(etat)); } catch (e) { /* signalé à la prochaine sauvegarde */ }
+    appliquerTheme();
+    rafraichirEntete();
+    const actif = document.activeElement;
+    const saisie = actif && /^(INPUT|TEXTAREA|SELECT)$/.test(actif.tagName);
+    if (!saisie && vueCourante && vueCourante.id !== 'reglages') afficher();
+  }
+  function synchroniser(manuel) {
+    const config = configSynchro();
+    if (!config || restreint || !P.synchro) return Promise.resolve(null);
+    if (synchroEtat.enCours) return synchroEtat.enCours;
+    clearTimeout(minuteurSynchro);
+    const promesse = P.synchro.synchroniser(config, function () { return etat; }, remplacerEtat).then(function (res) {
+      const c = configSynchro();
+      if (c) { c.derniere = Date.now(); ecrireConfigSynchro(c); }
+      synchroEtat.message = res.recu ? 'Progression mise à jour depuis ton autre appareil.' : 'Tout est à jour.';
+      synchroEtat.erreur = false;
+      if (manuel) toast(res.recu ? 'Synchronisé : progression de l’autre appareil récupérée.' : 'Synchronisé : tout est à jour.');
+      return res;
+    }, function (err) {
+      synchroEtat.message = err.message;
+      synchroEtat.erreur = true;
+      if (manuel) toast(err.message);
+      return null;
+    }).then(function (res) {
+      synchroEtat.enCours = false;
+      document.dispatchEvent(new CustomEvent('prepa-synchro'));
+      return res;
+    });
+    synchroEtat.enCours = promesse;
+    document.dispatchEvent(new CustomEvent('prepa-synchro'));
+    return promesse;
+  }
+  // Après une modification : synchronisation automatique 20 s plus tard (regroupe les réponses d'une session).
+  function planifierSynchro() {
+    if (!configSynchro() || restreint) return;
+    clearTimeout(minuteurSynchro);
+    minuteurSynchro = setTimeout(function () { synchroniser(false); }, 20000);
   }
 
   function aujourdhui() { return o.jourDe(new Date()); }
@@ -325,8 +392,11 @@
     appliquerTheme();
   }
 
+  // Efface la progression de cet appareil. Avec la synchronisation, aucune suppression n'est propagée :
+  // la copie du dépôt reste intacte et revient à la prochaine synchronisation.
   function reinitialiser() {
     etat = etatVide();
+    empreinte = P.synchro ? P.synchro.entrees(etat) : {};
     sauver();
     appliquerTheme();
   }
@@ -362,6 +432,16 @@
       navigator.serviceWorker.register('sw.js').catch(function () { /* sans service worker, l'application marche quand même */ });
     }
     if (!stockageOk) toast('Ce navigateur bloque la sauvegarde locale : ta progression ne sera pas gardée.');
+    // synchronisation : à l'ouverture, au retour du réseau et quand l'application revient au premier plan
+    if (configSynchro() && !restreint) {
+      setTimeout(function () { synchroniser(false); }, 800);
+      racine.addEventListener('online', function () { synchroniser(false); });
+      document.addEventListener('visibilitychange', function () {
+        const c = configSynchro();
+        if (document.visibilityState === 'visible' && c && Date.now() - (c.derniere || 0) > 60000) synchroniser(false);
+        if (document.visibilityState === 'hidden' && minuteurSynchro) synchroniser(false);
+      });
+    }
   }
 
   P.app = {
@@ -370,6 +450,7 @@
     fiches: fiches, fiche: fiche, banque: P_BANQUE, nomTheme: nomTheme, maitriseMoyenne: maitriseMoyenne, dues: dues, prochainEntretien: prochainEntretien,
     toast: toast, el: el, telecharger: telecharger, exporter: exporter, restreint: restreint, fenetre: fenetre,
     confirmer: confirmer, copier: copier, donnerTexte: donnerTexte, importer: importer, reinitialiser: reinitialiser,
-    appliquerTheme: appliquerTheme, rendreNavigation: rendreNavigation, icone: icone, stockageOk: function () { return stockageOk; }
+    appliquerTheme: appliquerTheme, rendreNavigation: rendreNavigation, icone: icone, stockageOk: function () { return stockageOk; },
+    synchroniser: synchroniser, configSynchro: configSynchro, ecrireConfigSynchro: ecrireConfigSynchro, synchroEtat: synchroEtat
   };
 })(this);

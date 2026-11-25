@@ -194,7 +194,7 @@ kbd {
 button.principal kbd { color: inherit; border-color: currentColor; background: transparent; opacity: .75; }
 sup, sub { font-size: .72em; line-height: 0; }
 
-input[type="text"], input[type="number"], input[type="date"], input[type="search"], input:not([type]), select, textarea {
+input[type="text"], input[type="number"], input[type="date"], input[type="search"], input[type="password"], input[type="url"], input:not([type]), select, textarea {
   font: inherit; font-size: .9375rem; padding: 0 12px; min-height: 38px; border-radius: var(--rayon-petit); border: 1px solid var(--bord-fort);
   background: var(--surface); color: var(--texte); max-width: 100%; box-shadow: var(--ombre); transition: border-color .12s, box-shadow .12s;
 }

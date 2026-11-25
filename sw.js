@@ -1,7 +1,7 @@
 // Fichier généré par construire.py : ne pas modifier à la main.
 // Usage hors ligne quand l'application est servie en http(s) (GitHub Pages) ; inactif en ouverture locale (file://).
 // Stratégie « réseau d'abord » : en ligne on reçoit toujours la dernière version, hors ligne on lit le cache.
-const VERSION = 'prepa-9ef113741728';
+const VERSION = 'prepa-31c1273b20c5';
 const FICHIERS = [
   './index.html',
   './manifest.webmanifest',
@@ -17,6 +17,7 @@ const FICHIERS = [
   './app/outils.js',
   './app/srs.js',
   './app/style.css',
+  './app/synchro.js',
   './app/vendor/katex/fonts/KaTeX_AMS-Regular.woff2',
   './app/vendor/katex/fonts/KaTeX_Caligraphic-Bold.woff2',
   './app/vendor/katex/fonts/KaTeX_Caligraphic-Regular.woff2',
