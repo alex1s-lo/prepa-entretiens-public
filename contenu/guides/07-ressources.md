@@ -4,7 +4,7 @@ Une sélection courte. Mieux vaut un livre travaillé à fond que cinq feuillet�
 
 ## Préparation aux entretiens
 
-- **Xinfeng Zhou, _A Practical Guide to Quantitative Finance Interviews_** : la référence ; casse-têtes, probabilités, calcul stochastique, finance, algorithmes. À faire en entier, en cachant les solutions.
+- **Xinfeng Zhou, $_A$ Practical Guide to Quantitative Finance Interviews_** : la référence ; casse-têtes, probabilités, calcul stochastique, finance, algorithmes. À faire en entier, en cachant les solutions.
 - **Timothy Crack, _Heard on the Street_** : questions d'entretien quant et finance, avec solutions détaillées.
 - **Mark Joshi, Nick Denson et Andrew Downes, _Quant Job Interview Questions and Answers_** : orienté banque (pricing, C++).
 - **Frederick Mosteller, _Fifty Challenging Problems in Probability_** : court, classique, excellent pour l'intuition.

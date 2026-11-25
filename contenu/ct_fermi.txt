@@ -1,0 +1,105 @@
+# Casse-têtes : estimations de Fermi (on juge la décomposition, les arrondis assumés et le contrôle croisé).
+
+=== ct-fermi-pianos
+theme: casse-tete
+categorie: fermi
+titre: Accordeurs de pianos à Paris
+niveau: 1
+profils: mm hf banque data risque
+--- question
+Combien y a-t-il d'accordeurs de pianos à Paris ? (Question d'estimation : raisonne à voix haute.)
+--- en
+How many piano tuners are there in Paris? (Estimation question: reason aloud.)
+--- indice
+Nombre de pianos $\times$ fréquence d'accord, divisé par le nombre d'accords qu'un accordeur fait par an.
+--- solution
+Ce qui compte est la décomposition et la cohérence, pas le chiffre. Un exemple :
+- Paris intra-muros : $\sim 2$ millions d'habitants, $\sim 1$ million de foyers.
+- Foyers avec un piano : $\sim 3\,\%$, soit 30 000 pianos ; plus écoles, conservatoires, salles : disons 40 000.
+- Accord : en moyenne une fois par an.
+- Un accordeur : $\sim 3$ accords par jour, $\sim 220$ jours par an, soit $\sim 650$ accords par an.
+- Besoin : $40\,000 / 650 \approx$ **60 accordeurs** (quelques dizaines à une centaine).
+Méthode : annoncer la structure, arrondir franchement, vérifier par une seconde approche, donner une fourchette et dire quelle hypothèse est la plus incertaine.
+
+=== ct-fermi-stations
+theme: casse-tete
+categorie: fermi
+titre: Stations-service en France
+niveau: 1
+profils: mm hf banque data risque
+--- question
+Combien y a-t-il de stations-service en France ? Raisonne à voix haute.
+--- en
+How many gas stations are there in France? Reason aloud.
+--- indice
+Pars de la consommation totale de carburant, puis du volume vendu par une station.
+--- solution
+Approche par la demande :
+- $\sim 40$ millions de voitures, $\sim 13\,000$ km par an, 6 L aux 100 km : $\sim 800$ L par voiture et par an, soit $\sim 32$ milliards de litres (plus utilitaires et poids lourds : disons 45 milliards).
+- Une station vend $\sim 3$ à 5 millions de litres par an.
+- $45 \times 10^9 / (4 \times 10^6) \approx$ **11 000 stations**.
+Contrôle par l'offre : $\sim 35\,000$ communes, une station pour 3 à 4 communes : $\sim 10\,000$. Cohérent.
+Dire quelle hypothèse est la plus fragile (volume par station) et comment l'affiner.
+--- variantes
+- Essence consommée chaque semaine aux États-Unis : $\sim 280$ millions de véhicules, $\sim 20$ L par semaine chacun, soit $\sim 5$ milliards de litres ($\sim 1{,}4$ milliard de gallons).
+
+=== ct-fermi-balles-avion
+theme: casse-tete
+categorie: fermi
+titre: Balles de tennis dans un avion de ligne
+niveau: 1
+profils: mm hf banque data
+--- question
+Combien de balles de tennis peut-on mettre dans un Boeing 747 vide ? Raisonne à voix haute.
+--- indice
+Volume utile de l'avion, divisé par le volume d'une balle, corrigé par la compacité de l'empilement.
+--- solution
+- Cabine : $\sim 60$ m de long, section utile $\sim 6 \times 4$ m, soit $\sim 1\,500$ m³ ; avec les soutes, disons $\sim 1\,800$ m³ ($1{,}8 \times 10^9$ cm³).
+- Balle : diamètre $\sim 6{,}7$ cm, volume $\frac{4}{3}\pi r^3 \approx 160$ cm³. Un empilement en vrac remplit $\sim 64\,\%$ de l'espace : $\sim 250$ cm³ d'espace par balle.
+- $1{,}8 \times 10^9 / 250 \approx$ **7 millions de balles** (fourchette 3 à 15 millions).
+Points notés : dimensions annoncées, prise en compte du taux de remplissage, ordre de grandeur final.
+
+=== ct-fermi-avions-en-vol
+theme: casse-tete
+categorie: fermi
+titre: Combien d'avions de ligne en vol en ce moment ?
+niveau: 1
+profils: mm hf banque data
+--- question
+Combien d'avions commerciaux sont en vol dans le monde à un instant donné, en moyenne ?
+--- indice
+Nombre de vols par jour $\times$ durée moyenne d'un vol $/$ 24 h.
+--- solution
+- $\sim 100\,000$ vols commerciaux par jour dans le monde (environ 4,5 milliards de passagers par an, $\sim 120$ passagers par vol : $3{,}7 \times 10^7$ vols par an).
+- Durée moyenne : $\sim 2$ heures.
+- En moyenne : $100\,000 \times 2 / 24 \approx$ **8 000 à 10 000 avions** en vol (davantage en journée européenne et américaine).
+Formule de Little : $\text{nombre moyen dans le système} = \text{débit} \times \text{durée de séjour}$.
+
+=== ct-fermi-cafe
+theme: casse-tete
+categorie: fermi
+titre: Cafés vendus à Paris chaque jour
+niveau: 1
+profils: mm hf banque data
+--- question
+Combien de cafés sont vendus chaque jour dans les cafés, bars et restaurants de Paris ?
+--- indice
+Par la demande (habitants, travailleurs, touristes) et par l'offre (établissements $\times$ cafés par jour).
+--- solution
+- Demande : 2 millions d'habitants, plus $\sim 1$ million de travailleurs venant de banlieue et $\sim 0{,}5$ million de touristes. Un adulte sur trois achète en moyenne 1 à 2 cafés hors de chez lui par jour : $\sim 1{,}5$ million de cafés.
+- Offre : $\sim 15\,000$ cafés, bars et restaurants, $\sim 100$ cafés vendus par jour chacun : $1{,}5$ million.
+Ordre de grandeur : **1 à 2 millions de cafés par jour**, les deux méthodes concordent.
+
+=== ct-fermi-cheveux
+theme: casse-tete
+categorie: fermi
+titre: Combien de cheveux sur une tête ? (et le principe des tiroirs)
+niveau: 1
+profils: mm hf banque data
+--- question
+Combien de cheveux a-t-on sur la tête ? En déduire : y a-t-il forcément deux Parisiens qui ont exactement le même nombre de cheveux ?
+--- indice
+Surface du cuir chevelu $\times$ densité. Puis compare le nombre de Parisiens au nombre maximal de cheveux.
+--- solution
+- Cuir chevelu : $\sim 600$ cm² ; densité $\sim 200$ cheveux par cm² : $\sim$ **100 000 à 150 000 cheveux**.
+- Personne n'a plus de 500 000 cheveux, et Paris compte 2 millions d'habitants : par le **principe des tiroirs**, au moins deux Parisiens (en fait au moins 4) ont exactement le même nombre de cheveux.

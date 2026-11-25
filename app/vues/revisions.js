@@ -129,6 +129,10 @@
       const jour = A.aujourdhui();
       let h = '<div class="bloc-titre">Solution</div>' + o.markdown(f.solution);
       if (f.piege) h += '<div class="encadre alerte"><div class="bloc-titre">Piège classique</div>' + o.markdown(f.piege) + '</div>';
+      if (f.variantes && f.variantes.length) {
+        h += '<div class="bloc-titre">Variantes de l’énoncé</div><ul class="variantes">' +
+          f.variantes.map(function (r) { return '<li>' + o.enLigne(r) + '</li>'; }).join('') + '</ul>';
+      }
       if (f.relances && f.relances.length) {
         h += '<div class="bloc-titre">Relances probables de l’intervieweur</div><ul>' +
           f.relances.map(function (r) { return '<li>' + o.enLigne(r) + '</li>'; }).join('') + '</ul>';
@@ -387,7 +391,7 @@
         if (pr && f.profils.indexOf(pr) < 0) return false;
         if (nv && String(f.niveau) !== nv) return false;
         if (es && !f.essentiel) return false;
-        if (q && normaliser(f.question + ' ' + (f.en || '') + ' ' + f.solution).indexOf(q) < 0) return false;
+        if (q && normaliser(f.question + ' ' + (f.en || '') + ' ' + f.solution + ' ' + o.sansTex(f.question + ' ' + f.solution) + ' ' + (f.titre || '')).indexOf(q) < 0) return false;
         return true;
       });
       zone.querySelector('[data-compte]').textContent = res.length + ' question' + (res.length > 1 ? 's' : '');

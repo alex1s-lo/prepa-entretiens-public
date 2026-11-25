@@ -7,7 +7,7 @@ profils: data hf risque
 --- question
 Table `rendements(ticker, jour, r)`. Écris une requête SQL qui donne, pour chaque ticker ayant au moins 200 observations, le rendement moyen et l'écart-type, triés par rendement moyen décroissant.
 --- en
-Table returns(ticker, day, r). Write a SQL query giving, for each ticker with at least 200 observations, the mean return and standard deviation, sorted by mean descending.
+Table returns(ticker, day, $r$). Write a SQL query giving, for each ticker with at least 200 observations, the mean return and standard deviation, sorted by mean descending.
 --- solution
 ```sql
 SELECT ticker,
@@ -28,7 +28,7 @@ profils: data hf risque
 --- question
 Même table `rendements(ticker, jour, r)`. Calcule pour chaque ligne la moyenne mobile du rendement sur les 20 dernières observations du même ticker.
 --- en
-Compute, for each row, the 20-observation moving average of r for the same ticker.
+Compute, for each row, the 20-observation moving average of $r$ for the same ticker.
 --- solution
 Fonction de fenêtre :
 ```sql
@@ -139,11 +139,11 @@ theme: algo
 niveau: 2
 profils: banque mm
 --- question
-Qu'est-ce que la sémantique de déplacement (move) en C++11 ? Que fait `std::move` ?
+Qu'est-ce que la sémantique de déplacement (move) en $C++11$ ? Que fait `std::move` ?
 --- en
-What are move semantics in C++11? What does std::move do?
+What are move semantics in $C++11$? What does std::move do?
 --- solution
-Une référence rvalue (`T&&`) désigne un objet temporaire dont on peut « voler » les ressources (le tampon d'un `std::vector` ou d'une `std::string`) au lieu de les copier : le constructeur et l'affectation par déplacement transfèrent un pointeur au lieu de copier les données (O(1) au lieu de O(n)).
+Une référence rvalue (`T&&`) désigne un objet temporaire dont on peut « voler » les ressources (le tampon d'un `std::vector` ou d'une `std::string`) au lieu de les copier : le constructeur et l'affectation par déplacement transfèrent un pointeur au lieu de copier les données (O(1) au lieu de O($n$)).
 `std::move` ne déplace rien : c'est une conversion en rvalue qui **autorise** le déplacement. Après un déplacement, l'objet source est dans un état valide mais non spécifié.
 Règle des cinq : si une classe définit un destructeur, un constructeur de copie ou une affectation, elle doit en général définir les cinq (ou aucun, en s'appuyant sur des membres RAII).
 
@@ -158,7 +158,7 @@ m = [[0] * 3] * 3
 m[0][0] = 1
 ```
 --- en
-What does m contain after m = [[0]*3]*3; m[0][0] = 1, and why?
+What does $m$ contain after $m =$ [[0]*3]*3; $m[0][0] = 1$, and why?
 --- solution
 `[[1, 0, 0], [1, 0, 0], [1, 0, 0]]` : `* 3` répète la **référence** à la même liste intérieure ; les trois lignes sont le même objet.
 Correction : `m = [[0] * 3 for _ in range(3)]`. Même famille de pièges : `b = a` (même objet), `a.copy()` (copie superficielle : les objets intérieurs sont partagés), `copy.deepcopy(a)` (copie complète).
@@ -212,20 +212,20 @@ def fusionner(intervalles):
             res.append([debut, fin])
     return res
 ```
-O(n log n) à cause du tri. Cas limites : intervalles inclus l'un dans l'autre (d'où le `max`), intervalles qui se touchent (choisir `<=` ou `<` selon la convention).
+O($n \log n$) à cause du tri. Cas limites : intervalles inclus l'un dans l'autre (d'où le `max`), intervalles qui se touchent (choisir `<=` ou `<` selon la convention).
 
 === algo-k-plus-grands
 theme: algo
 niveau: 2
 profils: hf mm data
 --- question
-Trouve les k plus grandes valeurs d'une liste de n nombres (n très grand, k petit). Quelle complexité ?
+Trouve les $k$ plus grandes valeurs d'une liste de $n$ nombres ($n$ très grand, $k$ petit). Quelle complexité ?
 --- en
-Find the k largest values among n numbers (n huge, k small). Complexity?
+Find the $k$ largest values among $n$ numbers ($n$ huge, $k$ small). Complexity?
 --- solution
-- Trier tout : O(n log n).
-- **Tas min de taille k** : parcourir la liste, garder les k plus grandes vues ; O(n log k) et mémoire O(k), utilisable en flux : `heapq.nlargest(k, donnees)`.
-- **Quickselect** : partitionner autour d'un pivot comme dans le tri rapide, ne continuer que du côté utile ; O(n) en moyenne, O(n²) au pire (pivot aléatoire ou médiane des médianes). `numpy.partition` le fait.
+- Trier tout : O($n \log n$).
+- **Tas min de taille $k$** : parcourir la liste, garder les $k$ plus grandes vues ; O($n \log k$) et mémoire O($k$), utilisable en flux : `heapq.nlargest(k, donnees)`.
+- **Quickselect** : partitionner autour d'un pivot comme dans le tri rapide, ne continuer que du côté utile ; O($n$) en moyenne, O($n^{2}$) au pire (pivot aléatoire ou médiane des médianes). `numpy.partition` le fait.
 
 === algo-paires-nombre
 theme: algo
@@ -239,4 +239,4 @@ Une double boucle compare chaque paire d'éléments d'une liste de 1 000 éléme
 --- en
 A nested loop compares each pair of 1,000 elements once. How many comparisons?
 --- solution
-C(1 000, 2) = 1 000 × 999/2 = **499 500** : c'est le O(n²) qui devient prohibitif quand n grandit (50 milliards pour n = 316 000).
+$C(1\,000, 2) = 1\,000 \times 999/2 =$ **499 500** : c'est le O($n^{2}$) qui devient prohibitif quand $n$ grandit (50 milliards pour $n = 316\,000$).

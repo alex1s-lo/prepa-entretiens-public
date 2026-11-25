@@ -14,7 +14,7 @@ A classifier scores three positives 0.9, 0.7, 0.4 and two negatives 0.8, 0.3. Wh
 --- indice
 L'AUC est la probabilité qu'un positif tiré au hasard ait un score plus élevé qu'un négatif tiré au hasard.
 --- solution
-On compare les 3 × 2 = 6 paires (positif, négatif) : 0,9 bat 0,8 et 0,3 ; 0,7 bat 0,3 ; 0,4 bat 0,3. 4 paires bien ordonnées sur 6 : **AUC = 2/3**.
+On compare les $3 \times 2 = 6$ paires (positif, négatif) : 0,9 bat 0,8 et 0,3 ; 0,7 bat 0,3 ; 0,4 bat 0,3. 4 paires bien ordonnées sur 6 : **AUC $= 2/3$**.
 Cette lecture (statistique de Mann-Whitney) montre que l'AUC ne dépend que du classement des scores, pas de leur calibration.
 --- relances
 - AUC d'un classifieur aléatoire ? (0,5)
@@ -31,7 +31,7 @@ Ton signal a une corrélation de 0,05 avec les rendements futurs (information co
 --- en
 Your signal has a 0.05 correlation with future returns and you can take 400 independent bets a year. Approximate annual information ratio?
 --- solution
-Loi fondamentale de la gestion active (Grinold) : IR ≈ IC × √(largeur) = 0,05 × √400 = **1**.
+Loi fondamentale de la gestion active (Grinold) : $\text{IR} \approx \text{IC} \times \sqrt{\text{largeur}} = 0{,}05 \times \sqrt{400} =$ **1**.
 Message : une prévision faible appliquée à beaucoup de paris indépendants peut donner une bonne stratégie, d'où l'intérêt des univers larges et des horizons courts. Limites : les paris sont rarement indépendants (facteurs communs), et les coûts croissent avec la rotation.
 
 === ml-desequilibre-temporel
@@ -45,7 +45,7 @@ Your next-day market direction classifier is 54% accurate out of sample. Is that
 --- solution
 Ça dépend :
 - **Référence naïve** : si le marché a monté 54 % des jours sur la période de test, « toujours hausse » fait aussi bien. Comparer à la meilleure stratégie triviale.
-- **Significativité** : sur 250 jours, l'écart-type de l'exactitude d'un classifieur au hasard est √(0,25/250) ≈ 3,2 % ; 54 % n'est qu'à environ 1,3 écart-type de 50 %.
+- **Significativité** : sur 250 jours, l'écart-type de l'exactitude d'un classifieur au hasard est $\sqrt{0{,}25/250} \approx 3{,}2\,\%$ ; 54 % n'est qu'à environ 1,3 écart-type de 50 %.
 - **Économie** : l'exactitude ignore l'ampleur des mouvements ; un modèle juste sur les petits jours et faux sur les grands perd de l'argent. Évaluer le PnL après coûts, le Sharpe, le drawdown.
 - **Stabilité** : performance par sous-période, et absence de fuite d'information.
 

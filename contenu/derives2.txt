@@ -12,13 +12,13 @@ Une action vaut 100 et vaudra 120 ou 80 dans un an. Taux nul. Que vaut un call d
 --- en
 A stock at 100 will be worth 120 or 80 in one year. Zero rates. What is a one-year call struck at 100 worth?
 --- indice
-Probabilité risque-neutre q telle que l'action soit une martingale : 100 = 120q + 80(1 − q).
+Probabilité risque-neutre $q$ telle que l'action soit une martingale : $100 = 120q + 80(1 - q)$.
 --- solution
-q = (100 − 80)/(120 − 80) = 1/2. Prix = q × 20 + (1 − q) × 0 = **10**.
-Par réplication : Δ = (20 − 0)/(120 − 80) = 0,5 action ; le portefeuille 0,5 action − 40 de cash vaut 20 ou 0, comme le call ; il coûte 50 − 40 = 10.
+$q = (100 - 80)/(120 - 80) = 1/2$. Prix $= q \times 20 + (1 - q) \times 0 =$ **10**.
+Par réplication : $\Delta = (20 - 0)/(120 - 80) = 0{,}5$ action ; le portefeuille 0,5 action $- 40$ de cash vaut 20 ou 0, comme le call ; il coûte $50 - 40 = 10$.
 --- relances
 - Et si la vraie probabilité de hausse est 90 % ? (le prix ne change pas : seule compte la réplication)
-- Et avec un taux de 5 % sur la période ? (q = (105 − 80)/40 = 0,625 ; prix 0,625 × 20/1,05 ≈ 11,90)
+- Et avec un taux de 5 % sur la période ? ($q = (105 - 80)/40 = 0{,}625$ ; prix $0{,}625 \times 20/1{,}05 \approx 11{,}90$)
 
 === der-arbre-delta
 theme: derives
@@ -28,11 +28,11 @@ type: numerique
 reponse: 0.5
 duree: 90
 --- question
-Même arbre à une période (100 → 120 ou 80, taux nul). Combien d'actions faut-il détenir pour couvrir un call vendu de strike 100 ?
+Même arbre à une période ($100 \to 120$ ou 80, taux nul). Combien d'actions faut-il détenir pour couvrir un call vendu de strike 100 ?
 --- en
-One-period tree (100 → 120 or 80, zero rates). How many shares hedge a short call struck at 100?
+One-period tree ($100 \to 120$ or 80, zero rates). How many shares hedge a short call struck at 100?
 --- solution
-Δ = (C_haut − C_bas)/(S_haut − S_bas) = (20 − 0)/(120 − 80) = **0,5** action. C'est l'équivalent discret de ∂C/∂S.
+$\Delta = (C_\text{haut} - C_\text{bas})/(S_\text{haut} - S_\text{bas}) = (20 - 0)/(120 - 80) =$ **0,5** action. C'est l'équivalent discret de $\partial C/ \partial S$.
 
 === der-arbre-deux-pas
 theme: derives
@@ -46,10 +46,10 @@ Arbre à deux périodes : à chaque pas l'action est multipliée par 1,1 ou 0,9.
 --- en
 Two-step tree: each step the stock is multiplied by 1.1 or 0.9. Start at 100, zero rates. Price of a European call struck at 100 after two steps?
 --- solution
-q = (1 − 0,9)/(1,1 − 0,9) = 1/2. Valeurs finales : 121 (proba 1/4), 99 (1/2), 81 (1/4). Seul 121 paie 21 : prix = 21/4 = **5,25**.
+$q = (1 - 0{,}9)/(1{,}1 - 0{,}9) = 1/2$. Valeurs finales : 121 (proba $1/4$), $99 (1/2), 81 (1/4)$. Seul 121 paie 21 : prix $= 21/4 =$ **5,25**.
 --- relances
 - Pourquoi l'arbre est-il « recombinant » ? (haut puis bas = bas puis haut : 99 ; le nombre de nœuds croît linéairement)
-- Lien avec Black-Scholes ? (avec u = e^{σ√Δt}, d = 1/u et Δt → 0, le prix converge vers Black-Scholes : Cox-Ross-Rubinstein)
+- Lien avec Black-Scholes ? (avec $u = e^{\sigma \sqrt{\Delta}t}, d = 1/u$ et $\Delta t \to 0$, le prix converge vers Black-Scholes : Cox-Ross-Rubinstein)
 
 === der-put-americain-arbre
 theme: derives
@@ -64,12 +64,12 @@ Arbre à deux périodes : l'action vaut 100 et est multipliée par 1,2 ou 0,8 à
 --- en
 Two-period tree: stock at 100, multiplied by 1.2 or 0.8 each period; interest 5% per period. Price of an American put struck at 100?
 --- indice
-q = (1,05 − 0,8)/(1,2 − 0,8). À chaque nœud intermédiaire, compare la valeur de continuation à l'exercice immédiat.
+$q = (1{,}05 - 0{,}8)/(1{,}2 - 0{,}8)$. À chaque nœud intermédiaire, compare la valeur de continuation à l'exercice immédiat.
 --- solution
-q = 0,625. Valeurs finales : 144, 96, 64 ; payoffs du put : 0, 4, 36.
-- Nœud 120 : continuation (0,625 × 0 + 0,375 × 4)/1,05 ≈ 1,43 ; exercice 0 → **1,43**.
-- Nœud 80 : continuation (0,625 × 4 + 0,375 × 36)/1,05 ≈ 15,24 ; exercice 20 → **20** (on exerce tôt).
-- Racine : (0,625 × 1,43 + 0,375 × 20)/1,05 ≈ **7,99**.
+$q = 0{,}625$. Valeurs finales : 144, 96, 64 ; payoffs du put : 0, 4, 36.
+- Nœud 120 : continuation $(0{,}625 \times 0 + 0{,}375 \times 4)/1{,}05 \approx 1{,}43$ ; exercice $0 \to$ **1,43**.
+- Nœud 80 : continuation $(0{,}625 \times 4 + 0{,}375 \times 36)/1{,}05 \approx 15{,}24$ ; exercice $20 \to$ **20** (on exerce tôt).
+- Racine : $(0{,}625 \times 1{,}43 + 0{,}375 \times 20)/1{,}05 \approx$ **7,99**.
 Le put européen vaut 6,29 : l'exercice anticipé vaut environ 1,70.
 --- relances
 - Pourquoi exercer tôt ? (recevoir 100 tout de suite et le placer à 5 % rapporte plus que la valeur temps restante)
@@ -84,11 +84,11 @@ reponse: 100*(2*N(0.1)-1)
 tolerance: 0.005
 duree: 300
 --- question
-Black-Scholes, taux nuls, σ = 20 %, S₀ = 100. Une option démarre dans un an : à cette date, on reçoit un call à la monnaie (strike = cours du jour) de maturité un an. Que vaut-elle aujourd'hui ?
+Black-Scholes, taux nuls, $\sigma = 20\,\%, S_{0} = 100$. Une option démarre dans un an : à cette date, on reçoit un call à la monnaie (strike = cours du jour) de maturité un an. Que vaut-elle aujourd'hui ?
 --- en
-Black-Scholes, zero rates, σ = 20%, S₀ = 100. A forward-start option: in one year you receive a one-year at-the-money call (strike = spot then). What is it worth today?
+Black-Scholes, zero rates, $\sigma = 20\,\%, S_{0} = 100$. A forward-start option: in one year you receive a one-year at-the-money call (strike = spot then). What is it worth today?
 --- solution
-Dans un an, le call à la monnaie vaudra S₁ × c, où c = 2N(σ/2) − 1 est le prix d'un call à la monnaie pour un sous-jacent valant 1 (homogénéité de Black-Scholes). Aujourd'hui : E[S₁] × c = 100 × (2N(0,1) − 1) ≈ **7,97**, comme un call à la monnaie démarrant tout de suite.
+Dans un an, le call à la monnaie vaudra $S_{1} \times c$, où $c = 2N(\sigma /2) - 1$ est le prix d'un call à la monnaie pour un sous-jacent valant 1 (homogénéité de Black-Scholes). Aujourd'hui : $\mathbb{E}[S_{1}] \times c = 100 \times (2N(0{,}1) - 1) \approx$ **7,97**, comme un call à la monnaie démarrant tout de suite.
 C'est un produit sensible au **smile futur** (forward) : en vol locale et en vol stochastique, les prix diffèrent, d'où son usage pour départager les modèles.
 
 === der-margrabe
@@ -100,14 +100,14 @@ reponse: 100*(2*N(0.1)-1)
 tolerance: 0.005
 duree: 360
 --- question
-Deux actions valent chacune 100, avec des volatilités de 20 %, une corrélation de 0,5, sans dividende. Que vaut l'option d'échanger l'action B contre l'action A dans un an (payoff max(A − B, 0)) ?
+Deux actions valent chacune 100, avec des volatilités de 20 %, une corrélation de 0,5, sans dividende. Que vaut l'option d'échanger l'action B contre l'action A dans un an (payoff $\max (A - B, 0)$) ?
 --- en
-Two stocks both at 100, 20% vol each, correlation 0.5, no dividends. What is the option to exchange B for A in one year (payoff max(A − B, 0)) worth?
+Two stocks both at 100, 20% vol each, correlation 0.5, no dividends. What is the option to exchange B for A in one year (payoff $\max (A - B, 0)$) worth?
 --- indice
-Prends B comme numéraire : c'est un call de strike 1 sur A/B. Volatilité du ratio : √(σ_A² + σ_B² − 2ρσ_Aσ_B).
+Prends B comme numéraire : c'est un call de strike 1 sur $A/B$. Volatilité du ratio : $\sqrt{\sigma_A^{2} + \sigma_B^{2} - 2\rho \sigma_A\sigma_B}$.
 --- solution
-Formule de Margrabe : le taux d'intérêt disparaît, et la volatilité effective est √(0,04 + 0,04 − 2 × 0,5 × 0,04) = 20 %. Le prix est celui d'un call à la monnaie avec σ = 20 % : 100(2N(0,1) − 1) ≈ **7,97**.
-Plus la corrélation est forte, moins l'option vaut (ρ = 1 et même volatilité : prix nul).
+Formule de Margrabe : le taux d'intérêt disparaît, et la volatilité effective est $\sqrt{0{,}04 + 0{,}04 - 2 \times 0{,}5 \times 0{,}04} = 20\,\%$. Le prix est celui d'un call à la monnaie avec $\sigma = 20\,\%$ : $100(2N(0{,}1) - 1) \approx$ **7,97**.
+Plus la corrélation est forte, moins l'option vaut ($\rho = 1$ et même volatilité : prix nul).
 
 === der-swap-variance
 theme: derives
@@ -118,9 +118,9 @@ Qu'est-ce qu'un swap de variance ? Comment le réplique-t-on, et pourquoi son st
 --- en
 What is a variance swap? How is it replicated, and why is its strike above at-the-money vol?
 --- solution
-Payoff : N × (variance réalisée − K_var), où la variance réalisée est la moyenne annualisée des carrés des rendements logarithmiques quotidiens.
-**Réplication** (sans modèle, si les trajectoires sont continues) : un portefeuille statique d'options hors de la monnaie de tous les strikes, pondérées en 1/K², plus une couverture dynamique en delta (position en 1/S). Le strike équitable est donc lisible sur la surface de volatilité ; c'est le principe du VIX.
-**Strike au-dessus de la vol ATM** : les poids en 1/K² donnent beaucoup d'importance aux puts de strike bas, plus chers en vol à cause du skew.
+Payoff : $N \times$ (variance réalisée $- K_\text{var}$), où la variance réalisée est la moyenne annualisée des carrés des rendements logarithmiques quotidiens.
+**Réplication** (sans modèle, si les trajectoires sont continues) : un portefeuille statique d'options hors de la monnaie de tous les strikes, pondérées en $1/K^{2}$, plus une couverture dynamique en delta (position en $1/S$). Le strike équitable est donc lisible sur la surface de volatilité ; c'est le principe du VIX.
+**Strike au-dessus de la vol ATM** : les poids en $1/K^{2}$ donnent beaucoup d'importance aux puts de strike bas, plus chers en vol à cause du skew.
 Le payoff est convexe en volatilité : un swap de vol (sur l'écart-type) vaut moins que la racine du strike de variance (ajustement de convexité). Risque : les sauts et les krachs, qui font exploser la variance réalisée (pertes énormes pour les vendeurs en 2008).
 
 === der-quanto
@@ -132,8 +132,8 @@ Qu'est-ce qu'une option quanto ? D'où vient l'ajustement de quanto ?
 --- en
 What is a quanto option? Where does the quanto adjustment come from?
 --- solution
-Une option sur un actif coté dans une devise étrangère, mais payée dans la devise domestique à un taux de change fixé d'avance (par exemple un call sur le Nikkei payé en euros, 1 point = 1 €).
-Pour la valoriser en mesure risque-neutre domestique, le sous-jacent étranger reçoit une dérive corrigée : r_f − q − ρ σ_S σ_X, où ρ est la corrélation entre l'actif et le taux de change (domestique par unité étrangère). Si l'actif a tendance à monter quand la devise étrangère baisse, le quanto est plus cher pour l'acheteur d'un call, etc. Le vendeur est exposé à la corrélation, difficile à couvrir.
+Une option sur un actif coté dans une devise étrangère, mais payée dans la devise domestique à un taux de change fixé d'avance (par exemple un call sur le Nikkei payé en euros, 1 point $= 1$ €).
+Pour la valoriser en mesure risque-neutre domestique, le sous-jacent étranger reçoit une dérive corrigée : $r_f - q - \rho \sigma_S \sigma_X$, où $\rho$ est la corrélation entre l'actif et le taux de change (domestique par unité étrangère). Si l'actif a tendance à monter quand la devise étrangère baisse, le quanto est plus cher pour l'acheteur d'un call, etc. Le vendeur est exposé à la corrélation, difficile à couvrir.
 
 === der-couverture-discrete
 theme: derives
@@ -144,7 +144,7 @@ Tu couvres une option en delta une fois par jour au lieu de continûment. Que se
 --- en
 You delta-hedge an option once a day instead of continuously. What happens? And with transaction costs?
 --- solution
-- **Erreur de couverture** : entre deux réajustements, le gamma crée un PnL ½ΓS²[(ΔS/S)² − σ²Δt] qui ne s'annule qu'en moyenne. L'écart-type de l'erreur totale décroît en √Δt : diviser l'erreur par 2 demande 4 fois plus de réajustements.
+- **Erreur de couverture** : entre deux réajustements, le gamma crée un PnL $\tfrac12 \Gamma S^{2}[(\Delta S/S)^{2} - \sigma^{2}\Delta t]$ qui ne s'annule qu'en moyenne. L'écart-type de l'erreur totale décroît en $\sqrt{\Delta}t$ : diviser l'erreur par 2 demande 4 fois plus de réajustements.
 - **Coûts** : chaque réajustement coûte ; avec des réajustements plus fréquents, les coûts explosent. Il y a un arbitrage entre risque et coûts : couverture par bandes autour du delta cible (Whalley-Wilmott), ou volatilité modifiée de Leland (le vendeur d'options utilise une vol majorée pour payer ses coûts).
 - En pratique : couverture plus fréquente près de l'échéance et du strike (gamma fort), tolérance plus large ailleurs.
 
@@ -157,7 +157,7 @@ Tu es vendeur d'un call à la monnaie et tu veux être neutre en delta et en gam
 --- en
 You are short an ATM call and want to be delta- and gamma-neutral. With which instruments, in what order?
 --- solution
-L'action a un delta de 1 mais un gamma nul : elle ne peut pas neutraliser le gamma. Il faut d'abord une **autre option** (par exemple un call d'un autre strike ou d'une autre maturité) en quantité Γ_vendu/Γ_option pour annuler le gamma ; cette option apporte son propre delta. Ensuite, on annule le delta total avec l'action. Si on veut aussi neutraliser le vega, il faut une deuxième option (deux équations, deux inconnues) ; l'ordre « options d'abord, action en dernier » vaut toujours.
+L'action a un delta de 1 mais un gamma nul : elle ne peut pas neutraliser le gamma. Il faut d'abord une **autre option** (par exemple un call d'un autre strike ou d'une autre maturité) en quantité $\Gamma_\text{vendu}/\Gamma_\text{option}$ pour annuler le gamma ; cette option apporte son propre delta. Ensuite, on annule le delta total avec l'action. Si on veut aussi neutraliser le vega, il faut une deuxième option (deux équations, deux inconnues) ; l'ordre « options d'abord, action en dernier » vaut toujours.
 
 === der-strangle-straddle
 theme: derives

@@ -18,12 +18,13 @@
   }
 
   // --- Markdown simple (titres, listes, tableaux, code, gras, italique, liens, citations) ---------------------------
-  // options.maths : formules $…$ et $$…$$ ; options.prose : les lignes d'un paragraphe sont jointes par une espace.
+  // Formules $…$ et $$…$$ rendues par KaTeX (sauf options.maths === false ; « \$ » écrit un dollar) ;
+  // options.prose : les lignes d'un paragraphe sont jointes par une espace.
   function enLigne(texte, options) {
     const codes = [];
     const formules = [];
     let source = String(texte == null ? '' : texte);
-    if (options && options.maths) {
+    if (!options || options.maths !== false) {
       source = source.replace(/(^|[^\\])\$([^$\n]+?)\$/g, function (_, avant, tex) {
         formules.push(tex);
         return avant + '\u0003' + (formules.length - 1) + '\u0003';
@@ -44,7 +45,7 @@
     const ligne = function (t) { return enLigne(t, opts); };
     let texte = String(source || '').replace(/\r\n?/g, '\n');
     const blocsMaths = [];
-    if (opts.maths) {
+    if (opts.maths !== false) {
       texte = texte.replace(/\$\$([\s\S]+?)\$\$/g, function (_, tex) {
         blocsMaths.push(tex.trim());
         return '\n\u0004' + (blocsMaths.length - 1) + '\u0004\n';
@@ -273,11 +274,42 @@
     return t;
   }
 
+  // --- TeX vers texte : pour les résumés (texte brut lisible) et la synthèse vocale -----------------------------------
+  const GRECQUES = { alpha: 'α', beta: 'β', gamma: 'γ', delta: 'δ', epsilon: 'ε', varepsilon: 'ε', theta: 'θ', lambda: 'λ', mu: 'μ',
+    nu: 'ν', pi: 'π', rho: 'ρ', sigma: 'σ', tau: 'τ', phi: 'φ', varphi: 'φ', chi: 'χ', psi: 'ψ', omega: 'ω', Gamma: 'Γ', Delta: 'Δ',
+    Theta: 'Θ', Lambda: 'Λ', Sigma: 'Σ', Phi: 'Φ', Omega: 'Ω', kappa: 'κ', eta: 'η', xi: 'ξ', zeta: 'ζ' };
+  const SYMBOLES = { le: '≤', leq: '≤', ge: '≥', geq: '≥', neq: '≠', ne: '≠', approx: '≈', times: '×', cdot: '·', pm: '±', infty: '∞',
+    to: '→', rightarrow: '→', Rightarrow: '⇒', iff: '⇔', Leftrightarrow: '⇔', in: '∈', notin: '∉', sum: 'Σ', prod: 'Π', int: '∫', partial: '∂',
+    sim: '~', propto: '∝', mid: '|', ldots: '…', cdots: '…', dots: '…', quad: ' ', qquad: ' ', ln: 'ln', log: 'log', exp: 'exp', max: 'max',
+    min: 'min', sin: 'sin', cos: 'cos', lfloor: '⌊', rfloor: '⌋', lceil: '⌈', rceil: '⌉', emptyset: '∅', subset: '⊂', cup: '∪', cap: '∩',
+    forall: '∀', exists: '∃', neg: '¬', land: '∧', lor: '∨', oplus: '⊕', equiv: '≡', perp: '⊥', circ: '∘', star: '*', ast: '*', div: '÷' };
+  function texVersTexte(tex) {
+    let t = String(tex || '');
+    for (let k = 0; k < 4; k++) {
+      t = t.replace(/\\[dt]?frac\s*\{([^{}]*)\}\s*\{([^{}]*)\}/g, function (_, a, b) {
+        const par = function (x) { return /^[\w.α-ω]+$/.test(x) ? x : '(' + x + ')'; };
+        return par(a) + '/' + par(b);
+      }).replace(/\\sqrt\s*\{([^{}]*)\}/g, function (_, a) { return '√' + (/^[\w.]+$/.test(a) ? a : '(' + a + ')'); })
+        .replace(/\\binom\s*\{([^{}]*)\}\s*\{([^{}]*)\}/g, 'C($1, $2)')
+        .replace(/\\(?:mathbb|mathrm|mathbf|mathcal|text|textbf|operatorname|mathit|boldsymbol)\s*\{([^{}]*)\}/g, '$1')
+        .replace(/\\(?:left|right|big|Big|bigg|Bigg)\s*/g, '');
+    }
+    t = t.replace(/\\([A-Za-z]+)/g, function (m, nom) { return GRECQUES[nom] || SYMBOLES[nom] || nom; })
+      .replace(/\\[,;:! ]/g, ' ').replace(/\\([{}%$&#_])/g, '$1')
+      .replace(/\^\{([^{}]+)\}/g, '^$1').replace(/_\{([^{}]+)\}/g, '_$1')
+      .replace(/[{}]/g, '').replace(/\s+/g, ' ').trim();
+    return t;
+  }
+  function sansTex(texte) {
+    return String(texte || '').replace(/\$\$([\s\S]+?)\$\$/g, function (_, x) { return ' ' + texVersTexte(x) + ' '; })
+      .replace(/(^|[^\\])\$([^$\n]+?)\$/g, function (_, av, x) { return av + texVersTexte(x); }).replace(/\\\$/g, '$');
+  }
+
   // Première ligne d'un texte Markdown, sans balisage, coupée proprement à « max » caractères.
   function resume(texte, max) {
     const n = max || 120;
-    let l = String(texte || '').split('\n').filter(function (x) { return x.trim() && !/^```/.test(x); })[0] || '';
-    l = l.replace(/[*`]/g, '').replace(/\^\{([^{}]+)\}/g, '^$1').replace(/_\{([^{}]+)\}/g, '_$1').trim();
+    let l = String(texte || '').split('\n').filter(function (x) { return x.trim() && !/^```/.test(x) && x.trim() !== '$$'; })[0] || '';
+    l = sansTex(l).replace(/[*`]/g, '').replace(/\^\{([^{}]+)\}/g, '^$1').replace(/_\{([^{}]+)\}/g, '_$1').trim();
     if (l.length <= n) return l;
     const coupe = l.slice(0, n);
     const espace = coupe.lastIndexOf(' ');
@@ -287,8 +319,12 @@
   // Texte brut prononçable à partir d'un énoncé Markdown (pour la synthèse vocale).
   function textePrononcable(texte, anglais) {
     const fr = !anglais;
-    return String(texte || '')
-      .replace(/```[\s\S]*?```/g, fr ? ' (code affiché à l’écran) ' : ' (code shown on screen) ')
+    return sansTex(String(texte || '')
+      .replace(/```[\s\S]*?```/g, fr ? ' (code affiché à l’écran) ' : ' (code shown on screen) '))
+      .replace(/(\w|\))\/(\w|\()/g, fr ? '$1 sur $2' : '$1 over $2')
+      .replace(/\^(\w+)/g, fr ? ' puissance $1 ' : ' to the power $1 ')
+      .replace(/σ/g, ' sigma ').replace(/μ/g, ' mu ').replace(/λ/g, ' lambda ').replace(/ρ/g, ' rho ').replace(/π/g, ' pi ')
+      .replace(/Σ/g, fr ? ' somme de ' : ' sum of ').replace(/∞/g, fr ? ' infini ' : ' infinity ').replace(/→/g, fr ? ' tend vers ' : ' tends to ')
       .replace(/[*`_>#|]/g, ' ')
       .replace(/\^\{([^{}]+)\}/g, fr ? ' puissance $1 ' : ' to the power $1 ')
       .replace(/×/g, fr ? ' fois ' : ' times ').replace(/÷/g, fr ? ' divisé par ' : ' divided by ')
@@ -307,7 +343,7 @@
   const outils = {
     echapper: echapper, markdown: markdown, enLigne: enLigne, rendreTex: rendreTex, lireNombre: lireNombre, procheDe: procheDe,
     formaterNombre: formaterNombre, jourDe: jourDe, ajouterJours: ajouterJours, ecartJours: ecartJours,
-    dateLisible: dateLisible, resume: resume, textePrononcable: textePrononcable, hasard: hasard, entier: entier, choisir: choisir, melanger: melanger, duree: duree,
+    dateLisible: dateLisible, resume: resume, textePrononcable: textePrononcable, texVersTexte: texVersTexte, sansTex: sansTex, hasard: hasard, entier: entier, choisir: choisir, melanger: melanger, duree: duree,
     factorielle: factorielle
   };
   if (typeof module !== 'undefined' && module.exports) module.exports = outils;

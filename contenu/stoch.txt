@@ -9,16 +9,16 @@ Donne la définition d'un mouvement brownien standard et trois de ses propriét�
 --- en
 Define a standard Brownian motion and give three of its properties.
 --- solution
-W est un mouvement brownien standard si :
-- W₀ = 0 ;
-- ses accroissements sont indépendants : W_t − W_s est indépendant de (W_u)_{u ≤ s} ;
-- ses accroissements sont gaussiens et stationnaires : W_t − W_s ~ N(0, t − s) ;
+$W$ est un mouvement brownien standard si :
+- $W_{0} = 0$ ;
+- ses accroissements sont indépendants : $W_t - W_s$ est indépendant de $(W_u)_{u \le s}$ ;
+- ses accroissements sont gaussiens et stationnaires : $W_t - W_s \sim N(0, t - s)$ ;
 - ses trajectoires sont continues.
 
-Propriétés utiles en entretien : c'est une martingale ; ses trajectoires ne sont nulle part dérivables ; sa variation quadratique sur [0, t] vaut t ; Cov(W_s, W_t) = min(s, t) ; il est invariant par changement d'échelle (c^(−1/2)·W_{ct} est encore un brownien) ; il est markovien.
+Propriétés utiles en entretien : c'est une martingale ; ses trajectoires ne sont nulle part dérivables ; sa variation quadratique sur [$0, t$] vaut $t$ ; $\operatorname{Cov} (W_s, W_t) = \min (s, t)$ ; il est invariant par changement d'échelle ($c^{-1/2} \cdot W_{ct}$ est encore un brownien) ; il est markovien.
 --- relances
-- Pourquoi ses trajectoires ne sont-elles pas dérivables ? (les accroissements sont d'ordre √dt, donc (W_{t+h} − W_t)/h ~ h^(−1/2) explose)
-- W_t² est-il une martingale ? (non : W_t² − t l'est)
+- Pourquoi ses trajectoires ne sont-elles pas dérivables ? (les accroissements sont d'ordre $\sqrt{dt}$, donc $(W_{t+h} - W_t)/h \sim h^{-1/2}$ explose)
+- $W_t^{2}$ est-il une martingale ? (non : $W_t^{2} - t$ l'est)
 
 === stoch-covariance
 theme: stoch
@@ -28,13 +28,13 @@ type: numerique
 reponse: 2
 duree: 60
 --- question
-W est un mouvement brownien standard. Que vaut E[W₂·W₅] ?
+$W$ est un mouvement brownien standard. Que vaut $\mathbb{E}[W_{2} \cdot W_{5}]$ ?
 --- en
-W is a standard Brownian motion. What is E[W₂ W₅]?
+$W$ is a standard Brownian motion. What is $\mathbb{E}[W_{2} W_{5}]$?
 --- solution
-Écris W₅ = W₂ + (W₅ − W₂) avec un accroissement indépendant de W₂ et centré : E[W₂W₅] = E[W₂²] + 0 = **2** = min(2, 5).
+Écris $W_{5} = W_{2} + (W_{5} - W_{2})$ avec un accroissement indépendant de $W_{2}$ et centré : $\mathbb{E}[W_{2}W_{5}] = \mathbb{E}[W_{2}^{2}] + 0 =$ **2** $= \min (2, 5)$.
 --- relances
-- Corrélation entre W₂ et W₅ ? (2/√10 ≈ 0,63 ; en général √(s/t))
+- Corrélation entre $W_{2}$ et $W_{5}$ ? ($2/\sqrt{10} \approx 0{,}63$ ; en général $\sqrt{s/t}$)
 
 === stoch-moment-quatre
 theme: stoch
@@ -44,49 +44,49 @@ type: numerique
 reponse: 12
 duree: 60
 --- question
-Que vaut E[W₂⁴] pour un mouvement brownien standard ?
+Que vaut $\mathbb{E}[W_{2}^{4}]$ pour un mouvement brownien standard ?
 --- en
-Compute E[W₂⁴] for a standard Brownian motion.
+Compute $\mathbb{E}[W_{2}^{4}]$ for a standard Brownian motion.
 --- solution
-W₂ ~ N(0, 2) et pour une gaussienne centrée de variance σ², E[X⁴] = 3σ⁴. Donc **3 × 4 = 12**.
+$W_{2} \sim N(0, 2)$ et pour une gaussienne centrée de variance $\sigma^{2}, \mathbb{E}[X^{4}] = 3\sigma^{4}$. Donc **$3 \times 4 = 12$**.
 --- relances
 - Kurtosis d'une gaussienne ? (3) ; kurtosis en excès ? (0)
-- Comment retrouver 3σ⁴ avec Itô ? (d(W⁴) = 4W³dW + 6W²dt, donc E[W_t⁴] = 6∫s ds = 3t²)
+- Comment retrouver $3\sigma^{4}$ avec Itô ? ($d(W^{4}) = 4W^{3}dW + 6W^{2}dt$, donc $\mathbb{E}[W_t^{4}] = 6 \int_0^t s\, ds = 3t^{2}$)
 
 === stoch-ito-carre
 theme: stoch
 niveau: 1
 profils: banque risque hf
 --- question
-Calcule d(W_t²) avec le lemme d'Itô. Pourquoi y a-t-il un terme de plus qu'en calcul classique ?
+Calcule $d(W_t^{2})$ avec le lemme d'Itô. Pourquoi y a-t-il un terme de plus qu'en calcul classique ?
 --- en
-Compute d(W_t²) using Itô's lemma. Why is there an extra term compared to ordinary calculus?
+Compute $d(W_t^{2})$ using Itô's lemma. Why is there an extra term compared to ordinary calculus?
 --- solution
-Lemme d'Itô pour f(W) : df = f'(W) dW + ½ f''(W) dt. Avec f(x) = x² : **d(W²) = 2W dW + dt**.
-Le terme dt vient de la variation quadratique : (dW)² = dt, qui n'est pas négligeable contrairement à (dx)² en calcul classique.
-Conséquence : W_t² − t est une martingale, et E[W_t²] = t.
+Lemme d'Itô pour $f(W)$ : $df = f'(W) dW + \tfrac12 f''(W) dt$. Avec $f(x) = x^{2}$ : **$d(W^{2}) = 2W dW + dt$**.
+Le terme $dt$ vient de la variation quadratique : $(dW)^{2} = dt$, qui n'est pas négligeable contrairement à $(dx)^{2}$ en calcul classique.
+Conséquence : $W_t^{2} - t$ est une martingale, et $\mathbb{E}[W_t^{2}] = t$.
 --- relances
-- Énonce le lemme d'Itô pour f(t, X_t) avec dX = μ dt + σ dW. (df = (f_t + μ f_x + ½σ² f_xx) dt + σ f_x dW)
-- d(e^{W_t}) ? (e^W dW + ½ e^W dt)
+- Énonce le lemme d'Itô pour $f(t, X_t)$ avec $dX = \mu dt + \sigma dW$. ($df = (f_t + \mu f_x + \tfrac12 \sigma^{2} f_{xx}) dt + \sigma f_x dW$)
+- $d(e^{W_t})$ ? ($e^W dW + \tfrac12 e^W dt$)
 
 === stoch-integrale-w-dw
 theme: stoch
 niveau: 2
 profils: banque risque hf
 --- question
-Que vaut l'intégrale d'Itô ∫₀ᵀ W_t dW_t ?
+Que vaut l'intégrale d'Itô $\int_{0}^{T} W_t dW_t$ ?
 --- en
-Compute the Itô integral ∫₀ᵀ W_t dW_t.
+Compute the Itô integral $\int_{0}^{T} W_t dW_t$.
 --- indice
-Utilise le résultat de d(W²).
+Utilise le résultat de $d(W^{2})$.
 --- solution
-D'après d(W²) = 2W dW + dt, en intégrant : W_T² = 2∫₀ᵀ W dW + T, donc **∫₀ᵀ W dW = (W_T² − T)/2**.
-C'est une martingale d'espérance nulle (contrairement à W_T²/2 du calcul classique).
+D'après $d(W^{2}) = 2W dW + dt$, en intégrant : $W_T^{2} = 2 \int_{0}^{T} W dW + T$, donc **$\int_{0}^{T} W dW = (W_T^{2} - T)/2$**.
+C'est une martingale d'espérance nulle (contrairement à $W_T^{2}/2$ du calcul classique).
 --- piege
-Répondre W_T²/2 : c'est l'intégrale de Stratonovich, pas celle d'Itô.
+Répondre $W_T^{2}/2$ : c'est l'intégrale de Stratonovich, pas celle d'Itô.
 --- relances
 - Pourquoi l'intégrale d'Itô d'un processus adapté est-elle une martingale ? (on évalue l'intégrande au début de chaque pas : pas d'anticipation)
-- Variance de ∫₀ᵀ W dW ? (isométrie d'Itô : ∫₀ᵀ t dt = T²/2)
+- Variance de $\int_{0}^{T} W dW$ ? (isométrie d'Itô : $\int_{0}^{T} t dt = T^{2}/2$)
 
 === stoch-isometrie
 theme: stoch
@@ -96,13 +96,13 @@ type: numerique
 reponse: 1/3
 duree: 120
 --- question
-Que vaut la variance de ∫₀¹ t dW_t ?
+Que vaut la variance de $\int_{0}^{1} t dW_t$ ?
 --- en
-What is the variance of ∫₀¹ t dW_t?
+What is the variance of $\int_{0}^{1} t dW_t$?
 --- solution
-Isométrie d'Itô : E[(∫₀¹ t dW_t)²] = ∫₀¹ t² dt = **1/3**. L'intégrale est gaussienne centrée de variance 1/3.
+Isométrie d'Itô : $\mathbb{E}[(\int_{0}^{1} t dW_t)^{2}] = \int_{0}^{1} t^{2} dt =$ **$1/3$**. L'intégrale est gaussienne centrée de variance $1/3$.
 --- relances
-- Que vaut ∫₀¹ t dW_t en fonction de W ? (par parties : W₁ − ∫₀¹ W_t dt)
+- Que vaut $\int_{0}^{1} t dW_t$ en fonction de $W$ ? (par parties : $W_{1} - \int_{0}^{1} W_t dt$)
 
 === stoch-integrale-temps
 theme: stoch
@@ -112,13 +112,13 @@ type: numerique
 reponse: 1/3
 duree: 180
 --- question
-Quelle est la variance de X = ∫₀¹ W_t dt (l'aire sous une trajectoire brownienne) ?
+Quelle est la variance de $X = \int_{0}^{1} W_t dt$ (l'aire sous une trajectoire brownienne) ?
 --- en
-What is the variance of X = ∫₀¹ W_t dt?
+What is the variance of $X = \int_{0}^{1} W_t dt$?
 --- indice
-Var(X) = ∫∫ Cov(W_s, W_t) ds dt.
+$\operatorname{Var} (X) = \int \int \operatorname{Cov} (W_s, W_t) ds dt$.
 --- solution
-Var(X) = ∫₀¹∫₀¹ min(s, t) ds dt = 2∫₀¹∫₀ᵗ s ds dt = 2∫₀¹ t²/2 dt = **1/3**. Plus généralement, ∫₀ᵀ W dt ~ N(0, T³/3).
+$\operatorname{Var} (X) = \int_{0}^{1} \int_{0}^{1} \min (s, t) ds dt = 2 \int_{0}^{1} \int_{0}^{t} s ds dt = 2 \int_{0}^{1} t^{2}/2 dt =$ **$1/3$**. Plus généralement, $\int_{0}^{T} W dt \sim N(0, T^{3}/3)$.
 --- relances
 - Lien avec les options asiatiques ? (la moyenne arithmétique est moins volatile que le sous-jacent final : l'option asiatique coûte moins cher)
 
@@ -127,18 +127,18 @@ theme: stoch
 niveau: 1
 profils: banque risque hf mm
 --- question
-Résous l'équation dS_t = μ S_t dt + σ S_t dW_t (mouvement brownien géométrique).
+Résous l'équation $dS_t = \mu S_t dt + \sigma S_t dW_t$ (mouvement brownien géométrique).
 --- en
-Solve the SDE dS = μ S dt + σ S dW (geometric Brownian motion).
+Solve the SDE $dS = \mu S dt + \sigma S dW$ (geometric Brownian motion).
 --- indice
-Applique Itô à ln S_t.
+Applique Itô à $\ln S_t$.
 --- solution
-d(ln S) = dS/S − ½ (dS)²/S² = (μ − σ²/2) dt + σ dW.
-Donc **S_t = S₀ exp((μ − σ²/2)t + σW_t)**.
-S_t est log-normal ; E[S_t] = S₀e^{μt} ; sa médiane vaut S₀e^{(μ − σ²/2)t}, plus basse que l'espérance.
+$d(\ln S) = dS/S - \tfrac12 (dS)^{2}/S^{2} = (\mu - \sigma^{2}/2) dt + \sigma dW$.
+Donc **$S_t = S_{0} \exp ((\mu - \sigma^{2}/2)t + \sigma W_t)$**.
+$S_t$ est log-normal ; $\mathbb{E}[S_t] = S_{0}e^{\mu t}$ ; sa médiane vaut $S_{0}e^{(\mu - \sigma^{2}/2)t}$, plus basse que l'espérance.
 --- relances
-- Pourquoi le terme −σ²/2 ? (convexité du logarithme : inégalité de Jensen)
-- Variance de S_t ? (S₀²e^{2μt}(e^{σ²t} − 1))
+- Pourquoi le terme $-\sigma^{2}/2$ ? (convexité du logarithme : inégalité de Jensen)
+- Variance de $S_t$ ? ($S_{0}^{2}e^{2\mu t}(e^{\sigma^{2}t} - 1)$)
 
 === stoch-esperance-gbm
 theme: stoch
@@ -148,13 +148,13 @@ type: numerique
 reponse: 100*exp(0.05)
 duree: 90
 --- question
-S suit un brownien géométrique avec S₀ = 100, μ = 5 % et σ = 30 %. Que vaut E[S₁] ?
+$S$ suit un brownien géométrique avec $S_{0} = 100, \mu = 5\,\%$ et $\sigma = 30\,\%$. Que vaut $\mathbb{E}[S_{1}]$ ?
 --- en
-S is a GBM with S₀ = 100, μ = 5%, σ = 30%. Compute E[S₁].
+$S$ is a GBM with $S_{0} = 100, \mu = 5\,\%, \sigma = 30\,\%$. Compute $\mathbb{E}[S_{1}]$.
 --- solution
-E[S_t] = S₀e^{μt} ne dépend pas de σ : **100·e^{0,05} ≈ 105,13**.
+$\mathbb{E}[S_t] = S_{0}e^{\mu t}$ ne dépend pas de $\sigma$ : **$100 \cdot e^{0{,}05} \approx 105{,}13$**.
 --- piege
-Ajouter −σ²/2 : ce terme concerne l'espérance de ln S, pas celle de S.
+Ajouter $-\sigma^{2}/2$ : ce terme concerne l'espérance de $\ln S$, pas celle de $S$.
 
 === stoch-mediane-gbm
 theme: stoch
@@ -164,13 +164,13 @@ type: numerique
 reponse: 100*exp(-0.02)
 duree: 120
 --- question
-Sans dérive (μ = 0), σ = 20 %, S₀ = 100. Quelle est la médiane de S₁ ?
+Sans dérive $(\mu = 0), \sigma = 20\,\%, S_{0} = 100$. Quelle est la médiane de $S_{1}$ ?
 --- en
-GBM with zero drift, σ = 20%, S₀ = 100. What is the median of S₁?
+GBM with zero drift, $\sigma = 20\,\%, S_{0} = 100$. What is the median of $S_{1}$?
 --- solution
-ln S₁ ~ N(ln 100 − σ²/2, σ²), de médiane ln 100 − 0,02. Médiane : **100·e^{−0,02} ≈ 98,02**, alors que l'espérance vaut 100.
+$\ln S_{1} \sim N(\ln 100 - \sigma^{2}/2, \sigma^{2})$, de médiane $\ln 100 - 0{,}02$. Médiane : **$100 \cdot e^{-0{,}02} \approx 98{,}02$**, alors que l'espérance vaut 100.
 --- relances
-- Que se passe-t-il quand T → ∞ ? (S_T → 0 presque sûrement alors que E[S_T] = 100 : l'espérance est portée par des trajectoires de plus en plus rares)
+- Que se passe-t-il quand $T \to \infty$ ? ($S_T \to 0$ presque sûrement alors que $\mathbb{E}[S_T] = 100$ : l'espérance est portée par des trajectoires de plus en plus rares)
 
 === stoch-proba-au-dessus
 theme: stoch
@@ -181,28 +181,28 @@ reponse: 1-N(0.1)
 tolerance: 0.005
 duree: 180
 --- question
-Brownien géométrique sans dérive, σ = 20 %, S₀ = 100. Probabilité que S₁ > 100 ? (N(0,1) = 0,5 ; N(0,1) en 0,1 ≈ 0,540)
+Brownien géométrique sans dérive, $\sigma = 20\,\%, S_{0} = 100$. Probabilité que $S_{1} > 100$ ? ($N(0{,}1) = 0{,}5$ ; $N(0{,}1)$ en $0{,}1 \approx 0{,}540$)
 --- en
-Driftless GBM, σ = 20%, S₀ = 100. What is P(S₁ > 100)? (Φ(0.1) ≈ 0.540)
+Driftless GBM, $\sigma = 20\,\%, S_{0} = 100$. What is $\mathbb{P}(S_{1} > 100)$? ($\Phi (0.1) \approx 0.540$)
 --- solution
-S₁ > 100 ⇔ −σ²/2 + σW₁ > 0 ⇔ W₁ > σ/2 = 0,1. Probabilité **1 − Φ(0,1) ≈ 0,460**.
+$S_{1} > 100 \Leftrightarrow -\sigma^{2}/2 + \sigma W_{1} > 0 \Leftrightarrow W_{1} > \sigma /2 = 0{,}1$. Probabilité **$1 - \Phi (0{,}1) \approx 0{,}460$**.
 L'espérance reste 100 mais la loi est asymétrique : beaucoup de petites baisses, quelques fortes hausses.
 --- relances
-- C'est quoi, en pricing ? (N(d₂) d'un call à la monnaie avec r = 0 : la probabilité risque-neutre d'exercice)
+- C'est quoi, en pricing ? ($N(d_{2})$ d'un call à la monnaie avec $r = 0$ : la probabilité risque-neutre d'exercice)
 
 === stoch-martingale-exponentielle
 theme: stoch
 niveau: 2
 profils: banque risque hf
 --- question
-Montre que M_t = exp(θW_t − θ²t/2) est une martingale. À quoi sert-elle ?
+Montre que $M_t = \exp (\theta W_t - \theta^{2}t/2)$ est une martingale. À quoi sert-elle ?
 --- en
-Show that M_t = exp(θW_t − θ²t/2) is a martingale. What is it used for?
+Show that $M_t = \exp (\theta W_t - \theta^{2}t/2)$ is a martingale. What is it used for?
 --- solution
-Par Itô : dM = M(θ dW − θ²/2 dt) + ½ M θ² dt = θM dW. Pas de terme en dt : M est une martingale locale, et une vraie martingale (E[M_t] = 1 en calculant E[e^{θW_t}] = e^{θ²t/2}).
-Usages : changement de probabilité de Girsanov (M est la densité qui ajoute une dérive θ au brownien) ; calcul de lois de temps d'atteinte (transformée de Laplace de τ_a : E[e^{−λτ_a}] = e^{−a√(2λ)}).
+Par Itô : $dM = M(\theta dW - \theta^{2}/2 dt) + \tfrac12 M \theta^{2} dt = \theta M dW$. Pas de terme en $dt$ : $M$ est une martingale locale, et une vraie martingale ($\mathbb{E}[M_t] = 1$ en calculant $\mathbb{E}[e^{\theta W_t}] = e^{\theta^{2}t/2}$).
+Usages : changement de probabilité de Girsanov ($M$ est la densité qui ajoute une dérive $\theta$ au brownien) ; calcul de lois de temps d'atteinte (transformée de Laplace de $\tau_a$ : $\mathbb{E}[e^{-\lambda \tau_a}] = e^{-a\sqrt{2\lambda}}$).
 --- relances
-- Énonce Girsanov simplement. (sous Q définie par dQ/dP = M_T, W_t − θt est un brownien)
+- Énonce Girsanov simplement. (sous $Q$ définie par $dQ/dP = M_T, W_t - \theta t$ est un brownien)
 
 === stoch-sortie-intervalle
 theme: stoch
@@ -212,14 +212,14 @@ type: numerique
 reponse: 2/3
 duree: 120
 --- question
-Un brownien standard part de 0. Probabilité qu'il atteigne +1 avant −2 ?
+Un brownien standard part de 0. Probabilité qu'il atteigne $+1$ avant $-2$ ?
 --- en
-A standard Brownian motion starts at 0. What is the probability it hits +1 before −2?
+A standard Brownian motion starts at 0. What is the probability it hits $+1$ before $-2$?
 --- solution
-W est une martingale ; au temps d'arrêt τ (sortie de ]−2, 1[) : 0 = E[W_τ] = 1·p − 2(1 − p), donc **p = 2/3**. C'est la ruine du joueur en continu : b/(a + b) avec a = 1, b = 2.
+$W$ est une martingale ; au temps d'arrêt $\tau$ (sortie de ]$-2$, 1[) : $0 = \mathbb{E}[W_\tau] = 1 \cdot p - 2(1 - p)$, donc **$p = 2/3$**. C'est la ruine du joueur en continu : $b/(a + b)$ avec $a = 1, b = 2$.
 --- relances
-- Temps moyen de sortie ? (ab = 2, via W² − t)
-- Et avec une dérive μ ? (utiliser la martingale exp(−2μW))
+- Temps moyen de sortie ? (ab $= 2$, via $W^{2} - t$)
+- Et avec une dérive $\mu$ ? (utiliser la martingale $\exp (-2\mu W)$)
 
 === stoch-temps-sortie
 theme: stoch
@@ -229,13 +229,13 @@ type: numerique
 reponse: 2
 duree: 180
 --- question
-Un brownien standard part de 0. Combien de temps faut-il en moyenne pour qu'il sorte de l'intervalle ]−2, 1[ ?
+Un brownien standard part de 0. Combien de temps faut-il en moyenne pour qu'il sorte de l'intervalle ]$-2$, 1[ ?
 --- en
-Expected time for a standard Brownian motion started at 0 to exit (−2, 1)?
+Expected time for a standard Brownian motion started at 0 to exit ($-2$, 1)?
 --- solution
-W_t² − t est une martingale : E[τ] = E[W_τ²] = (2/3)·1 + (1/3)·4 = **2** = a·b.
+$W_t^{2} - t$ est une martingale : $\mathbb{E}[\tau] = \mathbb{E}[W_\tau^{2}] = (2/3) \cdot 1 + (1/3) \cdot 4 =$ **2** $= a \cdot b$.
 --- relances
-- Et le temps pour atteindre +1 sans borne basse ? (fini presque sûrement mais d'espérance infinie)
+- Et le temps pour atteindre $+1$ sans borne basse ? (fini presque sûrement mais d'espérance infinie)
 
 === stoch-reflexion
 theme: stoch
@@ -246,48 +246,48 @@ reponse: 2*(1-N(1))
 tolerance: 0.005
 duree: 180
 --- question
-Probabilité qu'un brownien standard dépasse le niveau 1 au moins une fois avant la date 1 ? (Φ(1) ≈ 0,841)
+Probabilité qu'un brownien standard dépasse le niveau 1 au moins une fois avant la date 1 ? ($\Phi (1) \approx 0{,}841$)
 --- en
-Probability that a standard Brownian motion exceeds level 1 at some time before t = 1? (Φ(1) ≈ 0.841)
+Probability that a standard Brownian motion exceeds level 1 at some time before $t = 1$? ($\Phi (1) \approx 0.841$)
 --- indice
 Principe de réflexion : après avoir touché 1, la trajectoire symétrisée est aussi probable.
 --- solution
-P(max_{[0,1]} W ≥ 1) = 2·P(W₁ ≥ 1) = 2(1 − Φ(1)) ≈ **0,317**.
+$\mathbb{P}(\max_{[0{,}1]} W \ge 1) = 2 \cdot \mathbb{P}(W_{1} \ge 1) = 2(1 - \Phi (1)) \approx$ **0,317**.
 Application : prix d'options à barrière, et probabilité qu'un stop soit touché.
 --- relances
-- Loi du maximum M₁ ? (même loi que |W₁|)
-- En temps discret (observations quotidiennes), la probabilité est-elle plus petite ou plus grande ? (plus petite : on rate des franchissements ; correction de Broadie-Glasserman, barrière décalée de 0,5826·σ√Δt)
+- Loi du maximum $M_{1}$ ? (même loi que $|W_{1}|$)
+- En temps discret (observations quotidiennes), la probabilité est-elle plus petite ou plus grande ? (plus petite : on rate des franchissements ; correction de Broadie-Glasserman, barrière décalée de $0{,}5826 \cdot \sigma \sqrt{\Delta}t$)
 
 === stoch-variation-quadratique
 theme: stoch
 niveau: 2
 profils: banque risque hf
 --- question
-Qu'est-ce que la variation quadratique d'un processus ? Que vaut-elle pour un brownien, et pourquoi dit-on que « dW² = dt » ?
+Qu'est-ce que la variation quadratique d'un processus ? Que vaut-elle pour un brownien, et pourquoi dit-on que « $dW^{2} = dt$ » ?
 --- en
-What is quadratic variation? What is it for Brownian motion, and why do we write dW² = dt?
+What is quadratic variation? What is it for Brownian motion, and why do we write $dW^{2} = dt$?
 --- solution
-[X]_t = limite de Σ (X_{t_{i+1}} − X_{t_i})² quand le pas de la subdivision tend vers 0.
-Pour le brownien : chaque terme a pour espérance Δt et pour variance 2Δt² ; la somme a pour espérance t et pour variance 2Σ Δt² → 0. Donc **[W]_t = t**, de façon déterministe.
-C'est ce que résume la règle dW·dW = dt (et dt·dW = dt·dt = 0). Une fonction dérivable a une variation quadratique nulle.
-En finance : la variance réalisée estime la variation quadratique du log-prix, ∫σ_t² dt.
+$[X]_t =$ limite de $\sum (X_{t_{i+1}} - X_{t_i})^{2}$ quand le pas de la subdivision tend vers 0.
+Pour le brownien : chaque terme a pour espérance $\Delta t$ et pour variance $2\Delta t^{2}$ ; la somme a pour espérance $t$ et pour variance $2\sum \Delta t^{2} \to 0$. Donc **$[W]_t = t$**, de façon déterministe.
+C'est ce que résume la règle $dW \cdot dW = dt$ (et $dt \cdot dW = dt \cdot dt = 0$). Une fonction dérivable a une variation quadratique nulle.
+En finance : la variance réalisée estime la variation quadratique du log-prix, $\int \sigma_t^{2} dt$.
 --- relances
-- Variation quadratique de ∫σ_s dW_s ? (∫σ_s² ds)
-- Que vaut la variation totale (Σ|ΔW|) du brownien ? (infinie)
+- Variation quadratique de $\int \sigma_s dW_s$ ? ($\int \sigma_s^{2} ds$)
+- Que vaut la variation totale ($\sum |\Delta W|$) du brownien ? (infinie)
 
 === stoch-w-cube
 theme: stoch
 niveau: 2
 profils: banque risque hf
 --- question
-W_t³ est-il une martingale ? Sinon, comment la corriger ?
+$W_t^{3}$ est-il une martingale ? Sinon, comment la corriger ?
 --- en
-Is W_t³ a martingale? If not, how do you fix it?
+Is $W_t^{3} a$ martingale? If not, how do you fix it?
 --- solution
-Itô : d(W³) = 3W² dW + 3W dt. Le terme 3W dt n'est pas nul, donc W³ n'est pas une martingale (même si E[W_t³] = 0 pour tout t).
-Correction : d(tW) = W dt + t dW, donc **W_t³ − 3tW_t** est une martingale (c'est un polynôme d'Hermite).
+Itô : $d(W^{3}) = 3W^{2} dW + 3W dt$. Le terme $3W dt$ n'est pas nul, donc $W^{3}$ n'est pas une martingale (même si $\mathbb{E}[W_t^{3}] = 0$ pour tout $t$).
+Correction : $d(tW) = W dt + t dW$, donc **$W_t^{3} - 3tW_t$** est une martingale (c'est un polynôme d'Hermite).
 --- piege
-« E[W_t³] = 0 pour tout t donc c'est une martingale » : une espérance constante ne suffit pas, il faut E[X_t | F_s] = X_s.
+« $\mathbb{E}[W_t^{3}] = 0$ pour tout $t$ donc c'est une martingale » : une espérance constante ne suffit pas, il faut $\mathbb{E}[X_t | F_s] = X_s$.
 
 === stoch-ornstein-uhlenbeck
 theme: stoch
@@ -298,15 +298,15 @@ profils: banque risque hf
 --- en
 Write the Ornstein-Uhlenbeck process, its mean, stationary variance and half-life. Where have you used it?
 --- solution
-dX = κ(θ − X) dt + σ dW. Solution : X_t = θ + (X₀ − θ)e^{−κt} + σ∫₀ᵗ e^{−κ(t−s)} dW_s.
-- E[X_t] = θ + (X₀ − θ)e^{−κt} ;
-- Var(X_t) = σ²(1 − e^{−2κt})/(2κ) → **σ²/(2κ)** ;
-- demi-vie de l'écart à la moyenne : **ln 2/κ**.
-Discrétisé au pas Δ, c'est un AR(1) : X_{t+1} = c + φX_t + ε avec φ = e^{−κΔ}. Dans ton projet stat arb, le spread est simulé comme un OU de demi-vie 8 jours, et la demi-vie estimée vient de la régression AR(1) du spread : demi-vie = −ln 2/ln φ.
+$dX = \kappa (\theta - X) dt + \sigma dW$. Solution : $X_t = \theta + (X_{0} - \theta)e^{-\kappa t} + \sigma \int_{0}^{t} e^{-\kappa (t-s)} dW_s$.
+- $\mathbb{E}[X_t] = \theta + (X_{0} - \theta)e^{-\kappa t}$ ;
+- $\operatorname{Var} (X_t) = \sigma^{2}(1 - e^{-2\kappa t})/(2\kappa) \to$ **$\sigma^{2}/(2\kappa)$** ;
+- demi-vie de l'écart à la moyenne : **$\ln 2/\kappa$**.
+Discrétisé au pas $\Delta$, c'est un AR(1) : $X_{t+1} = c + \varphi X_t + \varepsilon$ avec $\varphi = e^{-\kappa \Delta}$. Dans ton projet stat arb, le spread est simulé comme un OU de demi-vie 8 jours, et la demi-vie estimée vient de la régression AR(1) du spread : demi-vie $= -\ln 2/\ln \varphi$.
 Usages : spreads de paires, taux courts (Vasicek), volatilité (log-vol en OU).
 --- relances
-- Avec κ = 0,1 par jour, demi-vie ? (6,9 jours)
-- Comment estimer κ à partir de données quotidiennes ? (régression de ΔX sur X : pente −(1 − φ))
+- Avec $\kappa = 0{,}1$ par jour, demi-vie ? (6,9 jours)
+- Comment estimer $\kappa$ à partir de données quotidiennes ? (régression de $\Delta X$ sur $X$ : pente $-(1 - \varphi)$)
 
 === stoch-demi-vie
 theme: stoch
@@ -316,13 +316,13 @@ type: numerique
 reponse: ln(2)/0.1
 duree: 90
 --- question
-Un spread suit un processus d'Ornstein-Uhlenbeck de vitesse de retour κ = 0,1 par jour. Quelle est sa demi-vie, en jours ?
+Un spread suit un processus d'Ornstein-Uhlenbeck de vitesse de retour $\kappa = 0{,}1$ par jour. Quelle est sa demi-vie, en jours ?
 --- en
-A spread follows an OU process with mean-reversion speed κ = 0.1 per day. What is its half-life in days?
+A spread follows an OU process with mean-reversion speed $\kappa = 0.1$ per day. What is its half-life in days?
 --- solution
-L'écart à la moyenne décroît en e^{−κt} : demi-vie = ln 2 / κ = 0,693/0,1 ≈ **6,93 jours**.
+L'écart à la moyenne décroît en $e^{-\kappa t}$ : demi-vie $= \ln 2 / \kappa = 0{,}693/0{,}1 \approx$ **6,93 jours**.
 --- relances
-- Si la régression AR(1) quotidienne donne φ = 0,9, demi-vie ? (−ln 2/ln 0,9 ≈ 6,58 jours)
+- Si la régression AR(1) quotidienne donne $\varphi = 0{,}9$, demi-vie ? ($-\ln 2/\ln 0{,}9 \approx 6{,}58$ jours)
 
 === stoch-ito-stratonovich
 theme: stoch
@@ -333,10 +333,10 @@ Quelle est la différence entre les intégrales d'Itô et de Stratonovich ? Pour
 --- en
 What is the difference between Itô and Stratonovich integrals? Why does finance use Itô?
 --- solution
-Les deux sont des limites de sommes de Riemann Σ H(τ_i)(W_{t_{i+1}} − W_{t_i}) ; Itô évalue H au début de l'intervalle (τ_i = t_i), Stratonovich au milieu. Pour un brownien, le choix change la limite à cause de la variation quadratique : ∫W ∘ dW = W_T²/2 (Stratonovich) contre (W_T² − T)/2 (Itô).
+Les deux sont des limites de sommes de Riemann $\sum H(\tau_i)(W_{t_{i+1}} - W_{t_i})$ ; Itô évalue $H$ au début de l'intervalle ($\tau_i = t_i$), Stratonovich au milieu. Pour un brownien, le choix change la limite à cause de la variation quadratique : $\int W$ ∘ $dW = W_T^{2}/2$ (Stratonovich) contre $(W_T^{2} - T)/2$ (Itô).
 - Itô : l'intégrande ne regarde pas le futur (une stratégie de trading décide avant de connaître le mouvement), l'intégrale est une martingale. C'est le bon modèle pour un gain de trading.
 - Stratonovich : la règle de dérivation classique s'applique, utile en physique et pour certaines méthodes numériques.
-Conversion : ∫H ∘ dW = ∫H dW + ½[H, W].
+Conversion : $\int H$ ∘ $dW = \int H dW + \tfrac12 [H, W]$.
 
 === stoch-girsanov
 theme: stoch
@@ -347,12 +347,12 @@ Explique le théorème de Girsanov et son rôle dans le passage à la probabilit
 --- en
 Explain Girsanov's theorem and its role in moving to the risk-neutral measure.
 --- solution
-Si W est un brownien sous P et θ un processus adapté (assez régulier), alors sous Q définie par dQ/dP = exp(−∫θ dW − ½∫θ² dt), le processus W̃_t = W_t + ∫₀ᵗ θ_s ds est un brownien.
-En finance : dS = μS dt + σS dW. Avec θ = (μ − r)/σ (prix de marché du risque), dS = rS dt + σS dW̃ sous Q : l'actif actualisé devient une martingale. Les prix sont alors des espérances sous Q des flux actualisés, et la dérive réelle μ disparaît.
-Girsanov ne change que la dérive, jamais la volatilité : la volatilité se mesure sous P (variation quadratique), la dérive non.
+Si $W$ est un brownien sous $P$ et $\theta$ un processus adapté (assez régulier), alors sous $Q$ définie par $dQ/dP = \exp (- \int \theta dW - \tfrac12 \int \theta^{2} dt)$, le processus $W$̃$_t = W_t + \int_{0}^{t} \theta_s ds$ est un brownien.
+En finance : $dS = \mu S dt + \sigma S dW$. Avec $\theta = (\mu - r)/\sigma$ (prix de marché du risque), $dS = rS\, dt + \sigma S\, d\tilde{W}$ sous $Q$ : l'actif actualisé devient une martingale. Les prix sont alors des espérances sous $Q$ des flux actualisés, et la dérive réelle $\mu$ disparaît.
+Girsanov ne change que la dérive, jamais la volatilité : la volatilité se mesure sous $P$ (variation quadratique), la dérive non.
 --- relances
-- Pourquoi la volatilité est-elle la même sous P et Q ? (la variation quadratique est une propriété des trajectoires, et P et Q sont équivalentes)
-- Qu'est-ce que la mesure forward-neutre ? (numéraire = zéro-coupon de maturité T : le forward devient une martingale)
+- Pourquoi la volatilité est-elle la même sous $P$ et $Q$ ? (la variation quadratique est une propriété des trajectoires, et $P$ et $Q$ sont équivalentes)
+- Qu'est-ce que la mesure forward-neutre ? (numéraire = zéro-coupon de maturité $T$ : le forward devient une martingale)
 
 === stoch-feynman-kac
 theme: stoch
@@ -363,10 +363,10 @@ Qu'est-ce que la formule de Feynman-Kac ? Donne l'exemple de Black-Scholes.
 --- en
 What is the Feynman-Kac formula? Give the Black-Scholes example.
 --- solution
-Elle relie une EDP parabolique à une espérance. Si dX = μ(t, X) dt + σ(t, X) dW et que u résout
-∂u/∂t + μ ∂u/∂x + ½σ² ∂²u/∂x² − r u = 0, avec u(T, x) = g(x),
-alors u(t, x) = E[e^{−r(T−t)} g(X_T) | X_t = x].
-Black-Scholes : avec dS = rS dt + σS dW sous Q, le prix V(t, S) = E^Q[e^{−r(T−t)}(S_T − K)⁺] résout l'EDP de Black-Scholes. On peut donc pricer par Monte-Carlo (l'espérance) ou par différences finies (l'EDP).
+Elle relie une EDP parabolique à une espérance. Si $dX = \mu (t, X) dt + \sigma (t, X) dW$ et que $u$ résout
+$\partial u/ \partial t + \mu \partial u/ \partial x + \tfrac12 \sigma^{2} \partial^{2}u/ \partial x^{2} - r u = 0$, avec $u(T, x) = g(x)$,
+alors $u(t, x) = \mathbb{E}[e^{-r(T-t)} g(X_T) | X_t = x]$.
+Black-Scholes : avec $dS = rS dt + \sigma S dW$ sous $Q$, le prix $V(t, S) = E^Q[e^{-r(T-t)}(S_T - K)^{+}]$ résout l'EDP de Black-Scholes. On peut donc pricer par Monte-Carlo (l'espérance) ou par différences finies (l'EDP).
 --- relances
 - Quand préfères-tu l'EDP, quand le Monte-Carlo ? (EDP : faible dimension, Greeks lisses, options américaines ; Monte-Carlo : grande dimension, dépendance au chemin)
 
@@ -375,14 +375,14 @@ theme: stoch
 niveau: 2
 profils: banque risque hf
 --- question
-Comment simules-tu une EDS dX = a(X) dt + b(X) dW ? Quelle est la précision du schéma d'Euler ?
+Comment simules-tu une EDS $dX = a(X) dt + b(X) dW$ ? Quelle est la précision du schéma d'Euler ?
 --- en
-How do you simulate an SDE dX = a(X) dt + b(X) dW? What is the accuracy of the Euler scheme?
+How do you simulate an SDE $dX = a(X) dt + b(X) dW$? What is the accuracy of the Euler scheme?
 --- solution
-Schéma d'Euler-Maruyama : X_{n+1} = X_n + a(X_n)Δt + b(X_n)√Δt·Z_n, Z_n ~ N(0, 1) indépendantes.
-- Convergence **forte** (trajectoire par trajectoire) en √Δt ; convergence **faible** (espérances) en Δt.
-- Le schéma de Milstein ajoute ½b b'(ΔW² − Δt) et atteint l'ordre fort 1.
-- Pour un brownien géométrique, simuler le logarithme est exact : S_{n+1} = S_n exp((μ − σ²/2)Δt + σ√Δt Z).
-Pièges : variance négative avec Euler sur Heston (troncature ou schéma QE d'Andersen), coût en 1/ε³ pour une erreur ε (Monte-Carlo + biais), d'où le multi-niveaux (MLMC).
+Schéma d'Euler-Maruyama : $X_{n+1} = X_n + a(X_n)\Delta t + b(X_n)\sqrt{\Delta}t \cdot Z_n, Z_n \sim N(0, 1)$ indépendantes.
+- Convergence **forte** (trajectoire par trajectoire) en $\sqrt{\Delta}t$ ; convergence **faible** (espérances) en $\Delta t$.
+- Le schéma de Milstein ajoute $\tfrac12 b b'(\Delta W^{2} - \Delta t)$ et atteint l'ordre fort 1.
+- Pour un brownien géométrique, simuler le logarithme est exact : $S_{n+1} = S_n \exp ((\mu - \sigma^{2}/2)\Delta t + \sigma \sqrt{\Delta}t Z)$.
+Pièges : variance négative avec Euler sur Heston (troncature ou schéma QE d'Andersen), coût en $1/\varepsilon^{3}$ pour une erreur $\varepsilon$ (Monte-Carlo + biais), d'où le multi-niveaux (MLMC).
 --- relances
 - Combien de trajectoires pour diviser l'erreur Monte-Carlo par 10 ? (100 fois plus)

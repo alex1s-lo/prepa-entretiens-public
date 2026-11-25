@@ -742,3 +742,43 @@ article.guide { padding: 36px 44px; max-width: 52rem; line-height: 1.7; }
   :root:not([data-theme="light"]) .cours-article .bloc-definition, :root:not([data-theme="light"]) .cours-article .bloc-propriete { border-left-color: color-mix(in srgb, var(--c) 35%, transparent); }
   :root:not([data-theme="light"]) .cours-article .bloc-titre-cours { box-shadow: none; }
 }
+
+/* --- Casse-têtes ------------------------------------------------------------------------------------------------- */
+.stats-ct .carte { gap: 4px; }
+.filtres-ct { padding: 18px 22px; }
+.puces-ct { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+.puces-ct button { min-height: 30px; padding: 0 12px; border-radius: 99px; font-size: .8125rem; font-weight: 500; box-shadow: none; color: var(--texte-doux); }
+.puces-ct button[aria-pressed="true"] { background: var(--accent-doux); border-color: var(--accent-bord); color: var(--accent-fort); font-weight: 600; }
+.famille-ct { margin-top: 8px; }
+.entete-famille { display: flex; align-items: baseline; gap: 12px; }
+.entete-famille .partie-cours { flex: 1; }
+.entete-famille .legende { margin: 40px 0 14px; font-variant-numeric: tabular-nums; }
+.liste-ct { list-style: none; margin: 0; padding: 0; background: var(--surface); border: 1px solid var(--bord); border-radius: var(--rayon); box-shadow: var(--ombre); overflow: hidden; }
+.liste-ct li { margin: 0; border-top: 1px solid var(--bord); }
+.liste-ct li:first-child { border-top: 0; }
+.liste-ct a { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "titre meta" "resume meta"; gap: 2px 18px; align-items: center;
+  padding: 12px 18px; color: var(--texte); text-decoration: none; }
+.liste-ct a:hover { background: var(--surface-2); color: var(--texte); }
+.titre-ct { grid-area: titre; font-weight: 600; font-size: .9375rem; }
+.resume-ct { grid-area: resume; font-size: .8125rem; color: var(--texte-doux); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.meta-ct { grid-area: meta; display: flex; align-items: center; gap: 10px; }
+.niveau-points { display: inline-flex; gap: 3px; }
+.niveau-points i { width: 7px; height: 7px; border-radius: 50%; background: var(--bord-fort); }
+.niveau-points i.plein { background: var(--accent); }
+.titre-enigme { margin-bottom: 18px; }
+ul.variantes li { margin: 6px 0; }
+@media (max-width: 760px) {
+  .liste-ct a { grid-template-columns: 1fr; grid-template-areas: "titre" "resume" "meta"; padding: 12px 14px; }
+  .meta-ct { margin-top: 4px; }
+}
+@media (max-width: 760px) {
+  .stats-ct { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+  .stats-ct .carte { padding: 12px; }
+  .stats-ct .chiffre { font-size: 1.375rem; }
+  .stats-ct .legende { font-size: .75rem; line-height: 1.35; }
+  .filtres-ct { padding: 14px; }
+  .filtres-ct .ligne:first-child > input { flex-basis: 100% !important; }
+  .filtres-ct select { flex: 1; }
+  .puces-ct { flex-wrap: nowrap; overflow-x: auto; margin-right: -14px; padding-bottom: 4px; scrollbar-width: none; }
+  .puces-ct button { flex: none; }
+}

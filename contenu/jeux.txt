@@ -1,6 +1,8 @@
 # Jeux, paris et décisions : le cœur des entretiens chez les teneurs de marché.
 
 === jeu-malediction-vainqueur
+categorie: strategie
+titre: Racheter une entreprise : la malédiction du vainqueur
 theme: marches
 niveau: 3
 profils: mm hf
@@ -8,20 +10,22 @@ type: numerique
 reponse: 0
 duree: 300
 --- question
-Une entreprise vaut, pour son propriétaire, un montant uniforme entre 0 et 100 qu'il est seul à connaître. Entre tes mains, elle vaudrait 1,5 fois ce montant. Tu fais une seule offre b ; il accepte si b dépasse la valeur pour lui. Quelle offre maximise ton gain espéré ?
+Une entreprise vaut, pour son propriétaire, un montant uniforme entre 0 et 100 qu'il est seul à connaître. Entre tes mains, elle vaudrait 1,5 fois ce montant. Tu fais une seule offre $b$ ; il accepte si $b$ dépasse la valeur pour lui. Quelle offre maximise ton gain espéré ?
 --- en
-A company is worth U(0, 100) to its owner, who alone knows the value. In your hands it is worth 1.5 times that. You make one bid b; the owner accepts if b exceeds his value. What bid maximizes your expected profit?
+A company is worth $U(0, 100)$ to its owner, who alone knows the value. In your hands it is worth 1.5 times that. You make one bid $b$; the owner accepts if $b$ exceeds his value. What bid maximizes your expected profit?
 --- indice
-Sachant que ton offre b est acceptée, quelle est la valeur moyenne de l'entreprise ?
+Sachant que ton offre $b$ est acceptée, quelle est la valeur moyenne de l'entreprise ?
 --- solution
-Si b est accepté, la valeur pour le propriétaire est uniforme sur [0, b], de moyenne b/2 ; pour toi elle vaut 1,5 × b/2 = 0,75 b < b. Chaque offre acceptée perd 0,25 b en moyenne : gain espéré = (b/100) × (−0,25 b) < 0. Meilleure offre : **0** (ne rien proposer).
+Si $b$ est accepté, la valeur pour le propriétaire est uniforme sur [$0, b$], de moyenne $b/2$ ; pour toi elle vaut $1{,}5 \times b/2 = 0{,}75 b < b$. Chaque offre acceptée perd $0{,}25 b$ en moyenne : gain espéré $= (b/100) \times (-0{,}25 b) < 0$. Meilleure offre : **0** (ne rien proposer).
 C'est la **malédiction du vainqueur** : être accepté est une information défavorable. Même mécanisme que la sélection adverse d'un teneur de marché.
 --- piege
-Raisonner sur la valeur moyenne non conditionnelle (50 × 1,5 = 75) et offrir jusqu'à 75.
+Raisonner sur la valeur moyenne non conditionnelle ($50 \times 1{,}5 = 75$) et offrir jusqu'à 75.
 --- relances
-- À partir de quel multiplicateur l'offre devient-elle intéressante ? (au-delà de 2 : valeur conditionnelle k·b/2 ≥ b)
+- À partir de quel multiplicateur l'offre devient-elle intéressante ? (au-delà de 2 : valeur conditionnelle $k \cdot b/2 \ge b$)
 
 === jeu-dichotomie
+categorie: strategie
+titre: Deviner un nombre entre 1 et 100 : combien payer ?
 theme: casse-tete
 niveau: 1
 profils: mm hf banque data
@@ -33,11 +37,13 @@ Je pense à un entier entre 1 et 100. Tu proposes un nombre, je réponds « plus
 --- en
 I think of an integer from 1 to 100. You guess; I answer higher, lower or correct. Worst-case number of guesses with the best strategy?
 --- solution
-Chaque proposition coupe l'intervalle en deux : 2⁷ − 1 = 127 ≥ 100 > 63 = 2⁶ − 1. Il faut **7** propositions au pire.
+Chaque proposition coupe l'intervalle en deux : $2^{7} - 1 = 127 \ge 100 > 63 = 2^{6} - 1$. Il faut **7** propositions au pire.
 --- relances
-- Si je te paie 100 − 10 × (nombre d'essais), combien paierais-tu pour jouer ? (calcule le nombre moyen d'essais de la dichotomie : 5,8 environ, donc environ 42)
+- Si je te paie $100 - 10 \times$ (nombre d'essais), combien paierais-tu pour jouer ? (calcule le nombre moyen d'essais de la dichotomie : 5,8 environ, donc environ 42)
 
 === jeu-trois-piles
+categorie: probas
+titre: Attendre une série de piles (PP, PPP…)
 theme: probas
 niveau: 2
 profils: mm hf banque
@@ -49,10 +55,15 @@ Combien de lancers d'une pièce équilibrée faut-il en moyenne pour obtenir tro
 --- en
 Expected number of fair coin flips to get three heads in a row?
 --- solution
-Même méthode que pour deux piles (états 0, 1, 2 piles consécutifs), ou formule 2^(n+1) − 2 : **14**.
-Vérification avec les états : E₂ = 1 + E₀/2, E₁ = 1 + E₂/2 + E₀/2, E₀ = 1 + E₁/2 + E₀/2 donne E₀ = 14.
+Même méthode que pour deux piles (états 0, 1, 2 piles consécutifs), ou formule $2^{n+1} - 2$ : **14**.
+Vérification avec les états : $E_{2} = 1 + E_{0}/2, E_{1} = 1 + E_{2}/2 + E_{0}/2, E_{0} = 1 + E_{1}/2 + E_{0}/2$ donne $E_{0} = 14$.
+--- variantes
+- Deux piles consécutifs : 6 lancers en moyenne ; $k$ piles consécutifs : $2^{k+1} - 2$.
+- Deux 6 consécutifs avec un dé : 42 lancers en moyenne.
 
 === jeu-marche-aleatoire-sortie
+categorie: probas
+titre: Temps de sortie d’une marche aléatoire
 theme: probas
 niveau: 2
 profils: mm hf banque
@@ -60,13 +71,15 @@ type: numerique
 reponse: 100
 duree: 150
 --- question
-Une marche aléatoire part de 0 et fait des pas de +1 ou −1 avec probabilité 1/2. Combien de pas en moyenne avant d'atteindre +10 ou −10 ?
+Une marche aléatoire part de 0 et fait des pas de $+1$ ou $-1$ avec probabilité $1/2$. Combien de pas en moyenne avant d'atteindre $+10$ ou $-10$ ?
 --- en
-A symmetric ±1 random walk starts at 0. Expected number of steps to reach +10 or −10?
+A symmetric $\pm 1$ random walk starts at 0. Expected number of steps to reach $+10$ or $-10$?
 --- solution
-S_n² − n est une martingale : E[T] = E[S_T²] = **100**. Plus généralement, sortir de ]−a, b[ prend ab pas en moyenne : il faut environ a² pas pour s'éloigner de a, la diffusion est en √n.
+$S_n^{2} - n$ est une martingale : $\mathbb{E}[T] = \mathbb{E}[S_T^{2}] =$ **100**. Plus généralement, sortir de ]$-a, b$[ prend ab pas en moyenne : il faut environ $a^{2}$ pas pour s'éloigner de a, la diffusion est en $\sqrt{n}$.
 
 === jeu-arret-uniforme
+categorie: strategie
+titre: Tirer des uniformes payants : quand s’arrêter ?
 theme: marches
 niveau: 3
 profils: mm hf
@@ -79,41 +92,47 @@ Tu peux tirer autant de nombres uniformes sur [0, 1] que tu veux ; chaque tirage
 --- en
 You may draw as many uniform [0, 1] numbers as you like, each draw costing 0.01. When you stop you win the last number drawn. What is the game worth under optimal play?
 --- indice
-La meilleure stratégie est un seuil : s'arrêter dès que le tirage dépasse la valeur V du jeu.
+La meilleure stratégie est un seuil : s'arrêter dès que le tirage dépasse la valeur $V$ du jeu.
 --- solution
-V = −0,01 + E[max(X, V)], donc 0,01 = E[(X − V)⁺] = (1 − V)²/2. D'où V = 1 − √0,02 ≈ **0,859** : on s'arrête dès qu'un tirage dépasse 0,859.
+$V = -0{,}01 + \mathbb{E}[\max (X, V)]$, donc $0{,}01 = \mathbb{E}[(X - V)^{+}] = (1 - V)^{2}/2$. D'où $V = 1 - \sqrt{0{,}02} \approx$ **0,859** : on s'arrête dès qu'un tirage dépasse 0,859.
 Même logique que l'exercice d'une option américaine : on arrête quand la valeur immédiate dépasse la valeur de continuation.
 --- relances
 - Si le tirage est gratuit mais limité à 3 tirages ? (récurrence à rebours : 0,5 ; 0,625 ; 0,695)
 
 === jeu-saint-petersbourg
+categorie: probas
+titre: Le paradoxe de Saint-Pétersbourg
 theme: marches
 niveau: 2
 profils: mm hf banque
 --- question
-On lance une pièce jusqu'au premier « face ». Si cela arrive au lancer n, tu gagnes 2ⁿ euros. Combien paierais-tu pour jouer ?
+On lance une pièce jusqu'au premier « face ». Si cela arrive au lancer $n$, tu gagnes $2^{n}$ euros. Combien paierais-tu pour jouer ?
 --- en
-St. Petersburg game: a coin is flipped until the first tails; if it happens on flip n you win 2ⁿ. How much would you pay to play?
+St. Petersburg game: a coin is flipped until the first tails; if it happens on flip $n$ you win $2^{n}$. How much would you pay to play?
 --- solution
-L'espérance est infinie : Σ (1/2)ⁿ × 2ⁿ = 1 + 1 + 1 + … Pourtant personne ne paierait une grosse somme. Explications à donner :
-- **Contrepartie limitée** : la banque ne peut pas payer plus que ce qu'elle possède. Si elle a 1 milliard (≈ 2³⁰), l'espérance tombe à environ 31 €.
+L'espérance est infinie : $\sum (1/2)^{n} \times 2^{n} = 1 + 1 + 1 + \dots$ Pourtant personne ne paierait une grosse somme. Explications à donner :
+- **Contrepartie limitée** : la banque ne peut pas payer plus que ce qu'elle possède. Si elle a 1 milliard ($\approx 2^{30}$), l'espérance tombe à environ 31 €.
 - **Utilité** : avec une utilité logarithmique, l'équivalent certain est faible (Bernoulli, 1738).
 - **Variance et horizon** : on ne joue pas assez de fois pour que la moyenne s'applique ; la médiane du gain est 2 à 4 €.
 Réponse attendue : un prix chiffré et justifié (« une vingtaine d'euros, parce que… »), pas « l'infini ».
 
 === jeu-deux-enveloppes
+categorie: probas
+titre: Le paradoxe des deux enveloppes
 theme: probas
 niveau: 2
 profils: mm hf
 --- question
 Deux enveloppes contiennent des sommes dont l'une est le double de l'autre. Tu en ouvres une : 100 €. « L'autre contient 50 ou 200 avec la même probabilité, donc 125 en moyenne : il faut changer. » Où est l'erreur ?
 --- en
-Two envelopes, one holds twice the other. You open one: $100. "The other holds 50 or 200 with equal probability, so 125 on average: switch." What is wrong?
+Two envelopes, one holds twice the other. You open one: \$100. "The other holds 50 or 200 with equal probability, so 125 on average: switch." What is wrong?
 --- solution
 Le raisonnement suppose que, quelle que soit la somme vue, les deux cas sont équiprobables. C'est impossible pour toutes les sommes à la fois : il n'existe pas de loi a priori uniforme sur tous les montants (elle ne serait pas normalisable). Avec une vraie loi a priori sur la petite somme, la probabilité que l'autre enveloppe soit la plus grosse dépend de la somme vue ; en moyenne sur tout, changer ne rapporte rien (le jeu est symétrique).
 Ce qui est évalué : identifier l'hypothèse implicite et la formuler proprement.
 
 === jeu-pari-de-plus-grand
+categorie: probas
+titre: Parier que le premier dé est plus grand
 theme: marches
 niveau: 2
 profils: mm hf
@@ -125,37 +144,27 @@ On lance deux dés. Tu paries 1 € que le premier dé est plus grand que le sec
 --- en
 Two dice are rolled; you bet that the first is larger than the second, with ties re-rolled. Probability of winning?
 --- solution
-Égalités relancées : on conditionne sur « pas d'égalité ». Par symétrie, P = **1/2**. (Sans relance : 15/36 = 5/12.)
-
-=== jeu-pieces-alice-bob
-theme: probas
-niveau: 3
-profils: mm hf
-type: numerique
-reponse: 1/2
-duree: 300
---- question
-Alice lance une pièce 10 fois, Bob 11 fois. Probabilité que Bob obtienne strictement plus de « pile » qu'Alice ?
---- en
-Alice flips a coin 10 times, Bob 11 times. Probability that Bob gets strictly more heads than Alice?
---- solution
-Compare d'abord les 10 premiers lancers de Bob à ceux d'Alice : Bob est devant (p), à égalité (q) ou derrière (p) par symétrie. Bob gagne s'il est devant, ou à égalité et que son 11ᵉ lancer est pile : p + q/2 = (2p + q)/2 = **1/2**.
+Égalités relancées : on conditionne sur « pas d'égalité ». Par symétrie, $P =$ **$1/2$**. (Sans relance : $15/36 = 5/12$.)
 
 === jeu-pari-sequence
+categorie: probas
+titre: Une série de 5 piles sur 100 lancers : pari équitable ?
 theme: marches
 niveau: 2
 profils: mm hf
 --- question
 « Je te propose un pari : je lance une pièce 100 fois ; si la plus longue suite de piles consécutifs fait au moins 5, je gagne 10 € ; sinon tu gagnes 10 €. » Acceptes-tu ?
 --- en
-"I flip a coin 100 times; if the longest run of heads is at least 5, I win $10, otherwise you win $10." Do you accept?
+"I flip a coin 100 times; if the longest run of heads is at least 5, I win \$10, otherwise you win \$10." Do you accept?
 --- solution
-Non. La plus longue suite de piles en n lancers est de l'ordre de log₂(n) : en moyenne environ 6 pour n = 100, et la probabilité d'avoir une suite d'au moins 5 piles dépasse 80 % (≈ 0,81). Le pari est défavorable.
+Non. La plus longue suite de piles en $n$ lancers est de l'ordre de $\log_2 n$ : en moyenne environ 6 pour $n = 100$, et la probabilité d'avoir une suite d'au moins 5 piles dépasse $80\,\% (\approx 0{,}81)$. Le pari est défavorable.
 Message : l'intuition sous-estime la longueur des séries dans le hasard (les « séries » d'un trader ou d'un gérant peuvent être du pur hasard).
 --- relances
 - Comment le calculer exactement ? (chaîne de Markov sur la longueur de la série en cours, ou récurrence sur le nombre de suites sans série de 5)
 
 === jeu-partage-mise
+categorie: probas
+titre: Le problème des partis (partage de la mise)
 theme: marches
 niveau: 2
 profils: mm hf
@@ -165,6 +174,6 @@ duree: 240
 --- question
 Deux joueurs de même force jouent en 5 manches gagnantes ; chacun a misé 50 €. La partie s'arrête à 4 manches à 2 pour A. Comment partager équitablement les 100 € ? Donne la part de A en fraction du total.
 --- en
-Two equally skilled players play first to 5 wins, each staking $50. Play stops at 4–2 for A. What fair fraction of the pot goes to A?
+Two equally skilled players play first to 5 wins, each staking \$50. Play stops at 4–2 for A. What fair fraction of the pot goes to A?
 --- solution
-B doit gagner les 3 manches suivantes pour l'emporter : probabilité (1/2)³ = 1/8. A gagne avec probabilité **7/8** : 87,50 € pour A, 12,50 € pour B. C'est le problème des partis (Pascal et Fermat, 1654), à l'origine du calcul des probabilités et, en un sens, de la valorisation par espérance.
+B doit gagner les 3 manches suivantes pour l'emporter : probabilité $(1/2)^{3} = 1/8$. A gagne avec probabilité **$7/8$** : 87,50 € pour A, 12,50 € pour B. C'est le problème des partis (Pascal et Fermat, 1654), à l'origine du calcul des probabilités et, en un sens, de la valorisation par espérance.

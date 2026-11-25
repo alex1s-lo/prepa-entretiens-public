@@ -11,7 +11,7 @@ Ne dis rien que tu ne saurais pas défendre en deux relances. Présente les rés
 Écris, pour chaque projet, une courte note de défense (choix, limites, ce que tu ferais ensuite) et fais au moins un exercice d'extension : change un paramètre, casse quelque chose, répare-le. Tu pourras alors raconter quelque chose que **tu** as observé.
 
 **Surface de volatilité**
-- Change `PARAMS` (ρ = 0, ξ élevé, condition de Feller violée) et regarde ce qui casse.
+- Change `PARAMS` ($\rho = 0, \xi$ élevé, condition de Feller violée) et regarde ce qui casse.
 - Remplace le bruit gaussien par un bruit proportionnel au spread.
 - Ajoute la pondération par vega dans `fit_svi` et compare les erreurs.
 
@@ -23,7 +23,7 @@ Ne dis rien que tu ne saurais pas défendre en deux relances. Présente les rés
 **Market making**
 - Ajoute de la sélection adverse (exécutions surtout quand le prix va contre toi) : A-S gagne-t-il encore ?
 - Ajoute une limite d'inventaire dure et mesure son coût.
-- Refais le balayage de γ pour un autre σ et explique la différence.
+- Refais le balayage de $\gamma$ pour un autre $\sigma$ et explique la différence.
 
 ## Les pitchs de 30 secondes
 
@@ -41,6 +41,6 @@ Les fiches du thème « Projets types » donnent des exemples de questions proba
 
 ## Les anecdotes à savoir raconter
 
-- **SVI** : un minimum local (ρ = 0,92, m = 0,63) ajustait bien les cotations mais donnait une densité négative (g min = −2,17) → pénalité, plusieurs départs, m borné.
+- **SVI** : un minimum local ($\rho = 0{,}92, m = 0{,}63$) ajustait bien les cotations mais donnait une densité négative ($g$ min $= -2{,}17$) → pénalité, plusieurs départs, $m$ borné.
 - **Stat arb** : premier réglage à Sharpe nul malgré 8 vraies paires → test peu puissant et 1 540 paires testées (faux positifs) → réglage changé après coup, d'où le Sharpe déflaté et le contrôle négatif. Et un bug de décalage d'un jour, d'où le test anti regard vers le futur.
 - **Market making** : le compteur d'ordres faisait `bool + bool` (OU logique en NumPy) → détecté par un test qui comparait au bon taux d'exécution en temps discret.

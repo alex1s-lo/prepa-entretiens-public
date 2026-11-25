@@ -60,9 +60,23 @@ PROFILS = {
     "risque": "Risque, validation, XVA",
     "data": "Data science / ML",
 }
+# Familles de la section « Casse-têtes » : toute fiche qui porte « categorie: » y figure, quel que soit son thème.
+CATEGORIES = {
+    "logique": "Logique et déduction",
+    "pesees": "Pesées, mesures et transvasements",
+    "strategie": "Jeux et stratégie",
+    "probas": "Probabilités et espérance",
+    "denombrement": "Dénombrement",
+    "nombres": "Nombres et chiffres",
+    "invariants": "Invariants, parité et coloriage",
+    "recherche": "Recherche optimale et algorithmes",
+    "geometrie": "Géométrie et espace",
+    "mouvement": "Vitesses, horloges et calendriers",
+    "fermi": "Estimations (Fermi)",
+}
 TYPES = {"ouverte", "numerique"}
-SECTIONS = {"question", "en", "indice", "solution", "piege", "relances"}
-CLES = {"theme", "niveau", "profils", "type", "reponse", "tolerance", "duree", "source"}
+SECTIONS = {"question", "en", "indice", "solution", "piege", "relances", "variantes"}
+CLES = {"theme", "niveau", "profils", "type", "reponse", "tolerance", "duree", "source", "categorie", "titre"}
 
 _OPS = {ast.Add: operator.add, ast.Sub: operator.sub, ast.Mult: operator.mul, ast.Div: operator.truediv,
         ast.Pow: operator.pow, ast.USub: operator.neg, ast.UAdd: operator.pos}
@@ -169,8 +183,20 @@ def _normaliser(brut: dict) -> dict:
     for cle in ("en", "indice", "piege"):
         if sections.get(cle):
             fiche[cle] = sections[cle]
-    if sections.get("relances"):
-        fiche["relances"] = [re.sub(r"^-\s*", "", l).strip() for l in sections["relances"].splitlines() if l.strip()]
+    for cle in ("relances", "variantes"):
+        if sections.get(cle):
+            fiche[cle] = [re.sub(r"^-\s*", "", l).strip() for l in sections[cle].splitlines() if l.strip()]
+    categorie = brut.get("categorie")
+    if categorie is not None and categorie not in CATEGORIES:
+        raise ErreurContenu(f"{ou} : catégorie inconnue {categorie!r}")
+    if theme == "casse-tete" and not categorie:
+        raise ErreurContenu(f"{ou} : un casse-tête doit avoir une catégorie")
+    if categorie:
+        fiche["categorie"] = categorie
+        if not brut.get("titre"):
+            raise ErreurContenu(f"{ou} : une fiche de la section Casse-têtes doit avoir un titre court")
+    if brut.get("titre"):
+        fiche["titre"] = brut["titre"]
     if typ == "numerique":
         if not brut.get("reponse"):
             raise ErreurContenu(f"{ou} : réponse attendue pour une question numérique")
@@ -220,7 +246,7 @@ def construire() -> str:
     doublons = [i for i, n in vus.items() if n > 1]
     if doublons:
         raise ErreurContenu(f"identifiants en double : {', '.join(doublons)}")
-    donnees = {"themes": THEMES, "profils": PROFILS, "fiches": fiches, "guides": lire_guides()}
+    donnees = {"themes": THEMES, "profils": PROFILS, "categories": CATEGORIES, "fiches": fiches, "guides": lire_guides()}
     corps = json.dumps(donnees, ensure_ascii=False, indent=1)
     return ("// Fichier généré par construire.py à partir de contenu/ : ne pas modifier à la main.\n"
             f"window.PREPA_BANQUE = {corps};\n")

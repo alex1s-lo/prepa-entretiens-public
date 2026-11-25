@@ -20,10 +20,10 @@ def meilleur_gain(prix):
         meilleur = max(meilleur, p - plus_bas)
     return meilleur
 ```
-Temps O(n), mémoire O(1). La solution naïve (toutes les paires) est en O(n²).
+Temps O($n$), mémoire O(1). La solution naïve (toutes les paires) est en O($n^{2}$).
 --- relances
 - Et si on peut faire autant d'allers-retours qu'on veut ? (somme des hausses quotidiennes positives)
-- Et avec au plus deux transactions ? (programmation dynamique à quatre états, O(n))
+- Et avec au plus deux transactions ? (programmation dynamique à quatre états, O($n$))
 - Comment renvoyer aussi les dates d'achat et de vente ?
 
 === algo-kadane
@@ -35,7 +35,7 @@ Trouve la somme maximale d'un sous-tableau contigu (par exemple sur une liste de
 --- en
 Find the maximum sum of a contiguous subarray (e.g. over a list of daily P&Ls). Complexity?
 --- solution
-Algorithme de Kadane : la meilleure somme qui se termine en i est soit x[i], soit x[i] + la meilleure qui se termine en i − 1.
+Algorithme de Kadane : la meilleure somme qui se termine en $i$ est soit $x[i]$, soit $x[i] +$ la meilleure qui se termine en $i - 1$.
 ```python
 def somme_max(x):
     courant = meilleur = x[0]
@@ -44,7 +44,7 @@ def somme_max(x):
         meilleur = max(meilleur, courant)
     return meilleur
 ```
-O(n) en temps, O(1) en mémoire.
+O($n$) en temps, O(1) en mémoire.
 --- relances
 - Lien avec le drawdown maximal ? (même idée : plus grande baisse depuis un plus haut, en suivant le maximum courant de la courbe de PnL cumulé)
 
@@ -66,7 +66,7 @@ def drawdown_max(valeurs):
         pire = min(pire, v / sommet - 1)
     return pire          # par exemple -0.16 pour -16 %
 ```
-O(n). En NumPy : `(v / np.maximum.accumulate(v) - 1).min()`.
+O($n$). En NumPy : `(v / np.maximum.accumulate(v) - 1).min()`.
 --- relances
 - Durée du drawdown maximal ? (garder la date du sommet et compter jusqu'au retour au sommet)
 
@@ -75,9 +75,9 @@ theme: algo
 niveau: 1
 profils: hf mm data banque
 --- question
-Dans une liste d'entiers, trouve deux éléments dont la somme vaut une cible donnée. Fais mieux que O(n²).
+Dans une liste d'entiers, trouve deux éléments dont la somme vaut une cible donnée. Fais mieux que O($n^{2}$).
 --- en
-In a list of integers, find two elements summing to a target. Do better than O(n²).
+In a list of integers, find two elements summing to a target. Do better than O($n^{2}$).
 --- solution
 Dictionnaire des valeurs déjà vues :
 ```python
@@ -89,16 +89,16 @@ def deux_somme(x, cible):
         vus[v] = i
     return None
 ```
-O(n) en moyenne en temps et en mémoire. Alternative : trier puis deux pointeurs, O(n log n) et O(1) mémoire supplémentaire.
+O($n$) en moyenne en temps et en mémoire. Alternative : trier puis deux pointeurs, O($n \log n$) et O(1) mémoire supplémentaire.
 
 === algo-moyenne-mobile
 theme: algo
 niveau: 1
 profils: hf mm data
 --- question
-Calcule la moyenne mobile sur k jours d'une série de n prix en O(n), sans recalculer chaque somme.
+Calcule la moyenne mobile sur $k$ jours d'une série de $n$ prix en O($n$), sans recalculer chaque somme.
 --- en
-Compute the k-day moving average of n prices in O(n) without recomputing each sum.
+Compute the k-day moving average of $n$ prices in O($n$) without recomputing each sum.
 --- solution
 Somme glissante : on ajoute l'entrant et on retire le sortant.
 ```python
@@ -115,7 +115,7 @@ def moyenne_mobile(x, k):
 En NumPy : `c = np.cumsum(np.insert(x, 0, 0)); (c[k:] - c[:-k]) / k`. En pandas : `serie.rolling(k).mean()`.
 --- relances
 - Attention aux erreurs d'arrondi qui s'accumulent sur de très longues séries (recalculer la somme de temps en temps, ou sommation de Kahan)
-- Et un écart-type glissant ? (sommes glissantes de x et de x², ou algorithme de Welford pour la stabilité)
+- Et un écart-type glissant ? (sommes glissantes de $x$ et de $x^{2}$, ou algorithme de Welford pour la stabilité)
 
 === algo-mediane-flux
 theme: algo
@@ -146,9 +146,11 @@ class Mediane:
             return -self.bas[0]
         return (-self.bas[0] + self.haut[0]) / 2
 ```
-O(log n) par insertion, O(1) pour lire la médiane.
+$O(\log n)$ par insertion, O(1) pour lire la médiane.
 
 === algo-reservoir
+categorie: recherche
+titre: Tirer un élément uniforme d’un flux de longueur inconnue
 theme: algo
 niveau: 2
 profils: hf mm data
@@ -157,7 +159,7 @@ Un flux de transactions de longueur inconnue (trop grand pour la mémoire) défi
 --- en
 A stream of trades of unknown length passes by. How do you sample one uniformly at random in a single pass?
 --- solution
-Échantillonnage par réservoir : garder le i-ème élément avec probabilité 1/i.
+Échantillonnage par réservoir : garder le i-ème élément avec probabilité $1/i$.
 ```python
 import random
 
@@ -168,8 +170,8 @@ def tirer(flux):
             choix = x
     return choix
 ```
-Preuve : l'élément i est choisi (1/i) puis jamais remplacé : (1/i)·(i/(i+1))·…·((n−1)/n) = 1/n.
-Pour k éléments : garder les k premiers, puis remplacer un élément au hasard avec probabilité k/i.
+Preuve : l'élément $i$ est choisi ($1/i$) puis jamais remplacé : $(1/i) \cdot (i/(i+1)) \cdot \dots \cdot ((n-1)/n) = 1/n$.
+Pour $k$ éléments : garder les $k$ premiers, puis remplacer un élément au hasard avec probabilité $k/i$.
 
 === algo-melange
 theme: algo
@@ -189,9 +191,11 @@ def melanger(x):
         j = random.randint(0, i)   # j dans [0, i]
         x[i], x[j] = x[j], x[i]
 ```
-La version naïve (j dans [0, n − 1] à chaque étape) produit nⁿ suites de tirages équiprobables pour n! permutations ; nⁿ n'est pas un multiple de n! (pour n = 3 : 27 et 6), donc certaines permutations sont plus probables.
+La version naïve ($j$ dans [$0, n - 1$] à chaque étape) produit $n^{n}$ suites de tirages équiprobables pour $n!$ permutations ; $n^{n}$ n'est pas un multiple de $n!$ (pour $n = 3$ : 27 et 6), donc certaines permutations sont plus probables.
 
 === algo-rand7
+categorie: recherche
+titre: Fabriquer rand7 à partir de rand5
 theme: algo
 niveau: 2
 profils: hf mm data
@@ -208,9 +212,9 @@ def rand7():
         if n < 21:
             return n % 7 + 1
 ```
-Probabilité d'accepter : 21/25 ; nombre moyen d'appels à rand5 : 2 × 25/21 ≈ 2,38.
+Probabilité d'accepter : $21/25$ ; nombre moyen d'appels à rand5 : $2 \times 25/21 \approx 2{,}38$.
 --- piege
-rand5() + rand5() n'est pas uniforme (loi triangulaire).
+`rand5() + rand5()` n'est pas uniforme (loi triangulaire).
 
 === algo-recherche-binaire
 theme: algo
@@ -232,9 +236,9 @@ def vol_implicite(prix_marche, prix_bs, bas=1e-4, haut=5.0, tol=1e-8):
             haut = milieu
     return (bas + haut) / 2
 ```
-Le prix d'une option est strictement croissant en σ (vega > 0) : la dichotomie converge toujours, en log₂((haut − bas)/tol) itérations. Newton (σ ← σ − (C(σ) − C_marché)/vega) converge beaucoup plus vite mais peut diverger loin de la monnaie (vega minuscule) ; on combine souvent les deux (Brent, comme dans ton projet).
+Le prix d'une option est strictement croissant en $\sigma$ (vega $> 0$) : la dichotomie converge toujours, en $\log_2((\text{haut} - \text{bas})/\text{tol})$ itérations. Newton ($\sigma \leftarrow \sigma - (C(\sigma) - C_\text{marché})/\text{vega}$) converge beaucoup plus vite mais peut diverger loin de la monnaie (vega minuscule) ; on combine souvent les deux (Brent, comme dans ton projet).
 --- relances
-- Combien d'itérations pour passer d'un intervalle de 5 à une précision de 10⁻⁸ ? (environ 29)
+- Combien d'itérations pour passer d'un intervalle de 5 à une précision de $10^{-8}$ ? (environ 29)
 
 === algo-comparaisons-dichotomie
 theme: algo
@@ -248,7 +252,7 @@ Au pire, combien de comparaisons faut-il pour trouver un élément par dichotomi
 --- en
 In the worst case, how many comparisons does binary search need in a sorted list of one million elements?
 --- solution
-On divise par deux à chaque étape : il faut ⌈log₂(1 000 001)⌉ = **20** comparaisons (2²⁰ = 1 048 576).
+On divise par deux à chaque étape : il faut $\lceil \log_2(1\,000\,001) \rceil =$ **20** comparaisons ($2^{20} = 1\,048\,576$).
 
 === algo-parentheses
 theme: algo
@@ -272,7 +276,7 @@ def equilibre(s):
                 return False
     return not pile
 ```
-O(n).
+O($n$).
 
 === algo-lru
 theme: algo
@@ -307,6 +311,8 @@ class CacheLRU:
 Pour mettre en cache une fonction pure : `functools.lru_cache`.
 
 === algo-escalier
+categorie: denombrement
+titre: Monter un escalier par pas de 1 ou 2
 theme: algo
 niveau: 1
 profils: hf mm data banque
@@ -318,7 +324,7 @@ De combien de façons peut-on monter un escalier de 10 marches en faisant des pa
 --- en
 In how many ways can you climb a 10-step staircase taking 1 or 2 steps at a time?
 --- solution
-f(n) = f(n − 1) + f(n − 2), f(1) = 1, f(2) = 2 : suite de Fibonacci décalée. f(10) = **89**.
+$f(n) = f(n - 1) + f(n - 2), f(1) = 1, f(2) = 2$ : suite de Fibonacci décalée. $f(10) =$ **89**.
 ```python
 def facons(n):
     a, b = 1, 1
@@ -326,9 +332,11 @@ def facons(n):
         a, b = b, a + b
     return a
 ```
-La récursion naïve est exponentielle ; la mémoïsation ou l'itération est en O(n).
+La récursion naïve est exponentielle ; la mémoïsation ou l'itération est en O($n$).
 
 === algo-chemins-grille
+categorie: denombrement
+titre: Chemins dans une grille
 theme: algo
 niveau: 1
 profils: hf mm data banque
@@ -340,7 +348,7 @@ Sur une grille, combien de chemins vont du coin (0, 0) au coin (4, 4) en ne fais
 --- en
 How many lattice paths go from (0, 0) to (4, 4) using only right and up steps?
 --- solution
-Il faut 8 pas dont 4 vers la droite : C(8, 4) = **70**.
+Il faut 8 pas dont 4 vers la droite : $\binom{8}{4} =$ **70**.
 --- relances
 - Lien avec un arbre binomial ? (nombre de chemins menant à un nœud = coefficient binomial)
 
@@ -385,7 +393,7 @@ Pour accélérer :
 - **vectoriser** avec NumPy (boucles en C, qui libèrent souvent le GIL) ;
 - **multiprocessing** / `concurrent.futures.ProcessPoolExecutor` pour paralléliser sur plusieurs cœurs ;
 - compiler les boucles chaudes : Numba, Cython, ou une extension C++ ;
-- mieux : un meilleur algorithme (O(n) au lieu de O(n²)).
+- mieux : un meilleur algorithme (O($n$) au lieu de O($n^{2}$)).
 Profiler d'abord (`cProfile`) avant d'optimiser. (Des versions récentes de CPython proposent une construction expérimentale sans GIL.)
 
 === algo-generateurs
@@ -416,8 +424,8 @@ Quelle est la complexité de la recherche dans une liste, un dictionnaire et un 
 --- en
 What is the lookup complexity in a Python list, dict and set? How does a dict work?
 --- solution
-- `x in liste` : O(n) (parcours).
-- `x in dict` / `x in set` : O(1) en moyenne, O(n) au pire (collisions).
+- `x in liste` : O($n$) (parcours).
+- `x in dict` / `x in set` : O(1) en moyenne, O($n$) au pire (collisions).
 Un dictionnaire est une table de hachage : la clé est hachée pour trouver une case ; les collisions sont résolues par adressage ouvert ; la table est agrandie quand elle se remplit (coût amorti O(1)). Les clés doivent être hachables (immuables : pas de liste comme clé). Depuis Python 3.7, l'ordre d'insertion est conservé.
 
 === algo-numpy-vectorisation
@@ -430,9 +438,9 @@ Pourquoi une opération NumPy vectorisée est-elle beaucoup plus rapide qu'une b
 Why is a vectorized NumPy operation much faster than a Python loop? What is broadcasting?
 --- solution
 Une boucle Python manipule des objets un par un (typage dynamique, appels de fonction, allocation). NumPy stocke des données homogènes contiguës en mémoire et exécute la boucle en C compilé, souvent avec des instructions SIMD : facteur 10 à 100.
-**Broadcasting** : règles qui étendent virtuellement les dimensions de taille 1 pour combiner des tableaux de formes différentes sans copie. Exemple : `prix (n, 1) - strikes (1, m)` donne une matrice (n, m) de payoffs. Un simulateur de market making vectorise 4 000 trajectoires de cette façon.
+**Broadcasting** : règles qui étendent virtuellement les dimensions de taille 1 pour combiner des tableaux de formes différentes sans copie. Exemple : `prix (n, 1) - strikes (1, m)` donne une matrice ($n, m$) de payoffs. Un simulateur de market making vectorise 4 000 trajectoires de cette façon.
 --- relances
-- Piège classique ? (une forme (n,) contre (n, 1) produit une matrice (n, n) par broadcasting au lieu d'une erreur)
+- Piège classique ? (une forme ($n$,) contre ($n, 1$) produit une matrice ($n, n$) par broadcasting au lieu d'une erreur)
 
 === algo-pandas-pieges
 theme: algo
@@ -457,13 +465,13 @@ theme: algo
 niveau: 2
 profils: hf mm data banque
 --- question
-Pourquoi 0,1 + 0,2 ≠ 0,3 en Python ? Quelles conséquences en finance, et comment les gérer ?
+Pourquoi $0{,}1 + 0{,}2 \neq 0{,}3$ en Python ? Quelles conséquences en finance, et comment les gérer ?
 --- en
-Why is 0.1 + 0.2 != 0.3 in Python? What are the consequences in finance and how do you handle them?
+Why is $0.1 + 0.2$ !$= 0.3$ in Python? What are the consequences in finance and how do you handle them?
 --- solution
 Les flottants sont stockés en binaire (IEEE 754, 53 bits de mantisse) : 0,1 n'a pas de représentation binaire exacte, l'erreur d'arrondi apparaît dans la somme (0,30000000000000004).
-Conséquences : comparaisons d'égalité fausses, accumulation d'erreurs sur de longues sommes, **annulation catastrophique** quand on soustrait deux nombres proches (différences finies avec un pas trop petit, variance calculée comme E[X²] − E[X]²).
-Remèdes : comparer avec une tolérance (`math.isclose`), `decimal.Decimal` ou des entiers (centimes) pour la comptabilité, sommation de Kahan ou `math.fsum`, algorithmes stables (Welford pour la variance), pas de différences finies adapté (≈ √ε × échelle).
+Conséquences : comparaisons d'égalité fausses, accumulation d'erreurs sur de longues sommes, **annulation catastrophique** quand on soustrait deux nombres proches (différences finies avec un pas trop petit, variance calculée comme $\mathbb{E}[X^{2}] - \mathbb{E}[X]^{2}$).
+Remèdes : comparer avec une tolérance (`math.isclose`), `decimal.Decimal` ou des entiers (centimes) pour la comptabilité, sommation de Kahan ou `math.fsum`, algorithmes stables (Welford pour la variance), pas de différences finies adapté ($\approx \sqrt{\varepsilon} \times$ échelle).
 
 === algo-cpp-bases
 theme: algo

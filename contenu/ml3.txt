@@ -12,7 +12,7 @@ Une ACP sur la matrice de covariance de quatre variables donne les valeurs propr
 --- en
 A PCA on the covariance matrix of four variables gives eigenvalues 4, 2, 1, 1. What share of total variance does the first component explain?
 --- solution
-La variance totale est la somme des valeurs propres (la trace de la matrice) : 4/(4 + 2 + 1 + 1) = **50 %**. Les deux premières composantes : 75 %.
+La variance totale est la somme des valeurs propres (la trace de la matrice) : $4/(4 + 2 + 1 + 1) =$ **50 %**. Les deux premières composantes : 75 %.
 Sur des variables standardisées (matrice de corrélation), la somme des valeurs propres vaudrait le nombre de variables, 4 : ces valeurs propres ne peuvent donc pas venir d'une matrice de corrélation de 4 variables.
 --- piege
 Faire une ACP sur des variables d'échelles différentes sans les standardiser : la variable de plus grande variance domine la première composante.
@@ -28,11 +28,11 @@ reponse: exp(0.7)
 tolerance: 0.01
 duree: 120
 --- question
-Dans une régression logistique de défaut, le coefficient de la variable « endettement » vaut 0,7. Par combien la cote du défaut (p/(1 − p)) est-elle multipliée quand l'endettement augmente d'une unité ?
+Dans une régression logistique de défaut, le coefficient de la variable « endettement » vaut 0,7. Par combien la cote du défaut ($p/(1 - p)$) est-elle multipliée quand l'endettement augmente d'une unité ?
 --- en
 In a default logistic regression, the leverage coefficient is 0.7. By what factor are the default odds multiplied when leverage rises by one unit?
 --- solution
-e^{0,7} ≈ **2,01** : la cote double environ. La probabilité, elle, ne double pas : l'effet sur p dépend du niveau de départ (dp/dx = β p(1 − p), maximal autour de p = 1/2).
+$e^{0{,}7} \approx$ **2,01** : la cote double environ. La probabilité, elle, ne double pas : l'effet sur $p$ dépend du niveau de départ ($dp/dx = \beta p(1 - p)$, maximal autour de $p = 1/2$).
 
 === ml-matrice-confusion
 theme: ml
@@ -46,9 +46,9 @@ Sur 1 000 transactions, un modèle de fraude signale 120 alertes, dont 90 vraies
 --- en
 Out of 1,000 transactions, a fraud model raises 120 alerts, 90 of which are real frauds; there are 100 frauds in total. What is the model's precision?
 --- solution
-Vrais positifs 90, faux positifs 30, faux négatifs 10, vrais négatifs 870. Précision = 90/120 = **0,75** ; rappel = 90/100 = 0,9 ; taux de faux positifs = 30/900 ≈ 3,3 % ; exactitude = 960/1 000 = 96 %.
+Vrais positifs 90, faux positifs 30, faux négatifs 10, vrais négatifs 870. Précision $= 90/120 =$ **0,75** ; rappel $= 90/100 = 0{,}9$ ; taux de faux positifs $= 30/900 \approx 3{,}3\,\%$ ; exactitude $= 960/1\,000 = 96\,\%$.
 --- relances
-- Quel seuil choisir ? (celui qui minimise le coût attendu : coût d'une fraude manquée × faux négatifs + coût d'une alerte × faux positifs)
+- Quel seuil choisir ? (celui qui minimise le coût attendu : coût d'une fraude manquée $\times$ faux négatifs $+$ coût d'une alerte $\times$ faux positifs)
 
 === ml-ridge-retrecissement
 theme: ml
@@ -58,11 +58,11 @@ type: numerique
 reponse: 1/(1+1)
 duree: 120
 --- question
-Avec des variables explicatives orthonormées (XᵀX = n·I), la régression Ridge multiplie chaque coefficient des moindres carrés par n/(n + λ). Avec n = 250 observations et λ = 250, quel facteur de rétrécissement ?
+Avec des variables explicatives orthonormées ($X^{T}X = n \cdot I$), la régression Ridge multiplie chaque coefficient des moindres carrés par $n/(n + \lambda)$. Avec $n = 250$ observations et $\lambda = 250$, quel facteur de rétrécissement ?
 --- en
-With orthonormal regressors (XᵀX = n·I), Ridge multiplies each OLS coefficient by n/(n + λ). With n = 250 and λ = 250, what shrinkage factor?
+With orthonormal regressors ($X^{T}X = n \cdot I$), Ridge multiplies each OLS coefficient by $n/(n + \lambda)$. With $n = 250$ and $\lambda = 250$, what shrinkage factor?
 --- solution
-250/(250 + 250) = **0,5** : chaque coefficient est divisé par deux. Ridge rétrécit tous les coefficients dans la même proportion dans ce cas, alors que le Lasso soustrait un seuil et met à zéro les petits coefficients (seuillage doux).
+$250/(250 + 250) =$ **0,5** : chaque coefficient est divisé par deux. Ridge rétrécit tous les coefficients dans la même proportion dans ce cas, alors que le Lasso soustrait un seuil et met à zéro les petits coefficients (seuillage doux).
 
 === ml-surapprentissage-signes
 theme: ml
@@ -125,5 +125,5 @@ Qu'est-ce que la régression quantile ? Quand la préférer à la régression de
 --- en
 What is quantile regression? When is it preferable to least squares in finance?
 --- solution
-Elle estime un quantile conditionnel (par exemple le 5ᵉ centile du rendement sachant des variables) en minimisant une perte asymétrique (« pinball ») : τ·e si l'erreur e est positive, (τ − 1)·e sinon. Pour τ = 0,5, c'est la médiane (perte absolue), robuste aux valeurs extrêmes.
+Elle estime un quantile conditionnel (par exemple le 5ᵉ centile du rendement sachant des variables) en minimisant une perte asymétrique (« pinball ») : $\tau \cdot e$ si l'erreur $e$ est positive, $(\tau - 1) \cdot e$ sinon. Pour $\tau = 0{,}5$, c'est la médiane (perte absolue), robuste aux valeurs extrêmes.
 Usages : VaR conditionnelle (CAViaR), effet des variables sur les queues de distribution plutôt que sur la moyenne, données à queues épaisses ou hétéroscédastiques. Les moindres carrés modélisent seulement la moyenne conditionnelle et sont sensibles aux valeurs extrêmes.

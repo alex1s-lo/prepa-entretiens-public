@@ -12,11 +12,11 @@ On lance un dé 6 fois. Combien de faces différentes voit-on en moyenne ?
 --- en
 You roll a die 6 times. What is the expected number of distinct faces seen?
 --- indice
-Linéarité de l'espérance : somme d'indicatrices « la face k est apparue ».
+Linéarité de l'espérance : somme d'indicatrices « la face $k$ est apparue ».
 --- solution
-Chaque face apparaît au moins une fois avec probabilité 1 − (5/6)⁶. Par linéarité : 6(1 − (5/6)⁶) ≈ **3,99**.
+Chaque face apparaît au moins une fois avec probabilité $1 - (5/6)^{6}$. Par linéarité : $6(1 - (5/6)^{6}) \approx$ **3,99**.
 --- relances
-- Et en n lancers d'un dé à n faces, quand n est grand ? (n(1 − 1/e) ≈ 0,63 n)
+- Et en $n$ lancers d'un dé à $n$ faces, quand $n$ est grand ? ($n(1 - 1/e) \approx 0{,}63 n$)
 
 === proba-max-trois-des
 theme: probas
@@ -30,9 +30,9 @@ On lance trois dés. Espérance du plus grand résultat ?
 --- en
 Three dice are rolled. What is the expected maximum?
 --- solution
-P(max ≤ k) = (k/6)³, donc E[max] = Σ_{k=1}^{6} P(max ≥ k) = Σ (1 − ((k−1)/6)³) = 6 − (0 + 1 + 8 + 27 + 64 + 125)/216 = 6 − 225/216 = **1 071/216 ≈ 4,96**.
+$\mathbb{P}(\max \le k) = (k/6)^{3}$, donc $\mathbb{E}[\max] = \sum_{k=1}^{6} \mathbb{P}(\max \ge k) = \sum (1 - ((k-1)/6)^{3}) = 6 - (0 + 1 + 8 + 27 + 64 + 125)/216 = 6 - 225/216 =$ **$1\,071/216 \approx 4{,}96$**.
 --- relances
-- Méthode générale : E[X] = Σ P(X ≥ k) pour une variable entière positive.
+- Méthode générale : $\mathbb{E}[X] = \sum \mathbb{P}(X \ge k)$ pour une variable entière positive.
 
 === proba-premier-plus-grand
 theme: probas
@@ -46,9 +46,11 @@ On lance deux dés. Probabilité que le premier soit strictement plus grand que 
 --- en
 Two dice are rolled. Probability that the first is strictly larger than the second?
 --- solution
-Égalité avec probabilité 6/36 = 1/6 ; par symétrie, le reste se partage également : (1 − 1/6)/2 = **5/12**.
+Égalité avec probabilité $6/36 = 1/6$ ; par symétrie, le reste se partage également : $(1 - 1/6)/2 =$ **$5/12$**.
 
 === proba-de-mere-un
+categorie: probas
+titre: Les paris du chevalier de Méré
 theme: probas
 niveau: 1
 profils: mm hf banque data
@@ -60,24 +62,11 @@ Probabilité d'obtenir au moins un 6 en lançant un dé 4 fois ?
 --- en
 Probability of at least one 6 in 4 rolls of a die?
 --- solution
-1 − (5/6)⁴ ≈ **0,518**. Le chevalier de Méré gagnait de l'argent en pariant dessus ; il en perdait avec le pari suivant (un double six en 24 lancers de deux dés : 1 − (35/36)²⁴ ≈ 0,491).
+$1 - (5/6)^{4} \approx$ **0,518**. Le chevalier de Méré gagnait de l'argent en pariant dessus ; il en perdait avec le pari suivant (un double six en 24 lancers de deux dés : $1 - (35/36)^{24} \approx 0{,}491$).
 --- piege
-Additionner : 4 × 1/6 = 2/3. Les événements ne sont pas disjoints.
-
-=== proba-de-mere-deux
-theme: probas
-niveau: 2
-profils: mm hf banque
-type: numerique
-reponse: 1-(35/36)^24
-duree: 90
---- question
-Probabilité d'obtenir au moins un double six en 24 lancers de deux dés ?
---- en
-Probability of at least one double six in 24 rolls of two dice?
---- solution
-1 − (35/36)²⁴ ≈ **0,491**, un peu moins de 1/2. Il faut 25 lancers pour dépasser 1/2 (≈ 0,506).
-L'intuition « 4 lancers pour un 6, donc 24 pour un double six » se trompe parce que la probabilité n'est pas proportionnelle au nombre d'essais.
+Additionner : $4 \times 1/6 = 2/3$. Les événements ne sont pas disjoints.
+--- variantes
+- Au moins un double six en 24 lancers de deux dés : $1 - (35/36)^{24} \approx 0{,}491$, moins probable que le premier pari ($0{,}518$), ce qui intriguait le chevalier de Méré.
 
 === proba-esperance-sachant-somme
 theme: probas
@@ -91,7 +80,7 @@ On lance deux dés et la somme vaut 10. Quelle est l'espérance du premier dé ?
 --- en
 Two dice sum to 10. What is the expected value of the first die?
 --- solution
-Par symétrie, E[X₁ | X₁ + X₂ = 10] = E[X₂ | …] et leur somme vaut 10 : **5**. (Vérification : cas (4,6), (5,5), (6,4).)
+Par symétrie, $\mathbb{E}[X_{1} | X_{1} + X_{2} = 10] = \mathbb{E}[X_{2} | \dots]$ et leur somme vaut 10 : **5**. (Vérification : cas (4,6), (5,5), (6,4).)
 
 === proba-variance-binomiale
 theme: probas
@@ -105,7 +94,7 @@ Variance du nombre de « pile » en 100 lancers d'une pièce équilibrée ?
 --- en
 Variance of the number of heads in 100 fair coin flips?
 --- solution
-np(1 − p) = 100 × 1/4 = **25** ; écart-type 5. Donc environ 95 % de chances d'être entre 40 et 60.
+$np(1 - p) = 100 \times 1/4 =$ **25** ; écart-type 5. Donc environ 95 % de chances d'être entre 40 et 60.
 
 === proba-quinte-couleur
 theme: probas
@@ -120,10 +109,12 @@ Probabilité qu'une main de 5 cartes soit entièrement d'une même couleur (quin
 --- en
 Probability that a 5-card hand is all of one suit (straight flushes included)?
 --- solution
-4 × C(13, 5) = 5 148 mains, sur C(52, 5) = 2 598 960 : **≈ 0,198 %** (environ 1 sur 505).
-Autre calcul : 1 × 12/51 × 11/50 × 10/49 × 9/48.
+$4 \times \binom{13}{5} = 5\,148$ mains, sur $\binom{52}{5} = 2\,598\,960$ : **$\approx 0{,}198\,\%$** (environ 1 sur 505).
+Autre calcul : $1 \times 12/51 \times 11/50 \times 10/49 \times 9/48$.
 
 === proba-derniere-boule
+categorie: probas
+titre: La couleur de la dernière boule tirée
 theme: probas
 niveau: 1
 profils: mm hf banque
@@ -135,9 +126,11 @@ Une urne contient 3 boules rouges et 2 bleues. On les tire toutes, sans remise. 
 --- en
 An urn has 3 red and 2 blue balls, all drawn without replacement. Probability that the last one is red?
 --- solution
-Par symétrie, la dernière boule est une boule quelconque de l'urne : **3/5**. Aucun calcul de chemins n'est nécessaire.
+Par symétrie, la dernière boule est une boule quelconque de l'urne : **$3/5$**. Aucun calcul de chemins n'est nécessaire.
 
 === proba-deux-identiques
+categorie: probas
+titre: Lancer jusqu’à deux résultats identiques consécutifs
 theme: probas
 niveau: 2
 profils: mm hf banque
@@ -149,7 +142,7 @@ On lance une pièce jusqu'à obtenir deux résultats consécutifs identiques (PP
 --- en
 Flip a coin until two consecutive results are the same (HH or TT). Expected number of flips?
 --- solution
-Après le premier lancer, chaque lancer reproduit le précédent avec probabilité 1/2 : attente géométrique de moyenne 2. Total **3**.
+Après le premier lancer, chaque lancer reproduit le précédent avec probabilité $1/2$ : attente géométrique de moyenne 2. Total **3**.
 
 === proba-somme-exponentielles
 theme: probas
@@ -159,12 +152,12 @@ type: numerique
 reponse: 1-2*exp(-1)
 duree: 180
 --- question
-X et Y sont indépendantes de loi exponentielle de paramètre 1. Que vaut P(X + Y ≤ 1) ?
+$X$ et $Y$ sont indépendantes de loi exponentielle de paramètre 1. Que vaut $\mathbb{P}(X + Y \le 1)$ ?
 --- en
-X and Y are independent Exp(1). Compute P(X + Y ≤ 1).
+$X$ and $Y$ are independent Exp(1). Compute $\mathbb{P}(X + Y \le 1)$.
 --- solution
-X + Y suit une loi Gamma(2, 1) de densité t e^{−t}. P = ∫₀¹ t e^{−t} dt = 1 − 2/e ≈ **0,264**.
-Autre lecture : c'est la probabilité qu'un processus de Poisson de taux 1 ait au moins 2 événements avant 1 : 1 − e⁻¹ − e⁻¹.
+$X + Y$ suit une loi Gamma(2, 1) de densité $t e^{-t}$. $P = \int_{0}^{1} t e^{-t} dt = 1 - 2/e \approx$ **0,264**.
+Autre lecture : c'est la probabilité qu'un processus de Poisson de taux 1 ait au moins 2 événements avant 1 : $1 - e^{-1} - e^{-1}$.
 
 === proba-exponentielle-sachant-somme
 theme: probas
@@ -174,11 +167,11 @@ type: numerique
 reponse: 1
 duree: 150
 --- question
-X et Y sont indépendantes, de même loi exponentielle. On sait que X + Y = 2. Espérance de X ?
+$X$ et $Y$ sont indépendantes, de même loi exponentielle. On sait que $X + Y = 2$. Espérance de $X$ ?
 --- en
-X and Y are i.i.d. exponential. Given X + Y = 2, what is E[X]?
+$X$ and $Y$ are i.i.d. exponential. Given $X + Y = 2$, what is $\mathbb{E}[X]$?
 --- solution
-Par symétrie, E[X | X + Y = 2] = E[Y | …] et leur somme vaut 2 : **1**. Plus fort : sachant X + Y = s, X est uniforme sur [0, s].
+Par symétrie, $\mathbb{E}[X | X + Y = 2] = \mathbb{E}[Y | \dots]$ et leur somme vaut 2 : **1**. Plus fort : sachant $X + Y = s, X$ est uniforme sur [$0, s$].
 
 === proba-somme-normales-positive
 theme: probas
@@ -188,14 +181,14 @@ type: numerique
 reponse: 3/4
 duree: 240
 --- question
-X et Y sont indépendantes de loi N(0, 1). Sachant X > 0, probabilité que X + Y > 0 ?
+$X$ et $Y$ sont indépendantes de loi $N(0, 1)$. Sachant $X > 0$, probabilité que $X + Y > 0$ ?
 --- en
-X and Y are independent standard normals. Given X > 0, what is the probability that X + Y > 0?
+$X$ and $Y$ are independent standard normals. Given $X > 0$, what is the probability that $X + Y > 0$?
 --- indice
-Corrélation entre X et X + Y, puis formule des quadrants : P(A > 0, B > 0) = 1/4 + arcsin(ρ)/(2π).
+Corrélation entre $X$ et $X + Y$, puis formule des quadrants : $\mathbb{P}(A > 0, B > 0) = 1/4 + \arcsin(\rho)/(2\pi)$.
 --- solution
-corr(X, X + Y) = 1/√2, donc P(X > 0, X + Y > 0) = 1/4 + arcsin(1/√2)/(2π) = 1/4 + 1/8 = 3/8. On divise par P(X > 0) = 1/2 : **3/4**.
-Géométrie : dans le plan (X, Y), l'événement est un secteur d'angle 135° parmi les 180° du demi-plan X > 0.
+$\operatorname{corr} (X, X + Y) = 1/\sqrt{2}$, donc $\mathbb{P}(X > 0, X + Y > 0) = 1/4 + \arcsin(1/\sqrt{2})/(2\pi) = 1/4 + 1/8 = 3/8$. On divise par $\mathbb{P}(X > 0) = 1/2$ : **$3/4$**.
+Géométrie : dans le plan ($X, Y$), l'événement est un secteur d'angle 135° parmi les 180° du demi-plan $X > 0$.
 
 === proba-coupons-moitie
 theme: probas
@@ -209,7 +202,7 @@ Il y a 10 vignettes différentes, chaque achat en donne une au hasard. Combien d
 --- en
 There are 10 distinct coupons, each purchase gives one uniformly at random. Expected number of purchases to get 5 distinct ones?
 --- solution
-Avec k vignettes déjà possédées, la suivante est nouvelle avec probabilité (10 − k)/10 : attente 10/(10 − k). Pour k = 0 à 4 : 10(1/10 + 1/9 + 1/8 + 1/7 + 1/6) ≈ **6,46**, contre 29,3 pour la collection complète : ce sont les dernières vignettes qui coûtent cher.
+Avec $k$ vignettes déjà possédées, la suivante est nouvelle avec probabilité $(10 - k)/10$ : attente $10/(10 - k)$. Pour $k = 0$ à 4 : $10(1/10 + 1/9 + 1/8 + 1/7 + 1/6) \approx$ **6,46**, contre 29,3 pour la collection complète : ce sont les dernières vignettes qui coûtent cher.
 
 === proba-variance-geometrique
 theme: probas
@@ -223,7 +216,7 @@ Variance du nombre de lancers de dé nécessaires pour obtenir le premier 6 ?
 --- en
 Variance of the number of die rolls needed to get the first 6?
 --- solution
-Loi géométrique : (1 − p)/p² = (5/6)/(1/36) = **30** ; écart-type ≈ 5,5, presque égal à la moyenne (6). Le temps d'attente est très dispersé.
+Loi géométrique : $(1 - p)/p^{2} = (5/6)/(1/36) =$ **30** ; écart-type $\approx 5{,}5$, presque égal à la moyenne (6). Le temps d'attente est très dispersé.
 
 === proba-markov-meteo
 theme: probas
@@ -237,12 +230,14 @@ S'il fait beau aujourd'hui, il fera beau demain avec probabilité 0,8 ; s'il ple
 --- en
 If it is sunny today, it is sunny tomorrow with probability 0.8; if it rains, sunny tomorrow with probability 0.4. Long-run fraction of sunny days?
 --- solution
-Loi stationnaire π : π = 0,8π + 0,4(1 − π), donc 0,6π = 0,4 et **π = 2/3**.
-Formule pour deux états : π(beau) = P(pluie→beau) / (P(beau→pluie) + P(pluie→beau)) = 0,4/(0,2 + 0,4).
+Loi stationnaire $\pi$ : $\pi = 0{,}8\pi + 0{,}4(1 - \pi)$, donc $0{,}6\pi = 0{,}4$ et **$\pi = 2/3$**.
+Formule pour deux états : $\pi(\text{beau}) = \mathbb{P}(\text{pluie} \to \text{beau}) / (\mathbb{P}(\text{beau} \to \text{pluie}) + \mathbb{P}(\text{pluie} \to \text{beau})) = 0{,}4/(0{,}2 + 0{,}4)$.
 --- relances
 - Lien avec les modèles à changement de régime en finance ? (régimes calme / agité avec probabilités de transition)
 
 === proba-records
+categorie: probas
+titre: Nombre de records dans une suite aléatoire
 theme: probas
 niveau: 3
 profils: mm hf
@@ -254,11 +249,13 @@ On observe 10 valeurs indépendantes de même loi continue, dans l'ordre. Une va
 --- en
 You observe 10 i.i.d. continuous values in order. A value is a record if it exceeds all previous ones (the first is one). Expected number of records?
 --- solution
-La k-ième valeur est un record si elle est la plus grande des k premières : probabilité 1/k par symétrie. Espérance : 1 + 1/2 + … + 1/10 ≈ **2,93**, qui croît comme ln n : les records deviennent rares.
+La k-ième valeur est un record si elle est la plus grande des $k$ premières : probabilité $1/k$ par symétrie. Espérance : $1 + 1/2 + \dots + 1/10 \approx$ **2,93**, qui croît comme $\ln n$ : les records deviennent rares.
 --- relances
 - Lien avec la finance ? (nombre de nouveaux plus hauts historiques d'une série sans tendance)
 
 === proba-boites-vides
+categorie: probas
+titre: Boîtes vides et faces distinctes
 theme: probas
 niveau: 2
 profils: mm hf banque data
@@ -270,9 +267,13 @@ On lance 10 balles au hasard dans 10 boîtes. Nombre moyen de boîtes vides ?
 --- en
 10 balls are thrown at random into 10 boxes. Expected number of empty boxes?
 --- solution
-Une boîte reste vide avec probabilité (9/10)¹⁰ ≈ 0,349. Par linéarité : 10 × 0,9¹⁰ ≈ **3,49**. Pour n balles dans n boîtes, environ n/e boîtes vides.
+Une boîte reste vide avec probabilité $(9/10)^{10} \approx 0{,}349$. Par linéarité : $10 \times 0{,}9^{10} \approx$ **3,49**. Pour $n$ balles dans $n$ boîtes, environ $n/e$ boîtes vides.
+--- variantes
+- Nombre moyen de faces différentes en 6 lancers de dé : $6\left(1 - (5/6)^6\right) \approx 3{,}99$.
 
 === proba-premiers-entre-eux
+categorie: nombres
+titre: Deux entiers au hasard premiers entre eux
 theme: probas
 niveau: 3
 profils: mm hf
@@ -285,8 +286,8 @@ On tire deux grands entiers au hasard. Probabilité qu'ils soient premiers entre
 --- en
 Pick two large random integers. What is the (limiting) probability that they are coprime?
 --- solution
-Pour chaque nombre premier p, les deux entiers ne sont pas tous deux divisibles par p avec probabilité 1 − 1/p². En supposant ces événements indépendants : Π (1 − 1/p²) = 1/ζ(2) = **6/π² ≈ 0,608**.
-Le lien Π(1 − p^{−s})^{−1} = ζ(s) vient du produit eulérien.
+Pour chaque nombre premier $p$, les deux entiers ne sont pas tous deux divisibles par $p$ avec probabilité $1 - 1/p^{2}$. En supposant ces événements indépendants : $\Pi (1 - 1/p^{2}) = 1/\zeta (2) =$ **$6/\pi^{2} \approx 0{,}608$**.
+Le lien $\Pi (1 - p^{-s})^{-1} = \zeta (s)$ vient du produit eulérien.
 
 === proba-produit-max-min
 theme: probas
@@ -296,10 +297,10 @@ type: numerique
 reponse: 1/4
 duree: 120
 --- question
-U et V sont indépendantes et uniformes sur [0, 1]. Que vaut E[max(U, V) × min(U, V)] ?
+$U$ et $V$ sont indépendantes et uniformes sur [0, 1]. Que vaut $\mathbb{E}[\max (U, V) \times \min (U, V)]$ ?
 --- en
-U, V independent uniform on [0, 1]. Compute E[max(U, V) · min(U, V)].
+$U, V$ independent uniform on [0, 1]. Compute $\mathbb{E}[\max (U, V) \cdot \min (U, V)]$.
 --- solution
-max × min = U × V, toujours. Donc E = E[U]E[V] = **1/4**. Piège classique : ne pas calculer les lois du max et du min séparément.
+$\max \times \min = U \times V$, toujours. Donc $E = \mathbb{E}[U]\mathbb{E}[V] =$ **$1/4$**. Piège classique : ne pas calculer les lois du max et du min séparément.
 --- piege
-Répondre E[max] × E[min] = 2/3 × 1/3 = 2/9 : max et min ne sont pas indépendants.
+Répondre $\mathbb{E}[\max] \times \mathbb{E}[\min] = 2/3 \times 1/3 = 2/9$ : max et min ne sont pas indépendants.

@@ -1,6 +1,8 @@
 # Marchés, trading, paris et tenue de marché.
 
 === mm-kelly
+categorie: strategie
+titre: Quelle fraction miser ? (critère de Kelly)
 theme: marches
 niveau: 1
 profils: mm hf
@@ -12,12 +14,12 @@ Une pièce tombe sur pile avec probabilité 0,6. Tu peux parier une fraction de 
 --- en
 A coin lands heads with probability 0.6. You can repeatedly bet a fraction of your wealth at even odds. What fraction maximizes long-run growth?
 --- solution
-Critère de Kelly : maximiser E[ln(richesse)] = p ln(1 + f) + q ln(1 − f). Dérivée nulle : p/(1 + f) = q/(1 − f), donc **f* = p − q = 0,2** (20 %).
-Formule générale pour une cote b contre 1 : f* = (bp − q)/b, soit « avantage / cote ».
+Critère de Kelly : maximiser $\mathbb{E}[\ln (\text{richesse})] = p \ln (1 + f) + q \ln (1 - f)$. Dérivée nulle : $p/(1 + f) = q/(1 - f)$, donc **$f$* $= p - q = 0{,}2$** (20 %).
+Formule générale pour une cote $b$ contre 1 : $f$* = (bp $- q$)$/b$, soit « avantage / cote ».
 --- relances
-- Que se passe-t-il si tu mises 40 % ? (croissance nulle à long terme : à 2f* la croissance retombe à environ zéro ; au-delà, ruine presque sûre)
-- Pourquoi les praticiens misent-ils souvent « demi-Kelly » ? (incertitude sur p, volatilité énorme de Kelly plein ; demi-Kelly garde 75 % de la croissance avec moitié moins de volatilité)
-- Lien avec le Sharpe ? (en continu, fraction optimale = μ/σ², croissance = SR²/2)
+- Que se passe-t-il si tu mises 40 % ? (croissance nulle à long terme : à $2f$* la croissance retombe à environ zéro ; au-delà, ruine presque sûre)
+- Pourquoi les praticiens misent-ils souvent « demi-Kelly » ? (incertitude sur $p$, volatilité énorme de Kelly plein ; demi-Kelly garde 75 % de la croissance avec moitié moins de volatilité)
+- Lien avec le Sharpe ? (en continu, fraction optimale $= \mu /\sigma^{2}$, croissance $= \text{SR}^2/2$)
 
 === mm-kelly-cote
 theme: marches
@@ -31,9 +33,11 @@ Un pari gagne avec probabilité 0,4 et paie 2 pour 1 (tu gagnes 2 € par euro m
 --- en
 A bet wins with probability 0.4 and pays 2 to 1. What is the Kelly fraction?
 --- solution
-f* = (bp − q)/b = (2 × 0,4 − 0,6)/2 = **0,1** (10 %). Espérance par euro : 0,4 × 2 − 0,6 = 0,2 > 0, mais le pari perd souvent : on mise peu.
+$f$* = (bp $- q$)$/b = (2 \times 0{,}4 - 0{,}6)/2 =$ **0,1** (10 %). Espérance par euro : $0{,}4 \times 2 - 0{,}6 = 0{,}2 > 0$, mais le pari perd souvent : on mise peu.
 
 === mm-option-sur-de
+categorie: probas
+titre: Une option sur un dé
 theme: marches
 niveau: 1
 profils: mm hf banque
@@ -41,16 +45,18 @@ type: numerique
 reponse: 1
 duree: 60
 --- question
-On lance un dé. Combien vaut une option qui paie max(résultat − 3, 0) ?
+On lance un dé. Combien vaut une option qui paie $\max (\text{résultat} - 3, 0)$ ?
 --- en
-A die is rolled. What is an option paying max(result − 3, 0) worth?
+A die is rolled. What is an option paying $\max (\text{result} - 3, 0)$ worth?
 --- solution
-Paiements 0, 0, 0, 1, 2, 3 : espérance (1 + 2 + 3)/6 = **1**.
+Paiements 0, 0, 0, 1, 2, 3 : espérance $(1 + 2 + 3)/6 =$ **1**.
 --- relances
-- Et le « put » max(3 − résultat, 0) ? ((2 + 1 + 0)/6 = 0,5) ; vérifie la parité : call − put = E[X] − 3 = 0,5
-- Combien vaut un call de strike 3,5 ? ((0,5 + 1,5 + 2,5)/6 = 0,75)
+- Et le « put » $\max (3 - \text{résultat}, 0)$ ? ($(2 + 1 + 0)/6 = 0{,}5$) ; vérifie la parité : call − put $= \mathbb{E}[X] - 3 = 0{,}5$
+- Combien vaut un call de strike 3,5 ? ($(0{,}5 + 1{,}5 + 2{,}5)/6 = 0{,}75$)
 
 === mm-cartes-rouges-noires
+categorie: strategie
+titre: Cartes rouges et noires : quand s’arrêter ?
 theme: marches
 niveau: 3
 profils: mm hf
@@ -61,15 +67,15 @@ duree: 480
 --- question
 Un jeu de 52 cartes (26 rouges, 26 noires) est retourné carte par carte. Chaque rouge te rapporte 1 €, chaque noire te coûte 1 €, et tu peux t'arrêter quand tu veux. Que vaut ce jeu avec la meilleure stratégie (valeur approchée) ?
 --- en
-A deck of 26 red and 26 black cards is turned over one card at a time. Each red pays you $1, each black costs you $1, and you may stop at any time. What is the value of the game under optimal play (approximately)?
+A deck of 26 red and 26 black cards is turned over one card at a time. Each red pays you \$1, each black costs you \$1, and you may stop at any time. What is the value of the game under optimal play (approximately)?
 --- indice
-Programmation dynamique sur (rouges restantes, noires restantes) : V(r, n) = max(0, r/(r+n)·(1 + V(r−1, n)) + n/(r+n)·(−1 + V(r, n−1))).
+Programmation dynamique sur (rouges restantes, noires restantes) : $V(r, n) = \max (0, r/(r+n) \cdot (1 + V(r-1, n)) + n/(r+n) \cdot (-1 + V(r, n-1)))$.
 --- solution
-On résout la récurrence à rebours avec V(r, 0) = r (on prend toutes les rouges restantes) et V(0, n) = 0 (on s'arrête). Pour 26/26, **V ≈ 2,62 €**.
+On résout la récurrence à rebours avec $V(r, 0) = r$ (on prend toutes les rouges restantes) et $V(0, n) = 0$ (on s'arrête). Pour $26/26$, **$V \approx 2{,}62$ €**.
 Intuition : le jeu vaut au moins 0 (on peut s'arrêter tout de suite, et on finit sinon à 0) ; l'option de s'arrêter a de la valeur car on arrête quand on est en avance et que le paquet restant penche contre nous.
 --- relances
 - Combien paierais-tu pour jouer ? (moins de 2,62 € ; un teneur de marché coterait autour)
-- Et si on ne peut s'arrêter qu'au milieu du paquet ? (calcule : il faut alors l'espérance de max(gain à 26 cartes, 0))
+- Et si on ne peut s'arrêter qu'au milieu du paquet ? (calcule : il faut alors l'espérance de $\max (\text{gain} à 26 \text{ cartes}, 0)$)
 
 === mm-faire-un-marche
 theme: marches
@@ -97,11 +103,11 @@ profils: mm hf
 --- en
 "Make me a market on the sum of two dice." Then: "I buy at your offer. The first die shows 6. New market?"
 --- solution
-Espérance : 7 ; écart-type : √(2 × 35/12) ≈ 2,4. Un marché raisonnable : 6,5 à 7,5 (ou plus large si la contrepartie est bien informée).
-Après « premier dé = 6 » : espérance 6 + 3,5 = 9,5, écart-type 1,7. Nouveau marché autour de 9,5 (par exemple 9 à 10). Tu es vendeur d'une unité à 7,5 : tu perds en moyenne 2 sur cette position, à couvrir en achetant.
+Espérance : 7 ; écart-type : $\sqrt{2 \times 35/12} \approx 2{,}4$. Un marché raisonnable : 6,5 à 7,5 (ou plus large si la contrepartie est bien informée).
+Après « premier dé $= 6$ » : espérance $6 + 3{,}5 = 9{,}5$, écart-type 1,7. Nouveau marché autour de 9,5 (par exemple 9 à 10). Tu es vendeur d'une unité à 7,5 : tu perds en moyenne 2 sur cette position, à couvrir en achetant.
 Réflexes à montrer : recalculer l'espérance à chaque information, adapter l'écart à l'incertitude restante, tenir compte de ta position.
 --- relances
-- Et si on te dit seulement « au moins un dé fait 6 » ? (espérance conditionnelle : (somme sur les 11 cas)/11 = 102/11 ≈ 9,27)
+- Et si on te dit seulement « au moins un dé fait 6 » ? (espérance conditionnelle : (somme sur les 11 cas)$/11 = 102/11 \approx 9{,}27$)
 
 === mm-selection-adverse
 theme: marches
@@ -146,7 +152,7 @@ What are the components of the bid-ask spread? Why is it wider for some assets?
 --- solution
 Trois composantes classiques :
 1. **coûts de traitement** (frais, infrastructure) ;
-2. **risque d'inventaire** : le teneur porte une position qui peut perdre (proportionnel à la volatilité et au temps de détention, comme le terme γσ²(T − t) d'Avellaneda-Stoikov) ;
+2. **risque d'inventaire** : le teneur porte une position qui peut perdre (proportionnel à la volatilité et au temps de détention, comme le terme $\gamma \sigma^{2}(T - t)$ d'Avellaneda-Stoikov) ;
 3. **sélection adverse** : compensation des pertes contre les contreparties informées.
 Il est plus large quand la volatilité est forte, la liquidité faible (petites capitalisations, obligations peu échangées), l'information asymétrique (avant des résultats), la concurrence entre teneurs faible, ou le pas de cotation grand.
 
@@ -159,7 +165,7 @@ Tu dois acheter 5 % du volume quotidien d'une action. Comment estimes-tu ton imp
 --- en
 You must buy 5% of a stock's daily volume. How do you estimate your market impact and how do you execute?
 --- solution
-Loi empirique en racine carrée : impact ≈ Y σ_jour √(Q/V), avec Y de l'ordre de 1. Ici √0,05 ≈ 0,22 : impact ≈ 0,2 à 0,25 fois la volatilité quotidienne (par exemple 40 points de base pour 2 % de volatilité).
+Loi empirique en racine carrée : impact $\approx Y \sigma_\text{jour} \sqrt{Q/V}$, avec $Y$ de l'ordre de 1. Ici $\sqrt{0{,}05} \approx 0{,}22$ : impact $\approx 0{,}2$ à 0,25 fois la volatilité quotidienne (par exemple 40 points de base pour 2 % de volatilité).
 Exécution : découper l'ordre dans le temps (TWAP, VWAP suivant la courbe de volume, participation fixe), arbitrer entre impact (aller vite coûte) et risque de prix (aller lentement expose aux mouvements) : modèle d'Almgren-Chriss. Mélanger ordres passifs et agressifs, utiliser des plateformes sans pré-transparence pour les gros blocs.
 Mesure : implementation shortfall (prix moyen obtenu contre le prix au moment de la décision).
 
@@ -182,10 +188,10 @@ profils: mm banque hf
 --- question
 Comment décomposes-tu le PnL quotidien d'un livre d'options couvert en delta ?
 --- en
-How do you decompose the daily P&L of a delta-hedged options book?
+How do you decompose the daily $P$&L of a delta-hedged options book?
 --- solution
 Développement de Taylor (PnL explain) :
-PnL ≈ Δ·δS (≈ 0 si couvert) + ½Γ·δS² + Θ·δt + Vega·δσ + Vanna·δS·δσ + ½Volga·δσ² + Rho·δr + résidu.
+$\text{PnL} \approx \Delta\,\delta S$ ($\approx 0$ si couvert) $+ \tfrac12 \Gamma\,\delta S^{2} + \Theta\,\delta t + \text{Vega} \,\delta \sigma + \text{Vanna} \,\delta S\,\delta \sigma + \tfrac12 \text{ Volga} \,\delta \sigma^{2} + \text{Rho} \,\delta r +$ résidu.
 - **Gamma contre theta** : on gagne si le mouvement réalisé dépasse ce que le theta payé suppose.
 - **Vega** : variation de la volatilité implicite (niveau, pente, courbure du smile).
 - **Résidu** inexpliqué : signale un modèle ou des données de marché faux ; c'est ce que surveillent les contrôleurs de risque.
@@ -199,7 +205,7 @@ Qu'est-ce que le VIX ? Comment est-il calculé, et peut-on l'acheter ?
 --- en
 What is the VIX? How is it computed, and can you buy it?
 --- solution
-Indice de volatilité implicite à 30 jours du S&P 500, calculé sans modèle à partir d'un panier d'options hors de la monnaie pondérées en 1/K² : c'est la racine du prix d'un swap de variance à 30 jours (×100).
+Indice de volatilité implicite à 30 jours du S&P 500, calculé sans modèle à partir d'un panier d'options hors de la monnaie pondérées en $1/K^{2}$ : c'est la racine du prix d'un swap de variance à 30 jours ($\times 100$).
 On ne peut pas acheter l'indice lui-même : on traite des futures et des options sur VIX. Les futures sont en général en **contango** (plus chers que l'indice), d'où des pertes régulières pour les produits « long VIX » qui roulent les futures. Le VIX monte quand le marché baisse (corrélation négative), avec des pics lors des crises.
 --- relances
 - Pourquoi la volatilité implicite est-elle en moyenne au-dessus de la volatilité réalisée ? (prime de risque de volatilité : les vendeurs de protection exigent une rémunération)
@@ -220,6 +226,8 @@ Gagner le rendement obtenu « si les prix ne bougent pas ».
 Risque : rendements réguliers, puis pertes brutales lors des crises de liquidité (débouclages forcés : « monter par l'escalier, descendre par l'ascenseur »). Asymétrie négative.
 
 === mm-pari-favorable
+categorie: strategie
+titre: Un pari favorable mais énorme
 theme: marches
 niveau: 2
 profils: mm hf
@@ -228,9 +236,9 @@ Je te propose un pari : on lance une pièce équilibrée, pile tu gagnes 3 milli
 --- en
 I offer you a bet: fair coin, heads you win €3m, tails you lose €1m. One time only. Do you take it?
 --- solution
-L'espérance est positive (+1 million), mais la réponse dépend de ta richesse et de ton aversion au risque : perdre 1 million que tu n'as pas est une ruine. Ce que l'intervieweur veut entendre :
+L'espérance est positive ($+1$ million), mais la réponse dépend de ta richesse et de ton aversion au risque : perdre 1 million que tu n'as pas est une ruine. Ce que l'intervieweur veut entendre :
 - l'espérance seule ne suffit pas : c'est l'utilité, ou la croissance du capital (Kelly), qui compte ;
-- une fraction de Kelly : p − q/b = 0,5 − 0,5/3 = 1/3 de ta richesse : ce pari n'a de sens que si 1 million représente au plus un tiers de ce que tu possèdes ;
+- une fraction de Kelly : $p - q/b = 0{,}5 - 0{,}5/3 = 1/3$ de ta richesse : ce pari n'a de sens que si 1 million représente au plus un tiers de ce que tu possèdes ;
 - des solutions créatives : vendre une partie du pari à d'autres (syndication), demander à le jouer en plus petit et plusieurs fois.
 Puis donner une réponse nette : « Je refuse à titre personnel ; une entreprise avec 100 millions de capital devrait l'accepter. »
 
@@ -265,6 +273,8 @@ Short gamma : son delta évolue contre lui. Quand l'indice monte, il devient ven
 Effet de marché : si les teneurs de marché sont globalement short gamma, leurs couvertures **amplifient** les mouvements (acheter la hausse, vendre la baisse). Long gamma, leurs couvertures les **amortissent**. C'est une des explications avancées des mouvements violents autour des grosses échéances d'options.
 
 === mm-meme-de-deux-fois
+categorie: probas
+titre: Produit de deux dés ou carré d’un seul ?
 theme: marches
 niveau: 2
 profils: mm hf
@@ -273,13 +283,13 @@ reponse: (91/6)/3.5
 tolerance: 0.01
 duree: 180
 --- question
-Jeu 1 : on lance deux dés indépendants A et B, tu reçois A × B / 3,5 €. Jeu 2 : on lance un seul dé A, tu reçois A × A / 3,5 €. Le jeu 1 vaut 3,5 €. Combien vaut le jeu 2 ?
+Jeu 1 : on lance deux dés indépendants A et B, tu reçois $A \times B / 3{,}5$ €. Jeu 2 : on lance un seul dé A, tu reçois $A \times A / 3{,}5$ €. Le jeu 1 vaut 3,5 €. Combien vaut le jeu 2 ?
 --- en
-Game 1: two independent dice A and B, you receive A·B/3.5. Game 2: one die A, you receive A·A/3.5. Game 1 is worth 3.5. What is game 2 worth?
+Game 1: two independent dice A and B, you receive $A \cdot B/3.5$. Game 2: one die A, you receive $A \cdot A/3.5$. Game 1 is worth 3.5. What is game 2 worth?
 --- solution
-E[A²]/3,5 = (91/6)/3,5 = 3,5 + Var(A)/3,5 = 3,5 + (35/12)/3,5 ≈ **4,33 €**.
-Quand la même variable apparaît deux fois, l'espérance du produit dépasse le produit des espérances de sa variance : c'est l'effet de convexité qui fait que E[S²] > E[S]².
+$\mathbb{E}[A^{2}]/3{,}5 = (91/6)/3{,}5 = 3{,}5 + \operatorname{Var} (A)/3{,}5 = 3{,}5 + (35/12)/3{,}5 \approx$ **4,33 €**.
+Quand la même variable apparaît deux fois, l'espérance du produit dépasse le produit des espérances de sa variance : c'est l'effet de convexité qui fait que $\mathbb{E}[S^{2}] > \mathbb{E}[S]^{2}$.
 --- piege
 Répondre 3,5 en appliquant E[XY] = E[X]E[Y] : c'est faux sans indépendance.
 --- relances
-- Et si A et B sont corrélés positivement mais pas identiques ? (E[AB] = 3,5² + Cov(A, B), entre les deux)
+- Et si A et B sont corrélés positivement mais pas identiques ? ($\mathbb{E}[AB] = 3{,}5^2 + \operatorname{Cov}(A, B)$, entre les deux)

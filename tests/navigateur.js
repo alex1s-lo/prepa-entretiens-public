@@ -290,6 +290,34 @@ function verifier(cond, message) { if (!cond) throw new Error(message); }
   verifier(/\?$/.test(qq), 'question de probabilité rapide : ' + qq);
   await page.click('[data-fin]');
 
+  // --- Casse-têtes : liste dédoublonnée, filtres, recherche, énigme jamais vue, variantes, notation ---
+  await naviguer('casse-tetes', 'Casse-têtes');
+  const nEnigmes = (await page.$$('.liste-ct li')).length;
+  verifier(nEnigmes >= 200, 'casse-têtes : ' + nEnigmes + ' énigmes listées');
+  const titresCt = await page.$$eval('.titre-ct', (l) => l.map((x) => x.textContent.trim().toLowerCase()));
+  verifier(new Set(titresCt).size === titresCt.length, 'casse-têtes : titres en double');
+  await page.click('[data-ct-cat="pesees"]');
+  const nPesees = (await page.$$('.liste-ct li')).length;
+  verifier(nPesees > 5 && nPesees < nEnigmes, 'filtre par famille : ' + nPesees);
+  await page.click('[data-ct-cat=""]');
+  await page.fill('[data-ct-texte]', 'chapeau');
+  await page.waitForFunction(() => document.querySelectorAll('.liste-ct li').length >= 3);
+  await page.fill('[data-ct-texte]', '');
+  await page.click('[data-ct-hasard]');
+  await page.waitForSelector('h1.titre-enigme');
+  await page.goto(URL + '#casse-tetes/f=ct-prisonniers-boites');
+  await page.waitForSelector('h1.titre-enigme');
+  verifier((await page.$$('.carte-question .katex')).length > 0, 'casse-têtes : formule de l’énoncé rendue');
+  await page.click('[data-reveler]');
+  verifier((await page.$$('ul.variantes li')).length >= 2, 'casse-têtes : variantes affichées avec la solution');
+  await page.click('[data-note-val="2"]');
+  await page.waitForSelector('[data-ct-suite] a.bouton');
+  verifier(await page.evaluate(() => !!window.Prepa.app.etat.cartes['ct-prisonniers-boites']), 'casse-têtes : note enregistrée');
+  await page.click('[data-ct-suite] a[href="#casse-tetes"]');
+  await page.waitForSelector('.liste-ct');
+  verifier((await page.textContent('[data-ct-vues]')).trim() !== '0', 'casse-têtes : compteur des énigmes vues');
+  await capture('16-casse-tetes');
+
   // --- Histoires ---
   await naviguer('histoires', 'Mes histoires');
   await page.click('[data-histoire="pitch"] summary');
@@ -400,7 +428,7 @@ function verifier(cond, message) { if (!cond) throw new Error(message); }
   const mobile = await navigateur.newContext({ viewport: { width: 375, height: 740 }, deviceScaleFactor: 1 });
   const p2 = await mobile.newPage();
   p2.on('pageerror', (e) => erreurs.push('mobile pageerror: ' + e.message));
-  for (const v of ['accueil', 'revisions', 'calcul', 'entretien', 'marche', 'marche/onglet=kelly', 'test', 'plus', 'histoires', 'journal', 'guides', 'guides/g=antiseche', 'progres', 'reglages', 'revisions/onglet=banque']) {
+  for (const v of ['accueil', 'revisions', 'calcul', 'entretien', 'marche', 'marche/onglet=kelly', 'test', 'plus', 'histoires', 'journal', 'guides', 'guides/g=antiseche', 'progres', 'reglages', 'revisions/onglet=banque', 'casse-tetes', 'casse-tetes/f=ct-p-racines-reelles']) {
     await p2.goto(URL + '#' + v);
     await p2.waitForSelector('main h1');
     const deborde = await p2.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);

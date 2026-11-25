@@ -1,0 +1,172 @@
+# Casse-têtes : jeux et stratégie (positions gagnantes, symétrie, induction à rebours).
+
+=== ct-pirates
+theme: casse-tete
+categorie: strategie
+titre: Cinq pirates et 100 pièces d'or
+niveau: 3
+profils: mm hf
+--- question
+Cinq pirates rationnels, classés par ancienneté, se partagent 100 pièces d'or. Le plus ancien propose un partage ; si au moins la moitié des pirates (lui compris) l'accepte, c'est fini ; sinon il est jeté par-dessus bord et le suivant propose. Chacun veut d'abord survivre, puis maximiser son or, puis voir les autres jetés à l'eau. Que propose le premier ?
+--- en
+Five rational pirates split 100 gold coins. The most senior proposes a split; if at least half (including him) accept, done; otherwise he is thrown overboard. Each wants to survive, then maximize gold, then see others thrown overboard. What does the first pirate propose?
+--- indice
+Pars de la fin : que se passe-t-il quand il ne reste que deux pirates ? puis trois ?
+--- solution
+Raisonnement à rebours (pirates 1 à 5, 5 étant le plus ancien) :
+- 2 pirates : le 2 garde tout (sa voix suffit) : $(100, 0)$.
+- 3 pirates : le 3 doit acheter une voix ; le 1 aurait 0 sinon, 1 pièce lui suffit : $(1, 0, 99)$.
+- 4 pirates : il faut 2 voix ; le 2 aurait 0 dans le cas à 3 : $(0, 1, 0, 99)$.
+- 5 pirates : il faut 3 voix ; acheter les pirates 1 et 3 (qui auraient 0 dans le cas à 4) avec 1 pièce chacun.
+Proposition : **98 pour le plus ancien, 1 pour les pirates 1 et 3, 0 pour les autres**. C'est l'induction à rebours, comme pour une option américaine.
+--- variantes
+- Majorité **stricte** exigée : même méthode à rebours, mais le cas à 2 pirates change (le plus ancien est jeté), ce qui modifie toute la chaîne ; refais le raisonnement depuis 1 pirate.
+- Plus de 200 pirates pour 100 pièces : certains pirates acceptent sans rien recevoir pour ne pas mourir ; la structure devient périodique en puissances de 2 (problème d'Omohundro).
+
+=== ct-allumettes
+theme: casse-tete
+categorie: strategie
+titre: 21 allumettes, on en retire 1 à 3
+niveau: 1
+profils: mm hf banque data
+type: numerique
+reponse: 1
+duree: 120
+--- question
+Il y a 21 allumettes. À tour de rôle, chaque joueur en retire 1, 2 ou 3. Celui qui prend la dernière gagne. Tu commences : combien en retires-tu pour gagner à coup sûr ?
+--- indice
+Quelles sont les positions perdantes pour celui qui doit jouer ? Commence par 4.
+--- solution
+Laisser un multiple de 4 à l'adversaire est gagnant : quoi qu'il prenne ($k$), tu prends $4 - k$. $21 = 4 \times 5 + 1$ : retire **1** allumette, puis complète toujours à 4.
+--- variantes
+- Version « celui qui prend la dernière **perd** » : il faut laisser $4k + 1$ ; avec 21 allumettes, le premier joueur perd contre un adversaire parfait.
+- Retirer de 1 à $m$ : laisser un multiple de $m + 1$.
+
+=== ct-course-a-100
+theme: casse-tete
+categorie: strategie
+titre: Course à 100 (on ajoute entre 1 et 10)
+niveau: 1
+profils: mm hf banque data
+type: numerique
+reponse: 1
+duree: 120
+--- question
+Deux joueurs ajoutent à tour de rôle un entier entre 1 et 10 à un total qui part de 0. Celui qui atteint exactement 100 gagne. Tu commences : quel nombre annonces-tu ?
+--- indice
+Quels totaux faut-il atteindre pour être sûr d'atteindre 100 ? Pars de 100 et descends de 11 en 11.
+--- solution
+Atteindre 89 garantit 100 (l'adversaire ajoute $k$, tu ajoutes $11 - k$). De même 78, 67, …, 12, 1. Annonce **1**, puis complète chaque coup adverse à 11.
+--- variantes
+- 100 pièces sur la table, chacun en prend de 1 à 10, celui qui prend la dernière gagne : prends 1, puis complète à 11.
+- Course à 50 en ajoutant de 1 à 6 : viser les totaux $\equiv 1 \pmod 7$, donc annoncer 1.
+
+=== ct-nim
+theme: casse-tete
+categorie: strategie
+titre: Jeu de Nim avec des tas de 3, 4 et 5
+niveau: 2
+profils: mm hf
+type: numerique
+reponse: 1
+duree: 240
+--- question
+Trois tas de 3, 4 et 5 objets. À tour de rôle, on retire autant d'objets qu'on veut (au moins un) d'un seul tas ; celui qui prend le dernier objet gagne. Combien de premiers coups sont gagnants ?
+--- indice
+Écris les tailles en binaire et fais un « ou exclusif » colonne par colonne (somme de Nim).
+--- solution
+Théorème de Bouton : une position est perdante pour le joueur au trait si et seulement si le ou exclusif des tailles vaut 0. Ici $3 \oplus 4 \oplus 5 = 011 \oplus 100 \oplus 101 = 010 = 2 \ne 0$ : le premier joueur gagne.
+Un coup gagnant ramène le ou exclusif à 0 : pour un tas $t$, il faut le réduire à $t \oplus 2$, ce qui n'est possible que si $t \oplus 2 < t$. Tas 3 : $3 \oplus 2 = 1 < 3$, oui (retirer 2). Tas 4 : 6, non. Tas 5 : 7, non. **Un seul** coup gagnant : retirer 2 objets du tas de 3.
+
+=== ct-pieces-en-rangee
+theme: casse-tete
+categorie: strategie
+titre: Pièces en rangée, on prend à un bout
+niveau: 2
+profils: mm hf
+--- question
+Un nombre pair de pièces de valeurs différentes sont alignées. À tour de rôle, chaque joueur prend une pièce à l'une des deux extrémités. Le premier joueur peut-il garantir d'obtenir au moins la moitié de la somme ?
+--- indice
+Colorie les positions en alternance. Le premier joueur peut-il forcer l'adversaire à ne prendre que des pièces d'une seule couleur ?
+--- solution
+Oui. Numérote les positions de 1 à $2n$. Le premier joueur calcule la somme des positions impaires et des positions paires, et choisit la plus grande. S'il commence par la pièce 1 (impaire), les deux extrémités restantes sont paires : l'adversaire prend forcément une paire, et une impaire redevient disponible. Il prend ainsi **toutes** les pièces de la parité choisie, donc au moins la moitié.
+Pour le maximum exact, il faut la programmation dynamique ($O(n^2)$).
+--- variantes
+- Nombre impair de pièces : la garantie disparaît (exemple 1, 5, 1).
+
+=== ct-table-ronde
+theme: casse-tete
+categorie: strategie
+titre: Poser des pièces sur une table ronde
+niveau: 2
+profils: mm hf
+--- question
+Deux joueurs posent à tour de rôle une pièce (toutes identiques) sur une table ronde, sans chevauchement. Celui qui ne peut plus poser perd. Qui gagne ?
+--- indice
+Symétrie centrale.
+--- solution
+Le **premier** joueur gagne : il pose sa première pièce exactement au centre, puis répond à chaque pièce adverse par la pièce symétrique par rapport au centre. Cette place est toujours libre (la configuration reste symétrique), donc il a toujours un coup.
+--- variantes
+- Même stratégie de « copie » : jeu sur un échiquier où l'on pose des dominos, ou le jeu de la tablette de chocolat symétrique.
+
+=== ct-duel-trois
+theme: casse-tete
+categorie: strategie
+titre: Duel à trois (truel)
+niveau: 3
+profils: mm hf
+--- question
+Trois tireurs à tour de rôle : A touche avec probabilité $1/3$, B avec $2/3$, C ne rate jamais. Ordre : A, B, C, A, B, … ; chacun tire sur qui il veut, et le dernier survivant gagne. A tire en premier : sur qui doit-il viser ?
+--- indice
+Que se passe-t-il si A tue C ? S'il tue B ? Et s'il tire en l'air ?
+--- solution
+- Si A tue C, B tire sur A avec $2/3$ de réussite : mauvais pour A.
+- Si A tue B, C tue A à coup sûr.
+- Si A **tire en l'air**, B et C se visent (chacun est la menace de l'autre). Le survivant fait face à A, qui tire en premier.
+A doit donc **tirer en l'air** : être le plus faible le protège tant que les deux forts s'affrontent.
+
+=== ct-chocolat
+theme: casse-tete
+categorie: strategie
+titre: Casser une tablette de chocolat $6 \times 8$
+niveau: 1
+profils: mm hf banque data
+type: numerique
+reponse: 47
+duree: 120
+--- question
+On veut séparer une tablette de $6 \times 8$ carrés en carrés individuels. Chaque cassure coupe un seul morceau en deux le long d'une ligne. Combien de cassures au minimum ?
+--- indice
+Combien de morceaux de plus après chaque cassure ?
+--- solution
+Chaque cassure augmente le nombre de morceaux d'exactement 1. On passe de 1 à 48 morceaux : **47 cassures**, quelle que soit la méthode. Conséquence : un jeu où l'on casse à tour de rôle (le dernier à casser gagne) est décidé d'avance par la parité.
+--- variantes
+- Tournoi à élimination directe avec 64 joueurs : chaque match élimine un joueur, donc 63 matchs.
+
+=== ct-somme-quinze
+theme: casse-tete
+categorie: strategie
+titre: Atteindre 15 avec trois nombres (morpion déguisé)
+niveau: 2
+profils: mm hf
+--- question
+Les nombres 1 à 9 sont sur la table. À tour de rôle, chaque joueur en prend un. Le premier qui possède trois nombres de somme 15 gagne. Qui gagne avec un jeu parfait, et comment réfléchir vite ?
+--- indice
+Range 1 à 9 dans un carré magique.
+--- solution
+Dans le carré magique 2 7 6 / 9 5 1 / 4 3 8, les triplets de somme 15 sont exactement les 8 lignes, colonnes et diagonales. Le jeu **est** un morpion : avec un jeu parfait, c'est **match nul**. Prendre 5 (le centre) en premier est le coup le plus fort.
+Leçon d'entretien : reconnaître un problème connu sous un déguisement (isomorphisme).
+
+=== ct-martingale-doublement
+theme: casse-tete
+categorie: strategie
+titre: Doubler la mise après chaque perte
+niveau: 1
+profils: mm hf banque data
+--- question
+À la roulette (rouge ou noir, probabilité $18/37$), tu mises 1 € et doubles ta mise après chaque perte, jusqu'à gagner : tu gagnes alors 1 € net. Est-ce une stratégie gagnante ?
+--- indice
+Le capital est fini. Quelle est l'espérance de chaque pari ?
+--- solution
+Non. Avec un capital fini, une suite de pertes suffisamment longue ruine le joueur : on gagne souvent 1 € et on perd rarement une somme énorme. L'espérance de chaque mise est négative ($18/37 - 19/37 = -1/37$ par euro), donc celle de toute stratégie à mises bornées l'est aussi (théorème d'arrêt des martingales : on ne transforme pas un jeu défavorable en jeu favorable en choisissant ses mises).
+Même avec un jeu équitable, l'espérance reste nulle : le gain quasi sûr de 1 € est compensé par une perte rare mais énorme.

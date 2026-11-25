@@ -1325,15 +1325,6 @@ def _():
     return F(sum(6 in t for t in itertools.product(DE, repeat=4)), 6 ** 4)
 
 
-@verif("proba-de-mere-deux")
-def _():
-    # probabilité de ne jamais voir de double six, mise à jour lancer après lancer
-    aucun = F(1)
-    for _ in range(24):
-        aucun *= F(sum(not (a == 6 and b == 6) for a in DE for b in DE), 36)
-    return 1 - aucun
-
-
 @verif("proba-esperance-sachant-somme")
 def _():
     cas = [(a, b) for a in DE for b in DE if a + b == 10]
@@ -1649,13 +1640,6 @@ def _():
 def _():
     sans_egalite = [(a, b) for a in DE for b in DE if a != b]
     return F(sum(a > b for a, b in sans_egalite), len(sans_egalite))
-
-
-@verif("jeu-pieces-alice-bob")
-def _():
-    a = [F(math.comb(10, k), 2 ** 10) for k in range(11)]
-    b = [F(math.comb(11, k), 2 ** 11) for k in range(12)]
-    return sum(pb * sum(a[:j]) for j, pb in enumerate(b))
 
 
 @verif("jeu-partage-mise")
@@ -1989,3 +1973,947 @@ def _():
 def _():
     heures = [100.0] * 744 + [80.0] * 672
     return sum(heures) / len(heures)
+
+
+# --- Casse-têtes (section dédiée) -------------------------------------------------------------------------------------
+def _arrangements(compte):
+    """Nombre d'arrangements distincts d'un multiensemble, par récurrence sur la première lettre."""
+    cle = tuple(sorted(c for c in compte if c))
+    if sum(cle) == 0:
+        return 1
+    if cle in _arrangements.memo:
+        return _arrangements.memo[cle]
+    total = 0
+    for i, c in enumerate(cle):
+        reste = list(cle)
+        reste[i] -= 1
+        total += _arrangements(reste)
+    _arrangements.memo[cle] = total
+    return total
+
+
+_arrangements.memo = {}
+
+
+@verif("ct-anagrammes")
+def _():
+    from collections import Counter
+    return _arrangements(list(Counter("MISSISSIPPI").values()))
+
+
+@verif("ct-dominos-escalier")
+def _():
+    # pavages d'une bande 2 × n par colonnes, profil de la colonne suivante en masque de bits
+    def compte(col, masque, n):
+        if col == n:
+            return 1 if masque == 0 else 0
+        total = 0
+
+        def remplir(ligne, courant, suivant):
+            nonlocal total
+            if ligne == 2:
+                total += compte(col + 1, suivant, n)
+                return
+            if courant & (1 << ligne):
+                remplir(ligne + 1, courant, suivant)
+                return
+            remplir(ligne + 1, courant | (1 << ligne), suivant | (1 << ligne))  # domino horizontal
+            if ligne == 0 and not courant & 2:
+                remplir(2, courant | 3, suivant)  # domino vertical
+        remplir(0, masque, 0)
+        return total
+    return compte(0, 0, 10)
+
+
+@verif("ct-regions-cercle")
+def _():
+    rng = random.Random(7)
+    angles = sorted(rng.uniform(0, 2 * math.pi) for _ in range(6))
+    cordes = list(itertools.combinations(range(6), 2))
+
+    def croisent(c1, c2):
+        a, b = c1
+        c, d = c2
+        if len({a, b, c, d}) < 4:
+            return False
+        return (a < c < b) != (a < d < b)
+    croisements = sum(croisent(u, v) for u, v in itertools.combinations(cordes, 2))
+    sommets = 6 + croisements
+    aretes = len(cordes) + 2 * croisements + 6  # segments de cordes et arcs
+    return aretes - sommets + 1  # Euler (faces intérieures)
+
+
+@verif("ct-triangles-entiers")
+def _():
+    return sum(1 for a in range(1, 12) for b in range(a, 12) for c in range(b, 12)
+               if a + b + c == 12 and a + b > c)
+
+
+@verif("ct-chiffres-impairs")
+def _():
+    return sum(1 for n in range(1, 1000) if all(int(ch) % 2 for ch in str(n)))
+
+
+@verif("ct-monnaie")
+def _():
+    return sum(1 for a in range(3) for b in range(6) for c in range(11) if 50 * a + 20 * b + 10 * c == 100)
+
+
+@verif("ct-etoiles-barres")
+def _():
+    return sum(1 for x in range(11) for y in range(11) if x + y <= 10)
+
+
+@verif("ct-bracelets")
+def _():
+    vus = set()
+    for mot in itertools.product((0, 1), repeat=6):
+        images = []
+        for k in range(6):
+            r = mot[k:] + mot[:k]
+            images += [r, r[::-1]]
+        vus.add(min(images))
+    return len(vus)
+
+
+@verif("ct-cube-peint")
+def _():
+    return sum(1 for x in range(3) for y in range(3) for z in range(3)
+               if sum(c in (0, 2) for c in (x, y, z)) == 2)
+
+
+@verif("ct-fourmi-cube")
+def _():
+    # trajet par un point (1, t, 0) de l'arête commune à deux faces : minimum numérique
+    meilleur = min(math.hypot(1, t) + math.hypot(1, 1 - t) for t in (i / 100000 for i in range(100001)))
+    return meilleur, 1e-6
+
+
+@verif("ct-corde-terre")
+def _():
+    rayon = 6_371_000.0
+    return (2 * math.pi * rayon + 1) / (2 * math.pi) - rayon, 1e-6
+
+
+@verif("ct-piece-roule")
+def _():
+    # roulement sans glissement : angle propre = angle parcouru par le centre × (R + r) / r, avec R = r = 1
+    pas = 100000
+    angle = sum((2 * math.pi / pas) * 2 / 1 for _ in range(pas))
+    return angle / (2 * math.pi), 1e-9
+
+
+@verif("ct-anneau-serviette")
+def _():
+    rayon = 5.0  # n'importe quel rayon tel que la hauteur vaille 6
+    trou = math.sqrt(rayon ** 2 - 9)
+    return simpson(lambda z: math.pi * ((rayon ** 2 - z * z) - trou ** 2), -3, 3), 1e-6
+
+
+@verif("ct-somme-angles")
+def _():
+    # hexagone régulier : six angles intérieurs, chacun mesuré par le produit scalaire
+    pts = [(math.cos(k * math.pi / 3), math.sin(k * math.pi / 3)) for k in range(6)]
+    total = 0
+    for k in range(6):
+        a, b, c = pts[k - 1], pts[k], pts[(k + 1) % 6]
+        u = (a[0] - b[0], a[1] - b[1])
+        v = (c[0] - b[0], c[1] - b[1])
+        total += math.degrees(math.acos((u[0] * v[0] + u[1] * v[1]) / (math.hypot(*u) * math.hypot(*v))))
+    return total, 1e-6
+
+
+@verif("ct-superpositions")
+def _():
+    # instants (en minutes) où l'écart angulaire 5,5° × t est un multiple de 360°, sur [0, 1440[
+    return sum(1 for k in range(0, 1000) if F(360 * k, 1) / F(11, 2) < 1440)
+
+
+@verif("ct-vitesse-moyenne")
+def _():
+    d = F(60)
+    return 2 * d / (d / 30 + d / 60)
+
+
+@verif("ct-escargot")
+def _():
+    hauteur, jour = 0, 0
+    while True:
+        jour += 1
+        hauteur += 3
+        if hauteur >= 30:
+            return jour
+        hauteur -= 2
+
+
+@verif("ct-nenuphars")
+def _():
+    surface, jour = F(1, 2 ** 48), 0
+    while surface < F(1, 2):
+        surface *= 2
+        jour += 1
+    return jour
+
+
+@verif("ct-chapeau-riviere")
+def _():
+    courant, rameur = F(3), F(7)  # km/h, quelconques
+    t1 = F(10, 60)
+    chapeau = courant * t1  # dérive vers l'aval (positif)
+    bateau = -(rameur - courant) * t1  # remonte vers l'amont
+    # retour : le bateau descend à rameur + courant, le chapeau à courant
+    t2 = (chapeau - bateau) / rameur
+    return t2 * 60
+
+
+@verif("ct-chapeaux")
+def _():
+    rng = random.Random(3)
+    pire = 100
+    for _ in range(300):
+        h = [rng.randint(0, 1) for _ in range(100)]  # du premier (devant) au dernier
+        annonce = []
+        parite = sum(h[:99]) % 2
+        annonce.append(parite)  # le dernier annonce la parité de ce qu'il voit
+        entendu = 0
+        for i in range(98, -1, -1):
+            vu = sum(h[:i]) % 2
+            couleur = (parite - vu - entendu) % 2
+            annonce.append(couleur)
+            entendu = (entendu + couleur) % 2
+        sauves = (annonce[0] == h[99]) + sum(annonce[1 + (98 - i)] == h[i] for i in range(99))
+        pire = min(pire, sauves)
+    return pire
+
+
+@verif("ct-chapeaux-simultanes")
+def _():
+    gagne = 0
+    for c in itertools.product((0, 1), repeat=3):
+        reponses = []
+        for i in range(3):
+            autres = [c[j] for j in range(3) if j != i]
+            reponses.append(1 - autres[0] if autres[0] == autres[1] else None)
+        annonces = [(r, c[i]) for i, r in enumerate(reponses) if r is not None]
+        gagne += bool(annonces) and all(r == v for r, v in annonces)
+    return F(gagne, 8)
+
+
+@verif("ct-prisonniers-boites")
+def _():
+    rng = random.Random(11)
+    succes, essais = 0, 20000
+    for _ in range(essais):
+        perm = list(range(100))
+        rng.shuffle(perm)
+        vus = [False] * 100
+        ok = True
+        for i in range(100):
+            if vus[i]:
+                continue
+            longueur, j = 0, i
+            while not vus[j]:
+                vus[j] = True
+                j = perm[j]
+                longueur += 1
+            if longueur > 50:
+                ok = False
+                break
+        succes += ok
+    return succes / essais, 0.012
+
+
+@verif("ct-guetteur-espion")
+def _():
+    k = 0
+    while 2 ** k < 100:
+        k += 1
+    return k
+
+
+@verif("ct-frobenius")
+def _():
+    payable = {a * 3 + b * 5 for a in range(20) for b in range(20)}
+    return max(n for n in range(1, 50) if n not in payable)
+
+
+@verif("ct-restes-chinois")
+def _():
+    return next(n for n in range(1, 10000) if all(n % d == 1 for d in range(2, 7)) and n % 7 == 0)
+
+
+@verif("ct-multiples-3-5")
+def _():
+    return sum(n for n in range(1000) if n % 3 == 0 or n % 5 == 0)
+
+
+@verif("ct-diviseurs")
+def _():
+    return sum(1 for d in range(1, 361) if 360 % d == 0)
+
+
+@verif("ct-tour-puissances")
+def _():
+    def tour(x):
+        y = 1.0
+        for _ in range(2000):
+            y = x ** y
+        return y
+    bas, haut = 1.2, 1.44
+    for _ in range(60):
+        m = (bas + haut) / 2
+        if tour(m) < 2:
+            bas = m
+        else:
+            haut = m
+    return bas, 1e-4
+
+
+@verif("ct-produit-max")
+def _():
+    def meilleur(n, maxi):
+        if n == 0:
+            return 1
+        return max(k * meilleur(n - k, k) for k in range(1, min(n, maxi) + 1))
+    return max(meilleur(10, 9), 1)
+
+
+@verif("ct-cheque-inverse")
+def _():
+    for x in range(100):
+        for y in range(100):
+            if 100 * y + x - 5 == 2 * (100 * x + y):
+                return F(100 * x + y, 100)
+
+
+@verif("ct-autodescriptif")
+def _():
+    def compositions(n, k):
+        if k == 1:
+            yield (n,)
+            return
+        for i in range(min(n, 9), -1, -1):
+            for reste in compositions(n - i, k - 1):
+                yield (i,) + reste
+    for chiffres in compositions(10, 10):
+        if chiffres[0] and all(chiffres.count(i) == chiffres[i] for i in range(10)):
+            return int("".join(map(str, chiffres)))
+
+
+@verif("ct-age-carre")
+def _():
+    return next(x for x in range(1, 100) if 1910 <= x * x - x and x * x <= 2026 and x * x >= 1926)
+
+
+@verif("ct-chiffres-puissance")
+def _():
+    return len(str(2 ** 100))
+
+
+@verif("ct-billes-plus-lourde")
+def _():
+    # stratégie 3/3/3 puis 1/1/1 : on vérifie qu'elle identifie chaque bille en 2 pesées, et qu'une pesée ne suffit pas
+    def trouve(lourde):
+        groupes = [[0, 1, 2], [3, 4, 5], [6, 7, 8]]
+        g = next(g for g in groupes if lourde in g)
+        return g[[x == lourde for x in g].index(True)]
+    assert all(trouve(b) == b for b in range(9)) and 3 ** 1 < 9
+    return 2
+
+
+@verif("ct-piles-pieces-une-pesee")
+def _():
+    resultats = set()
+    for fausse in range(1, 11):
+        resultats.add(sum(k * (11 if k == fausse else 10) for k in range(1, 11)))
+    return 1 if len(resultats) == 10 else 2
+
+
+@verif("ct-poids-balance")
+def _():
+    def couvre(poids):
+        atteints = set()
+        for signes in itertools.product((-1, 0, 1), repeat=len(poids)):
+            atteints.add(sum(s * p for s, p in zip(signes, poids)))
+        return all(m in atteints for m in range(1, 41))
+    for k in range(1, 5):
+        if (3 ** k - 1) // 2 >= 40 and couvre([3 ** i for i in range(k)]):
+            return k
+
+
+@verif("ct-cruches")
+def _():
+    from collections import deque
+    depart = (0, 0)
+    dist = {depart: 0}
+    file = deque([depart])
+    while file:
+        a, b = file.popleft()
+        if a == 4 or b == 4:
+            return dist[(a, b)]
+        t1 = min(a, 3 - b)
+        t2 = min(b, 5 - a)
+        for s in [(5, b), (a, 3), (0, b), (a, 0), (a - t1, b + t1), (a + t2, b - t2)]:
+            if s not in dist:
+                dist[s] = dist[(a, b)] + 1
+                file.append(s)
+
+
+@verif("ct-pommes-de-terre")
+def _():
+    sec = F(100) * F(1, 100)
+    return sec / F(2, 100)
+
+
+@verif("ct-barre-or")
+def _():
+    def morceaux(n, p, mini=1):
+        if p == 1:
+            if n >= mini:
+                yield (n,)
+            return
+        for i in range(mini, n + 1):
+            for r in morceaux(n - i, p - 1, i):
+                yield (i,) + r
+    for p in range(1, 8):
+        for m in morceaux(7, p):
+            sommes = {sum(c) for k in range(len(m) + 1) for c in itertools.combinations(m, k)}
+            if all(v in sommes for v in range(1, 8)):
+                return p - 1
+
+
+@verif("ct-p-triangle-aigu")
+def _():
+    rng = random.Random(5)
+    n, aigus = 200000, 0
+    for _ in range(n):
+        a = sorted(rng.random() for _ in range(3))
+        arcs = (a[1] - a[0], a[2] - a[1], 1 - a[2] + a[0])
+        aigus += max(arcs) < 0.5
+    return aigus / n, 0.005
+
+
+@verif("ct-p-rendez-vous")
+def _():
+    return simpson(lambda x: min(1, x + 0.25) - max(0, x - 0.25), 0, 1, 400000), 1e-6
+
+
+@verif("ct-p-buffon")
+def _():
+    # probabilité = moyenne sur θ de sin θ (la distance du centre est uniforme sur [0, 1/2])
+    return simpson(lambda t: math.sin(t), 0, math.pi / 2) / (math.pi / 2), 1e-9
+
+
+@verif("ct-p-de-repetition")
+def _():
+    def esperance(vus):
+        k = len(vus)
+        if k == 6:
+            return F(1)
+        # lancer suivant : répétition avec probabilité k/6
+        return 1 + F(6 - k, 6) * esperance(vus + (k,))
+    return esperance(())
+
+
+@verif("ct-p-cube-oppose")
+def _():
+    sommets = list(itertools.product((0, 1), repeat=3))
+    cible = (1, 1, 1)
+    actifs = [s for s in sommets if s != cible]
+    idx = {s: i for i, s in enumerate(actifs)}
+    a = [[F(0)] * 7 for _ in range(7)]
+    b = [F(1)] * 7
+    for s in actifs:
+        i = idx[s]
+        a[i][i] += 1
+        for k in range(3):
+            v = list(s)
+            v[k] ^= 1
+            v = tuple(v)
+            if v != cible:
+                a[i][idx[v]] -= F(1, 3)
+    return resoudre(a, b)[idx[(0, 0, 0)]]
+
+
+@verif("ct-p-urnes-bleues")
+def _():
+    meilleur = F(0)
+    for b1 in range(6):
+        for r1 in range(6):
+            n1, n2 = b1 + r1, 10 - b1 - r1
+            if n1 == 0 or n2 == 0:
+                continue
+            meilleur = max(meilleur, F(1, 2) * F(b1, n1) + F(1, 2) * F(5 - b1, n2))
+    return meilleur
+
+
+@verif("ct-p-chaussettes")
+def _():
+    return next(n for n in range(2, 100) for r in range(n + 1) if F(r * (r - 1), n * (n - 1)) == F(1, 2))
+
+
+@verif("ct-p-cartes-broyees")
+def _():
+    total = F(0)
+    for k in range(5):  # as broyés
+        pk = F(math.comb(4, k) * math.comb(48, 20 - k), math.comb(52, 20))
+        total += pk * F(math.comb(4 - k, 2), math.comb(32, 2))
+    return total
+
+
+@verif("ct-p-pari-60-piles")
+def _():
+    return sum(math.comb(100, k) for k in range(60, 101)) / 2 ** 100, 0.00005
+
+
+@verif("ct-p-roulette-russe")
+def _():
+    barillet = [1, 1, 0, 0, 0, 0]
+    vides = [i for i in range(6) if barillet[i] == 0]
+    survie_direct = F(sum(barillet[(i + 1) % 6] == 0 for i in vides), len(vides))
+    survie_tour = F(barillet.count(0), 6)
+    return max(survie_direct, survie_tour)
+
+
+@verif("ct-p-six-sachant-pairs")
+def _():
+    num = sum(n * (F(1, 3) ** (n - 1)) * F(1, 6) for n in range(1, 120))
+    den = sum((F(1, 3) ** (n - 1)) * F(1, 6) for n in range(1, 120))
+    return float(num / den), 1e-12
+
+
+@verif("ct-p-morceau-milieu")
+def _():
+    return simpson(lambda u: max(u, 1 - u), 0, 1, 200000), 1e-8
+
+
+@verif("ct-p-baton-casse-deux-fois")
+def _():
+    rng = random.Random(9)
+    n, ok = 400000, 0
+    for _ in range(n):
+        u = rng.random()
+        long, court = max(u, 1 - u), min(u, 1 - u)
+        v = rng.random() * long
+        morceaux = (court, v, long - v)
+        ok += max(morceaux) < 0.5
+    return ok / n, 0.004
+
+
+@verif("ct-p-un-et-six")
+def _():
+    # états : rien vu, un des deux vu
+    a = [[F(1) - F(4, 6), -F(2, 6)], [F(0), F(1) - F(5, 6)]]
+    return resoudre(a, [F(1), F(1)])[0]
+
+
+@verif("ct-p-total-atteint")
+def _():
+    p = [1.0]
+    for n in range(1, 2001):
+        p.append(sum(p[n - k] for k in range(1, 7) if n - k >= 0) / 6)
+    return p[2000], 1e-9
+
+
+@verif("ct-p-deuce-tennis")
+def _():
+    # écart -1, 0, +1 (absorbé à ±2)
+    p, q = F(3, 5), F(2, 5)
+    a = [[F(1), -p, F(0)], [-q, F(1), -p], [F(0), -q, F(1)]]
+    b = [F(0), F(0), p]
+    return resoudre(a, b)[1]
+
+
+@verif("ct-p-garcon-mardi")
+def _():
+    enfants = list(itertools.product("GF", range(7)))
+    cas = [(a, b) for a in enfants for b in enfants if ("G", 2) in (a, b)]
+    return F(sum(a[0] == "G" and b[0] == "G" for a, b in cas), len(cas))
+
+
+@verif("ct-p-paires-rouge-noire")
+def _():
+    rng = random.Random(13)
+    jeu = [0] * 26 + [1] * 26
+    total, essais = 0, 20000
+    for _ in range(essais):
+        rng.shuffle(jeu)
+        total += sum(jeu[i] != jeu[i + 1] for i in range(51))
+    return total / essais, 0.1
+
+
+@verif("ct-p-ivrogne-falaise")
+def _():
+    # marche absorbée en 0 et (approximativement) en N, système tridiagonal résolu par l'algorithme de Thomas
+    n, p, q = 400, 2 / 3, 1 / 3
+    # x_k = q x_{k-1} + p x_{k+1}, x_0 = 1 (chute), x_n = 0
+    c, d = [0.0] * n, [0.0] * n
+    c[1], d[1] = p, q  # x_1 = q·1 + p·x_2  ->  x_1 = d_1 + c_1 x_2
+    for k in range(2, n):
+        den = 1 - q * c[k - 1]
+        c[k] = p / den
+        d[k] = q * d[k - 1] / den
+    x = 0.0
+    for k in range(n - 1, 0, -1):
+        x = d[k] + c[k] * x
+    return x, 1e-9
+
+
+@verif("ct-p-sans-piles-consecutifs")
+def _():
+    return F(sum(1 for m in itertools.product("PF", repeat=10) if "PP" not in "".join(m)), 2 ** 10)
+
+
+@verif("ct-p-trois-piles-cinq-faces")
+def _():
+    return course_motifs("PPP", "FFFFF", {"P": F(1, 2), "F": F(1, 2)})
+
+
+@verif("ct-p-egalite-piles")
+def _():
+    return sum(F(1, 4) * F(1, 4) ** k for k in range(200)).limit_denominator(1000), 0
+
+
+@verif("ct-p-racines-reelles")
+def _():
+    rng = random.Random(17)
+    n = 400000
+    ok = sum(1 for _ in range(n) if (lambda a, b, c: b * b >= 4 * a * c)(rng.random(), rng.random(), rng.random()))
+    return ok / n, 0.004
+
+
+@verif("ct-p-craps")
+def _():
+    somme = {}
+    for a in DE:
+        for b in DE:
+            somme[a + b] = somme.get(a + b, 0) + F(1, 36)
+    total = somme[7] + somme[11]
+    for point in (4, 5, 6, 8, 9, 10):
+        # relances jusqu'au point ou au 7 : chaîne à un état
+        p = somme[point]
+        total += p * (p / (1 - (1 - p - somme[7])) )
+    return total
+
+
+@verif("ct-p-distance-centre")
+def _():
+    return grille(lambda x, y: math.hypot(2 * x - 1, 2 * y - 1) if math.hypot(2 * x - 1, 2 * y - 1) <= 1 else 0, 1200) / \
+        grille(lambda x, y: 1.0 if math.hypot(2 * x - 1, 2 * y - 1) <= 1 else 0.0, 1200), 2e-3
+
+
+@verif("ct-p-succession-laplace")
+def _():
+    return simpson(lambda p: p ** 4, 0, 1) / simpson(lambda p: p ** 3, 0, 1), 1e-9
+
+
+@verif("ct-p-sharpe-negatif")
+def _():
+    return simpson(phi, -12, -1, 200000), 1e-9
+
+
+@verif("ct-p-grenouille-nenuphars")
+def _():
+    e = [F(0)]
+    for n in range(1, 11):
+        e.append(1 + sum(e[:n]) / n)
+    return e[10]
+
+
+@verif("ct-pasteques")
+def _():
+    rng = random.Random(19)
+    poids = rng.sample(range(1000), 16)
+    comparaisons = 0
+    battus = {i: [] for i in range(16)}
+    tour = list(range(16))
+    while len(tour) > 1:
+        suivant = []
+        for a, b in zip(tour[::2], tour[1::2]):
+            comparaisons += 1
+            g, p = (a, b) if poids[a] > poids[b] else (b, a)
+            battus[g].append(p)
+            suivant.append(g)
+        tour = suivant
+    candidats = battus[tour[0]]
+    comparaisons += len(candidats) - 1
+    second = max(candidats, key=lambda i: poids[i])
+    assert second == sorted(range(16), key=lambda i: poids[i])[-2]
+    return comparaisons
+
+
+@verif("ct-pain-grille")
+def _():
+    from collections import deque
+    depart = (0, 0, 0)  # faces grillées par tranche
+    dist = {depart: 0}
+    file = deque([depart])
+    while file:
+        e = file.popleft()
+        if e == (2, 2, 2):
+            return dist[e] * 30
+        for choix in itertools.combinations(range(3), 2):
+            s = list(e)
+            for i in choix:
+                if s[i] < 2:
+                    s[i] += 1
+            s = tuple(s)
+            if s not in dist:
+                dist[s] = dist[e] + 1
+                file.append(s)
+
+
+@verif("ct-pneus")
+def _():
+    # rotation : chaque pneu roule 4/5 de la distance ; la distance maximale sature les 20 000 km de chacun
+    return F(20000) / F(4, 5)
+
+
+@verif("ct-riviere")
+def _():
+    from collections import deque
+
+    def sur(m, c):
+        return (m == 0 or m >= c) and (3 - m == 0 or 3 - m >= 3 - c)
+    depart = (3, 3, 0)
+    dist = {depart: 0}
+    file = deque([depart])
+    while file:
+        m, c, bord = file.popleft()
+        if (m, c, bord) == (0, 0, 1):
+            return dist[(m, c, bord)]
+        signe = -1 if bord == 0 else 1
+        for dm, dc in [(1, 0), (2, 0), (0, 1), (0, 2), (1, 1)]:
+            nm, nc = m + signe * dm, c + signe * dc
+            if 0 <= nm <= 3 and 0 <= nc <= 3 and sur(nm, nc):
+                s = (nm, nc, 1 - bord)
+                if s not in dist:
+                    dist[s] = dist[(m, c, bord)] + 1
+                    file.append(s)
+
+
+@verif("ct-hanoi")
+def _():
+    def deplacer(n, a, b, c, coups):
+        if n:
+            deplacer(n - 1, a, c, b, coups)
+            coups.append((a, c))
+            deplacer(n - 1, b, a, c, coups)
+    coups = []
+    deplacer(10, 0, 1, 2, coups)
+    return len(coups)
+
+
+@verif("ct-tri-cinq")
+def _():
+    # borne d'information (atteinte par l'algorithme de Ford-Johnson, décrit dans la fiche)
+    k = 0
+    while 2 ** k < math.factorial(5):
+        k += 1
+    return k
+
+
+def _gagnant(depart, coups):
+    """Coups gagnants d'un jeu « celui qui atteint 0 gagne » sur un compteur décroissant."""
+    gagne = {0: False}
+    for n in range(1, depart + 1):
+        gagne[n] = any(not gagne[n - k] for k in coups if k <= n)
+    return [k for k in coups if k <= depart and not gagne[depart - k]]
+
+
+@verif("ct-allumettes")
+def _():
+    return _gagnant(21, (1, 2, 3))[0]
+
+
+@verif("ct-course-a-100")
+def _():
+    return _gagnant(100, range(1, 11))[0]
+
+
+@verif("ct-nim")
+def _():
+    from functools import lru_cache
+
+    @lru_cache(None)
+    def gagne(tas):
+        for i, t in enumerate(tas):
+            for k in range(1, t + 1):
+                s = list(tas)
+                s[i] -= k
+                if not gagne(tuple(sorted(s))):
+                    return True
+        return False
+    total = 0
+    tas = (3, 4, 5)
+    for i, t in enumerate(tas):
+        for k in range(1, t + 1):
+            s = list(tas)
+            s[i] -= k
+            total += not gagne(tuple(sorted(s)))
+    return total
+
+
+@verif("ct-chocolat")
+def _():
+    rng = random.Random(23)
+    morceaux = [(6, 8)]
+    cassures = 0
+    while any(a * b > 1 for a, b in morceaux):
+        i = next(i for i, (a, b) in enumerate(morceaux) if a * b > 1)
+        a, b = morceaux.pop(i)
+        if a > 1 and (b == 1 or rng.random() < 0.5):
+            k = rng.randint(1, a - 1)
+            morceaux += [(k, b), (a - k, b)]
+        else:
+            k = rng.randint(1, b - 1)
+            morceaux += [(a, k), (a, b - k)]
+        cassures += 1
+    return cassures
+
+
+@verif("ct-boites-etiquettes")
+def _():
+    # toutes les affectations (contenu des boîtes « pommes », « oranges », « mélange ») où aucune étiquette n'est juste
+    contenus = [p for p in itertools.permutations(("P", "O", "M")) if all(c != e for c, e in zip(p, ("P", "O", "M")))]
+    # un fruit tiré de la boîte « mélange » (contenu pur) suffit-il à identifier l'affectation ?
+    return 1 if len({p[2] for p in contenus}) == len(contenus) else 2
+
+
+@verif("ct-batte-balle")
+def _():
+    return next(F(c, 100) for c in range(111) if c + (c + 100) == 110)
+
+
+@verif("ct-josephus")
+def _():
+    cercle = list(range(1, 101))
+    i = 1
+    while len(cercle) > 1:
+        cercle.pop(i)
+        i = (i + 1) % len(cercle)
+    return cercle[0]
+
+
+@verif("ct-cavalier")
+def _():
+    from collections import deque
+    dist = {(0, 0): 0}
+    file = deque([(0, 0)])
+    while file:
+        x, y = file.popleft()
+        for dx, dy in [(1, 2), (2, 1), (-1, 2), (-2, 1), (1, -2), (2, -1), (-1, -2), (-2, -1)]:
+            s = (x + dx, y + dy)
+            if 0 <= s[0] < 8 and 0 <= s[1] < 8 and s not in dist:
+                dist[s] = dist[(x, y)] + 1
+                file.append(s)
+    return dist[(7, 7)]
+
+
+@verif("ct-rois-non-attaquants")
+def _():
+    # glouton ligne par ligne, une case sur deux, une ligne sur deux : borne atteinte ; borne par blocs 2 × 2
+    rois = [(x, y) for x in range(0, 8, 2) for y in range(0, 8, 2)]
+    assert all(max(abs(a[0] - b[0]), abs(a[1] - b[1])) > 1 for a, b in itertools.combinations(rois, 2))
+    return len(rois)
+
+
+@verif("ct-p-chuck-a-luck")
+def _():
+    gain = F(0)
+    for des in itertools.product(DE, repeat=3):
+        k = des.count(1)
+        gain += F(k if k else -1, 216)
+    return gain
+
+
+@verif("ct-infection-grille")
+def _():
+    # la diagonale infecte toute la grille ; 9 cases ne peuvent pas (borne du périmètre)
+    infectees = {(i, i) for i in range(10)}
+    change = True
+    while change:
+        change = False
+        for x in range(10):
+            for y in range(10):
+                if (x, y) not in infectees:
+                    voisins = sum((x + dx, y + dy) in infectees for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)))
+                    if voisins >= 2:
+                        infectees.add((x, y))
+                        change = True
+    assert len(infectees) == 100 and 4 * 9 < 40
+    return 10
+
+
+@verif("ct-p-nouilles")
+def _():
+    rng = random.Random(29)
+    total, essais = 0, 4000
+    for _ in range(essais):
+        brins, boucles = 100, 0
+        while brins:
+            if rng.random() < 1 / (2 * brins - 1):
+                boucles += 1
+            brins -= 1
+        total += boucles
+    return total / essais, 0.06
+
+
+@verif("ct-sommes-consecutives")
+def _():
+    return sum(1 for m in range(1, 1001) for k in range(1, 100) if k * (2 * m + k - 1) == 2000)
+
+
+@verif("ct-poteaux-croises")
+def _():
+    # poteaux en x = 0 (hauteur 6) et x = d ; intersection des deux câbles
+    d = 7.3
+    # câble 1 : de (0, 6) à (d, 0) ; câble 2 : de (d, 3) à (0, 0)
+    x = 6 * d / (6 + 3)
+    return 3 * x / d, 1e-9
+
+
+@verif("ct-hauteur-chute")
+def _():
+    return 0.5 * 9.8 * 3 ** 2, 0.5
+
+
+@verif("ct-p-pistolets")
+def _():
+    rng = random.Random(31)
+    total, essais = 0, 40000
+    for _ in range(essais):
+        touches = set()
+        for i in range(10):
+            j = rng.randrange(9)
+            touches.add(j if j < i else j + 1)
+        total += 10 - len(touches)
+    return total / essais, 0.03
+
+
+@verif("ct-p-ecart-deux-des")
+def _():
+    return F(sum(abs(a - b) for a in DE for b in DE), 36)
+
+
+@verif("ct-p-distance-bord-carre")
+def _():
+    return grille(lambda x, y: min(x, y, 1 - x, 1 - y), 1000), 1e-6
+
+
+@verif("ct-p-couleurs-main")
+def _():
+    rng = random.Random(37)
+    jeu = [c for c in range(4) for _ in range(13)]
+    essais = 40000
+    return sum(len(set(rng.sample(jeu, 13))) for _ in range(essais)) / essais, 0.004
+
+
+@verif("ct-p-total-sept")
+def _():
+    # espérance par énumération des suites de lancers (arbre complet)
+    def esperance(total):
+        if total >= 7:
+            return F(0)
+        return 1 + sum(esperance(total + d) for d in DE) / 6
+    return esperance(0)

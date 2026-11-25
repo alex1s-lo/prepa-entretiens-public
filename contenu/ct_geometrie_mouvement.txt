@@ -1,0 +1,259 @@
+# Casse-têtes : géométrie et espace ; vitesses, horloges et calendriers.
+
+=== ct-fourmi-cube
+theme: casse-tete
+categorie: geometrie
+titre: Plus court chemin d'une fourmi sur un cube
+niveau: 2
+profils: mm hf banque data
+type: numerique
+reponse: sqrt(5)
+duree: 180
+--- question
+Une fourmi marche à la surface d'un cube d'arête 1, d'un sommet au sommet opposé. Quelle est la longueur du plus court chemin ?
+--- indice
+Déplie deux faces adjacentes à plat.
+--- solution
+En dépliant deux faces adjacentes, on obtient un rectangle $1 \times 2$ dont le trajet est la diagonale : $\sqrt{1^2 + 2^2} = \sqrt 5 \approx$ **2,236**. (À travers le cube, ce serait $\sqrt 3$, et en longeant les arêtes, 3.)
+--- variantes
+- Pavé $a \times b \times c$ : le plus court est $\sqrt{(a + b)^2 + c^2}$ avec $c$ la plus grande dimension.
+- L'araignée et la mouche dans une pièce $30 \times 12 \times 12$ (problème de Dudeney) : 40, par un dépliage qui traverse cinq faces.
+
+=== ct-corde-terre
+theme: casse-tete
+categorie: geometrie
+titre: Une corde autour de la Terre, rallongée d'un mètre
+niveau: 1
+profils: mm hf banque data
+type: numerique
+reponse: 1/(2*pi)
+duree: 120
+--- question
+Une corde fait le tour de la Terre au ras du sol à l'équateur. On la rallonge d'un mètre et on la soulève uniformément. À quelle hauteur (en mètres) flotte-t-elle ?
+--- indice
+$2\pi(R + h) = 2\pi R + 1$.
+--- solution
+$h = \frac{1}{2\pi} \approx$ **0,16 m**, indépendamment du rayon : on passerait un chat dessous, que ce soit autour de la Terre ou d'une orange.
+
+=== ct-piece-roule
+theme: casse-tete
+categorie: geometrie
+titre: Une pièce qui roule autour d'une pièce identique
+niveau: 1
+profils: mm hf banque data
+type: numerique
+reponse: 2
+duree: 120
+--- question
+Une pièce roule sans glisser autour d'une pièce identique fixe, jusqu'à revenir à sa position de départ. Combien de tours fait-elle sur elle-même ?
+--- indice
+Le centre de la pièce mobile décrit un cercle de rayon $2r$.
+--- solution
+Le centre parcourt un cercle de rayon $2r$, soit $4\pi r$ ; la rotation propre vaut cette distance divisée par $r$, soit $4\pi$ : **2 tours**. Intuitivement : un tour dû au roulement, plus un tour dû au fait de contourner le cercle.
+--- variantes
+- Autour d'une pièce de rayon $R$ : $1 + R/r$ tours ; à l'intérieur d'un anneau de rayon $R$ : $R/r - 1$ tours.
+
+=== ct-anneau-serviette
+theme: casse-tete
+categorie: geometrie
+titre: Le volume restant d'une sphère percée
+niveau: 3
+profils: mm hf
+type: numerique
+reponse: 36*pi
+duree: 300
+--- question
+On perce un trou cylindrique traversant une sphère, passant par son centre. L'anneau restant a une hauteur de 6 cm. Quel est son volume (en cm³) ? On ne donne pas le rayon de la sphère.
+--- indice
+Si la réponse ne dépend pas du rayon, prends un trou de rayon nul.
+--- solution
+Si le volume ne dépend pas du rayon, prends le cas limite d'un trou de diamètre nul : la sphère elle-même, de diamètre 6, soit $\frac43\pi \times 3^3 = 36\pi \approx$ **113,1 cm³**. Le calcul par tranches confirme : chaque section horizontale est un anneau d'aire $\pi(h^2/4 - z^2)$, indépendante de $R$.
+
+=== ct-pole-nord
+theme: casse-tete
+categorie: geometrie
+titre: Sud, est, nord : revenir à son point de départ
+niveau: 2
+profils: mm hf banque data
+--- question
+Un explorateur marche 1 km vers le sud, 1 km vers l'est, puis 1 km vers le nord, et se retrouve à son point de départ. Où peut-il être ?
+--- indice
+Le pôle Nord est une réponse. Il y en a une infinité d'autres près du pôle Sud.
+--- solution
+- Au **pôle Nord**.
+- Ou à environ 1 km au nord d'un cercle de latitude de circonférence $1/n$ km ($n \ge 1$) autour du pôle Sud : la marche vers l'est fait exactement $n$ tours de ce cercle. Une infinité de cercles de départ.
+
+=== ct-somme-angles
+theme: casse-tete
+categorie: geometrie
+titre: Somme des angles d'un hexagone
+niveau: 1
+profils: mm hf banque data
+type: numerique
+reponse: 720
+duree: 60
+--- question
+Quelle est la somme des angles intérieurs d'un hexagone convexe (en degrés) ?
+--- indice
+Découpe-le en triangles depuis un sommet.
+--- solution
+On le découpe en 4 triangles depuis un sommet : $4 \times 180 =$ **720°** ; en général $(n - 2) \times 180°$.
+
+=== ct-angle-horloge
+theme: casse-tete
+categorie: mouvement
+titre: Angle des aiguilles à 3 h 15
+niveau: 1
+profils: mm hf banque data
+type: numerique
+reponse: 7.5
+duree: 120
+--- question
+Quel angle (en degrés) forment les aiguilles d'une horloge à 3 h 15 ?
+--- en
+What is the angle (in degrees) between the clock hands at 3:15?
+--- indice
+L'aiguille des heures avance de 0,5° par minute.
+--- solution
+L'aiguille des minutes est sur 3 (90°). Celle des heures a avancé d'un quart d'heure au-delà de 3 : $90° + 15 \times 0{,}5° = 97{,}5°$. Angle : **7,5°**.
+--- variantes
+- À 3 h 25 : minutes à 150°, heures à $90 + 12{,}5 = 102{,}5°$, angle 47,5°.
+- À 9 h 30 : 105°. Formule générale : $|30h - 5{,}5m|$ degrés.
+
+=== ct-superpositions
+theme: casse-tete
+categorie: mouvement
+titre: Combien de fois les aiguilles se superposent-elles en un jour ?
+niveau: 1
+profils: mm hf banque data
+type: numerique
+reponse: 22
+duree: 120
+--- question
+Combien de fois par jour (24 heures) les aiguilles des heures et des minutes se superposent-elles ?
+--- indice
+L'aiguille des minutes fait 24 tours, celle des heures 2.
+--- solution
+L'aiguille des minutes rattrape celle des heures une fois par tour de retard : $24 - 2 =$ **22** fois (toutes les $12/11$ heures).
+--- variantes
+- Angles droits : 44 fois par jour (deux par « rattrapage »).
+- Première superposition après 5 h : à 5 h $\frac{300}{11}$ min, soit 5 h 27 min 16 s.
+
+=== ct-vitesse-moyenne
+theme: casse-tete
+categorie: mouvement
+titre: Aller à 30 km/h, retour à 60 km/h : vitesse moyenne
+niveau: 1
+profils: mm hf banque data
+type: numerique
+reponse: 40
+duree: 120
+--- question
+Une voiture fait l'aller à 30 km/h et le retour, même distance, à 60 km/h. Quelle est sa vitesse moyenne sur l'aller-retour (en km/h) ?
+--- indice
+Ce n'est pas 45 : la voiture passe plus de temps à 30 km/h.
+--- solution
+Pour une distance $d$ : temps $d/30 + d/60 = d/20$, distance $2d$ : $40$ km/h (moyenne harmonique $\frac{2}{1/30 + 1/60}$). **40 km/h**.
+--- variantes
+- Premier tour d'un circuit à 30 km/h : impossible d'atteindre 60 km/h de moyenne sur deux tours, même infiniment vite au second (le temps est déjà épuisé).
+- Avion aller-retour avec un vent constant : le trajet est **plus long** qu'en air calme ($\frac{2d\,v}{v^2 - w^2} > \frac{2d}{v}$).
+
+=== ct-escargot
+theme: casse-tete
+categorie: mouvement
+titre: L'escargot dans un puits de 30 mètres
+niveau: 1
+profils: mm hf banque data
+type: numerique
+reponse: 28
+duree: 120
+--- question
+Un escargot au fond d'un puits de 30 m monte de 3 m le jour et glisse de 2 m la nuit. Quel jour sort-il du puits ?
+--- indice
+Le dernier jour, il ne glisse pas.
+--- solution
+Après $n$ jours et nuits, il est à $n$ mètres. Il sort pendant la journée où il atteint 30 : il doit partir d'au moins 27 m, atteint au matin du 28ᵉ jour. **Jour 28**.
+--- variantes
+- Puits de 10 m : jour 8.
+
+=== ct-nenuphars
+theme: casse-tete
+categorie: mouvement
+titre: Des nénuphars qui doublent chaque jour
+niveau: 1
+profils: mm hf banque data
+type: numerique
+reponse: 47
+duree: 60
+--- question
+Une tache de nénuphars double de surface chaque jour et couvre tout l'étang le 48ᵉ jour. Quel jour couvrait-elle la moitié de l'étang ?
+--- indice
+Pense à rebours.
+--- solution
+La veille : **jour 47**.
+--- variantes
+- Si l'on part avec deux nénuphars au lieu d'un : un jour de moins, l'étang est couvert le 47ᵉ jour.
+
+=== ct-chapeau-riviere
+theme: casse-tete
+categorie: mouvement
+titre: Le rameur qui perd son chapeau dans la rivière
+niveau: 2
+profils: mm hf banque data
+type: numerique
+reponse: 10
+duree: 180
+--- question
+Un rameur remonte une rivière ; son chapeau tombe à l'eau. Il s'en aperçoit 10 minutes plus tard, fait demi-tour et rame à la même vitesse par rapport à l'eau. Combien de minutes lui faut-il pour rattraper le chapeau ?
+--- indice
+Place-toi dans le référentiel de l'eau.
+--- solution
+Dans le référentiel de l'eau, le chapeau est immobile et le rameur s'en éloigne 10 minutes puis revient à la même vitesse : **10 minutes**, quelle que soit la vitesse du courant.
+--- variantes
+- Si le chapeau est retrouvé 1 km en aval du point de chute, le courant vaut $1 / (20/60) = 3$ km/h.
+
+=== ct-course-handicap
+theme: casse-tete
+categorie: mouvement
+titre: Course de 100 m avec handicap de 10 m
+niveau: 1
+profils: mm hf banque data
+--- question
+A bat B de 10 m sur un 100 m. Pour la revanche, A part 10 m derrière la ligne de départ. Qui gagne, à vitesses inchangées ?
+--- indice
+Où sont-ils quand A a couru 100 m ?
+--- solution
+Quand A a couru 100 m, B en a couru 90 : ils sont côte à côte à 10 m de l'arrivée. A, plus rapide, finit devant : **A gagne**.
+
+=== ct-jour-semaine
+theme: casse-tete
+categorie: mouvement
+titre: Quel jour de la semaine tombe le 1er janvier 2078 ?
+niveau: 2
+profils: mm hf banque data
+--- question
+Le 25 novembre 2026 est un mercredi. Quel jour de la semaine sera le 1ᵉʳ janvier 2078 ?
+--- indice
+Une année décale le jour de la semaine de 1, une année bissextile de 2. Commence par le 1ᵉʳ janvier 2027.
+--- solution
+Du 25 novembre au 1ᵉʳ janvier 2027 : 37 jours, soit $37 \equiv 2 \pmod 7$ : un **vendredi**. De 2027 à 2078 : 51 années, dont 13 bissextiles (2028 à 2076) : décalage $51 + 13 = 64 \equiv 1 \pmod 7$. Le 1ᵉʳ janvier 2078 est un **samedi**.
+
+=== ct-train-mouche
+theme: casse-tete
+categorie: mouvement
+titre: La mouche entre deux trains
+niveau: 1
+profils: mm hf banque data
+type: numerique
+reponse: 75
+duree: 120
+--- question
+Deux trains distants de 100 km roulent l'un vers l'autre à 50 km/h chacun. Une mouche fait des allers-retours entre eux à 75 km/h jusqu'à ce qu'ils se rencontrent. Quelle distance parcourt-elle ?
+--- en
+Two trains 100 km apart approach each other at 50 km/h each. A fly shuttles between them at 75 km/h until they meet. How far does the fly travel?
+--- indice
+Combien de temps vole-t-elle ?
+--- solution
+Les trains se rencontrent après 1 heure ; la mouche vole pendant 1 heure : **75 km**. Inutile de sommer la série infinie des allers-retours (anecdote attribuée à von Neumann, qui… a sommé la série de tête).
+--- variantes
+- Un chien fait des allers-retours entre son maître et la maison : même principe, $\text{distance} = \text{vitesse} \times \text{durée}$.

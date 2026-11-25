@@ -8,19 +8,19 @@ type: numerique
 reponse: 2/3
 duree: 120
 --- question
-dX = −3X dt + 2 dW (Ornstein-Uhlenbeck). Quelle est la variance stationnaire de X ?
+$dX = -3X dt + 2 dW$ (Ornstein-Uhlenbeck). Quelle est la variance stationnaire de $X$ ?
 --- en
-dX = −3X dt + 2 dW (Ornstein-Uhlenbeck). What is the stationary variance of X?
+$dX = -3X dt + 2 dW$ (Ornstein-Uhlenbeck). What is the stationary variance of $X$?
 --- indice
-Facteur intégrant e^{κt}, puis isométrie d'Itô : σ² ∫₀^∞ e^{−2κu} du.
+Facteur intégrant $e^{\kappa t}$, puis isométrie d'Itô : $\sigma^{2} \int_{0}^\infty e^{-2\kappa u}$ du.
 --- solution
-κ = 3, σ = 2 : variance stationnaire σ²/(2κ) = 4/6 = **2/3**.
-Démonstration : X_t = X₀e^{−κt} + σ∫₀ᵗ e^{−κ(t−s)} dW_s, de variance σ²(1 − e^{−2κt})/(2κ) → σ²/(2κ).
+$\kappa = 3, \sigma = 2$ : variance stationnaire $\sigma^{2}/(2\kappa) = 4/6 =$ **$2/3$**.
+Démonstration : $X_t = X_{0}e^{-\kappa t} + \sigma \int_{0}^{t} e^{-\kappa (t-s)} dW_s$, de variance $\sigma^{2}(1 - e^{-2\kappa t})/(2\kappa) \to \sigma^{2}/(2\kappa)$.
 --- piege
-Oublier le 2 : σ²/κ est faux, car ∫₀^∞ e^{−2κu} du = 1/(2κ).
+Oublier le 2 : $\sigma^{2}/\kappa$ est faux, car $\int_{0}^\infty e^{-2\kappa u}$ du $= 1/(2\kappa)$.
 --- relances
-- Et la demi-vie ? (ln 2/3 ≈ 0,23)
-- Que vaut Cov(X_s, X_t) en régime stationnaire ? (σ²/(2κ)·e^{−κ|t−s|})
+- Et la demi-vie ? ($\ln 2/3 \approx 0{,}23$)
+- Que vaut $\operatorname{Cov} (X_s, X_t)$ en régime stationnaire ? ($\sigma^{2}/(2\kappa) \cdot e^{-\kappa |t-s|}$)
 
 === stoch-cir-moyenne
 theme: stoch
@@ -30,17 +30,17 @@ type: numerique
 reponse: 0.05-0.04*exp(-1)
 duree: 120
 --- question
-Taux court CIR : dr = κ(θ − r)dt + σ√r dW avec κ = 1, θ = 5 %, σ = 10 %, r₀ = 1 %. Que vaut E[r₁] ?
+Taux court CIR : $dr = \kappa (\theta - r)dt + \sigma \sqrt{r} dW$ avec $\kappa = 1, \theta = 5\,\%, \sigma = 10\,\%, r_{0} = 1\,\%$. Que vaut $\mathbb{E}[r_{1}]$ ?
 --- en
-CIR short rate with κ = 1, θ = 5%, σ = 10%, r₀ = 1%. What is E[r₁]?
+CIR short rate with $\kappa = 1, \theta = 5\,\%, \sigma = 10\,\%, r_{0} = 1\,\%$. What is $\mathbb{E}[r_{1}]$?
 --- indice
-Prends l'espérance de l'EDS : le terme en dW disparaît.
+Prends l'espérance de l'EDS : le terme en $dW$ disparaît.
 --- solution
-m(t) = E[r_t] vérifie m' = κ(θ − m), donc m(t) = θ + (r₀ − θ)e^{−κt} = 0,05 − 0,04e^{−1} ≈ **3,53 %**.
+$m(t) = \mathbb{E}[r_t]$ vérifie $m' = \kappa (\theta - m)$, donc $m(t) = \theta + (r_{0} - \theta)e^{-\kappa t} = 0{,}05 - 0{,}04e^{-1} \approx$ **3,53 %**.
 La volatilité n'intervient pas : CIR et Vasicek ont la même moyenne.
 --- relances
-- Variance stationnaire de CIR ? (σ²θ/(2κ), obtenue en appliquant Itô à r²)
-- Qu'est-ce que la condition de Feller ? (2κθ ≥ σ² : le taux ne touche pas 0)
+- Variance stationnaire de CIR ? ($\sigma^{2}\theta /(2\kappa)$, obtenue en appliquant Itô à $r^{2}$)
+- Qu'est-ce que la condition de Feller ? ($2\kappa \theta \ge \sigma^{2}$ : le taux ne touche pas 0)
 
 === stoch-vasicek-zc
 theme: stoch
@@ -49,18 +49,18 @@ profils: banque risque
 type: ouverte
 duree: 300
 --- question
-Dans le modèle de Vasicek, comment obtient-on le prix d'un zéro-coupon P(0, T) = E[exp(−∫₀ᵀ r_t dt)] ?
+Dans le modèle de Vasicek, comment obtient-on le prix d'un zéro-coupon $P(0, T) = \mathbb{E}[\exp (- \int_{0}^{T} r_t dt)]$ ?
 --- en
-In the Vasicek model, how do you get the zero-coupon bond price P(0, T) = E[exp(−∫₀ᵀ r_t dt)]?
+In the Vasicek model, how do you get the zero-coupon bond price $P(0, T) = \mathbb{E}[\exp (- \int_{0}^{T} r_t dt)]$?
 --- solution
-r est un processus d'Ornstein-Uhlenbeck, donc gaussien ; I = ∫₀ᵀ r_t dt est une intégrale (limite de sommes) de gaussiennes : **I est gaussienne**.
-- E[I] = θT + (r₀ − θ)B(T), avec B(T) = (1 − e^{−κT})/κ.
-- Var(I) = (σ²/κ²)(T − 2B(T) + (1 − e^{−2κT})/(2κ)), par Fubini stochastique puis isométrie.
-- P(0, T) = E[e^{−I}] = exp(−E[I] + Var(I)/2) (transformée de Laplace gaussienne).
-Le terme +Var/2 est un effet de convexité : plus les taux sont volatils, plus les zéro-coupons longs valent cher.
+$r$ est un processus d'Ornstein-Uhlenbeck, donc gaussien ; $I = \int_{0}^{T} r_t dt$ est une intégrale (limite de sommes) de gaussiennes : **I est gaussienne**.
+- $\mathbb{E}[I] = \theta T + (r_{0} - \theta)B(T)$, avec $B(T) = (1 - e^{-\kappa T})/\kappa$.
+- $\operatorname{Var} (I) = (\sigma^{2}/\kappa^{2})(T - 2B(T) + (1 - e^{-2\kappa T})/(2\kappa))$, par Fubini stochastique puis isométrie.
+- $P(0, T) = \mathbb{E}[e^{-I}] = \exp (-\mathbb{E}[I] + \operatorname{Var} (I)/2)$ (transformée de Laplace gaussienne).
+Le terme $+\operatorname{Var}/2$ est un effet de convexité : plus les taux sont volatils, plus les zéro-coupons longs valent cher.
 --- relances
 - Pourquoi Vasicek peut-il donner des taux négatifs ?
-- Que change Hull-White ? (θ(t) pour recaler la courbe initiale)
+- Que change Hull-White ? ($\theta (t)$ pour recaler la courbe initiale)
 
 === der-black76
 theme: derives
@@ -70,14 +70,14 @@ type: numerique
 reponse: exp(-0.04)*80*(N(0.125)-N(-0.125))
 duree: 150
 --- question
-Call sur un futures d'électricité : F = K = 80, volatilité 25 %, maturité 1 an, taux 4 %. Prix par la formule de Black ? (N(0,125) ≈ 0,5497)
+Call sur un futures d'électricité : $F = K = 80$, volatilité 25 %, maturité 1 an, taux 4 %. Prix par la formule de Black ? ($N(0{,}125) \approx 0{,}5497$)
 --- en
-Call on a power futures: F = K = 80, vol 25%, maturity 1 year, rate 4%. Black-76 price? (N(0.125) ≈ 0.5497)
+Call on a power futures: $F = K = 80$, vol 25%, maturity 1 year, rate 4%. Black-76 price? ($N(0.125) \approx 0.5497$)
 --- indice
-C = e^{−rT}(F N(d₁) − K N(d₂)) avec d₁,₂ = ±σ√T/2 à la monnaie.
+$C = e^{-rT}(F N(d_{1}) - K N(d_{2}))$ avec $d_{1},_{2} = \pm \sigma \sqrt{T}/2$ à la monnaie.
 --- solution
-d₁ = 0,125, d₂ = −0,125. C = e^{−0,04} × 80 × (N(0,125) − N(−0,125)) ≈ 0,9608 × 80 × 0,0995 ≈ **7,65**.
-Approximation : e^{−rT} × 0,4 × σ × F × √T = 0,96 × 0,4 × 0,25 × 80 ≈ 7,69.
+$d_{1} = 0{,}125, d_{2} = -0{,}125$. $C = e^{-0{,}04} \times 80 \times (N(0{,}125) - N(-0{,}125)) \approx 0{,}9608 \times 80 \times 0{,}0995 \approx$ **7,65**.
+Approximation : $e^{-rT} \times 0{,}4 \times \sigma \times F \times \sqrt{T} = 0{,}96 \times 0{,}4 \times 0{,}25 \times 80 \approx 7{,}69$.
 --- relances
 - Pourquoi utilise-t-on Black-76 plutôt que Black-Scholes sur les matières premières ?
 - Et si les prix peuvent devenir négatifs ? (modèle de Bachelier)
@@ -89,15 +89,15 @@ profils: banque
 type: ouverte
 duree: 240
 --- question
-Démontre l'identité S φ(d₁) = K e^{−rT} φ(d₂) et déduis-en le vega d'un call Black-Scholes.
+Démontre l'identité $S \varphi (d_{1}) = K e^{-rT} \varphi (d_{2})$ et déduis-en le vega d'un call Black-Scholes.
 --- en
-Prove S φ(d₁) = K e^{−rT} φ(d₂) and use it to derive the Black-Scholes vega.
+Prove $S \varphi (d_{1}) = K e^{-rT} \varphi (d_{2})$ and use it to derive the Black-Scholes vega.
 --- solution
-φ(d₁)/φ(d₂) = exp(−(d₁² − d₂²)/2) = exp(−(d₁ − d₂)(d₁ + d₂)/2). Or d₁ − d₂ = σ√T et d₁ + d₂ = (2 ln(S/K) + 2rT)/(σ√T) : le produit vaut 2 ln(S/K) + 2rT, donc φ(d₁)/φ(d₂) = K e^{−rT}/S.
-**Vega** : ∂C/∂σ = S φ(d₁) ∂d₁/∂σ − K e^{−rT} φ(d₂) ∂d₂/∂σ = S φ(d₁)(∂d₁/∂σ − ∂d₂/∂σ) = **S φ(d₁) √T**, car d₁ − d₂ = σ√T.
-La même identité donne Δ = N(d₁), le theta et le rho en quelques lignes.
+$\varphi (d_{1})/\varphi (d_{2}) = \exp (-(d_{1}^{2} - d_{2}^{2})/2) = \exp (-(d_{1} - d_{2})(d_{1} + d_{2})/2)$. Or $d_{1} - d_{2} = \sigma \sqrt{T}$ et $d_{1} + d_{2} = (2 \ln (S/K) + 2rT)/(\sigma \sqrt{T})$ : le produit vaut $2 \ln (S/K) + 2rT$, donc $\varphi (d_{1})/\varphi (d_{2}) = K e^{-rT}/S$.
+**Vega** : $\partial C/ \partial \sigma = S \varphi (d_{1}) \partial d_{1}/ \partial \sigma - K e^{-rT} \varphi (d_{2}) \partial d_{2}/ \partial \sigma = S \varphi (d_{1})(\partial d_{1}/ \partial \sigma - \partial d_{2}/ \partial \sigma) =$ **$S \varphi (d_{1}) \sqrt{T}$**, car $d_{1} - d_{2} = \sigma \sqrt{T}$.
+La même identité donne $\Delta = N(d_{1})$, le theta et le rho en quelques lignes.
 --- relances
-- Quel est le vega d'un call à la monnaie un an, S = 100 ? (≈ 0,4 par point de vol)
+- Quel est le vega d'un call à la monnaie un an, $S = 100$ ? ($\approx 0{,}4$ par point de vol)
 - Pourquoi call et put de même strike ont-ils le même vega ?
 
 === der-dupire
@@ -111,11 +111,11 @@ duree: 300
 --- en
 Write Dupire's local volatility formula (zero rates and dividends) and explain where it comes from.
 --- solution
-σ_loc²(T, K) = ∂_T C / (½ K² ∂_KK C).
-**Heuristique** : appliquer Itô à (S_T − K)⁺ avec f' = 1{S > K} et f'' = δ_K (formule de Tanaka). En espérance, le terme en dS disparaît (S martingale) et il reste ∂_T C = ½ σ_loc²(T, K) K² f(K, T), où f est la densité de S_T. Breeden-Litzenberger donne f(K, T) = ∂_KK C. On divise.
+$\sigma_\text{loc}^{2}(T, K) = \partial_T$ C / ($\tfrac12 K^{2} \partial_{KK}$ C).
+**Heuristique** : appliquer Itô à $(S_T - K)^{+}$ avec $f' = 1{S > K}$ et $f'' = \delta_K$ (formule de Tanaka). En espérance, le terme en $dS$ disparaît ($S$ martingale) et il reste $\partial_T C = \tfrac12 \sigma_\text{loc}^{2}(T, K) K^{2} f(K, T)$, où $f$ est la densité de $S_T$. Breeden-Litzenberger donne $f(K, T) = \partial_{KK}$ C. On divise.
 **À dire ensuite** : la vol locale calibre exactement les vanilles mais donne une mauvaise dynamique du smile ; il faut une surface lissée et sans arbitrage (dérivées de données bruitées).
 --- relances
-- Que se passe-t-il si la surface a un arbitrage papillon ? (∂_KK C < 0 : variance locale négative)
+- Que se passe-t-il si la surface a un arbitrage papillon ? ($\partial_{KK} C < 0$ : variance locale négative)
 - Vol locale ou vol stochastique pour une option forward-start ?
 
 === mm-glosten-milgrom
@@ -130,12 +130,12 @@ Une action vaut 80 ou 120 avec probabilité ½. Un quart des clients connaît la
 --- en
 A stock is worth 80 or 120 with probability ½. A quarter of the clients know the true value; the others buy or sell at random. What ask does a break-even market maker quote?
 --- indice
-ask = E[V | achat], par Bayes.
+ask $= \mathbb{E}[V | \text{achat}]$, par Bayes.
 --- solution
-P(achat | 120) = 0,25 + 0,75/2 = 0,625 ; P(achat | 80) = 0,375 ; P(achat) = ½. Donc P(120 | achat) = 0,625 et ask = 80 + 0,625 × 40 = **105**.
-Par symétrie bid = 95 : le spread vaut α × (V_H − V_L) = 10, uniquement à cause de l'information privée.
+$\mathbb{P}(\text{achat} | 120) = 0{,}25 + 0{,}75/2 = 0{,}625$ ; $\mathbb{P}(\text{achat} | 80) = 0{,}375$ ; $\mathbb{P}(\text{achat}) = \tfrac12$. Donc $\mathbb{P}(120 | \text{achat}) = 0{,}625$ et ask $= 80 + 0{,}625 \times 40 =$ **105**.
+Par symétrie bid $= 95$ : le spread vaut $\alpha \times (V_H - V_L) = 10$, uniquement à cause de l'information privée.
 --- relances
-- Un client vient d'acheter. Quel ask pour le suivant ? (E[V | deux achats] ≈ 109,4)
+- Un client vient d'acheter. Quel ask pour le suivant ? ($\mathbb{E}[V | \text{deux achats}] \approx 109{,}4$)
 - Que devient le spread si personne n'est informé ?
 
 === mm-reservation-equivalent-certain
@@ -145,15 +145,15 @@ profils: mm hf
 type: ouverte
 duree: 300
 --- question
-Dans Avellaneda-Stoikov, démontre que le prix de réservation vaut r = s − q γ σ² (T − t).
+Dans Avellaneda-Stoikov, démontre que le prix de réservation vaut $r = s - q \gamma \sigma^{2} (T - t)$.
 --- en
-In Avellaneda-Stoikov, prove that the reservation price is r = s − q γ σ² (T − t).
+In Avellaneda-Stoikov, prove that the reservation price is $r = s - q \gamma \sigma^{2} (T - t)$.
 --- solution
-Avec une utilité exponentielle et S_T ~ N(s, σ²(T − t)), la valeur d'un inventaire figé est −exp(−γ·EC) avec l'**équivalent certain** EC = x + q s − ½ γ q² σ² (T − t) (transformée de Laplace gaussienne).
-Prix de réservation à l'achat r_b : indifférence entre (x, q) et (x − r_b, q + 1), soit r_b = s − ½(1 + 2q) γ σ² (T − t). À la vente : r_a = s + ½(1 − 2q) γ σ² (T − t). La moyenne vaut **s − q γ σ² (T − t)**.
-Lecture : long d'inventaire, on baisse ses prix pour vendre ; l'effet croît avec γ, σ² et le temps restant.
+Avec une utilité exponentielle et $S_T \sim N(s, \sigma^{2}(T - t))$, la valeur d'un inventaire figé est $-\exp(-\gamma \cdot \text{EC})$ avec l'**équivalent certain** $\text{EC} = x + q s - \tfrac12 \gamma q^{2} \sigma^{2} (T - t)$ (transformée de Laplace gaussienne).
+Prix de réservation à l'achat $r_b$ : indifférence entre ($x, q$) et ($x - r_b, q + 1$), soit $r_b = s - \tfrac12 (1 + 2q) \gamma \sigma^{2} (T - t)$. À la vente : $r_a = s + \tfrac12 (1 - 2q) \gamma \sigma^{2} (T - t)$. La moyenne vaut **$s - q \gamma \sigma^{2} (T - t)$**.
+Lecture : long d'inventaire, on baisse ses prix pour vendre ; l'effet croît avec $\gamma, \sigma^{2}$ et le temps restant.
 --- relances
-- D'où vient le terme (2/γ) ln(1 + γ/k) du spread ?
+- D'où vient le terme $(2/\gamma) \ln (1 + \gamma /k)$ du spread ?
 - Que manque-t-il à ce modèle pour un vrai marché ? (sélection adverse, file d'attente, sauts)
 
 === risque-portefeuille-variance-min
@@ -168,13 +168,13 @@ Deux actifs non corrélés de volatilités 10 % et 20 %. Quel poids dans le prem
 --- en
 Two uncorrelated assets with vols 10% and 20%. Which weight in the first minimises portfolio variance (fully invested)?
 --- indice
-w₁ = (σ₂² − ρσ₁σ₂)/(σ₁² + σ₂² − 2ρσ₁σ₂).
+$w_{1} = (\sigma_{2}^{2} - \rho \sigma_{1}\sigma_{2})/(\sigma_{1}^{2} + \sigma_{2}^{2} - 2\rho \sigma_{1}\sigma_{2})$.
 --- solution
-Avec ρ = 0 : w₁ = σ₂²/(σ₁² + σ₂²) = 0,04/0,05 = **0,8**. Sans corrélation, on pondère par l'inverse des variances.
-Vol obtenue : √(0,64 × 0,01 + 0,04 × 0,04) ≈ 8,9 %, moins que le moins risqué des deux.
+Avec $\rho = 0$ : $w_{1} = \sigma_{2}^{2}/(\sigma_{1}^{2} + \sigma_{2}^{2}) = 0{,}04/0{,}05 =$ **0,8**. Sans corrélation, on pondère par l'inverse des variances.
+Vol obtenue : $\sqrt{0{,}64 \times 0{,}01 + 0{,}04 \times 0{,}04} \approx 8{,}9\,\%$, moins que le moins risqué des deux.
 --- relances
-- Forme générale ? (Σ⁻¹1 / 1ᵀΣ⁻¹1, par le lagrangien)
-- Et si ρ = 1 ?
+- Forme générale ? ($\sum^{-1}1 / 1^{T}\sum^{-1}1$, par le lagrangien)
+- Et si $\rho = 1$ ?
 
 === risque-sharpe-strategies
 theme: stats
@@ -188,8 +188,8 @@ Deux stratégies non corrélées ont des ratios de Sharpe de 0,6 et 0,8. Quel es
 --- en
 Two uncorrelated strategies have Sharpe ratios 0.6 and 0.8. What is the Sharpe ratio of their best combination?
 --- solution
-Pour des stratégies non corrélées, SR*² = Σ SRᵢ² (portefeuille tangent, SR*² = mᵀΣ⁻¹m). √(0,36 + 0,64) = **1**.
-C'est la logique des fonds multi-stratégies et de la loi fondamentale IR ≈ IC √N.
+Pour des stratégies non corrélées, $\text{SR}_*^2 = \sum_i \text{ SR}_i^2$ (portefeuille tangent, $\text{SR}_*^2 = m^{T}\Sigma^{-1}m$). $\sqrt{0{,}36 + 0{,}64} =$ **1**.
+C'est la logique des fonds multi-stratégies et de la loi fondamentale $\text{IR} \approx \text{IC } \sqrt{N}$.
 --- relances
 - Et si elles étaient corrélées à 0,5 ?
 - Combien de stratégies indépendantes de Sharpe 0,5 pour atteindre 2 ? (16)
@@ -205,10 +205,10 @@ Montre par un exemple que la VaR n'est pas sous-additive. Pourquoi l'Expected Sh
 --- en
 Show with an example that VaR is not subadditive. Why is Expected Shortfall preferred?
 --- solution
-Deux prêts indépendants perdent chacun 100 avec probabilité 4 %. Pour chacun, P(perte > 0) = 4 % < 5 %, donc VaR 95 % = 0. Pour les deux ensemble, P(au moins une perte) = 1 − 0,96² = 7,84 % > 5 %, donc VaR 95 % = 100 > 0 + 0.
+Deux prêts indépendants perdent chacun 100 avec probabilité 4 %. Pour chacun, $\mathbb{P}(\text{perte} > 0) = 4\,\% < 5\,\%$, donc VaR $95\,\% = 0$. Pour les deux ensemble, $\mathbb{P}(\text{au moins une perte}) = 1 - 0{,}96^{2} = 7{,}84\,\% > 5\,\%$, donc VaR $95\,\% = 100 > 0 + 0$.
 La VaR peut donc pénaliser la diversification, et elle ignore ce qui se passe au-delà du seuil. L'**ES** (moyenne des pertes au-delà de la VaR) est sous-additive (mesure de risque cohérente) et voit la queue ; la réglementation (FRTB) l'utilise à 97,5 %.
 --- relances
-- ES à 97,5 % d'une gaussienne, en écarts-types ? (≈ 2,34, proche de la VaR à 99 %)
+- ES à 97,5 % d'une gaussienne, en écarts-types ? ($\approx 2{,}34$, proche de la VaR à 99 %)
 - Défaut de l'ES ? (plus difficile à backtester)
 
 === risque-proba-drawdown
@@ -223,9 +223,9 @@ La valeur d'une stratégie suit un brownien de dérive 5 % et de volatilité 10 
 --- en
 A strategy's value follows a Brownian motion with drift 5% and volatility 10% per year. What is the probability that it ever falls 10% below its current level?
 --- indice
-Cherche θ tel que e^{θX_t} soit une martingale, puis arrêt optionnel.
+Cherche $\theta$ tel que $e^{\theta X_t}$ soit une martingale, puis arrêt optionnel.
 --- solution
-e^{θX} est une martingale si θμ + ½θ²σ² = 0, soit θ = −2μ/σ². Arrêt optionnel entre −d et +a, puis a → ∞ : P = e^{−2μd/σ²} = e^{−2 × 0,05 × 0,1/0,01} = **e^{−1} ≈ 0,37**.
+$e^{\theta X}$ est une martingale si $\theta \mu + \tfrac12 \theta^{2}\sigma^{2} = 0$, soit $\theta = -2\mu /\sigma^{2}$. Arrêt optionnel entre $-d$ et $+a$, puis $a \to \infty$ : $P = e^{-2\mu d/\sigma^{2}} = e^{-2 \times 0{,}05 \times 0{,}1/0{,}01} =$ **$e^{-1} \approx 0{,}37$**.
 Version continue de la ruine du joueur avec biais.
 --- relances
 - Pourquoi les drawdowns depuis le plus haut sont-ils plus fréquents que ce calcul ?
@@ -239,16 +239,16 @@ type: numerique
 reponse: 0.3
 duree: 150
 --- question
-Lasso à une variable normée (Σxᵢ² = 1), critère Σ(yᵢ − βxᵢ)² + λ|β| avec λ = 1. Le coefficient des moindres carrés vaut 0,8. Coefficient Lasso ?
+Lasso à une variable normée ($\sum x_{i}^{2} = 1$), critère $\sum (y_{i} - \beta x_{i})^{2} + \lambda |\beta |$ avec $\lambda = 1$. Le coefficient des moindres carrés vaut 0,8. Coefficient Lasso ?
 --- en
-One-variable Lasso with Σxᵢ² = 1, objective Σ(yᵢ − βxᵢ)² + λ|β| with λ = 1. The OLS coefficient is 0.8. Lasso coefficient?
+One-variable Lasso with $\sum x_{i}^{2} = 1$, objective $\sum (y_{i} - \beta x_{i})^{2} + \lambda |\beta |$ with $\lambda = 1$. The OLS coefficient is 0.8. Lasso coefficient?
 --- indice
-Le critère vaut β² − 2βz + λ|β| à une constante près ; dérive pour β > 0.
+Le critère vaut $\beta^{2} - 2\beta z + \lambda |\beta |$ à une constante près ; dérive pour $\beta > 0$.
 --- solution
-Pour β > 0 : 2β − 2z + λ = 0, donc β = z − λ/2 = 0,8 − 0,5 = **0,3** (valable car positif).
-Seuillage doux : β = signe(z)(|z| − λ/2)⁺. Si z valait 0,3, le Lasso donnerait exactement 0 : c'est ainsi qu'il sélectionne les variables.
+Pour $\beta > 0$ : $2\beta - 2z + \lambda = 0$, donc $\beta = z - \lambda /2 = 0{,}8 - 0{,}5 =$ **0,3** (valable car positif).
+Seuillage doux : $\beta = \operatorname{signe}(z)\,(|z| - \lambda /2)^{+}$. Si $z$ valait 0,3, le Lasso donnerait exactement 0 : c'est ainsi qu'il sélectionne les variables.
 --- relances
-- Et la Ridge avec le même λ ? (z/(1 + λ) = 0,4)
+- Et la Ridge avec le même $\lambda$ ? ($z/(1 + \lambda) = 0{,}4$)
 - Pourquoi géométriquement des zéros exacts ?
 
 === stats-variance-mco
@@ -258,15 +258,15 @@ profils: hf data risque
 type: ouverte
 duree: 180
 --- question
-Dérive l'estimateur des moindres carrés et sa variance Var(β̂ | X) = σ²(XᵀX)⁻¹. Quelles hypothèses utilises-tu ?
+Dérive l'estimateur des moindres carrés et sa variance $\operatorname{Var} (\hat{\beta} | X) = \sigma^{2}(X^{T}X)^{-1}$. Quelles hypothèses utilises-tu ?
 --- en
-Derive the OLS estimator and its variance Var(β̂ | X) = σ²(XᵀX)⁻¹. Which assumptions do you use?
+Derive the OLS estimator and its variance $\operatorname{Var} (\hat{\beta} | X) = \sigma^{2}(X^{T}X)^{-1}$. Which assumptions do you use?
 --- solution
-Gradient de ‖y − Xβ‖² : −2Xᵀy + 2XᵀXβ = 0, donc β̂ = (XᵀX)⁻¹Xᵀy (XᵀX inversible : pas de colinéarité parfaite).
-β̂ = β + (XᵀX)⁻¹Xᵀε. **Sans biais** si E[ε | X] = 0 (exogénéité). **Variance** : Var(Aε) = A Var(ε) Aᵀ avec A = (XᵀX)⁻¹Xᵀ ; si Var(ε | X) = σ²I (homoscédasticité, pas d'autocorrélation), on obtient σ²(XᵀX)⁻¹XᵀX(XᵀX)⁻¹ = **σ²(XᵀX)⁻¹**.
+Gradient de $\| y - X\beta \|^{2}$ : $-2X^{T}y + 2X^{T}X\beta = 0$, donc $\hat{\beta} = (X^{T}X)^{-1}X^{T}y$ ($X^{T}X$ inversible : pas de colinéarité parfaite).
+$\hat{\beta} = \beta + (X^{T}X)^{-1}X^{T}\varepsilon$. **Sans biais** si $\mathbb{E}[\varepsilon | X] = 0$ (exogénéité). **Variance** : $\operatorname{Var} (A\varepsilon) = A \operatorname{Var} (\varepsilon) A^{T}$ avec $A = (X^{T}X)^{-1}X^{T}$ ; si $\operatorname{Var} (\varepsilon | X) = \sigma^{2}I$ (homoscédasticité, pas d'autocorrélation), on obtient $\sigma^{2}(X^{T}X)^{-1}X^{T}X(X^{T}X)^{-1} =$ **$\sigma^{2}(X^{T}X)^{-1}$**.
 Si l'homoscédasticité tombe, les coefficients restent sans biais mais les erreurs standard sont fausses (White, Newey-West).
 --- relances
-- Que devient la variance d'une pente quand deux variables sont corrélées à 0,9 ? (× 5,3)
+- Que devient la variance d'une pente quand deux variables sont corrélées à 0,9 ? ($\times 5{,}3$)
 - Biais de variable omise ?
 
 === ml-foret-variance
@@ -281,7 +281,7 @@ Une forêt aléatoire moyenne 50 arbres ; chaque arbre a une variance de prédic
 --- en
 A random forest averages 50 trees; each tree has prediction variance 1 and pairwise correlation 0.2. Variance of the forest's prediction?
 --- solution
-ρσ² + (1 − ρ)σ²/B = 0,2 + 0,8/50 = **0,216**. Le terme ρσ² ne diminue pas avec le nombre d'arbres : d'où le tirage aléatoire de variables, qui décorrèle les arbres. Même calcul que la limite de la diversification d'un portefeuille.
+$\rho \sigma^{2} + (1 - \rho)\sigma^{2}/B = 0{,}2 + 0{,}8/50 =$ **0,216**. Le terme $\rho \sigma^{2}$ ne diminue pas avec le nombre d'arbres : d'où le tirage aléatoire de variables, qui décorrèle les arbres. Même calcul que la limite de la diversification d'un portefeuille.
 --- relances
 - Et le boosting, il réduit quoi ? (le biais)
 
@@ -296,12 +296,12 @@ Dérive le gradient de la log-loss d'une régression logistique.
 --- en
 Derive the gradient of the logistic regression log-loss.
 --- solution
-p = σ(z), z = xᵀβ, σ'(z) = σ(z)(1 − σ(z)). Donc ∂/∂z ln σ = 1 − σ et ∂/∂z ln(1 − σ) = −σ.
-Pour un exemple : ∂/∂z [−y ln σ − (1 − y) ln(1 − σ)] = −y(1 − σ) + (1 − y)σ = **σ(z) − y**. En chaîne (∂z/∂β = x) : gradient (p − y)x, soit **Xᵀ(p − y)/n** pour la moyenne.
-Même forme que les moindres carrés ; la perte est convexe (hessienne Σ p(1 − p)xxᵀ ≥ 0).
+$p = \sigma (z), z = x^{T}\beta, \sigma '(z) = \sigma (z)(1 - \sigma (z))$. Donc $\partial / \partial z \ln \sigma = 1 - \sigma$ et $\partial / \partial z \ln (1 - \sigma) = -\sigma$.
+Pour un exemple : $\partial / \partial z [-y \ln \sigma - (1 - y) \ln (1 - \sigma)] = -y(1 - \sigma) + (1 - y)\sigma =$ **$\sigma (z) - y$**. En chaîne ($\partial z/ \partial \beta = x$) : gradient $(p - y)x$, soit **$X^{T}(p - y)/n$** pour la moyenne.
+Même forme que les moindres carrés ; la perte est convexe (hessienne $\sum p(1 - p)\,x x^{T} \succeq 0$).
 --- relances
-- Interprétation d'un coefficient ? (multiplie la cote par e^β)
-- Pourquoi pas les moindres carrés sur une étiquette 0/1 ?
+- Interprétation d'un coefficient ? (multiplie la cote par $e^\beta$)
+- Pourquoi pas les moindres carrés sur une étiquette $0/1$ ?
 
 === num-antithetique
 theme: derives
@@ -314,8 +314,8 @@ Quand les variables antithétiques réduisent-elles la variance d'un Monte-Carlo
 --- en
 When do antithetic variates reduce Monte Carlo variance? When are they useless?
 --- solution
-Var((f(Z) + f(−Z))/2) = ½(Var f(Z) + Cov(f(Z), f(−Z))). À coût égal, le gain existe si et seulement si **Cov(f(Z), f(−Z)) < 0**, ce qui est vrai pour f monotone (un call, un put).
-Inutiles (voire nuisibles) pour f paire : un straddle à la monnaie, f(z) = z². Autres réductions : variable de contrôle (variance × (1 − ρ²)), échantillonnage préférentiel, quasi-Monte-Carlo.
+$\operatorname{Var} ((f(Z) + f(-Z))/2) = \tfrac12$(Var $f(Z) + \operatorname{Cov} (f(Z), f(-Z))$). À coût égal, le gain existe si et seulement si **$\operatorname{Cov} (f(Z), f(-Z)) < 0$**, ce qui est vrai pour $f$ monotone (un call, un put).
+Inutiles (voire nuisibles) pour $f$ paire : un straddle à la monnaie, $f(z) = z^{2}$. Autres réductions : variable de contrôle (variance $\times (1 - \rho^{2})$), échantillonnage préférentiel, quasi-Monte-Carlo.
 --- relances
 - Quelle variable de contrôle pour une asiatique arithmétique ? (l'asiatique géométrique)
 
@@ -327,14 +327,14 @@ type: numerique
 reponse: 0.0004/0.09
 duree: 150
 --- question
-Schéma explicite pour ∂_τu = ½σ²∂_xxu avec σ = 30 % et un pas en log-prix Δx = 0,02. Plus grand pas de temps stable, en années ?
+Schéma explicite pour $\partial_\tau u = \tfrac12 \sigma^{2} \partial_\text{xxu}$ avec $\sigma = 30\,\%$ et un pas en log-prix $\Delta x = 0{,}02$. Plus grand pas de temps stable, en années ?
 --- en
-Explicit scheme for ∂_τu = ½σ²∂_xxu with σ = 30% and Δx = 0.02 in log-price. Largest stable time step, in years?
+Explicit scheme for $\partial_\tau u = \tfrac12 \sigma^{2} \partial_\text{xxu}$ with $\sigma = 30\,\%$ and $\Delta x = 0.02$ in log-price. Largest stable time step, in years?
 --- indice
-Analyse de von Neumann : facteur d'amplification 1 − 4α sin²(kΔx/2), avec α = σ²Δτ/(2Δx²).
+Analyse de von Neumann : facteur d'amplification $1 - 4\alpha \sin^{2}(k\Delta x/2)$, avec $\alpha = \sigma^{2}\Delta \tau /(2\Delta x^{2})$.
 --- solution
-Stabilité si α ≤ ½, soit Δτ ≤ Δx²/σ² = 0,0004/0,09 ≈ **0,0044 an** (environ 1,1 jour ouvré).
-Diviser Δx par 2 oblige à diviser Δτ par 4 : d'où les schémas implicites ou Crank-Nicolson.
+Stabilité si $\alpha \le \tfrac12$, soit $\Delta \tau \le \Delta x^{2}/\sigma^{2} = 0{,}0004/0{,}09 \approx$ **0,0044 an** (environ 1,1 jour ouvré).
+Diviser $\Delta x$ par 2 oblige à diviser $\Delta \tau$ par 4 : d'où les schémas implicites ou Crank-Nicolson.
 --- relances
 - Ordre de Crank-Nicolson ? (2 en temps et en espace)
 - Pourquoi des oscillations près du strike ?
@@ -350,12 +350,12 @@ Comment générer deux gaussiennes standard indépendantes à partir de deux uni
 --- en
 How do you generate two independent standard normals from two uniforms? Why does it work?
 --- solution
-**Box-Muller** : R = √(−2 ln U₁), Θ = 2πU₂, Z₁ = R cos Θ, Z₂ = R sin Θ.
-En polaires, la densité (1/2π)e^{−r²/2} r dr dθ se factorise : Θ uniforme, indépendant de R, et R²/2 ~ Exp(1). Or −ln U₁ ~ Exp(1) (méthode d'inversion).
-Pour deux gaussiennes corrélées à ρ : X₂ = ρZ₁ + √(1 − ρ²)Z₂ (Cholesky).
+**Box-Muller** : $R = \sqrt{-2 \ln U_{1}}, \Theta = 2\pi U_{2}, Z_{1} = R \cos \Theta, Z_{2} = R \sin \Theta$.
+En polaires, la densité $(1/2\pi)e^{-r^{2}/2} r dr d\theta$ se factorise : $\Theta$ uniforme, indépendant de $R$, et $R^{2}/2 \sim$ Exp(1). Or $-\ln U_{1} \sim$ Exp(1) (méthode d'inversion).
+Pour deux gaussiennes corrélées à $\rho$ : $X_{2} = \rho Z_{1} + \sqrt{1 - \rho^{2}}Z_{2}$ (Cholesky).
 --- relances
-- Simuler une exponentielle ? (−ln U / λ)
-- Un point uniforme dans un disque ? (r = √U, pas r = U)
+- Simuler une exponentielle ? ($-\ln U / \lambda$)
+- Un point uniforme dans un disque ? ($r = \sqrt{U}$, pas $r = U$)
 
 === taux-swap-telescopage
 theme: taux
@@ -364,12 +364,12 @@ profils: banque risque
 type: ouverte
 duree: 180
 --- question
-Pourquoi la jambe variable d'un swap de taux vaut-elle 1 − P(0, T_n) (pour un nominal de 1) ? Quel est le taux de swap au pair ?
+Pourquoi la jambe variable d'un swap de taux vaut-elle $1 - P(0, T_n)$ (pour un nominal de 1) ? Quel est le taux de swap au pair ?
 --- en
-Why is the floating leg of an interest rate swap worth 1 − P(0, T_n) (unit notional)? What is the par swap rate?
+Why is the floating leg of an interest rate swap worth $1 - P(0, T_n)$ (unit notional)? What is the par swap rate?
 --- solution
-Recevoir δL_i en T_i (L_i fixé en T_{i−1}) se réplique en plaçant 1 en T_{i−1} jusqu'à T_i, ce qui rapporte 1 + δL_i : le flux vaut P(0, T_{i−1}) − P(0, T_i). En sommant, tout se télescope : **1 − P(0, T_n)**.
-Jambe fixe : K δ Σ P(0, T_i). Taux au pair : **S = (1 − P(0, T_n)) / (δ Σ P(0, T_i))**, moyenne pondérée des forwards.
+Recevoir $\delta L_i$ en $T_i$ ($L_i$ fixé en $T_{i-1}$) se réplique en plaçant 1 en $T_{i-1}$ jusqu'à $T_i$, ce qui rapporte $1 + \delta L_i$ : le flux vaut $\mathbb{P}(0, T_{i-1}) - P(0, T_i)$. En sommant, tout se télescope : **$1 - P(0, T_n)$**.
+Jambe fixe : $K \delta \sum P(0, T_i)$. Taux au pair : **$S = (1 - P(0, T_n)) / (\delta \sum P(0, T_i))$**, moyenne pondérée des forwards.
 Depuis 2008, actualisation et projection n'utilisent plus la même courbe : la formule n'est plus exacte (mono-courbe).
 --- relances
 - Duration d'un swap payeur de taux fixe ? (négative)

@@ -1,6 +1,8 @@
 # Fiches issues des chapitres ajoutés au cours : dénombrement et Poisson, algèbre linéaire, exotiques, énergie, code.
 
 === proba-scrutin
+categorie: denombrement
+titre: Le problème du scrutin
 theme: probas
 niveau: 2
 profils: mm hf
@@ -14,13 +16,15 @@ Candidate A gets 7 votes, B gets 3, counted in random order. Probability that A 
 --- indice
 Théorème du scrutin, démontré par le principe de réflexion.
 --- solution
-(a − b)/(a + b) = (7 − 3)/10 = **2/5**.
-Preuve : les bons dépouillements commencent par A ; ceux qui, partant de là, touchent l'égalité sont en bijection (par réflexion avant le premier retour à 0) avec les dépouillements qui commencent par B. On obtient C(9, 6) − C(9, 7) = 84 − 36 = 48 bons sur C(10, 3) = 120.
+$(a - b)/(a + b) = (7 - 3)/10 =$ **$2/5$**.
+Preuve : les bons dépouillements commencent par A ; ceux qui, partant de là, touchent l'égalité sont en bijection (par réflexion avant le premier retour à 0) avec les dépouillements qui commencent par B. On obtient $\binom{9}{6} - \binom{9}{7} = 84 - 36 = 48$ bons sur $\binom{10}{3} = 120$.
 --- relances
-- Et si l'on demande « jamais derrière » au lieu de « strictement devant » ? ((a + 1 − b)/(a + 1))
+- Et si l'on demande « jamais derrière » au lieu de « strictement devant » ? ($(a + 1 - b)/(a + 1)$)
 - Lien avec les nombres de Catalan ?
 
 === proba-catalan
+categorie: denombrement
+titre: Parenthésages bien formés (nombres de Catalan)
 theme: probas
 niveau: 2
 profils: mm hf data
@@ -32,8 +36,8 @@ Combien de suites de 4 parenthèses ouvrantes et 4 fermantes sont bien formées 
 --- en
 How many well-formed sequences of 4 opening and 4 closing parentheses are there?
 --- solution
-Nombre de Catalan C₄ = C(8, 4)/5 = 70/5 = **14**.
-Preuve par réflexion : parmi les C(8, 4) chemins de 0 à 0, ceux qui passent sous 0 sont en bijection avec les chemins de 0 à −2, au nombre de C(8, 5) = 56 ; 70 − 56 = 14.
+Nombre de Catalan $C_{4} = \binom{8}{4}/5 = 70/5 =$ **14**.
+Preuve par réflexion : parmi les $\binom{8}{4}$ chemins de 0 à 0, ceux qui passent sous 0 sont en bijection avec les chemins de 0 à $-2$, au nombre de $\binom{8}{5} = 56$ ; $70 - 56 = 14$.
 --- relances
 - Combien d'arbres binaires à 4 nœuds internes ? (14 aussi)
 - Comment le vérifier en code ? (pile, ou compteur qui ne doit jamais devenir négatif)
@@ -46,13 +50,13 @@ type: numerique
 reponse: 1-3*exp(-2)
 duree: 150
 --- question
-Des ordres arrivent selon un processus de Poisson de 6 par minute ; chacun est un gros ordre avec probabilité 1/3, indépendamment. Probabilité de recevoir au moins 2 gros ordres dans la minute ?
+Des ordres arrivent selon un processus de Poisson de 6 par minute ; chacun est un gros ordre avec probabilité $1/3$, indépendamment. Probabilité de recevoir au moins 2 gros ordres dans la minute ?
 --- en
-Orders arrive as a Poisson process at 6 per minute; each is large with probability 1/3, independently. Probability of at least 2 large orders within a minute?
+Orders arrive as a Poisson process at 6 per minute; each is large with probability $1/3$, independently. Probability of at least 2 large orders within a minute?
 --- indice
 Les gros ordres forment eux-mêmes un processus de Poisson.
 --- solution
-Par amincissement, les gros ordres suivent un Poisson d'intensité 2 par minute : P(N ≥ 2) = 1 − e^{−2}(1 + 2) = **1 − 3e^{−2} ≈ 0,594**.
+Par amincissement, les gros ordres suivent un Poisson d'intensité 2 par minute : $\mathbb{P}(N \ge 2) = 1 - e^{-2}(1 + 2) =$ **$1 - 3e^{-2} \approx 0{,}594$**.
 Le nombre de petits ordres est un Poisson indépendant (intensité 4) : observer beaucoup de petits ordres n'apprend rien sur les gros.
 --- relances
 - Temps moyen jusqu'au premier gros ordre ? (30 secondes)
@@ -69,12 +73,12 @@ Six actifs ont des rendements standardisés, deux à deux corrélés à 0,2. Que
 --- en
 Six standardised assets with pairwise correlation 0.2. Largest eigenvalue of their correlation matrix?
 --- indice
-R = (1 − ρ)I + ρ11ᵀ.
+$R = (1 - \rho)I + \rho 11^{T}$.
 --- solution
-Vecteur propre 1 = (1, …, 1) : valeur propre 1 + (n − 1)ρ = 1 + 5 × 0,2 = **2** (le mode marché, un tiers de la variance totale 6). Les cinq autres valent 1 − ρ = 0,8.
-Conséquence : la matrice n'est valide que si ρ ≥ −1/(n − 1) = −0,2.
+Vecteur propre $1 = (1, \dots, 1)$ : valeur propre $1 + (n - 1)\rho = 1 + 5 \times 0{,}2 =$ **2** (le mode marché, un tiers de la variance totale 6). Les cinq autres valent $1 - \rho = 0{,}8$.
+Conséquence : la matrice n'est valide que si $\rho \ge -1/(n - 1) = -0{,}2$.
 --- relances
-- Quelle part de variance explique la première composante principale ? (2/6)
+- Quelle part de variance explique la première composante principale ? ($2/6$)
 
 === stats-cholesky
 theme: stats
@@ -84,14 +88,14 @@ type: numerique
 reponse: sqrt(3)
 duree: 120
 --- question
-Factorisation de Cholesky Σ = LLᵀ de la matrice de covariance [[4, 2], [2, 4]] : que vaut L₂₂ ?
+Factorisation de Cholesky $\Sigma = LL^T$ de la matrice de covariance $\begin{pmatrix} 4 & 2 \\ 2 & 4 \end{pmatrix}$ : que vaut $L_{22}$ ?
 --- en
-Cholesky factorisation Σ = LLᵀ of the covariance matrix [[4, 2], [2, 4]]: what is L₂₂?
+Cholesky factorisation $\Sigma = LL^T$ of the covariance matrix $\begin{pmatrix} 4 & 2 \\ 2 & 4 \end{pmatrix}$: what is $L_{22}$?
 --- solution
-L₁₁ = √4 = 2, L₂₁ = 2/2 = 1, L₂₂ = √(4 − 1²) = **√3 ≈ 1,732**.
-Lecture : X₂ = 1·Z₁ + √3·Z₂ ; √3² = 3 est la variance de X₂ non expliquée par X₁ (4 × (1 − ρ²) avec ρ = 0,5).
+$L_{11} = \sqrt{4} = 2, L_{21} = 2/2 = 1, L_{22} = \sqrt{4 - 1^{2}} =$ **$\sqrt{3} \approx 1{,}732$**.
+Lecture : $X_{2} = 1 \cdot Z_{1} + \sqrt{3} \cdot Z_{2}$ ; $\sqrt{3}^{2} = 3$ est la variance de $X_{2}$ non expliquée par $X_{1}$ ($4 \times (1 - \rho^{2})$ avec $\rho = 0{,}5$).
 --- relances
-- Comment simuler (X₁, X₂) ? (X = LZ)
+- Comment simuler ($X_{1}, X_{2}$) ? ($X =$ LZ)
 - Que se passe-t-il si la matrice n'est pas définie positive ? (racine d'un nombre négatif : c'est un test de positivité)
 
 === der-barriere-carr
@@ -103,14 +107,14 @@ reponse: 100/80*(64*N(-(log(100/64)-0.02)/0.2)-100*N(-(log(100/64)+0.02)/0.2))
 tolerance: 0.01
 duree: 300
 --- question
-Black-Scholes, taux nul, S₀ = K = 100, σ = 20 %, T = 1 an. Prix d'un call down-and-in de barrière 80 (surveillance continue) ? Utilise la réplication statique par des puts.
+Black-Scholes, taux nul, $S_{0} = K = 100, \sigma = 20\,\%, T = 1$ an. Prix d'un call down-and-in de barrière 80 (surveillance continue) ? Utilise la réplication statique par des puts.
 --- en
-Black-Scholes with zero rates, S₀ = K = 100, σ = 20%, T = 1. Price of a down-and-in call with barrier 80 (continuous monitoring)? Use the static put replication.
+Black-Scholes with zero rates, $S_{0} = K = 100, \sigma = 20\,\%, T = 1$. Price of a down-and-in call with barrier 80 (continuous monitoring)? Use the static put replication.
 --- indice
-C_DI = (K/B) · P(S₀, B²/K), par la symétrie call-put.
+$C_{DI} = (K/B) \cdot \mathbb{P}(S_{0}, B^{2}/K)$, par la symétrie call-put.
 --- solution
-B²/K = 64. P(100, 64) avec d₁ = (ln(100/64) + 0,02)/0,2 ≈ 2,331 et d₂ ≈ 2,131 : P = 64 N(−2,131) − 100 N(−2,331) ≈ 0,0712. Donc C_DI = (100/80) × 0,0712 ≈ **0,089**.
-Pourquoi : si la barrière n'est jamais touchée, les puts de strike 64 < 80 expirent sans valeur ; si elle l'est, en S = B la symétrie call-put donne C(B, K) = (K/B) P(B, B²/K) et l'on échange les puts contre le call sans frais.
+$B^{2}/K = 64$. $\mathbb{P}(100, 64)$ avec $d_{1} = (\ln (100/64) + 0{,}02)/0{,}2 \approx 2{,}331$ et $d_{2} \approx 2{,}131$ : $P = 64 N(-2{,}131) - 100 N(-2{,}331) \approx 0{,}0712$. Donc $C_{DI} = (100/80) \times 0{,}0712 \approx$ **0,089**.
+Pourquoi : si la barrière n'est jamais touchée, les puts de strike $64 < 80$ expirent sans valeur ; si elle l'est, en $S = B$ la symétrie call-put donne $\binom{B}{K} = (K/B) \mathbb{P}(B, B^{2}/K)$ et l'on échange les puts contre le call sans frais.
 --- relances
 - Prix du down-and-out ? (vanille − down-and-in)
 - Que devient la réplication avec un skew ?
@@ -123,11 +127,11 @@ type: numerique
 reponse: 0.24/sqrt(3)
 duree: 150
 --- question
-Taux nul, σ = 24 %, T = 1 an. Quelle volatilité utiliser dans la formule de Black pour un call sur la moyenne géométrique continue du sous-jacent ?
+Taux nul, $\sigma = 24\,\%, T = 1$ an. Quelle volatilité utiliser dans la formule de Black pour un call sur la moyenne géométrique continue du sous-jacent ?
 --- en
-Zero rates, σ = 24%, T = 1. Which volatility goes into Black's formula for a call on the continuous geometric average?
+Zero rates, $\sigma = 24\,\%, T = 1$. Which volatility goes into Black's formula for a call on the continuous geometric average?
 --- solution
-ln G = ln S₀ − σ²T/4 + (σ/T)∫₀ᵀ W_t dt, et Var(∫₀ᵀ W dt) = T³/3. Donc Var(ln G) = σ²T/3 : volatilité **σ/√3 ≈ 13,9 %**, avec le forward S₀ e^{−σ²T/12}.
+$\ln G = \ln S_{0} - \sigma^{2}T/4 + (\sigma /T) \int_{0}^{T} W_t dt$, et $\operatorname{Var} (\int_{0}^{T} W dt) = T^{3}/3$. Donc $\operatorname{Var} (\ln G) = \sigma^{2}T/3$ : volatilité **$\sigma /\sqrt{3} \approx 13{,}9\,\%$**, avec le forward $S_{0} e^{-\sigma^{2}T/12}$.
 L'asiatique géométrique sert de variable de contrôle pour l'arithmétique, qui n'a pas de formule fermée.
 --- relances
 - Pourquoi la moyenne arithmétique est-elle toujours plus grande ? (inégalité arithmético-géométrique)
@@ -139,12 +143,12 @@ profils: banque mm
 type: ouverte
 duree: 180
 --- question
-Pourquoi le prix d'une digitale n'est-il pas e^{−rT}N(d₂) calculé à la vol implicite de son strike ? Dans quel sens joue le skew des actions ?
+Pourquoi le prix d'une digitale n'est-il pas $e^{-rT}N(d_{2})$ calculé à la vol implicite de son strike ? Dans quel sens joue le skew des actions ?
 --- en
-Why is a digital option not priced as e^{−rT}N(d₂) at its strike's implied vol? Which way does the equity skew push the price?
+Why is a digital option not priced as $e^{-rT}N(d_{2})$ at its strike's implied vol? Which way does the equity skew push the price?
 --- solution
-La digitale est la limite d'un call spread : D = −dC/dK, où C(K) = C_BS(K, σ(K)). En dérivant : **D = e^{−rT}N(d₂) − Vega × ∂σ/∂K**.
-Sur actions, le skew est négatif (∂σ/∂K < 0) : la correction est **positive**, une digitale call vaut plus que Black-Scholes à la vol du strike (et une digitale put moins). L'effet est du même ordre que le prix lui-même : ignorer le skew est une erreur de premier ordre.
+La digitale est la limite d'un call spread : $D = -dC/dK$, où $C(K) = C_{BS}(K, \sigma (K))$. En dérivant : **$D = e^{-rT}N(d_{2}) -$ Vega $\times \partial \sigma / \partial K$**.
+Sur actions, le skew est négatif ($\partial \sigma / \partial K < 0$) : la correction est **positive**, une digitale call vaut plus que Black-Scholes à la vol du strike (et une digitale put moins). L'effet est du même ordre que le prix lui-même : ignorer le skew est une erreur de premier ordre.
 --- relances
 - Comment couvre-t-on une digitale près de l'échéance ? (call spread décalé, overhedge)
 
@@ -156,11 +160,11 @@ type: numerique
 reponse: exp(-0.5)
 duree: 120
 --- question
-Modèle de Schwartz (log-spot Ornstein-Uhlenbeck) avec κ = 2 par an. Quelle fraction de la volatilité du spot porte un forward livrant dans 3 mois ?
+Modèle de Schwartz (log-spot Ornstein-Uhlenbeck) avec $\kappa = 2$ par an. Quelle fraction de la volatilité du spot porte un forward livrant dans 3 mois ?
 --- en
-Schwartz model (Ornstein-Uhlenbeck log-spot) with κ = 2 per year. Which fraction of spot volatility does a forward delivering in 3 months carry?
+Schwartz model (Ornstein-Uhlenbeck log-spot) with $\kappa = 2$ per year. Which fraction of spot volatility does a forward delivering in 3 months carry?
 --- solution
-dF/F = σ e^{−κ(T − t)} dW : fraction e^{−2 × 0,25} = **e^{−0,5} ≈ 0,61**.
+$dF/F = \sigma e^{-\kappa (T - t)} dW$ : fraction $e^{-2 \times 0{,}25} =$ **$e^{-0{,}5} \approx 0{,}61$**.
 C'est l'effet Samuelson : la volatilité d'un forward augmente à l'approche de la livraison, car un choc sur le spot a le temps de se résorber avant une livraison lointaine.
 --- relances
 - Pourquoi les forwards lointains bougent-ils quand même en pratique ? (facteur de long terme, modèle à deux facteurs)
@@ -177,7 +181,7 @@ Forwards base d'électricité : janvier 100 €/MWh (744 heures), février 80 �
 --- en
 Baseload power forwards: January 100 €/MWh (744 hours), February 80 €/MWh (672 hours). Arbitrage-free price of a product delivering 1 MW over both months?
 --- solution
-Moyenne pondérée par les heures : (100 × 744 + 80 × 672)/1 416 ≈ **90,51 €/MWh** (et non 90 : janvier compte plus d'heures).
+Moyenne pondérée par les heures : $(100 \times 744 + 80 \times 672)/1\,416 \approx$ **90,51 €/MWh** (et non 90 : janvier compte plus d'heures).
 Les deux portefeuilles (le produit bimestriel, ou janvier plus février) livrent exactement la même énergie : même prix.
 --- relances
 - Et pour un produit pointe ? (mêmes poids, mais avec les heures de pointe)
@@ -193,7 +197,7 @@ Pourquoi l'ajout à la fin d'une liste Python ou d'un std::vector coûte-t-il O(
 --- en
 Why is appending to a Python list or std::vector O(1) amortised? What if capacity grew by 10 slots each time?
 --- solution
-Quand le tableau est plein, on alloue une capacité **multipliée** par un facteur r > 1 et on recopie. Les recopies ont lieu à des tailles en progression géométrique ; leur coût total est une série géométrique inférieure à n/(r − 1). Pour n ajouts, le coût total est O(n), donc O(1) en moyenne par ajout (avec r = 2 : moins de 3n opérations).
-Avec une croissance **additive** de 10 cases, on recopie 10, 20, 30, … éléments : O(n²) au total.
+Quand le tableau est plein, on alloue une capacité **multipliée** par un facteur $r > 1$ et on recopie. Les recopies ont lieu à des tailles en progression géométrique ; leur coût total est une série géométrique inférieure à $n/(r - 1)$. Pour $n$ ajouts, le coût total est O($n$), donc O(1) en moyenne par ajout (avec $r = 2$ : moins de $3n$ opérations).
+Avec une croissance **additive** de 10 cases, on recopie 10, 20, 30, … éléments : O($n^{2}$) au total.
 --- relances
 - Pourquoi CPython agrandit-il d'environ 12,5 % plutôt que de doubler ? (mémoire gaspillée contre fréquence des recopies)

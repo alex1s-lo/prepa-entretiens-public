@@ -29,10 +29,10 @@ Le plus important est la régularité : la répétition espacée ne marche que s
 
 ## Dès qu'un entretien est fixé
 
-- L'ajouter dans le Journal : l'accueil affiche le compte à rebours et la liste J−7, J−1, Jour J.
+- L'ajouter dans le Journal : l'accueil affiche le compte à rebours et la liste $J-7, J-1$, Jour $J$.
 - Réviser en priorité le profil de cette maison (Réglages → profil prioritaire).
 - Préparer « Pourquoi nous ? » pour cette entreprise précise.
-- Un entretien blanc du bon profil à J−3, pas plus tard.
+- Un entretien blanc du bon profil à $J-3$, pas plus tard.
 - Juste après : noter toutes les questions posées. Elles deviennent des fiches « Mes questions ».
 
 ## Les deux pièges

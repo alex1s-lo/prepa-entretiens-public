@@ -33,6 +33,18 @@
     for (let k = 27; k >= 0; k--) jours.push(o.ajouterJours(jour, -k));
     const valeurs = jours.map(function (j) { const x = etat.jours[j] || {}; return (x.revues || 0) + (x.calcul ? Math.ceil(x.calcul / 10) : 0) + 5 * (x.entretiens || 0) + 2 * (x.marche || 0); });
     const max = Math.max.apply(null, valeurs.concat([1]));
+    const cats = A.banque().categories || {};
+    const enigmes = toutes.filter(function (f) { return f.categorie; });
+    if (enigmes.length) {
+      html += '<div class="carte"><h2 style="margin-top:0">Casse-têtes par famille</h2><p class="legende">Énigmes déjà vues au moins une fois : l’objectif est qu’aucune ne te surprenne en entretien.</p>' +
+        Object.keys(cats).map(function (c) {
+          const l = enigmes.filter(function (f) { return f.categorie === c; });
+          if (!l.length) return '';
+          const vu = l.filter(function (f) { return etat.cartes[f.id]; }).length;
+          return '<div class="theme-ligne"><span>' + o.echapper(cats[c]) + '</span><div class="barre"><span style="width:' + Math.round(100 * vu / l.length) + '%"></span></div>' +
+            '<span>' + vu + ' / ' + l.length + '</span></div>';
+        }).join('') + '<p style="margin-bottom:0"><a href="#casse-tetes">Ouvrir les casse-têtes</a></p></div>';
+    }
     html += '<div class="carte"><h2 style="margin-top:0">Activité (4 semaines)</h2><div class="histogramme" role="img" aria-label="Activité quotidienne">' +
       valeurs.map(function (v, i) {
         return '<span class="' + (v ? '' : 'vide') + '" style="height:' + Math.max(3, Math.round(100 * v / max)) + '%" title="' + o.dateLisible(jours[i]) + ' : ' + v + '"></span>';

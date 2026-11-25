@@ -1,0 +1,579 @@
+# Casse-têtes : probabilités et espérance (énigmes classiques d'entretien qui ne figuraient pas déjà dans les fiches
+# de probabilités ; celles-ci sont rattachées à la section Casse-têtes par leur champ « categorie »).
+
+=== ct-p-triangle-aigu
+theme: casse-tete
+categorie: probas
+titre: Trois points sur un cercle : triangle aigu ?
+niveau: 2
+profils: mm hf banque data
+type: numerique
+reponse: 1/4
+duree: 300
+--- question
+On choisit trois points uniformément et indépendamment sur un cercle. Quelle est la probabilité que le triangle formé soit acutangle (tous ses angles aigus) ?
+--- indice
+Un triangle inscrit est aigu si et seulement s'il contient le centre du cercle, c'est-à-dire si les trois points ne sont pas dans un même demi-cercle.
+--- solution
+Le triangle est obtus ou rectangle exactement quand les trois points tiennent dans un demi-cercle, ce qui arrive avec probabilité $3/4$ (chacun des trois points peut être « le premier » d'un demi-cercle qui contient les deux autres : $3 \times (1/2)^2$). Triangle aigu : $1 - 3/4 =$ **1/4**.
+--- variantes
+- Probabilité que le triangle **contienne le centre** du cercle : la même, $1/4$.
+- Quatre points uniformes sur une **sphère** : le tétraèdre contient le centre avec probabilité $1/8$ (théorème de Wendel : $n$ points sont dans un même hémisphère de la sphère de $\mathbb{R}^d$ avec probabilité $2^{1-n}\sum_{k=0}^{d-1}\binom{n-1}{k}$, soit $7/8$ ici).
+- $n$ points sur un cercle tous dans un demi-cercle : $n / 2^{n-1}$ (voir la fiche dédiée).
+
+=== ct-p-rendez-vous
+theme: casse-tete
+categorie: probas
+titre: Rendez-vous entre 8 h et 9 h, attente de 15 minutes
+niveau: 1
+profils: mm hf banque data
+type: numerique
+reponse: 7/16
+duree: 180
+--- question
+Deux amis arrivent indépendamment à un instant uniforme entre 8 h et 9 h ; chacun attend 15 minutes puis s'en va. Probabilité qu'ils se rencontrent ?
+--- indice
+Dessine le carré $[0, 1]^2$ des heures d'arrivée et la bande $|x - y| \le 1/4$.
+--- solution
+Ils se rencontrent si $|X - Y| \le 1/4$. Le complémentaire forme deux triangles de côté $3/4$ : aire $(3/4)^2 = 9/16$. Probabilité : $1 - 9/16 =$ **7/16**.
+--- variantes
+- Attente de $t$ (en fraction d'heure) : $1 - (1 - t)^2$.
+- L'un attend 10 minutes, l'autre 20 : aire $1 - \frac12 (5/6)^2 - \frac12 (2/3)^2$.
+
+=== ct-p-buffon
+theme: casse-tete
+categorie: probas
+titre: L'aiguille de Buffon
+niveau: 2
+profils: mm hf banque data
+type: numerique
+reponse: 2/pi
+duree: 300
+--- question
+On lance une aiguille de longueur 1 sur un parquet dont les lames ont une largeur 1. Probabilité que l'aiguille croise une ligne ?
+--- indice
+Paramètre l'aiguille par la distance $x$ de son centre à la ligne la plus proche ($0 \le x \le 1/2$) et l'angle $\theta$.
+--- solution
+$x$ uniforme sur $[0, 1/2]$, $\theta$ uniforme sur $[0, \pi/2]$ ; croisement si $x \le \frac12 \sin\theta$.
+$$\mathbb{P} = \frac{\int_0^{\pi/2} \frac12 \sin\theta \, d\theta}{\frac12 \cdot \frac{\pi}{2}} = \frac{1/2}{\pi/4} = \frac{2}{\pi} \approx 0{,}637.$$
+Réponse : **$2/\pi$**. Astuce élégante (« nouille de Buffon ») : l'espérance du nombre de croisements est proportionnelle à la longueur, quelle que soit la forme.
+--- variantes
+- Aiguille de longueur $\ell \le d$ : $\frac{2\ell}{\pi d}$ ; méthode de Monte-Carlo historique pour estimer $\pi$.
+
+=== ct-p-bertrand-corde
+theme: casse-tete
+categorie: probas
+titre: Paradoxe de Bertrand : une corde « au hasard »
+niveau: 2
+profils: mm hf data
+--- question
+On trace une corde « au hasard » dans un cercle. Quelle est la probabilité qu'elle soit plus longue que le côté du triangle équilatéral inscrit ?
+--- indice
+Le résultat dépend de ce que « au hasard » veut dire. Propose trois façons de tirer une corde.
+--- solution
+- Deux extrémités uniformes sur le cercle : **1/3**.
+- Un rayon uniforme puis un point uniforme sur ce rayon, corde perpendiculaire : **1/2**.
+- Milieu de la corde uniforme dans le disque : **1/4**.
+Leçon : une probabilité n'a de sens qu'avec un modèle précis. En entretien, dire « ça dépend » **et** donner les trois réponses.
+--- variantes
+- Longueur moyenne d'une corde à extrémités uniformes (rayon 1) : $4/\pi \approx 1{,}27$.
+
+=== ct-p-de-repetition
+theme: casse-tete
+categorie: probas
+titre: Lancer un dé jusqu'à revoir une face
+niveau: 2
+profils: mm hf banque data
+type: numerique
+reponse: 1223/324
+duree: 300
+--- question
+On lance un dé jusqu'à obtenir une face déjà sortie. Combien de lancers en moyenne (le lancer de la répétition compris) ?
+--- indice
+$\mathbb{E}[N] = \sum_{k \ge 0} \mathbb{P}(N > k)$, et $N > k$ signifie que les $k$ premiers lancers sont tous différents.
+--- solution
+$\mathbb{P}(N > k) = \frac{6 \cdot 5 \cdots (6 - k + 1)}{6^k}$ pour $k \le 6$.
+$$\mathbb{E}[N] = 1 + 1 + \frac56 + \frac{5 \cdot 4}{36} + \frac{120}{216} + \frac{360}{1296} + \frac{720}{7776} = \frac{1223}{324} \approx 3{,}77.$$
+Réponse : **$1223/324 \approx 3{,}77$**. C'est le problème des anniversaires avec 6 « jours ».
+--- variantes
+- Deux lancers consécutifs égaux : nombre moyen de lancers $1 + 6 = 7$.
+
+=== ct-p-cube-oppose
+theme: casse-tete
+categorie: probas
+titre: Marche aléatoire sur un cube jusqu'au sommet opposé
+niveau: 2
+profils: mm hf banque data
+type: numerique
+reponse: 10
+duree: 300
+--- question
+Une fourmi part d'un sommet d'un cube et, à chaque minute, suit une arête au hasard (3 choix). En combien de minutes en moyenne atteint-elle le sommet opposé ?
+--- indice
+Regroupe les sommets par distance au sommet d'arrivée : 3, 2, 1, 0.
+--- solution
+Notons $e_k$ l'espérance depuis la distance $k$.
+$e_3 = 1 + e_2$ ; $e_2 = 1 + \frac13 e_3 + \frac23 e_1$ ; $e_1 = 1 + \frac23 e_2$.
+On trouve $e_1 = 7$, $e_2 = 9$, $e_3 =$ **10**.
+--- variantes
+- Grenouille sur les sommets d'un **hexagone**, jusqu'au sommet opposé : $9$ sauts (distances 3, 2, 1 : $e_3 = 9$).
+- Retour au point de départ sur un cube : $8$ minutes en moyenne (temps de retour $= 1/\pi_i$ pour une marche sur un graphe régulier).
+
+=== ct-p-piece-equitable
+theme: casse-tete
+categorie: probas
+titre: Fabriquer un tirage équitable avec une pièce biaisée
+niveau: 1
+profils: mm hf banque data
+--- question
+Ta pièce tombe sur pile avec une probabilité $p$ inconnue ($0 < p < 1$). Comment simuler un tirage parfaitement équitable ? Combien de lancers en moyenne ?
+--- indice
+Lance deux fois. Quelles issues ont la même probabilité ?
+--- solution
+Méthode de von Neumann : lance deux fois ; PF donne « pile », FP donne « face » (chacun de probabilité $p(1 - p)$) ; PP ou FF : recommence. Nombre moyen de paires : $\frac{1}{2p(1 - p)}$, soit $\frac{1}{p(1 - p)}$ lancers ($4$ si $p = 1/2$).
+--- variantes
+- Simuler un dé à 7 faces avec un dé à 5 faces (rejet) : voir la fiche de code « rand7 ».
+- Simuler une probabilité $1/3$ avec une pièce équitable : lance deux fois, PP = oui, PF ou FP = non, FF = recommence.
+
+=== ct-p-urnes-bleues
+theme: casse-tete
+categorie: probas
+titre: Répartir 5 boules bleues et 5 rouges dans deux urnes
+niveau: 2
+profils: mm hf banque data
+type: numerique
+reponse: 13/18
+duree: 300
+--- question
+Tu répartis 5 boules bleues et 5 rouges dans deux urnes (chacune non vide). On choisit une urne au hasard, puis une boule dans cette urne. Tu gagnes si elle est bleue. Meilleure répartition et probabilité de gagner ?
+--- indice
+Une urne qui ne contient qu'une boule bleue gagne à coup sûr.
+--- solution
+Mets **une seule boule bleue** dans la première urne, et les 9 autres (4 bleues, 5 rouges) dans la seconde :
+$$\mathbb{P} = \frac12 \times 1 + \frac12 \times \frac49 = \frac{13}{18} \approx 0{,}72.$$
+On ne peut pas faire mieux : une urne ne peut pas dépasser 1, et l'autre est au mieux la plus « bleue » possible avec ce qui reste.
+
+=== ct-p-chaussettes
+theme: casse-tete
+categorie: probas
+titre: Chaussettes : deux rouges avec probabilité 1/2
+niveau: 2
+profils: mm hf banque data
+type: numerique
+reponse: 4
+duree: 300
+--- question
+Un tiroir contient des chaussettes rouges et noires. Si l'on en tire deux au hasard, la probabilité qu'elles soient toutes deux rouges vaut exactement $1/2$. Quel est le plus petit nombre total de chaussettes ?
+--- indice
+$\frac{r(r - 1)}{n(n - 1)} = \frac12$. Essaie de petites valeurs de $n$.
+--- solution
+$2r(r - 1) = n(n - 1)$. Pour $n = 4$, $r = 3$ : $\frac{3 \times 2}{4 \times 3} = \frac12$. Plus petit total : **4** (3 rouges, 1 noire). Solution suivante : 21 chaussettes dont 15 rouges.
+--- variantes
+- Avec un nombre **pair** de chaussettes noires : 21 chaussettes (15 rouges, 6 noires).
+- Combien en tirer dans le noir pour être **sûr** d'avoir une paire de même couleur ? 3 (principe des tiroirs). Pour être sûr d'avoir deux rouges parmi 10 rouges et 10 noires : 12.
+
+=== ct-p-cartes-broyees
+theme: casse-tete
+categorie: probas
+titre: Deux as après avoir broyé 20 cartes au hasard
+niveau: 1
+profils: mm hf banque data
+type: numerique
+reponse: 1/221
+duree: 120
+--- question
+On mélange un jeu de 52 cartes, on en jette 20 au hasard dans une broyeuse sans les regarder, puis on tire 2 des cartes restantes. Probabilité qu'elles soient toutes deux des as ?
+--- indice
+Les cartes jetées sans être regardées n'apportent aucune information.
+--- solution
+Par symétrie, les 2 cartes tirées sont deux cartes uniformes du jeu complet : $\frac{4}{52} \times \frac{3}{51} = \frac{1}{221}$. Réponse : **1/221**.
+
+=== ct-p-pari-60-piles
+theme: casse-tete
+categorie: probas
+titre: Payer 1 € pour gagner 10 € si au moins 60 piles sur 100
+niveau: 2
+profils: mm hf banque data
+type: numerique
+reponse: 0.0284
+tolerance: 0.003
+duree: 240
+--- question
+On lance 100 pièces équilibrées. Si au moins 60 tombent sur pile, tu gagnes 10 € ; sinon rien. Le jeu coûte 1 €. Quelle est (à peu près) la probabilité de gagner ? Faut-il jouer ?
+--- indice
+Approximation normale : moyenne 50, écart-type 5.
+--- solution
+Le nombre de piles a pour moyenne 50 et écart-type $\sqrt{100 \times \frac14} = 5$. Avec la correction de continuité, $\mathbb{P}(X \ge 60) \approx \mathbb{P}(Z \ge 1{,}9) \approx 0{,}029$ (valeur exacte $0{,}0284$). Gain espéré : $10 \times 0{,}028 \approx 0{,}28$ € pour 1 € de mise : **ne pas jouer**.
+--- variantes
+- Probabilité d'obtenir exactement 50 piles sur 100 : $\binom{100}{50} 2^{-100} \approx 0{,}080$ (approximation $1/\sqrt{50\pi}$).
+
+=== ct-p-roulette-russe
+theme: casse-tete
+categorie: probas
+titre: Roulette russe à deux balles adjacentes
+niveau: 2
+profils: mm hf banque data
+type: numerique
+reponse: 3/4
+duree: 240
+--- question
+Un revolver à 6 chambres contient deux balles dans des chambres **adjacentes** ; le barillet a été tourné au hasard. Ton adversaire tire, le coup est vide. C'est ton tour : préfères-tu qu'on fasse tourner le barillet, ou tirer directement ? Quelle est ta probabilité de survie dans le meilleur cas ?
+--- indice
+Sachant que la chambre courante était vide, combien de chambres vides suivantes sont suivies d'une chambre vide ?
+--- solution
+Chambres : B B V V V V (cycliquement). Sachant la chambre courante vide (4 cas équiprobables), la suivante est vide dans 3 cas sur 4 (seule la dernière chambre vide précède une balle).
+- Sans tourner : survie $3/4$.
+- En tournant : survie $4/6 = 2/3$.
+Tirer **sans tourner** : survie **3/4**.
+--- variantes
+- Balles non adjacentes (une chambre vide entre elles, ou placées au hasard) : le calcul change ; avec deux balles placées au hasard, survie sans tourner $3/5$, moins bonne que $2/3$ : il faut alors tourner.
+
+=== ct-p-six-sachant-pairs
+theme: casse-tete
+categorie: probas
+titre: Lancer un dé jusqu'au 6, sachant que tous les lancers sont pairs
+niveau: 3
+profils: mm hf
+type: numerique
+reponse: 3/2
+duree: 420
+--- question
+On lance un dé jusqu'à obtenir un 6. Sachant que tous les lancers ont été pairs, quelle est l'espérance du nombre de lancers ?
+--- indice
+Ce n'est pas 3. Calcule $\mathbb{P}(N = n \text{ et tous pairs})$ : il faut $n - 1$ lancers parmi $\{2, 4\}$ puis un 6.
+--- solution
+$\mathbb{P}(N = n, \text{tous pairs}) = (2/6)^{n-1} \times 1/6$. Conditionnellement, $\mathbb{P}(N = n \mid \text{tous pairs}) \propto (1/3)^{n-1}$ : $N$ est géométrique de paramètre $2/3$, et $\mathbb{E}[N] =$ **3/2**.
+Intuition : conditionner à « tous pairs » favorise fortement les suites courtes (une longue suite sans aucun impair est très improbable). Équivalent : lancer jusqu'au premier résultat dans $\{1, 3, 5, 6\}$, puis garder la suite si c'est un 6.
+
+=== ct-p-morceau-milieu
+theme: casse-tete
+categorie: probas
+titre: Le morceau de bâton qui contient le milieu
+niveau: 2
+profils: mm hf banque data
+type: numerique
+reponse: 3/4
+duree: 240
+--- question
+On casse un bâton de longueur 1 en un point uniforme. Quelle est la longueur moyenne du morceau qui contient le milieu du bâton ?
+--- indice
+Ce morceau est le plus long des deux.
+--- solution
+Le morceau contenant le milieu est le plus long, de longueur $\max(U, 1 - U)$, uniforme sur $[1/2, 1]$ : espérance **3/4**.
+--- variantes
+- Bâton cassé en **deux** points uniformes : longueurs moyennes du plus long, du moyen et du plus court morceau : $11/18$, $5/18$ et $1/9$ (voir la fiche « bâton en trois morceaux »).
+
+=== ct-p-baton-casse-deux-fois
+theme: casse-tete
+categorie: probas
+titre: Casser le bâton, puis casser le plus long morceau
+niveau: 3
+profils: mm hf
+type: numerique
+reponse: 2*ln(2)-1
+duree: 420
+--- question
+On casse un bâton de longueur 1 en un point uniforme, puis on casse le **plus long** des deux morceaux en un point uniforme. Probabilité que les trois morceaux forment un triangle ?
+--- indice
+Le plus long morceau mesure $L$ uniforme sur $[1/2, 1]$. Les trois morceaux forment un triangle si chacun est $< 1/2$.
+--- solution
+Soit $L$ le plus long morceau ($L$ uniforme sur $[1/2, 1]$), cassé en $V$ et $L - V$ avec $V$ uniforme sur $[0, L]$. Triangle si $V < 1/2$ et $L - V < 1/2$ (l'autre morceau $1 - L$ est déjà $< 1/2$), soit $V \in ]L - 1/2, 1/2[$, de probabilité $\frac{1 - L}{L}$.
+$$\mathbb{P} = 2 \int_{1/2}^{1} \frac{1 - \ell}{\ell} \, d\ell = 2\left(\ln 2 - \frac12\right) = 2\ln 2 - 1 \approx 0{,}386.$$
+Réponse : **$2 \ln 2 - 1 \approx 0{,}386$**, plus que les $1/4$ de la cassure en deux points simultanés.
+--- variantes
+- Casser l'un des deux morceaux **au hasard** (pas forcément le plus long) : $\ln 2 - \frac12 \approx 0{,}193$.
+- Trois longueurs indépendantes uniformes sur $[0, 1]$ forment un triangle avec probabilité $1/2$.
+
+=== ct-p-un-et-six
+theme: casse-tete
+categorie: probas
+titre: Lancer un dé jusqu'à avoir vu le 1 et le 6
+niveau: 2
+profils: mm hf banque data
+type: numerique
+reponse: 9
+duree: 240
+--- question
+On lance un dé jusqu'à ce que le 1 et le 6 soient tous deux apparus. Combien de lancers en moyenne ?
+--- indice
+Temps d'attente du premier des deux, puis du second.
+--- solution
+Le premier des deux (1 ou 6) arrive en moyenne en $6/2 = 3$ lancers ; l'autre ensuite en 6 lancers : **9**. (Collectionneur de vignettes restreint à deux faces.)
+
+=== ct-p-total-atteint
+theme: casse-tete
+categorie: probas
+titre: Le total cumulé des dés passe-t-il par une valeur donnée ?
+niveau: 3
+profils: mm hf
+type: numerique
+reponse: 2/7
+duree: 420
+--- question
+On lance un dé indéfiniment en additionnant les résultats. Quelle est la probabilité que le total cumulé prenne exactement la valeur $n$, quand $n$ est grand ?
+--- indice
+Un pas de dé vaut $3{,}5$ en moyenne : sur un long trajet, quelle fraction des entiers le total « touche-t-il » ?
+--- solution
+Le total avance en moyenne de $3{,}5$ par lancer : sur une longue distance, il touche une proportion $1/3{,}5 = 2/7$ des entiers (théorème du renouvellement). Donc $\mathbb{P}(\text{atteindre } n) \to$ **2/7** $\approx 0{,}286$. Pour un petit $n$, récurrence $p_n = \frac16 \sum_{k=1}^{6} p_{n-k}$, $p_0 = 1$ (par exemple $p_1 = 1/6$, $p_6 = 7^5/6^6 \approx 0{,}36$).
+
+=== ct-p-deuce-tennis
+theme: casse-tete
+categorie: probas
+titre: Gagner un jeu de tennis depuis égalité
+niveau: 2
+profils: mm hf banque data
+type: numerique
+reponse: 9/13
+duree: 240
+--- question
+Au tennis, depuis « égalité », il faut gagner deux points d'affilée de plus que l'adversaire. Tu gagnes chaque point avec probabilité $0{,}6$, indépendamment. Probabilité de gagner le jeu ?
+--- indice
+Après deux points : tu gagnes ($p^2$), tu perds ($q^2$), ou retour à égalité ($2pq$).
+--- solution
+$w = p^2 + 2pq\,w$, donc $w = \frac{p^2}{1 - 2pq} = \frac{p^2}{p^2 + q^2} = \frac{0{,}36}{0{,}52} = \frac{9}{13} \approx 0{,}692$. Réponse : **9/13**.
+--- variantes
+- C'est une ruine du joueur avec des barrières à $\pm 2$ ; un avantage de 60 % par point devient 69 % par jeu, et davantage par set : l'avantage s'amplifie.
+
+=== ct-p-garcon-mardi
+theme: casse-tete
+categorie: probas
+titre: Deux enfants, dont un garçon né un mardi
+niveau: 3
+profils: mm hf
+type: numerique
+reponse: 13/27
+duree: 300
+--- question
+Une famille a deux enfants. On apprend qu'au moins l'un des deux est un garçon né un mardi. Probabilité que les deux soient des garçons ? (Sexes et jours équiprobables et indépendants.)
+--- indice
+Chaque enfant est un couple (sexe, jour) parmi 14 issues. Compte les couples d'enfants compatibles avec l'information.
+--- solution
+Couples d'enfants où au moins un est « garçon-mardi » : $14^2 - 13^2 = 27$. Parmi eux, deux garçons : $7^2 - 6^2 = 13$. Probabilité : **13/27** $\approx 0{,}48$, entre $1/3$ (« au moins un garçon ») et $1/2$ (« l'aîné est un garçon »).
+Leçon : plus l'information est spécifique, plus elle « désigne » un enfant particulier, et plus on se rapproche de $1/2$. La réponse dépend aussi de **comment** l'information a été obtenue.
+
+=== ct-p-paires-rouge-noire
+theme: casse-tete
+categorie: probas
+titre: Cartes voisines de couleurs différentes dans un jeu mélangé
+niveau: 2
+profils: mm hf banque data
+type: numerique
+reponse: 26
+duree: 240
+--- question
+On mélange un jeu de 52 cartes (26 rouges, 26 noires) et on les aligne. En moyenne, combien de paires de cartes voisines sont de couleurs différentes ?
+--- indice
+Linéarité de l'espérance sur les 51 paires de voisines.
+--- solution
+Pour chaque paire de voisines, $\mathbb{P}(\text{couleurs différentes}) = 2 \times \frac{26}{52} \times \frac{26}{51} = \frac{26}{51}$. Sur 51 paires : **26**.
+--- variantes
+- Paires « rouge puis noire » uniquement : 13.
+- Nombre moyen de séries (runs) dans 10 lancers de pièce : $1 + 9 \times \frac12 = 5{,}5$.
+
+=== ct-p-ivrogne-falaise
+theme: casse-tete
+categorie: probas
+titre: L'ivrogne au bord de la falaise
+niveau: 2
+profils: mm hf banque data
+type: numerique
+reponse: 1/2
+duree: 300
+--- question
+Un ivrogne est à un pas du bord d'une falaise. À chaque pas, il se rapproche du bord avec probabilité $1/3$ et s'en éloigne avec probabilité $2/3$. Probabilité qu'il tombe un jour ?
+--- indice
+Soit $x$ la probabilité de tomber en partant d'un pas du bord. Partir de deux pas revient à « descendre d'un pas » deux fois de suite.
+--- solution
+$x = \frac13 + \frac23 x^2$, d'où $2x^2 - 3x + 1 = 0$ : $x = 1$ ou $x = \frac12$. Comme la marche dérive loin de la falaise, la bonne racine est la plus petite : **1/2**. En général, avec $p < 1/2$ vers le bord : $x = p/(1 - p)$.
+--- variantes
+- Avec $p = 1/2$ : il tombe presque sûrement (marche récurrente), mais le temps moyen est infini.
+
+=== ct-p-sans-piles-consecutifs
+theme: casse-tete
+categorie: probas
+titre: Dix lancers sans deux piles consécutifs
+niveau: 2
+profils: mm hf banque data
+type: numerique
+reponse: 9/64
+duree: 240
+--- question
+On lance 10 fois une pièce équilibrée. Probabilité de n'avoir jamais deux piles consécutifs ?
+--- indice
+Le nombre de suites de longueur $n$ sans deux piles consécutifs vérifie une récurrence de Fibonacci.
+--- solution
+$a_n = a_{n-1} + a_{n-2}$ (la suite commence par F, ou par PF), $a_1 = 2$, $a_2 = 3$ : $a_{10} = 144$. Probabilité : $144/1024 =$ **9/64** $\approx 0{,}14$.
+--- variantes
+- Probabilité qu'une série d'au moins 3 piles apparaisse en 5 lancers : $8/32 = 1/4$.
+
+=== ct-p-trois-piles-cinq-faces
+theme: casse-tete
+categorie: probas
+titre: Trois piles d'affilée avant cinq faces d'affilée
+niveau: 3
+profils: mm hf
+type: numerique
+reponse: 31/38
+duree: 420
+--- question
+On lance une pièce équilibrée jusqu'à obtenir trois piles consécutifs ou cinq faces consécutives. Probabilité que les trois piles arrivent en premier ?
+--- indice
+Soit $a$ la probabilité de gagner juste après un pile, $b$ juste après une face. Exprime $a$ en fonction de $b$ et inversement.
+--- solution
+Juste après une série de piles commencée : $a = \frac14 + \frac34 b$ (il faut PP de plus, sinon on retombe sur une face). Juste après une face : $b = \frac{15}{16} a$ (il faut éviter 4 faces de plus). D'où $a = \frac{16}{19}$, $b = \frac{15}{19}$, et au départ $\frac{a + b}{2} = \frac{31}{38} \approx 0{,}816$. Réponse : **31/38**.
+
+=== ct-p-egalite-piles
+theme: casse-tete
+categorie: probas
+titre: Deux joueurs lancent jusqu'à pile : probabilité d'égalité
+niveau: 1
+profils: mm hf banque data
+type: numerique
+reponse: 1/3
+duree: 180
+--- question
+Deux joueurs lancent chacun leur pièce simultanément, à chaque tour, jusqu'à obtenir pile. Celui qui obtient pile le premier gagne ; s'ils l'obtiennent au même tour, c'est une égalité. Probabilité d'égalité ?
+--- indice
+À chaque tour : les deux piles ($1/4$), un seul ($1/2$), aucun ($1/4$, on recommence).
+--- solution
+On conditionne sur le premier tour où quelque chose se passe : $\mathbb{P}(\text{égalité}) = \frac{1/4}{1/4 + 1/2} =$ **1/3**.
+--- variantes
+- Trois amis lancent une pièce, l'« intrus » paie le café ; tous pareils, on recommence : nombre moyen de tours $1/(6/8) = 4/3$.
+
+=== ct-p-racines-reelles
+theme: casse-tete
+categorie: probas
+titre: Une équation du second degré à coefficients aléatoires
+niveau: 3
+profils: mm hf
+type: numerique
+reponse: (5+3*ln(4))/36
+duree: 420
+--- question
+$a$, $b$, $c$ sont indépendants et uniformes sur $[0, 1]$. Probabilité que $ax^2 + bx + c = 0$ ait des racines réelles ?
+--- indice
+Il faut $b^2 \ge 4ac$. Conditionne sur $b$, et calcule la loi du produit $ac$ : $\mathbb{P}(ac \le t) = t - t\ln t$.
+--- solution
+$\mathbb{P}(ac \le t) = t(1 - \ln t)$ pour $t \in ]0, 1]$. Donc
+$$\mathbb{P} = \int_0^1 \mathbb{P}\left(ac \le \tfrac{b^2}{4}\right) db = \int_0^1 \frac{b^2}{4}\left(1 - \ln \frac{b^2}{4}\right) db = \frac{5 + 3\ln 4}{36} \approx 0{,}254.$$
+Réponse : **$(5 + 3\ln 4)/36 \approx 0{,}254$**.
+
+=== ct-p-craps
+theme: casse-tete
+categorie: probas
+titre: Probabilité de gagner au craps
+niveau: 3
+profils: mm hf
+type: numerique
+reponse: 244/495
+duree: 420
+--- question
+Au craps, on lance deux dés. 7 ou 11 : gagné ; 2, 3 ou 12 : perdu. Sinon le total devient le « point », et l'on relance jusqu'à refaire le point (gagné) ou faire 7 (perdu). Probabilité de gagner ?
+--- indice
+Une fois le point $k$ établi, la probabilité de le refaire avant 7 vaut $\frac{p_k}{p_k + p_7}$.
+--- solution
+$\mathbb{P} = \frac{8}{36} + \sum_{k \in \{4,5,6,8,9,10\}} p_k \frac{p_k}{p_k + 6/36}$, avec $p_4 = p_{10} = 3/36$, $p_5 = p_9 = 4/36$, $p_6 = p_8 = 5/36$.
+$$\mathbb{P} = \frac{8}{36} + 2\left(\frac{1}{36} + \frac{2}{45} + \frac{25}{396}\right) = \frac{244}{495} \approx 0{,}493.$$
+Réponse : **244/495**, légèrement défavorable.
+--- variantes
+- Probabilité de faire un total de 8 avant un 7 : $\frac{5}{5 + 6} = \frac{5}{11}$.
+
+=== ct-p-distance-centre
+theme: casse-tete
+categorie: probas
+titre: Distance moyenne d'un point du disque à son centre
+niveau: 1
+profils: mm hf banque data
+type: numerique
+reponse: 2/3
+duree: 180
+--- question
+On choisit un point uniformément dans un disque de rayon 1. Quelle est sa distance moyenne au centre ?
+--- indice
+$\mathbb{P}(R \le r) = r^2$ : ce n'est pas $1/2$.
+--- solution
+$R$ a pour densité $2r$ sur $[0, 1]$ : $\mathbb{E}[R] = \int_0^1 2r^2\,dr =$ **2/3**. La masse est concentrée près du bord.
+--- variantes
+- Point uniforme dans un carré unité : probabilité d'être plus près du centre que du bord : $\frac{4\sqrt2 - 5}{3} \approx 0{,}219$.
+- Point dans une boule de rayon 1 (dimension 3) : distance moyenne $3/4$.
+
+=== ct-p-succession-laplace
+theme: casse-tete
+categorie: probas
+titre: Pièce de biais inconnu : trois piles, puis ?
+niveau: 2
+profils: mm hf banque data
+type: numerique
+reponse: 4/5
+duree: 240
+--- question
+Une pièce a un biais $p$ inconnu, a priori uniforme sur $[0, 1]$. Elle donne 3 piles en 3 lancers. Probabilité que le lancer suivant soit pile ?
+--- indice
+Loi a posteriori Bêta$(k + 1, n - k + 1)$, de moyenne $\frac{k + 1}{n + 2}$.
+--- solution
+Règle de succession de Laplace : $\frac{k + 1}{n + 2} = \frac{4}{5}$. Réponse : **4/5**. Avec un a priori uniforme, on « ajoute un pile et un face imaginaires ».
+--- variantes
+- Après 0 lancer : $1/2$ ; après $k$ piles sur $n$ : $(k + 1)/(n + 2)$.
+
+=== ct-p-sharpe-negatif
+theme: casse-tete
+categorie: probas
+titre: Sharpe de 1 : probabilité d'une année perdante
+niveau: 1
+profils: mm hf banque data
+type: numerique
+reponse: N(-1)
+duree: 120
+--- question
+Une stratégie a des rendements annuels gaussiens de ratio de Sharpe 1 (rendement moyen égal à l'écart-type, taux sans risque nul). Probabilité d'une année à rendement négatif ?
+--- indice
+Une année perdante, c'est un rendement à plus d'un écart-type sous la moyenne.
+--- solution
+$\mathbb{P}(R < 0) = \mathbb{P}(Z < -1) = N(-1) \approx$ **0,159** : environ une année sur six. Avec un Sharpe de 2 : $N(-2) \approx 2{,}3\,\%$.
+
+=== ct-p-grenouille-nenuphars
+theme: casse-tete
+categorie: probas
+titre: La grenouille qui saute vers l'avant au hasard
+niveau: 2
+profils: mm hf
+type: numerique
+reponse: 7381/2520
+duree: 300
+--- question
+Une grenouille est sur la rive, face à 10 nénuphars alignés, le dernier étant l'autre rive. À chaque saut, elle choisit uniformément l'un des nénuphars situés devant elle. Combien de sauts en moyenne pour atteindre l'autre rive ?
+--- indice
+Chaque nénuphar $k$ est visité avec une probabilité simple. Ou récurrence $e_n = 1 + \frac1n \sum_{k<n} e_k$.
+--- solution
+Le nénuphar $k$ (en comptant depuis l'arrivée) est visité avec probabilité $1/k$ : nombre moyen de sauts $= H_{10} = 1 + \frac12 + \dots + \frac{1}{10} = \frac{7381}{2520} \approx$ **2,93**.
+--- variantes
+- Records d'une suite de $n$ valeurs i.i.d. continues : même espérance $H_n$ (voir la fiche dédiée).
+
+=== ct-p-des-efron
+theme: casse-tete
+categorie: probas
+titre: Les dés non transitifs
+niveau: 2
+profils: mm hf
+--- question
+Je te propose de choisir un dé parmi trois dés truqués, puis je choisis le mien ; le plus grand résultat gagne. Pourquoi est-ce une mauvaise affaire pour toi ? Donne un exemple de tels dés.
+--- indice
+« A bat B » et « B bat C » n'impliquent pas « A bat C ».
+--- solution
+Exemple : A = (2, 2, 4, 4, 9, 9), B = (1, 1, 6, 6, 8, 8), C = (3, 3, 5, 5, 7, 7). A bat B, B bat C et C bat A, chacun avec probabilité $5/9$. Quel que soit ton choix, je prends celui qui le bat : la relation « bat le plus souvent » n'est **pas transitive**. Écho en finance : comparer des stratégies deux à deux ne donne pas forcément un classement.
+--- variantes
+- Jeu de Penney sur les séquences de pièces : même non-transitivité (voir la fiche « Penney »).
+
+=== ct-p-simpson
+theme: casse-tete
+categorie: probas
+titre: Le paradoxe de Simpson
+niveau: 1
+profils: mm hf banque data
+--- question
+Un traitement guérit mieux que l'autre chez les patients légers **et** chez les patients graves, mais moins bien sur l'ensemble des patients. Est-ce possible ? Donne un exemple et la leçon pour un backtest.
+--- indice
+Les deux traitements n'ont pas été donnés aux mêmes proportions de cas graves.
+--- solution
+Oui. Traitement A : légers 81/87 (93 %), graves 192/263 (73 %), total 273/350 (78 %). Traitement B : légers 234/270 (87 %), graves 55/80 (69 %), total 289/350 (83 %). A gagne dans chaque groupe mais perd au total, car il a surtout traité des cas graves.
+Leçon : une variable de confusion (la gravité, ou en finance le régime de marché, le secteur, la taille) peut inverser une conclusion agrégée. Toujours regarder les sous-groupes et la composition.

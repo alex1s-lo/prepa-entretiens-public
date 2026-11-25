@@ -1,0 +1,233 @@
+# Casse-têtes : dénombrement (on compte proprement, puis on vérifie sur un petit cas).
+
+=== ct-carres-echiquier
+theme: casse-tete
+categorie: denombrement
+titre: Carrés et rectangles d'un échiquier
+niveau: 1
+profils: mm hf banque data
+type: numerique
+reponse: 204
+duree: 120
+--- question
+Combien de carrés (de toutes tailles) contient un échiquier de $8 \times 8$ ?
+--- en
+How many squares of all sizes are there on an $8 \times 8$ chessboard?
+--- indice
+Un carré de côté $k$ : combien de positions possibles pour son coin supérieur gauche ?
+--- solution
+Un carré de côté $k$ peut se placer de $(9 - k)^2$ façons :
+$$\sum_{k=1}^{8} k^2 = \frac{8 \times 9 \times 17}{6} = 204.$$
+Réponse : **204**.
+--- variantes
+- **Rectangles** : on choisit 2 lignes verticales parmi 9 et 2 horizontales parmi 9 : $\binom{9}{2}^2 = 1\,296$.
+- Grille $n \times n$ : $n(n + 1)(2n + 1)/6$ carrés et $\binom{n+1}{2}^2$ rectangles.
+
+=== ct-poignees
+theme: casse-tete
+categorie: denombrement
+titre: Poignées de main entre 20 personnes
+niveau: 1
+profils: mm hf banque data
+type: numerique
+reponse: 190
+duree: 60
+--- question
+20 personnes se serrent toutes la main deux à deux une fois. Combien de poignées de main ?
+--- en
+20 people each shake hands once with everyone else. How many handshakes?
+--- indice
+Une poignée de main = une paire de personnes.
+--- solution
+$\binom{20}{2} = \frac{20 \times 19}{2} =$ **190**.
+--- variantes
+- Diagonales d'un décagone : $\binom{10}{2} - 10 = 35$ (paires de sommets moins les côtés).
+- Matchs d'un championnat aller-retour à 20 équipes : $20 \times 19 = 380$.
+
+=== ct-chiffre-un
+theme: casse-tete
+categorie: denombrement
+titre: Combien de chiffres 1 en écrivant 1 à 100 ?
+niveau: 1
+profils: mm hf banque data
+type: numerique
+reponse: 21
+duree: 120
+--- question
+Combien de fois écrit-on le chiffre 1 en écrivant tous les nombres de 1 à 100 ?
+--- en
+How many times do you write the digit 1 when writing all numbers from 1 to 100?
+--- indice
+Compte séparément les unités, les dizaines et les centaines.
+--- solution
+Unités : 1, 11, 21, …, 91 → 10. Dizaines : 10 à 19 → 10. Centaines : 100 → 1. Total **21**.
+--- variantes
+- Le chiffre 7 entre 1 et 100 : $10 + 10 = 20$.
+- Le chiffre 1 entre 1 et 1 000 : $100 + 100 + 100 + 1 = 301$.
+
+=== ct-anagrammes
+theme: casse-tete
+categorie: denombrement
+titre: Anagrammes de MISSISSIPPI
+niveau: 1
+profils: mm hf banque data
+type: numerique
+reponse: 34650
+duree: 120
+--- question
+Combien d'arrangements distincts des lettres du mot MISSISSIPPI ?
+--- indice
+11 lettres, dont des répétitions : M une fois, I quatre fois, S quatre fois, P deux fois.
+--- solution
+$$\frac{11!}{4!\,4!\,2!} = 34\,650.$$
+On divise par les permutations des lettres identiques, qui ne créent pas de mot nouveau.
+--- variantes
+- Nombre de mains de 13 cartes : $\binom{52}{13} \approx 6{,}35 \times 10^{11}$.
+
+=== ct-dominos-escalier
+theme: casse-tete
+categorie: denombrement
+titre: Paver une bande $2 \times 10$ avec des dominos
+niveau: 2
+profils: mm hf banque data
+type: numerique
+reponse: 89
+duree: 180
+--- question
+De combien de façons peut-on paver un rectangle de $2 \times 10$ avec des dominos $1 \times 2$ ?
+--- indice
+Regarde la colonne de gauche : un domino vertical, ou deux horizontaux empilés.
+--- solution
+Soit $a_n$ le nombre de pavages de $2 \times n$. La première colonne est couverte soit par un domino vertical (reste $2 \times (n - 1)$), soit par deux horizontaux (reste $2 \times (n - 2)$) : $a_n = a_{n-1} + a_{n-2}$, avec $a_1 = 1$, $a_2 = 2$. Suite de Fibonacci : $1, 2, 3, 5, 8, 13, 21, 34, 55, 89$ : **89**.
+--- variantes
+- Monter un escalier de 10 marches par pas de 1 ou 2 : même récurrence, 89 (voir la fiche de code « escalier »).
+- Mots binaires de longueur 10 sans deux 1 consécutifs : $F_{12} = 144$.
+- Sous-ensembles de $\{1, \dots, 10\}$ sans deux entiers consécutifs : 144 (même bijection).
+
+=== ct-regions-cercle
+theme: casse-tete
+categorie: denombrement
+titre: Régions d'un disque coupé par les cordes de 6 points
+niveau: 2
+profils: mm hf
+type: numerique
+reponse: 31
+duree: 300
+--- question
+On place 6 points sur un cercle et on trace toutes les cordes qui les relient (sans que trois cordes soient concourantes à l'intérieur). En combien de régions le disque est-il découpé ?
+--- indice
+Les premiers termes 1, 2, 4, 8, 16 trompent. Compte les points d'intersection : chacun correspond à un choix de 4 points.
+--- solution
+Formule d'Euler, ou ajout des cordes une à une : chaque corde ajoute 1 région plus 1 par croisement. Régions $= 1 + \binom{n}{2} + \binom{n}{4}$. Pour $n = 6$ : $1 + 15 + 15 =$ **31**, et non 32.
+Le piège est classique : 1, 2, 4, 8, 16, **31** pour $n = 1$ à 6.
+--- variantes
+- Pizza coupée par 7 droites : au plus $1 + 7 + \binom{7}{2} = 29$ parts (nombre du traiteur paresseux, $1 + n + \binom{n}{2}$).
+- Gâteau coupé par 5 plans : au plus $\binom{5}{0} + \binom{5}{1} + \binom{5}{2} + \binom{5}{3} = 26$ morceaux.
+
+=== ct-triangles-entiers
+theme: casse-tete
+categorie: denombrement
+titre: Triangles à côtés entiers de périmètre 12
+niveau: 1
+profils: mm hf banque data
+type: numerique
+reponse: 3
+duree: 180
+--- question
+Combien de triangles non dégénérés, à côtés entiers, ont un périmètre de 12 (à l'ordre des côtés près) ?
+--- indice
+Avec $a \le b \le c$ et $a + b + c = 12$, l'inégalité triangulaire impose $c < 6$.
+--- solution
+$a \le b \le c$, $a + b > c$ et $a + b + c = 12$ donnent $c < 6$, donc $c \in \{4, 5\}$. Pour $c = 5$ : $(2, 5, 5)$, $(3, 4, 5)$. Pour $c = 4$ : $(4, 4, 4)$. **3 triangles**.
+
+=== ct-chiffres-impairs
+theme: casse-tete
+categorie: denombrement
+titre: Entiers sous 1 000 aux chiffres tous impairs
+niveau: 1
+profils: mm hf banque data
+type: numerique
+reponse: 155
+duree: 120
+--- question
+Combien d'entiers positifs inférieurs à 1 000 ne s'écrivent qu'avec des chiffres impairs ?
+--- indice
+Sépare selon le nombre de chiffres.
+--- solution
+5 choix par chiffre : $5 + 5^2 + 5^3 = 5 + 25 + 125 =$ **155**.
+--- variantes
+- Palindromes à 3 chiffres : $9 \times 10 = 90$.
+- Entiers à 4 chiffres tous distincts : $9 \times 9 \times 8 \times 7 = 4\,536$.
+
+=== ct-monnaie
+theme: casse-tete
+categorie: denombrement
+titre: Faire 1 € avec des pièces de 50, 20 et 10 centimes
+niveau: 1
+profils: mm hf banque data
+type: numerique
+reponse: 10
+duree: 180
+--- question
+De combien de façons peut-on former 1 € avec des pièces de 50, 20 et 10 centimes (l'ordre ne compte pas) ?
+--- indice
+En dizaines de centimes : $5a + 2b + c = 10$. Fixe $a$, puis $b$.
+--- solution
+$a = 0$ : $b \in \{0, \dots, 5\}$, 6 façons ; $a = 1$ : $b \in \{0, 1, 2\}$, 3 façons ; $a = 2$ : 1 façon. Total **10**.
+En général : programmation dynamique sur le montant (le grand classique « coin change »).
+
+=== ct-etoiles-barres
+theme: casse-tete
+categorie: denombrement
+titre: Solutions entières de x + y + z = 10
+niveau: 1
+profils: mm hf banque data
+type: numerique
+reponse: 66
+duree: 120
+--- question
+Combien de triplets d'entiers $x, y, z \ge 0$ vérifient $x + y + z = 10$ ?
+--- indice
+Dix étoiles et deux barres de séparation.
+--- solution
+On place 2 barres parmi $10 + 2 = 12$ positions : $\binom{12}{2} =$ **66**.
+--- variantes
+- Entiers strictement positifs : $\binom{9}{2} = 36$.
+- Répartir 10 bonbons identiques entre 3 enfants : même problème.
+
+=== ct-bracelets
+theme: casse-tete
+categorie: denombrement
+titre: Bracelets de 6 perles noires ou blanches
+niveau: 3
+profils: mm hf
+type: numerique
+reponse: 13
+duree: 420
+--- question
+Combien de bracelets différents peut-on faire avec 6 perles, chacune noire ou blanche, deux bracelets étant identiques s'ils se déduisent par rotation ou retournement ?
+--- indice
+Lemme de Burnside : moyenne, sur toutes les symétries, du nombre de coloriages qu'elles laissent fixes.
+--- solution
+Groupe diédral à 12 éléments. Rotations de 0, 1, 2, 3, 4, 5 crans : $2^6, 2, 2^2, 2^3, 2^2, 2$ coloriages fixes, total 84. Retournements : 3 axes passant par deux perles ($2^4$ chacun) et 3 axes entre les perles ($2^3$ chacun) : $48 + 24 = 72$. Burnside : $(84 + 72)/12 =$ **13**.
+--- variantes
+- Colliers (rotations seulement) : $84/6 = 14$.
+
+=== ct-cube-peint
+theme: casse-tete
+categorie: denombrement
+titre: Cube $3 \times 3 \times 3$ peint puis découpé
+niveau: 1
+profils: mm hf banque data
+type: numerique
+reponse: 12
+duree: 120
+--- question
+Un cube $3 \times 3 \times 3$ est peint en rouge à l'extérieur, puis découpé en 27 petits cubes. Combien de petits cubes ont exactement deux faces peintes ?
+--- indice
+Coins, arêtes, centres des faces, centre du cube.
+--- solution
+Coins : 8 cubes à 3 faces ; milieux d'arêtes : **12** cubes à 2 faces ; centres de faces : 6 cubes à 1 face ; centre : 1 cube sans peinture ($8 + 12 + 6 + 1 = 27$).
+--- variantes
+- Cube $10 \times 10 \times 10$ : $8^3 = 512$ petits cubes sans peinture, $12 \times 8 = 96$ à deux faces, $6 \times 64 = 384$ à une face.
+- Nombre minimal de coupes planes pour découper un cube de bois $3 \times 3 \times 3$ en 27, même en réarrangeant les morceaux : 6 (le cube central a six faces à créer).

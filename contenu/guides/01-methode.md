@@ -7,9 +7,9 @@ En entretien quant, la bonne réponse compte, mais la façon d'y arriver compte 
 1. **Reformule la question.** « Si je comprends bien, on lance les dés jusqu'à… et on cherche l'espérance de… ? » Tu évites de répondre à côté et tu gagnes dix secondes.
 2. **Clarifie les hypothèses.** Dés équilibrés ? Tirage avec ou sans remise ? Taux nuls ? Si l'intervieweur dit « à toi de voir », choisis l'hypothèse la plus simple et dis-le.
 3. **Annonce ta démarche avant de calculer.** « Je vais conditionner sur le premier lancer », « Je pose un état par préfixe de la séquence », « C'est une martingale arrêtée ». Même si le calcul échoue, l'idée est notée.
-4. **Commence par un cas simple.** n = 1, n = 2, une seule période, un seul dé. Le cas simple donne souvent la forme générale, et montre de la méthode.
+4. **Commence par un cas simple.** $n = 1, n = 2$, une seule période, un seul dé. Le cas simple donne souvent la forme générale, et montre de la méthode.
 5. **Calcule en parlant.** Écris lisiblement (papier ou tableau virtuel), donne les résultats intermédiaires.
-6. **Vérifie.** Ordre de grandeur, cas limite (p = 0, p = 1, σ → 0), symétrie, unité. « 14,7 lancers pour voir les six faces : plus que 6, moins que 6 × 6, ça tient. »
+6. **Vérifie.** Ordre de grandeur, cas limite ($p = 0, p = 1, \sigma \to 0$), symétrie, unité. « 14,7 lancers pour voir les six faces : plus que 6, moins que $6 \times 6$, ça tient. »
 
 ## Quand tu bloques
 

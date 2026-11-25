@@ -25,7 +25,7 @@ Les processus varient d'une entreprise et d'une année à l'autre ; ce qui suit 
 - **Jeux de market making** : coter un bid/ask sur une quantité incertaine, réagir aux ordres.
 - **Paris et gestion du risque** : Kelly, quand refuser un pari favorable.
 - **Comportement** : calme sous pression, décisions rapides, capacité à changer d'avis.
-- Dans l'application : profil « mm ». Calcul mental tous les jours, Market making, probas niveau 1-2 en vitesse. Projet : market making.
+- Dans l'application : profil « mm ». Calcul mental tous les jours, Market making, probas niveau $1-2$ en vitesse. Projet : market making.
 
 ## Banques : quant pricing, strats, structuration (BNP Paribas, Société Générale, Natixis, CACIB, banques américaines…)
 

@@ -9,7 +9,7 @@ Explique le compromis biais-variance avec un exemple.
 --- en
 Explain the bias-variance trade-off with an example.
 --- solution
-Erreur de prévision attendue = biais² + variance + bruit irréductible.
+Erreur de prévision attendue $= \text{biais}^2 + \text{variance} + \text{bruit irréductible}$.
 - **Biais** : erreur due à un modèle trop simple (une droite pour une relation courbe) : sous-apprentissage.
 - **Variance** : sensibilité du modèle à l'échantillon d'entraînement (un polynôme de degré 20 change complètement si on change quelques points) : sur-apprentissage.
 Augmenter la complexité réduit le biais et augmente la variance ; on choisit la complexité par validation (croisée ou hors échantillon).
@@ -24,11 +24,11 @@ Ridge (L2) ou Lasso (L1) : quelles différences ? Pourquoi le Lasso met-il des c
 --- en
 Ridge (L2) vs Lasso (L1): differences? Why does Lasso set coefficients exactly to zero?
 --- solution
-On ajoute λ‖β‖² (Ridge) ou λ‖β‖₁ (Lasso) à la somme des carrés des résidus.
-- **Ridge** : rétrécit tous les coefficients vers 0 sans les annuler ; stabilise les variables colinéaires (répartit le poids) ; solution fermée (XᵀX + λI)⁻¹Xᵀy.
+On ajoute $\lambda \| \beta \|^{2}$ (Ridge) ou $\lambda \| \beta \|_{1}$ (Lasso) à la somme des carrés des résidus.
+- **Ridge** : rétrécit tous les coefficients vers 0 sans les annuler ; stabilise les variables colinéaires (répartit le poids) ; solution fermée $(X^{T}X + \lambda I)^{-1}X^{T}y$.
 - **Lasso** : produit des solutions creuses (sélection de variables) ; avec des variables colinéaires, en garde une arbitrairement.
 Géométrie : la boule L1 est un losange dont les coins sont sur les axes ; les courbes de niveau de l'erreur la touchent le plus souvent en un coin, donc avec des coefficients nuls. La boule L2 est ronde : pas de coin.
-Elastic net : mélange des deux. Vue bayésienne : Ridge = a priori gaussien, Lasso = a priori de Laplace.
+Elastic net : mélange des deux. Vue bayésienne : Ridge $= a$ priori gaussien, Lasso $= a$ priori de Laplace.
 --- relances
 - Faut-il normaliser les variables avant ? (oui : la pénalité dépend de l'échelle)
 
@@ -40,11 +40,11 @@ type: numerique
 reponse: 10/(20+5)
 duree: 120
 --- question
-Régression Ridge à une variable, sans constante : Σxᵢyᵢ = 10, Σxᵢ² = 20, pénalité λ = 5. Coefficient estimé ? (Et sans pénalité ?)
+Régression Ridge à une variable, sans constante : $\sum x_{i}y_{i} = 10, \sum x_{i}^{2} = 20$, pénalité $\lambda = 5$. Coefficient estimé ? (Et sans pénalité ?)
 --- en
-One-variable Ridge regression without intercept: Σxy = 10, Σx² = 20, λ = 5. Estimated coefficient? (And without penalty?)
+One-variable Ridge regression without intercept: $\sum xy = 10$, $\sum x^{2} = 20$, $\lambda = 5$. Estimated coefficient? (And without penalty?)
 --- solution
-β̂ = Σxy/(Σx² + λ) = 10/25 = **0,4**, contre 10/20 = 0,5 sans pénalité : le coefficient est rétréci vers zéro.
+$\hat{\beta} = \sum xy/(\sum x^{2} + \lambda) = 10/25 =$ **0,4**, contre $10/20 = 0{,}5$ sans pénalité : le coefficient est rétréci vers zéro.
 
 === ml-validation-temporelle
 theme: ml
@@ -115,7 +115,7 @@ Tu détectes des fraudes (0,1 % des transactions). Ton modèle a 99,9 % d'exacti
 You detect fraud (0.1% of transactions). Your model has 99.9% accuracy. Is that good? Which metrics should you use?
 --- solution
 Non : prédire « jamais de fraude » donne déjà 99,9 %. Métriques adaptées :
-- **précision** (parmi les alertes, combien de vraies fraudes) et **rappel** (parmi les fraudes, combien détectées) ; F1 ;
+- **précision** (parmi les alertes, combien de vraies fraudes) et **rappel** (parmi les fraudes, combien détectées) ; $F1$ ;
 - courbe précision-rappel et son aire (plus informative que l'AUC ROC quand les positifs sont rares) ;
 - coût métier : coût d'une fraude manquée contre coût d'une fausse alerte, pour choisir le seuil.
 Traitement : pondération des classes, sous- ou sur-échantillonnage, seuil adapté.
@@ -128,11 +128,11 @@ type: numerique
 reponse: 2*0.8*0.4/(0.8+0.4)
 duree: 120
 --- question
-Il y a 100 cas positifs. Ton modèle en signale 50, dont 40 sont de vrais positifs. Que vaut le score F1 ?
+Il y a 100 cas positifs. Ton modèle en signale 50, dont 40 sont de vrais positifs. Que vaut le score $F1$ ?
 --- en
-There are 100 positive cases. Your model flags 50, of which 40 are true positives. What is the F1 score?
+There are 100 positive cases. Your model flags 50, of which 40 are true positives. What is the $F1$ score?
 --- solution
-Précision = 40/50 = 0,8 ; rappel = 40/100 = 0,4. F1 = 2PR/(P + R) = 0,64/1,2 ≈ **0,533** (moyenne harmonique : pénalise le déséquilibre).
+Précision $= 40/50 = 0{,}8$ ; rappel $= 40/100 = 0{,}4$. $F_1 = 2PR/(P + R) = 0{,}64/1{,}2 \approx$ **0,533** (moyenne harmonique : pénalise le déséquilibre).
 
 === ml-log-loss
 theme: ml
@@ -146,7 +146,7 @@ Un classifieur prédit une probabilité 0,8 pour un exemple dont l'étiquette vr
 --- en
 A classifier predicts 0.8 for an example whose true label is 1. What is the log-loss for that example (natural log)?
 --- solution
-−ln(0,8) ≈ **0,223**. Une prédiction de 0,01 pour une étiquette 1 coûterait −ln(0,01) ≈ 4,6 : la log-loss punit sévèrement la confiance mal placée.
+$-\ln (0{,}8) \approx$ **0,223**. Une prédiction de 0,01 pour une étiquette 1 coûterait $-\ln (0{,}01) \approx 4{,}6$ : la log-loss punit sévèrement la confiance mal placée.
 
 === ml-regression-logistique
 theme: ml
@@ -157,8 +157,8 @@ Explique la régression logistique : modèle, fonction de perte, interprétation
 --- en
 Explain logistic regression: model, loss function, coefficient interpretation.
 --- solution
-P(y = 1 | x) = σ(βᵀx) = 1/(1 + e^{−βᵀx}). On maximise la vraisemblance, ce qui revient à minimiser l'entropie croisée (convexe : pas de minimum local). Pas de formule fermée : Newton (IRLS) ou descente de gradient.
-Interprétation : e^{β_j} est le facteur multiplicatif de la **cote** P/(1 − P) quand x_j augmente de 1.
+$\mathbb{P}(y = 1 | x) = \sigma (\beta^{T}x) = 1/(1 + e^{-\beta^{T}x})$. On maximise la vraisemblance, ce qui revient à minimiser l'entropie croisée (convexe : pas de minimum local). Pas de formule fermée : Newton (IRLS) ou descente de gradient.
+Interprétation : $e^{\beta_j}$ est le facteur multiplicatif de la **cote** $P/(1 - P)$ quand $x_j$ augmente de 1.
 Usages : score de crédit (probabilité de défaut), classification de régimes. Limites : frontière linéaire (sauf variables construites), séparation parfaite (coefficients infinis sans régularisation).
 
 === ml-importance-variables
@@ -173,7 +173,7 @@ How do you measure feature importance? What are the pitfalls?
 - **Importance par impureté** (MDI) des arbres : rapide, mais biaisée vers les variables continues ou à nombreuses modalités, et calculée en échantillon.
 - **Importance par permutation** (MDA) : baisse de performance hors échantillon quand on mélange une variable. Plus fiable, mais deux variables corrélées se partagent (ou se masquent) l'importance.
 - **SHAP** : contributions additives par observation, fondées sur les valeurs de Shapley ; coûteux, mêmes difficultés avec la corrélation.
-Pièges : importance ≠ causalité ; variables corrélées ; importance en échantillon qui reflète le sur-apprentissage. Solution partielle : regrouper les variables corrélées (importance par groupe).
+Pièges : importance $\neq$ causalité ; variables corrélées ; importance en échantillon qui reflète le sur-apprentissage. Solution partielle : regrouper les variables corrélées (importance par groupe).
 
 === ml-descente-gradient
 theme: ml
@@ -184,10 +184,10 @@ Explique la descente de gradient stochastique. Que se passe-t-il si le taux d'ap
 --- en
 Explain stochastic gradient descent. What happens if the learning rate is too large or too small?
 --- solution
-On met à jour θ ← θ − η ∇L(θ) en estimant le gradient sur un mini-lot au lieu de tout l'échantillon : moins cher par pas, bruité, ce bruit aidant parfois à sortir de mauvais minima.
-- η trop grand : oscillations, divergence.
-- η trop petit : convergence très lente, blocage sur des plateaux.
-Améliorations : momentum, Adam (pas adaptatif par paramètre), décroissance du taux, normalisation des variables (un problème mal conditionné force un petit η).
+On met à jour $\theta \leftarrow \theta - \eta \nabla L(\theta)$ en estimant le gradient sur un mini-lot au lieu de tout l'échantillon : moins cher par pas, bruité, ce bruit aidant parfois à sortir de mauvais minima.
+- $\eta$ trop grand : oscillations, divergence.
+- $\eta$ trop petit : convergence très lente, blocage sur des plateaux.
+Améliorations : momentum, Adam (pas adaptatif par paramètre), décroissance du taux, normalisation des variables (un problème mal conditionné force un petit $\eta$).
 --- relances
 - Pourquoi normaliser les variables accélère-t-il la convergence ? (courbes de niveau plus rondes : le gradient pointe vers le minimum)
 
@@ -213,8 +213,8 @@ Comment fonctionne l'algorithme des k-moyennes ? Quelles limites ?
 --- en
 How does k-means work? What are its limits?
 --- solution
-Initialiser k centres ; répéter jusqu'à stabilité : affecter chaque point au centre le plus proche, puis recalculer chaque centre comme la moyenne de ses points. Minimise la somme des distances au carré intra-groupes (localement).
-Limites : k à choisir (méthode du coude, silhouette) ; dépend de l'initialisation (k-means++ et plusieurs essais) ; suppose des groupes sphériques de tailles comparables ; sensible aux échelles et aux valeurs aberrantes.
+Initialiser $k$ centres ; répéter jusqu'à stabilité : affecter chaque point au centre le plus proche, puis recalculer chaque centre comme la moyenne de ses points. Minimise la somme des distances au carré intra-groupes (localement).
+Limites : $k$ à choisir (méthode du coude, silhouette) ; dépend de l'initialisation (k-means++ et plusieurs essais) ; suppose des groupes sphériques de tailles comparables ; sensible aux échelles et aux valeurs aberrantes.
 En finance : regrouper des actifs par profil de corrélation (plutôt avec une distance fondée sur la corrélation, ou un regroupement hiérarchique).
 
 === ml-normalisation
@@ -226,5 +226,5 @@ Quand faut-il normaliser les variables ? Comment le faire sans fuite d'informati
 --- en
 When should you scale features? How do you do it without leakage on time series?
 --- solution
-Nécessaire pour les modèles sensibles aux échelles : régularisation (Ridge, Lasso), distances (k-moyennes, k plus proches voisins), descente de gradient, réseaux de neurones, ACP. Inutile pour les arbres.
+Nécessaire pour les modèles sensibles aux échelles : régularisation (Ridge, Lasso), distances (k-moyennes, $k$ plus proches voisins), descente de gradient, réseaux de neurones, ACP. Inutile pour les arbres.
 Sans fuite : calculer moyenne et écart-type sur l'échantillon d'entraînement seulement (ou sur une fenêtre glissante du passé), et les appliquer tels quels au test. En séries temporelles, préférer des normalisations glissantes (z-score sur 60 jours passés), ou des rangs en coupe transversale (chaque date séparément).

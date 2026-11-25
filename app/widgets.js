@@ -104,12 +104,12 @@
       const lab = document.createElement('label');
       const id = 'w' + Math.random().toString(36).slice(2, 9);
       if (d.choix) {
-        lab.innerHTML = '<span>' + o.echapper(d.libelle) + '</span><select id="' + id + '">' + d.choix.map(function (c) {
+        lab.innerHTML = '<span>' + o.enLigne(d.libelle) + '</span><select id="' + id + '">' + d.choix.map(function (c) {
           return '<option value="' + o.echapper(c[0]) + '"' + (c[0] === d.valeur ? ' selected' : '') + '>' + o.echapper(c[1]) + '</option>';
         }).join('') + '</select>';
         valeurs[d.nom] = d.valeur;
       } else {
-        lab.innerHTML = '<span>' + o.echapper(d.libelle) + ' : <b data-v></b></span><input type="range" id="' + id + '" min="' + d.min + '" max="' + d.max +
+        lab.innerHTML = '<span>' + o.enLigne(d.libelle) + ' : <b data-v></b></span><input type="range" id="' + id + '" min="' + d.min + '" max="' + d.max +
           '" step="' + d.pas + '" value="' + d.valeur + '">';
         valeurs[d.nom] = d.valeur;
       }
@@ -131,10 +131,27 @@
     return valeurs;
   }
 
-  function entete(el, titre, texte) {
-    el.innerHTML = '<div class="widget-titre">' + o.echapper(titre) + '</div>' + (texte ? '<p class="petit doux" style="margin:0 0 6px">' + texte + '</p>' : '');
+  // Formules $…$ d'un texte HTML déjà sûr (écrit dans ce fichier) rendues par KaTeX.
+  function maths(html) {
+    return String(html).replace(/(^|[^\\])\$([^$]+?)\$/g, function (_, avant, tex) { return avant + o.rendreTex(tex, false); });
   }
-  function sortie(el) { const d = document.createElement('div'); d.className = 'sortie'; el.appendChild(d); return d; }
+  function entete(el, titre, texte) {
+    el.innerHTML = '<div class="widget-titre">' + o.enLigne(titre) + '</div>' + (texte ? '<p class="petit doux" style="margin:0 0 6px">' + maths(texte) + '</p>' : '');
+  }
+  // Zone de résultats : tout HTML qui y est écrit passe par le rendu des formules.
+  const ecrireHtml = typeof Element !== 'undefined' ? Object.getOwnPropertyDescriptor(Element.prototype, 'innerHTML') : null;
+  function sortie(el) {
+    const d = document.createElement('div');
+    d.className = 'sortie';
+    if (ecrireHtml && ecrireHtml.set) {
+      Object.defineProperty(d, 'innerHTML', {
+        get: function () { return ecrireHtml.get.call(this); },
+        set: function (v) { ecrireHtml.set.call(this, maths(v)); }
+      });
+    }
+    el.appendChild(d);
+    return d;
+  }
   function bouton(el, libelle, action) {
     const b = document.createElement('button');
     b.type = 'button';
@@ -167,7 +184,7 @@
 
   // --- 1. Théorème central limite -----------------------------------------------------------------------------------
   function tcl(el) {
-    entete(el, 'Théorème central limite', 'On tire 4 000 fois la somme de n variables, on la centre et on la réduit : (Sₙ − nμ)/(σ√n). L’histogramme se rapproche de la courbe de Gauss quand n grandit, quelle que soit la loi de départ.');
+    entete(el, 'Théorème central limite', 'On tire 4 000 fois la somme de $n$ variables, on la centre et on la réduit : $(S_{n} - n\\mu)/(\\sigma \\sqrt{n})$. L’histogramme se rapproche de la courbe de Gauss quand $n$ grandit, quelle que soit la loi de départ.');
     const c = toile(el, 0.5);
     const lois = {
       de: { nom: 'dé à 6 faces', mu: 3.5, s: Math.sqrt(35 / 12), tire: function (a) { return 1 + Math.floor(6 * a()); } },
@@ -178,7 +195,7 @@
     const out = sortie(el);
     const v = commandes(el, [
       { nom: 'loi', libelle: 'Loi de départ', choix: [['de', 'Dé'], ['unif', 'Uniforme'], ['expo', 'Exponentielle'], ['bern', 'Bernoulli(0,1)']], valeur: 'expo' },
-      { nom: 'n', libelle: 'Nombre de termes n', min: 1, max: 60, pas: 1, valeur: 1 }
+      { nom: 'n', libelle: 'Nombre de termes $n$', min: 1, max: 60, pas: 1, valeur: 1 }
     ], dessiner);
     function dessiner() {
       const loi = lois[v.loi], n = v.n, a = o.hasard(7 + n);
@@ -202,21 +219,21 @@
       const sd = Math.sqrt(z.reduce(function (s, x) { return s + (x - m) * (x - m); }, 0) / z.length);
       const asym = z.reduce(function (s, x) { return s + Math.pow((x - m) / sd, 3); }, 0) / z.length;
       out.innerHTML = 'Loi : ' + loi.nom + ' · moyenne ' + nb(m, 2) + ' · écart-type ' + nb(sd, 3) + ' · asymétrie ' + nb(asym, 2) +
-        ' <span class="doux">(la courbe rouge est la densité N(0, 1) ; l’asymétrie décroît en 1/√n)</span>';
+        ' <span class="doux">(la courbe rouge est la densité $N(0, 1)$ ; l’asymétrie décroît en $1/\\sqrt{n}$)</span>';
     }
     dessiner();
   }
 
   // --- 2. Covariance, Cholesky et variance d'un portefeuille ---------------------------------------------------------
   function covariance(el) {
-    entete(el, 'Covariance et portefeuille à deux actifs', 'Rendements X₁ = σ₁Z₁ et X₂ = σ₂(ρZ₁ + √(1 − ρ²)Z₂) avec Z₁, Z₂ indépendantes : c’est la décomposition de Cholesky. Le tableau développe Var(w₁X₁ + w₂X₂) terme à terme.');
+    entete(el, 'Covariance et portefeuille à deux actifs', 'Rendements $X_{1} = \\sigma_{1}Z_{1}$ et $X_{2} = \\sigma_{2}(\\rho Z_{1} + \\sqrt{1 - \\rho^{2}}Z_{2})$ avec $Z_{1}, Z_{2}$ indépendantes : c’est la décomposition de Cholesky. Le tableau développe $\\operatorname{Var} (w_{1}X_{1} + w_{2}X_{2})$ terme à terme.');
     const c = toile(el, 0.6);
     const out = sortie(el);
     const v = commandes(el, [
-      { nom: 's1', libelle: 'σ₁', min: 5, max: 50, pas: 1, valeur: 20, format: function (x) { return x + ' %'; } },
-      { nom: 's2', libelle: 'σ₂', min: 5, max: 50, pas: 1, valeur: 30, format: function (x) { return x + ' %'; } },
-      { nom: 'rho', libelle: 'Corrélation ρ', min: -1, max: 1, pas: 0.05, valeur: 0.5, format: function (x) { return nb(x, 2); } },
-      { nom: 'w', libelle: 'Poids w₁ (w₂ = 1 − w₁)', min: 0, max: 1, pas: 0.05, valeur: 0.5, format: function (x) { return Math.round(100 * x) + ' %'; } }
+      { nom: 's1', libelle: '$\\sigma_{1}$', min: 5, max: 50, pas: 1, valeur: 20, format: function (x) { return x + ' %'; } },
+      { nom: 's2', libelle: '$\\sigma_{2}$', min: 5, max: 50, pas: 1, valeur: 30, format: function (x) { return x + ' %'; } },
+      { nom: 'rho', libelle: 'Corrélation $\\rho$', min: -1, max: 1, pas: 0.05, valeur: 0.5, format: function (x) { return nb(x, 2); } },
+      { nom: 'w', libelle: 'Poids $w_{1} (w_{2} = 1 - w_{1})$', min: 0, max: 1, pas: 0.05, valeur: 0.5, format: function (x) { return Math.round(100 * x) + ' %'; } }
     ], dessiner);
     function dessiner() {
       const s1 = v.s1 / 100, s2 = v.s2 / 100, rho = v.rho, w1 = v.w, w2 = 1 - v.w;
@@ -239,11 +256,11 @@
       const denom = s1 * s1 + s2 * s2 - 2 * rho * s1 * s2;
       const wmin = denom > 1e-12 ? (s2 * s2 - rho * s1 * s2) / denom : 0.5;
       out.innerHTML = '<div class="tableau"><table><tbody>' +
-        '<tr><td>w₁²σ₁²</td><td>' + nb(t1, 4) + '</td></tr><tr><td>w₂²σ₂²</td><td>' + nb(t2, 4) + '</td></tr>' +
-        '<tr><td>2w₁w₂ρσ₁σ₂ (terme de covariance)</td><td>' + nb(t3, 4) + '</td></tr>' +
+        '<tr><td>$w_1^2\\sigma_1^2$</td><td>' + nb(t1, 4) + '</td></tr><tr><td>$w_2^2\\sigma_2^2$</td><td>' + nb(t2, 4) + '</td></tr>' +
+        '<tr><td>$2w_1w_2\\rho\\sigma_1\\sigma_2$ (terme de covariance)</td><td>' + nb(t3, 4) + '</td></tr>' +
         '<tr><td><b>Variance du portefeuille</b></td><td><b>' + nb(varp, 4) + '</b> → volatilité <b>' + nb(100 * Math.sqrt(Math.max(0, varp)), 3) + ' %</b></td></tr>' +
         '<tr><td>Moyenne pondérée des volatilités</td><td>' + nb(100 * (w1 * s1 + w2 * s2), 3) + ' % (gain de diversification : ' + nb(100 * (w1 * s1 + w2 * s2 - Math.sqrt(Math.max(0, varp))), 3) + ' points)</td></tr>' +
-        '<tr><td>Poids de variance minimale w₁*</td><td>' + (wmin >= 0 && wmin <= 1 ? Math.round(100 * wmin) + ' %' : nb(100 * wmin, 3) + ' % (hors de [0, 1] : vente à découvert)') + '</td></tr>' +
+        '<tr><td>Poids de variance minimale $w_1^*$</td><td>' + (wmin >= 0 && wmin <= 1 ? Math.round(100 * wmin) + ' %' : nb(100 * wmin, 3) + ' % (hors de [0, 1] : vente à découvert)') + '</td></tr>' +
         '<tr><td>Corrélation mesurée sur le nuage (700 points)</td><td>' + nb(corr, 3) + '</td></tr></tbody></table></div>';
     }
     dessiner();
@@ -251,10 +268,10 @@
 
   // --- 3. Quadrants d'une gaussienne à deux dimensions ---------------------------------------------------------------
   function quadrants(el) {
-    entete(el, 'P(X > 0, Y > 0) pour un couple gaussien', 'Comparaison de la fréquence simulée (20 000 tirages) et de la formule de Sheppard 1/4 + arcsin(ρ)/(2π).');
+    entete(el, 'P(X > 0, Y > 0) pour un couple gaussien', 'Comparaison de la fréquence simulée (20 000 tirages) et de la formule de Sheppard $1/4 + \\arcsin(\\rho)/(2\\pi)$.');
     const c = toile(el, 0.6);
     const out = sortie(el);
-    const v = commandes(el, [{ nom: 'rho', libelle: 'Corrélation ρ', min: -0.99, max: 0.99, pas: 0.01, valeur: 0.5, format: function (x) { return nb(x, 2); } }], dessiner);
+    const v = commandes(el, [{ nom: 'rho', libelle: 'Corrélation $\\rho$', min: -0.99, max: 0.99, pas: 0.01, valeur: 0.5, format: function (x) { return nb(x, 2); } }], dessiner);
     function dessiner() {
       const a = o.hasard(11), rho = v.rho, s = Math.sqrt(1 - rho * rho);
       let k = 0;
@@ -277,12 +294,12 @@
 
   // --- 4. Trajectoires browniennes et variation quadratique ----------------------------------------------------------
   function brownien(el) {
-    entete(el, 'Mouvement brownien et variation quadratique', 'W est approché par une marche de n pas indépendants N(0, T/n). Quand n grandit, Σ(ΔW)² se stabilise sur T (variation quadratique) alors que Σ|ΔW| explose (variation totale infinie).');
+    entete(el, 'Mouvement brownien et variation quadratique', '$W$ est approché par une marche de $n$ pas indépendants $N(0, T/n)$. Quand $n$ grandit, $\\sum (\\Delta W)^{2}$ se stabilise sur $T$ (variation quadratique) alors que $\\sum |\\Delta W|$ explose (variation totale infinie).');
     const c = toile(el, 0.5);
     const out = sortie(el);
     let graine = 1;
     const v = commandes(el, [
-      { nom: 'lg', libelle: 'Nombre de pas n', min: 1, max: 4, pas: 0.25, valeur: 2.5, transforme: function (x) { return Math.round(Math.pow(10, x)); }, format: function (x) { return String(x); } },
+      { nom: 'lg', libelle: 'Nombre de pas $n$', min: 1, max: 4, pas: 0.25, valeur: 2.5, transforme: function (x) { return Math.round(Math.pow(10, x)); }, format: function (x) { return String(x); } },
       { nom: 'm', libelle: 'Trajectoires', min: 1, max: 12, pas: 1, valeur: 5 }
     ], dessiner);
     bouton(el, 'Nouveaux tirages', function () { graine++; dessiner(); });
@@ -307,20 +324,20 @@
       const palette = [r.col.accent, r.col.succes, r.col.alerte, r.col.erreur, r.col.fort, r.col.doux];
       chemins.forEach(function (ch, j) { ligne(r, ch, palette[j % palette.length], j === 0 ? 2 : 1.1); });
       ligne(r, [[0, 0], [1, 0]], r.col.bord, 1);
-      out.innerHTML = 'Première trajectoire (épaisse) : Σ(ΔW)² = <b>' + nb(qv, 4) + '</b> (théorie : T = 1) · Σ|ΔW| = <b>' + nb(tv, 4) +
-        '</b> (≈ √(2n/π) = ' + nb(Math.sqrt(2 * n / Math.PI), 4) + ', infini quand n → ∞) · W₁ = ' + nb(chemins[0][n][1], 3);
+      out.innerHTML = 'Première trajectoire (épaisse) : $\\sum (\\Delta W)^2 =$ <b>' + nb(qv, 4) + '</b> (théorie : $T = 1$) · $\\sum |\\Delta W| =$ <b>' + nb(tv, 4) +
+        '</b> ($\\approx \\sqrt{2n/\\pi} =$ ' + nb(Math.sqrt(2 * n / Math.PI), 4) + ', infini quand $n \\to \\infty$) · $W_1 =$ ' + nb(chemins[0][n][1], 3);
     }
     dessiner();
   }
 
   // --- 5. Vérifier le lemme d'Itô sur une trajectoire ----------------------------------------------------------------
   function ito(el) {
-    entete(el, 'Le lemme d’Itô sur une trajectoire', 'Sur une trajectoire simulée, on compare f(W_T) − f(W₀) à la somme Σ f′(W)ΔW (calcul « classique ») puis à Σ f′(W)ΔW + ½ Σ f″(W)Δt (Itô). Sans le terme d’Itô, l’écart ne disparaît pas quand le pas diminue.');
+    entete(el, 'Le lemme d’Itô sur une trajectoire', 'Sur une trajectoire simulée, on compare $f(W_T) - f(W_{0})$ à la somme $\\sum f^{\\prime}(W)\\Delta W$ (calcul « classique ») puis à $\\sum f^{\\prime}(W)\\Delta W + \\tfrac12 \\sum f^{\\prime\\prime}(W)\\Delta t$ (Itô). Sans le terme d’Itô, l’écart ne disparaît pas quand le pas diminue.');
     const c = toile(el, 0.45);
     const out = sortie(el);
     const F = {
-      carre: { nom: 'f(x) = x²', f: function (x) { return x * x; }, d1: function (x) { return 2 * x; }, d2: function () { return 2; } },
-      cube: { nom: 'f(x) = x³', f: function (x) { return x * x * x; }, d1: function (x) { return 3 * x * x; }, d2: function (x) { return 6 * x; } },
+      carre: { nom: '$f(x) = x^2$', f: function (x) { return x * x; }, d1: function (x) { return 2 * x; }, d2: function () { return 2; } },
+      cube: { nom: '$f(x) = x^3$', f: function (x) { return x * x * x; }, d1: function (x) { return 3 * x * x; }, d2: function (x) { return 6 * x; } },
       exp: { nom: 'f(x) = eˣ', f: Math.exp, d1: Math.exp, d2: Math.exp },
       sin: { nom: 'f(x) = sin x', f: Math.sin, d1: Math.cos, d2: function (x) { return -Math.sin(x); } }
     };
@@ -350,23 +367,23 @@
       ligne(r, itoC, r.col.succes, 2.4);
       ligne(r, vrai, r.col.accent, 1.2);
       const delta = g.f(w) - g.f(0);
-      out.innerHTML = g.nom + ' · f(W_T) − f(W₀) = <b>' + nb(delta, 5) + '</b><br>Σ f′(W)ΔW = ' + nb(s1, 5) + ' (écart ' + nb(delta - s1, 4) + ')' +
-        '<br>Σ f′(W)ΔW + ½ Σ f″(W)Δt = <b>' + nb(s1 + s2, 5) + '</b> (écart ' + nb(delta - s1 - s2, 3) + ')' +
-        '<br><span class="doux">Bleu : f(W_t) ; vert : reconstruction d’Itô ; rouge pointillé : sans le terme ½ f″ dt.</span>';
+      out.innerHTML = g.nom + ', $f(W_T) - f(W_0) =$ <b>' + nb(delta, 5) + '</b><br>$\\sum f^{\\prime}(W)\\Delta W =$ ' + nb(s1, 5) + ' (écart ' + nb(delta - s1, 4) + ')' +
+        '<br>$\\sum f^{\\prime}(W)\\Delta W + \\tfrac12 \\sum f^{\\prime\\prime}(W)\\Delta t =$ <b>' + nb(s1 + s2, 5) + '</b> (écart ' + nb(delta - s1 - s2, 3) + ')' +
+        '<br><span class="doux">Bleu : $f(W_t)$ ; vert : reconstruction d’Itô ; rouge pointillé : sans le terme $\\tfrac12 f^{\\prime\\prime}\\,dt$.</span>';
     }
     dessiner();
   }
 
   // --- 6. Ruine du joueur --------------------------------------------------------------------------------------------
   function marche(el) {
-    entete(el, 'Ruine du joueur', 'Une fortune part de k et gagne ou perd 1 à chaque tour (gain avec probabilité p), jusqu’à 0 ou N. Simulation de 3 000 parties contre les formules exactes.');
+    entete(el, 'Ruine du joueur', 'Une fortune part de $k$ et gagne ou perd 1 à chaque tour (gain avec probabilité $p$), jusqu’à 0 ou $N$. Simulation de 3 000 parties contre les formules exactes.');
     const c = toile(el, 0.45);
     const out = sortie(el);
     let graine = 1;
     const v = commandes(el, [
-      { nom: 'k', libelle: 'Départ k', min: 1, max: 19, pas: 1, valeur: 3 },
-      { nom: 'N', libelle: 'Objectif N', min: 2, max: 20, pas: 1, valeur: 10 },
-      { nom: 'p', libelle: 'Probabilité de gain p', min: 0.3, max: 0.7, pas: 0.01, valeur: 0.5, format: function (x) { return nb(x, 2); } }
+      { nom: 'k', libelle: 'Départ $k$', min: 1, max: 19, pas: 1, valeur: 3 },
+      { nom: 'N', libelle: 'Objectif $N$', min: 2, max: 20, pas: 1, valeur: 10 },
+      { nom: 'p', libelle: 'Probabilité de gain $p$', min: 0.3, max: 0.7, pas: 0.01, valeur: 0.5, format: function (x) { return nb(x, 2); } }
     ], dessiner);
     bouton(el, 'Relancer', function () { graine++; dessiner(); });
     function dessiner() {
@@ -404,11 +421,11 @@
     const c = toile(el, 0.5);
     const out = sortie(el);
     const v = commandes(el, [
-      { nom: 'S', libelle: 'Sous-jacent S', min: 50, max: 150, pas: 1, valeur: 100 },
-      { nom: 'K', libelle: 'Strike K', min: 50, max: 150, pas: 1, valeur: 100 },
-      { nom: 's', libelle: 'Volatilité σ', min: 5, max: 80, pas: 1, valeur: 20, format: function (x) { return x + ' %'; } },
-      { nom: 'T', libelle: 'Maturité T (années)', min: 0.02, max: 3, pas: 0.02, valeur: 1, format: function (x) { return nb(x, 3); } },
-      { nom: 'r', libelle: 'Taux r', min: 0, max: 10, pas: 0.25, valeur: 0, format: function (x) { return nb(x, 3) + ' %'; } }
+      { nom: 'S', libelle: 'Sous-jacent $S$', min: 50, max: 150, pas: 1, valeur: 100 },
+      { nom: 'K', libelle: 'Strike $K$', min: 50, max: 150, pas: 1, valeur: 100 },
+      { nom: 's', libelle: 'Volatilité $\\sigma$', min: 5, max: 80, pas: 1, valeur: 20, format: function (x) { return x + ' %'; } },
+      { nom: 'T', libelle: 'Maturité $T$ (années)', min: 0.02, max: 3, pas: 0.02, valeur: 1, format: function (x) { return nb(x, 3); } },
+      { nom: 'r', libelle: 'Taux $r$', min: 0, max: 10, pas: 0.25, valeur: 0, format: function (x) { return nb(x, 3) + ' %'; } }
     ], dessiner);
     function dessiner() {
       const s = v.s / 100, r0 = v.r / 100;
@@ -421,10 +438,10 @@
       r.ctx.fillStyle = r.col.erreur;
       r.ctx.beginPath(); r.ctx.arc(r.X(v.S), r.Y(g.call), 4, 0, 2 * Math.PI); r.ctx.fill();
       out.innerHTML = '<div class="tableau"><table><tbody>' +
-        '<tr><td>d₁ ; d₂</td><td>' + nb(g.d1, 4) + ' ; ' + nb(g.d2, 4) + '</td><td>Call ; put</td><td><b>' + nb(g.call, 5) + '</b> ; <b>' + nb(g.put, 5) + '</b></td></tr>' +
-        '<tr><td>Delta du call N(d₁)</td><td>' + nb(g.delta, 4) + '</td><td>Gamma</td><td>' + nb(g.gamma, 4) + '</td></tr>' +
+        '<tr><td>$d_1$ ; $d_2$</td><td>' + nb(g.d1, 4) + ' ; ' + nb(g.d2, 4) + '</td><td>Call ; put</td><td><b>' + nb(g.call, 5) + '</b> ; <b>' + nb(g.put, 5) + '</b></td></tr>' +
+        '<tr><td>Delta du call $N(d_1)$</td><td>' + nb(g.delta, 4) + '</td><td>Gamma</td><td>' + nb(g.gamma, 4) + '</td></tr>' +
         '<tr><td>Vega (par point de vol)</td><td>' + nb(g.vega / 100, 4) + '</td><td>Theta (par jour)</td><td>' + nb(g.theta / 365, 4) + '</td></tr>' +
-        '<tr><td>Rho (par point de taux)</td><td>' + nb(g.rho / 100, 4) + '</td><td>Approximation 0,4·σ·S·√T</td><td>' + nb(0.4 * s * v.S * Math.sqrt(v.T), 4) + '</td></tr>' +
+        '<tr><td>Rho (par point de taux)</td><td>' + nb(g.rho / 100, 4) + '</td><td>Approximation $0{,}4\\,\\sigma S\\sqrt{T}$</td><td>' + nb(0.4 * s * v.S * Math.sqrt(v.T), 4) + '</td></tr>' +
         '</tbody></table></div>';
     }
     dessiner();
@@ -432,13 +449,13 @@
 
   // --- 8. Arbre binomial et convergence vers Black-Scholes ------------------------------------------------------------
   function binomial(el) {
-    entete(el, 'Arbre binomial de Cox-Ross-Rubinstein', 'u = e^{σ√Δt}, d = 1/u, probabilité risque-neutre q = (e^{rΔt} − d)/(u − d). Le prix du call converge vers Black-Scholes en oscillant quand le nombre de pas augmente.');
+    entete(el, 'Arbre binomial de Cox-Ross-Rubinstein', '$u = e^{\\sigma\\sqrt{\\Delta t}}$, $d = 1/u$, probabilité risque-neutre $q = (e^{r\\Delta t} - d)/(u - d)$. Le prix du call converge vers Black-Scholes en oscillant quand le nombre de pas augmente.');
     const c = toile(el, 0.45);
     const out = sortie(el);
     const v = commandes(el, [
       { nom: 'n', libelle: 'Pas maximal affiché', min: 2, max: 200, pas: 1, valeur: 60 },
-      { nom: 's', libelle: 'Volatilité σ', min: 5, max: 60, pas: 1, valeur: 20, format: function (x) { return x + ' %'; } },
-      { nom: 'K', libelle: 'Strike K (S = 100, T = 1, r = 2 %)', min: 70, max: 130, pas: 1, valeur: 100 }
+      { nom: 's', libelle: 'Volatilité $\\sigma$', min: 5, max: 60, pas: 1, valeur: 20, format: function (x) { return x + ' %'; } },
+      { nom: 'K', libelle: 'Strike $K$ ($S = 100$, $T = 1$, $r = 2\\,\\%$)', min: 70, max: 130, pas: 1, valeur: 100 }
     ], dessiner);
     function prixArbre(n, s, K) {
       const T = 1, rr = 0.02, dt = T / n, u = Math.exp(s * Math.sqrt(dt)), d = 1 / u, q = (Math.exp(rr * dt) - d) / (u - d), disc = Math.exp(-rr * dt);
@@ -466,7 +483,7 @@
 
   // --- 9. Monte-Carlo : convergence et variables antithétiques --------------------------------------------------------
   function montecarlo(el) {
-    entete(el, 'Prix d’un call par Monte-Carlo', 'S = K = 100, σ = 20 %, T = 1, r = 0. Estimation courante en fonction du nombre de tirages, simple (bleu) et avec variables antithétiques (vert) ; la ligne rouge est le prix exact.');
+    entete(el, 'Prix d’un call par Monte-Carlo', '$S = K = 100, \\sigma = 20 \\%, T = 1, r = 0$. Estimation courante en fonction du nombre de tirages, simple (bleu) et avec variables antithétiques (vert) ; la ligne rouge est le prix exact.');
     const c = toile(el, 0.45);
     const out = sortie(el);
     let graine = 1;
@@ -492,20 +509,20 @@
       ligne(r, p1, r.col.accent, 1.4);
       ligne(r, p2, r.col.succes, 1.8);
       const m = somme / n, e1 = Math.sqrt((somme2 / n - m * m) / n), ma = sa / n, e2 = Math.sqrt((sa2 / n - ma * ma) / n);
-      out.innerHTML = 'Exact : <b>' + nb(ref, 5) + '</b> · simple : ' + nb(m, 5) + ' ± ' + nb(1.96 * e1, 3) + ' · antithétique : ' + nb(ma, 5) + ' ± ' + nb(1.96 * e2, 3) +
-        ' <span class="doux">(intervalles à 95 % ; réduction de l’écart-type par paire : ×' + nb(e1 / e2 / Math.SQRT2, 3) + ' à coût égal)</span>';
+      out.innerHTML = 'Exact : <b>' + nb(ref, 5) + '</b> · simple : ' + nb(m, 5) + ' $\\pm$ ' + nb(1.96 * e1, 3) + ' · antithétique : ' + nb(ma, 5) + ' $\\pm$ ' + nb(1.96 * e2, 3) +
+        ' <span class="doux">(intervalles à 95 % ; réduction de l’écart-type par paire : $\\times$' + nb(e1 / e2 / Math.SQRT2, 3) + ' à coût égal)</span>';
     }
     dessiner();
   }
 
   // --- 10. Critère de Kelly -------------------------------------------------------------------------------------------
   function kelly(el) {
-    entete(el, 'Croissance en fonction de la fraction misée', 'g(f) = p ln(1 + bf) + (1 − p) ln(1 − f). Le maximum est la fraction de Kelly ; à environ deux fois cette fraction, la croissance retombe à zéro.');
+    entete(el, 'Croissance en fonction de la fraction misée', '$g(f) = p \\ln (1 + bf) + (1 - p) \\ln (1 - f)$. Le maximum est la fraction de Kelly ; à environ deux fois cette fraction, la croissance retombe à zéro.');
     const c = toile(el, 0.45);
     const out = sortie(el);
     const v = commandes(el, [
-      { nom: 'p', libelle: 'Probabilité de gain p', min: 0.4, max: 0.9, pas: 0.01, valeur: 0.6, format: function (x) { return nb(x, 2); } },
-      { nom: 'b', libelle: 'Cote b (gain par euro misé)', min: 0.5, max: 4, pas: 0.1, valeur: 1, format: function (x) { return nb(x, 2); } }
+      { nom: 'p', libelle: 'Probabilité de gain $p$', min: 0.4, max: 0.9, pas: 0.01, valeur: 0.6, format: function (x) { return nb(x, 2); } },
+      { nom: 'b', libelle: 'Cote $b$ (gain par euro misé)', min: 0.5, max: 4, pas: 0.1, valeur: 1, format: function (x) { return nb(x, 2); } }
     ], dessiner);
     function dessiner() {
       const p = v.p, b = v.b, g = function (f) { return p * Math.log(1 + b * f) + (1 - p) * Math.log(1 - f); };
@@ -525,13 +542,13 @@
 
   // --- 11. Processus d'Ornstein-Uhlenbeck ----------------------------------------------------------------------------
   function ou(el) {
-    entete(el, 'Ornstein-Uhlenbeck : retour à la moyenne', 'dX = κ(θ − X)dt + σdW avec θ = 0, départ X₀ = 3. Les bandes pointillées valent ±1 écart-type stationnaire σ/√(2κ) ; la ligne verticale marque la demi-vie ln 2/κ.');
+    entete(el, 'Ornstein-Uhlenbeck : retour à la moyenne', '$dX = \\kappa (\\theta - X)dt + \\sigma dW$ avec $\\theta = 0$, départ $X_{0} = 3$. Les bandes pointillées valent $\\pm 1$ écart-type stationnaire $\\sigma /\\sqrt{2\\kappa}$ ; la ligne verticale marque la demi-vie $\\ln 2/\\kappa$.');
     const c = toile(el, 0.45);
     const out = sortie(el);
     let graine = 1;
     const v = commandes(el, [
-      { nom: 'k', libelle: 'Vitesse κ (par jour)', min: 0.02, max: 0.5, pas: 0.01, valeur: 0.1, format: function (x) { return nb(x, 2); } },
-      { nom: 's', libelle: 'Volatilité σ (par √jour)', min: 0.05, max: 1, pas: 0.05, valeur: 0.3, format: function (x) { return nb(x, 2); } }
+      { nom: 'k', libelle: 'Vitesse $\\kappa$ (par jour)', min: 0.02, max: 0.5, pas: 0.01, valeur: 0.1, format: function (x) { return nb(x, 2); } },
+      { nom: 's', libelle: 'Volatilité $\\sigma$ (par $\\sqrt{\\text{jour}}$)', min: 0.05, max: 1, pas: 0.05, valeur: 0.3, format: function (x) { return nb(x, 2); } }
     ], dessiner);
     bouton(el, 'Nouveaux tirages', function () { graine++; dessiner(); });
     function dessiner() {
@@ -553,7 +570,7 @@
         for (let i = 1; i <= n; i++) { x = x * e + sdPas * gauss(a); ch.push([i * dt, x]); }
         ligne(r, ch, palette[j], 1.2);
       }
-      out.innerHTML = 'Demi-vie ln 2/κ = <b>' + nb(hl, 3) + ' jours</b> · écart-type stationnaire σ/√(2κ) = <b>' + nb(sd, 3) + '</b> · coefficient AR(1) quotidien φ = e^{−κ} = ' + nb(Math.exp(-k), 4) +
+      out.innerHTML = 'Demi-vie $\\ln 2/\\kappa =$ <b>' + nb(hl, 3) + ' jours</b> · écart-type stationnaire $\\sigma/\\sqrt{2\\kappa} =$ <b>' + nb(sd, 3) + '</b> · coefficient AR(1) quotidien $\\varphi = e^{-\\kappa} =$ ' + nb(Math.exp(-k), 4) +
         ' <span class="doux">(courbe rouge : espérance 3e^{−κt})</span>';
     }
     dessiner();
@@ -561,16 +578,16 @@
 
   // --- 12. Smile SVI et contrôle du papillon -------------------------------------------------------------------------
   function svi(el) {
-    entete(el, 'Une tranche SVI', 'w(k) = a + b[ρ(k − m) + √((k − m)² + σ²)], variance totale en fonction de la log-moneyness k. En dessous : la fonction g(k) de Gatheral-Jacquier, qui doit rester positive (absence d’arbitrage papillon).');
+    entete(el, 'Une tranche SVI', '$w(k) = a + b[\\rho (k - m) + \\sqrt{(k - m)^{2} + \\sigma^{2}}]$, variance totale en fonction de la log-moneyness $k$. En dessous : la fonction $g(k)$ de Gatheral-Jacquier, qui doit rester positive (absence d’arbitrage papillon).');
     const c = toile(el, 0.45);
     const c2 = toile(el, 0.25);
     const out = sortie(el);
     const v = commandes(el, [
       { nom: 'a', libelle: 'a (niveau)', min: -0.05, max: 0.1, pas: 0.005, valeur: 0.02, format: function (x) { return nb(x, 3); } },
-      { nom: 'b', libelle: 'b (pente des ailes)', min: 0.01, max: 0.6, pas: 0.01, valeur: 0.1, format: function (x) { return nb(x, 2); } },
-      { nom: 'rho', libelle: 'ρ (asymétrie)', min: -0.95, max: 0.95, pas: 0.05, valeur: -0.4, format: function (x) { return nb(x, 2); } },
-      { nom: 'm', libelle: 'm (translation)', min: -0.5, max: 0.5, pas: 0.02, valeur: 0, format: function (x) { return nb(x, 2); } },
-      { nom: 'sig', libelle: 'σ (courbure)', min: 0.01, max: 0.5, pas: 0.01, valeur: 0.15, format: function (x) { return nb(x, 2); } }
+      { nom: 'b', libelle: '$b$ (pente des ailes)', min: 0.01, max: 0.6, pas: 0.01, valeur: 0.1, format: function (x) { return nb(x, 2); } },
+      { nom: 'rho', libelle: '$\\rho$ (asymétrie)', min: -0.95, max: 0.95, pas: 0.05, valeur: -0.4, format: function (x) { return nb(x, 2); } },
+      { nom: 'm', libelle: '$m$ (translation)', min: -0.5, max: 0.5, pas: 0.02, valeur: 0, format: function (x) { return nb(x, 2); } },
+      { nom: 'sig', libelle: '$\\sigma$ (courbure)', min: 0.01, max: 0.5, pas: 0.01, valeur: 0.15, format: function (x) { return nb(x, 2); } }
     ], dessiner);
     function dessiner() {
       const a = v.a, b = v.b, rho = v.rho, m = v.m, s = v.sig;
@@ -591,7 +608,7 @@
       const r2 = repere(c2, { xmin: -1.5, xmax: 1.5, ymin: Math.min(-0.2, gmin), ymax: 1.5 });
       ligne(r2, [[-1.5, 0], [1.5, 0]], r2.col.erreur, 1, true);
       ligne(r2, gs.map(function (p) { return [p[0], Math.min(1.5, p[1])]; }), gmin < 0 ? r2.col.erreur : r2.col.succes, 1.8);
-      out.innerHTML = 'Pentes des ailes : gauche b(1 − ρ) = ' + nb(b * (1 - rho), 3) + ', droite b(1 + ρ) = ' + nb(b * (1 + rho), 3) + ' (borne de Lee : 2) · ' +
+      out.innerHTML = 'Pentes des ailes : gauche $b(1 - \\rho) =$ ' + nb(b * (1 - rho), 3) + ', droite $b(1 + \\rho) =$ ' + nb(b * (1 + rho), 3) + ' (borne de Lee : 2) · ' +
         (wmin <= 0 ? '<b style="color:var(--erreur)">variance totale négative : paramètres impossibles</b>' :
           gmin < 0 ? '<b style="color:var(--erreur)">arbitrage papillon : g(k) &lt; 0 quelque part</b> (min ' + nb(gmin, 3) + ')' : '<b style="color:var(--succes)">pas d’arbitrage papillon sur [−1,5 ; 1,5]</b> (min g = ' + nb(gmin, 3) + ')');
     }
@@ -600,7 +617,7 @@
 
   // --- 13. Couverture en delta : erreur et PnL -----------------------------------------------------------------------
   function couverture(el) {
-    entete(el, 'Vendre un call et le couvrir en delta', 'On vend un call à la monnaie (S = K = 100, 3 mois, taux nul) au prix Black-Scholes avec la volatilité implicite, puis on le couvre en delta à intervalles réguliers. Histogramme du PnL final sur 1 000 trajectoires.');
+    entete(el, 'Vendre un call et le couvrir en delta', 'On vend un call à la monnaie ($S = K = 100$, 3 mois, taux nul) au prix Black-Scholes avec la volatilité implicite, puis on le couvre en delta à intervalles réguliers. Histogramme du PnL final sur 1 000 trajectoires.');
     const c = toile(el, 0.45);
     const out = sortie(el);
     let graine = 1;
@@ -638,15 +655,15 @@
       ligne(r, [[0, 0], [0, Math.max.apply(null, hist) * 1.1]], r.col.doux, 1, true);
       ligne(r, [[m, 0], [m, Math.max.apply(null, hist) * 1.1]], m >= 0 ? r.col.succes : r.col.erreur, 2);
       const theo = bs(100, 100, si, T, 0).call - bs(100, 100, sr, T, 0).call;
-      out.innerHTML = 'Prime encaissée : ' + nb(prime, 4) + ' · PnL moyen : <b>' + nb(m, 3) + '</b> (prix à la vol implicite − prix à la vol réalisée ≈ ' + nb(theo, 3) + ')' +
-        ' · écart-type : <b>' + nb(sd, 3) + '</b> <span class="doux">(divisé par ≈ 2 quand on réajuste 4 fois plus souvent)</span>';
+      out.innerHTML = 'Prime encaissée : ' + nb(prime, 4) + ' · PnL moyen : <b>' + nb(m, 3) + '</b> (prix à la vol implicite $-$ prix à la vol réalisée $\\approx$ ' + nb(theo, 3) + ')' +
+        ' · écart-type : <b>' + nb(sd, 3) + '</b> <span class="doux">(divisé par $\\approx 2$ quand on réajuste 4 fois plus souvent)</span>';
     }
     dessiner();
   }
 
   // --- 14. Temps d'attente d'un motif à pile ou face -----------------------------------------------------------------
   function conditionnement(el) {
-    entete(el, 'Temps d’attente d’un motif à pile ou face', 'Simulation de 5 000 séries de lancers contre la valeur exacte obtenue par la méthode du premier pas (somme des 2^ℓ sur les chevauchements préfixe = suffixe).');
+    entete(el, 'Temps d’attente d’un motif à pile ou face', 'Simulation de 5 000 séries de lancers contre la valeur exacte obtenue par la méthode du premier pas (somme des $2^{\\ell}$ sur les chevauchements préfixe = suffixe).');
     const c = toile(el, 0.4);
     const out = sortie(el);
     let graine = 1;
@@ -683,14 +700,14 @@
 
   // --- 15. Régression : estimation, erreur standard, atténuation ----------------------------------------------------
   function regression(el) {
-    entete(el, 'Moindres carrés sur un échantillon simulé', 'Vrai modèle y = 1,5·x + ε avec x ~ N(0, 1). Pointillé : la vraie droite ; trait plein : la droite estimée. Ajoute du bruit de mesure sur x pour voir la pente s’atténuer vers 1,5·Var(x)/(Var(x) + Var(u)).');
+    entete(el, 'Moindres carrés sur un échantillon simulé', 'Vrai modèle $y = 1{,}5 \\cdot x + \\varepsilon$ avec $x \\sim N(0, 1)$. Pointillé : la vraie droite ; trait plein : la droite estimée. Ajoute du bruit de mesure sur $x$ pour voir la pente s’atténuer vers $1{,}5 \\cdot \\operatorname{Var} (x)/(\\operatorname{Var} (x) + \\operatorname{Var} (u))$.');
     const c = toile(el, 0.55);
     const out = sortie(el);
     let graine = 1;
     const v = commandes(el, [
-      { nom: 'n', libelle: 'Observations n', min: 10, max: 500, pas: 10, valeur: 50 },
-      { nom: 'e', libelle: 'Bruit sur y (écart-type de ε)', min: 0.1, max: 3, pas: 0.1, valeur: 1, format: function (x) { return nb(x, 2); } },
-      { nom: 'u', libelle: 'Bruit de mesure sur x (écart-type de u)', min: 0, max: 1.5, pas: 0.05, valeur: 0, format: function (x) { return nb(x, 2); } }
+      { nom: 'n', libelle: 'Observations $n$', min: 10, max: 500, pas: 10, valeur: 50 },
+      { nom: 'e', libelle: 'Bruit sur y (écart-type de $\\varepsilon$)', min: 0.1, max: 3, pas: 0.1, valeur: 1, format: function (x) { return nb(x, 2); } },
+      { nom: 'u', libelle: 'Bruit de mesure sur $x$ (écart-type de $u$)', min: 0, max: 1.5, pas: 0.05, valeur: 0, format: function (x) { return nb(x, 2); } }
     ], dessiner);
     bouton(el, 'Nouvel échantillon', function () { graine++; dessiner(); });
     function dessiner() {
@@ -712,7 +729,7 @@
       ligne(r, [[-L, -1.5 * L], [L, 1.5 * L]], r.col.doux, 1.5, true);
       ligne(r, [[-L, a0 - b * L], [L, a0 + b * L]], r.col.erreur, 2.2);
       const attendu = 1.5 / (1 + v.u * v.u);
-      out.innerHTML = 'Pente estimée <b>' + nb(b, 3) + '</b> ± ' + nb(se, 2) + ' (erreur standard σ̂/√Σ(x − x̄)²) · t = ' + nb(b / se, 3) + ' · R² = ' + nb(r2, 3) +
+      out.innerHTML = 'Pente estimée <b>' + nb(b, 3) + '</b> ± ' + nb(se, 2) + ' (erreur standard $\\hat\\sigma/\\sqrt{\\sum (x - \\bar x)^2}$) · $t =$ ' + nb(b / se, 3) + ' · $R^2 =$ ' + nb(r2, 3) +
         ' · pente vers laquelle l’estimation converge : <b>' + nb(attendu, 3) + '</b>' + (v.u > 0 ? ' <span class="doux">(atténuée par l’erreur de mesure)</span>' : '') +
         ' <span class="doux">· quadrupler n divise l’erreur standard par deux</span>';
     }
@@ -767,12 +784,12 @@
 
   // --- 17. Glosten-Milgrom : le marché apprend par les ordres -------------------------------------------------------
   function glosten(el) {
-    entete(el, 'Sélection adverse : le modèle de Glosten-Milgrom', 'La valeur vaut 90 ou 110. Une proportion α des clients connaît la vraie valeur ; les autres achètent ou vendent au hasard. Le teneur de marché fixe ask = E[V | achat] et bid = E[V | vente], puis révise sa croyance par Bayes après chaque ordre.');
+    entete(el, 'Sélection adverse : le modèle de Glosten-Milgrom', 'La valeur vaut 90 ou 110. Une proportion $\\alpha$ des clients connaît la vraie valeur ; les autres achètent ou vendent au hasard. Le teneur de marché fixe $\\text{ask} = \\mathbb{E}[V \\mid \\text{achat}]$ et $\\text{bid} = \\mathbb{E}[V \\mid \\text{vente}]$, puis révise sa croyance par Bayes après chaque ordre.');
     const c = toile(el, 0.5);
     const out = sortie(el);
     let graine = 1;
     const v = commandes(el, [
-      { nom: 'alpha', libelle: 'Part de clients informés α', min: 0.05, max: 0.8, pas: 0.05, valeur: 0.3, format: function (x) { return Math.round(100 * x) + ' %'; } },
+      { nom: 'alpha', libelle: 'Part de clients informés $\\alpha$', min: 0.05, max: 0.8, pas: 0.05, valeur: 0.3, format: function (x) { return Math.round(100 * x) + ' %'; } },
       { nom: 'vraie', libelle: 'Vraie valeur', choix: [['110', '110 (haute)'], ['90', '90 (basse)']], valeur: '110', transforme: Number },
       { nom: 'n', libelle: 'Nombre d’ordres', min: 10, max: 80, pas: 5, valeur: 40 }
     ], dessiner);
@@ -799,7 +816,7 @@
       ligne(r, asks, r.col.erreur, 1.8);
       ligne(r, bids, r.col.accent, 1.8);
       ligne(r, milieu, r.col.doux, 1.2, true);
-      out.innerHTML = 'Spread initial <b>' + nb(20 * al, 3) + '</b> (= α × 20) · croyance finale P(V = 110) = <b>' + nb(pi, 3) + '</b> · PnL du teneur de marché : ' + nb(pnl, 3) +
+      out.innerHTML = 'Spread initial <b>' + nb(20 * al, 3) + '</b> ($= \\alpha \\times 20$) · croyance finale $\\mathbb{P}(V = 110) =$ <b>' + nb(pi, 3) + '</b> · PnL du teneur de marché : ' + nb(pnl, 3) +
         ' dont ' + nb(pnlInf, 3) + ' contre les informés et ' + (pnlNon >= 0 ? '+' : '') + nb(pnlNon, 3) + ' contre les autres <span class="doux">(rouge : ask, bleu : bid, vert : vraie valeur ; nul en espérance)</span>';
     }
     dessiner();
@@ -807,12 +824,12 @@
 
   // --- 18. Descente de gradient sur une fonction quadratique --------------------------------------------------------
   function gradient(el) {
-    entete(el, 'Descente de gradient et conditionnement', 'On minimise L(x, y) = ½(x² + κy²). Le pas est exprimé en fraction de la limite de stabilité 2/κ (la direction la plus raide). Au-delà de 1, l’algorithme diverge ; quand κ est grand, la direction plate converge lentement.');
+    entete(el, 'Descente de gradient et conditionnement', 'On minimise $L(x, y) = \\tfrac12 (x^{2} + \\kappa y^{2})$. Le pas est exprimé en fraction de la limite de stabilité $2/\\kappa$ (la direction la plus raide). Au-delà de 1, l’algorithme diverge ; quand $\\kappa$ est grand, la direction plate converge lentement.');
     const c = toile(el, 0.55);
     const out = sortie(el);
     const v = commandes(el, [
-      { nom: 'k', libelle: 'Conditionnement κ', min: 1, max: 50, pas: 1, valeur: 10 },
-      { nom: 'f', libelle: 'Pas η (fraction de 2/κ)', min: 0.05, max: 1.2, pas: 0.05, valeur: 0.9, format: function (x) { return nb(x, 2); } },
+      { nom: 'k', libelle: 'Conditionnement $\\kappa$', min: 1, max: 50, pas: 1, valeur: 10 },
+      { nom: 'f', libelle: 'Pas $\\eta$ (fraction de $2/\\kappa$)', min: 0.05, max: 1.2, pas: 0.05, valeur: 0.9, format: function (x) { return nb(x, 2); } },
       { nom: 'm', libelle: 'Méthode', choix: [['0', 'descente simple'], ['0.9', 'avec moment (β = 0,9)']], valeur: '0', transforme: Number }
     ], dessiner);
     function dessiner() {
@@ -839,7 +856,7 @@
       r.ctx.restore();
       const facteurs = [Math.abs(1 - eta), Math.abs(1 - eta * k)];
       const norme = Math.sqrt(x * x + y * y);
-      out.innerHTML = 'η = ' + nb(eta, 3) + ' · facteurs par pas |1 − ηλ| : ' + nb(facteurs[0], 3) + ' (direction plate) et ' + nb(facteurs[1], 3) + ' (direction raide)' +
+      out.innerHTML = '$\\eta =$ ' + nb(eta, 3) + ' · facteurs par pas $|1 - \\eta\\lambda|$ : ' + nb(facteurs[0], 3) + ' (direction plate) et ' + nb(facteurs[1], 3) + ' (direction raide)' +
         ' · distance au minimum après ' + iter + ' pas : <b>' + (isFinite(norme) && norme < 1e6 ? nb(norme, 3) : 'divergence') + '</b>' +
         (beta ? ' <span class="doux">(le moment accélère la direction plate quand κ est grand)</span>' : '');
     }
@@ -848,13 +865,13 @@
 
   // --- 19. Processus de Poisson et paradoxe de l'inspection ----------------------------------------------------------
   function poisson(el) {
-    entete(el, 'Processus de Poisson et paradoxe de l’inspection', 'Des événements arrivent au taux λ par minute (en haut, les 60 premières minutes). Histogramme des durées entre événements contre la densité exponentielle λ·exp(−λt) (en rouge). En bas : ce que vit un voyageur arrivant à un instant au hasard.');
+    entete(el, 'Processus de Poisson et paradoxe de l’inspection', 'Des événements arrivent au taux $\\lambda$ par minute (en haut, les 60 premières minutes). Histogramme des durées entre événements contre la densité exponentielle $\\lambda \\cdot \\exp (-\\lambda t)$ (en rouge). En bas : ce que vit un voyageur arrivant à un instant au hasard.');
     const frise = toile(el, 0.08);
     const c = toile(el, 0.42);
     const out = sortie(el);
     let graine = 1;
     const v = commandes(el, [
-      { nom: 'l', libelle: 'Intensité λ (par minute)', min: 0.05, max: 1, pas: 0.05, valeur: 0.1, format: function (x) { return nb(x, 2) + ' (un toutes les ' + nb(1 / x, 3) + ' min)'; } }
+      { nom: 'l', libelle: 'Intensité $\\lambda$ (par minute)', min: 0.05, max: 1, pas: 0.05, valeur: 0.1, format: function (x) { return nb(x, 2) + ' (un toutes les ' + nb(1 / x, 3) + ' min)'; } }
     ], dessiner);
     bouton(el, 'Nouveaux tirages', function () { graine++; dessiner(); });
     function dessiner() {
@@ -887,8 +904,8 @@
       for (let k = 0; k <= 100; k++) { const x = k * L / 100; courbe.push([x, l * Math.exp(-l * x)]); }
       ligne(r, courbe, r.col.erreur, 2);
       const moy = ecarts.reduce(function (s, e) { return s + e; }, 0) / ecarts.length;
-      out.innerHTML = 'Durée moyenne entre deux événements : <b>' + nb(moy, 3) + '</b> min (théorie 1/λ = ' + nb(1 / l, 3) + ')' +
-        '<br>Voyageur arrivant au hasard : attente moyenne <b>' + nb(attente / nbv, 3) + '</b> min (1/λ, et non 1/(2λ)) · intervalle qui le contient : <b>' + nb(longueur / nbv, 3) + '</b> min (2/λ = ' + nb(2 / l, 3) + ')';
+      out.innerHTML = 'Durée moyenne entre deux événements : <b>' + nb(moy, 3) + '</b> min (théorie $1/\\lambda =$ ' + nb(1 / l, 3) + ')' +
+        '<br>Voyageur arrivant au hasard : attente moyenne <b>' + nb(attente / nbv, 3) + '</b> min ($1/\\lambda$, et non $1/(2\\lambda)$) · intervalle qui le contient : <b>' + nb(longueur / nbv, 3) + '</b> min ($2/\\lambda =$ ' + nb(2 / l, 3) + ')';
     }
     dessiner();
   }
@@ -907,15 +924,15 @@
     return [e1, 3 * q - e1 - e3, e3];
   }
   function correlations(el) {
-    entete(el, 'Une matrice de corrélation 3 × 3 est-elle possible ?', 'Fixe ρ₁₂ et ρ₁₃, puis déplace ρ₂₃. Courbe : det R en fonction de ρ₂₃ ; la zone verte est l’intervalle admissible ab ± √((1 − a²)(1 − b²)). En bas : les trois valeurs propres (toutes ≥ 0 pour une matrice valide).');
+    entete(el, 'Une matrice de corrélation 3 × 3 est-elle possible ?', 'Fixe $\\rho_{12}$ et $\\rho_{13}$, puis déplace $\\rho_{23}$. Courbe : $\\det R$ en fonction de $\\rho_{23}$ ; la zone verte est l’intervalle admissible $ab \\pm \\sqrt{(1 - a^{2})(1 - b^{2})}$. En bas : les trois valeurs propres (toutes $\\ge 0$ pour une matrice valide).');
     const c = toile(el, 0.42);
     const c2 = toile(el, 0.2);
     const out = sortie(el);
     const f2 = function (x) { return nb(x, 2); };
     const v = commandes(el, [
-      { nom: 'a', libelle: 'ρ₁₂', min: -1, max: 1, pas: 0.05, valeur: 0.9, format: f2 },
-      { nom: 'b', libelle: 'ρ₁₃', min: -1, max: 1, pas: 0.05, valeur: 0.7, format: f2 },
-      { nom: 'c', libelle: 'ρ₂₃', min: -1, max: 1, pas: 0.05, valeur: 0, format: f2 }
+      { nom: 'a', libelle: '$\\rho_{12}$', min: -1, max: 1, pas: 0.05, valeur: 0.9, format: f2 },
+      { nom: 'b', libelle: '$\\rho_{13}$', min: -1, max: 1, pas: 0.05, valeur: 0.7, format: f2 },
+      { nom: 'c', libelle: '$\\rho_{23}$', min: -1, max: 1, pas: 0.05, valeur: 0, format: f2 }
     ], dessiner);
     function det(a, b, x) { return 1 + 2 * a * b * x - a * a - b * b - x * x; }
     function dessiner() {
@@ -942,7 +959,7 @@
       });
       ligne(r2, [[0, 0], [3, 0]], r2.col.doux, 1);
       out.innerHTML = 'det R = <b>' + nb(d, 4) + '</b> · valeurs propres ' + vp.map(function (l) { return nb(l, 3); }).join(' ; ') +
-        ' · ρ₂₃ admissible dans [' + nb(lo, 3) + ' ; ' + nb(hi, 3) + '] · ' +
+        ' · $\\rho_{23}$ admissible dans [' + nb(lo, 3) + ' ; ' + nb(hi, 3) + '] · ' +
         (d >= -1e-12 && vp[2] >= -1e-12 ? '<b style="color:var(--succes)">matrice valide</b>' : '<b style="color:var(--erreur)">impossible : aucune variable aléatoire n’a ces corrélations</b>');
     }
     dessiner();
@@ -950,13 +967,13 @@
 
   // --- 21. Option à barrière : simulation contre la réplication de Carr ---------------------------------------------
   function barriere(el) {
-    entete(el, 'Down-and-in et down-and-out call', 'S₀ = K = 100, T = 1 an, taux nul. Trajectoires rouges : la barrière a été touchée (la knock-in est active). On compare le prix simulé (3 000 trajectoires) à la formule (S₀/B)·C(B²/S₀, K), et, en surveillance discrète, à la barrière décalée de Broadie-Glasserman-Kou.');
+    entete(el, 'Down-and-in et down-and-out call', '$S_{0} = K = 100, T = 1$ an, taux nul. Trajectoires rouges : la barrière a été touchée (la knock-in est active). On compare le prix simulé (3 000 trajectoires) à la formule $(S_{0}/B) \\cdot \\binom{B^{2}/S_{0}}{K}$, et, en surveillance discrète, à la barrière décalée de Broadie-Glasserman-Kou.');
     const c = toile(el, 0.5);
     const out = sortie(el);
     let graine = 1;
     const v = commandes(el, [
       { nom: 'B', libelle: 'Barrière B', min: 70, max: 98, pas: 1, valeur: 90 },
-      { nom: 's', libelle: 'Volatilité σ', min: 10, max: 40, pas: 1, valeur: 20, format: function (x) { return x + ' %'; } },
+      { nom: 's', libelle: 'Volatilité $\\sigma$', min: 10, max: 40, pas: 1, valeur: 20, format: function (x) { return x + ' %'; } },
       { nom: 'f', libelle: 'Surveillance', choix: [['0', 'continue'], ['1', 'quotidienne'], ['5', 'hebdomadaire'], ['21', 'mensuelle']], valeur: '0', transforme: Number }
     ], dessiner);
     bouton(el, 'Relancer', function () { graine++; dessiner(); });
@@ -991,7 +1008,7 @@
       const bEff = f ? B * Math.exp(-0.5826 * s * Math.sqrt(f * dt)) : B;
       out.innerHTML = 'Simulé : down-and-in <b>' + nb(sDI / 3000, 4) + '</b>, down-and-out <b>' + nb(sDO / 3000, 4) + '</b> (somme ' + nb((sDI + sDO) / 3000, 4) + ', vanille ' + nb(vanille, 4) + ')' +
         '<br>Formule' + (f ? ' avec la barrière décalée ' + nb(bEff, 4) : '') + ' : down-and-in ' + nb(formuleDI(bEff), 4) + ', down-and-out ' + nb(vanille - formuleDI(bEff), 4) +
-        ' <span class="doux">(écart dû au tirage : environ ±0,2)</span>';
+        ' <span class="doux">(écart dû au tirage : environ $\\pm 0{,}2$)</span>';
     }
     dessiner();
   }

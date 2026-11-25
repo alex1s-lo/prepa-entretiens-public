@@ -1,0 +1,211 @@
+# Casse-têtes : pesées, mesures de temps, transvasements, codage par l'information.
+
+=== ct-pieces-balance
+theme: casse-tete
+categorie: pesees
+titre: 12 pièces, une fausse, 3 pesées
+niveau: 2
+profils: mm hf banque data
+--- question
+Tu as 12 pièces dont une fausse, plus lourde ou plus légère (tu ne sais pas). Avec une balance à deux plateaux, comment la trouver en 3 pesées et savoir si elle est plus lourde ou plus légère ?
+--- en
+12 coins, one counterfeit that is heavier or lighter (unknown). Find it and determine heavier/lighter in 3 weighings on a balance.
+--- indice
+Compte les cas : 12 pièces et 2 sens, soit $12 \times 2 = 24$, et trois pesées ont $3^3 = 27$ issues. Première pesée : 4 contre 4.
+--- solution
+Argument de comptage : 24 possibilités et $3^3 = 27$ issues : c'est possible en principe, à condition que chaque pesée sépare bien les cas.
+Pesée 1 : $\{1,2,3,4\}$ contre $\{5,6,7,8\}$.
+- **Équilibre** : la fausse est parmi 9 à 12. Pesée 2 : $\{9,10,11\}$ contre $\{1,2,3\}$ (vraies). Si équilibre, c'est 12 : pesée 3 contre une vraie pour le sens. Sinon le sens est connu et il reste 3 pièces : pesée 3 de 9 contre 10.
+- **Déséquilibre**, disons $\{1,2,3,4\}$ plus lourd : soit l'une de 1 à 4 est lourde, soit l'une de 5 à 8 est légère. Pesée 2 : $\{1,2,5\}$ contre $\{3,6,9\}$. Gauche plus lourde : 1 ou 2 lourde, ou 6 légère ; pesée 3 : 1 contre 2 (équilibre → 6). Droite plus lourde : 3 lourde ou 5 légère ; pesée 3 : 3 contre 9. Équilibre : 4 lourde, ou 7 ou 8 légère ; pesée 3 : 7 contre 8 (équilibre → 4).
+Ce qui est évalué : l'argument d'information (trois issues par pesée) et l'organisation des cas.
+--- variantes
+- Jusqu'à combien de pièces en 3 pesées ? **12** s'il faut aussi trouver le sens, 13 si l'on a une pièce vraie de référence ; en $k$ pesées : $(3^k - 3)/2$ pièces.
+- Version « on sait que la fausse est plus lourde » : voir « 8 ou 9 billes, une plus lourde ».
+
+=== ct-billes-plus-lourde
+theme: casse-tete
+categorie: pesees
+titre: 9 billes, une plus lourde, 2 pesées
+niveau: 1
+profils: mm hf banque data
+type: numerique
+reponse: 2
+duree: 120
+--- question
+Parmi 9 billes identiques d'apparence, une seule est plus lourde. Avec une balance à deux plateaux, combien de pesées faut-il au minimum pour la trouver à coup sûr ?
+--- indice
+Une pesée a trois issues : gauche, droite, équilibre. Fais trois groupes.
+--- solution
+Pesée 1 : 3 contre 3. Si un plateau penche, la lourde y est ; sinon elle est dans le troisième groupe. Pesée 2 : 1 contre 1 parmi les 3 restantes, même raisonnement. **2 pesées**. Avec $k$ pesées on traite $3^k$ billes, et on ne peut pas faire mieux : $\lceil \log_3 n \rceil$.
+--- variantes
+- 8 billes : toujours 2 pesées (3 contre 3, puis 1 contre 1 ou les 2 restantes).
+- 27 billes : 3 pesées ; 1 000 billes : 7 pesées ($3^6 = 729 < 1\,000 \le 2\,187$).
+
+=== ct-piles-pieces-une-pesee
+theme: casse-tete
+categorie: pesees
+titre: 10 piles de pièces, une pile fausse, une seule pesée
+niveau: 1
+profils: mm hf banque data
+type: numerique
+reponse: 1
+duree: 180
+--- question
+Dix piles de dix pièces. Les vraies pèsent 10 g, et l'une des piles est entièrement faite de fausses pièces de 11 g. Avec une balance électronique précise, combien de pesées faut-il au minimum pour trouver la pile fausse ?
+--- indice
+Une balance électronique donne un nombre, pas seulement « plus lourd / plus léger ». Prends un nombre différent de pièces dans chaque pile.
+--- solution
+Prends 1 pièce de la pile 1, 2 de la pile 2, …, 10 de la pile 10, et pèse le tout. Si tout était vrai : $55 \times 10 = 550$ g. L'excédent en grammes donne directement le numéro de la pile fausse : **une seule pesée**.
+--- variantes
+- Pots de pilules de 10 g, un pot de pilules de 11 g : même solution.
+- **Plusieurs** piles peuvent être fausses : prends $1, 2, 4, 8, \dots, 512$ pièces ; l'excédent écrit en binaire donne l'ensemble des piles fausses.
+- Le poids des fausses est inconnu (mais différent) : deux pesées suffisent (une pièce de référence d'abord, ou un système de poids distincts).
+
+=== ct-poids-balance
+theme: casse-tete
+categorie: pesees
+titre: Le moins de poids pour peser tout entier de 1 à 40 g
+niveau: 2
+profils: mm hf banque data
+type: numerique
+reponse: 4
+duree: 240
+--- question
+Une balance à deux plateaux. On veut pouvoir peser n'importe quelle masse entière de 1 à 40 g, en posant des poids sur l'un ou l'autre plateau. Combien de poids faut-il au minimum, et lesquels ?
+--- indice
+Chaque poids peut être à gauche, à droite ou absent : trois états.
+--- solution
+Chaque poids a trois états, d'où le système ternaire équilibré (chiffres $-1, 0, 1$). Avec $1, 3, 9, 27$ on atteint toutes les masses de 1 à $1 + 3 + 9 + 27 = 40$. Exemple : $5 = 9 - 3 - 1$. Trois poids donnent au plus $(3^3 - 1)/2 = 13$ masses positives, insuffisant : **4 poids**.
+--- variantes
+- Poids sur un seul plateau : système binaire, $1, 2, 4, 8, 16, 32$ : 6 poids jusqu'à 63 g.
+- Problème de Bachet : un marchand casse un poids de 40 livres en 4 morceaux qui permettent de tout peser : 1, 3, 9 et 27.
+
+=== ct-cordes
+theme: casse-tete
+categorie: pesees
+titre: Deux cordes qui brûlent en une heure
+niveau: 1
+profils: mm hf banque data
+--- question
+Deux cordes brûlent chacune en exactement une heure, mais de façon irrégulière (la moitié de la corde ne brûle pas forcément en 30 minutes). Comment mesurer 45 minutes ?
+--- en
+Two ropes each burn in exactly one hour, but unevenly. How do you measure 45 minutes?
+--- indice
+Allumer une corde par les deux bouts divise son temps de combustion par deux, quelle que soit l'irrégularité.
+--- solution
+Allume la corde A par les deux bouts et la corde B par un bout. A brûle en 30 minutes. À cet instant, allume l'autre bout de B : il lui restait 30 minutes de combustion, elle finit en 15 minutes. Total : **45 minutes**.
+--- variantes
+- Mesurer 15 minutes avec deux cordes : allume A par les deux bouts et B par un bout ; quand A finit (30 min), allume l'autre bout de B et **commence** à compter : 15 minutes.
+- Une seule corde : on mesure 30 minutes (deux bouts) et 60 minutes, rien d'autre de garanti.
+- Avec trois cordes : 7 minutes 30 s, 52 minutes 30 s, etc. (chaque allumage d'un bout supplémentaire divise le reste par deux).
+
+=== ct-sabliers
+theme: casse-tete
+categorie: pesees
+titre: Sabliers de 7 et 11 minutes pour mesurer 15 minutes
+niveau: 2
+profils: mm hf banque data
+--- question
+Avec un sablier de 7 minutes et un de 11 minutes, comment mesurer exactement 15 minutes ?
+--- indice
+Lance les deux en même temps. Que reste-t-il dans le grand quand le petit est vide ?
+--- solution
+- $t = 0$ : retourne les deux sabliers.
+- $t = 7$ : le petit est vide, retourne-le.
+- $t = 11$ : le grand est vide ; le petit coule depuis 4 minutes (4 minutes de sable en bas, 3 en haut). Retourne-le : les 4 minutes passées en bas remontent.
+- $t = 15$ : le petit se vide. **15 minutes**.
+Principe : quand un sablier se vide, retourner l'autre « rend » la durée qu'il vient d'écouler.
+--- variantes
+- Sabliers de 4 et 7 minutes, mesurer **9 minutes** : lance les deux ; à $t = 4$, retourne le 4 ; à $t = 7$, retourne le 7 ; à $t = 8$, le 4 se vide, retourne le 7 (il ne contient en bas qu'une minute) : il se vide à $t = 9$.
+- Sabliers de 5 et 9 minutes, mesurer 13 minutes : même idée (à $t = 9$, le 5 retourné à $t = 5$ a coulé 4 minutes ; retourne-le, fin à $t = 13$).
+
+=== ct-cruches
+theme: casse-tete
+categorie: pesees
+titre: Cruches de 3 et 5 litres pour obtenir 4 litres
+niveau: 1
+profils: mm hf banque data
+type: numerique
+reponse: 6
+duree: 180
+--- question
+Tu as une cruche de 3 L, une de 5 L, un robinet et un évier, sans graduation. Comment obtenir exactement 4 L ? Combien d'opérations (remplir, vider ou transvaser) au minimum ?
+--- indice
+Remplis la grande et verse-la dans la petite.
+--- solution
+Remplis 5 (5, 0) ; verse dans 3 (2, 3) ; vide 3 (2, 0) ; verse les 2 L dans 3 (0, 2) ; remplis 5 (5, 2) ; complète 3 avec 1 L (4, 3). **6 opérations**.
+Général : avec des cruches $a$ et $b$, on atteint exactement les multiples de $\mathrm{pgcd}(a, b)$ jusqu'à $\max(a, b)$ (identité de Bézout).
+--- variantes
+- Avec la petite d'abord (remplir 3, verser dans 5, …) on obtient aussi 4 L, en 8 opérations.
+- Cruches de 4 et 6 L : impossible d'obtenir un nombre impair de litres ($\mathrm{pgcd} = 2$).
+- Trois cruches 8, 5, 3, la grande pleine : partager en deux fois 4 L (7 transvasements).
+
+=== ct-vin-eau
+theme: casse-tete
+categorie: pesees
+titre: Une cuillère de vin dans l'eau, puis une d'eau dans le vin
+niveau: 1
+profils: mm hf banque data
+--- question
+Un verre de vin et un verre d'eau, même volume. Tu prends une cuillère de vin, la verses dans l'eau et mélanges ; puis tu reprends une cuillère du mélange et la verses dans le vin. Y a-t-il plus de vin dans l'eau ou d'eau dans le vin ?
+--- indice
+Les deux verres ont retrouvé leur volume initial. Ce qui manque de vin dans le verre de vin, où est-il ?
+--- solution
+**Autant** : chaque verre a son volume initial ; le vin qui manque dans le verre de vin se trouve dans le verre d'eau, et il a été remplacé exactement par le même volume d'eau. Le résultat ne dépend ni du mélange ni du nombre d'allers-retours.
+
+=== ct-pommes-de-terre
+theme: casse-tete
+categorie: pesees
+titre: 100 kg de pommes de terre à 99 % d'eau
+niveau: 1
+profils: mm hf banque data
+type: numerique
+reponse: 50
+duree: 120
+--- question
+100 kg de pommes de terre sont constituées à 99 % d'eau. Après séchage, elles ne contiennent plus que 98 % d'eau. Combien pèsent-elles (en kg) ?
+--- indice
+La matière sèche ne change pas.
+--- solution
+Matière sèche : 1 kg, inchangée. Elle représente maintenant 2 % du total : $1 / 0{,}02 =$ **50 kg**. Le résultat surprend parce qu'on raisonne sur l'eau au lieu de la partie invariante.
+
+=== ct-barre-or
+theme: casse-tete
+categorie: pesees
+titre: Payer un ouvrier chaque jour avec une barre d'or
+niveau: 1
+profils: mm hf banque data
+type: numerique
+reponse: 2
+duree: 120
+--- question
+Un ouvrier travaille 7 jours et doit recevoir chaque soir $1/7$ d'une barre d'or (la barre est divisée en 7 segments). Combien de coupes au minimum, s'il peut rendre des morceaux ?
+--- indice
+Avec des morceaux de 1, 2 et 4 segments, on forme tous les montants de 1 à 7.
+--- solution
+Deux coupes donnent des morceaux de **1, 2 et 4** segments. Jour 1 : donne 1. Jour 2 : donne 2, reprends 1. Jour 3 : donne 1. Jour 4 : donne 4, reprends 1 et 2. Etc. C'est l'écriture binaire. Une seule coupe ne donne que deux morceaux, insuffisant : **2 coupes**.
+--- variantes
+- Une chaîne de 7 maillons : ouvrir **un seul** maillon (le troisième) donne des morceaux de 1, 2 et 4.
+- 15 jours : 3 coupes (morceaux 1, 2, 4, 8).
+
+=== ct-vin-empoisonne
+theme: casse-tete
+categorie: pesees
+titre: 1 000 bouteilles, une empoisonnée, 24 heures
+niveau: 2
+profils: mm hf banque data
+type: numerique
+reponse: 10
+duree: 240
+--- question
+Une bouteille sur 1 000 est empoisonnée ; le poison tue en 24 h, même à dose infime. Tu as 24 h pour la trouver. Combien de rats de laboratoire faut-il au minimum ?
+--- en
+One of 1,000 bottles is poisoned; the poison kills within 24 hours even in tiny doses. You have 24 hours. Minimum number of rats needed?
+--- indice
+Chaque rat donne un bit d'information : mort ou vivant.
+--- solution
+Numérote les bouteilles en binaire (10 bits suffisent : $2^{10} = 1\,024 \ge 1\,000$). Le rat $i$ boit de chaque bouteille dont le bit $i$ vaut 1. L'ensemble des rats morts donne l'écriture binaire de la bouteille empoisonnée : **10 rats**.
+--- variantes
+- 48 heures, deux vagues : chaque rat a 3 issues (mort le jour 1, le jour 2, vivant) : $3^7 = 2\,187 \ge 1\,000$, donc **7 rats** (codage en base 3).
+- Bandelettes de test réutilisables qui donnent le résultat en une heure, et 10 heures : dichotomie séquentielle possible, mais le codage parallèle reste plus économe en bandelettes.
+- Deux bouteilles empoisonnées : problème de test de groupe, il faut nettement plus de rats (au moins $\log_2 \binom{1000}{2} \approx 19$).

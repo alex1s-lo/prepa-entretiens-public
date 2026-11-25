@@ -12,12 +12,12 @@ On lance deux dés équilibrés. Quelle est la probabilité que la somme fasse 7
 --- en
 You roll two fair dice. What is the probability that the sum is 7?
 --- indice
-Compte les couples (a, b) sur les 36 possibles.
+Compte les couples ($a, b$) sur les 36 possibles.
 --- solution
-Les couples (1,6), (2,5), (3,4), (4,3), (5,2), (6,1) : 6 sur 36, soit **1/6**. C'est la somme la plus probable.
+Les couples (1,6), (2,5), (3,4), (4,3), (5,2), (6,1) : 6 sur 36, soit **$1/6$**. C'est la somme la plus probable.
 --- relances
 - Quelle est la loi de la somme ? (triangulaire : 1, 2, …, 6, …, 2, 1 sur 36)
-- Et avec trois dés, quelle somme est la plus probable ? (10 et 11, 27/216 chacune)
+- Et avec trois dés, quelle somme est la plus probable ? (10 et 11, $27/216$ chacune)
 
 === proba-des-somme-7-sachant-un-6
 theme: probas
@@ -33,11 +33,11 @@ Two dice are rolled and you are told at least one of them shows a 6. What is the
 --- indice
 Combien de couples contiennent au moins un 6 ? (attention à ne pas compter (6,6) deux fois)
 --- solution
-Couples avec au moins un 6 : 6 + 6 − 1 = **11**. Parmi eux, somme 7 : (1,6) et (6,1). Probabilité **2/11**.
+Couples avec au moins un 6 : $6 + 6 - 1 =$ **11**. Parmi eux, somme 7 : (1,6) et (6,1). Probabilité **$2/11$**.
 --- piege
-Répondre 1/6 (« le premier dé est un 6 ») : l'information « au moins un » ne désigne pas un dé précis.
+Répondre $1/6$ (« le premier dé est un 6 ») : l'information « au moins un » ne désigne pas un dé précis.
 --- relances
-- Et si on t'avait dit « le premier dé montre 6 » ? (1/6)
+- Et si on t'avait dit « le premier dé montre 6 » ? ($1/6$)
 
 === proba-attente-premier-six
 theme: probas
@@ -51,13 +51,15 @@ Combien de lancers faut-il en moyenne pour obtenir le premier 6 avec un dé équ
 --- en
 How many rolls of a fair die do you need on average to get the first 6?
 --- solution
-Le nombre de lancers suit une loi géométrique de paramètre p = 1/6 : espérance **1/p = 6**.
-Démonstration par conditionnement sur le premier lancer : E = 1 + (5/6)·E, donc E = 6.
+Le nombre de lancers suit une loi géométrique de paramètre $p = 1/6$ : espérance **$1/p = 6$**.
+Démonstration par conditionnement sur le premier lancer : $E = 1 + (5/6) \cdot E$, donc $E = 6$.
 --- relances
-- Variance ? ((1 − p)/p² = 30)
-- Probabilité qu'il faille plus de 6 lancers ? ((5/6)⁶ ≈ 0,335)
+- Variance ? ($(1 - p)/p^{2} = 30$)
+- Probabilité qu'il faille plus de 6 lancers ? ($(5/6)^{6} \approx 0{,}335$)
 
 === proba-toutes-les-faces
+categorie: probas
+titre: Voir les six faces d’un dé (collectionneur de vignettes)
 theme: probas
 niveau: 2
 profils: mm hf banque data
@@ -69,13 +71,15 @@ Combien de lancers faut-il en moyenne pour voir les six faces d'un dé au moins 
 --- en
 What is the expected number of rolls of a fair die needed to see all six faces at least once?
 --- indice
-Découpe l'attente en étapes : quand tu as déjà vu k faces, combien de lancers pour en voir une nouvelle ?
+Découpe l'attente en étapes : quand tu as déjà vu $k$ faces, combien de lancers pour en voir une nouvelle ?
 --- solution
-Problème du collectionneur de vignettes. Avec k faces vues, une nouvelle face sort avec probabilité (6 − k)/6 : attente géométrique de moyenne 6/(6 − k).
-Total : 6·(1 + 1/2 + 1/3 + 1/4 + 1/5 + 1/6) = 6 × 2,45 = **14,7**.
+Problème du collectionneur de vignettes. Avec $k$ faces vues, une nouvelle face sort avec probabilité $(6 - k)/6$ : attente géométrique de moyenne $6/(6 - k)$.
+Total : $6 \cdot (1 + 1/2 + 1/3 + 1/4 + 1/5 + 1/6) = 6 \times 2{,}45 =$ **14,7**.
 --- relances
-- Ordre de grandeur pour n faces ? (n·ln n + 0,577·n)
-- Variance de ce temps ? (somme des variances géométriques, ≈ 38,99)
+- Ordre de grandeur pour $n$ faces ? ($n \cdot \ln n + 0{,}577 \cdot n$)
+- Variance de ce temps ? (somme des variances géométriques, $\approx 38{,}99$)
+--- variantes
+- 10 vignettes : nombre moyen d’achats pour en avoir 5 différentes : $10\left(\frac{1}{10} + \frac19 + \frac18 + \frac17 + \frac16\right) \approx 6{,}46$.
 
 === proba-pile-pile
 theme: probas
@@ -91,16 +95,18 @@ You flip a fair coin until you get two heads in a row. What is the expected numb
 --- indice
 Définis des états : rien d'utile, « un pile vient de tomber ». Écris une équation par état.
 --- solution
-Soit E l'attente depuis le départ, E₁ depuis « je viens d'avoir un pile ».
-- E = 1 + ½E₁ + ½E
-- E₁ = 1 + ½·0 + ½E
-De la première : E = 2 + E₁ ; avec la seconde : E = 2 + 1 + E/2, donc **E = 6**.
+Soit $E$ l'attente depuis le départ, $E_{1}$ depuis « je viens d'avoir un pile ».
+- $E = 1 + \tfrac12 E_{1} + \tfrac12 E$
+- $E_{1} = 1 + \tfrac12 \cdot 0 + \tfrac12 E$
+De la première : $E = 2 + E_{1}$ ; avec la seconde : $E = 2 + 1 + E/2$, donc **$E = 6$**.
 --- relances
 - Et pour « pile puis face » ? (4 : une fois le pile obtenu, on attend juste un face)
-- Pourquoi PP et PF n'ont-ils pas la même attente alors qu'ils ont la même probabilité ? (PP se chevauche avec lui-même : un échec après P vous renvoie au début)
-- Formule générale pour n piles consécutifs ? (2^(n+1) − 2)
+- Pourquoi PP et PF n'ont-ils pas la même attente alors qu'ils ont la même probabilité ? (PP se chevauche avec lui-même : un échec après $P$ vous renvoie au début)
+- Formule générale pour $n$ piles consécutifs ? ($2^{n+1} - 2$)
 
 === proba-pile-face
+categorie: probas
+titre: Attendre la séquence pile puis face
 theme: probas
 niveau: 2
 profils: mm hf banque
@@ -117,6 +123,8 @@ Il faut d'abord un pile (2 lancers en moyenne), puis on attend un face (2 lancer
 - Pourquoi PP prend-il 6 lancers en moyenne ?
 
 === proba-pfp
+categorie: probas
+titre: Attendre la séquence pile, face, pile
 theme: probas
 niveau: 3
 profils: mm hf
@@ -130,17 +138,19 @@ What is the expected number of fair coin flips until the pattern HTH first appea
 --- indice
 États : départ, « P », « PF ». Depuis « PF », un face te renvoie au départ, pas en « P ».
 --- solution
-Notons E₀, E₁ (après P), E₂ (après PF).
-- E₀ = 1 + ½E₁ + ½E₀
-- E₁ = 1 + ½E₁ + ½E₂ (un P de plus laisse en « P »)
-- E₂ = 1 + ½·0 + ½E₀ (un F donne « PFF » : rien d'utile)
-On trouve E₀ = 2 + E₁, E₁ = 2 + E₂, E₂ = 1 + E₀/2, d'où E₀ = 5 + E₀/2 et **E₀ = 10**.
-Méthode rapide (martingale des parieurs, « abracadabra ») : on somme 2^k pour chaque k où le préfixe de longueur k égale le suffixe de longueur k : 2³ + 2¹ = 10.
+Notons $E_{0}, E_{1}$ (après $P$), $E_{2}$ (après PF).
+- $E_{0} = 1 + \tfrac12 E_{1} + \tfrac12 E_{0}$
+- $E_{1} = 1 + \tfrac12 E_{1} + \tfrac12 E_{2}$ (un $P$ de plus laisse en « P »)
+- $E_{2} = 1 + \tfrac12 \cdot 0 + \tfrac12 E_{0}$ (un $F$ donne « PFF » : rien d'utile)
+On trouve $E_{0} = 2 + E_{1}, E_{1} = 2 + E_{2}, E_{2} = 1 + E_{0}/2$, d'où $E_{0} = 5 + E_{0}/2$ et **$E_{0} = 10$**.
+Méthode rapide (martingale des parieurs, « abracadabra ») : on somme $2^k$ pour chaque $k$ où le préfixe de longueur $k$ égale le suffixe de longueur $k$ : $2^{3} + 2^{1} = 10$.
 --- relances
-- Et pour PFF ? (8 : aucun chevauchement, 2³)
-- Dans une course PFP contre PFF, qui sort en premier ? (chacune avec probabilité 1/2 : après « PF », le lancer suivant décide. Une attente plus courte ne veut pas dire « gagne la course » en général : voir le jeu de Penney)
+- Et pour PFF ? (8 : aucun chevauchement, $2^{3}$)
+- Dans une course PFP contre PFF, qui sort en premier ? (chacune avec probabilité $1/2$ : après « PF », le lancer suivant décide. Une attente plus courte ne veut pas dire « gagne la course » en général : voir le jeu de Penney)
 
 === proba-penney-ppf-pff
+categorie: probas
+titre: Jeu de Penney : PPF contre PFF
 theme: probas
 niveau: 3
 profils: mm hf
@@ -152,16 +162,18 @@ On lance une pièce jusqu'à ce que l'une des séquences PPF ou PFF apparaisse. 
 --- en
 Flip a fair coin until either HHT or HTT appears. What is the probability that HHT comes first?
 --- indice
-Les deux séquences commencent par P. Une fois le premier P tombé, regarde ce que fait le lancer suivant.
+Les deux séquences commencent par $P$. Une fois le premier $P$ tombé, regarde ce que fait le lancer suivant.
 --- solution
-On attend le premier P. Soit a la probabilité que PPF gagne depuis l'état « P », b depuis l'état « PF ».
-- Depuis « P » : si P, on est en « PP » et PPF gagne sûrement (un F finira par venir, et tout P maintient « PP ») ; si F, on va en « PF ». Donc a = ½·1 + ½·b.
-- Depuis « PF » : si F, PFF gagne (0) ; si P, on revient en « P ». Donc b = ½·a.
-a = ½ + a/4, soit **a = 2/3**.
+On attend le premier $P$. Soit a la probabilité que PPF gagne depuis l'état « P », $b$ depuis l'état « PF ».
+- Depuis « P » : si $P$, on est en « PP » et PPF gagne sûrement (un $F$ finira par venir, et tout $P$ maintient « PP ») ; si $F$, on va en « PF ». Donc $a = \tfrac12 \cdot 1 + \tfrac12 \cdot b$.
+- Depuis « PF » : si $F$, PFF gagne (0) ; si $P$, on revient en « P ». Donc $b = \tfrac12 \cdot a$.
+$a = \tfrac12 + a/4$, soit **$a = 2/3$**.
 --- relances
 - Qu'est-ce que le jeu de Penney ? (pour toute séquence de 3 choisie par l'adversaire, il existe une séquence qui la bat : relation non transitive)
 
 === proba-premier-a-faire-six
+categorie: probas
+titre: Le premier qui fait 6 gagne
 theme: probas
 niveau: 1
 profils: mm hf banque
@@ -173,12 +185,14 @@ A et B lancent un dé à tour de rôle, A commence. Le premier qui fait 6 gagne.
 --- en
 A and B take turns rolling a die, A goes first. The first to roll a 6 wins. What is the probability that A wins?
 --- solution
-Soit p la probabilité que A gagne. A gagne au premier lancer (1/6), ou bien A et B ratent (25/36) et on recommence : p = 1/6 + (25/36)·p, donc p = (1/6)/(11/36) = **6/11**.
+Soit $p$ la probabilité que A gagne. A gagne au premier lancer ($1/6$), ou bien A et B ratent ($25/36$) et on recommence : $p = 1/6 + (25/36) \cdot p$, donc $p = (1/6)/(11/36) =$ **$6/11$**.
 --- relances
 - Combien de lancers dure la partie en moyenne ? (6)
-- Quel avantage A a-t-il ? (6/11 contre 5/11 : B gagne 5/6 fois moins souvent)
+- Quel avantage A a-t-il ? ($6/11$ contre $5/11$ : B gagne $5/6$ fois moins souvent)
 
 === proba-deux-enfants
+categorie: probas
+titre: Deux enfants, au moins un garçon
 theme: probas
 niveau: 1
 profils: mm hf banque data
@@ -190,13 +204,18 @@ Une famille a deux enfants. On sait qu'au moins l'un des deux est un garçon. Qu
 --- en
 A family has two children, at least one of whom is a boy. What is the probability that both are boys?
 --- solution
-Cas équiprobables : GG, GF, FG, FF. « Au moins un garçon » exclut FF : il reste 3 cas, dont un seul GG : **1/3**.
+Cas équiprobables : GG, GF, FG, FF. « Au moins un garçon » exclut FF : il reste 3 cas, dont un seul GG : **$1/3$**.
 --- piege
-Si l'on t'avait dit « l'aîné est un garçon », la réponse serait 1/2. La manière dont l'information est obtenue change la réponse.
+Si l'on t'avait dit « l'aîné est un garçon », la réponse serait $1/2$. La manière dont l'information est obtenue change la réponse.
 --- relances
-- Variante : « au moins un garçon né un mardi » ? (13/27 : plus l'information est précise, plus on se rapproche de 1/2)
+- Variante : « au moins un garçon né un mardi » ? ($13/27$ : plus l'information est précise, plus on se rapproche de $1/2$)
+--- variantes
+- « L’aîné est un garçon » : $1/2$.
+- « Au moins un garçon né un mardi » : $13/27$ (fiche dédiée).
 
 === proba-test-medical
+categorie: probas
+titre: Test médical et faux positifs
 theme: probas
 niveau: 1
 profils: mm hf banque data risque
@@ -211,15 +230,17 @@ A disease affects 1% of the population. A test detects it in 99% of sick people 
 Raisonne sur 10 000 personnes.
 --- solution
 Sur 10 000 personnes : 100 malades dont 99 positifs ; 9 900 saines dont 495 positives.
-P(malade | positif) = 99 / (99 + 495) = 99/594 = **1/6 ≈ 16,7 %**.
-Formule de Bayes : P(M|+) = P(+|M)P(M) / [P(+|M)P(M) + P(+|S)P(S)].
+$\mathbb{P}(\text{malade} | \text{positif}) = 99 / (99 + 495) = 99/594 =$ **$1/6 \approx 16{,}7\,\%$**.
+Formule de Bayes : $\mathbb{P}(M|+) = \mathbb{P}(+|M)\mathbb{P}(M) / [\mathbb{P}(+|M)\mathbb{P}(M) + \mathbb{P}(+|S)\mathbb{P}(S)]$.
 --- piege
-Répondre 99 % : on confond P(positif | malade) et P(malade | positif). C'est l'erreur du taux de base (« base rate fallacy »).
+Répondre 99 % : on confond $\mathbb{P}(\text{positif} | \text{malade})$ et $\mathbb{P}(\text{malade} | \text{positif})$. C'est l'erreur du taux de base (« base rate fallacy »).
 --- relances
-- Que se passe-t-il si tu refais un test indépendant et qu'il est encore positif ? (cote a priori 1:5 × rapport de vraisemblance 19,8 → ≈ 79,8 %)
+- Que se passe-t-il si tu refais un test indépendant et qu'il est encore positif ? (cote a priori $1:5$, rapport de vraisemblance $0{,}99/0{,}05 = 19{,}8$ : cote a posteriori $\approx 4:1$, soit $\approx 79{,}8\,\%$)
 - Lien avec la finance ? (un signal « précis » sur un événement rare donne surtout des faux positifs : fraude, défauts)
 
 === proba-monty-hall
+categorie: probas
+titre: Le problème de Monty Hall
 theme: probas
 niveau: 1
 profils: mm hf banque data
@@ -231,13 +252,19 @@ Trois portes, une voiture derrière l'une d'elles. Tu en choisis une ; le prése
 --- en
 Monty Hall: three doors, one car. You pick a door; the host, who knows where the car is, opens another door with a goat and offers you to switch. What is your probability of winning if you switch?
 --- solution
-Ta porte initiale a 1/3 de chances et le présentateur ne change rien à cette probabilité (il peut toujours ouvrir une porte vide). Les 2/3 restants se concentrent sur l'autre porte fermée : changer gagne avec probabilité **2/3**.
+Ta porte initiale a $1/3$ de chances et le présentateur ne change rien à cette probabilité (il peut toujours ouvrir une porte vide). Les $2/3$ restants se concentrent sur l'autre porte fermée : changer gagne avec probabilité **$2/3$**.
 --- piege
-Le résultat dépend du comportement du présentateur : s'il ouvrait une porte au hasard (et tombait par chance sur une chèvre), changer ne donnerait que 1/2.
+Le résultat dépend du comportement du présentateur : s'il ouvrait une porte au hasard (et tombait par chance sur une chèvre), changer ne donnerait que $1/2$.
 --- relances
-- Et avec 100 portes dont le présentateur en ouvre 98 ? (99/100 en changeant)
+- Et avec 100 portes dont le présentateur en ouvre 98 ? ($99/100$ en changeant)
+--- variantes
+- 100 portes, le présentateur en ouvre 98 vides : changer gagne avec probabilité $99/100$.
+- Présentateur qui ouvre une porte **au hasard** et tombe par chance sur une chèvre : changer ou non donne $1/2$.
+- Présentateur qui, entre deux chèvres, ouvre toujours la plus à gauche : la probabilité de gagner en changeant dépend de la porte ouverte (entre $1/2$ et $1$).
 
 === proba-baton-triangle
+categorie: probas
+titre: Bâton cassé en trois : forme-t-il un triangle ?
 theme: probas
 niveau: 2
 profils: mm hf banque
@@ -249,14 +276,16 @@ On casse un bâton de longueur 1 en deux points choisis uniformément et indépe
 --- en
 A stick of length 1 is broken at two points chosen uniformly at random. What is the probability that the three pieces form a triangle?
 --- indice
-Un triangle existe si et seulement si chaque morceau est plus court que 1/2. Représente les deux points (x, y) dans le carré unité.
+Un triangle existe si et seulement si chaque morceau est plus court que $1/2$. Représente les deux points ($x, y$) dans le carré unité.
 --- solution
-Supposons x < y (moitié du carré). Morceaux : x, y − x, 1 − y, tous < 1/2 : x < 1/2, y > 1/2, y − x < 1/2. C'est un triangle d'aire 1/8 dans le demi-carré d'aire 1/2 : probabilité **1/4**.
+Supposons $x < y$ (moitié du carré). Morceaux : $x, y - x, 1 - y$, tous $< 1/2$ : $x < 1/2, y > 1/2, y - x < 1/2$. C'est un triangle d'aire $1/8$ dans le demi-carré d'aire $1/2$ : probabilité **$1/4$**.
 --- relances
-- Et si on casse d'abord en un point, puis qu'on casse le plus long morceau en un point uniforme ? (2·ln 2 − 1 ≈ 0,386)
-- Longueur moyenne du plus long morceau ? (11/18)
+- Et si on casse d'abord en un point, puis qu'on casse le plus long morceau en un point uniforme ? ($2 \cdot \ln 2 - 1 \approx 0{,}386$)
+- Longueur moyenne du plus long morceau ? ($11/18$)
 
 === proba-baton-plus-long
+categorie: probas
+titre: Bâton cassé en trois : longueur du plus long morceau
 theme: probas
 niveau: 3
 profils: mm hf
@@ -268,14 +297,16 @@ Un bâton de longueur 1 est cassé en trois morceaux par deux points uniformes i
 --- en
 A unit stick is broken at two independent uniform points. What is the expected length of the longest piece?
 --- indice
-Les trois longueurs se comportent comme des espacements uniformes. Pour n morceaux, l'espérance du k-ième plus petit est (1/n)·(1/n + 1/(n−1) + … + 1/(n−k+1)).
+Les trois longueurs se comportent comme des espacements uniformes. Pour $n$ morceaux, l'espérance du k-ième plus petit est $(1/n) \cdot (1/n + 1/(n-1) + \dots + 1/(n-k+1))$.
 --- solution
-Pour n = 3 morceaux, le plus long (k = 3) : (1/3)·(1/3 + 1/2 + 1) = (1/3)·(11/6) = **11/18 ≈ 0,611**.
-Vérification : le plus petit vaut en moyenne 1/9, le moyen 5/18, et 1/9 + 5/18 + 11/18 = 1.
+Pour $n = 3$ morceaux, le plus long ($k = 3$) : $(1/3) \cdot (1/3 + 1/2 + 1) = (1/3) \cdot (11/6) =$ **$11/18 \approx 0{,}611$**.
+Vérification : le plus petit vaut en moyenne $1/9$, le moyen $5/18$, et $1/9 + 5/18 + 11/18 = 1$.
 --- relances
-- Et le plus petit morceau ? (1/9)
+- Et le plus petit morceau ? ($1/9$)
 
 === proba-demi-cercle
+categorie: probas
+titre: Trois points dans un même demi-cercle
 theme: probas
 niveau: 2
 profils: mm hf banque
@@ -289,10 +320,13 @@ Three points are placed uniformly at random on a circle. What is the probability
 --- indice
 Pour chaque point, quelle est la probabilité que les deux autres soient dans le demi-cercle qui commence à ce point (sens horaire) ?
 --- solution
-Pour un point i donné, les deux autres sont dans le demi-cercle horaire partant de i avec probabilité (1/2)² = 1/4. Ces trois événements sont disjoints (au plus un point peut « ouvrir » le demi-cercle) et leur réunion est l'événement cherché : 3 × 1/4 = **3/4**.
+Pour un point $i$ donné, les deux autres sont dans le demi-cercle horaire partant de $i$ avec probabilité $(1/2)^{2} = 1/4$. Ces trois événements sont disjoints (au plus un point peut « ouvrir » le demi-cercle) et leur réunion est l'événement cherché : $3 \times 1/4 =$ **$3/4$**.
 --- relances
-- Généralisation à n points ? (n / 2^(n−1))
-- Probabilité que le triangle formé contienne le centre ? (1 − 3/4 = 1/4)
+- Généralisation à $n$ points ? ($n / 2^{n-1}$)
+- Probabilité que le triangle formé contienne le centre ? ($1 - 3/4 = 1/4$)
+--- variantes
+- $n$ points sur un cercle : $n / 2^{n-1}$ ; quatre points : $1/2$.
+- Triangle aigu, ou contenant le centre : $1/4$ (fiche dédiée).
 
 === proba-max-deux-uniformes
 theme: probas
@@ -302,15 +336,15 @@ type: numerique
 reponse: 2/3
 duree: 120
 --- question
-U et V sont indépendantes, uniformes sur [0, 1]. Que vaut E[max(U, V)] ?
+$U$ et $V$ sont indépendantes, uniformes sur [0, 1]. Que vaut $\mathbb{E}[\max (U, V)]$ ?
 --- en
-U and V are independent uniforms on [0, 1]. What is E[max(U, V)]?
+$U$ and $V$ are independent uniforms on [0, 1]. What is $\mathbb{E}[\max (U, V)]$?
 --- solution
-P(max ≤ x) = x², donc densité 2x et E = ∫₀¹ 2x² dx = **2/3**.
-Plus généralement, le max de n uniformes a pour espérance n/(n+1), le min 1/(n+1).
+$\mathbb{P}(\max \le x) = x^{2}$, donc densité $2x$ et $E = \int_{0}^{1} 2x^{2} dx =$ **$2/3$**.
+Plus généralement, le max de $n$ uniformes a pour espérance $n/(n+1)$, le min $1/(n+1)$.
 --- relances
-- E[min(U, V)] ? (1/3)
-- Cov(min, max) ? (1/36)
+- $\mathbb{E}[\min (U, V)]$ ? ($1/3$)
+- $\operatorname{Cov} (\min, \max)$ ? ($1/36$)
 
 === proba-min-cinq-uniformes
 theme: probas
@@ -324,10 +358,10 @@ Espérance du minimum de 5 variables uniformes indépendantes sur [0, 1] ?
 --- en
 What is the expected minimum of 5 independent uniform [0, 1] random variables?
 --- solution
-P(min > x) = (1 − x)⁵, donc E[min] = ∫₀¹ (1 − x)⁵ dx = **1/6**.
+$\mathbb{P}(\min > x) = (1 - x)^{5}$, donc $\mathbb{E}[\min] = \int_{0}^{1} (1 - x)^{5} dx =$ **$1/6$**.
 Intuition : 5 points découpent [0, 1] en 6 intervalles de même longueur moyenne ; le minimum est le premier intervalle.
 --- relances
-- Espérance du k-ième plus petit parmi n ? (k/(n+1))
+- Espérance du k-ième plus petit parmi $n$ ? ($k/(n+1)$)
 
 === proba-ecart-uniformes
 theme: probas
@@ -337,16 +371,18 @@ type: numerique
 reponse: 1/3
 duree: 180
 --- question
-U et V sont indépendantes et uniformes sur [0, 1]. Que vaut E[|U − V|] ?
+$U$ et $V$ sont indépendantes et uniformes sur [0, 1]. Que vaut $\mathbb{E}[|U - V|]$ ?
 --- en
-U, V independent uniform on [0, 1]. Compute E[|U − V|].
+$U, V$ independent uniform on [0, 1]. Compute $\mathbb{E}[|U - V|]$.
 --- solution
-|U − V| = max − min, donc E = 2/3 − 1/3 = **1/3**.
-Autre méthode : la densité de |U − V| est 2(1 − d) sur [0, 1], d'espérance ∫ 2d(1 − d) dd = 1/3.
+$|U - V| =$ max − min, donc $E = 2/3 - 1/3 =$ **$1/3$**.
+Autre méthode : la densité de $|U - V|$ est $2(1 - d)$ sur [0, 1], d'espérance $\int 2d(1 - d) dd = 1/3$.
 --- relances
-- E[(U − V)²] ? (1/6 = 2 Var(U))
+- $\mathbb{E}[(U - V)^{2}]$ ? ($1/6 = 2 \operatorname{Var} (U)$)
 
 === proba-somme-uniformes-depasse-un
+categorie: probas
+titre: Additionner des uniformes jusqu’à dépasser 1
 theme: probas
 niveau: 3
 profils: mm hf banque
@@ -358,13 +394,17 @@ On tire des uniformes indépendantes sur [0, 1] et on s'arrête dès que leur so
 --- en
 You draw independent uniform [0, 1] numbers until their sum exceeds 1. What is the expected number of draws?
 --- indice
-Calcule P(N > n) = P(U₁ + … + Uₙ ≤ 1), puis utilise E[N] = Σ P(N > n).
+Calcule $\mathbb{P}(N > n) = \mathbb{P}(U_{1} + \dots + U_{n} \le 1)$, puis utilise $\mathbb{E}[N] = \sum \mathbb{P}(N > n)$.
 --- solution
-P(U₁ + … + Uₙ ≤ 1) est le volume du simplexe : 1/n!. Donc E[N] = Σ_{n≥0} P(N > n) = Σ 1/n! = **e ≈ 2,718**.
+$\mathbb{P}(U_{1} + \dots + U_{n} \le 1)$ est le volume du simplexe : $1/n!$. Donc $\mathbb{E}[N] = \sum_{n \ge 0} \mathbb{P}(N > n) = \sum 1/n! =$ **$e \approx 2{,}718$**.
 --- relances
-- Et si le seuil est x ≤ 1 au lieu de 1 ? (eˣ)
+- Et si le seuil est $x \le 1$ au lieu de 1 ? ($e^{x}$)
+--- variantes
+- Tirer des uniformes jusqu’à ce que l’une soit plus petite que la précédente : nombre moyen de tirages $e$ aussi.
 
 === proba-passager-avion
+categorie: probas
+titre: Le passager distrait et la dernière place de l’avion
 theme: probas
 niveau: 2
 profils: mm hf banque
@@ -378,11 +418,13 @@ duree: 300
 --- indice
 Quand le jeu « se décide »-t-il ? Regarde seulement deux places : celle du premier et celle du dernier.
 --- solution
-À chaque fois qu'un passager choisit au hasard, il choisit avec la même probabilité la place du premier (tout rentre dans l'ordre : le dernier aura la sienne) ou celle du dernier (perdu). Les autres choix ne font que repousser la décision. Par symétrie : **1/2**.
+À chaque fois qu'un passager choisit au hasard, il choisit avec la même probabilité la place du premier (tout rentre dans l'ordre : le dernier aura la sienne) ou celle du dernier (perdu). Les autres choix ne font que repousser la décision. Par symétrie : **$1/2$**.
 --- relances
-- Probabilité que le 50ᵉ passager ait sa place ? (pour le k-ième : (n − k + 1)/(n − k + 2), soit 51/52 pour k = 50)
+- Probabilité que le 50ᵉ passager ait sa place ? (pour le k-ième : $(n - k + 1)/(n - k + 2)$, soit $51/52$ pour $k = 50$)
 
 === proba-points-fixes
+categorie: probas
+titre: Cartes restées à leur place après mélange
 theme: probas
 niveau: 1
 profils: mm hf banque data
@@ -394,12 +436,14 @@ On mélange un jeu de 52 cartes. En moyenne, combien de cartes se retrouvent à 
 --- en
 A deck of 52 cards is shuffled uniformly. What is the expected number of cards that end up in their original position?
 --- solution
-Linéarité de l'espérance : chaque carte est à sa place avec probabilité 1/52 ; somme de 52 indicatrices : **1**, quel que soit le nombre de cartes.
+Linéarité de l'espérance : chaque carte est à sa place avec probabilité $1/52$ ; somme de 52 indicatrices : **1**, quel que soit le nombre de cartes.
 --- relances
-- La variance ? (1 aussi, pour n ≥ 2)
-- La loi du nombre de points fixes quand n est grand ? (Poisson de paramètre 1)
+- La variance ? (1 aussi, pour $n \ge 2$)
+- La loi du nombre de points fixes quand $n$ est grand ? (Poisson de paramètre 1)
 
 === proba-derangement
+categorie: probas
+titre: Aucune carte à sa place (dérangements)
 theme: probas
 niveau: 2
 profils: mm hf banque
@@ -414,12 +458,14 @@ Approximately, what is the probability that a uniformly shuffled deck of 52 card
 --- indice
 Inclusion-exclusion, ou : le nombre de points fixes est presque une loi de Poisson.
 --- solution
-Inclusion-exclusion : P = Σ_{k=0}^{n} (−1)^k / k! → **1/e ≈ 0,368**. Pour n = 52, la différence avec 1/e est inférieure à 10⁻⁶⁷.
-Intuition : le nombre de points fixes suit approximativement une loi de Poisson(1), et P(0) = e⁻¹.
+Inclusion-exclusion : $P = \sum_{k=0}^{n} (-1)^k / k! \to$ **$1/e \approx 0{,}368$**. Pour $n = 52$, la différence avec $1/e$ est inférieure à $10^{-67}$.
+Intuition : le nombre de points fixes suit approximativement une loi de Poisson(1), et $\mathbb{P}(0) = e^{-1}$.
 --- relances
-- Le problème des chapeaux : n personnes reprennent un chapeau au hasard ; probabilité qu'au moins une reprenne le sien ? (1 − 1/e ≈ 63 %)
+- Le problème des chapeaux : $n$ personnes reprennent un chapeau au hasard ; probabilité qu'au moins une reprenne le sien ? ($1 - 1/e \approx 63\,\%$)
 
 === proba-anniversaires
+categorie: probas
+titre: Le paradoxe des anniversaires
 theme: probas
 niveau: 1
 profils: mm hf banque data
@@ -434,13 +480,17 @@ In a group of 23 people, what is the probability that at least two share a birth
 --- indice
 Calcule plutôt la probabilité que tous les anniversaires soient différents.
 --- solution
-P(tous différents) = (365/365)·(364/365)·…·(343/365) ≈ 0,4927, donc **≈ 50,7 %**.
-Approximation : P(aucune collision) ≈ exp(−n(n−1)/(2·365)) = exp(−253/365) ≈ 0,50 ; il y a 253 paires de personnes.
+$\mathbb{P}(\text{tous différents}) = (365/365) \cdot (364/365) \cdot \dots \cdot (343/365) \approx 0{,}4927$, donc **$\approx 50{,}7\,\%$**.
+Approximation : $\mathbb{P}(\text{aucune collision}) \approx \exp (-n(n-1)/(2 \cdot 365)) = \exp (-253/365) \approx 0{,}50$ ; il y a 253 paires de personnes.
 --- relances
-- Combien de personnes pour que l'un des autres ait le même anniversaire que TOI avec probabilité > 1/2 ? (253)
-- Lien avec les collisions de hachage ? (≈ √N valeurs suffisent pour une collision probable)
+- Combien de personnes pour que l'un des autres ait le même anniversaire que TOI avec probabilité $> 1/2$ ? (253)
+- Lien avec les collisions de hachage ? ($\approx \sqrt{N}$ valeurs suffisent pour une collision probable)
+--- variantes
+- Nombre de personnes pour dépasser 50 % : 23 ; pour dépasser 99 % : 57.
 
 === proba-meme-anniversaire-que-moi
+categorie: probas
+titre: Quelqu’un né le même jour que moi
 theme: probas
 niveau: 2
 profils: mm hf banque
@@ -449,15 +499,17 @@ reponse: 253
 tolerance: 0
 duree: 180
 --- question
-Combien faut-il de personnes (en plus de toi) pour que la probabilité qu'au moins l'une ait le même anniversaire que toi dépasse 1/2 ?
+Combien faut-il de personnes (en plus de toi) pour que la probabilité qu'au moins l'une ait le même anniversaire que toi dépasse $1/2$ ?
 --- en
-How many other people are needed so that the probability that at least one of them shares your birthday exceeds 1/2?
+How many other people are needed so that the probability that at least one of them shares your birthday exceeds $1/2$?
 --- solution
-On veut 1 − (364/365)ⁿ ≥ 1/2, soit n ≥ ln 2 / ln(365/364) ≈ 0,693 × 364,5 ≈ 252,7 : **253 personnes**.
+On veut $1 - (364/365)^{n} \ge 1/2$, soit $n \ge \ln 2 / \ln (365/364) \approx 0{,}693 \times 364{,}5 \approx 252{,}7$ : **253 personnes**.
 --- relances
 - Pourquoi est-ce beaucoup plus que 23 ? (ici une seule date est visée ; avec 23 personnes il y a 253 paires qui peuvent coïncider)
 
 === proba-de-avec-relance
+categorie: strategie
+titre: Un dé avec droit de relance
 theme: probas
 niveau: 2
 profils: mm hf banque
@@ -472,10 +524,13 @@ You roll a die and are paid the face value. After the first roll you may choose 
 Le second lancer vaut 3,5 en moyenne. Quand vaut-il mieux garder le premier ?
 --- solution
 On garde le premier lancer s'il dépasse 3,5, donc 4, 5 ou 6 (moyenne 5) ; sinon on relance (3,5).
-Valeur : ½ × 5 + ½ × 3,5 = **4,25**.
+Valeur : $\tfrac12 \times 5 + \tfrac12 \times 3{,}5 =$ **4,25**.
 --- relances
-- Et avec deux relances possibles ? (14/3 ≈ 4,67 : on garde 5 ou 6 au premier lancer, puis 4 ou plus au deuxième)
+- Et avec deux relances possibles ? ($14/3 \approx 4{,}67$ : on garde 5 ou 6 au premier lancer, puis 4 ou plus au deuxième)
 - Combien paierais-tu pour jouer ? (au plus 4,25 si tu es neutre au risque)
+--- variantes
+- Jusqu’à trois lancers : $14/3$.
+- Relances illimitées, chacune coûtant 1 € : le jeu vaut 4 € (on relance tant qu’on obtient 1, 2 ou 3).
 
 === proba-de-deux-relances
 theme: probas
@@ -491,9 +546,9 @@ You roll a die and are paid the face value. After each roll you may re-roll, up 
 --- indice
 Récurrence à rebours : avec un lancer restant, la valeur est 3,5 ; avec deux lancers, 4,25.
 --- solution
-Avec deux lancers restants le jeu vaut 4,25. Au premier lancer, on garde seulement 5 ou 6 (car 4 < 4,25) : valeur = (2/6)·5,5 + (4/6)·4,25 = 11/6 + 17/6 = **14/3 ≈ 4,667**.
+Avec deux lancers restants le jeu vaut 4,25. Au premier lancer, on garde seulement 5 ou 6 (car $4 < 4{,}25$) : valeur $= (2/6) \cdot 5{,}5 + (4/6) \cdot 4{,}25 = 11/6 + 17/6 =$ **$14/3 \approx 4{,}667$**.
 --- relances
-- Vers quoi tend la valeur avec n relances ? (vers 6)
+- Vers quoi tend la valeur avec $n$ relances ? (vers 6)
 
 === proba-max-deux-des
 theme: probas
@@ -507,12 +562,14 @@ On lance deux dés et on reçoit le plus grand des deux résultats. Espérance d
 --- en
 You roll two dice and receive the larger value. What is the expected payoff?
 --- solution
-P(max ≤ k) = (k/6)², donc P(max = k) = (2k − 1)/36.
-E = Σ k(2k − 1)/36 = (1 + 6 + 15 + 28 + 45 + 66)/36 = **161/36 ≈ 4,47**.
+$\mathbb{P}(\max \le k) = (k/6)^{2}$, donc $\mathbb{P}(\max = k) = (2k - 1)/36$.
+$E = \sum k(2k - 1)/36 = (1 + 6 + 15 + 28 + 45 + 66)/36 =$ **$161/36 \approx 4{,}47$**.
 --- relances
-- Et le minimum ? (91/36 ≈ 2,53 ; max + min = somme, d'espérance 7)
+- Et le minimum ? ($91/36 \approx 2{,}53$ ; max + min = somme, d'espérance 7)
 
 === proba-premier-as
+categorie: probas
+titre: Position moyenne du premier as
 theme: probas
 niveau: 2
 profils: mm hf banque
@@ -526,12 +583,16 @@ Cards from a well-shuffled 52-card deck are turned over one by one. On average, 
 --- indice
 Les 4 as découpent les 48 autres cartes en 5 groupes. Combien de cartes dans chaque groupe en moyenne ?
 --- solution
-Par symétrie, chacune des 48 autres cartes a la même probabilité 1/5 d'être dans chacun des 5 intervalles. Avant le premier as : 48/5 cartes en moyenne. Position du premier as : 48/5 + 1 = **53/5 = 10,6**.
-Formule générale : (N + 1)/(k + 1) pour k cartes spéciales parmi N.
+Par symétrie, chacune des 48 autres cartes a la même probabilité $1/5$ d'être dans chacun des 5 intervalles. Avant le premier as : $48/5$ cartes en moyenne. Position du premier as : $48/5 + 1 =$ **$53/5 = 10{,}6$**.
+Formule générale : $(N + 1)/(k + 1)$ pour $k$ cartes spéciales parmi $N$.
 --- relances
-- Position moyenne du dernier as ? (4 × 53/5 = 42,4)
+- Position moyenne du dernier as ? ($4 \times 53/5 = 42{,}4$)
+--- variantes
+- Urne de 3 rouges et 7 bleues tirées sans remise : la première rouge sort en moyenne au tirage $11/4$ (formule $\frac{n + 1}{r + 1}$).
 
 === proba-ruine-equitable
+categorie: probas
+titre: La ruine du joueur
 theme: probas
 niveau: 1
 profils: mm hf banque
@@ -539,14 +600,14 @@ type: numerique
 reponse: 3/10
 duree: 120
 --- question
-Tu as 3 €. À chaque tour tu gagnes ou perds 1 € avec probabilité 1/2. Tu t'arrêtes à 0 € ou à 10 €. Probabilité d'atteindre 10 € ?
+Tu as 3 €. À chaque tour tu gagnes ou perds 1 € avec probabilité $1/2$. Tu t'arrêtes à 0 € ou à 10 €. Probabilité d'atteindre 10 € ?
 --- en
-You start with $3. Each round you win or lose $1 with probability 1/2. You stop at $0 or $10. What is the probability of reaching $10?
+You start with \$3. Each round you win or lose \$1 with probability $1/2$. You stop at \$0 or \$10. What is the probability of reaching \$10?
 --- solution
-Ta fortune est une martingale arrêtée et bornée : E[fortune finale] = 3 = 10·p + 0·(1 − p), donc **p = 3/10**.
+Ta fortune est une martingale arrêtée et bornée : $\mathbb{E}[\text{fortune finale}] = 3 = 10 \cdot p + 0 \cdot (1 - p)$, donc **$p = 3/10$**.
 --- relances
-- Durée moyenne de la partie ? (3 × 7 = 21 tours : k(N − k))
-- Et si la pièce est biaisée ? (p = (1 − (q/p)^k)/(1 − (q/p)^N))
+- Durée moyenne de la partie ? ($3 \times 7 = 21$ tours : $k(N - k)$)
+- Et si la pièce est biaisée ? ($p = (1 - (q/p)^k)/(1 - (q/p)^N)$)
 
 === proba-duree-ruine
 theme: probas
@@ -558,11 +619,11 @@ duree: 240
 --- question
 Tu as 3 €. À chaque tour tu gagnes ou perds 1 € à pile ou face ; tu t'arrêtes à 0 € ou à 10 €. Combien de tours dure la partie en moyenne ?
 --- en
-You start with $3 and win or lose $1 on each fair coin flip, stopping at $0 or $10. What is the expected number of rounds?
+You start with \$3 and win or lose \$1 on each fair coin flip, stopping at \$0 or \$10. What is the expected number of rounds?
 --- indice
-Sₙ² − n est une martingale.
+$S_{n}^{2} - n$ est une martingale.
 --- solution
-Avec Mₙ = Sₙ² − n et le théorème d'arrêt : E[S_T²] = 9 + E[T]. Or E[S_T²] = 100 × 3/10 = 30. Donc **E[T] = 21** = k(N − k).
+Avec $M_{n} = S_{n}^{2} - n$ et le théorème d'arrêt : $\mathbb{E}[S_T^{2}] = 9 + \mathbb{E}[T]$. Or $\mathbb{E}[S_T^{2}] = 100 \times 3/10 = 30$. Donc **$\mathbb{E}[T] = 21$** $= k(N - k)$.
 --- relances
 - Et sans borne haute (on joue jusqu'à la ruine) ? (la ruine est certaine mais son temps moyen est infini)
 
@@ -576,16 +637,18 @@ duree: 300
 --- question
 Tu as 2 €. À chaque tour tu gagnes 1 € avec probabilité 0,6 et en perds 1 avec probabilité 0,4. Tu t'arrêtes à 0 € ou à 4 €. Probabilité d'atteindre 4 € ?
 --- en
-You have $2. Each round you win $1 with probability 0.6, lose $1 with probability 0.4. You stop at $0 or $4. Probability of reaching $4?
+You have \$2. Each round you win \$1 with probability 0.6, lose \$1 with probability 0.4. You stop at \$0 or \$4. Probability of reaching \$4?
 --- indice
-(q/p)^Sₙ est une martingale, avec q/p = 2/3.
+$(q/p)^{S_n}$ est une martingale, avec $q/p = 2/3$.
 --- solution
-Avec r = q/p = 2/3, P = (1 − r²)/(1 − r⁴) = (5/9)/(65/81) = **9/13 ≈ 0,692**.
-Variante plus rapide : P = 1/(1 + r²) quand la cible est le double du départ.
+Avec $r = q/p = 2/3, P = (1 - r^{2})/(1 - r^{4}) = (5/9)/(65/81) =$ **$9/13 \approx 0{,}692$**.
+Variante plus rapide : $P = 1/(1 + r^{2})$ quand la cible est le double du départ.
 --- relances
-- Pourquoi (q/p)^Sₙ est-elle une martingale ? (E[r^(S+X)] = r^S(p·r + q/r) = r^S(q + p))
+- Pourquoi $(q/p)^{S_n}$ est-elle une martingale ? ($\mathbb{E}[r^{S+X}] = r^S(p \cdot r + q/r) = r^S(q + p)$)
 
 === proba-polya
+categorie: probas
+titre: L’urne de Pólya
 theme: probas
 niveau: 2
 profils: mm hf
@@ -597,12 +660,14 @@ Une urne contient une boule rouge et une bleue. On tire une boule, on la remet a
 --- en
 An urn has one red and one blue ball. Draw a ball, put it back along with another ball of the same color. Probability that the first two draws are both red?
 --- solution
-P(R puis R) = 1/2 × 2/3 = **1/3**.
-Résultat remarquable de l'urne de Pólya : le nombre de rouges après n tirages est uniforme sur {0, …, n}, et la proportion de rouges converge vers une loi uniforme sur [0, 1].
+$\mathbb{P}(R \text{ puis } R) = 1/2 \times 2/3 =$ **$1/3$**.
+Résultat remarquable de l'urne de Pólya : le nombre de rouges après $n$ tirages est uniforme sur ${0, \dots, n}$, et la proportion de rouges converge vers une loi uniforme sur [0, 1].
 --- relances
 - La proportion de rouges est-elle une martingale ? (oui)
 
 === proba-correlation-trois
+categorie: probas
+titre: Trois corrélations égales : jusqu’où descendre ?
 theme: probas
 niveau: 2
 profils: mm hf banque risque data
@@ -610,16 +675,16 @@ type: numerique
 reponse: -1/2
 duree: 240
 --- question
-Trois variables aléatoires ont deux à deux la même corrélation ρ. Quelle est la plus petite valeur possible de ρ ?
+Trois variables aléatoires ont deux à deux la même corrélation $\rho$. Quelle est la plus petite valeur possible de $\rho$ ?
 --- en
-Three random variables have the same pairwise correlation ρ. What is the smallest possible value of ρ?
+Three random variables have the same pairwise correlation $\rho$. What is the smallest possible value of $\rho$?
 --- indice
-La matrice de corrélation doit être semi-définie positive ; regarde la variance de X + Y + Z (variables réduites).
+La matrice de corrélation doit être semi-définie positive ; regarde la variance de $X + Y + Z$ (variables réduites).
 --- solution
-Var(X + Y + Z) = 3 + 6ρ ≥ 0, donc ρ ≥ **−1/2**. La valeur est atteinte (par exemple X + Y + Z = 0).
-Pour n variables : ρ ≥ −1/(n − 1).
+$\operatorname{Var} (X + Y + Z) = 3 + 6\rho \ge 0$, donc $\rho \ge$ **$-1/2$**. La valeur est atteinte (par exemple $X + Y + Z = 0$).
+Pour $n$ variables : $\rho \ge -1/(n - 1)$.
 --- relances
-- Si corr(X, Y) = 0,9 et corr(Y, Z) = 0,9, quelles valeurs pour corr(X, Z) ? (entre 0,62 et 1 : ρ₁ρ₂ ± √((1 − ρ₁²)(1 − ρ₂²)))
+- Si $\operatorname{corr} (X, Y) = 0{,}9$ et $\operatorname{corr} (Y, Z) = 0{,}9$, quelles valeurs pour $\operatorname{corr} (X, Z)$ ? (entre 0,62 et 1 : $\rho_{1}\rho_{2} \pm \sqrt{(1 - \rho_{1}^{2})(1 - \rho_{2}^{2})}$)
 - Pourquoi cela compte-t-il en gestion des risques ? (une matrice de corrélation estimée ou « stressée » à la main peut ne pas être valide)
 
 === proba-correlation-xz
@@ -630,18 +695,20 @@ type: numerique
 reponse: 0.81-0.19
 duree: 300
 --- question
-corr(X, Y) = 0,9 et corr(Y, Z) = 0,9. Quelle est la plus petite valeur possible de corr(X, Z) ?
+$\operatorname{corr} (X, Y) = 0{,}9$ et $\operatorname{corr} (Y, Z) = 0{,}9$. Quelle est la plus petite valeur possible de $\operatorname{corr} (X, Z)$ ?
 --- en
-corr(X, Y) = 0.9 and corr(Y, Z) = 0.9. What is the smallest possible corr(X, Z)?
+$\operatorname{corr} (X, Y) = 0.9$ and $\operatorname{corr} (Y, Z) = 0.9$. What is the smallest possible $\operatorname{corr} (X, Z)$?
 --- indice
-Écris X et Z comme une part de Y plus un bruit orthogonal à Y.
+Écris $X$ et $Z$ comme une part de $Y$ plus un bruit orthogonal à $Y$.
 --- solution
-X = 0,9·Y + √(1 − 0,81)·U, Z = 0,9·Y + √0,19·V avec U, V orthogonaux à Y. corr(X, Z) = 0,81 + 0,19·corr(U, V) ≥ 0,81 − 0,19 = **0,62**.
-Cas général : ρ₁ρ₂ − √((1 − ρ₁²)(1 − ρ₂²)).
+$X = 0{,}9 \cdot Y + \sqrt{1 - 0{,}81} \cdot U, Z = 0{,}9 \cdot Y + \sqrt{0{,}19} \cdot V$ avec $U, V$ orthogonaux à $Y$. $\operatorname{corr} (X, Z) = 0{,}81 + 0{,}19 \cdot \operatorname{corr} (U, V) \ge 0{,}81 - 0{,}19 =$ **0,62**.
+Cas général : $\rho_{1}\rho_{2} - \sqrt{(1 - \rho_{1}^{2})(1 - \rho_{2}^{2})}$.
 --- relances
-- Et si les deux corrélations valent 0,5 ? (borne basse : 0,25 − 0,75 = −0,5)
+- Et si les deux corrélations valent 0,5 ? (borne basse : $0{,}25 - 0{,}75 = -0{,}5$)
 
 === proba-quadrant-normal
+categorie: probas
+titre: Deux gaussiennes corrélées toutes deux positives
 theme: probas
 niveau: 3
 profils: hf banque mm
@@ -649,16 +716,16 @@ type: numerique
 reponse: 1/3
 duree: 300
 --- question
-(X, Y) est un vecteur gaussien centré réduit de corrélation 0,5. Que vaut P(X > 0 et Y > 0) ?
+($X, Y$) est un vecteur gaussien centré réduit de corrélation 0,5. Que vaut $\mathbb{P}(X > 0 \text{ et } Y > 0)$ ?
 --- en
-(X, Y) is a standard bivariate normal with correlation 0.5. Compute P(X > 0, Y > 0).
+($X, Y$) is a standard bivariate normal with correlation 0.5. Compute $\mathbb{P}(X > 0, Y > 0)$.
 --- indice
-Formule de Sheppard : 1/4 + arcsin(ρ)/(2π). Ou géométriquement : l'angle entre les deux demi-plans.
+Formule de Sheppard : $1/4 + \arcsin(\rho)/(2\pi)$. Ou géométriquement : l'angle entre les deux demi-plans.
 --- solution
-P = 1/4 + arcsin(ρ)/(2π) = 1/4 + (π/6)/(2π) = 1/4 + 1/12 = **1/3**.
-Vision géométrique : X = ⟨Z, a⟩, Y = ⟨Z, b⟩ avec Z gaussien isotrope dans le plan et un angle θ = arccos ρ = 60° entre a et b ; la probabilité vaut (π − θ)/(2π) = (180 − 60)/360.
+$P = 1/4 + \arcsin(\rho)/(2\pi) = 1/4 + (\pi /6)/(2\pi) = 1/4 + 1/12 =$ **$1/3$**.
+Vision géométrique : $X = \langle Z, a \rangle, Y = \langle Z, b \rangle$ avec $Z$ gaussien isotrope dans le plan et un angle $\theta = \arccos \rho = 60°$ entre $a$ et $b$ ; la probabilité vaut $(\pi - \theta)/(2\pi) = (180 - 60)/360$.
 --- relances
-- Cas ρ = 0 ? (1/4) ; ρ = −1 ? (0)
+- Cas $\rho = 0$ ? ($1/4$) ; $\rho = -1$ ? (0)
 
 === proba-max-normales
 theme: probas
@@ -668,16 +735,16 @@ type: numerique
 reponse: 1/sqrt(pi)
 duree: 300
 --- question
-X et Y sont indépendantes de loi N(0, 1). Que vaut E[max(X, Y)] ?
+$X$ et $Y$ sont indépendantes de loi $N(0, 1)$. Que vaut $\mathbb{E}[\max (X, Y)]$ ?
 --- en
-X and Y are independent standard normals. Compute E[max(X, Y)].
+$X$ and $Y$ are independent standard normals. Compute $\mathbb{E}[\max (X, Y)]$.
 --- indice
-max(X, Y) = (X + Y)/2 + |X − Y|/2.
+$\max (X, Y) = (X + Y)/2 + |X - Y|/2$.
 --- solution
-E[max] = E|X − Y|/2. Or X − Y ~ N(0, 2) et E|N(0, σ²)| = σ√(2/π). Donc E[max] = √2·√(2/π)/2 = **1/√π ≈ 0,564**.
+$\mathbb{E}[\max] = E|X - Y|/2$. Or $X - Y \sim N(0, 2)$ et $E|N(0, \sigma^{2})| = \sigma \sqrt{2/\pi}$. Donc $\mathbb{E}[\max] = \sqrt{2} \cdot \sqrt{2/\pi}/2 =$ **$1/\sqrt{\pi} \approx 0{,}564$**.
 --- relances
-- E[|X|] pour X ~ N(0, 1) ? (√(2/π) ≈ 0,798)
-- Ordre de grandeur du max de n gaussiennes ? (√(2 ln n))
+- $\mathbb{E}[|X|]$ pour $X \sim N(0, 1)$ ? ($\sqrt{2/\pi} \approx 0{,}798$)
+- Ordre de grandeur du max de $n$ gaussiennes ? ($\sqrt{2 \ln n}$)
 
 === proba-normale-positive
 theme: probas
@@ -687,16 +754,18 @@ type: numerique
 reponse: sqrt(2/pi)
 duree: 180
 --- question
-X suit une loi N(0, 1). Que vaut E[X | X > 0] ?
+$X$ suit une loi $N(0, 1)$. Que vaut $\mathbb{E}[X | X > 0]$ ?
 --- en
-X is standard normal. What is E[X | X > 0]?
+$X$ is standard normal. What is $\mathbb{E}[X | X > 0]$?
 --- solution
-E[X·1{X>0}] = ∫₀^∞ x φ(x) dx = φ(0) = 1/√(2π). On divise par P(X > 0) = 1/2 : **√(2/π) ≈ 0,798**.
+$\mathbb{E}[X \cdot 1{X>0}] = \int_{0}^\infty x \varphi (x) dx = \varphi (0) = 1/\sqrt{2\pi}$. On divise par $\mathbb{P}(X > 0) = 1/2$ : **$\sqrt{2/\pi} \approx 0{,}798$**.
 --- relances
-- E[X | X > a] ? (φ(a)/(1 − Φ(a)), le ratio de Mills inverse)
-- Lien avec l'expected shortfall ? (ES d'une gaussienne à 97,5 % = φ(1,96)/0,025 ≈ 2,34 σ)
+- $\mathbb{E}[X | X > a]$ ? ($\varphi (a)/(1 - \Phi (a))$, le ratio de Mills inverse)
+- Lien avec l'expected shortfall ? (ES d'une gaussienne à $97{,}5\,\% = \varphi (1{,}96)/0{,}025 \approx 2{,}34 \sigma$)
 
 === proba-bertrand-boites
+categorie: probas
+titre: Les boîtes de Bertrand
 theme: probas
 niveau: 1
 profils: mm hf banque data
@@ -708,11 +777,15 @@ Trois boîtes : l'une contient deux pièces d'or, une autre deux pièces d'argen
 --- en
 Three boxes: gold-gold, silver-silver, gold-silver. You pick a box at random and draw a coin: it is gold. What is the probability that the other coin is also gold?
 --- solution
-Il y a 3 pièces d'or équiprobables ; 2 d'entre elles sont dans la boîte or-or. Probabilité **2/3**.
+Il y a 3 pièces d'or équiprobables ; 2 d'entre elles sont dans la boîte or-or. Probabilité **$2/3$**.
 --- piege
-« Il reste deux boîtes possibles, donc 1/2 » : les deux boîtes n'ont pas la même probabilité de donner une pièce d'or.
+« Il reste deux boîtes possibles, donc $1/2$ » : les deux boîtes n'ont pas la même probabilité de donner une pièce d'or.
+--- variantes
+- Trois cartes rouge-rouge, blanc-blanc, rouge-blanc ; on voit une face rouge : l’autre face est rouge avec probabilité $2/3$.
 
 === proba-pieces-un-de-plus
+categorie: probas
+titre: 101 pièces contre 100 : qui fait plus de piles ?
 theme: probas
 niveau: 2
 profils: mm hf banque
@@ -726,9 +799,13 @@ A flips 101 fair coins, B flips 100. What is the probability that A gets strictl
 --- indice
 Compare d'abord les 100 premières pièces de A à celles de B. Que fait la dernière ? Ou : symétrie entre « face » et « pile ».
 --- solution
-Symétrie : A a plus de faces que B ou plus de piles que B (A a 101 pièces : faces_A + piles_A = 101 = (faces_B + piles_B) + 1), exactement l'un des deux. Par symétrie pile/face, les deux événements ont la même probabilité : **1/2**.
+Symétrie : A a plus de faces que B ou plus de piles que B (A a 101 pièces : $\text{faces}_A + \text{piles}_A = 101 = (\text{faces}_B + \text{piles}_B) + 1$), exactement l'un des deux. Par symétrie pile/face, les deux événements ont la même probabilité : **$1/2$**.
+--- variantes
+- Alice lance 10 pièces, Bob 11 : Bob obtient strictement plus de piles avec probabilité $1/2$ (même argument de symétrie).
 
 === proba-attente-bus
+categorie: probas
+titre: Le paradoxe de l’attente du bus
 theme: probas
 niveau: 2
 profils: mm hf banque data
@@ -758,10 +835,10 @@ Deux ampoules ont des durées de vie exponentielles indépendantes de moyenne 1 
 --- en
 Two light bulbs have independent exponential lifetimes with mean 1 year. Expected time until both have failed?
 --- solution
-Le minimum de deux exponentielles de taux 1 est exponentiel de taux 2 : moyenne 1/2. Ensuite, par absence de mémoire, la survivante dure encore 1 an en moyenne. Total **1,5 an**.
+Le minimum de deux exponentielles de taux 1 est exponentiel de taux 2 : moyenne $1/2$. Ensuite, par absence de mémoire, la survivante dure encore 1 an en moyenne. Total **1,5 an**.
 --- relances
-- Pour n ampoules ? (1 + 1/2 + … + 1/n)
-- Probabilité que l'ampoule A grille avant B si leurs taux sont λ et μ ? (λ/(λ + μ))
+- Pour $n$ ampoules ? ($1 + 1/2 + \dots + 1/n$)
+- Probabilité que l'ampoule A grille avant B si leurs taux sont $\lambda$ et $\mu$ ? ($\lambda /(\lambda + \mu)$)
 
 === proba-premiere-rouge
 theme: probas
@@ -775,7 +852,7 @@ Une urne contient 3 boules rouges et 7 bleues. On tire sans remise. En moyenne, 
 --- en
 An urn has 3 red and 7 blue balls. Drawing without replacement, what is the expected position of the first red ball?
 --- solution
-Les 3 rouges découpent les 7 bleues en 4 groupes de taille moyenne 7/4. Position de la première rouge : 7/4 + 1 = **11/4 = 2,75**. Formule (N + 1)/(r + 1).
+Les 3 rouges découpent les 7 bleues en 4 groupes de taille moyenne $7/4$. Position de la première rouge : $7/4 + 1 =$ **$11/4 = 2{,}75$**. Formule $(N + 1)/(r + 1)$.
 
 === proba-meme-couleur
 theme: probas
@@ -789,7 +866,7 @@ On tire deux cartes d'un jeu de 52. Probabilité qu'elles soient de la même cou
 --- en
 Two cards are drawn from a 52-card deck. Probability they are of the same suit?
 --- solution
-La première carte est quelconque ; il reste 12 cartes de sa couleur parmi 51 : **12/51 = 4/17 ≈ 0,235**.
+La première carte est quelconque ; il reste 12 cartes de sa couleur parmi 51 : **$12/51 = 4/17 \approx 0{,}235$**.
 
 === proba-poker-paire
 theme: probas
@@ -805,11 +882,11 @@ What is the probability that a 5-card poker hand contains exactly one pair?
 --- indice
 Choisis la valeur de la paire, ses deux couleurs, puis trois autres valeurs distinctes et leurs couleurs.
 --- solution
-13 × C(4,2) × C(12,3) × 4³ = 13 × 6 × 220 × 64 = 1 098 240 mains, sur C(52,5) = 2 598 960 : **≈ 42,3 %**.
+$13 \times \binom{4{}{}2} \times \binom{12{}{}3} \times 4^{3} = 13 \times 6 \times 220 \times 64 = 1\,098\,240$ mains, sur $\binom{52{}{}5} = 2\,598\,960$ : **$\approx 42{,}3\,\%$**.
 --- piege
-Choisir les trois autres cartes une par une (12 × 11 × 10) compte chaque main 3! = 6 fois.
+Choisir les trois autres cartes une par une ($12 \times 11 \times 10$) compte chaque main $3! = 6$ fois.
 --- relances
-- Probabilité d'une double paire ? (C(13,2) × 6² × 44 / C(52,5) ≈ 4,75 %)
+- Probabilité d'une double paire ? ($\binom{13{}{}2} \times 6^{2} \times 44 / \binom{52{}{}5} \approx 4{,}75\,\%$)
 
 === proba-trois-des-croissants
 theme: probas
@@ -823,8 +900,8 @@ On lance trois dés. Probabilité que les résultats soient strictement croissan
 --- en
 Three dice are rolled. What is the probability that the results are strictly increasing?
 --- solution
-Il faut trois valeurs distinctes (C(6,3) = 20 ensembles) dans le seul ordre croissant : 20/216 = **5/54 ≈ 0,093**.
-Vérification : P(trois valeurs distinctes) = 120/216, et un seul des 6 ordres est croissant.
+Il faut trois valeurs distinctes ($\binom{6{}{}3} = 20$ ensembles) dans le seul ordre croissant : $20/216 =$ **$5/54 \approx 0{,}093$**.
+Vérification : $\mathbb{P}(\text{trois valeurs distinctes}) = 120/216$, et un seul des 6 ordres est croissant.
 
 === proba-de-carre
 theme: probas
@@ -838,9 +915,9 @@ On lance un dé et tu reçois le carré du résultat. Espérance du gain ?
 --- en
 You roll a die and receive the square of the result. Expected payoff?
 --- solution
-(1 + 4 + 9 + 16 + 25 + 36)/6 = **91/6 ≈ 15,17**.
+$(1 + 4 + 9 + 16 + 25 + 36)/6 =$ **$91/6 \approx 15{,}17$**.
 --- relances
-- Pourquoi est-ce plus que 3,5² = 12,25 ? (E[X²] = Var(X) + E[X]², Var = 35/12 ; inégalité de Jensen)
+- Pourquoi est-ce plus que $3{,}5^{2} = 12{,}25$ ? ($\mathbb{E}[X^{2}] = \operatorname{Var} (X) + \mathbb{E}[X]^{2}$, Var $= 35/12$ ; inégalité de Jensen)
 
 === proba-produit-deux-des
 theme: probas
@@ -854,11 +931,13 @@ On lance deux dés et tu reçois le produit des résultats. Espérance du gain ?
 --- en
 Two dice are rolled and you receive the product. Expected payoff?
 --- solution
-Indépendance : E[XY] = E[X]E[Y] = 3,5² = **12,25**.
+Indépendance : $\mathbb{E}[XY] = \mathbb{E}[X]\,\mathbb{E}[Y] = 3{,}5^2 =$ **12,25**.
 --- relances
-- Et le produit d'un dé par lui-même (un seul lancer, mis au carré) ? (91/6 : pas d'indépendance)
+- Et le produit d'un dé par lui-même (un seul lancer, mis au carré) ? ($91/6$ : pas d'indépendance)
 
 === proba-piece-truquee-bayes
+categorie: probas
+titre: Pièce à deux piles cachée parmi des pièces normales
 theme: probas
 niveau: 2
 profils: mm hf banque data
@@ -870,12 +949,17 @@ Parmi 10 pièces, une a deux faces « pile », les autres sont normales. Tu en p
 --- en
 One of 10 coins is double-headed, the others are fair. You pick one at random and flip it 5 times: 5 heads. Probability that you hold the double-headed coin?
 --- solution
-Bayes : (1/10 × 1) / (1/10 × 1 + 9/10 × 1/32) = 32/(32 + 9) = **32/41 ≈ 0,78**.
+Bayes : $(1/10 \times 1) / (1/10 \times 1 + 9/10 \times 1/32) = 32/(32 + 9) =$ **$32/41 \approx 0{,}78$**.
 En cotes : a priori 1:9, rapport de vraisemblance 32:1, a posteriori 32:9.
 --- relances
-- Probabilité que le 6ᵉ lancer donne pile ? (32/41 + 9/41 × 1/2 = 73/82 ≈ 0,89)
+- Probabilité que le 6ᵉ lancer donne pile ? ($32/41 + 9/41 \times 1/2 = 73/82 \approx 0{,}89$)
+--- variantes
+- 1 000 pièces dont une à deux piles, 10 piles de suite : $\frac{1024}{1024 + 999} \approx 0{,}506$.
+- Deux pièces dont une à deux piles, trois piles de suite : $8/9$.
 
 === proba-premier-pile-pair
+categorie: probas
+titre: Le premier pile tombe-t-il à un rang pair ?
 theme: probas
 niveau: 2
 profils: mm hf banque
@@ -887,8 +971,8 @@ On lance une pièce équilibrée jusqu'au premier pile. Probabilité que ce prem
 --- en
 Flip a fair coin until the first heads. What is the probability that it occurs on an even-numbered flip?
 --- solution
-Σ_{k≥1} (1/2)^(2k) = (1/4)/(1 − 1/4) = **1/3**.
-Par conditionnement : p = P(pair) ; le premier lancer est face avec probabilité 1/2 et alors les rôles pair/impair s'inversent : p = ½(1 − p), d'où p = 1/3.
+$\sum_{k \ge 1} (1/2)^{2k} = (1/4)/(1 - 1/4) =$ **$1/3$**.
+Par conditionnement : $p = \mathbb{P}(\text{pair})$ ; le premier lancer est face avec probabilité $1/2$ et alors les rôles pair/impair s'inversent : $p = \tfrac12 (1 - p)$, d'où $p = 1/3$.
 
 === proba-deux-six-consecutifs
 theme: probas
@@ -902,11 +986,11 @@ Combien de lancers de dé faut-il en moyenne pour obtenir deux 6 consécutifs ?
 --- en
 Expected number of die rolls until you get two consecutive sixes?
 --- solution
-États : E (départ), E₁ (un 6 vient de tomber).
-- E = 1 + (1/6)E₁ + (5/6)E
-- E₁ = 1 + (1/6)·0 + (5/6)E
-De la première : E = 6 + E₁ ; donc E = 6 + 1 + (5/6)E, soit **E = 42**.
-Formule générale pour une probabilité p : (1 + p)/p² ; ici 7 × 6 = 42.
+États : $E$ (départ), $E_{1}$ (un 6 vient de tomber).
+- $E = 1 + (1/6)E_{1} + (5/6)E$
+- $E_{1} = 1 + (1/6) \cdot 0 + (5/6)E$
+De la première : $E = 6 + E_{1}$ ; donc $E = 6 + 1 + (5/6)E$, soit **$E = 42$**.
+Formule générale pour une probabilité $p$ : $(1 + p)/p^{2}$ ; ici $7 \times 6 = 42$.
 --- relances
 - Et un 6 suivi d'un 5 ? (36 : pas de chevauchement)
 
@@ -922,11 +1006,13 @@ Variance d'une loi uniforme sur [0, 1] ?
 --- en
 Variance of a uniform distribution on [0, 1]?
 --- solution
-E[U²] − E[U]² = 1/3 − 1/4 = **1/12**. Sur [a, b] : (b − a)²/12.
+$\mathbb{E}[U^{2}] - \mathbb{E}[U]^{2} = 1/3 - 1/4 =$ **$1/12$**. Sur [$a, b$] : $(b - a)^{2}/12$.
 --- relances
-- Variance d'un dé ? ((6² − 1)/12 = 35/12)
+- Variance d'un dé ? ($(6^{2} - 1)/12 = 35/12$)
 
 === proba-secretaire
+categorie: strategie
+titre: Le problème du secrétaire (s’arrêter au bon moment)
 theme: probas
 niveau: 3
 profils: mm hf
@@ -935,17 +1021,19 @@ reponse: exp(-1)
 tolerance: 0.01
 duree: 420
 --- question
-Tu vois défiler n candidats dans un ordre aléatoire et tu dois accepter ou refuser chacun immédiatement, sans retour. Avec la meilleure stratégie, quelle probabilité de choisir le meilleur quand n est grand ?
+Tu vois défiler $n$ candidats dans un ordre aléatoire et tu dois accepter ou refuser chacun immédiatement, sans retour. Avec la meilleure stratégie, quelle probabilité de choisir le meilleur quand $n$ est grand ?
 --- en
-Secretary problem: n candidates arrive in random order; you must accept or reject each immediately. With the optimal strategy, what is the probability of picking the best one as n grows?
+Secretary problem: $n$ candidates arrive in random order; you must accept or reject each immediately. With the optimal strategy, what is the probability of picking the best one as $n$ grows?
 --- indice
-Stratégie : laisser passer les r premiers, puis prendre le premier meilleur que tous ceux vus.
+Stratégie : laisser passer les $r$ premiers, puis prendre le premier meilleur que tous ceux vus.
 --- solution
-Avec un seuil r = xn, la probabilité de succès vaut ≈ −x ln x, maximale pour x = 1/e. Valeur : **1/e ≈ 37 %**. On observe donc environ 37 % des candidats avant de choisir.
+Avec un seuil $r =$ xn, la probabilité de succès vaut $\approx -x \ln x$, maximale pour $x = 1/e$. Valeur : **$1/e \approx 37\,\%$**. On observe donc environ 37 % des candidats avant de choisir.
 --- relances
 - Lien avec le trading ? (vendre « au meilleur moment » : sans modèle de prix, on ne peut pas faire beaucoup mieux qu'une règle de seuil)
 
 === proba-esperance-somme-tirages-de
+categorie: probas
+titre: Somme des lancers jusqu’au premier 6
 theme: probas
 niveau: 2
 profils: mm hf
@@ -959,8 +1047,8 @@ Roll a die until you get a 6; you are paid the sum of all rolls, including the 6
 --- indice
 Combien de lancers « non-6 » en moyenne, et que vaut chacun en moyenne ?
 --- solution
-Il y a en moyenne 5 lancers avant le 6 (6 lancers au total). Chacun, sachant qu'il n'est pas un 6, vaut 3 en moyenne (1 à 5). Gain : 5 × 3 + 6 = **21**.
-Plus rapide, identité de Wald : E[somme] = E[N]·E[X] = 6 × 3,5 = 21, valable car N est un temps d'arrêt.
+Il y a en moyenne 5 lancers avant le 6 (6 lancers au total). Chacun, sachant qu'il n'est pas un 6, vaut 3 en moyenne (1 à 5). Gain : $5 \times 3 + 6 =$ **21**.
+Plus rapide, identité de Wald : $\mathbb{E}[\text{somme}] = \mathbb{E}[N] \cdot \mathbb{E}[X] = 6 \times 3{,}5 = 21$, valable car $N$ est un temps d'arrêt.
 --- piege
 Conditionner à tort : les lancers avant le 6 ne valent pas 3,5 en moyenne mais 3, puisqu'on sait qu'ils ne sont pas des 6. Les deux raisonnements donnent bien 21, à condition de ne pas mélanger les deux.
 --- relances

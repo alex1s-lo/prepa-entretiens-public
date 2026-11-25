@@ -1,0 +1,370 @@
+# Casse-têtes : classiques ajoutés après recoupement des listes publiques (Brainstellar, QuantVault, Quantt,
+# dépôts GitHub de questions d'entretien), pour qu'aucun grand classique ne manque.
+
+=== ct-boites-etiquettes
+theme: casse-tete
+categorie: logique
+titre: Trois boîtes toutes mal étiquetées
+niveau: 1
+profils: mm hf banque data
+type: numerique
+reponse: 1
+duree: 120
+--- question
+Trois boîtes portent les étiquettes « pommes », « oranges » et « mélange », mais **toutes** les étiquettes sont fausses. Tu peux tirer des fruits sans regarder dans les boîtes. Combien de fruits faut-il tirer au minimum pour réétiqueter correctement les trois boîtes ?
+--- indice
+Commence par la boîte étiquetée « mélange » : que contient-elle forcément ?
+--- solution
+La boîte « mélange » n'est pas le mélange : elle ne contient qu'un seul type de fruit. Tire **un fruit** : si c'est une pomme, c'est la boîte de pommes. La boîte étiquetée « oranges » n'est ni les oranges ni (désormais) les pommes : c'est le mélange ; la dernière est les oranges.
+--- variantes
+- Tirer dans la boîte « pommes » ne suffit pas : une orange laisse deux possibilités.
+
+=== ct-batte-balle
+theme: casse-tete
+categorie: nombres
+titre: Batte et balle à 1,10 € (pièges de l'intuition)
+niveau: 1
+profils: mm hf banque data
+type: numerique
+reponse: 0.05
+duree: 60
+--- question
+Une batte et une balle coûtent 1,10 € au total. La batte coûte 1 € de plus que la balle. Combien coûte la balle (en euros) ?
+--- indice
+Ce n'est pas 0,10 € : vérifie la réponse intuitive.
+--- solution
+Balle $x$, batte $x + 1$ : $2x + 1 = 1{,}10$, donc $x =$ **0,05 €**. La réponse intuitive (0,10 €) donnerait une batte à 1,10 € et un total de 1,20 €. Ces questions testent le réflexe de **vérifier** avant d'annoncer.
+--- variantes
+- 5 machines font 5 objets en 5 minutes : 100 machines font 100 objets en **5 minutes**.
+- Une brique pèse 1 kg plus la moitié d'une brique : elle pèse **2 kg**.
+- Une action perd 50 % puis gagne 50 % : elle a perdu 25 %.
+
+=== ct-josephus
+theme: casse-tete
+categorie: nombres
+titre: Le problème de Josèphe (éliminer une personne sur deux)
+niveau: 2
+profils: mm hf data
+type: numerique
+reponse: 73
+duree: 300
+--- question
+100 personnes numérotées de 1 à 100 sont en cercle. En partant de la 1, on élimine une personne sur deux (la 2, puis la 4, …) en tournant autour du cercle jusqu'à ce qu'il n'en reste qu'une. Quel numéro survit ?
+--- indice
+Avec $2^m$ personnes, c'est la n° 1 qui survit. Écris $100 = 64 + 36$.
+--- solution
+Avec $n = 2^m + \ell$ ($0 \le \ell < 2^m$), après $\ell$ éliminations il reste $2^m$ personnes et c'est au tour de la personne $2\ell + 1$, qui survivra. $100 = 64 + 36$ : survivant $2 \times 36 + 1 =$ **73**. En binaire : faire tourner le premier bit à la fin ($1100100 \to 1001001 = 73$).
+--- variantes
+- 41 personnes, une sur trois éliminée : le survivant est le n° 31 (récurrence $J(n) = (J(n - 1) + k) \bmod n$).
+
+=== ct-cavalier
+theme: casse-tete
+categorie: recherche
+titre: Le cavalier d'un coin à l'autre de l'échiquier
+niveau: 1
+profils: mm hf banque data
+type: numerique
+reponse: 6
+duree: 180
+--- question
+Combien de coups faut-il au minimum à un cavalier pour aller de a1 à h8 ?
+--- indice
+Chaque coup change la somme des coordonnées de 1 ou 3 ; il faut la faire varier de 14.
+--- solution
+Chaque coup augmente la somme $x + y$ d'au plus 3, et il faut gagner 14 : au moins 5 coups. Mais un coup de cavalier change la couleur de la case, et a1 et h8 sont de la même couleur : il faut un nombre pair de coups, donc au moins 6. Six coups suffisent : a1, b3, c5, d7, f8, g6, h8. Réponse : **6** (un parcours en largeur le confirme).
+--- variantes
+- Parcours en largeur sur un graphe : méthode générale pour tous les « nombre minimal de coups ».
+
+=== ct-rois-non-attaquants
+theme: casse-tete
+categorie: denombrement
+titre: Placer un maximum de rois qui ne s'attaquent pas
+niveau: 1
+profils: mm hf banque data
+type: numerique
+reponse: 16
+duree: 180
+--- question
+Combien de rois au maximum peut-on placer sur un échiquier $8 \times 8$ sans que deux d'entre eux s'attaquent ?
+--- indice
+Découpe l'échiquier en blocs $2 \times 2$.
+--- solution
+Chacun des 16 blocs $2 \times 2$ contient au plus un roi (deux rois dans un même bloc se touchent) : au plus 16. Et 16 est atteint (un roi dans le coin inférieur gauche de chaque bloc). **16**.
+--- variantes
+- Cavaliers : 32 (toutes les cases d'une couleur). Dames : 8 (92 solutions). Tours : 8.
+
+=== ct-p-pays-garcons
+theme: casse-tete
+categorie: probas
+titre: Le pays où chaque famille s'arrête au premier garçon
+niveau: 1
+profils: mm hf banque data
+--- question
+Dans un pays, chaque famille fait des enfants jusqu'au premier garçon, puis s'arrête. Garçons et filles sont équiprobables. À long terme, quelle est la proportion de filles ?
+--- indice
+Chaque naissance reste un pile ou face équitable, quelle que soit la règle d'arrêt.
+--- solution
+**Une moitié**. Chaque naissance est un tirage équitable indépendant : aucune règle d'arrêt ne change la proportion (théorème d'arrêt). Par famille : exactement 1 garçon, et en moyenne $\sum_{k \ge 0} k\,2^{-(k+1)} = 1$ fille.
+--- variantes
+- Le nombre moyen d'enfants par famille est 2.
+
+=== ct-canard-renard
+theme: casse-tete
+categorie: geometrie
+titre: Le canard sur l'étang et le renard sur la rive
+niveau: 3
+profils: mm hf
+--- question
+Un canard nage au centre d'un étang circulaire de rayon $R$. Un renard, sur la rive, court 4 fois plus vite que le canard nage, et ne peut pas entrer dans l'eau. Le canard peut s'envoler dès qu'il atteint la rive sans le renard. Peut-il s'échapper ?
+--- indice
+Près du centre, le canard tourne plus vite (en vitesse angulaire) que le renard. Jusqu'à quel rayon ?
+--- solution
+Sur un cercle de rayon $r < R/4$, la vitesse angulaire du canard ($v/r$) dépasse celle du renard ($4v/R$) : le canard peut se placer à l'opposé du renard sur le cercle de rayon juste inférieur à $R/4$. Il fonce alors droit vers la rive : il lui reste $\frac34 R$ à parcourir, soit un temps $\frac{3R}{4v}$, tandis que le renard doit faire un demi-tour, $\pi R$, en $\frac{\pi R}{4v}$. Comme $\frac34 < \frac{\pi}{4}$, **le canard s'échappe**. (Avec une stratégie plus fine, il s'échappe jusqu'à un rapport de vitesses d'environ 4,6.)
+
+=== ct-points-antipodaux
+theme: casse-tete
+categorie: geometrie
+titre: Deux points opposés de l'équateur à la même température
+niveau: 2
+profils: mm hf banque data
+--- question
+Montre qu'à tout instant, il existe deux points diamétralement opposés de l'équateur qui ont exactement la même température.
+--- indice
+Considère $g(\theta) = T(\theta) - T(\theta + \pi)$ sur l'équateur.
+--- solution
+$g(\theta) = T(\theta) - T(\theta + \pi)$ est continue et $g(\theta + \pi) = -g(\theta)$ : elle prend des valeurs de signes opposés (ou nulles), donc s'annule par le théorème des valeurs intermédiaires. En ce point, les températures sont égales.
+--- variantes
+- Un moine monte une montagne de 7 h à 19 h, en redescend le lendemain aux mêmes heures : il passe à la même heure au même endroit les deux jours (même argument).
+- Théorème de Borsuk-Ulam : sur la sphère, il existe deux points antipodaux de même température **et** même pression.
+
+=== ct-p-chuck-a-luck
+theme: casse-tete
+categorie: probas
+titre: Chuck-a-luck : le jeu de trois dés de la fête foraine
+niveau: 2
+profils: mm hf banque data
+type: numerique
+reponse: -17/216
+duree: 240
+--- question
+Tu paries 1 € sur un numéro de 1 à 6, puis on lance trois dés. Si ton numéro sort sur $k \ge 1$ dés, tu gagnes $k$ € (et récupères ta mise) ; sinon tu perds ta mise. Quel est ton gain espéré par euro misé ?
+--- indice
+Le nombre de dés montrant ton numéro suit une loi binomiale $\mathcal{B}(3, 1/6)$.
+--- solution
+$\mathbb{P}(0) = \frac{125}{216}$, $\mathbb{P}(1) = \frac{75}{216}$, $\mathbb{P}(2) = \frac{15}{216}$, $\mathbb{P}(3) = \frac{1}{216}$.
+$$\mathbb{E} = -\frac{125}{216} + \frac{75}{216} + 2 \cdot \frac{15}{216} + 3 \cdot \frac{1}{216} = -\frac{17}{216} \approx -0{,}079.$$
+Réponse : **$-17/216$**. L'illusion « $3 \times 1/6 = 1/2$ » ignore que les gains multiples se concentrent sur peu d'issues.
+
+=== ct-infection-grille
+theme: casse-tete
+categorie: invariants
+titre: Infection d'une grille $10 \times 10$
+niveau: 3
+profils: mm hf
+type: numerique
+reponse: 10
+duree: 420
+--- question
+Dans une grille $10 \times 10$, une case saine devient infectée dès qu'au moins deux de ses voisines (par un côté) sont infectées. Combien de cases faut-il infecter au départ, au minimum, pour que toute la grille finisse infectée ?
+--- indice
+Suis le périmètre total de la zone infectée : peut-il augmenter ?
+--- solution
+Quand une case s'infecte, au moins deux de ses côtés touchaient déjà la zone infectée : le périmètre de la zone ne peut pas augmenter. À la fin, il vaut 40 ; au départ, $k$ cases ont un périmètre au plus $4k$. Donc $4k \ge 40$, $k \ge 10$ ; et la diagonale de 10 cases suffit. **10**.
+
+=== ct-p-nouilles
+theme: casse-tete
+categorie: probas
+titre: Nouer au hasard les extrémités de 100 nouilles
+niveau: 3
+profils: mm hf
+type: numerique
+reponse: 3.2843
+tolerance: 0.001
+duree: 420
+--- question
+Un bol contient 100 nouilles. On prend deux extrémités au hasard et on les noue, et on recommence jusqu'à ce qu'il ne reste plus d'extrémité libre. Combien de boucles obtient-on en moyenne ?
+--- indice
+Quand il reste $k$ nouilles (« brins » en comptant les nœuds), quelle est la probabilité que le nœud ferme une boucle ?
+--- solution
+Avec $k$ brins, il y a $2k$ extrémités ; on en prend une, et l'autre extrémité choisie est la sienne avec probabilité $\frac{1}{2k - 1}$ : une boucle se ferme. Sinon deux brins fusionnent. Par linéarité :
+$$\mathbb{E}[\text{boucles}] = \sum_{k=1}^{100} \frac{1}{2k - 1} \approx \frac12 \ln(4 \times 100) + \frac{\gamma}{2} \approx 3{,}28.$$
+Réponse : **$\approx 3{,}28$**.
+
+=== ct-sous-marin
+theme: casse-tete
+categorie: recherche
+titre: Attraper un sous-marin de position et de vitesse inconnues
+niveau: 3
+profils: mm hf
+--- question
+Un sous-marin se déplace sur une droite graduée par les entiers : il part d'une position entière inconnue $a$ et avance chaque minute d'une vitesse entière inconnue $v$ (position $a + vt$ à la minute $t$). Chaque minute, tu peux tirer une torpille sur un entier. Existe-t-il une stratégie qui le touche à coup sûr en un temps fini ?
+--- indice
+Les couples $(a, v)$ sont dénombrables.
+--- solution
+Oui. Énumère tous les couples $(a, v) \in \mathbb{Z}^2$ (par exemple en spirale autour de $(0, 0)$). À la minute $t$, prends le $t$-ième couple $(a_t, v_t)$ et tire sur $a_t + v_t\,t$. Le vrai couple apparaît à un rang $t_0$ fini, et la torpille tirée à la minute $t_0$ le touche. L'idée : transformer un problème « en mouvement » en une énumération d'un ensemble dénombrable.
+
+=== ct-sommes-consecutives
+theme: casse-tete
+categorie: nombres
+titre: Écrire 1 000 comme somme d'entiers consécutifs
+niveau: 2
+profils: mm hf banque data
+type: numerique
+reponse: 4
+duree: 300
+--- question
+De combien de façons peut-on écrire 1 000 comme somme d'un ou plusieurs entiers **positifs consécutifs** ?
+--- indice
+Une somme de $k$ consécutifs à partir de $m$ vaut $k(2m + k - 1)/2$. Les deux facteurs $k$ et $2m + k - 1$ sont de parités différentes.
+--- solution
+$2000 = k(2m + k - 1)$ avec $k < 2m + k - 1$ de parités opposées : chaque façon correspond à un **diviseur impair** de 1 000. $1\,000 = 2^3 \times 5^3$ a 4 diviseurs impairs (1, 5, 25, 125) : **4 façons** ($1\,000$ ; $198 + \dots + 202$ ; $28 + \dots + 52$ ; $55 + \dots + 70$).
+--- variantes
+- Les puissances de 2 sont les seuls entiers qui ne s'écrivent pas comme somme d'au moins deux entiers consécutifs.
+
+=== ct-poteaux-croises
+theme: casse-tete
+categorie: geometrie
+titre: Deux poteaux reliés par des câbles croisés
+niveau: 2
+profils: mm hf banque data
+type: numerique
+reponse: 2
+duree: 180
+--- question
+Deux poteaux verticaux de 6 m et 3 m sont plantés à une certaine distance l'un de l'autre. On tend un câble du sommet de chacun au pied de l'autre. À quelle hauteur (en mètres) les câbles se croisent-ils ?
+--- indice
+La réponse ne dépend pas de la distance entre les poteaux. Triangles semblables.
+--- solution
+Avec des hauteurs $a$ et $b$, les triangles semblables donnent $\frac{1}{h} = \frac1a + \frac1b$ : $h = \frac{ab}{a + b} = \frac{18}{9} =$ **2 m**, indépendamment de l'écartement (moitié de la moyenne harmonique).
+
+=== ct-hotel-hilbert
+theme: casse-tete
+categorie: logique
+titre: L'hôtel de Hilbert (un hôtel infini complet)
+niveau: 1
+profils: mm hf data
+--- question
+Un hôtel a une infinité de chambres numérotées 1, 2, 3, …, toutes occupées. Un nouveau client arrive : peut-on le loger ? Et si un car d'une infinité (dénombrable) de clients arrive ?
+--- indice
+Déplace chaque client existant selon une règle simple.
+--- solution
+- Un client : chaque occupant passe de la chambre $n$ à $n + 1$ ; la chambre 1 se libère.
+- Une infinité dénombrable : chaque occupant passe de $n$ à $2n$ ; les chambres impaires se libèrent pour les nouveaux.
+Leçon : un ensemble infini peut être en bijection avec une partie stricte de lui-même ; $\mathbb{N}$, $\mathbb{Z}$ et $\mathbb{Q}$ ont « autant » d'éléments, mais pas $\mathbb{R}$ (argument diagonal de Cantor).
+
+=== ct-hauteur-chute
+theme: casse-tete
+categorie: mouvement
+titre: Mesurer la hauteur d'un immeuble avec un chronomètre
+niveau: 1
+profils: mm hf banque data
+type: numerique
+reponse: 44
+tolerance: 0.03
+duree: 120
+--- question
+Tu lâches une pierre du toit d'un immeuble et l'entends toucher le sol 3 secondes plus tard. Estime la hauteur (en mètres), en négligeant le temps de trajet du son et les frottements.
+--- indice
+Chute libre : $h = \frac12 g t^2$ avec $g \approx 9{,}8$ m/s$^2$.
+--- solution
+$h = \frac12 \times 9{,}8 \times 3^2 \approx$ **44 m**. Correction du son ($\sim 0{,}13$ s pour 44 m à 340 m/s) : la vraie chute dure $\sim 2{,}87$ s, soit $\sim 40$ m. Dire quelle hypothèse on néglige et dans quel sens elle biaise.
+
+=== ct-p-pistolets
+theme: casse-tete
+categorie: probas
+titre: Dix personnes tirent chacune sur une autre au hasard
+niveau: 2
+profils: mm hf banque data
+type: numerique
+reponse: 10*(8/9)^9
+duree: 240
+--- question
+Dix personnes ont chacune un pistolet à eau. Au signal, chacune vise une des neuf autres au hasard et la touche. Combien de personnes en moyenne restent sèches ?
+--- indice
+Linéarité de l'espérance : probabilité qu'une personne donnée ne soit visée par aucune des 9 autres.
+--- solution
+Une personne donnée reste sèche si chacune des 9 autres vise ailleurs : $(8/9)^9$. Par linéarité : $10\,(8/9)^9 \approx$ **3,46** personnes.
+--- variantes
+- Avec $n$ personnes, la proportion de personnes sèches tend vers $1/e \approx 0{,}37$.
+
+=== ct-p-ecart-deux-des
+theme: casse-tete
+categorie: probas
+titre: Écart moyen entre deux dés
+niveau: 1
+profils: mm hf banque data
+type: numerique
+reponse: 35/18
+duree: 180
+--- question
+On lance deux dés. Quelle est l'espérance de la valeur absolue de leur différence ?
+--- indice
+Compte les couples par écart : 6 couples d'écart 0, 10 d'écart 1, …
+--- solution
+Nombre de couples d'écart $d \ge 1$ : $2(6 - d)$. $\mathbb{E}|X - Y| = \frac{1}{36}\sum_{d=1}^{5} d \cdot 2(6 - d) = \frac{2(5 + 8 + 9 + 8 + 5)}{36} = \frac{70}{36} =$ **35/18** $\approx 1{,}94$.
+--- variantes
+- Probabilité que le produit de deux dés soit un carré parfait : $8/36 = 2/9$.
+- Espérance du minimum de deux dés : $91/36$ ; du maximum : $161/36$.
+
+=== ct-p-distance-bord-carre
+theme: casse-tete
+categorie: probas
+titre: Distance moyenne au bord le plus proche dans un carré
+niveau: 2
+profils: mm hf banque data
+type: numerique
+reponse: 1/6
+duree: 300
+--- question
+On choisit un point uniformément dans le carré unité. Quelle est l'espérance de sa distance au côté le plus proche ?
+--- indice
+La distance au bord le plus proche dépasse $t$ si le point est dans le carré central de côté $1 - 2t$.
+--- solution
+$\mathbb{P}(D > t) = (1 - 2t)^2$ pour $t \le 1/2$. $\mathbb{E}[D] = \int_0^{1/2} (1 - 2t)^2\,dt = \frac{1}{6}$. Réponse : **1/6**.
+
+=== ct-p-couleurs-main
+theme: casse-tete
+categorie: probas
+titre: Nombre moyen de couleurs dans une main de 13 cartes
+niveau: 2
+profils: mm hf
+type: numerique
+reponse: 4*(1-comb(39,13)/comb(52,13))
+duree: 300
+--- question
+On reçoit 13 cartes d'un jeu de 52. Combien de couleurs différentes (pique, cœur, carreau, trèfle) contient la main en moyenne ?
+--- indice
+Indicatrices : probabilité qu'une couleur donnée soit absente.
+--- solution
+Une couleur est absente avec probabilité $\binom{39}{13} / \binom{52}{13} \approx 0{,}0128$. Par linéarité : $4\left(1 - \frac{\binom{39}{13}}{\binom{52}{13}}\right) \approx$ **3,95**.
+
+=== ct-p-total-sept
+theme: casse-tete
+categorie: probas
+titre: Lancer un dé jusqu'à ce que le total atteigne 7
+niveau: 2
+profils: mm hf banque data
+type: numerique
+reponse: 117649/46656
+duree: 300
+--- question
+On lance un dé en additionnant les résultats jusqu'à ce que le total atteigne au moins 7. Combien de lancers en moyenne ?
+--- indice
+$e(n) = 1 + \frac16 \sum_{k=1}^{6} e(n - k)$, avec $e(m) = 0$ pour $m \le 0$. Les premiers termes ont une forme simple.
+--- solution
+Pour $1 \le n \le 6$, $e(n) = (7/6)^{n-1}$ ; puis $e(7) = 1 + \frac16 \sum_{k=1}^{6} e(7 - k) = 1 + \frac16 \sum_{j=0}^{5} (7/6)^j = (7/6)^6 = \frac{117649}{46656} \approx$ **2,52**.
+--- variantes
+- Atteindre au moins 100 : environ 29,05 lancers, soit $100/3{,}5 \approx 28{,}6$ plus une petite constante due au dépassement final (théorème du renouvellement).
+
+=== ct-partage-secret
+theme: casse-tete
+categorie: logique
+titre: Partager un code entre 5 personnes, 3 suffisent
+niveau: 3
+profils: mm hf data
+--- question
+Tu veux répartir un code secret (un nombre) entre 5 personnes de sorte que 3 d'entre elles réunies le retrouvent, mais que 2 n'en apprennent **rien**. Comment ?
+--- indice
+Deux points déterminent une droite, trois points une parabole.
+--- solution
+Schéma de Shamir : choisis un polynôme aléatoire $P(x) = s + a_1 x + a_2 x^2$ (coefficients aléatoires modulo un grand nombre premier $p$), où $s$ est le secret. Donne à la personne $i$ le point $(i, P(i))$. Trois points déterminent $P$, donc $s = P(0)$ (interpolation de Lagrange). Avec deux points, toutes les valeurs de $s$ restent également possibles : aucune information.

@@ -20,10 +20,11 @@ Pas de serveur, pas de compte, pas de connexion Internet : la page ne charge rie
 |---|---|
 | **Aujourd'hui** | Le programme du jour, le compte à rebours jusqu'au prochain entretien, la question du jour |
 | **Cours** | Un cours complet en 23 chapitres, des probabilités au calcul stochastique, au pricing (exotiques et énergie compris), au risque, au market making, au machine learning et au code : définitions, démonstrations complètes ligne à ligne, exemples chiffrés, 160 exercices à réponse vérifiée, 21 simulations interactives, et des liens vers les fiches de révision correspondantes (voir plus bas) |
-| **Révisions** | 430 questions en répétition espacée : une question ratée revient le lendemain, une question facile dans quelques semaines. Session du jour, révision par thème, banque consultable avec recherche |
+| **Révisions** | 570 questions en répétition espacée : une question ratée revient le lendemain, une question facile dans quelques semaines. Session du jour, révision par thème, banque consultable avec recherche |
 | **Calcul mental** | Format « 80 questions en 8 minutes », sprint de 2 minutes, ordres de grandeur (estimer à 5 % près), **probabilités rapides** (dés, pièces, cartes, urnes, à l'infini), **pricing d'options de tête** (calls et straddles à la monnaie, parité, forwards, delta, vega, vol implicite d'un straddle), suites logiques, entraînement libre ; courbes de progression |
 | **Entretien blanc** | Un entretien complet et chronométré, composé pour un type de maison (hedge fund, teneur de marché, banque, risque, data) : présentation, un de tes projets, technique, motivation. Après une question sur deux environ, l'intervieweur **relance** (« et avec trois dés ? », « quelle limite ? ») ; tu réponds, puis tu vois la réponse attendue. L'intervieweur peut aussi lire chaque question à voix haute (synthèse vocale du navigateur, en français ou en anglais). Et des consignes à coller dans l'application Claude pour un **entretien oral en mode vocal** |
 | **Test en ligne** | Le format des tests de présélection : questions chiffrées tirées de la banque selon le type de poste, chrono global, navigation libre entre les questions, corrigé à la fin (Entretien blanc → Test en ligne) |
+| **Casse-têtes** | Toutes les énigmes qui tombent en entretien quant, recensées sur une vingtaine de sources publiques et dédoublonnées : chaque fiche regroupe un problème et ses **variantes d'énoncé** (affichées avec la solution). Onze familles (logique, pesées, stratégie, probabilités, dénombrement, nombres, invariants, recherche optimale, géométrie, vitesses et calendriers, estimations de Fermi), recherche, filtres, compteur des énigmes **jamais vues**, tirage au hasard ou session de 5, notation reliée à la répétition espacée. Un casse-tête jamais vu est proposé chaque jour sur l'accueil |
 | **Market making** | « Fais-moi un marché sur la somme de quatre dés » : tu cotes bid/ask, des contreparties (dont certaines informées) traitent, l'information arrive tour par tour ; bilan avec avantage à la valeur juste et sélection adverse. Onglet **Paris répétés** : combien miser sur un pari favorable ? Ta richesse comparée à Kelly, demi-Kelly et double Kelly sur les mêmes tirages |
 | **Mes histoires** | Les réponses de parcours et de motivation (présente-toi, pourquoi le quant, stage actuel, échec, IA…), en français **et en anglais**, avec consignes, compteur de durée à l'oral et chrono de répétition ; elles peuvent être ajoutées aux consignes de l'entretien oral avec Claude pour qu'il les challenge |
 | **Journal** | Tes vrais entretiens : liste de préparation J−7 / J−1 / Jour J, **fiche de préparation imprimable** par entretien (tes notes, présentation, « pourquoi nous », questions à poser, les 15 questions techniques à revoir pour ce type de maison), et les questions posées deviennent des fiches de révision |
@@ -34,14 +35,16 @@ Pas de serveur, pas de compte, pas de connexion Internet : la page ne charge rie
 
 | Thème | Fiches | Thème | Fiches |
 |---|---|---|---|
-| Probabilités | 80 | Produits dérivés et pricing | 58 |
-| Statistiques et économétrie | 41 | Code et algorithmique | 39 |
-| Calcul stochastique | 37 | Marchés et trading | 33 |
-| Machine learning | 31 | Projets types | 30 |
-| Taux, crédit et XVA | 27 | Casse-têtes | 22 |
+| Casse-têtes | 164 | Probabilités | 78 |
+| Produits dérivés et pricing | 58 | Statistiques et économétrie | 41 |
+| Code et algorithmique | 39 | Calcul stochastique | 37 |
+| Marchés et trading | 33 | Machine learning | 31 |
+| Projets types | 30 | Taux, crédit et XVA | 27 |
 | Chiffres à connaître | 16 | Motivation et parcours | 16 |
 
-Chaque fiche a une solution rédigée, souvent un indice, le **piège classique** et les **relances probables** de l'intervieweur ; la plupart ont aussi une formulation en anglais (touche `e`). Les 218 questions à réponse chiffrée acceptent `1/6`, `0,1667`, `16,7 %`, `e^-1`, `√2/2`…
+Toutes les formules (fiches, variantes, guides, simulations) sont écrites en LaTeX et rendues par KaTeX, hors ligne ; un test vérifie que chacune se compile et qu'aucun symbole mathématique ne reste en texte simple.
+
+Chaque fiche a une solution rédigée, souvent un indice, le **piège classique** et les **relances probables** de l'intervieweur ; la plupart ont aussi une formulation en anglais (touche `e`). Les 309 questions à réponse chiffrée acceptent `1/6`, `0,1667`, `16,7 %`, `e^-1`, `√2/2`…
 
 **Chaque réponse chiffrée est vérifiée par un calcul indépendant** dans `tests/verifs.py` : dénombrement exhaustif, chaîne de Markov résolue en fractions exactes, intégration numérique, programmation dynamique ou Monte-Carlo à graine fixe. Les prix d'options, par exemple, sont recalculés par intégration contre la densité log-normale, sans utiliser la formule de Black-Scholes. Une fiche ajoutée sans vérification fait échouer les tests.
 
@@ -95,7 +98,11 @@ You roll two fair dice. What is the probability that the sum is 7?
 --- piege
 --- relances
 - une relance par ligne
+--- variantes
+- une variante d'énoncé par ligne (casse-têtes)
 ```
+
+Les formules s'écrivent en LaTeX entre `$…$` (ou `$$…$$` sur une ligne à part) ; un dollar se note `\$`. Une fiche porte en plus `categorie:` et `titre:` pour figurer dans la section Casse-têtes (familles listées dans `construire.py`). `python outils/formules.py fichier.txt` propose une conversion des formules écrites en texte simple, à relire.
 
 Puis `python construire.py` régénère `app/banque.js` (que la page charge). Pour une question numérique, ajouter sa vérification dans `tests/verifs.py`. Les questions posées en vrai s'ajoutent plus simplement depuis le Journal, sans toucher aux fichiers.
 

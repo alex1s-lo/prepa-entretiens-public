@@ -40,3 +40,49 @@ test('chaque formule du cours se compile avec KaTeX', () => {
   assert.ok(total > 100, 'peu de formules trouvées : ' + total);
   assert.deepEqual(erreurs, []);
 });
+
+function chargerBanque() {
+  const ctx = { window: {} };
+  vm.runInNewContext(fs.readFileSync(path.join(racine, 'app', 'banque.js'), 'utf8'), ctx);
+  return ctx.window.PREPA_BANQUE;
+}
+function textesFiche(f) {
+  return [f.titre, f.question, f.en, f.indice, f.solution, f.piege].concat(f.relances || [], f.variantes || []).filter(Boolean);
+}
+
+test('chaque formule des fiches, des variantes et des guides se compile avec KaTeX', () => {
+  const banque = chargerBanque();
+  let total = 0;
+  const erreurs = [];
+  const textes = [];
+  banque.fiches.forEach(function (f) { textesFiche(f).forEach(function (t) { textes.push([f.id, t]); }); });
+  banque.guides.forEach(function (g) { textes.push([g.id, g.texte]); });
+  for (const [id, t] of textes) {
+    for (const f of formules(t)) {
+      total++;
+      try {
+        katex.renderToString(f.tex, { displayMode: f.bloc, throwOnError: true, strict: 'ignore' });
+      } catch (e) {
+        erreurs.push(id + ' : ' + f.tex.slice(0, 80) + ' → ' + e.message.slice(0, 120));
+      }
+    }
+  }
+  assert.ok(total > 2500, 'peu de formules trouvées : ' + total);
+  assert.deepEqual(erreurs, []);
+});
+
+test('aucun symbole mathématique hors d’une formule dans les fiches et les guides', () => {
+  const banque = chargerBanque();
+  // flèche « → » autorisée en prose (« Réglages → profil »), comme « ° » et « % »
+  const symbole = /[²³⁴⁵⁶⁷⁸⁹⁰¹ⁿ₀₁₂₃₄₅₆₇₈₉ₙᵢₜ√σμρλπθαβγδεκΣ∑∫≈≤≥×∞≠±Δℓ]/;
+  const fautes = [];
+  const verifier = function (id, t) {
+    const hors = t.replace(/```[\s\S]*?```/g, '').replace(/`[^`\n]*`/g, '').replace(/\b(?:k?m|cm|mm|m\/s)[²³]/g, '')
+      .replace(/\$\$[\s\S]+?\$\$/g, '').replace(/(^|[^\\])\$([^$\n]+?)\$/g, '$1');
+    const m = symbole.exec(hors);
+    if (m) fautes.push(id + ' : « ' + hors.slice(Math.max(0, m.index - 30), m.index + 30).replace(/\n/g, ' ') + ' »');
+  };
+  banque.fiches.forEach(function (f) { textesFiche(f).forEach(function (t) { verifier(f.id, t); }); });
+  banque.guides.forEach(function (g) { verifier(g.id, g.texte); });
+  assert.deepEqual(fautes, []);
+});

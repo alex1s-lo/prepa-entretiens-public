@@ -1,0 +1,110 @@
+# Casse-têtes : invariants, parité, coloriage (prouver qu'une chose est impossible).
+
+=== ct-echiquier-dominos
+theme: casse-tete
+categorie: invariants
+titre: Échiquier privé de deux coins opposés et dominos
+niveau: 1
+profils: mm hf banque data
+--- question
+On retire deux coins opposés d'un échiquier $8 \times 8$. Peut-on paver les 62 cases restantes avec 31 dominos $2 \times 1$ ?
+--- indice
+Chaque domino couvre une case blanche et une case noire. De quelle couleur sont les deux coins retirés ?
+--- solution
+**Non**. Les deux coins opposés sont de la même couleur : il reste 32 cases d'une couleur et 30 de l'autre, alors que 31 dominos couvrent 31 cases de chaque couleur.
+--- variantes
+- Retirer deux cases de couleurs **différentes**, n'importe où : le pavage est toujours possible (théorème de Gomory, par un circuit hamiltonien).
+- Paver un $10 \times 10$ avec des barres $1 \times 4$ : impossible, par un coloriage en 4 couleurs le long des diagonales (25 cases d'une couleur seraient à couvrir différemment).
+- Paver un $6 \times 6$ avec des triminos droits $1 \times 3$ : possible (12 triminos) ; avec un trou au centre d'un $5 \times 5$ : la position du trou se décide par coloriage modulo 3.
+
+=== ct-cameleons
+theme: casse-tete
+categorie: invariants
+titre: Caméléons de trois couleurs
+niveau: 2
+profils: mm hf
+--- question
+Sur une île vivent 13 caméléons gris, 15 bruns et 17 pourpres. Quand deux caméléons de couleurs différentes se rencontrent, tous deux prennent la troisième couleur. Peuvent-ils un jour être tous de la même couleur ?
+--- indice
+Regarde les différences des effectifs deux à deux, modulo 3.
+--- solution
+Une rencontre change les effectifs $(g, b, p)$ en $(g - 1, b - 1, p + 2)$ (ou permutations) : chaque différence varie de 0 ou de $\pm 3$. Les différences **modulo 3** sont invariantes. Au départ : $b - g = 2$, $p - b = 2$, $p - g = 4 \equiv 1$. Tous de la même couleur exigerait deux effectifs nuls, donc une différence $\equiv 0$ : aucune n'est multiple de 3. **Impossible**.
+--- variantes
+- 13, 15, 16 : la différence $16 - 13 = 3$ est multiple de 3, et tous peuvent devenir bruns.
+
+=== ct-poignees-impaires
+theme: casse-tete
+categorie: invariants
+titre: Ceux qui ont serré un nombre impair de mains
+niveau: 1
+profils: mm hf banque data
+--- question
+À une soirée, certaines personnes se serrent la main. Montre que le nombre de personnes ayant serré un nombre **impair** de mains est pair.
+--- indice
+Additionne le nombre de mains serrées par chacun.
+--- solution
+La somme des nombres de mains serrées vaut deux fois le nombre de poignées de main (chacune compte pour deux personnes) : elle est paire. Une somme d'entiers est paire si et seulement si elle contient un nombre pair de termes impairs. C'est le lemme des poignées de main de la théorie des graphes.
+
+=== ct-tableau-effacer
+theme: casse-tete
+categorie: invariants
+titre: Effacer deux nombres et écrire leur différence
+niveau: 2
+profils: mm hf
+--- question
+Les nombres 1, 2, …, 10 sont écrits au tableau. À chaque étape, on efface deux nombres $a$ et $b$ et on écrit $|a - b|$. À la fin, il reste un seul nombre : peut-il valoir 0 ?
+--- indice
+Que devient la parité de la somme des nombres au tableau ?
+--- solution
+$a + b$ et $|a - b|$ ont la même parité : la parité de la somme est invariante. Au départ, $1 + \dots + 10 = 55$ est impair ; le dernier nombre est donc impair : **jamais 0**.
+--- variantes
+- On écrit $a + b + ab$ à la place : l'invariant est $\prod (1 + x_i)$, qui ne change pas ; avec 1 à 10, le dernier nombre vaut $11! - 1 = 39\,916\,799$, quel que soit l'ordre.
+- On écrit $a + b$ ou $a - b$ au choix : seule la parité est contrainte.
+
+=== ct-puzzle-15
+theme: casse-tete
+categorie: invariants
+titre: Le taquin dont on a échangé deux pièces
+niveau: 3
+profils: mm hf
+--- question
+Au taquin (15 pièces numérotées dans un carré $4 \times 4$ avec une case vide), on échange les pièces 14 et 15 à la main. Peut-on revenir à l'ordre normal en faisant glisser les pièces ?
+--- indice
+Chaque glissement est une transposition avec la case vide. Que font la parité de la permutation et la position de la case vide ?
+--- solution
+Considère la permutation des 16 cases (case vide comprise) : chaque glissement est une transposition et change sa parité ; il déplace aussi la case vide d'une case, ce qui change la couleur (damier) de sa position. La quantité « parité de la permutation + couleur de la case vide » est donc invariante. Échanger 14 et 15 change la parité sans bouger la case vide : **impossible** (Sam Loyd offrait 1 000 \$ pour une solution).
+
+=== ct-recouvrement-pieces
+theme: casse-tete
+categorie: invariants
+titre: Retourner trois pièces à la fois
+niveau: 2
+profils: mm hf
+--- question
+Neuf pièces en carré $3 \times 3$, toutes côté pile sauf celle du centre, côté face. Une opération retourne les trois pièces d'une ligne ou d'une colonne. Peut-on obtenir toutes les pièces côté pile ?
+--- indice
+Regarde la parité du nombre de faces dans un sous-ensemble bien choisi de pièces.
+--- solution
+Regarde la parité du nombre de faces parmi les cases $\{(1,1), (1,2), (2,1), (2,2)\}$ (un carré $2 \times 2$). Toute ligne ou colonne en contient 0 ou 2 : l'opération ne change pas la parité. Au départ, une seule face (le centre) : impair. À l'arrivée : 0, pair. **Impossible**.
+
+=== ct-fourmis
+theme: casse-tete
+categorie: invariants
+titre: 100 fourmis sur un bâton qui font demi-tour
+niveau: 2
+profils: mm hf banque data
+type: numerique
+reponse: 100
+duree: 240
+--- question
+100 fourmis sont posées au hasard sur un bâton d'un mètre, chacune orientée au hasard vers la gauche ou la droite. Elles avancent à 1 cm/s ; quand deux fourmis se rencontrent, elles font demi-tour ; une fourmi qui atteint un bout tombe. Au pire, combien de secondes avant que toutes soient tombées ?
+--- en
+100 ants are placed randomly on a 1 m stick, each facing left or right at random, moving at 1 cm/s. When two ants meet they both turn around; ants fall off at the ends. In the worst case, how many seconds until all have fallen?
+--- indice
+Si l'on ne regarde pas les noms des fourmis, qu'est-ce qui change quand deux fourmis font demi-tour ?
+--- solution
+Deux fourmis qui se croisent et font demi-tour se comportent exactement comme si elles se traversaient (on échange juste leurs noms). Chaque « trajectoire » parcourt au plus 100 cm : **100 secondes** au pire.
+--- variantes
+- Nombre total de rencontres : le nombre de paires (fourmi vers la droite à gauche d'une fourmi vers la gauche).
+- Fourmis sur un **cercle** : au bout d'un tour complet, la configuration des positions est la même, à une rotation des noms près.
+- Trois fourmis aux sommets d'un triangle, chacune part au hasard vers un voisin : probabilité de collision $1 - 2/8 = 3/4$.

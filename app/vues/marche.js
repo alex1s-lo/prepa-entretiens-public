@@ -26,7 +26,7 @@
       'Ce qu’on regarde : ton espérance est-elle juste, ton écart reflète-t-il l’incertitude, et apprends-tu des ordres que tu reçois ?</p>' +
       '<details><summary>Comment bien jouer</summary>' + o.markdown([
         '- **Centre** ta cotation sur l’espérance : un dé vaut 3,5 en moyenne, donc quatre dés valent 14 avant toute information.',
-        '- **Écarte** quand l’incertitude est grande (écart-type d’un dé : √(35/12) ≈ 1,71 ; de n dés : 1,71·√n), resserre quand elle baisse.',
+        '- **Écarte** quand l’incertitude est grande (écart-type d’un dé : $\\sqrt{35/12} \\approx 1{,}71$ ; de $n$ dés : $1{,}71\\sqrt{n}$), resserre quand elle baisse.',
         '- **Écoute les ordres** : une contrepartie informée achète quand ton ask est trop bas. Un achat est un indice que la valeur est plus haute.',
         '- **Gère ton inventaire** : si tu es déjà très vendeur, remonte un peu tes prix pour être plutôt acheteur au tour suivant.',
         '- **Cartes** : le tirage est sans remise. Après avoir vu un roi, l’espérance d’une carte suivante baisse un peu (somme du paquet 364 ; moyenne 7).'
@@ -170,10 +170,10 @@
       'Combien mises-tu à chaque fois ? » Trop peu, tu gâches ton avantage ; trop, tu finis ruiné même avec un pari gagnant. ' +
       'Joue une série de paris, puis compare ta richesse à celle des stratégies de Kelly <b>sur les mêmes tirages</b>.</p>' +
       '<details><summary>Le critère de Kelly en bref</summary>' + o.markdown([
-        '- Miser la fraction **f\u22c6 = (b·p − q)/b** de sa richesse maximise la croissance à long terme (p : probabilité de gagner, q = 1 − p, b : gain par euro misé).',
-        '- Pièce à 60 % et cote 1 contre 1 : f\u22c6 = 0,6 − 0,4 = **20 %**.',
-        '- Miser **2 × f\u22c6** ramène la croissance à environ zéro ; au-delà, la richesse tend vers 0 presque sûrement, malgré une espérance positive.',
-        '- En pratique on mise souvent **une demi-fraction de Kelly** : on garde environ 75 % de la croissance avec deux fois moins de volatilité, et on se protège d\u2019une erreur sur p.'
+        '- Miser la fraction **$f^{\\star} = (bp - q)/b$** de sa richesse maximise la croissance à long terme ($p$ : probabilité de gagner, $q = 1 - p$, $b$ : gain par euro misé).',
+        '- Pièce à 60 % et cote 1 contre 1 : $f^{\\star} = 0{,}6 - 0{,}4 =$ **20 %**.',
+        '- Miser **$2f^{\\star}$** ramène la croissance à environ zéro ; au-delà, la richesse tend vers 0 presque sûrement, malgré une espérance positive.',
+        '- En pratique on mise souvent **une demi-fraction de Kelly** : on garde environ 75 % de la croissance avec deux fois moins de volatilité, et on se protège d\u2019une erreur sur $p$.'
       ].join('\n')) + '</details></div>' +
       '<form class="carte" data-kelly><div class="grille" style="margin:0">' +
       '<div><label for="k-p">Probabilité de gagner</label><select id="k-p"><option value="0.55">55 %</option><option value="0.6" selected>60 %</option>' +

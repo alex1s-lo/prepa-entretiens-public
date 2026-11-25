@@ -167,6 +167,7 @@
     guides: '<path d="M14 2.5H6.5a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V8z"/><path d="M14 2.5V8h5.5"/><path d="M8.5 13h7M8.5 17h4.5"/>',
     progres: '<path d="M3.5 20.5h17"/><path d="M7 16.5v-5M12 16.5V6.5M17 16.5v-8"/>',
     reglages: '<path d="M4 6.5h9M17 6.5h3M4 12h3M11 12h9M4 17.5h11M19 17.5h1"/><circle cx="15" cy="6.5" r="2"/><circle cx="9" cy="12" r="2"/><circle cx="17" cy="17.5" r="2"/>',
+    'casse-tetes': '<path d="M9.5 4.5a2.5 2.5 0 0 1 5 0V6H18a1 1 0 0 1 1 1v3.5h-1.5a2.5 2.5 0 0 0 0 5H19V19a1 1 0 0 1-1 1h-3.5v-1.5a2.5 2.5 0 0 0-5 0V20H6a1 1 0 0 1-1-1v-3.5h1.5a2.5 2.5 0 0 0 0-5H5V7a1 1 0 0 1 1-1h3.5z"/>',
     test: '<circle cx="12" cy="13.5" r="7.5"/><path d="M12 10v3.5l2 2M9.5 2.5h5"/>',
     plus: '<circle cx="5.5" cy="12" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="18.5" cy="12" r="1.2"/>'
   };
@@ -181,7 +182,7 @@
   const GROUPES = [
     { titre: '', ids: ['accueil'] },
     { titre: 'Apprendre', ids: ['cours', 'revisions', 'calcul'] },
-    { titre: 'S’entraîner', ids: ['entretien', 'marche'] },
+    { titre: 'S’entraîner', ids: ['entretien', 'casse-tetes', 'marche'] },
     { titre: 'Préparer', ids: ['histoires', 'journal', 'guides'] },
     { titre: 'Suivi', ids: ['progres', 'reglages'] }
   ];
