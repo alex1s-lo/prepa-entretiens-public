@@ -1561,9 +1561,6 @@ window.PREPA_BANQUE = {
    "question": "Trois boîtes portent les étiquettes « pommes », « oranges » et « mélange », mais **toutes** les étiquettes sont fausses. Tu peux tirer des fruits sans regarder dans les boîtes. Combien de fruits faut-il tirer au minimum pour réétiqueter correctement les trois boîtes ?",
    "solution": "La boîte « mélange » n'est pas le mélange : elle ne contient qu'un seul type de fruit. Tire **un fruit** : si c'est une pomme, c'est la boîte de pommes. La boîte étiquetée « oranges » n'est ni les oranges ni (désormais) les pommes : c'est le mélange ; la dernière est les oranges.",
    "indice": "Commence par la boîte étiquetée « mélange » : que contient-elle forcément ?",
-   "variantes": [
-    "Tirer dans la boîte « pommes » ne suffit pas : une orange laisse deux possibilités."
-   ],
    "categorie": "logique",
    "titre": "Trois boîtes toutes mal étiquetées",
    "reponse": "1",
@@ -1585,11 +1582,6 @@ window.PREPA_BANQUE = {
    "question": "Une batte et une balle coûtent 1,10 € au total. La batte coûte 1 € de plus que la balle. Combien coûte la balle (en euros) ?",
    "solution": "Balle $x$, batte $x + 1$ : $2x + 1 = 1{,}10$, donc $x =$ **0,05 €**. La réponse intuitive (0,10 €) donnerait une batte à 1,10 € et un total de 1,20 €. Ces questions testent le réflexe de **vérifier** avant d'annoncer.",
    "indice": "Ce n'est pas 0,10 € : vérifie la réponse intuitive.",
-   "variantes": [
-    "5 machines font 5 objets en 5 minutes : 100 machines font 100 objets en **5 minutes**.",
-    "Une brique pèse 1 kg plus la moitié d'une brique : elle pèse **2 kg**.",
-    "Une action perd 50 % puis gagne 50 % : elle a perdu 25 %."
-   ],
    "categorie": "nombres",
    "titre": "Batte et balle à 1,10 € (pièges de l'intuition)",
    "reponse": "0.05",
@@ -1610,9 +1602,6 @@ window.PREPA_BANQUE = {
    "question": "100 personnes numérotées de 1 à 100 sont en cercle. En partant de la 1, on élimine une personne sur deux (la 2, puis la 4, …) en tournant autour du cercle jusqu'à ce qu'il n'en reste qu'une. Quel numéro survit ?",
    "solution": "Avec $n = 2^m + \\ell$ ($0 \\le \\ell < 2^m$), après $\\ell$ éliminations il reste $2^m$ personnes et c'est au tour de la personne $2\\ell + 1$, qui survivra. $100 = 64 + 36$ : survivant $2 \\times 36 + 1 =$ **73**. En binaire : faire tourner le premier bit à la fin ($1100100 \\to 1001001 = 73$).",
    "indice": "Avec $2^m$ personnes, c'est la n° 1 qui survit. Écris $100 = 64 + 36$.",
-   "variantes": [
-    "41 personnes, une sur trois éliminée : le survivant est le n° 31 (récurrence $J(n) = (J(n - 1) + k) \\bmod n$)."
-   ],
    "categorie": "nombres",
    "titre": "Le problème de Josèphe (éliminer une personne sur deux)",
    "reponse": "73",
@@ -1634,9 +1623,6 @@ window.PREPA_BANQUE = {
    "question": "Combien de coups faut-il au minimum à un cavalier pour aller de a1 à h8 ?",
    "solution": "Chaque coup augmente la somme $x + y$ d'au plus 3, et il faut gagner 14 : au moins 5 coups. Mais un coup de cavalier change la couleur de la case, et a1 et h8 sont de la même couleur : il faut un nombre pair de coups, donc au moins 6. Six coups suffisent : a1, b3, c5, d7, f8, g6, h8. Réponse : **6** (un parcours en largeur le confirme).",
    "indice": "Chaque coup change la somme des coordonnées de 1 ou 3 ; il faut la faire varier de 14.",
-   "variantes": [
-    "Parcours en largeur sur un graphe : méthode générale pour tous les « nombre minimal de coups »."
-   ],
    "categorie": "recherche",
    "titre": "Le cavalier d'un coin à l'autre de l'échiquier",
    "reponse": "6",
@@ -1658,9 +1644,6 @@ window.PREPA_BANQUE = {
    "question": "Combien de rois au maximum peut-on placer sur un échiquier $8 \\times 8$ sans que deux d'entre eux s'attaquent ?",
    "solution": "Chacun des 16 blocs $2 \\times 2$ contient au plus un roi (deux rois dans un même bloc se touchent) : au plus 16. Et 16 est atteint (un roi dans le coin inférieur gauche de chaque bloc). **16**.",
    "indice": "Découpe l'échiquier en blocs $2 \\times 2$.",
-   "variantes": [
-    "Cavaliers : 32 (toutes les cases d'une couleur). Dames : 8 (92 solutions). Tours : 8."
-   ],
    "categorie": "denombrement",
    "titre": "Placer un maximum de rois qui ne s'attaquent pas",
    "reponse": "16",
@@ -1682,9 +1665,6 @@ window.PREPA_BANQUE = {
    "question": "Dans un pays, chaque famille fait des enfants jusqu'au premier garçon, puis s'arrête. Garçons et filles sont équiprobables. À long terme, quelle est la proportion de filles ?",
    "solution": "**Une moitié**. Chaque naissance est un tirage équitable indépendant : aucune règle d'arrêt ne change la proportion (théorème d'arrêt). Par famille : exactement 1 garçon, et en moyenne $\\sum_{k \\ge 0} k\\,2^{-(k+1)} = 1$ fille.",
    "indice": "Chaque naissance reste un pile ou face équitable, quelle que soit la règle d'arrêt.",
-   "variantes": [
-    "Le nombre moyen d'enfants par famille est 2."
-   ],
    "categorie": "probas",
    "titre": "Le pays où chaque famille s'arrête au premier garçon"
   },
@@ -1717,10 +1697,6 @@ window.PREPA_BANQUE = {
    "question": "Montre qu'à tout instant, il existe deux points diamétralement opposés de l'équateur qui ont exactement la même température.",
    "solution": "$g(\\theta) = T(\\theta) - T(\\theta + \\pi)$ est continue et $g(\\theta + \\pi) = -g(\\theta)$ : elle prend des valeurs de signes opposés (ou nulles), donc s'annule par le théorème des valeurs intermédiaires. En ce point, les températures sont égales.",
    "indice": "Considère $g(\\theta) = T(\\theta) - T(\\theta + \\pi)$ sur l'équateur.",
-   "variantes": [
-    "Un moine monte une montagne de 7 h à 19 h, en redescend le lendemain aux mêmes heures : il passe à la même heure au même endroit les deux jours (même argument).",
-    "Théorème de Borsuk-Ulam : sur la sphère, il existe deux points antipodaux de même température **et** même pression."
-   ],
    "categorie": "geometrie",
    "titre": "Deux points opposés de l'équateur à la même température"
   },
@@ -1812,9 +1788,6 @@ window.PREPA_BANQUE = {
    "question": "De combien de façons peut-on écrire 1 000 comme somme d'un ou plusieurs entiers **positifs consécutifs** ?",
    "solution": "$2000 = k(2m + k - 1)$ avec $k < 2m + k - 1$ de parités opposées : chaque façon correspond à un **diviseur impair** de 1 000. $1\\,000 = 2^3 \\times 5^3$ a 4 diviseurs impairs (1, 5, 25, 125) : **4 façons** ($1\\,000$ ; $198 + \\dots + 202$ ; $28 + \\dots + 52$ ; $55 + \\dots + 70$).",
    "indice": "Une somme de $k$ consécutifs à partir de $m$ vaut $k(2m + k - 1)/2$. Les deux facteurs $k$ et $2m + k - 1$ sont de parités différentes.",
-   "variantes": [
-    "Les puissances de 2 sont les seuls entiers qui ne s'écrivent pas comme somme d'au moins deux entiers consécutifs."
-   ],
    "categorie": "nombres",
    "titre": "Écrire 1 000 comme somme d'entiers consécutifs",
    "reponse": "4",
@@ -1894,9 +1867,6 @@ window.PREPA_BANQUE = {
    "question": "Dix personnes ont chacune un pistolet à eau. Au signal, chacune vise une des neuf autres au hasard et la touche. Combien de personnes en moyenne restent sèches ?",
    "solution": "Une personne donnée reste sèche si chacune des 9 autres vise ailleurs : $(8/9)^9$. Par linéarité : $10\\,(8/9)^9 \\approx$ **3,46** personnes.",
    "indice": "Linéarité de l'espérance : probabilité qu'une personne donnée ne soit visée par aucune des 9 autres.",
-   "variantes": [
-    "Avec $n$ personnes, la proportion de personnes sèches tend vers $1/e \\approx 0{,}37$."
-   ],
    "categorie": "probas",
    "titre": "Dix personnes tirent chacune sur une autre au hasard",
    "reponse": "10*(8/9)^9",
@@ -1918,10 +1888,6 @@ window.PREPA_BANQUE = {
    "question": "On lance deux dés. Quelle est l'espérance de la valeur absolue de leur différence ?",
    "solution": "Nombre de couples d'écart $d \\ge 1$ : $2(6 - d)$. $\\mathbb{E}|X - Y| = \\frac{1}{36}\\sum_{d=1}^{5} d \\cdot 2(6 - d) = \\frac{2(5 + 8 + 9 + 8 + 5)}{36} = \\frac{70}{36} =$ **35/18** $\\approx 1{,}94$.",
    "indice": "Compte les couples par écart : 6 couples d'écart 0, 10 d'écart 1, …",
-   "variantes": [
-    "Probabilité que le produit de deux dés soit un carré parfait : $8/36 = 2/9$.",
-    "Espérance du minimum de deux dés : $91/36$ ; du maximum : $161/36$."
-   ],
    "categorie": "probas",
    "titre": "Écart moyen entre deux dés",
    "reponse": "35/18",
@@ -1983,9 +1949,6 @@ window.PREPA_BANQUE = {
    "question": "On lance un dé en additionnant les résultats jusqu'à ce que le total atteigne au moins 7. Combien de lancers en moyenne ?",
    "solution": "Pour $1 \\le n \\le 6$, $e(n) = (7/6)^{n-1}$ ; puis $e(7) = 1 + \\frac16 \\sum_{k=1}^{6} e(7 - k) = 1 + \\frac16 \\sum_{j=0}^{5} (7/6)^j = (7/6)^6 = \\frac{117649}{46656} \\approx$ **2,52**.",
    "indice": "$e(n) = 1 + \\frac16 \\sum_{k=1}^{6} e(n - k)$, avec $e(m) = 0$ pour $m \\le 0$. Les premiers termes ont une forme simple.",
-   "variantes": [
-    "Atteindre au moins 100 : environ 29,05 lancers, soit $100/3{,}5 \\approx 28{,}6$ plus une petite constante due au dépassement final (théorème du renouvellement)."
-   ],
    "categorie": "probas",
    "titre": "Lancer un dé jusqu'à ce que le total atteigne 7",
    "reponse": "117649/46656",
@@ -2024,10 +1987,6 @@ window.PREPA_BANQUE = {
    "solution": "Un carré de côté $k$ peut se placer de $(9 - k)^2$ façons :\n$$\\sum_{k=1}^{8} k^2 = \\frac{8 \\times 9 \\times 17}{6} = 204.$$\nRéponse : **204**.",
    "en": "How many squares of all sizes are there on an $8 \\times 8$ chessboard?",
    "indice": "Un carré de côté $k$ : combien de positions possibles pour son coin supérieur gauche ?",
-   "variantes": [
-    "**Rectangles** : on choisit 2 lignes verticales parmi 9 et 2 horizontales parmi 9 : $\\binom{9}{2}^2 = 1\\,296$.",
-    "Grille $n \\times n$ : $n(n + 1)(2n + 1)/6$ carrés et $\\binom{n+1}{2}^2$ rectangles."
-   ],
    "categorie": "denombrement",
    "titre": "Carrés et rectangles d'un échiquier",
    "reponse": "204",
@@ -2050,10 +2009,6 @@ window.PREPA_BANQUE = {
    "solution": "$\\binom{20}{2} = \\frac{20 \\times 19}{2} =$ **190**.",
    "en": "20 people each shake hands once with everyone else. How many handshakes?",
    "indice": "Une poignée de main = une paire de personnes.",
-   "variantes": [
-    "Diagonales d'un décagone : $\\binom{10}{2} - 10 = 35$ (paires de sommets moins les côtés).",
-    "Matchs d'un championnat aller-retour à 20 équipes : $20 \\times 19 = 380$."
-   ],
    "categorie": "denombrement",
    "titre": "Poignées de main entre 20 personnes",
    "reponse": "190",
@@ -2076,10 +2031,6 @@ window.PREPA_BANQUE = {
    "solution": "Unités : 1, 11, 21, …, 91 → 10. Dizaines : 10 à 19 → 10. Centaines : 100 → 1. Total **21**.",
    "en": "How many times do you write the digit 1 when writing all numbers from 1 to 100?",
    "indice": "Compte séparément les unités, les dizaines et les centaines.",
-   "variantes": [
-    "Le chiffre 7 entre 1 et 100 : $10 + 10 = 20$.",
-    "Le chiffre 1 entre 1 et 1 000 : $100 + 100 + 100 + 1 = 301$."
-   ],
    "categorie": "denombrement",
    "titre": "Combien de chiffres 1 en écrivant 1 à 100 ?",
    "reponse": "21",
@@ -2101,9 +2052,6 @@ window.PREPA_BANQUE = {
    "question": "Combien d'arrangements distincts des lettres du mot MISSISSIPPI ?",
    "solution": "$$\\frac{11!}{4!\\,4!\\,2!} = 34\\,650.$$\nOn divise par les permutations des lettres identiques, qui ne créent pas de mot nouveau.",
    "indice": "11 lettres, dont des répétitions : M une fois, I quatre fois, S quatre fois, P deux fois.",
-   "variantes": [
-    "Nombre de mains de 13 cartes : $\\binom{52}{13} \\approx 6{,}35 \\times 10^{11}$."
-   ],
    "categorie": "denombrement",
    "titre": "Anagrammes de MISSISSIPPI",
    "reponse": "34650",
@@ -2125,17 +2073,15 @@ window.PREPA_BANQUE = {
    "question": "De combien de façons peut-on paver un rectangle de $2 \\times 10$ avec des dominos $1 \\times 2$ ?",
    "solution": "Soit $a_n$ le nombre de pavages de $2 \\times n$. La première colonne est couverte soit par un domino vertical (reste $2 \\times (n - 1)$), soit par deux horizontaux (reste $2 \\times (n - 2)$) : $a_n = a_{n-1} + a_{n-2}$, avec $a_1 = 1$, $a_2 = 2$. Suite de Fibonacci : $1, 2, 3, 5, 8, 13, 21, 34, 55, 89$ : **89**.",
    "indice": "Regarde la colonne de gauche : un domino vertical, ou deux horizontaux empilés.",
-   "variantes": [
-    "Monter un escalier de 10 marches par pas de 1 ou 2 : même récurrence, 89 (voir la fiche de code « escalier »).",
-    "Mots binaires de longueur 10 sans deux 1 consécutifs : $F_{12} = 144$.",
-    "Sous-ensembles de $\\{1, \\dots, 10\\}$ sans deux entiers consécutifs : 144 (même bijection)."
-   ],
    "categorie": "denombrement",
    "titre": "Paver une bande $2 \\times 10$ avec des dominos",
    "reponse": "89",
    "valeur": 89.0,
    "tolerance": 0.005,
-   "duree": 180
+   "duree": 180,
+   "voir": [
+    "algo-escalier"
+   ]
   },
   {
    "id": "ct-regions-cercle",
@@ -2149,10 +2095,6 @@ window.PREPA_BANQUE = {
    "question": "On place 6 points sur un cercle et on trace toutes les cordes qui les relient (sans que trois cordes soient concourantes à l'intérieur). En combien de régions le disque est-il découpé ?",
    "solution": "Formule d'Euler, ou ajout des cordes une à une : chaque corde ajoute 1 région plus 1 par croisement. Régions $= 1 + \\binom{n}{2} + \\binom{n}{4}$. Pour $n = 6$ : $1 + 15 + 15 =$ **31**, et non 32.\nLe piège est classique : 1, 2, 4, 8, 16, **31** pour $n = 1$ à 6.",
    "indice": "Les premiers termes 1, 2, 4, 8, 16 trompent. Compte les points d'intersection : chacun correspond à un choix de 4 points.",
-   "variantes": [
-    "Pizza coupée par 7 droites : au plus $1 + 7 + \\binom{7}{2} = 29$ parts (nombre du traiteur paresseux, $1 + n + \\binom{n}{2}$).",
-    "Gâteau coupé par 5 plans : au plus $\\binom{5}{0} + \\binom{5}{1} + \\binom{5}{2} + \\binom{5}{3} = 26$ morceaux."
-   ],
    "categorie": "denombrement",
    "titre": "Régions d'un disque coupé par les cordes de 6 points",
    "reponse": "31",
@@ -2195,10 +2137,6 @@ window.PREPA_BANQUE = {
    "question": "Combien d'entiers positifs inférieurs à 1 000 ne s'écrivent qu'avec des chiffres impairs ?",
    "solution": "5 choix par chiffre : $5 + 5^2 + 5^3 = 5 + 25 + 125 =$ **155**.",
    "indice": "Sépare selon le nombre de chiffres.",
-   "variantes": [
-    "Palindromes à 3 chiffres : $9 \\times 10 = 90$.",
-    "Entiers à 4 chiffres tous distincts : $9 \\times 9 \\times 8 \\times 7 = 4\\,536$."
-   ],
    "categorie": "denombrement",
    "titre": "Entiers sous 1 000 aux chiffres tous impairs",
    "reponse": "155",
@@ -2241,10 +2179,6 @@ window.PREPA_BANQUE = {
    "question": "Combien de triplets d'entiers $x, y, z \\ge 0$ vérifient $x + y + z = 10$ ?",
    "solution": "On place 2 barres parmi $10 + 2 = 12$ positions : $\\binom{12}{2} =$ **66**.",
    "indice": "Dix étoiles et deux barres de séparation.",
-   "variantes": [
-    "Entiers strictement positifs : $\\binom{9}{2} = 36$.",
-    "Répartir 10 bonbons identiques entre 3 enfants : même problème."
-   ],
    "categorie": "denombrement",
    "titre": "Solutions entières de x + y + z = 10",
    "reponse": "66",
@@ -2264,9 +2198,6 @@ window.PREPA_BANQUE = {
    "question": "Combien de bracelets différents peut-on faire avec 6 perles, chacune noire ou blanche, deux bracelets étant identiques s'ils se déduisent par rotation ou retournement ?",
    "solution": "Groupe diédral à 12 éléments. Rotations de 0, 1, 2, 3, 4, 5 crans : $2^6, 2, 2^2, 2^3, 2^2, 2$ coloriages fixes, total 84. Retournements : 3 axes passant par deux perles ($2^4$ chacun) et 3 axes entre les perles ($2^3$ chacun) : $48 + 24 = 72$. Burnside : $(84 + 72)/12 =$ **13**.",
    "indice": "Lemme de Burnside : moyenne, sur toutes les symétries, du nombre de coloriages qu'elles laissent fixes.",
-   "variantes": [
-    "Colliers (rotations seulement) : $84/6 = 14$."
-   ],
    "categorie": "denombrement",
    "titre": "Bracelets de 6 perles noires ou blanches",
    "reponse": "13",
@@ -2288,10 +2219,6 @@ window.PREPA_BANQUE = {
    "question": "Un cube $3 \\times 3 \\times 3$ est peint en rouge à l'extérieur, puis découpé en 27 petits cubes. Combien de petits cubes ont exactement deux faces peintes ?",
    "solution": "Coins : 8 cubes à 3 faces ; milieux d'arêtes : **12** cubes à 2 faces ; centres de faces : 6 cubes à 1 face ; centre : 1 cube sans peinture ($8 + 12 + 6 + 1 = 27$).",
    "indice": "Coins, arêtes, centres des faces, centre du cube.",
-   "variantes": [
-    "Cube $10 \\times 10 \\times 10$ : $8^3 = 512$ petits cubes sans peinture, $12 \\times 8 = 96$ à deux faces, $6 \\times 64 = 384$ à une face.",
-    "Nombre minimal de coupes planes pour découper un cube de bois $3 \\times 3 \\times 3$ en 27, même en réarrangeant les morceaux : 6 (le cube central a six faces à créer)."
-   ],
    "categorie": "denombrement",
    "titre": "Cube $3 \\times 3 \\times 3$ peint puis découpé",
    "reponse": "12",
@@ -2334,9 +2261,6 @@ window.PREPA_BANQUE = {
    "solution": "Approche par la demande :\n- $\\sim 40$ millions de voitures, $\\sim 13\\,000$ km par an, 6 L aux 100 km : $\\sim 800$ L par voiture et par an, soit $\\sim 32$ milliards de litres (plus utilitaires et poids lourds : disons 45 milliards).\n- Une station vend $\\sim 3$ à 5 millions de litres par an.\n- $45 \\times 10^9 / (4 \\times 10^6) \\approx$ **11 000 stations**.\nContrôle par l'offre : $\\sim 35\\,000$ communes, une station pour 3 à 4 communes : $\\sim 10\\,000$. Cohérent.\nDire quelle hypothèse est la plus fragile (volume par station) et comment l'affiner.",
    "en": "How many gas stations are there in France? Reason aloud.",
    "indice": "Pars de la consommation totale de carburant, puis du volume vendu par une station.",
-   "variantes": [
-    "Essence consommée chaque semaine aux États-Unis : $\\sim 280$ millions de véhicules, $\\sim 20$ L par semaine chacun, soit $\\sim 5$ milliards de litres ($\\sim 1{,}4$ milliard de gallons)."
-   ],
    "categorie": "fermi",
    "titre": "Stations-service en France"
   },
@@ -2422,10 +2346,6 @@ window.PREPA_BANQUE = {
    "question": "Une fourmi marche à la surface d'un cube d'arête 1, d'un sommet au sommet opposé. Quelle est la longueur du plus court chemin ?",
    "solution": "En dépliant deux faces adjacentes, on obtient un rectangle $1 \\times 2$ dont le trajet est la diagonale : $\\sqrt{1^2 + 2^2} = \\sqrt 5 \\approx$ **2,236**. (À travers le cube, ce serait $\\sqrt 3$, et en longeant les arêtes, 3.)",
    "indice": "Déplie deux faces adjacentes à plat.",
-   "variantes": [
-    "Pavé $a \\times b \\times c$ : le plus court est $\\sqrt{(a + b)^2 + c^2}$ avec $c$ la plus grande dimension.",
-    "L'araignée et la mouche dans une pièce $30 \\times 12 \\times 12$ (problème de Dudeney) : 40, par un dépliage qui traverse cinq faces."
-   ],
    "categorie": "geometrie",
    "titre": "Plus court chemin d'une fourmi sur un cube",
    "reponse": "sqrt(5)",
@@ -2468,9 +2388,6 @@ window.PREPA_BANQUE = {
    "question": "Une pièce roule sans glisser autour d'une pièce identique fixe, jusqu'à revenir à sa position de départ. Combien de tours fait-elle sur elle-même ?",
    "solution": "Le centre parcourt un cercle de rayon $2r$, soit $4\\pi r$ ; la rotation propre vaut cette distance divisée par $r$, soit $4\\pi$ : **2 tours**. Intuitivement : un tour dû au roulement, plus un tour dû au fait de contourner le cercle.",
    "indice": "Le centre de la pièce mobile décrit un cercle de rayon $2r$.",
-   "variantes": [
-    "Autour d'une pièce de rayon $R$ : $1 + R/r$ tours ; à l'intérieur d'un anneau de rayon $R$ : $R/r - 1$ tours."
-   ],
    "categorie": "geometrie",
    "titre": "Une pièce qui roule autour d'une pièce identique",
    "reponse": "2",
@@ -2550,10 +2467,6 @@ window.PREPA_BANQUE = {
    "solution": "L'aiguille des minutes est sur 3 (90°). Celle des heures a avancé d'un quart d'heure au-delà de 3 : $90° + 15 \\times 0{,}5° = 97{,}5°$. Angle : **7,5°**.",
    "en": "What is the angle (in degrees) between the clock hands at 3:15?",
    "indice": "L'aiguille des heures avance de 0,5° par minute.",
-   "variantes": [
-    "À 3 h 25 : minutes à 150°, heures à $90 + 12{,}5 = 102{,}5°$, angle 47,5°.",
-    "À 9 h 30 : 105°. Formule générale : $|30h - 5{,}5m|$ degrés."
-   ],
    "categorie": "mouvement",
    "titre": "Angle des aiguilles à 3 h 15",
    "reponse": "7.5",
@@ -2575,10 +2488,6 @@ window.PREPA_BANQUE = {
    "question": "Combien de fois par jour (24 heures) les aiguilles des heures et des minutes se superposent-elles ?",
    "solution": "L'aiguille des minutes rattrape celle des heures une fois par tour de retard : $24 - 2 =$ **22** fois (toutes les $12/11$ heures).",
    "indice": "L'aiguille des minutes fait 24 tours, celle des heures 2.",
-   "variantes": [
-    "Angles droits : 44 fois par jour (deux par « rattrapage »).",
-    "Première superposition après 5 h : à 5 h $\\frac{300}{11}$ min, soit 5 h 27 min 16 s."
-   ],
    "categorie": "mouvement",
    "titre": "Combien de fois les aiguilles se superposent-elles en un jour ?",
    "reponse": "22",
@@ -2600,10 +2509,6 @@ window.PREPA_BANQUE = {
    "question": "Une voiture fait l'aller à 30 km/h et le retour, même distance, à 60 km/h. Quelle est sa vitesse moyenne sur l'aller-retour (en km/h) ?",
    "solution": "Pour une distance $d$ : temps $d/30 + d/60 = d/20$, distance $2d$ : $40$ km/h (moyenne harmonique $\\frac{2}{1/30 + 1/60}$). **40 km/h**.",
    "indice": "Ce n'est pas 45 : la voiture passe plus de temps à 30 km/h.",
-   "variantes": [
-    "Premier tour d'un circuit à 30 km/h : impossible d'atteindre 60 km/h de moyenne sur deux tours, même infiniment vite au second (le temps est déjà épuisé).",
-    "Avion aller-retour avec un vent constant : le trajet est **plus long** qu'en air calme ($\\frac{2d\\,v}{v^2 - w^2} > \\frac{2d}{v}$)."
-   ],
    "categorie": "mouvement",
    "titre": "Aller à 30 km/h, retour à 60 km/h : vitesse moyenne",
    "reponse": "40",
@@ -2625,9 +2530,6 @@ window.PREPA_BANQUE = {
    "question": "Un escargot au fond d'un puits de 30 m monte de 3 m le jour et glisse de 2 m la nuit. Quel jour sort-il du puits ?",
    "solution": "Après $n$ jours et nuits, il est à $n$ mètres. Il sort pendant la journée où il atteint 30 : il doit partir d'au moins 27 m, atteint au matin du 28ᵉ jour. **Jour 28**.",
    "indice": "Le dernier jour, il ne glisse pas.",
-   "variantes": [
-    "Puits de 10 m : jour 8."
-   ],
    "categorie": "mouvement",
    "titre": "L'escargot dans un puits de 30 mètres",
    "reponse": "28",
@@ -2649,9 +2551,6 @@ window.PREPA_BANQUE = {
    "question": "Une tache de nénuphars double de surface chaque jour et couvre tout l'étang le 48ᵉ jour. Quel jour couvrait-elle la moitié de l'étang ?",
    "solution": "La veille : **jour 47**.",
    "indice": "Pense à rebours.",
-   "variantes": [
-    "Si l'on part avec deux nénuphars au lieu d'un : un jour de moins, l'étang est couvert le 47ᵉ jour."
-   ],
    "categorie": "mouvement",
    "titre": "Des nénuphars qui doublent chaque jour",
    "reponse": "47",
@@ -2673,9 +2572,6 @@ window.PREPA_BANQUE = {
    "question": "Un rameur remonte une rivière ; son chapeau tombe à l'eau. Il s'en aperçoit 10 minutes plus tard, fait demi-tour et rame à la même vitesse par rapport à l'eau. Combien de minutes lui faut-il pour rattraper le chapeau ?",
    "solution": "Dans le référentiel de l'eau, le chapeau est immobile et le rameur s'en éloigne 10 minutes puis revient à la même vitesse : **10 minutes**, quelle que soit la vitesse du courant.",
    "indice": "Place-toi dans le référentiel de l'eau.",
-   "variantes": [
-    "Si le chapeau est retrouvé 1 km en aval du point de chute, le courant vaut $1 / (20/60) = 3$ km/h."
-   ],
    "categorie": "mouvement",
    "titre": "Le rameur qui perd son chapeau dans la rivière",
    "reponse": "10",
@@ -2732,9 +2628,6 @@ window.PREPA_BANQUE = {
    "solution": "Les trains se rencontrent après 1 heure ; la mouche vole pendant 1 heure : **75 km**. Inutile de sommer la série infinie des allers-retours (anecdote attribuée à von Neumann, qui… a sommé la série de tête).",
    "en": "Two trains 100 km apart approach each other at 50 km/h each. A fly shuttles between them at 75 km/h until they meet. How far does the fly travel?",
    "indice": "Combien de temps vole-t-elle ?",
-   "variantes": [
-    "Un chien fait des allers-retours entre son maître et la maison : même principe, $\\text{distance} = \\text{vitesse} \\times \\text{durée}$."
-   ],
    "categorie": "mouvement",
    "titre": "La mouche entre deux trains",
    "reponse": "75",
@@ -2756,11 +2649,6 @@ window.PREPA_BANQUE = {
    "question": "On retire deux coins opposés d'un échiquier $8 \\times 8$. Peut-on paver les 62 cases restantes avec 31 dominos $2 \\times 1$ ?",
    "solution": "**Non**. Les deux coins opposés sont de la même couleur : il reste 32 cases d'une couleur et 30 de l'autre, alors que 31 dominos couvrent 31 cases de chaque couleur.",
    "indice": "Chaque domino couvre une case blanche et une case noire. De quelle couleur sont les deux coins retirés ?",
-   "variantes": [
-    "Retirer deux cases de couleurs **différentes**, n'importe où : le pavage est toujours possible (théorème de Gomory, par un circuit hamiltonien).",
-    "Paver un $10 \\times 10$ avec des barres $1 \\times 4$ : impossible, par un coloriage en 4 couleurs le long des diagonales (25 cases d'une couleur seraient à couvrir différemment).",
-    "Paver un $6 \\times 6$ avec des triminos droits $1 \\times 3$ : possible (12 triminos) ; avec un trou au centre d'un $5 \\times 5$ : la position du trou se décide par coloriage modulo 3."
-   ],
    "categorie": "invariants",
    "titre": "Échiquier privé de deux coins opposés et dominos"
   },
@@ -2776,9 +2664,6 @@ window.PREPA_BANQUE = {
    "question": "Sur une île vivent 13 caméléons gris, 15 bruns et 17 pourpres. Quand deux caméléons de couleurs différentes se rencontrent, tous deux prennent la troisième couleur. Peuvent-ils un jour être tous de la même couleur ?",
    "solution": "Une rencontre change les effectifs $(g, b, p)$ en $(g - 1, b - 1, p + 2)$ (ou permutations) : chaque différence varie de 0 ou de $\\pm 3$. Les différences **modulo 3** sont invariantes. Au départ : $b - g = 2$, $p - b = 2$, $p - g = 4 \\equiv 1$. Tous de la même couleur exigerait deux effectifs nuls, donc une différence $\\equiv 0$ : aucune n'est multiple de 3. **Impossible**.",
    "indice": "Regarde les différences des effectifs deux à deux, modulo 3.",
-   "variantes": [
-    "13, 15, 16 : la différence $16 - 13 = 3$ est multiple de 3, et tous peuvent devenir bruns."
-   ],
    "categorie": "invariants",
    "titre": "Caméléons de trois couleurs"
   },
@@ -2811,10 +2696,6 @@ window.PREPA_BANQUE = {
    "question": "Les nombres 1, 2, …, 10 sont écrits au tableau. À chaque étape, on efface deux nombres $a$ et $b$ et on écrit $|a - b|$. À la fin, il reste un seul nombre : peut-il valoir 0 ?",
    "solution": "$a + b$ et $|a - b|$ ont la même parité : la parité de la somme est invariante. Au départ, $1 + \\dots + 10 = 55$ est impair ; le dernier nombre est donc impair : **jamais 0**.",
    "indice": "Que devient la parité de la somme des nombres au tableau ?",
-   "variantes": [
-    "On écrit $a + b + ab$ à la place : l'invariant est $\\prod (1 + x_i)$, qui ne change pas ; avec 1 à 10, le dernier nombre vaut $11! - 1 = 39\\,916\\,799$, quel que soit l'ordre.",
-    "On écrit $a + b$ ou $a - b$ au choix : seule la parité est contrainte."
-   ],
    "categorie": "invariants",
    "titre": "Effacer deux nombres et écrire leur différence"
   },
@@ -2860,14 +2741,9 @@ window.PREPA_BANQUE = {
    ],
    "type": "numerique",
    "question": "100 fourmis sont posées au hasard sur un bâton d'un mètre, chacune orientée au hasard vers la gauche ou la droite. Elles avancent à 1 cm/s ; quand deux fourmis se rencontrent, elles font demi-tour ; une fourmi qui atteint un bout tombe. Au pire, combien de secondes avant que toutes soient tombées ?",
-   "solution": "Deux fourmis qui se croisent et font demi-tour se comportent exactement comme si elles se traversaient (on échange juste leurs noms). Chaque « trajectoire » parcourt au plus 100 cm : **100 secondes** au pire.",
+   "solution": "Deux fourmis qui se croisent et font demi-tour se comportent exactement comme si elles se traversaient (on échange juste leurs noms). Chaque « trajectoire » parcourt au plus 100 cm : **100 secondes** au pire.\nSur un cercle, la même astuce montre qu'au bout d'un tour complet les positions occupées sont les mêmes, à une rotation des noms près.",
    "en": "100 ants are placed randomly on a 1 m stick, each facing left or right at random, moving at 1 cm/s. When two ants meet they both turn around; ants fall off at the ends. In the worst case, how many seconds until all have fallen?",
    "indice": "Si l'on ne regarde pas les noms des fourmis, qu'est-ce qui change quand deux fourmis font demi-tour ?",
-   "variantes": [
-    "Nombre total de rencontres : le nombre de paires (fourmi vers la droite à gauche d'une fourmi vers la gauche).",
-    "Fourmis sur un **cercle** : au bout d'un tour complet, la configuration des positions est la même, à une rotation des noms près.",
-    "Trois fourmis aux sommets d'un triangle, chacune part au hasard vers un voisin : probabilité de collision $1 - 2/8 = 3/4$."
-   ],
    "categorie": "invariants",
    "titre": "100 fourmis sur un bâton qui font demi-tour",
    "reponse": "100",
@@ -2890,10 +2766,6 @@ window.PREPA_BANQUE = {
    "solution": "Allume le 1 pendant quelques minutes, éteins-le, allume le 2, monte. Ampoule allumée : interrupteur 2. Éteinte mais chaude : 1. Éteinte et froide : 3.\nL'astuce est d'utiliser une deuxième information (la chaleur) : trois états à distinguer avec une seule visite.",
    "en": "Three switches downstairs control one bulb in the attic; you may go up only once. How do you identify the right switch?",
    "indice": "Une observation visuelle n'a que deux issues (allumée ou éteinte). Quelle autre grandeur physique peux-tu observer ?",
-   "variantes": [
-    "Trois interrupteurs, **trois ampoules** dans la pièce, une seule visite : même méthode (allumée, chaude éteinte, froide éteinte).",
-    "**Quatre** interrupteurs et quatre ampoules : allume 1 et 2 dix minutes, éteins 2, allume 3, entre. Allumée et chaude : 1 ; éteinte et chaude : 2 ; allumée et froide : 3 ; éteinte et froide : 4."
-   ],
    "categorie": "logique",
    "titre": "Trois interrupteurs, une ampoule au grenier"
   },
@@ -2911,10 +2783,6 @@ window.PREPA_BANQUE = {
    "question": "Deux portes : l'une mène à la liberté, l'autre à la mort. Devant chacune, un gardien ; l'un dit toujours la vérité, l'autre ment toujours, et tu ne sais pas lequel est lequel. Tu as droit à une seule question posée à un seul gardien. Que demandes-tu ?",
    "solution": "Demande à l'un d'eux : « Si je demandais à l'autre gardien quelle porte mène à la liberté, laquelle m'indiquerait-il ? » puis prends **l'autre porte**.\n- Si tu interroges le sincère, il rapporte fidèlement le mensonge de l'autre : il désigne la mauvaise porte.\n- Si tu interroges le menteur, il déforme la réponse (vraie) du sincère : il désigne aussi la mauvaise porte.\nAutre question valable : « Si je te demandais si cette porte mène à la liberté, que répondrais-tu ? » : la double négation du menteur donne la vérité.",
    "indice": "Construis une question dont la réponse passe par les deux gardiens : la vérité et le mensonge se composent alors toujours en un mensonge.",
-   "variantes": [
-    "Un seul gardien, dont on ne sait pas s'il ment : « Si je te demandais si la porte de gauche mène à la liberté, répondrais-tu oui ? » La réponse est juste dans les deux cas.",
-    "Village de sincères et de menteurs à une bifurcation : « Montre-moi la route de ton village » mène toujours au village des sincères (le menteur désigne l'autre route)."
-   ],
    "categorie": "logique",
    "titre": "Deux portes, deux gardiens, une question"
   },
@@ -2932,11 +2800,6 @@ window.PREPA_BANQUE = {
    "question": "Sur une île, les chevaliers disent toujours la vérité et les fripons mentent toujours. A dit : « Nous sommes tous les deux des fripons. » Que sont A et B ?",
    "solution": "Un chevalier ne peut pas dire « je suis un fripon » : A est donc un **fripon**. Sa phrase est fausse, donc ils ne sont pas tous deux fripons : B est un **chevalier**.\nMéthode générale : supposer un cas, chercher la contradiction ; ou écrire chaque affirmation comme une équation logique « A est chevalier ⇔ la phrase est vraie ».",
    "indice": "Un chevalier pourrait-il prononcer cette phrase ?",
-   "variantes": [
-    "A dit : « Au moins l'un de nous est un fripon. » Alors A est chevalier et B fripon (un fripon dirait une vérité).",
-    "A dit : « B et moi sommes de même nature. » B est alors forcément un chevalier, et la nature de A reste indéterminée.",
-    "Trois habitants, A : « Nous sommes tous fripons », B : « Exactement l'un de nous est chevalier » : A fripon, B chevalier, C fripon."
-   ],
    "categorie": "logique",
    "titre": "Chevaliers et fripons"
   },
@@ -2967,10 +2830,6 @@ window.PREPA_BANQUE = {
    "question": "Sur une île vivent 100 personnes aux yeux bleus, sans miroir ni moyen de connaître leur propre couleur ; chacune voit les autres. Règle : quiconque apprend avec certitude qu'il a les yeux bleus quitte l'île le soir même. Un visiteur annonce devant tous : « Je vois au moins une personne aux yeux bleus. » Que se passe-t-il ?",
    "solution": "Par récurrence : avec $k$ insulaires aux yeux bleus, ils partent **tous le $k$-ième soir**. Ici, les 100 partent le centième soir.\n- $k = 1$ : l'unique ne voit aucun œil bleu, comprend que c'est lui, part le premier soir.\n- $k = 2$ : chacun voit un œil bleu ; si l'autre ne part pas le premier soir, c'est qu'il voyait lui aussi quelqu'un : ils partent le deuxième soir.\n- Au rang $k$, chacun en voit $k - 1$ ; ne voyant personne partir le soir $k - 1$, il conclut.\nL'annonce n'apporte aucun fait nouveau à chacun, mais crée une **connaissance commune** (tout le monde sait que tout le monde sait… à tout ordre) qui déclenche le compte à rebours.",
    "indice": "Commence avec 1 insulaire aux yeux bleus, puis 2, puis 3. Qu'est-ce que l'annonce a appris, alors que tout le monde voyait déjà des yeux bleus ?",
-   "variantes": [
-    "Enfants au front sale : « Au moins l'un de vous a le front sale ; levez la main si vous savez. » Avec $k$ enfants sales, ils lèvent la main au $k$-ième appel.",
-    "Maris infidèles (« les épouses savent pour tous les maris sauf le leur ») : même structure, les $k$ maris sont chassés le $k$-ième jour."
-   ],
    "categorie": "logique",
    "titre": "Les insulaires aux yeux bleus"
   },
@@ -2988,11 +2847,11 @@ window.PREPA_BANQUE = {
    "question": "Cheryl donne à Albert le mois et à Bernard le jour de son anniversaire, parmi : 15, 16, 19 mai ; 17, 18 juin ; 14, 16 juillet ; 14, 15, 17 août. Albert : « Je ne sais pas, mais je sais que Bernard ne sait pas non plus. » Bernard : « Je ne savais pas, mais maintenant je sais. » Albert : « Alors moi aussi je sais. » Quelle est la date ?",
    "solution": "1. Les jours 18 (juin) et 19 (mai) sont uniques. Albert est sûr que Bernard ne sait pas : le mois n'est ni mai ni juin. Restent juillet (14, 16) et août (14, 15, 17).\n2. Bernard sait maintenant : son jour n'est pas 14 (ambigu). Restent 16 juillet, 15 août, 17 août.\n3. Albert sait aussi : son mois n'a qu'une date restante, c'est juillet. Réponse : **16 juillet**.",
    "indice": "Seuls les jours 18 et 19 sont uniques. Pour qu'Albert soit sûr que Bernard ne sait pas, son mois ne doit contenir aucun de ces jours.",
-   "variantes": [
-    "Même logique « Je ne sais pas, mais je sais que tu ne sais pas » dans le problème somme-produit (voir la fiche dédiée)."
-   ],
    "categorie": "logique",
-   "titre": "L'anniversaire de Cheryl (ce que l'autre sait)"
+   "titre": "L'anniversaire de Cheryl (ce que l'autre sait)",
+   "voir": [
+    "ct-somme-produit"
+   ]
   },
   {
    "id": "ct-somme-produit",
@@ -3023,10 +2882,6 @@ window.PREPA_BANQUE = {
    "question": "« Le produit des âges de mes trois filles vaut 36. La somme est le numéro de la maison d'en face. » Le recenseur regarde le numéro et répond : « Il me manque une information. » « L'aînée joue du piano. » Quels sont les âges ?",
    "solution": "Triplets de produit 36 et sommes : (1,1,36) 38 ; (1,2,18) 21 ; (1,3,12) 16 ; (1,4,9) 14 ; (1,6,6) 13 ; (2,2,9) 13 ; (2,3,6) 11 ; (3,3,4) 10.\nLe numéro ne suffit pas : la somme vaut 13, ambiguë entre (1,6,6) et (2,2,9). « L'aînée » suppose une aînée unique : **2, 2 et 9 ans**.",
    "indice": "Liste les triplets de produit 36 et leurs sommes. Pourquoi le numéro de la maison ne suffit-il pas ?",
-   "variantes": [
-    "Produit 72, et « l'aînée aime le chocolat » : la somme ambiguë est 14, entre (2,6,6) et (3,3,8) ; réponse **3, 3 et 8**.",
-    "Cinq enfants, produit 72 : même principe ; énumère les quintuplets et cherche la somme ambiguë qu'une aînée unique départage."
-   ],
    "categorie": "logique",
    "titre": "Les âges des trois filles (produit 36)"
   },
@@ -3043,10 +2898,6 @@ window.PREPA_BANQUE = {
    "solution": "**99** à coup sûr. Le dernier annonce la parité du nombre de chapeaux noirs qu'il voit (« noir » si ce nombre est impair). Il a une chance sur deux pour lui-même. Chacun des suivants connaît cette parité, voit les chapeaux devant lui et a entendu les réponses (justes) de ceux de derrière : il en déduit la couleur de son chapeau.\nIdée clé : un seul bit de parité suffit, et chaque réponse transmet de l'information aux suivants.",
    "en": "100 prisoners in a line wear black or white hats; each sees the hats in front only. Starting from the back, each says a color aloud; those naming their own hat color go free. They can agree on a strategy beforehand. How many can be saved for sure?",
    "indice": "Le dernier ne peut rien savoir de son propre chapeau. Quel unique bit d'information peut-il transmettre qui servira à tous les autres ?",
-   "variantes": [
-    "Chapeaux de $k$ couleurs : le dernier annonce la somme des couleurs vues modulo $k$ ; toujours 99 sauvés.",
-    "Annonces simultanées, $n$ personnes en cercle et $n$ couleurs : la personne $i$ parie que la somme totale vaut $i \\bmod n$ ; exactement une personne a raison, quelle que soit la distribution."
-   ],
    "categorie": "logique",
    "titre": "100 prisonniers en file et chapeaux noirs ou blancs",
    "reponse": "99",
@@ -3066,9 +2917,6 @@ window.PREPA_BANQUE = {
    "question": "Trois joueurs reçoivent chacun un chapeau rouge ou bleu (pile ou face indépendants). Chacun voit les deux autres, pas le sien. Simultanément, chacun annonce une couleur ou s'abstient. L'équipe gagne si au moins un joueur annonce et qu'aucun ne se trompe. Avec la meilleure stratégie concertée, quelle probabilité de gagner ?",
    "solution": "Stratégie : si tu vois deux chapeaux de même couleur, annonce l'autre couleur ; sinon abstiens-toi.\n- Configurations mélangées (6 sur 8) : exactement un joueur voit deux couleurs identiques, et il a raison ; les autres s'abstiennent : gagné.\n- Configurations unicolores (2 sur 8) : les trois annoncent et se trompent : perdu.\nProbabilité **3/4**. On ne change pas le nombre total d'erreurs, mais on les regroupe sur peu de configurations. Avec $n = 2^k - 1$ joueurs, les codes de Hamming donnent $1 - 1/(n + 1)$.",
    "indice": "Les configurations « toutes de même couleur » ne représentent que 2 cas sur 8. Peut-on concentrer toutes les erreurs dessus ?",
-   "variantes": [
-    "Sept joueurs : probabilité $7/8$ grâce au code de Hamming $(7, 4)$."
-   ],
    "categorie": "logique",
    "titre": "Trois chapeaux, devinette simultanée ou abstention",
    "reponse": "3/4",
@@ -3087,11 +2935,11 @@ window.PREPA_BANQUE = {
     "data"
    ],
    "type": "ouverte",
-   "question": "Cinq logiciens en file, numérotés de 1 (devant) à 5 (derrière) ; chacun voit les chapeaux de ceux qui sont devant lui. On a posé 3 chapeaux rouges et 2 bleus, un par tête (tous le savent). On demande au n° 5, puis au n° 4 : « Connais-tu ta couleur ? » Tous deux répondent « non ». Que répond le n° 3, et quelles sont toutes les couleurs ?",
-   "solution": "- Le 5 dit non : les n° 1 à 4 ne portent pas les deux bleus (sinon il saurait être rouge).\n- Le 4 dit non : il voit les n° 1 à 3 ; s'il y voyait un bleu, sachant que 1 à 4 n'en ont pas deux, il saurait être rouge. Donc **1, 2 et 3 sont rouges**.\n- Le 3 le déduit à son tour : il répond « oui, rouge » (et 1 et 2 le savent aussi).\nLes trois rouges sont devant : **4 et 5 sont bleus**. Le moteur de ces énigmes : « s'il avait vu…, il aurait su ».",
-   "indice": "Le n° 5 dirait « oui » s'il voyait les deux bleus. Le n° 4 dirait « oui » s'il voyait un bleu devant lui, sachant que les n° 1 à 4 n'ont pas les deux bleus.",
+   "question": "Trois logiciens en file, numérotés de 1 (devant) à 3 (derrière) ; chacun voit les chapeaux de ceux qui sont devant lui, pas le sien. On a pris 3 chapeaux au hasard parmi 3 rouges et 2 bleus, un par tête (tous le savent). On demande au n° 3, puis au n° 2 : « Connais-tu ta couleur ? » Tous deux répondent « non ». Que répond le n° 1, qui ne voit personne ?",
+   "solution": "- Le n° 3 dit non : les n° 1 et 2 ne portent pas tous les deux un bleu (sinon, les deux bleus étant pris, il saurait être rouge).\n- Le n° 2 dit non : s'il voyait un bleu sur le n° 1, il saurait (grâce au « non » du n° 3) ne pas en porter lui-même, donc être rouge. Puisqu'il ne sait pas, le n° 1 n'est pas bleu.\n- Le n° 1 répond donc **« oui, rouge »**, sans rien voir. Les couleurs des n° 2 et 3 restent indéterminées.\nLe moteur de ces énigmes : « s'il avait vu…, il aurait su ». Attention à la cohérence de l'énoncé : avec cinq logiciens et exactement 3 rouges et 2 bleus posés, le dernier de la file connaîtrait toujours sa couleur (il voit quatre chapeaux et sait ce qui reste).",
+   "indice": "Le n° 3 dirait « oui » s'il voyait deux bleus. Le n° 2 sait ce que le « non » du n° 3 exclut : que dirait-il s'il voyait un bleu devant lui ?",
    "categorie": "logique",
-   "titre": "Cinq logiciens en file, 3 chapeaux rouges et 2 bleus"
+   "titre": "Trois logiciens en file, chapeaux tirés parmi 3 rouges et 2 bleus"
   },
   {
    "id": "ct-prisonniers-ampoule",
@@ -3105,9 +2953,6 @@ window.PREPA_BANQUE = {
    "question": "100 prisonniers, isolés, seront appelés un par un dans une pièce, dans un ordre aléatoire, autant de fois qu'il le faut (chacun une infinité de fois). La pièce contient une ampoule qu'ils peuvent allumer ou éteindre. Dès que l'un d'eux affirme à coup sûr que tous sont passés au moins une fois, ils sont libérés (s'il se trompe, ils sont exécutés). Quelle stratégie ?",
    "solution": "Un prisonnier est le **compteur**. Chaque autre prisonnier allume l'ampoule la première fois qu'il la trouve éteinte, puis ne la touche plus jamais. Le compteur éteint l'ampoule chaque fois qu'il la trouve allumée et ajoute 1 à son compte. Quand il atteint 99, il annonce que tous sont passés.\nDurée moyenne longue (de l'ordre de 10 000 passages) ; on peut l'accélérer par des schémas à plusieurs étapes, mais en entretien la correction de la stratégie compte d'abord.",
    "indice": "Désigne un compteur. Les autres n'ont le droit d'agir qu'une seule fois.",
-   "variantes": [
-    "État initial de l'ampoule inconnu : chaque prisonnier allume deux fois, le compteur va jusqu'à $2 \\times 99 - 1 = 197$."
-   ],
    "categorie": "logique",
    "titre": "100 prisonniers et une ampoule"
   },
@@ -3123,10 +2968,6 @@ window.PREPA_BANQUE = {
    "question": "100 prisonniers numérotés. Dans une salle, 100 boîtes contiennent les numéros 1 à 100 dans un ordre aléatoire. Chaque prisonnier, seul, ouvre au plus 50 boîtes et doit trouver son numéro ; sans communication après le début. Ils sont libérés si **tous** réussissent. Avec la meilleure stratégie, quelle probabilité (à $10^{-3}$ près) ?",
    "solution": "Chacun suit le cycle de la permutation qui contient son numéro : il ouvre la boîte de son numéro, puis celle du numéro trouvé, etc. Il réussit si son cycle a une longueur au plus 50. Tous réussissent si la permutation n'a **aucun cycle de longueur > 50**.\nLe nombre de permutations de $\\{1, \\dots, n\\}$ ayant un cycle de longueur $k > n/2$ (au plus un tel cycle) est $n!/k$. D'où\n$$\\mathbb{P}(\\text{échec}) = \\sum_{k=51}^{100} \\frac{1}{k} = H_{100} - H_{50} \\approx \\ln 2 \\approx 0{,}688.$$\nProbabilité de succès : $1 - \\sum_{k=51}^{100} 1/k \\approx$ **0,312**. Toute la difficulté est que les succès individuels deviennent fortement corrélés.",
    "indice": "Au hasard, la probabilité est $2^{-100}$. Le prisonnier $k$ ouvre la boîte $k$, puis la boîte dont le numéro est celui qu'il vient de lire…",
-   "variantes": [
-    "Avec $2n$ prisonniers et $n$ essais, la probabilité tend vers $1 - \\ln 2 \\approx 0{,}307$.",
-    "Nombre moyen de cycles d'une permutation aléatoire de taille $n$ : $H_n \\approx \\ln n$."
-   ],
    "categorie": "logique",
    "titre": "100 prisonniers et 100 boîtes (suivre les cycles)",
    "reponse": "0.3118",
@@ -3161,11 +3002,8 @@ window.PREPA_BANQUE = {
    ],
    "type": "ouverte",
    "question": "Trois coffres, un seul contient l'or. Or : « L'or est ici. » Argent : « L'or n'est pas ici. » Plomb : « L'or n'est pas dans le coffre d'or. » Une seule inscription est vraie. Où est l'or ?",
-   "solution": "- Or dans le coffre d'or : inscriptions d'or et d'argent vraies (deux), impossible.\n- Or dans le coffre d'argent : or faux, argent faux, plomb vrai (une), possible.\n- Or dans le coffre de plomb : argent vrai et plomb vrai (deux), impossible.\nL'or est dans le **coffre d'argent**. Méthode : énumérer les hypothèses, compter les contraintes.",
+   "solution": "- Or dans le coffre d'or : inscriptions d'or et d'argent vraies (deux), impossible.\n- Or dans le coffre d'argent : or faux, argent faux, plomb vrai (une), possible.\n- Or dans le coffre de plomb : argent vrai et plomb vrai (deux), impossible.\nL'or est dans le **coffre d'argent**. Méthode : énumérer les hypothèses, compter les contraintes.\nSi la règle devient « au plus une inscription vraie » ou « exactement une fausse », la méthode est la même : seule la règle de comptage change.",
    "indice": "Teste les trois hypothèses et compte les inscriptions vraies dans chaque cas.",
-   "variantes": [
-    "Version « au plus une vraie » ou « exactement une fausse » : même méthode, seule la règle de comptage change."
-   ],
    "categorie": "logique",
    "titre": "Trois coffres, une seule inscription vraie"
   },
@@ -3198,9 +3036,6 @@ window.PREPA_BANQUE = {
    "question": "100 pièces sont posées sur une table, exactement 10 côté face. Les yeux bandés, tu peux déplacer et retourner les pièces, sans sentir leur côté. Forme deux tas contenant le même nombre de faces.",
    "solution": "Prends 10 pièces quelconques : si elles contiennent $k$ faces, l'autre tas en contient $10 - k$. **Retourne les 10 pièces** du petit tas : il contient maintenant $10 - k$ faces, comme l'autre.",
    "indice": "Prends un tas de 10 pièces quelconques. S'il contient $k$ faces, combien l'autre tas en contient-il ?",
-   "variantes": [
-    "$n$ faces parmi $N$ pièces : tas de $n$ pièces, que l'on retourne."
-   ],
    "categorie": "logique",
    "titre": "100 pièces, dont 10 côté face, les yeux bandés"
   },
@@ -3249,16 +3084,15 @@ window.PREPA_BANQUE = {
    "question": "Je pense à un entier entre 1 et 100. Tu poses des questions fermées (oui ou non) et je réponds honnêtement. Combien de questions faut-il au minimum pour être sûr de le trouver ?",
    "solution": "$k$ réponses binaires distinguent au plus $2^k$ cas. $2^6 = 64 < 100 \\le 128 = 2^7$ : **7 questions** (dichotomie). C'est l'argument d'information, à rapprocher des pesées (trois issues : $3^k$).",
    "indice": "Chaque réponse divise au mieux le nombre de candidats par deux.",
-   "variantes": [
-    "Si je peux mentir une fois : il faut $2^k \\ge 100\\,(k + 1)$ (chaque nombre et chaque position possible du mensonge), soit **11 questions**, et c'est atteignable (jeu d'Ulam).",
-    "Jeu de devinette avec paiement (« combien paierais-tu ? ») : voir la fiche « Dichotomie » dans les jeux."
-   ],
    "categorie": "logique",
    "titre": "Combien de questions par oui ou non ? (information)",
    "reponse": "7",
    "valeur": 7.0,
    "tolerance": 0.005,
-   "duree": 120
+   "duree": 120,
+   "voir": [
+    "jeu-dichotomie"
+   ]
   },
   {
    "id": "ct-zeros-factorielle",
@@ -3275,10 +3109,6 @@ window.PREPA_BANQUE = {
    "solution": "Chaque zéro vient d'un facteur $10 = 2 \\times 5$ ; les 2 sont plus nombreux que les 5. Facteurs 5 :\n$$\\left\\lfloor \\frac{100}{5} \\right\\rfloor + \\left\\lfloor \\frac{100}{25} \\right\\rfloor = 20 + 4 = 24.$$\nRéponse : **24**.",
    "en": "How many trailing zeros does $100!$ have?",
    "indice": "Un zéro final, c'est un facteur $10 = 2 \\times 5$. Lequel des deux facteurs est le plus rare ?",
-   "variantes": [
-    "$1\\,000!$ : $200 + 40 + 8 + 1 = 249$ zéros (formule de Legendre).",
-    "Dernier chiffre **non nul** de $100!$ : 4 (on retire les paires $2 \\times 5$ et l'on suit le reste modulo 10)."
-   ],
    "categorie": "nombres",
    "titre": "Nombre de zéros à la fin de 100!",
    "reponse": "24",
@@ -3301,10 +3131,6 @@ window.PREPA_BANQUE = {
    "solution": "Les derniers chiffres des puissances de 7 forment le cycle 7, 9, 3, 1 (période 4). $2026 = 4 \\times 506 + 2$ : même dernier chiffre que $7^2 = 49$, soit **9**.",
    "en": "What is the last digit of $7^{2026}$?",
    "indice": "Regarde les derniers chiffres de $7, 7^2, 7^3, 7^4, \\dots$",
-   "variantes": [
-    "$2^{100} \\bmod 7$ : $2^3 = 8 \\equiv 1$, et $100 = 3 \\times 33 + 1$, donc $2^{100} \\equiv 2$.",
-    "Deux derniers chiffres : travailler modulo 100 (théorème d'Euler, $\\varphi(100) = 40$)."
-   ],
    "categorie": "nombres",
    "titre": "Dernier chiffre de 7 puissance 2026",
    "reponse": "9",
@@ -3327,10 +3153,6 @@ window.PREPA_BANQUE = {
    "solution": "Il y a 50 termes ; la somme des $n$ premiers impairs vaut $n^2$ : **2 500**. (Ou : 50 termes de moyenne 50.)",
    "en": "Compute $1 + 3 + 5 + \\dots + 99$.",
    "indice": "Combien de termes, et quelle est leur moyenne ?",
-   "variantes": [
-    "$1 + 2 + \\dots + 100 = 100 \\times 101 / 2 = 5\\,050$ (Gauss : on apparie $1 + 100$, $2 + 99$, …).",
-    "Somme des chiffres de tous les nombres de 1 à 100 : $901$ (chaque chiffre 0 à 9 apparaît 10 fois aux unités et aux dizaines de 0 à 99, soit $2 \\times 10 \\times 45 = 900$, plus 1 pour 100)."
-   ],
    "categorie": "nombres",
    "titre": "Somme des impairs jusqu'à 99 (et la somme de Gauss)",
    "reponse": "2500",
@@ -3352,10 +3174,6 @@ window.PREPA_BANQUE = {
    "question": "Tu n'as que des pièces de 3 € et de 5 €, en quantité illimitée. Quel est le plus grand montant entier impossible à payer exactement ?",
    "solution": "Payables : 3, 5, 6, 8, 9, 10, puis tout (8, 9, 10 consécutifs, on ajoute des 3). Impayables : 1, 2, 4, **7**. Formule de Frobenius pour deux valeurs premières entre elles : $ab - a - b = 15 - 8 = 7$.",
    "indice": "Une fois que trois montants consécutifs sont payables, tous les suivants le sont (ajoute des 3).",
-   "variantes": [
-    "Boîtes de 6, 9 et 20 nuggets : le plus grand nombre impossible est **43**.",
-    "Valeurs 4 et 6 : il y a une infinité de montants impossibles (tous les impairs), car $\\mathrm{pgcd}(4, 6) = 2$."
-   ],
    "categorie": "nombres",
    "titre": "Plus grand montant impayable avec des pièces de 3 et 5",
    "reponse": "7",
@@ -3398,10 +3216,6 @@ window.PREPA_BANQUE = {
    "question": "Quelle est la somme des entiers positifs inférieurs à 1 000 qui sont multiples de 3 ou de 5 ?",
    "solution": "Somme des multiples de $k$ sous 1 000 : $k \\cdot m(m + 1)/2$ avec $m = \\lfloor 999/k \\rfloor$.\n$3 \\times \\frac{333 \\times 334}{2} + 5 \\times \\frac{199 \\times 200}{2} - 15 \\times \\frac{66 \\times 67}{2} = 166\\,833 + 99\\,500 - 33\\,165 =$ **233 168**.",
    "indice": "Inclusion-exclusion : multiples de 3, plus multiples de 5, moins multiples de 15.",
-   "variantes": [
-    "**Combien** d'entiers de 1 à 1 000 sont multiples de 3 ou de 5 : $333 + 200 - 66 = 467$.",
-    "Entiers de 1 à 1 000 premiers avec 1 000 : $1\\,000 \\times (1 - 1/2)(1 - 1/5) = 400$ (indicatrice d'Euler)."
-   ],
    "categorie": "nombres",
    "titre": "Somme des multiples de 3 ou de 5 sous 1 000",
    "reponse": "233168",
@@ -3423,10 +3237,6 @@ window.PREPA_BANQUE = {
    "question": "Combien 360 a-t-il de diviseurs positifs ?",
    "solution": "$360 = 2^3 \\times 3^2 \\times 5$. Un diviseur choisit un exposant de 2 parmi 4, de 3 parmi 3, de 5 parmi 2 : $4 \\times 3 \\times 2 =$ **24**.",
    "indice": "Décompose 360 en facteurs premiers.",
-   "variantes": [
-    "Un nombre a un nombre impair de diviseurs si et seulement si c'est un carré parfait (lien avec les 100 casiers).",
-    "Combien de nombres premiers inférieurs à 100 ? 25."
-   ],
    "categorie": "nombres",
    "titre": "Nombre de diviseurs de 360",
    "reponse": "24",
@@ -3448,11 +3258,6 @@ window.PREPA_BANQUE = {
    "question": "Sans calculatrice : lequel est le plus grand, $e^{\\pi}$ ou $\\pi^{e}$ ?",
    "solution": "$e^{\\pi} > \\pi^{e} \\iff \\pi > e \\ln \\pi \\iff \\frac{1}{e} > \\frac{\\ln \\pi}{\\pi}$. Or $f(x) = \\frac{\\ln x}{x}$ a pour dérivée $\\frac{1 - \\ln x}{x^2}$, maximale en $x = e$ où elle vaut $1/e$. Donc $\\frac{\\ln \\pi}{\\pi} < \\frac{1}{e}$ : **$e^{\\pi}$ est plus grand** ($23{,}14$ contre $22{,}46$).",
    "indice": "Compare $\\frac{\\ln x}{x}$ en $x = e$ et $x = \\pi$.",
-   "variantes": [
-    "$2^{100}$ ou $3^{63}$ : $\\log_2 3 \\approx 1{,}585$, donc $3^{63} = 2^{99{,}86} < 2^{100}$.",
-    "$99^{100}$ ou $100^{99}$ : même fonction $\\ln x / x$, décroissante après $e$ : $99^{100} > 100^{99}$.",
-    "Résoudre $2^x = x^2$ : solutions $x = 2$, $x = 4$, et une négative près de $-0{,}77$."
-   ],
    "categorie": "nombres",
    "titre": "Qui est le plus grand, $e^\\pi$ ou $\\pi^e$ ?"
   },
@@ -3468,11 +3273,6 @@ window.PREPA_BANQUE = {
    "question": "Quel réel $x > 0$ vérifie $x^{x^{x^{\\cdots}}} = 2$ (tour infinie) ?",
    "solution": "Si la tour vaut $y$, alors $x^{y} = y$, donc $x^2 = 2$ et $x = \\sqrt{2} \\approx$ **1,414**. On vérifie que la suite $a_{n+1} = \\sqrt{2}^{\\,a_n}$ converge bien vers 2.",
    "indice": "La tour se retrouve dans son propre exposant.",
-   "variantes": [
-    "Piège : la même équation avec 4 donne aussi $x = \\sqrt{2}$ ; or la tour de $\\sqrt{2}$ vaut 2, pas 4. La tour converge seulement pour $e^{-e} \\le x \\le e^{1/e}$, et sa valeur est au plus $e$.",
-    "Radical infini $\\sqrt{2 + \\sqrt{2 + \\sqrt{2 + \\cdots}}}$ : $y = \\sqrt{2 + y}$, d'où $y = 2$.",
-    "Fraction continue $1 + \\frac{1}{1 + \\frac{1}{1 + \\cdots}} = \\varphi = \\frac{1 + \\sqrt 5}{2}$, limite du rapport de deux termes consécutifs de Fibonacci."
-   ],
    "categorie": "nombres",
    "titre": "Tour de puissances infinie égale à 2",
    "reponse": "sqrt(2)",
@@ -3494,10 +3294,6 @@ window.PREPA_BANQUE = {
    "question": "On écrit 10 comme somme d'entiers positifs. Quel est le plus grand produit possible de ces entiers ?",
    "solution": "Tout terme $\\ge 5$ gagne à être coupé ($2(n - 2) > n$), et $3 \\times 3 > 2 \\times 2 \\times 2$ : on utilise des 3, complétés par des 2. $10 = 3 + 3 + 4$ (ou $3 + 3 + 2 + 2$) : **36**.",
    "indice": "Un 4 vaut 2 + 2 ; un nombre au moins 5 gagne à être cassé en 2 et 3.",
-   "variantes": [
-    "Réels positifs de somme 10 : $k$ parts égales à $10/k$, maximum pour $k$ proche de $10/e$, soit $k = 4$ : $2{,}5^4 \\approx 39{,}06$.",
-    "Minimum de $x^x$ sur $]0, +\\infty[$ : en $x = 1/e$, où il vaut $e^{-1/e} \\approx 0{,}692$."
-   ],
    "categorie": "nombres",
    "titre": "Produit maximal d'entiers de somme 10",
    "reponse": "36",
@@ -3580,9 +3376,6 @@ window.PREPA_BANQUE = {
    "question": "Combien de chiffres a $2^{100}$ (en base 10) ?",
    "solution": "$\\log_{10} 2^{100} = 100 \\times 0{,}30103 = 30{,}103$ : le nombre est entre $10^{30}$ et $10^{31}$, donc **31 chiffres**. Estimation rapide : $2^{100} = (2^{10})^{10} \\approx 1{,}024^{10} \\times 10^{30} \\approx 1{,}27 \\times 10^{30}$.",
    "indice": "$2^{10} = 1\\,024 \\approx 10^3$, ou $\\log_{10} 2 \\approx 0{,}301$.",
-   "variantes": [
-    "$\\log_2(100!) \\approx 525$ : avec Stirling, $\\ln 100! \\approx 100 \\ln 100 - 100 + \\frac12 \\ln(200\\pi) \\approx 363{,}7$, à diviser par $\\ln 2$ (c'est aussi le nombre de bits pour coder une permutation de 100 éléments)."
-   ],
    "categorie": "nombres",
    "titre": "Combien de chiffres a 2 puissance 100 ?",
    "reponse": "31",
@@ -3604,9 +3397,6 @@ window.PREPA_BANQUE = {
    "question": "Démontre que $\\sqrt 2$ est irrationnel. Puis qu'il existe une infinité de nombres premiers.",
    "solution": "1. Si $\\sqrt 2 = p/q$ avec $p, q$ premiers entre eux, $p^2 = 2q^2$ : $p$ est pair, $p = 2r$, d'où $q^2 = 2r^2$ : $q$ est pair. Contradiction.\n2. Si $p_1, \\dots, p_n$ sont tous les premiers, $N = p_1 \\cdots p_n + 1$ n'est divisible par aucun d'eux ; or $N > 1$ a un facteur premier : contradiction.",
    "indice": "Par l'absurde dans les deux cas : $\\sqrt 2 = p/q$ irréductible ; puis une liste finie $p_1, \\dots, p_n$ de tous les premiers.",
-   "variantes": [
-    "Existe-t-il deux irrationnels $a, b$ avec $a^b$ rationnel ? Oui : si $\\sqrt 2^{\\sqrt 2}$ est rationnel c'est fini, sinon $(\\sqrt 2^{\\sqrt 2})^{\\sqrt 2} = 2$."
-   ],
    "categorie": "nombres",
    "titre": "Prouver que racine de 2 est irrationnel, et qu'il y a une infinité de premiers"
   },
@@ -3622,13 +3412,9 @@ window.PREPA_BANQUE = {
    ],
    "type": "numerique",
    "question": "100 casiers fermés. Le passage $k$ ($k = 1$ à 100) change l'état (ouvert ou fermé) de tous les casiers dont le numéro est multiple de $k$. Combien de casiers sont ouverts à la fin ?",
-   "solution": "Le casier $n$ est touché une fois par diviseur de $n$. Les diviseurs vont par paires $(d, n/d)$, sauf quand $d = n/d$ : seuls les carrés parfaits ont un nombre impair de diviseurs. Carrés jusqu'à 100 : $1, 4, \\dots, 100$, soit **10 casiers**.",
+   "solution": "Le casier $n$ est touché une fois par diviseur de $n$. Les diviseurs vont par paires $(d, n/d)$, sauf quand $d = n/d$ : seuls les carrés parfaits ont un nombre impair de diviseurs. Carrés jusqu'à 100 : $1, 4, \\dots, 100$, soit **10 casiers**.\nMême réponse pour 100 ampoules et 100 interrupteurs avec la même règle de bascule.",
    "en": "100 closed lockers. On pass $k$ ($k = 1$ to 100) you toggle every locker whose number is a multiple of $k$. How many lockers are open at the end?",
    "indice": "Combien de fois le casier $n$ est-il touché ?",
-   "variantes": [
-    "1 000 casiers : 31 ouverts ($31^2 = 961 \\le 1\\,000 < 1\\,024$).",
-    "100 ampoules et 100 interrupteurs, même règle : mêmes réponses."
-   ],
    "categorie": "nombres",
    "titre": "100 casiers ouverts et fermés à chaque passage",
    "reponse": "10",
@@ -3652,12 +3438,11 @@ window.PREPA_BANQUE = {
    "solution": "Argument de comptage : 24 possibilités et $3^3 = 27$ issues : c'est possible en principe, à condition que chaque pesée sépare bien les cas.\nPesée 1 : $\\{1,2,3,4\\}$ contre $\\{5,6,7,8\\}$.\n- **Équilibre** : la fausse est parmi 9 à 12. Pesée 2 : $\\{9,10,11\\}$ contre $\\{1,2,3\\}$ (vraies). Si équilibre, c'est 12 : pesée 3 contre une vraie pour le sens. Sinon le sens est connu et il reste 3 pièces : pesée 3 de 9 contre 10.\n- **Déséquilibre**, disons $\\{1,2,3,4\\}$ plus lourd : soit l'une de 1 à 4 est lourde, soit l'une de 5 à 8 est légère. Pesée 2 : $\\{1,2,5\\}$ contre $\\{3,6,9\\}$. Gauche plus lourde : 1 ou 2 lourde, ou 6 légère ; pesée 3 : 1 contre 2 (équilibre → 6). Droite plus lourde : 3 lourde ou 5 légère ; pesée 3 : 3 contre 9. Équilibre : 4 lourde, ou 7 ou 8 légère ; pesée 3 : 7 contre 8 (équilibre → 4).\nCe qui est évalué : l'argument d'information (trois issues par pesée) et l'organisation des cas.",
    "en": "12 coins, one counterfeit that is heavier or lighter (unknown). Find it and determine heavier/lighter in 3 weighings on a balance.",
    "indice": "Compte les cas : 12 pièces et 2 sens, soit $12 \\times 2 = 24$, et trois pesées ont $3^3 = 27$ issues. Première pesée : 4 contre 4.",
-   "variantes": [
-    "Jusqu'à combien de pièces en 3 pesées ? **12** s'il faut aussi trouver le sens, 13 si l'on a une pièce vraie de référence ; en $k$ pesées : $(3^k - 3)/2$ pièces.",
-    "Version « on sait que la fausse est plus lourde » : voir « 8 ou 9 billes, une plus lourde »."
-   ],
    "categorie": "pesees",
-   "titre": "12 pièces, une fausse, 3 pesées"
+   "titre": "12 pièces, une fausse, 3 pesées",
+   "voir": [
+    "ct-billes-plus-lourde"
+   ]
   },
   {
    "id": "ct-billes-plus-lourde",
@@ -3673,10 +3458,6 @@ window.PREPA_BANQUE = {
    "question": "Parmi 9 billes identiques d'apparence, une seule est plus lourde. Avec une balance à deux plateaux, combien de pesées faut-il au minimum pour la trouver à coup sûr ?",
    "solution": "Pesée 1 : 3 contre 3. Si un plateau penche, la lourde y est ; sinon elle est dans le troisième groupe. Pesée 2 : 1 contre 1 parmi les 3 restantes, même raisonnement. **2 pesées**. Avec $k$ pesées on traite $3^k$ billes, et on ne peut pas faire mieux : $\\lceil \\log_3 n \\rceil$.",
    "indice": "Une pesée a trois issues : gauche, droite, équilibre. Fais trois groupes.",
-   "variantes": [
-    "8 billes : toujours 2 pesées (3 contre 3, puis 1 contre 1 ou les 2 restantes).",
-    "27 billes : 3 pesées ; 1 000 billes : 7 pesées ($3^6 = 729 < 1\\,000 \\le 2\\,187$)."
-   ],
    "categorie": "pesees",
    "titre": "9 billes, une plus lourde, 2 pesées",
    "reponse": "2",
@@ -3696,13 +3477,8 @@ window.PREPA_BANQUE = {
    ],
    "type": "numerique",
    "question": "Dix piles de dix pièces. Les vraies pèsent 10 g, et l'une des piles est entièrement faite de fausses pièces de 11 g. Avec une balance électronique précise, combien de pesées faut-il au minimum pour trouver la pile fausse ?",
-   "solution": "Prends 1 pièce de la pile 1, 2 de la pile 2, …, 10 de la pile 10, et pèse le tout. Si tout était vrai : $55 \\times 10 = 550$ g. L'excédent en grammes donne directement le numéro de la pile fausse : **une seule pesée**.",
+   "solution": "Prends 1 pièce de la pile 1, 2 de la pile 2, …, 10 de la pile 10, et pèse le tout. Si tout était vrai : $55 \\times 10 = 550$ g. L'excédent en grammes donne directement le numéro de la pile fausse : **une seule pesée**.\nMême solution pour dix pots de pilules dont un contient des pilules de 11 g au lieu de 10 g.",
    "indice": "Une balance électronique donne un nombre, pas seulement « plus lourd / plus léger ». Prends un nombre différent de pièces dans chaque pile.",
-   "variantes": [
-    "Pots de pilules de 10 g, un pot de pilules de 11 g : même solution.",
-    "**Plusieurs** piles peuvent être fausses : prends $1, 2, 4, 8, \\dots, 512$ pièces ; l'excédent écrit en binaire donne l'ensemble des piles fausses.",
-    "Le poids des fausses est inconnu (mais différent) : deux pesées suffisent (une pièce de référence d'abord, ou un système de poids distincts)."
-   ],
    "categorie": "pesees",
    "titre": "10 piles de pièces, une pile fausse, une seule pesée",
    "reponse": "1",
@@ -3722,12 +3498,8 @@ window.PREPA_BANQUE = {
    ],
    "type": "numerique",
    "question": "Une balance à deux plateaux. On veut pouvoir peser n'importe quelle masse entière de 1 à 40 g, en posant des poids sur l'un ou l'autre plateau. Combien de poids faut-il au minimum, et lesquels ?",
-   "solution": "Chaque poids a trois états, d'où le système ternaire équilibré (chiffres $-1, 0, 1$). Avec $1, 3, 9, 27$ on atteint toutes les masses de 1 à $1 + 3 + 9 + 27 = 40$. Exemple : $5 = 9 - 3 - 1$. Trois poids donnent au plus $(3^3 - 1)/2 = 13$ masses positives, insuffisant : **4 poids**.",
+   "solution": "Chaque poids a trois états, d'où le système ternaire équilibré (chiffres $-1, 0, 1$). Avec $1, 3, 9, 27$ on atteint toutes les masses de 1 à $1 + 3 + 9 + 27 = 40$. Exemple : $5 = 9 - 3 - 1$. Trois poids donnent au plus $(3^3 - 1)/2 = 13$ masses positives, insuffisant : **4 poids**.\nC'est le problème de Bachet : un marchand casse un poids de 40 livres en 4 morceaux qui permettent de tout peser ; ce sont 1, 3, 9 et 27.",
    "indice": "Chaque poids peut être à gauche, à droite ou absent : trois états.",
-   "variantes": [
-    "Poids sur un seul plateau : système binaire, $1, 2, 4, 8, 16, 32$ : 6 poids jusqu'à 63 g.",
-    "Problème de Bachet : un marchand casse un poids de 40 livres en 4 morceaux qui permettent de tout peser : 1, 3, 9 et 27."
-   ],
    "categorie": "pesees",
    "titre": "Le moins de poids pour peser tout entier de 1 à 40 g",
    "reponse": "4",
@@ -3750,11 +3522,6 @@ window.PREPA_BANQUE = {
    "solution": "Allume la corde A par les deux bouts et la corde B par un bout. A brûle en 30 minutes. À cet instant, allume l'autre bout de B : il lui restait 30 minutes de combustion, elle finit en 15 minutes. Total : **45 minutes**.",
    "en": "Two ropes each burn in exactly one hour, but unevenly. How do you measure 45 minutes?",
    "indice": "Allumer une corde par les deux bouts divise son temps de combustion par deux, quelle que soit l'irrégularité.",
-   "variantes": [
-    "Mesurer 15 minutes avec deux cordes : allume A par les deux bouts et B par un bout ; quand A finit (30 min), allume l'autre bout de B et **commence** à compter : 15 minutes.",
-    "Une seule corde : on mesure 30 minutes (deux bouts) et 60 minutes, rien d'autre de garanti.",
-    "Avec trois cordes : 7 minutes 30 s, 52 minutes 30 s, etc. (chaque allumage d'un bout supplémentaire divise le reste par deux)."
-   ],
    "categorie": "pesees",
    "titre": "Deux cordes qui brûlent en une heure"
   },
@@ -3772,10 +3539,6 @@ window.PREPA_BANQUE = {
    "question": "Avec un sablier de 7 minutes et un de 11 minutes, comment mesurer exactement 15 minutes ?",
    "solution": "- $t = 0$ : retourne les deux sabliers.\n- $t = 7$ : le petit est vide, retourne-le.\n- $t = 11$ : le grand est vide ; le petit coule depuis 4 minutes (4 minutes de sable en bas, 3 en haut). Retourne-le : les 4 minutes passées en bas remontent.\n- $t = 15$ : le petit se vide. **15 minutes**.\nPrincipe : quand un sablier se vide, retourner l'autre « rend » la durée qu'il vient d'écouler.",
    "indice": "Lance les deux en même temps. Que reste-t-il dans le grand quand le petit est vide ?",
-   "variantes": [
-    "Sabliers de 4 et 7 minutes, mesurer **9 minutes** : lance les deux ; à $t = 4$, retourne le 4 ; à $t = 7$, retourne le 7 ; à $t = 8$, le 4 se vide, retourne le 7 (il ne contient en bas qu'une minute) : il se vide à $t = 9$.",
-    "Sabliers de 5 et 9 minutes, mesurer 13 minutes : même idée (à $t = 9$, le 5 retourné à $t = 5$ a coulé 4 minutes ; retourne-le, fin à $t = 13$)."
-   ],
    "categorie": "pesees",
    "titre": "Sabliers de 7 et 11 minutes pour mesurer 15 minutes"
   },
@@ -3793,11 +3556,6 @@ window.PREPA_BANQUE = {
    "question": "Tu as une cruche de 3 L, une de 5 L, un robinet et un évier, sans graduation. Comment obtenir exactement 4 L ? Combien d'opérations (remplir, vider ou transvaser) au minimum ?",
    "solution": "Remplis 5 (5, 0) ; verse dans 3 (2, 3) ; vide 3 (2, 0) ; verse les 2 L dans 3 (0, 2) ; remplis 5 (5, 2) ; complète 3 avec 1 L (4, 3). **6 opérations**.\nGénéral : avec des cruches $a$ et $b$, on atteint exactement les multiples de $\\mathrm{pgcd}(a, b)$ jusqu'à $\\max(a, b)$ (identité de Bézout).",
    "indice": "Remplis la grande et verse-la dans la petite.",
-   "variantes": [
-    "Avec la petite d'abord (remplir 3, verser dans 5, …) on obtient aussi 4 L, en 8 opérations.",
-    "Cruches de 4 et 6 L : impossible d'obtenir un nombre impair de litres ($\\mathrm{pgcd} = 2$).",
-    "Trois cruches 8, 5, 3, la grande pleine : partager en deux fois 4 L (7 transvasements)."
-   ],
    "categorie": "pesees",
    "titre": "Cruches de 3 et 5 litres pour obtenir 4 litres",
    "reponse": "6",
@@ -3857,10 +3615,6 @@ window.PREPA_BANQUE = {
    "question": "Un ouvrier travaille 7 jours et doit recevoir chaque soir $1/7$ d'une barre d'or (la barre est divisée en 7 segments). Combien de coupes au minimum, s'il peut rendre des morceaux ?",
    "solution": "Deux coupes donnent des morceaux de **1, 2 et 4** segments. Jour 1 : donne 1. Jour 2 : donne 2, reprends 1. Jour 3 : donne 1. Jour 4 : donne 4, reprends 1 et 2. Etc. C'est l'écriture binaire. Une seule coupe ne donne que deux morceaux, insuffisant : **2 coupes**.",
    "indice": "Avec des morceaux de 1, 2 et 4 segments, on forme tous les montants de 1 à 7.",
-   "variantes": [
-    "Une chaîne de 7 maillons : ouvrir **un seul** maillon (le troisième) donne des morceaux de 1, 2 et 4.",
-    "15 jours : 3 coupes (morceaux 1, 2, 4, 8)."
-   ],
    "categorie": "pesees",
    "titre": "Payer un ouvrier chaque jour avec une barre d'or",
    "reponse": "2",
@@ -3880,14 +3634,9 @@ window.PREPA_BANQUE = {
    ],
    "type": "numerique",
    "question": "Une bouteille sur 1 000 est empoisonnée ; le poison tue en 24 h, même à dose infime. Tu as 24 h pour la trouver. Combien de rats de laboratoire faut-il au minimum ?",
-   "solution": "Numérote les bouteilles en binaire (10 bits suffisent : $2^{10} = 1\\,024 \\ge 1\\,000$). Le rat $i$ boit de chaque bouteille dont le bit $i$ vaut 1. L'ensemble des rats morts donne l'écriture binaire de la bouteille empoisonnée : **10 rats**.",
+   "solution": "Numérote les bouteilles en binaire (10 bits suffisent : $2^{10} = 1\\,024 \\ge 1\\,000$). Le rat $i$ boit de chaque bouteille dont le bit $i$ vaut 1. L'ensemble des rats morts donne l'écriture binaire de la bouteille empoisonnée : **10 rats**.\nAvec des bandelettes réutilisables qui répondent en une heure et 10 heures devant soi, on peut faire une dichotomie séquentielle ; le codage parallèle reste plus économe en bandelettes.",
    "en": "One of 1,000 bottles is poisoned; the poison kills within 24 hours even in tiny doses. You have 24 hours. Minimum number of rats needed?",
    "indice": "Chaque rat donne un bit d'information : mort ou vivant.",
-   "variantes": [
-    "48 heures, deux vagues : chaque rat a 3 issues (mort le jour 1, le jour 2, vivant) : $3^7 = 2\\,187 \\ge 1\\,000$, donc **7 rats** (codage en base 3).",
-    "Bandelettes de test réutilisables qui donnent le résultat en une heure, et 10 heures : dichotomie séquentielle possible, mais le codage parallèle reste plus économe en bandelettes.",
-    "Deux bouteilles empoisonnées : problème de test de groupe, il faut nettement plus de rats (au moins $\\log_2 \\binom{1000}{2} \\approx 19$)."
-   ],
    "categorie": "pesees",
    "titre": "1 000 bouteilles, une empoisonnée, 24 heures",
    "reponse": "10",
@@ -3909,17 +3658,15 @@ window.PREPA_BANQUE = {
    "question": "On choisit trois points uniformément et indépendamment sur un cercle. Quelle est la probabilité que le triangle formé soit acutangle (tous ses angles aigus) ?",
    "solution": "Le triangle est obtus ou rectangle exactement quand les trois points tiennent dans un demi-cercle, ce qui arrive avec probabilité $3/4$ (chacun des trois points peut être « le premier » d'un demi-cercle qui contient les deux autres : $3 \\times (1/2)^2$). Triangle aigu : $1 - 3/4 =$ **1/4**.",
    "indice": "Un triangle inscrit est aigu si et seulement s'il contient le centre du cercle, c'est-à-dire si les trois points ne sont pas dans un même demi-cercle.",
-   "variantes": [
-    "Probabilité que le triangle **contienne le centre** du cercle : la même, $1/4$.",
-    "Quatre points uniformes sur une **sphère** : le tétraèdre contient le centre avec probabilité $1/8$ (théorème de Wendel : $n$ points sont dans un même hémisphère de la sphère de $\\mathbb{R}^d$ avec probabilité $2^{1-n}\\sum_{k=0}^{d-1}\\binom{n-1}{k}$, soit $7/8$ ici).",
-    "$n$ points sur un cercle tous dans un demi-cercle : $n / 2^{n-1}$ (voir la fiche dédiée)."
-   ],
    "categorie": "probas",
    "titre": "Trois points sur un cercle : triangle aigu ?",
    "reponse": "1/4",
    "valeur": 0.25,
    "tolerance": 0.005,
-   "duree": 300
+   "duree": 300,
+   "voir": [
+    "proba-demi-cercle"
+   ]
   },
   {
    "id": "ct-p-rendez-vous",
@@ -3935,10 +3682,6 @@ window.PREPA_BANQUE = {
    "question": "Deux amis arrivent indépendamment à un instant uniforme entre 8 h et 9 h ; chacun attend 15 minutes puis s'en va. Probabilité qu'ils se rencontrent ?",
    "solution": "Ils se rencontrent si $|X - Y| \\le 1/4$. Le complémentaire forme deux triangles de côté $3/4$ : aire $(3/4)^2 = 9/16$. Probabilité : $1 - 9/16 =$ **7/16**.",
    "indice": "Dessine le carré $[0, 1]^2$ des heures d'arrivée et la bande $|x - y| \\le 1/4$.",
-   "variantes": [
-    "Attente de $t$ (en fraction d'heure) : $1 - (1 - t)^2$.",
-    "L'un attend 10 minutes, l'autre 20 : aire $1 - \\frac12 (5/6)^2 - \\frac12 (2/3)^2$."
-   ],
    "categorie": "probas",
    "titre": "Rendez-vous entre 8 h et 9 h, attente de 15 minutes",
    "reponse": "7/16",
@@ -3960,9 +3703,6 @@ window.PREPA_BANQUE = {
    "question": "On lance une aiguille de longueur 1 sur un parquet dont les lames ont une largeur 1. Probabilité que l'aiguille croise une ligne ?",
    "solution": "$x$ uniforme sur $[0, 1/2]$, $\\theta$ uniforme sur $[0, \\pi/2]$ ; croisement si $x \\le \\frac12 \\sin\\theta$.\n$$\\mathbb{P} = \\frac{\\int_0^{\\pi/2} \\frac12 \\sin\\theta \\, d\\theta}{\\frac12 \\cdot \\frac{\\pi}{2}} = \\frac{1/2}{\\pi/4} = \\frac{2}{\\pi} \\approx 0{,}637.$$\nRéponse : **$2/\\pi$**. Astuce élégante (« nouille de Buffon ») : l'espérance du nombre de croisements est proportionnelle à la longueur, quelle que soit la forme.",
    "indice": "Paramètre l'aiguille par la distance $x$ de son centre à la ligne la plus proche ($0 \\le x \\le 1/2$) et l'angle $\\theta$.",
-   "variantes": [
-    "Aiguille de longueur $\\ell \\le d$ : $\\frac{2\\ell}{\\pi d}$ ; méthode de Monte-Carlo historique pour estimer $\\pi$."
-   ],
    "categorie": "probas",
    "titre": "L'aiguille de Buffon",
    "reponse": "2/pi",
@@ -3983,9 +3723,6 @@ window.PREPA_BANQUE = {
    "question": "On trace une corde « au hasard » dans un cercle. Quelle est la probabilité qu'elle soit plus longue que le côté du triangle équilatéral inscrit ?",
    "solution": "- Deux extrémités uniformes sur le cercle : **1/3**.\n- Un rayon uniforme puis un point uniforme sur ce rayon, corde perpendiculaire : **1/2**.\n- Milieu de la corde uniforme dans le disque : **1/4**.\nLeçon : une probabilité n'a de sens qu'avec un modèle précis. En entretien, dire « ça dépend » **et** donner les trois réponses.",
    "indice": "Le résultat dépend de ce que « au hasard » veut dire. Propose trois façons de tirer une corde.",
-   "variantes": [
-    "Longueur moyenne d'une corde à extrémités uniformes (rayon 1) : $4/\\pi \\approx 1{,}27$."
-   ],
    "categorie": "probas",
    "titre": "Paradoxe de Bertrand : une corde « au hasard »"
   },
@@ -4003,9 +3740,6 @@ window.PREPA_BANQUE = {
    "question": "On lance un dé jusqu'à obtenir une face déjà sortie. Combien de lancers en moyenne (le lancer de la répétition compris) ?",
    "solution": "$\\mathbb{P}(N > k) = \\frac{6 \\cdot 5 \\cdots (6 - k + 1)}{6^k}$ pour $k \\le 6$.\n$$\\mathbb{E}[N] = 1 + 1 + \\frac56 + \\frac{5 \\cdot 4}{36} + \\frac{120}{216} + \\frac{360}{1296} + \\frac{720}{7776} = \\frac{1223}{324} \\approx 3{,}77.$$\nRéponse : **$1223/324 \\approx 3{,}77$**. C'est le problème des anniversaires avec 6 « jours ».",
    "indice": "$\\mathbb{E}[N] = \\sum_{k \\ge 0} \\mathbb{P}(N > k)$, et $N > k$ signifie que les $k$ premiers lancers sont tous différents.",
-   "variantes": [
-    "Deux lancers consécutifs égaux : nombre moyen de lancers $1 + 6 = 7$."
-   ],
    "categorie": "probas",
    "titre": "Lancer un dé jusqu'à revoir une face",
    "reponse": "1223/324",
@@ -4027,10 +3761,6 @@ window.PREPA_BANQUE = {
    "question": "Une fourmi part d'un sommet d'un cube et, à chaque minute, suit une arête au hasard (3 choix). En combien de minutes en moyenne atteint-elle le sommet opposé ?",
    "solution": "Notons $e_k$ l'espérance depuis la distance $k$.\n$e_3 = 1 + e_2$ ; $e_2 = 1 + \\frac13 e_3 + \\frac23 e_1$ ; $e_1 = 1 + \\frac23 e_2$.\nOn trouve $e_1 = 7$, $e_2 = 9$, $e_3 =$ **10**.",
    "indice": "Regroupe les sommets par distance au sommet d'arrivée : 3, 2, 1, 0.",
-   "variantes": [
-    "Grenouille sur les sommets d'un **hexagone**, jusqu'au sommet opposé : $9$ sauts (distances 3, 2, 1 : $e_3 = 9$).",
-    "Retour au point de départ sur un cube : $8$ minutes en moyenne (temps de retour $= 1/\\pi_i$ pour une marche sur un graphe régulier)."
-   ],
    "categorie": "probas",
    "titre": "Marche aléatoire sur un cube jusqu'au sommet opposé",
    "reponse": "10",
@@ -4052,12 +3782,11 @@ window.PREPA_BANQUE = {
    "question": "Ta pièce tombe sur pile avec une probabilité $p$ inconnue ($0 < p < 1$). Comment simuler un tirage parfaitement équitable ? Combien de lancers en moyenne ?",
    "solution": "Méthode de von Neumann : lance deux fois ; PF donne « pile », FP donne « face » (chacun de probabilité $p(1 - p)$) ; PP ou FF : recommence. Nombre moyen de paires : $\\frac{1}{2p(1 - p)}$, soit $\\frac{1}{p(1 - p)}$ lancers ($4$ si $p = 1/2$).",
    "indice": "Lance deux fois. Quelles issues ont la même probabilité ?",
-   "variantes": [
-    "Simuler un dé à 7 faces avec un dé à 5 faces (rejet) : voir la fiche de code « rand7 ».",
-    "Simuler une probabilité $1/3$ avec une pièce équitable : lance deux fois, PP = oui, PF ou FP = non, FF = recommence."
-   ],
    "categorie": "probas",
-   "titre": "Fabriquer un tirage équitable avec une pièce biaisée"
+   "titre": "Fabriquer un tirage équitable avec une pièce biaisée",
+   "voir": [
+    "algo-rand7"
+   ]
   },
   {
    "id": "ct-p-urnes-bleues",
@@ -4094,10 +3823,6 @@ window.PREPA_BANQUE = {
    "question": "Un tiroir contient des chaussettes rouges et noires. Si l'on en tire deux au hasard, la probabilité qu'elles soient toutes deux rouges vaut exactement $1/2$. Quel est le plus petit nombre total de chaussettes ?",
    "solution": "$2r(r - 1) = n(n - 1)$. Pour $n = 4$, $r = 3$ : $\\frac{3 \\times 2}{4 \\times 3} = \\frac12$. Plus petit total : **4** (3 rouges, 1 noire). Solution suivante : 21 chaussettes dont 15 rouges.",
    "indice": "$\\frac{r(r - 1)}{n(n - 1)} = \\frac12$. Essaie de petites valeurs de $n$.",
-   "variantes": [
-    "Avec un nombre **pair** de chaussettes noires : 21 chaussettes (15 rouges, 6 noires).",
-    "Combien en tirer dans le noir pour être **sûr** d'avoir une paire de même couleur ? 3 (principe des tiroirs). Pour être sûr d'avoir deux rouges parmi 10 rouges et 10 noires : 12."
-   ],
    "categorie": "probas",
    "titre": "Chaussettes : deux rouges avec probabilité 1/2",
    "reponse": "4",
@@ -4140,9 +3865,6 @@ window.PREPA_BANQUE = {
    "question": "On lance 100 pièces équilibrées. Si au moins 60 tombent sur pile, tu gagnes 10 € ; sinon rien. Le jeu coûte 1 €. Quelle est (à peu près) la probabilité de gagner ? Faut-il jouer ?",
    "solution": "Le nombre de piles a pour moyenne 50 et écart-type $\\sqrt{100 \\times \\frac14} = 5$. Avec la correction de continuité, $\\mathbb{P}(X \\ge 60) \\approx \\mathbb{P}(Z \\ge 1{,}9) \\approx 0{,}029$ (valeur exacte $0{,}0284$). Gain espéré : $10 \\times 0{,}028 \\approx 0{,}28$ € pour 1 € de mise : **ne pas jouer**.",
    "indice": "Approximation normale : moyenne 50, écart-type 5.",
-   "variantes": [
-    "Probabilité d'obtenir exactement 50 piles sur 100 : $\\binom{100}{50} 2^{-100} \\approx 0{,}080$ (approximation $1/\\sqrt{50\\pi}$)."
-   ],
    "categorie": "probas",
    "titre": "Payer 1 € pour gagner 10 € si au moins 60 piles sur 100",
    "reponse": "0.0284",
@@ -4164,9 +3886,6 @@ window.PREPA_BANQUE = {
    "question": "Un revolver à 6 chambres contient deux balles dans des chambres **adjacentes** ; le barillet a été tourné au hasard. Ton adversaire tire, le coup est vide. C'est ton tour : préfères-tu qu'on fasse tourner le barillet, ou tirer directement ? Quelle est ta probabilité de survie dans le meilleur cas ?",
    "solution": "Chambres : B B V V V V (cycliquement). Sachant la chambre courante vide (4 cas équiprobables), la suivante est vide dans 3 cas sur 4 (seule la dernière chambre vide précède une balle).\n- Sans tourner : survie $3/4$.\n- En tournant : survie $4/6 = 2/3$.\nTirer **sans tourner** : survie **3/4**.",
    "indice": "Sachant que la chambre courante était vide, combien de chambres vides suivantes sont suivies d'une chambre vide ?",
-   "variantes": [
-    "Balles non adjacentes (une chambre vide entre elles, ou placées au hasard) : le calcul change ; avec deux balles placées au hasard, survie sans tourner $3/5$, moins bonne que $2/3$ : il faut alors tourner."
-   ],
    "categorie": "probas",
    "titre": "Roulette russe à deux balles adjacentes",
    "reponse": "3/4",
@@ -4207,15 +3926,15 @@ window.PREPA_BANQUE = {
    "question": "On casse un bâton de longueur 1 en un point uniforme. Quelle est la longueur moyenne du morceau qui contient le milieu du bâton ?",
    "solution": "Le morceau contenant le milieu est le plus long, de longueur $\\max(U, 1 - U)$, uniforme sur $[1/2, 1]$ : espérance **3/4**.",
    "indice": "Ce morceau est le plus long des deux.",
-   "variantes": [
-    "Bâton cassé en **deux** points uniformes : longueurs moyennes du plus long, du moyen et du plus court morceau : $11/18$, $5/18$ et $1/9$ (voir la fiche « bâton en trois morceaux »)."
-   ],
    "categorie": "probas",
    "titre": "Le morceau de bâton qui contient le milieu",
    "reponse": "3/4",
    "valeur": 0.75,
    "tolerance": 0.005,
-   "duree": 240
+   "duree": 240,
+   "voir": [
+    "proba-baton-plus-long"
+   ]
   },
   {
    "id": "ct-p-baton-casse-deux-fois",
@@ -4229,10 +3948,6 @@ window.PREPA_BANQUE = {
    "question": "On casse un bâton de longueur 1 en un point uniforme, puis on casse le **plus long** des deux morceaux en un point uniforme. Probabilité que les trois morceaux forment un triangle ?",
    "solution": "Soit $L$ le plus long morceau ($L$ uniforme sur $[1/2, 1]$), cassé en $V$ et $L - V$ avec $V$ uniforme sur $[0, L]$. Triangle si $V < 1/2$ et $L - V < 1/2$ (l'autre morceau $1 - L$ est déjà $< 1/2$), soit $V \\in ]L - 1/2, 1/2[$, de probabilité $\\frac{1 - L}{L}$.\n$$\\mathbb{P} = 2 \\int_{1/2}^{1} \\frac{1 - \\ell}{\\ell} \\, d\\ell = 2\\left(\\ln 2 - \\frac12\\right) = 2\\ln 2 - 1 \\approx 0{,}386.$$\nRéponse : **$2 \\ln 2 - 1 \\approx 0{,}386$**, plus que les $1/4$ de la cassure en deux points simultanés.",
    "indice": "Le plus long morceau mesure $L$ uniforme sur $[1/2, 1]$. Les trois morceaux forment un triangle si chacun est $< 1/2$.",
-   "variantes": [
-    "Casser l'un des deux morceaux **au hasard** (pas forcément le plus long) : $\\ln 2 - \\frac12 \\approx 0{,}193$.",
-    "Trois longueurs indépendantes uniformes sur $[0, 1]$ forment un triangle avec probabilité $1/2$."
-   ],
    "categorie": "probas",
    "titre": "Casser le bâton, puis casser le plus long morceau",
    "reponse": "2*ln(2)-1",
@@ -4294,9 +4009,6 @@ window.PREPA_BANQUE = {
    "question": "Au tennis, depuis « égalité », il faut gagner deux points d'affilée de plus que l'adversaire. Tu gagnes chaque point avec probabilité $0{,}6$, indépendamment. Probabilité de gagner le jeu ?",
    "solution": "$w = p^2 + 2pq\\,w$, donc $w = \\frac{p^2}{1 - 2pq} = \\frac{p^2}{p^2 + q^2} = \\frac{0{,}36}{0{,}52} = \\frac{9}{13} \\approx 0{,}692$. Réponse : **9/13**.",
    "indice": "Après deux points : tu gagnes ($p^2$), tu perds ($q^2$), ou retour à égalité ($2pq$).",
-   "variantes": [
-    "C'est une ruine du joueur avec des barrières à $\\pm 2$ ; un avantage de 60 % par point devient 69 % par jeu, et davantage par set : l'avantage s'amplifie."
-   ],
    "categorie": "probas",
    "titre": "Gagner un jeu de tennis depuis égalité",
    "reponse": "9/13",
@@ -4337,10 +4049,6 @@ window.PREPA_BANQUE = {
    "question": "On mélange un jeu de 52 cartes (26 rouges, 26 noires) et on les aligne. En moyenne, combien de paires de cartes voisines sont de couleurs différentes ?",
    "solution": "Pour chaque paire de voisines, $\\mathbb{P}(\\text{couleurs différentes}) = 2 \\times \\frac{26}{52} \\times \\frac{26}{51} = \\frac{26}{51}$. Sur 51 paires : **26**.",
    "indice": "Linéarité de l'espérance sur les 51 paires de voisines.",
-   "variantes": [
-    "Paires « rouge puis noire » uniquement : 13.",
-    "Nombre moyen de séries (runs) dans 10 lancers de pièce : $1 + 9 \\times \\frac12 = 5{,}5$."
-   ],
    "categorie": "probas",
    "titre": "Cartes voisines de couleurs différentes dans un jeu mélangé",
    "reponse": "26",
@@ -4362,9 +4070,6 @@ window.PREPA_BANQUE = {
    "question": "Un ivrogne est à un pas du bord d'une falaise. À chaque pas, il se rapproche du bord avec probabilité $1/3$ et s'en éloigne avec probabilité $2/3$. Probabilité qu'il tombe un jour ?",
    "solution": "$x = \\frac13 + \\frac23 x^2$, d'où $2x^2 - 3x + 1 = 0$ : $x = 1$ ou $x = \\frac12$. Comme la marche dérive loin de la falaise, la bonne racine est la plus petite : **1/2**. En général, avec $p < 1/2$ vers le bord : $x = p/(1 - p)$.",
    "indice": "Soit $x$ la probabilité de tomber en partant d'un pas du bord. Partir de deux pas revient à « descendre d'un pas » deux fois de suite.",
-   "variantes": [
-    "Avec $p = 1/2$ : il tombe presque sûrement (marche récurrente), mais le temps moyen est infini."
-   ],
    "categorie": "probas",
    "titre": "L'ivrogne au bord de la falaise",
    "reponse": "1/2",
@@ -4386,9 +4091,6 @@ window.PREPA_BANQUE = {
    "question": "On lance 10 fois une pièce équilibrée. Probabilité de n'avoir jamais deux piles consécutifs ?",
    "solution": "$a_n = a_{n-1} + a_{n-2}$ (la suite commence par F, ou par PF), $a_1 = 2$, $a_2 = 3$ : $a_{10} = 144$. Probabilité : $144/1024 =$ **9/64** $\\approx 0{,}14$.",
    "indice": "Le nombre de suites de longueur $n$ sans deux piles consécutifs vérifie une récurrence de Fibonacci.",
-   "variantes": [
-    "Probabilité qu'une série d'au moins 3 piles apparaisse en 5 lancers : $8/32 = 1/4$."
-   ],
    "categorie": "probas",
    "titre": "Dix lancers sans deux piles consécutifs",
    "reponse": "9/64",
@@ -4429,9 +4131,6 @@ window.PREPA_BANQUE = {
    "question": "Deux joueurs lancent chacun leur pièce simultanément, à chaque tour, jusqu'à obtenir pile. Celui qui obtient pile le premier gagne ; s'ils l'obtiennent au même tour, c'est une égalité. Probabilité d'égalité ?",
    "solution": "On conditionne sur le premier tour où quelque chose se passe : $\\mathbb{P}(\\text{égalité}) = \\frac{1/4}{1/4 + 1/2} =$ **1/3**.",
    "indice": "À chaque tour : les deux piles ($1/4$), un seul ($1/2$), aucun ($1/4$, on recommence).",
-   "variantes": [
-    "Trois amis lancent une pièce, l'« intrus » paie le café ; tous pareils, on recommence : nombre moyen de tours $1/(6/8) = 4/3$."
-   ],
    "categorie": "probas",
    "titre": "Deux joueurs lancent jusqu'à pile : probabilité d'égalité",
    "reponse": "1/3",
@@ -4470,9 +4169,6 @@ window.PREPA_BANQUE = {
    "question": "Au craps, on lance deux dés. 7 ou 11 : gagné ; 2, 3 ou 12 : perdu. Sinon le total devient le « point », et l'on relance jusqu'à refaire le point (gagné) ou faire 7 (perdu). Probabilité de gagner ?",
    "solution": "$\\mathbb{P} = \\frac{8}{36} + \\sum_{k \\in \\{4,5,6,8,9,10\\}} p_k \\frac{p_k}{p_k + 6/36}$, avec $p_4 = p_{10} = 3/36$, $p_5 = p_9 = 4/36$, $p_6 = p_8 = 5/36$.\n$$\\mathbb{P} = \\frac{8}{36} + 2\\left(\\frac{1}{36} + \\frac{2}{45} + \\frac{25}{396}\\right) = \\frac{244}{495} \\approx 0{,}493.$$\nRéponse : **244/495**, légèrement défavorable.",
    "indice": "Une fois le point $k$ établi, la probabilité de le refaire avant 7 vaut $\\frac{p_k}{p_k + p_7}$.",
-   "variantes": [
-    "Probabilité de faire un total de 8 avant un 7 : $\\frac{5}{5 + 6} = \\frac{5}{11}$."
-   ],
    "categorie": "probas",
    "titre": "Probabilité de gagner au craps",
    "reponse": "244/495",
@@ -4494,10 +4190,6 @@ window.PREPA_BANQUE = {
    "question": "On choisit un point uniformément dans un disque de rayon 1. Quelle est sa distance moyenne au centre ?",
    "solution": "$R$ a pour densité $2r$ sur $[0, 1]$ : $\\mathbb{E}[R] = \\int_0^1 2r^2\\,dr =$ **2/3**. La masse est concentrée près du bord.",
    "indice": "$\\mathbb{P}(R \\le r) = r^2$ : ce n'est pas $1/2$.",
-   "variantes": [
-    "Point uniforme dans un carré unité : probabilité d'être plus près du centre que du bord : $\\frac{4\\sqrt2 - 5}{3} \\approx 0{,}219$.",
-    "Point dans une boule de rayon 1 (dimension 3) : distance moyenne $3/4$."
-   ],
    "categorie": "probas",
    "titre": "Distance moyenne d'un point du disque à son centre",
    "reponse": "2/3",
@@ -4519,9 +4211,6 @@ window.PREPA_BANQUE = {
    "question": "Une pièce a un biais $p$ inconnu, a priori uniforme sur $[0, 1]$. Elle donne 3 piles en 3 lancers. Probabilité que le lancer suivant soit pile ?",
    "solution": "Règle de succession de Laplace : $\\frac{k + 1}{n + 2} = \\frac{4}{5}$. Réponse : **4/5**. Avec un a priori uniforme, on « ajoute un pile et un face imaginaires ».",
    "indice": "Loi a posteriori Bêta$(k + 1, n - k + 1)$, de moyenne $\\frac{k + 1}{n + 2}$.",
-   "variantes": [
-    "Après 0 lancer : $1/2$ ; après $k$ piles sur $n$ : $(k + 1)/(n + 2)$."
-   ],
    "categorie": "probas",
    "titre": "Pièce de biais inconnu : trois piles, puis ?",
    "reponse": "4/5",
@@ -4562,15 +4251,15 @@ window.PREPA_BANQUE = {
    "question": "Une grenouille est sur la rive, face à 10 nénuphars alignés, le dernier étant l'autre rive. À chaque saut, elle choisit uniformément l'un des nénuphars situés devant elle. Combien de sauts en moyenne pour atteindre l'autre rive ?",
    "solution": "Le nénuphar $k$ (en comptant depuis l'arrivée) est visité avec probabilité $1/k$ : nombre moyen de sauts $= H_{10} = 1 + \\frac12 + \\dots + \\frac{1}{10} = \\frac{7381}{2520} \\approx$ **2,93**.",
    "indice": "Chaque nénuphar $k$ est visité avec une probabilité simple. Ou récurrence $e_n = 1 + \\frac1n \\sum_{k<n} e_k$.",
-   "variantes": [
-    "Records d'une suite de $n$ valeurs i.i.d. continues : même espérance $H_n$ (voir la fiche dédiée)."
-   ],
    "categorie": "probas",
    "titre": "La grenouille qui saute vers l'avant au hasard",
    "reponse": "7381/2520",
    "valeur": 2.9289682539682538,
    "tolerance": 0.005,
-   "duree": 300
+   "duree": 300,
+   "voir": [
+    "proba-records"
+   ]
   },
   {
    "id": "ct-p-des-efron",
@@ -4584,11 +4273,11 @@ window.PREPA_BANQUE = {
    "question": "Je te propose de choisir un dé parmi trois dés truqués, puis je choisis le mien ; le plus grand résultat gagne. Pourquoi est-ce une mauvaise affaire pour toi ? Donne un exemple de tels dés.",
    "solution": "Exemple : A = (2, 2, 4, 4, 9, 9), B = (1, 1, 6, 6, 8, 8), C = (3, 3, 5, 5, 7, 7). A bat B, B bat C et C bat A, chacun avec probabilité $5/9$. Quel que soit ton choix, je prends celui qui le bat : la relation « bat le plus souvent » n'est **pas transitive**. Écho en finance : comparer des stratégies deux à deux ne donne pas forcément un classement.",
    "indice": "« A bat B » et « B bat C » n'impliquent pas « A bat C ».",
-   "variantes": [
-    "Jeu de Penney sur les séquences de pièces : même non-transitivité (voir la fiche « Penney »)."
-   ],
    "categorie": "probas",
-   "titre": "Les dés non transitifs"
+   "titre": "Les dés non transitifs",
+   "voir": [
+    "proba-penney-ppf-pff"
+   ]
   },
   {
    "id": "ct-p-simpson",
@@ -4622,10 +4311,6 @@ window.PREPA_BANQUE = {
    "solution": "1. 5 courses de 5 : on classe chaque groupe.\n2. 6ᵉ course : les 5 vainqueurs. Le gagnant (A1) est le plus rapide de tous.\n3. Candidats pour les places 2 et 3 : A2, A3 (groupe du 1ᵉʳ), B1, B2 (groupe du 2ᵉ de la course 6), C1 (groupe du 3ᵉ). Tous les autres ont au moins trois chevaux plus rapides. 7ᵉ course avec ces 5 : les deux premiers sont les 2ᵉ et 3ᵉ.\nTotal : **7 courses**.",
    "en": "25 horses, a track that fits 5 at a time, no stopwatch. Minimum number of races to find the 3 fastest?",
    "indice": "5 courses de groupes, puis une course des 5 vainqueurs. Quels chevaux peuvent encore être 2ᵉ ou 3ᵉ ?",
-   "variantes": [
-    "Seulement le plus rapide : **6** courses ; les deux plus rapides : 7 (A2 contre B1).",
-    "Variante à 64 chevaux et 8 couloirs pour les 4 plus rapides : même tableau des candidats (un cheval est éliminé dès que quatre chevaux plus rapides que lui sont identifiés) ; ici il reste 9 candidats pour 3 places, d'où une course de plus que ce qu'on espère ; dérouler le tableau à voix haute est ce qui est noté."
-   ],
    "categorie": "recherche",
    "titre": "25 chevaux, 5 par course, trouver les 3 plus rapides",
    "reponse": "7",
@@ -4649,11 +4334,6 @@ window.PREPA_BANQUE = {
    "solution": "Avec $n$ lâchers, on lâche le premier œuf à l'étage $n$ ; s'il casse, on teste un à un les $n - 1$ étages en dessous avec le second. S'il ne casse pas, on monte de $n - 1$ étages, puis $n - 2$, etc. On couvre\n$$n + (n - 1) + \\dots + 1 = \\frac{n(n + 1)}{2} \\text{ étages}.$$\nIl faut $n(n + 1)/2 \\ge 100$, donc **$n = 14$** ($14 \\times 15 / 2 = 105$). Étages du premier œuf : 14, 27, 39, 50, 60, 69, 77, 84, 90, 95, 99, 100.",
    "en": "Two identical eggs, a 100-floor building. Find the highest floor from which an egg survives. Minimum number of drops in the worst case?",
    "indice": "Si tu disposes de $n$ lâchers au total, de quel étage lâcher le premier œuf ?",
-   "variantes": [
-    "**Trois** œufs : avec $n$ lâchers on couvre $\\binom{n}{1} + \\binom{n}{2} + \\binom{n}{3}$ étages ; il faut **9** lâchers ($9 + 36 + 84 = 129 \\ge 100$, alors que 8 donne $8 + 28 + 56 = 92$).",
-    "$k$ œufs et $n$ lâchers : $\\sum_{i=1}^{k} \\binom{n}{i}$ étages couverts (programmation dynamique classique).",
-    "Un seul œuf : on monte étage par étage, 100 lâchers au pire."
-   ],
    "categorie": "recherche",
    "titre": "Deux œufs et un immeuble de 100 étages",
    "reponse": "14",
@@ -4677,16 +4357,15 @@ window.PREPA_BANQUE = {
    "solution": "1 et 2 traversent (2), 1 revient (1), 5 et 10 traversent (10), 2 revient (2), 1 et 2 traversent (2) : **17 minutes**.\nL'astuce : faire traverser les deux plus lents ensemble. La stratégie « 1 accompagne tout le monde » donne 19.",
    "en": "Four people cross a bridge at night with one torch; at most two at a time, the torch must go with each crossing. They take 1, 2, 5 and 10 minutes; a pair walks at the slower pace. Minimum total time?",
    "indice": "Le 5 et le 10 doivent-ils traverser séparément ?",
-   "variantes": [
-    "Temps 1, 2, 7, 10 : 17 aussi ($2 + 1 + 10 + 2 + 2$) ; avec 1, 5, 6, 7 c'est la stratégie « le plus rapide accompagne » qui gagne ($6 + 1 + 7 + 1 + 5 = 20$). Règle : comparer $2t_2$ et $t_1 + t_3$.",
-    "Chèvre, loup et chou : voir la fiche des traversées de rivière."
-   ],
    "categorie": "recherche",
    "titre": "Traverser un pont la nuit avec une lampe (1, 2, 5, 10 minutes)",
    "reponse": "17",
    "valeur": 17.0,
    "tolerance": 0.005,
-   "duree": 300
+   "duree": 300,
+   "voir": [
+    "ct-riviere"
+   ]
   },
   {
    "id": "ct-pasteques",
@@ -4700,16 +4379,15 @@ window.PREPA_BANQUE = {
    "question": "16 pastèques de poids tous différents et une balance à deux plateaux qui compare deux pastèques à la fois. Combien de pesées au minimum, au pire, pour trouver les **deux** plus lourdes ?",
    "solution": "Tournoi à élimination directe : $16 - 1 = 15$ pesées pour la plus lourde. La deuxième a forcément perdu **directement** contre la plus lourde : il y a $\\log_2 16 = 4$ candidates, départagées en 3 pesées. Total : $15 + 3 =$ **18** (et c'est optimal : $n + \\lceil \\log_2 n \\rceil - 2$).",
    "indice": "Un tournoi à élimination trouve la plus lourde. Qui peut être la deuxième ?",
-   "variantes": [
-    "La plus lourde **et** la plus légère : $\\lceil 3n/2 \\rceil - 2 = 22$ pesées (comparer par paires, puis max des gagnants et min des perdants).",
-    "25 chevaux : même idée de « candidats qui n'ont perdu que contre le vainqueur »."
-   ],
    "categorie": "recherche",
    "titre": "16 pastèques et une balance : les deux plus lourdes",
    "reponse": "18",
    "valeur": 18.0,
    "tolerance": 0.005,
-   "duree": 300
+   "duree": 300,
+   "voir": [
+    "ct-chevaux"
+   ]
   },
   {
    "id": "ct-celebrite",
@@ -4740,10 +4418,6 @@ window.PREPA_BANQUE = {
    "question": "Une liste non triée contient les entiers de 1 à $n$, sauf un. Comment trouver le manquant en temps $O(n)$ et mémoire $O(1)$ ? Et si un nombre apparaît deux fois au lieu de manquer ?",
    "solution": "Manquant : $n(n + 1)/2$ moins la somme de la liste (ou le ou exclusif de $1, \\dots, n$ et de la liste, qui évite les dépassements).\nDoublon dans une liste de $n + 1$ entiers pris dans $1..n$ : somme de la liste moins $n(n + 1)/2$ ; sans pouvoir sommer, l'algorithme de Floyd (lièvre et tortue) sur la suite $i \\mapsto t[i]$ trouve le cycle, dont l'entrée est le doublon, en $O(n)$ et $O(1)$ de mémoire.",
    "indice": "Que vaut $1 + 2 + \\dots + n$ ?",
-   "variantes": [
-    "$k$ nombres manquants ($k$ petit) : sommes des puissances $1$ à $k$ (identités de Newton) ou tableau de présence.",
-    "Un manquant et un doublon : somme et somme des carrés donnent deux équations."
-   ],
    "categorie": "recherche",
    "titre": "Le nombre manquant (ou le doublon) dans une liste"
   },
@@ -4803,10 +4477,6 @@ window.PREPA_BANQUE = {
    "question": "Trois missionnaires et trois cannibales doivent traverser une rivière avec une barque de deux places. Jamais, sur une rive, les cannibales ne doivent être plus nombreux que les missionnaires (s'il y a des missionnaires). Combien de traversées au minimum ?",
    "solution": "Un parcours en largeur sur les états donne **11 traversées**, par exemple (M, C sur la rive de départ) : CC partent, C revient ; CC partent, C revient ; MM partent, MC revient ; MM partent, C revient ; CC partent, C revient ; CC partent.\nEn entretien, la méthode compte : graphe des états, recherche du plus court chemin.",
    "indice": "Modélise les états (personnes sur la rive de départ, position de la barque) et cherche le plus court chemin.",
-   "variantes": [
-    "Chèvre, loup et chou (le passeur ne prend qu'un passager) : chèvre, retour, loup, ramener la chèvre, chou, retour, chèvre : **7** traversées.",
-    "Quatre missionnaires et quatre cannibales avec une barque de deux places : **impossible**."
-   ],
    "categorie": "recherche",
    "titre": "Traverser la rivière (chèvre, loup, chou ; missionnaires)",
    "reponse": "11",
@@ -4848,9 +4518,6 @@ window.PREPA_BANQUE = {
    "question": "Combien de comparaisons faut-il au minimum, au pire, pour trier 5 éléments distincts ?",
    "solution": "Borne inférieure : $\\lceil \\log_2 120 \\rceil = 7$ ($2^7 = 128$). Elle est atteinte : compare $a, b$ puis $c, d$ ; compare les deux vainqueurs (on obtient une chaîne $a < b < d$ avec $c < d$) ; insère $e$ dans la chaîne $a < b < d$ en 2 comparaisons ; insère $c$ (dont on sait $c < d$) dans le reste en 2 comparaisons. **7 comparaisons**.",
    "indice": "Borne d'information : $5! = 120$ ordres possibles, chaque comparaison a deux issues.",
-   "variantes": [
-    "Tri par comparaisons de $n$ éléments : au moins $\\log_2 n! \\approx n \\log_2 n$ comparaisons, d'où l'optimalité du tri fusion."
-   ],
    "categorie": "recherche",
    "titre": "Trier 5 éléments en 7 comparaisons",
    "reponse": "7",
@@ -4887,10 +4554,6 @@ window.PREPA_BANQUE = {
    "solution": "Raisonnement à rebours (pirates 1 à 5, 5 étant le plus ancien) :\n- 2 pirates : le 2 garde tout (sa voix suffit) : $(100, 0)$.\n- 3 pirates : le 3 doit acheter une voix ; le 1 aurait 0 sinon, 1 pièce lui suffit : $(1, 0, 99)$.\n- 4 pirates : il faut 2 voix ; le 2 aurait 0 dans le cas à 3 : $(0, 1, 0, 99)$.\n- 5 pirates : il faut 3 voix ; acheter les pirates 1 et 3 (qui auraient 0 dans le cas à 4) avec 1 pièce chacun.\nProposition : **98 pour le plus ancien, 1 pour les pirates 1 et 3, 0 pour les autres**. C'est l'induction à rebours, comme pour une option américaine.",
    "en": "Five rational pirates split 100 gold coins. The most senior proposes a split; if at least half (including him) accept, done; otherwise he is thrown overboard. Each wants to survive, then maximize gold, then see others thrown overboard. What does the first pirate propose?",
    "indice": "Pars de la fin : que se passe-t-il quand il ne reste que deux pirates ? puis trois ?",
-   "variantes": [
-    "Majorité **stricte** exigée : même méthode à rebours, mais le cas à 2 pirates change (le plus ancien est jeté), ce qui modifie toute la chaîne ; refais le raisonnement depuis 1 pirate.",
-    "Plus de 200 pirates pour 100 pièces : certains pirates acceptent sans rien recevoir pour ne pas mourir ; la structure devient périodique en puissances de 2 (problème d'Omohundro)."
-   ],
    "categorie": "strategie",
    "titre": "Cinq pirates et 100 pièces d'or"
   },
@@ -4908,10 +4571,6 @@ window.PREPA_BANQUE = {
    "question": "Il y a 21 allumettes. À tour de rôle, chaque joueur en retire 1, 2 ou 3. Celui qui prend la dernière gagne. Tu commences : combien en retires-tu pour gagner à coup sûr ?",
    "solution": "Laisser un multiple de 4 à l'adversaire est gagnant : quoi qu'il prenne ($k$), tu prends $4 - k$. $21 = 4 \\times 5 + 1$ : retire **1** allumette, puis complète toujours à 4.",
    "indice": "Quelles sont les positions perdantes pour celui qui doit jouer ? Commence par 4.",
-   "variantes": [
-    "Version « celui qui prend la dernière **perd** » : il faut laisser $4k + 1$ ; avec 21 allumettes, le premier joueur perd contre un adversaire parfait.",
-    "Retirer de 1 à $m$ : laisser un multiple de $m + 1$."
-   ],
    "categorie": "strategie",
    "titre": "21 allumettes, on en retire 1 à 3",
    "reponse": "1",
@@ -4933,10 +4592,6 @@ window.PREPA_BANQUE = {
    "question": "Deux joueurs ajoutent à tour de rôle un entier entre 1 et 10 à un total qui part de 0. Celui qui atteint exactement 100 gagne. Tu commences : quel nombre annonces-tu ?",
    "solution": "Atteindre 89 garantit 100 (l'adversaire ajoute $k$, tu ajoutes $11 - k$). De même 78, 67, …, 12, 1. Annonce **1**, puis complète chaque coup adverse à 11.",
    "indice": "Quels totaux faut-il atteindre pour être sûr d'atteindre 100 ? Pars de 100 et descends de 11 en 11.",
-   "variantes": [
-    "100 pièces sur la table, chacun en prend de 1 à 10, celui qui prend la dernière gagne : prends 1, puis complète à 11.",
-    "Course à 50 en ajoutant de 1 à 6 : viser les totaux $\\equiv 1 \\pmod 7$, donc annoncer 1."
-   ],
    "categorie": "strategie",
    "titre": "Course à 100 (on ajoute entre 1 et 10)",
    "reponse": "1",
@@ -4975,9 +4630,6 @@ window.PREPA_BANQUE = {
    "question": "Un nombre pair de pièces de valeurs différentes sont alignées. À tour de rôle, chaque joueur prend une pièce à l'une des deux extrémités. Le premier joueur peut-il garantir d'obtenir au moins la moitié de la somme ?",
    "solution": "Oui. Numérote les positions de 1 à $2n$. Le premier joueur calcule la somme des positions impaires et des positions paires, et choisit la plus grande. S'il commence par la pièce 1 (impaire), les deux extrémités restantes sont paires : l'adversaire prend forcément une paire, et une impaire redevient disponible. Il prend ainsi **toutes** les pièces de la parité choisie, donc au moins la moitié.\nPour le maximum exact, il faut la programmation dynamique ($O(n^2)$).",
    "indice": "Colorie les positions en alternance. Le premier joueur peut-il forcer l'adversaire à ne prendre que des pièces d'une seule couleur ?",
-   "variantes": [
-    "Nombre impair de pièces : la garantie disparaît (exemple 1, 5, 1)."
-   ],
    "categorie": "strategie",
    "titre": "Pièces en rangée, on prend à un bout"
   },
@@ -4993,9 +4645,6 @@ window.PREPA_BANQUE = {
    "question": "Deux joueurs posent à tour de rôle une pièce (toutes identiques) sur une table ronde, sans chevauchement. Celui qui ne peut plus poser perd. Qui gagne ?",
    "solution": "Le **premier** joueur gagne : il pose sa première pièce exactement au centre, puis répond à chaque pièce adverse par la pièce symétrique par rapport au centre. Cette place est toujours libre (la configuration reste symétrique), donc il a toujours un coup.",
    "indice": "Symétrie centrale.",
-   "variantes": [
-    "Même stratégie de « copie » : jeu sur un échiquier où l'on pose des dominos, ou le jeu de la tablette de chocolat symétrique."
-   ],
    "categorie": "strategie",
    "titre": "Poser des pièces sur une table ronde"
   },
@@ -5028,9 +4677,6 @@ window.PREPA_BANQUE = {
    "question": "On veut séparer une tablette de $6 \\times 8$ carrés en carrés individuels. Chaque cassure coupe un seul morceau en deux le long d'une ligne. Combien de cassures au minimum ?",
    "solution": "Chaque cassure augmente le nombre de morceaux d'exactement 1. On passe de 1 à 48 morceaux : **47 cassures**, quelle que soit la méthode. Conséquence : un jeu où l'on casse à tour de rôle (le dernier à casser gagne) est décidé d'avance par la parité.",
    "indice": "Combien de morceaux de plus après chaque cassure ?",
-   "variantes": [
-    "Tournoi à élimination directe avec 64 joueurs : chaque match élimine un joueur, donc 63 matchs."
-   ],
    "categorie": "strategie",
    "titre": "Casser une tablette de chocolat $6 \\times 8$",
    "reponse": "47",
@@ -5069,6 +4715,3443 @@ window.PREPA_BANQUE = {
    "indice": "Le capital est fini. Quelle est l'espérance de chaque pari ?",
    "categorie": "strategie",
    "titre": "Doubler la mise après chaque perte"
+  },
+  {
+   "id": "ct-rois-non-attaquants-cavaliers",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Combien de cavaliers au maximum peut-on placer sur un échiquier $8 \\times 8$ sans que deux d'entre eux s'attaquent ?",
+   "solution": "**32** : on place un cavalier sur chaque case blanche ; un cavalier n'attaque que des cases de l'autre couleur.\nOn ne peut pas faire mieux : chaque rectangle $2 \\times 4$ se découpe en 4 paires de cases qui s'attaquent mutuellement (un « circuit » du cavalier), donc il contient au plus 4 cavaliers ; 8 rectangles donnent au plus 32.",
+   "indice": "Un cavalier change toujours de couleur de case. Pour la borne supérieure, découpe l'échiquier en rectangles $2 \\times 4$.",
+   "categorie": "denombrement",
+   "titre": "Cavaliers non attaquants",
+   "reponse": "32",
+   "valeur": 32.0,
+   "tolerance": 0.0,
+   "parent": "ct-rois-non-attaquants"
+  },
+  {
+   "id": "ct-rois-non-attaquants-dames",
+   "theme": "casse-tete",
+   "niveau": 3,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "On sait qu'on peut placer au plus 8 dames sur un échiquier sans qu'elles s'attaquent (une par ligne). Combien y a-t-il de façons de placer ces 8 dames ?",
+   "solution": "Retour sur trace : on place une dame ligne par ligne, en mémorisant les colonnes et les deux familles de diagonales ($i + j$ et $i - j$) occupées, et l'on revient en arrière en cas d'impasse. On trouve **92** solutions (12 à symétrie près).\nEn entretien, on attend surtout l'algorithme et ses structures (trois ensembles, ou trois masques de bits), pas le nombre par cœur.",
+   "indice": "Pas de formule : décris un algorithme de retour sur trace (une dame par ligne, colonnes et diagonales libres).",
+   "categorie": "denombrement",
+   "titre": "Les huit dames",
+   "reponse": "92",
+   "valeur": 92.0,
+   "tolerance": 0.0,
+   "parent": "ct-rois-non-attaquants"
+  },
+  {
+   "id": "ct-carres-echiquier-rectangles",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Combien de rectangles (carrés compris, de toutes tailles) contient un échiquier $8 \\times 8$ ?",
+   "solution": "La grille a 9 lignes verticales et 9 horizontales : $\\binom{9}{2} \\times \\binom{9}{2} = 36 \\times 36 =$ **1 296**. Le piège : compter les cases (64) ou les carrés (204).",
+   "indice": "Un rectangle est déterminé par ses deux côtés verticaux et ses deux côtés horizontaux, choisis parmi les lignes de la grille.",
+   "categorie": "denombrement",
+   "titre": "Les rectangles d'un échiquier",
+   "reponse": "1296",
+   "valeur": 1296.0,
+   "tolerance": 0.0,
+   "parent": "ct-carres-echiquier"
+  },
+  {
+   "id": "ct-carres-echiquier-grille",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Combien de carrés (de toutes tailles) contient une grille $10 \\times 10$ ?",
+   "solution": "$$\\sum_{k=1}^{10} k^2 = \\frac{10 \\times 11 \\times 21}{6} = 385.$$\nEn général $\\frac{n(n + 1)(2n + 1)}{6}$ carrés et $\\binom{n+1}{2}^2$ rectangles.",
+   "indice": "Un carré de côté $k$ se place de $(n + 1 - k)^2$ façons.",
+   "categorie": "denombrement",
+   "titre": "Les carrés d'une grille $10 \\times 10$",
+   "reponse": "385",
+   "valeur": 385.0,
+   "tolerance": 0.0,
+   "parent": "ct-carres-echiquier"
+  },
+  {
+   "id": "ct-poignees-diagonales",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Combien de diagonales a un décagone convexe (10 côtés) ?",
+   "solution": "Paires de sommets moins les côtés : $\\binom{10}{2} - 10 = 45 - 10 =$ **35**. En général $\\frac{n(n - 3)}{2}$ : chaque sommet a $n - 3$ diagonales, et chacune est comptée deux fois.",
+   "indice": "Une diagonale relie deux sommets non voisins.",
+   "categorie": "denombrement",
+   "titre": "Les diagonales d'un décagone",
+   "reponse": "35",
+   "valeur": 35.0,
+   "tolerance": 0.0,
+   "parent": "ct-poignees"
+  },
+  {
+   "id": "ct-poignees-championnat",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Un championnat réunit 20 équipes ; chacune rencontre chaque autre deux fois (à domicile et à l'extérieur). Combien de matchs au total ?",
+   "solution": "Couples ordonnés d'équipes distinctes : $20 \\times 19 =$ **380**, soit deux fois les 190 poignées de main.",
+   "indice": "Ici l'ordre compte : (A reçoit B) et (B reçoit A) sont deux matchs différents.",
+   "categorie": "denombrement",
+   "titre": "Un championnat aller-retour",
+   "reponse": "380",
+   "valeur": 380.0,
+   "tolerance": 0.0,
+   "parent": "ct-poignees"
+  },
+  {
+   "id": "ct-chiffre-un-sept",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Combien de fois écrit-on le chiffre 7 en écrivant tous les nombres de 1 à 100 ?",
+   "solution": "Unités : 7, 17, …, 97 → 10. Dizaines : 70 à 79 → 10. Total **20** (77 compte deux fois, une fois dans chaque groupe, et c'est correct : il contient deux chiffres 7). Contrairement au chiffre 1, il n'y a pas de bonus dû à 100.",
+   "indice": "Compte séparément les unités et les dizaines ; attention à 77.",
+   "categorie": "denombrement",
+   "titre": "Le chiffre 7 de 1 à 100",
+   "reponse": "20",
+   "valeur": 20.0,
+   "tolerance": 0.0,
+   "parent": "ct-chiffre-un"
+  },
+  {
+   "id": "ct-chiffre-un-mille",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Combien de fois écrit-on le chiffre 1 en écrivant tous les nombres de 1 à 1 000 ?",
+   "solution": "De 000 à 999 : 1 000 nombres, chaque position vaut 1 dans un dixième des cas, soit $100$ par position et $300$ au total. On ajoute le 1 de 1 000 : **301**.",
+   "indice": "De 000 à 999 (sur trois chiffres), chaque position contient chaque chiffre autant de fois.",
+   "categorie": "denombrement",
+   "titre": "Le chiffre 1 de 1 à 1 000",
+   "reponse": "301",
+   "valeur": 301.0,
+   "tolerance": 0.0,
+   "parent": "ct-chiffre-un"
+  },
+  {
+   "id": "ct-anagrammes-bridge",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Combien de mains différentes de 13 cartes peut-on recevoir dans un jeu de 52 cartes ? Donne l'ordre de grandeur, puis la valeur.",
+   "solution": "$\\binom{52}{13} = 635\\,013\\,559\\,600 \\approx 6{,}35 \\times 10^{11}$, environ 635 milliards : chaque main précise a une chance sur 635 milliards de sortir.",
+   "indice": "L'ordre des cartes dans la main ne compte pas.",
+   "categorie": "denombrement",
+   "titre": "Le nombre de mains de bridge",
+   "reponse": "635013559600",
+   "valeur": 635013559600.0,
+   "tolerance": 0.005,
+   "parent": "ct-anagrammes"
+  },
+  {
+   "id": "ct-dominos-escalier-binaire",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Combien de sous-ensembles de $\\{1, 2, \\dots, 10\\}$ (ensemble vide compris) ne contiennent jamais deux entiers consécutifs ?",
+   "solution": "Soit $s_n$ le nombre pour $\\{1, \\dots, n\\}$. Sans $n$ : $s_{n-1}$ ; avec $n$ : $s_{n-2}$. Donc $s_n = s_{n-1} + s_{n-2}$, $s_1 = 2$, $s_2 = 3$ : $2, 3, 5, 8, 13, 21, 34, 55, 89, 144$. Réponse : **144** $= F_{12}$.\nMême nombre de mots binaires de longueur 10 sans deux 1 consécutifs (bijection évidente), et même récurrence que les dominos ou l'escalier.",
+   "indice": "Conditionne sur la présence de 10 : s'il est pris, 9 est exclu.",
+   "categorie": "denombrement",
+   "titre": "Sous-ensembles sans deux entiers consécutifs",
+   "reponse": "144",
+   "valeur": 144.0,
+   "tolerance": 0.0,
+   "parent": "ct-dominos-escalier",
+   "voir": [
+    "algo-escalier"
+   ]
+  },
+  {
+   "id": "ct-regions-cercle-pizza",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf"
+   ],
+   "type": "numerique",
+   "question": "Combien de parts au maximum obtient-on en coupant une pizza (un disque) par 7 coupes droites ?",
+   "solution": "La $k$-ième droite est coupée en au plus $k$ segments par les précédentes, et chaque segment sépare une région en deux : elle ajoute au plus $k$ parts. $1 + (1 + 2 + \\dots + 7) = 1 + 28 =$ **29**. Formule du « traiteur paresseux » : $1 + n + \\binom{n}{2}$.\nÀ distinguer des cordes entre points du cercle, où l'on n'a pas le choix des croisements.",
+   "indice": "La $k$-ième coupe croise au plus les $k - 1$ précédentes, donc traverse au plus $k$ régions.",
+   "categorie": "denombrement",
+   "titre": "La pizza coupée par 7 droites",
+   "reponse": "29",
+   "valeur": 29.0,
+   "tolerance": 0.0,
+   "parent": "ct-regions-cercle"
+  },
+  {
+   "id": "ct-regions-cercle-gateau",
+   "theme": "casse-tete",
+   "niveau": 3,
+   "profils": [
+    "mm",
+    "hf"
+   ],
+   "type": "numerique",
+   "question": "Combien de morceaux au maximum obtient-on en coupant un gâteau (un volume convexe) par 5 coupes planes ?",
+   "solution": "La $k$-ième coupe ajoute autant de morceaux que de régions dans le plan découpé par $k - 1$ droites : $1 + (k - 1) + \\binom{k-1}{2}$. En sommant : $\\binom{n}{0} + \\binom{n}{1} + \\binom{n}{2} + \\binom{n}{3}$. Pour $n = 5$ : $1 + 5 + 10 + 10 =$ **26** (nombres du gâteau : 1, 2, 4, 8, 15, 26).",
+   "indice": "La $k$-ième coupe plane est découpée par les précédentes comme une pizza par $k - 1$ droites.",
+   "categorie": "denombrement",
+   "titre": "Le gâteau coupé par 5 plans",
+   "reponse": "26",
+   "valeur": 26.0,
+   "tolerance": 0.0,
+   "parent": "ct-regions-cercle"
+  },
+  {
+   "id": "ct-chiffres-impairs-palindromes",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Combien y a-t-il de nombres palindromes à trois chiffres (comme 141 ou 707) ?",
+   "solution": "Premier chiffre : 1 à 9 (9 choix) ; chiffre du milieu : 0 à 9 (10 choix) ; le dernier est imposé. $9 \\times 10 =$ **90**.",
+   "indice": "Le dernier chiffre est imposé par le premier.",
+   "categorie": "denombrement",
+   "titre": "Les palindromes à trois chiffres",
+   "reponse": "90",
+   "valeur": 90.0,
+   "tolerance": 0.0,
+   "parent": "ct-chiffres-impairs"
+  },
+  {
+   "id": "ct-chiffres-impairs-distincts",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Combien d'entiers à 4 chiffres ont leurs 4 chiffres tous distincts ?",
+   "solution": "$9$ choix pour le premier (1 à 9), puis $9$ (le 0 redevient possible), $8$, $7$ : $9 \\times 9 \\times 8 \\times 7 =$ **4 536**. Le piège : $10 \\times 9 \\times 8 \\times 7$ ou $9 \\times 8 \\times 7 \\times 6$.",
+   "indice": "Le premier chiffre ne peut pas être 0, les suivants si.",
+   "categorie": "denombrement",
+   "titre": "Entiers à 4 chiffres tous distincts",
+   "reponse": "4536",
+   "valeur": 4536.0,
+   "tolerance": 0.0,
+   "parent": "ct-chiffres-impairs"
+  },
+  {
+   "id": "ct-etoiles-barres-positifs",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Combien de triplets d'entiers $x, y, z \\ge 1$ vérifient $x + y + z = 10$ ?",
+   "solution": "Avec $x' + y' + z' = 7$ en entiers $\\ge 0$ : $\\binom{9}{2} = 36$. Directement : on choisit 2 des 9 espaces entre 10 étoiles, $\\binom{9}{2} =$ **36**. C'est aussi le nombre de façons de répartir 10 bonbons identiques entre 3 enfants qui en reçoivent chacun au moins un.",
+   "indice": "Pose $x' = x - 1$, etc., pour revenir à des entiers positifs ou nuls ; ou place les barres entre les étoiles.",
+   "categorie": "denombrement",
+   "titre": "Étoiles et barres, entiers strictement positifs",
+   "reponse": "36",
+   "valeur": 36.0,
+   "tolerance": 0.0,
+   "parent": "ct-etoiles-barres"
+  },
+  {
+   "id": "ct-bracelets-colliers",
+   "theme": "casse-tete",
+   "niveau": 3,
+   "profils": [
+    "mm",
+    "hf"
+   ],
+   "type": "numerique",
+   "question": "Combien de colliers différents de 6 perles noires ou blanches, si deux colliers sont identiques lorsqu'ils se déduisent par **rotation** (on ne peut pas les retourner) ?",
+   "solution": "Coloriages fixés par les rotations de 0 à 5 crans : $2^6, 2, 2^2, 2^3, 2^2, 2$, soit $64 + 2 + 4 + 8 + 4 + 2 = 84$. Moyenne sur 6 rotations : $84/6 =$ **14**, un de plus que les 13 bracelets : seule la paire 001011 et 001101 (miroirs l'une de l'autre) se distingue sans retournement.",
+   "indice": "Lemme de Burnside avec le groupe des 6 rotations seulement.",
+   "categorie": "denombrement",
+   "titre": "Colliers à 6 perles, rotations seulement",
+   "reponse": "14",
+   "valeur": 14.0,
+   "tolerance": 0.0,
+   "parent": "ct-bracelets"
+  },
+  {
+   "id": "ct-cube-peint-dix",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Un cube $10 \\times 10 \\times 10$ est peint à l'extérieur puis découpé en 1 000 petits cubes. Combien de petits cubes n'ont aucune face peinte ?",
+   "solution": "Le cœur non peint est un cube $8 \\times 8 \\times 8$ : **512**. Pour le reste : 8 coins (3 faces), $12 \\times 8 = 96$ cubes d'arête (2 faces), $6 \\times 64 = 384$ centres de face (1 face) ; vérification $8 + 96 + 384 + 512 = 1\\,000$.",
+   "indice": "Les cubes intacts forment un cube intérieur.",
+   "categorie": "denombrement",
+   "titre": "Le cube $10 \\times 10 \\times 10$ peint",
+   "reponse": "512",
+   "valeur": 512.0,
+   "tolerance": 0.0,
+   "parent": "ct-cube-peint"
+  },
+  {
+   "id": "ct-cube-peint-coupes",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "On veut découper un cube de bois $3 \\times 3 \\times 3$ en 27 petits cubes par des coupes planes. On a le droit de réempiler les morceaux entre deux coupes. Combien de coupes au minimum ?",
+   "solution": "Le cube central n'a aucune face à l'extérieur : ses 6 faces doivent toutes être créées par des coupes, et une coupe plane ne crée qu'une face de ce cube. Il faut donc **au moins 6** coupes, et les 6 coupes droites habituelles suffisent : le réempilement ne sert à rien.",
+   "indice": "Regarde le petit cube central : combien de ses faces doivent être créées, et combien une coupe peut-elle en créer à la fois ?",
+   "categorie": "denombrement",
+   "titre": "Couper un cube en 27 avec le moins de coupes",
+   "reponse": "6",
+   "valeur": 6.0,
+   "tolerance": 0.0,
+   "parent": "ct-cube-peint"
+  },
+  {
+   "id": "ct-points-antipodaux-moine",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "ouverte",
+   "question": "Un moine part du pied d'une montagne à 7 h, monte par un unique sentier à son rythme (avec des pauses) et arrive au sommet à 19 h. Le lendemain, il repart du sommet à 7 h et redescend par le même sentier, arrivant à 19 h. Montre qu'il existe un point du sentier où il passe à la même heure les deux jours.",
+   "solution": "Superpose les deux journées : un moine monte pendant qu'un autre descend, le même jour, sur le même sentier. Ils partent des deux extrémités et finissent aux extrémités opposées : ils se croisent forcément. Le point et l'heure de la rencontre conviennent.\nVersion analytique : $g(t) = \\text{montée}(t) - \\text{descente}(t)$ est continue, négative à 7 h, positive à 19 h : elle s'annule (valeurs intermédiaires). Même argument que les points antipodaux.",
+   "indice": "Imagine deux moines, l'un qui monte et l'autre qui descend, le même jour.",
+   "categorie": "geometrie",
+   "titre": "Le moine qui monte et redescend",
+   "parent": "ct-points-antipodaux"
+  },
+  {
+   "id": "ct-points-antipodaux-borsuk",
+   "theme": "casse-tete",
+   "niveau": 3,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "ouverte",
+   "question": "On suppose la température et la pression continues à la surface de la Terre (une sphère). Existe-t-il deux points antipodaux ayant **à la fois** la même température et la même pression ?",
+   "solution": "**Oui**, par le théorème de Borsuk-Ulam : toute application continue $f$ de la sphère $S^2$ dans $\\mathbb{R}^2$ envoie au moins une paire de points antipodaux sur la même valeur ($f(x) = f(-x)$). Avec $f = (\\text{température}, \\text{pression})$, c'est exactement l'énoncé.\nLe cas de l'équateur en est la version en dimension 1 : $S^1 \\to \\mathbb{R}$. On ne démontre pas Borsuk-Ulam en entretien ; on attend de reconnaître la structure et de citer le bon théorème.",
+   "indice": "Le cas d'une seule grandeur sur un cercle se fait par les valeurs intermédiaires. En dimension 2, il faut un théorème plus fort.",
+   "categorie": "geometrie",
+   "titre": "Température et pression aux antipodes",
+   "parent": "ct-points-antipodaux"
+  },
+  {
+   "id": "ct-fourmi-cube-pave",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Une fourmi marche à la surface d'un pavé de dimensions $1 \\times 2 \\times 3$, d'un sommet au sommet opposé. Quelle est la longueur du plus court chemin ?",
+   "solution": "En dépliant deux faces adjacentes, on obtient un rectangle dont la diagonale vaut $\\sqrt{(a + b)^2 + c^2}$, où $c$ est la dimension non additionnée :\n- $\\sqrt{(1 + 2)^2 + 3^2} = \\sqrt{18} \\approx 4{,}243$ ;\n- $\\sqrt{(1 + 3)^2 + 2^2} = \\sqrt{20}$ ;\n- $\\sqrt{(2 + 3)^2 + 1^2} = \\sqrt{26}$.\nLe plus court laisse seule la **plus grande** dimension : $\\sqrt{18} = 3\\sqrt 2 \\approx$ **4,243**.",
+   "indice": "Il y a trois dépliages possibles (selon l'arête traversée). Compare-les.",
+   "categorie": "geometrie",
+   "titre": "La fourmi sur un pavé $1 \\times 2 \\times 3$",
+   "reponse": "sqrt(18)",
+   "valeur": 4.242640687119285,
+   "tolerance": 0.005,
+   "parent": "ct-fourmi-cube"
+  },
+  {
+   "id": "ct-fourmi-cube-dudeney",
+   "theme": "casse-tete",
+   "niveau": 3,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Une pièce mesure $30 \\times 12 \\times 12$ (longueur, largeur, hauteur). Une araignée est au milieu d'un des petits murs, à 1 du plafond ; une mouche est au milieu du mur opposé, à 1 du sol. L'araignée marche sur les murs, le sol et le plafond. Quelle est la longueur du plus court chemin jusqu'à la mouche ?",
+   "solution": "Chemin direct : $1 + 30 + 11 = 42$. Mais un dépliage qui traverse **cinq** faces (le mur de départ, le plafond, un grand mur latéral, le sol, le mur d'arrivée) met les deux points aux sommets d'un triangle rectangle de côtés 24 et 32 :\n$$\\sqrt{24^2 + 32^2} = 40.$$\nRéponse : **40**. Leçon : sur un polyèdre, le plus court chemin peut traverser des faces « inutiles » ; il faut comparer les dépliages, pas se fier au trajet le plus naturel.",
+   "indice": "Le chemin évident (monter de 1, traverser le plafond, descendre de 11) mesure 42. Essaie des dépliages qui passent par davantage de faces.",
+   "categorie": "geometrie",
+   "titre": "L'araignée et la mouche de Dudeney",
+   "reponse": "40",
+   "valeur": 40.0,
+   "tolerance": 0.0,
+   "parent": "ct-fourmi-cube"
+  },
+  {
+   "id": "ct-piece-roule-rayon",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Une pièce de rayon $r$ roule sans glisser autour d'une pièce fixe de rayon $3r$, jusqu'à revenir à son point de départ. Combien de tours fait-elle sur elle-même ?",
+   "solution": "Le centre parcourt $2\\pi(3r + r) = 8\\pi r$ ; la rotation propre vaut cette distance divisée par $r$ : $8\\pi$, soit **4 tours**. En général $1 + R/r$ tours autour, et $R/r - 1$ tours si la pièce roule à l'intérieur d'un anneau de rayon $R$ (le « un tour de plus » devient un tour de moins).",
+   "indice": "Le centre de la pièce mobile parcourt un cercle de rayon $R + r$.",
+   "categorie": "geometrie",
+   "titre": "Une pièce autour d'une pièce trois fois plus grande",
+   "reponse": "4",
+   "valeur": 4.0,
+   "tolerance": 0.0,
+   "parent": "ct-piece-roule"
+  },
+  {
+   "id": "ct-angle-horloge-trois-vingt-cinq",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Quel angle (en degrés) forment les aiguilles d'une horloge à 3 h 25 ?",
+   "solution": "Minutes : $25 \\times 6° = 150°$. Heures : $3 \\times 30° + 25 \\times 0{,}5° = 102{,}5°$. Angle : $150 - 102{,}5 =$ **47,5°**.",
+   "indice": "L'aiguille des heures avance de $0{,}5°$ par minute.",
+   "categorie": "mouvement",
+   "titre": "L'angle des aiguilles à 3 h 25",
+   "reponse": "47.5",
+   "valeur": 47.5,
+   "tolerance": 0.005,
+   "parent": "ct-angle-horloge"
+  },
+  {
+   "id": "ct-angle-horloge-formule",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Quel angle (le plus petit des deux, en degrés) forment les aiguilles à 9 h 30 ? Donne aussi une formule pour $h$ heures et $m$ minutes.",
+   "solution": "$|30 \\times 9 - 5{,}5 \\times 30| = |270 - 165| =$ **105°**. La formule vient de : heures à $30h + 0{,}5m$ degrés, minutes à $6m$ degrés, différence $30h - 5{,}5m$. Le piège : répondre 90° en oubliant que l'aiguille des heures est à mi-chemin entre 9 et 10.",
+   "indice": "Formule : $|30h - 5{,}5m|$, puis prendre le complément à 360° si l'on dépasse 180°.",
+   "categorie": "mouvement",
+   "titre": "L'angle à 9 h 30 et la formule générale",
+   "reponse": "105",
+   "valeur": 105.0,
+   "tolerance": 0.005,
+   "parent": "ct-angle-horloge"
+  },
+  {
+   "id": "ct-superpositions-angle-droit",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Combien de fois par jour (24 heures) les aiguilles des heures et des minutes forment-elles un angle droit ?",
+   "solution": "L'écart entre les aiguilles parcourt 360° entre deux superpositions, en passant une fois par 90° et une fois par 270° : deux angles droits par « rattrapage ». 22 rattrapages par jour : **44** angles droits, et non 48 (deux par heure) : l'aiguille des heures avance pendant ce temps.",
+   "indice": "Entre deux superpositions, combien de fois l'écart passe-t-il par 90° ?",
+   "categorie": "mouvement",
+   "titre": "Les angles droits des aiguilles",
+   "reponse": "44",
+   "valeur": 44.0,
+   "tolerance": 0.0,
+   "parent": "ct-superpositions"
+  },
+  {
+   "id": "ct-superpositions-cinq-heures",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "À quelle heure exacte (en minutes après 5 h) les aiguilles se superposent-elles pour la première fois après 5 h ?",
+   "solution": "$150 / 5{,}5 = 300/11 \\approx 27{,}27$ minutes, soit 5 h 27 min 16 s. Réponse : **$300/11$ minutes** après 5 h. Contrôle : les superpositions ont lieu toutes les $12/11$ h, et $5 \\times 12/11 = 60/11$ h $= 5$ h $27{,}27$ min.",
+   "indice": "À 5 h, l'aiguille des heures a 150° d'avance ; celle des minutes gagne $5{,}5°$ par minute.",
+   "categorie": "mouvement",
+   "titre": "La première superposition après 5 h",
+   "reponse": "300/11",
+   "valeur": 27.272727272727273,
+   "tolerance": 0.005,
+   "parent": "ct-superpositions"
+  },
+  {
+   "id": "ct-vitesse-moyenne-impossible",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "ouverte",
+   "question": "Une voiture fait un premier tour de circuit à 30 km/h. À quelle vitesse doit-elle faire le second tour pour obtenir une moyenne de 60 km/h sur les deux tours ?",
+   "solution": "C'est **impossible**. Pour un tour de longueur $d$, deux tours à 60 km/h de moyenne prennent $2d/60 = d/30$. Or le premier tour à 30 km/h a déjà pris $d/30$ : il ne reste aucun temps, même à vitesse infinie.\nLa vitesse moyenne est une moyenne **harmonique** des vitesses, pondérée par les distances : les tours lents pèsent plus.",
+   "indice": "Combien de temps faut-il pour faire deux tours à 60 km/h de moyenne ? Combien en a-t-on déjà dépensé ?",
+   "categorie": "mouvement",
+   "titre": "Le second tour à vitesse infinie",
+   "parent": "ct-vitesse-moyenne"
+  },
+  {
+   "id": "ct-vitesse-moyenne-vent",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "ouverte",
+   "question": "Un avion vole à vitesse $v$ par rapport à l'air. Il fait un aller-retour de $d$ dans chaque sens, avec un vent constant de vitesse $w < v$ dans l'axe du trajet. Le vent rend-il l'aller-retour plus court, plus long, ou ne change-t-il rien ?",
+   "solution": "Durée : $\\frac{d}{v + w} + \\frac{d}{v - w} = \\frac{2dv}{v^2 - w^2} > \\frac{2d}{v}$. L'aller-retour est **plus long**. Intuition : on passe plus de temps à vent contraire (lent) qu'à vent arrière (rapide), donc le vent nuit plus qu'il n'aide.",
+   "indice": "Calcule la durée totale et compare-la à $2d/v$.",
+   "categorie": "mouvement",
+   "titre": "L'aller-retour en avion avec du vent",
+   "parent": "ct-vitesse-moyenne"
+  },
+  {
+   "id": "ct-escargot-dix",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Un escargot au fond d'un puits de 10 m monte de 3 m le jour et glisse de 2 m la nuit. Quel jour sort-il ?",
+   "solution": "Il doit commencer une journée à au moins 7 m, ce qui arrive au matin du jour 8 (après 7 jours et nuits, il est à 7 m). Il sort pendant le **jour 8**. Le piège : répondre 10 (10 m à 1 m net par jour).",
+   "indice": "Le dernier jour, il ne glisse pas.",
+   "categorie": "mouvement",
+   "titre": "L'escargot dans un puits de 10 m",
+   "reponse": "8",
+   "valeur": 8.0,
+   "tolerance": 0.0,
+   "parent": "ct-escargot"
+  },
+  {
+   "id": "ct-nenuphars-deux",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Un nénuphar double de surface chaque jour et, planté seul, couvre l'étang le 48ᵉ jour. Si l'on plante deux nénuphars au lieu d'un, quel jour l'étang est-il couvert ?",
+   "solution": "Partir de deux plants revient à prendre un jour d'avance : l'étang est couvert le **47ᵉ jour**, pas le 24ᵉ. La croissance exponentielle rend le doublement du point de départ équivalent à un seul jour gagné.",
+   "indice": "Deux plants le jour 1, c'est la surface d'un seul plant le jour 2.",
+   "categorie": "mouvement",
+   "titre": "Les nénuphars partant de deux plants",
+   "reponse": "47",
+   "valeur": 47.0,
+   "tolerance": 0.0,
+   "parent": "ct-nenuphars"
+  },
+  {
+   "id": "ct-chapeau-riviere-courant",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Même rameur : son chapeau tombe, il s'en aperçoit 10 minutes plus tard, fait demi-tour, et le rattrape 1 km en aval du point où il est tombé. Quelle est la vitesse du courant (en km/h) ?",
+   "solution": "Dans le référentiel de l'eau, le rameur s'éloigne 10 minutes et revient en 10 minutes : le chapeau a dérivé **20 minutes** pour parcourir 1 km. Courant : $1 / (20/60) =$ **3 km/h**.",
+   "indice": "Combien de temps le chapeau a-t-il dérivé au total ?",
+   "categorie": "mouvement",
+   "titre": "Le chapeau retrouvé 1 km en aval",
+   "reponse": "3",
+   "valeur": 3.0,
+   "tolerance": 0.0,
+   "parent": "ct-chapeau-riviere"
+  },
+  {
+   "id": "ct-train-mouche-chien",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Un promeneur est à 2 km de sa maison et rentre à 5 km/h. Son chien court à 15 km/h : il va jusqu'à la maison, revient vers le maître, repart, et ainsi de suite jusqu'à ce que le maître arrive. Quelle distance parcourt le chien (en km) ?",
+   "solution": "Le maître met $2/5$ h $= 24$ minutes à rentrer ; le chien court pendant tout ce temps : $15 \\times 0{,}4 =$ **6 km**. Même principe que la mouche : distance $=$ vitesse $\\times$ durée.",
+   "indice": "Ne somme pas les allers-retours : combien de temps le chien court-il ?",
+   "categorie": "mouvement",
+   "titre": "Le chien entre son maître et la maison",
+   "reponse": "6",
+   "valeur": 6.0,
+   "tolerance": 0.0,
+   "parent": "ct-train-mouche"
+  },
+  {
+   "id": "ct-echiquier-dominos-gomory",
+   "theme": "casse-tete",
+   "niveau": 3,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "ouverte",
+   "question": "On retire d'un échiquier $8 \\times 8$ deux cases de couleurs **différentes**, n'importe où. Peut-on toujours paver les 62 cases restantes avec 31 dominos ?",
+   "solution": "**Oui, toujours** (théorème de Gomory). On trace un circuit fermé qui visite les 64 cases une fois chacune par des pas entre cases voisines (un serpentin refermé) ; les couleurs y alternent. Retirer deux cases de couleurs différentes coupe le circuit en deux chemins, chacun de longueur **paire** (les deux extrémités retirées sont de couleurs différentes). Chaque chemin de longueur paire se pave en suivant le circuit, deux cases par domino.\nL'invariant de couleur était donc la **seule** obstruction : ici la condition nécessaire est aussi suffisante.",
+   "indice": "Trouve un circuit qui passe par les 64 cases en allant chaque fois d'une case à une case voisine.",
+   "categorie": "invariants",
+   "titre": "Retirer deux cases de couleurs différentes",
+   "parent": "ct-echiquier-dominos"
+  },
+  {
+   "id": "ct-echiquier-dominos-barres",
+   "theme": "casse-tete",
+   "niveau": 3,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "ouverte",
+   "question": "Peut-on paver un carré $10 \\times 10$ avec 25 barres $1 \\times 4$ (horizontales ou verticales) ?",
+   "solution": "**Non.** Avec la couleur $(i + j) \\bmod 4$, une barre de 4 cases alignées couvre exactement une case de chaque couleur, quelle que soit son orientation : 25 barres couvriraient 25 cases de chaque couleur.\nOr le $10 \\times 10$ en contient 25, 26, 25 et 24 (couleurs 0, 1, 2, 3) : impossible. Le coloriage en deux couleurs ne suffisait pas (50 et 50) : il faut adapter le nombre de couleurs à la taille des pièces.",
+   "indice": "Colorie la case $(i, j)$ avec la couleur $(i + j) \\bmod 4$ : combien de cases de chaque couleur une barre couvre-t-elle ?",
+   "categorie": "invariants",
+   "titre": "Paver $10 \\times 10$ avec des barres $1 \\times 4$",
+   "parent": "ct-echiquier-dominos"
+  },
+  {
+   "id": "ct-echiquier-dominos-triminos",
+   "theme": "casse-tete",
+   "niveau": 3,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "ouverte",
+   "question": "On retire une case d'une grille $5 \\times 5$ et l'on veut paver les 24 cases restantes avec 8 triminos droits $1 \\times 3$. Quelles cases peut-on retirer ?",
+   "solution": "Seulement la **case centrale**.\n- Coloriage $(i + j) \\bmod 3$ (lignes et colonnes numérotées de 0 à 4) : 8, 9 et 8 cases des couleurs 0, 1 et 2. Les 8 triminos couvrent 8 cases de chaque couleur : la case retirée doit être de couleur 1.\n- Coloriage $(i - j) \\bmod 3$ : 9 cases de couleur 0 et 8 des autres : la case retirée doit être de couleur 0.\n- $i + j \\equiv 1$ et $i \\equiv j \\pmod 3$ donnent $2i \\equiv 1$, soit $i \\equiv j \\equiv 2$ : seule la case $(2, 2)$, le centre.\nEt le centre convient : la grille privée de son centre se découpe en quatre rectangles $2 \\times 3$ disposés en moulinet autour de lui, chacun pavé par deux triminos.",
+   "indice": "Colorie selon $(i + j) \\bmod 3$, puis selon $(i - j) \\bmod 3$ : un trimino couvre une case de chaque couleur dans les deux coloriages.",
+   "categorie": "invariants",
+   "titre": "Un $5 \\times 5$ troué, des triminos droits",
+   "parent": "ct-echiquier-dominos"
+  },
+  {
+   "id": "ct-cameleons-possible",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf"
+   ],
+   "type": "numerique",
+   "question": "Même règle des caméléons (deux de couleurs différentes se rencontrent et prennent tous deux la troisième couleur), avec 13 gris, 15 bruns et 16 pourpres. Peuvent-ils devenir tous de la même couleur ? Si oui, combien de caméléons auront alors cette couleur ?",
+   "solution": "$16 - 13 = 3$ : les gris et les pourpres peuvent être annulés ensemble. Une rencontre gris-brun donne $(12, 14, 18)$ ; puis 12 rencontres gris-pourpre (chacune : $-1$ gris, $-1$ pourpre, $+2$ bruns) donnent $(0, 38, 6)$. Il reste à vider les pourpres par cycles « une rencontre brun-pourpre, puis deux gris-pourpre », qui retirent 3 pourpres : $(0, 41, 3)$ puis $(0, 44, 0)$. Tous deviennent bruns : **44**.\nL'invariant modulo 3 dit **ce qui est impossible** ; pour prouver que c'est possible, il faut exhiber une suite de rencontres.",
+   "indice": "Cherche deux effectifs dont la différence est un multiple de 3 : ce sont eux qu'il faut pouvoir annuler ensemble.",
+   "categorie": "invariants",
+   "titre": "Les caméléons 13, 15, 16",
+   "reponse": "44",
+   "valeur": 44.0,
+   "tolerance": 0.0,
+   "parent": "ct-cameleons"
+  },
+  {
+   "id": "ct-tableau-effacer-produit",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf"
+   ],
+   "type": "numerique",
+   "question": "Les nombres 1, 2, …, 10 sont au tableau. À chaque étape, on efface $a$ et $b$ et l'on écrit $a + b + ab$. Que vaut le dernier nombre ?",
+   "solution": "La quantité $\\prod (1 + x_i)$ ne change pas : $(1 + a)(1 + b)$ est remplacé par $1 + (a + b + ab)$, la même valeur. Au départ, $\\prod_{k=1}^{10}(1 + k) = 11!$. À la fin, il reste $x$ avec $1 + x = 11!$ : **$x = 11! - 1 = 39\\,916\\,799$**, quel que soit l'ordre des opérations.",
+   "indice": "$a + b + ab = (1 + a)(1 + b) - 1$.",
+   "categorie": "invariants",
+   "titre": "On écrit $a + b + ab$",
+   "reponse": "39916799",
+   "valeur": 39916799.0,
+   "tolerance": 0.0,
+   "parent": "ct-tableau-effacer"
+  },
+  {
+   "id": "ct-tableau-effacer-choix",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf"
+   ],
+   "type": "ouverte",
+   "question": "Les nombres 1 à 10 sont au tableau. À chaque étape, on efface $a$ et $b$ et l'on écrit, au choix, $a + b$ ou $|a - b|$. Peut-on finir avec 0 ?",
+   "solution": "**Non.** $a + b$ et $|a - b|$ ont la même parité que $a + b$ : la parité de la somme est invariante quel que soit le choix. Elle vaut $55$, impaire : le dernier nombre est impair. Avec le choix, on peut atteindre tous les impairs de 1 à 55, mais jamais 0.",
+   "indice": "Les deux opérations ont un point commun.",
+   "categorie": "invariants",
+   "titre": "On écrit $a + b$ ou $|a - b|$ au choix",
+   "parent": "ct-tableau-effacer"
+  },
+  {
+   "id": "ct-fourmis-rencontres",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Sur un bâton, 5 fourmis orientées vers la droite sont toutes à gauche de 5 fourmis orientées vers la gauche. Mêmes règles (demi-tour à chaque rencontre, chute aux extrémités). Combien de rencontres ont lieu en tout ?",
+   "solution": "Avec l'argument des « fantômes » qui se traversent, chaque fourmi de droite croise chaque fourmi de gauche exactement une fois : $5 \\times 5 =$ **25** rencontres. En général, le nombre de rencontres est le nombre de paires (fourmi vers la droite, fourmi vers la gauche placée à sa droite).",
+   "indice": "Une rencontre de deux fourmis qui font demi-tour ressemble à deux fourmis qui se traversent.",
+   "categorie": "invariants",
+   "titre": "Le nombre de rencontres des fourmis",
+   "reponse": "25",
+   "valeur": 25.0,
+   "tolerance": 0.0,
+   "parent": "ct-fourmis"
+  },
+  {
+   "id": "ct-fourmis-triangle",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Trois fourmis sont aux sommets d'un triangle équilatéral. Chacune choisit au hasard l'un des deux côtés partant de son sommet et le parcourt à la même vitesse. Probabilité qu'au moins deux fourmis se rencontrent ?",
+   "solution": "Aucune rencontre seulement si les trois tournent dans le même sens (toutes dans le sens horaire, ou toutes dans l'autre) : $2/8$. Probabilité de rencontre : $1 - 2/8 =$ **3/4**. Avec $n$ fourmis sur un polygone à $n$ sommets : $1 - 2/2^n$.",
+   "indice": "Quand n'y a-t-il **aucune** rencontre ?",
+   "categorie": "invariants",
+   "titre": "Trois fourmis aux sommets d'un triangle",
+   "reponse": "3/4",
+   "valeur": 0.75,
+   "tolerance": 0.005,
+   "parent": "ct-fourmis"
+  },
+  {
+   "id": "ct-boites-etiquettes-pommes",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "ouverte",
+   "question": "Trois boîtes étiquetées « pommes », « oranges » et « mélange », toutes mal étiquetées. Cette fois, on t'impose de tirer ton premier fruit dans la boîte étiquetée « pommes ». Ce seul fruit suffit-il toujours à réétiqueter les trois boîtes ?",
+   "solution": "**Non.** La boîte « pommes » contient soit des oranges, soit le mélange. Si tu tires une pomme, c'est le mélange, et tout se déduit. Mais si tu tires une **orange**, elle peut être la boîte d'oranges **ou** le mélange (qui contient aussi des oranges) : deux possibilités restent ouvertes.\nLa boîte « mélange » est la seule dont le contenu est forcément pur : c'est pour cela qu'un fruit y suffit. Leçon : choisir l'observation qui ne laisse qu'une issue par résultat.",
+   "indice": "Envisage le cas où tu tires une orange : quelles boîtes la boîte « pommes » peut-elle encore être ?",
+   "categorie": "logique",
+   "titre": "Boîtes mal étiquetées : tirer dans la boîte « pommes »",
+   "parent": "ct-boites-etiquettes"
+  },
+  {
+   "id": "ct-interrupteurs-trois-ampoules",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "ouverte",
+   "question": "Trois interrupteurs dans le couloir commandent chacun une des trois ampoules d'une pièce fermée. Tu n'entres qu'une fois dans la pièce. Comment associer chaque interrupteur à son ampoule ?",
+   "solution": "Allume l'interrupteur 1 quelques minutes, éteins-le, allume le 2, entre.\n- L'ampoule **allumée** est commandée par le 2.\n- L'ampoule **éteinte et chaude** par le 1.\n- L'ampoule **éteinte et froide** par le 3.\nMême principe que pour une seule ampoule : la chaleur donne une deuxième information, d'où trois états distinguables.",
+   "indice": "Chaque ampoule doit être dans un état différent quand tu entres : combien d'états distincts peux-tu créer ?",
+   "categorie": "logique",
+   "titre": "Trois interrupteurs, trois ampoules, une visite",
+   "parent": "ct-interrupteurs"
+  },
+  {
+   "id": "ct-interrupteurs-quatre",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "ouverte",
+   "question": "Quatre interrupteurs commandent quatre ampoules d'une pièce que tu ne visites qu'une fois. Comment associer chaque interrupteur à son ampoule ?",
+   "solution": "Allume 1 et 2 pendant dix minutes, éteins le 2, allume le 3, entre aussitôt.\n- Allumée et chaude : 1.\n- Éteinte et chaude : 2.\n- Allumée et froide : 3 (allumée depuis trop peu de temps pour chauffer).\n- Éteinte et froide : 4.\nAvec deux bits par ampoule on distingue $2^2 = 4$ interrupteurs : c'est un argument de comptage, comme pour les pesées.",
+   "indice": "Deux informations binaires par ampoule (allumée ou non, chaude ou non) donnent $2 \\times 2 = 4$ états.",
+   "categorie": "logique",
+   "titre": "Quatre interrupteurs, quatre ampoules",
+   "parent": "ct-interrupteurs"
+  },
+  {
+   "id": "ct-deux-gardiens-un-seul",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "ouverte",
+   "question": "Deux portes, l'une vers la liberté. Un seul gardien, dont tu ignores s'il ment toujours ou dit toujours la vérité. Une seule question fermée (oui ou non) : laquelle poser pour savoir si la porte de gauche est la bonne ?",
+   "solution": "Demande : « Si je te demandais si la porte de gauche mène à la liberté, répondrais-tu oui ? »\n- Le sincère répond la vérité.\n- Le menteur ment sur ce qu'il répondrait, lequel serait déjà un mensonge : la double négation redonne la vérité.\nDans les deux cas, « oui » signifie que la gauche est la bonne porte.",
+   "indice": "Fais passer la question deux fois par le gardien : deux mensonges s'annulent.",
+   "categorie": "logique",
+   "titre": "Un seul gardien, menteur ou non",
+   "parent": "ct-deux-gardiens"
+  },
+  {
+   "id": "ct-deux-gardiens-villages",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "ouverte",
+   "question": "À une bifurcation, une route mène au village des sincères, l'autre au village des menteurs. Un habitant de l'un des deux villages se trouve là (sincère ou menteur, tu l'ignores). Tu veux aller au village des sincères. Quelle question lui poser ?",
+   "solution": "« Montre-moi la route de ton village. »\n- Un sincère montre la route de son village : celui des sincères.\n- Un menteur doit mentir sur la route de son village (celui des menteurs) : il montre l'autre, celle des sincères.\nDans les deux cas, on te désigne le village des sincères.",
+   "indice": "Demande-lui une chose qui dépend de son identité, de sorte que le mensonge se retourne contre lui.",
+   "categorie": "logique",
+   "titre": "La bifurcation entre deux villages",
+   "parent": "ct-deux-gardiens"
+  },
+  {
+   "id": "ct-chevaliers-fripons-au-moins-un",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "ouverte",
+   "question": "Sur l'île des chevaliers (toujours sincères) et des fripons (toujours menteurs), A dit : « Au moins l'un de nous deux est un fripon. » Que sont A et B ?",
+   "solution": "Si A était un fripon, la phrase « au moins l'un de nous est un fripon » serait **vraie** : un fripon ne peut pas la dire. Donc A est un **chevalier**, sa phrase est vraie, et comme lui n'est pas fripon, **B est un fripon**.",
+   "indice": "Si A était un fripon, sa phrase serait-elle vraie ou fausse ?",
+   "categorie": "logique",
+   "titre": "« Au moins l'un de nous est un fripon »",
+   "parent": "ct-chevaliers-fripons"
+  },
+  {
+   "id": "ct-chevaliers-fripons-meme-nature",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "ouverte",
+   "question": "A dit : « B et moi sommes de même nature. » Que peut-on dire de A et de B ?",
+   "solution": "- A chevalier : la phrase est vraie, B est chevalier.\n- A fripon : la phrase est fausse, B est de nature différente : chevalier.\nDans les deux cas **B est un chevalier**, et la nature de A reste **indéterminée**. C'est le schéma de « double négation » des gardiens : on apprend une chose sur l'autre, rien sur celui qui parle.",
+   "indice": "Traite les deux cas pour A.",
+   "categorie": "logique",
+   "titre": "« B et moi sommes de même nature »",
+   "parent": "ct-chevaliers-fripons"
+  },
+  {
+   "id": "ct-chevaliers-fripons-trois",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "ouverte",
+   "question": "Trois habitants A, B, C. A dit : « Nous sommes tous les trois des fripons. » B dit : « Exactement l'un de nous trois est un chevalier. » Que sont A, B et C ?",
+   "solution": "Un chevalier ne peut pas dire « nous sommes tous fripons » : **A est fripon**, et sa phrase est fausse, donc au moins un chevalier parmi B et C.\n- Si B était fripon, C serait le seul chevalier : « exactement un chevalier » serait vrai, impossible pour un fripon.\n- Donc **B est chevalier**, sa phrase est vraie : il est l'unique chevalier, **C est fripon**.\nVérification : A fripon, B chevalier, C fripon ; A ment, B dit vrai.",
+   "indice": "Commence par A, comme dans le problème à deux.",
+   "categorie": "logique",
+   "titre": "Chevaliers et fripons à trois",
+   "parent": "ct-chevaliers-fripons"
+  },
+  {
+   "id": "ct-yeux-bleus-fronts-sales",
+   "theme": "casse-tete",
+   "niveau": 3,
+   "profils": [
+    "mm",
+    "hf"
+   ],
+   "type": "ouverte",
+   "question": "$n$ enfants jouent ; $k$ d'entre eux ont le front sale, chacun voit les fronts des autres mais pas le sien. Le père annonce : « Au moins l'un de vous a le front sale. » Puis il demande, à plusieurs reprises et tous ensemble : « Levez la main si vous savez que votre front est sale. » À quel appel les enfants sales lèvent-ils la main ?",
+   "solution": "Au **$k$-ième appel**, les $k$ enfants sales lèvent la main ensemble.\n- $k = 1$ : l'enfant sale ne voit aucun front sale ; l'annonce lui apprend que c'est lui. Main levée au premier appel.\n- $k = 2$ : chacun voit un front sale ; si personne ne lève la main au premier appel, c'est que l'autre en voyait un aussi : main levée au deuxième.\n- Récurrence : au rang $k$, chacun en voit $k - 1$ et attend $k - 1$ appels.\nC'est le même mécanisme que les yeux bleus : l'annonce crée une **connaissance commune**.",
+   "indice": "Commence par $k = 1$, puis $k = 2$ : que déduit un enfant sale de l'absence de main levée ?",
+   "categorie": "logique",
+   "titre": "Les enfants au front sale",
+   "parent": "ct-yeux-bleus"
+  },
+  {
+   "id": "ct-yeux-bleus-maris",
+   "theme": "casse-tete",
+   "niveau": 3,
+   "profils": [
+    "mm",
+    "hf"
+   ],
+   "type": "ouverte",
+   "question": "Dans un village, chaque épouse sait exactement quels maris sont infidèles, sauf le sien. La reine annonce : « Au moins un mari est infidèle ; toute épouse qui le découvre pour le sien doit le chasser le soir même, à minuit. » Il y a $k$ maris infidèles. Que se passe-t-il ?",
+   "solution": "Les $k$ maris infidèles sont chassés **ensemble le $k$-ième soir**, et aucun avant.\nUne épouse trompée connaît $k - 1$ infidèles. Si seulement eux l'étaient, leurs épouses les chasseraient le soir $k - 1$ (récurrence). Ne voyant rien se passer ce soir-là, elle comprend que le sien l'est aussi. Une épouse non trompée connaît $k$ infidèles et attendrait le soir $k + 1$ : elle n'a pas à agir.",
+   "indice": "Mets-toi à la place d'une épouse trompée qui connaît $k - 1$ infidèles.",
+   "categorie": "logique",
+   "titre": "Les maris infidèles",
+   "parent": "ct-yeux-bleus"
+  },
+  {
+   "id": "ct-ages-trois-filles-72",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "ouverte",
+   "question": "« Le produit des âges de mes trois filles vaut 72. La somme est le numéro de la maison d'en face. » Le recenseur regarde le numéro : « Il me manque une information. » « Mon aînée aime le chocolat. » Quels sont les âges ?",
+   "solution": "Triplets et sommes : (1,1,72) 74 ; (1,2,36) 39 ; (1,3,24) 28 ; (1,4,18) 23 ; (1,6,12) 19 ; (1,8,9) 18 ; (2,2,18) 22 ; (2,3,12) 17 ; (2,4,9) 15 ; (2,6,6) **14** ; (3,3,8) **14** ; (3,4,6) 13.\nSeule la somme 14 laisse deux possibilités. « L'aînée » exclut (2,6,6), où les deux aînées ont le même âge : **3, 3 et 8 ans**.",
+   "indice": "Liste les triplets de produit 72 et leurs sommes : une seule somme est ambiguë.",
+   "categorie": "logique",
+   "titre": "Les trois filles, produit 72",
+   "parent": "ct-ages-trois-filles"
+  },
+  {
+   "id": "ct-ages-cinq-enfants",
+   "theme": "casse-tete",
+   "niveau": 3,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "ouverte",
+   "question": "« Le produit des âges de mes **cinq** enfants vaut 72 ; la somme est le numéro d'en face. » Le recenseur : « Il me manque une information. » « Mon aîné est unique. » Le recenseur peut-il maintenant donner les âges ?",
+   "solution": "La seule somme ambiguë est **16**, avec trois candidats : (1,1,2,6,6), (1,1,3,3,8) et (1,2,2,2,9).\n« L'aîné est unique » n'élimine que (1,1,2,6,6). Il reste (1,1,3,3,8) et (1,2,2,2,9), qui ont tous deux un aîné unique : **le recenseur ne peut pas conclure**.\nLeçon d'entretien : ne jamais plaquer la réponse d'un problème connu. Refaire l'énumération, et oser dire que l'énoncé ne suffit pas.",
+   "indice": "Énumère les quintuplets de produit 72 : quelle somme est ambiguë, et combien de candidats « aîné unique » laisse-t-elle ?",
+   "categorie": "logique",
+   "titre": "Cinq enfants, produit 72 : un piège",
+   "parent": "ct-ages-trois-filles"
+  },
+  {
+   "id": "ct-chapeaux-k-couleurs",
+   "theme": "casse-tete",
+   "niveau": 3,
+   "profils": [
+    "mm",
+    "hf"
+   ],
+   "type": "numerique",
+   "question": "100 prisonniers en file indienne, chacun voit les chapeaux devant lui. Les chapeaux sont maintenant de **$k$ couleurs** numérotées $0, \\dots, k - 1$. En partant du dernier, chacun annonce une couleur. Combien peuvent être sauvés à coup sûr avec une stratégie concertée ?",
+   "solution": "Le dernier annonce la somme des couleurs qu'il voit, **modulo $k$**. Chaque suivant connaît cette somme, voit les chapeaux devant lui et a entendu les couleurs (justes) de ceux qui sont derrière lui, sauf la sienne : il retrouve sa couleur par soustraction modulo $k$.\nSeul le dernier joue à pile ou face (probabilité $1/k$) : **99** sauvés à coup sûr, quel que soit $k$.",
+   "indice": "Remplace la parité par une somme modulo $k$.",
+   "categorie": "logique",
+   "titre": "La file de prisonniers, chapeaux de $k$ couleurs",
+   "reponse": "99",
+   "valeur": 99.0,
+   "tolerance": 0.0,
+   "parent": "ct-chapeaux"
+  },
+  {
+   "id": "ct-chapeaux-cercle",
+   "theme": "casse-tete",
+   "niveau": 3,
+   "profils": [
+    "mm",
+    "hf"
+   ],
+   "type": "ouverte",
+   "question": "$n$ personnes numérotées $0, \\dots, n - 1$ reçoivent chacune un chapeau d'une couleur parmi $n$ (numérotées aussi). Chacune voit tous les autres chapeaux, pas le sien, puis **toutes** annoncent en même temps une couleur pour leur propre chapeau. Trouve une stratégie qui garantit qu'**au moins une** personne a raison, quelle que soit la distribution.",
+   "solution": "La personne $i$ suppose que $S \\equiv i \\pmod n$ et annonce la couleur qui rendrait cela vrai, compte tenu des chapeaux qu'elle voit.\n$S$ prend exactement une valeur $s$ modulo $n$ : la personne $i = s$ a fait la bonne hypothèse, donc annonce juste. Exactement une personne a raison, à coup sûr.\nOn ne peut pas faire mieux en garantie : chaque personne a raison avec probabilité $1/n$, donc en moyenne une seule.",
+   "indice": "Soit $S$ la somme de toutes les couleurs modulo $n$. Chaque personne peut parier sur une valeur différente de $S$.",
+   "categorie": "logique",
+   "titre": "$n$ personnes, $n$ couleurs, annonces simultanées",
+   "parent": "ct-chapeaux"
+  },
+  {
+   "id": "ct-chapeaux-simultanes-sept",
+   "theme": "casse-tete",
+   "niveau": 3,
+   "profils": [
+    "mm",
+    "hf"
+   ],
+   "type": "numerique",
+   "question": "Même jeu que les chapeaux rouges et bleus à trois joueurs (chacun annonce ou s'abstient, on gagne si au moins un annonce et que personne ne se trompe), mais avec **7 joueurs**. Quelle probabilité de gagner atteint-on avec la meilleure stratégie ?",
+   "solution": "Le code de Hamming $(7, 4)$ contient 16 mots ; toute suite de 7 bits est soit un mot du code, soit à distance 1 d'exactement un mot. Stratégie : si en complétant ton bit tu peux obtenir un mot du code, annonce le bit qui n'en donne **pas** ; sinon abstiens-toi.\n- Configuration hors du code (112 sur 128) : un seul joueur peut « compléter en un mot du code », il annonce juste ; les autres s'abstiennent.\n- Configuration dans le code (16 sur 128) : les sept annoncent faux.\nProbabilité $112/128 =$ **7/8**, soit $1 - 1/(n + 1)$ avec $n = 7$.",
+   "indice": "À trois joueurs, on concentre toutes les erreurs sur 2 configurations sur 8. Quel code correcteur fait la même chose sur 7 bits ?",
+   "categorie": "logique",
+   "titre": "Chapeaux simultanés à sept joueurs",
+   "reponse": "7/8",
+   "valeur": 0.875,
+   "tolerance": 0.005,
+   "parent": "ct-chapeaux-simultanes"
+  },
+  {
+   "id": "ct-prisonniers-ampoule-inconnue",
+   "theme": "casse-tete",
+   "niveau": 3,
+   "profils": [
+    "mm",
+    "hf"
+   ],
+   "type": "ouverte",
+   "question": "Même problème des 100 prisonniers et de l'ampoule, mais on ne sait pas si l'ampoule est allumée ou éteinte au départ. Comment adapter la stratégie du compteur ?",
+   "solution": "Chaque prisonnier autre que le compteur allume l'ampoule **deux fois** (les deux premières fois qu'il la trouve éteinte). Le compteur éteint et compte chaque ampoule allumée qu'il trouve ; il annonce quand son compte atteint $2 \\times 99 = 198$.\n- Le seuil est **atteignable** : même si l'ampoule était éteinte au départ, les 99 prisonniers fournissent $198$ allumages.\n- Le seuil est **sûr** : si l'ampoule était allumée au départ, un compte est parasite et $197$ viennent des prisonniers ; or 98 prisonniers n'en fournissent que $196$. Donc les 99 sont passés.\nLe piège est de s'arrêter à $197$ : si l'ampoule était allumée au départ, 98 prisonniers suffisent à faire $1 + 196 = 197$, et l'un d'eux peut ne jamais être venu.\nMéthode : vérifier qu'un seuil est à la fois atteignable dans le pire cas et concluant dans le pire cas.",
+   "indice": "Le compteur ne sait pas si la première ampoule allumée vient d'un prisonnier ou de l'état initial : chaque prisonnier doit donc « compter » plus d'une fois.",
+   "categorie": "logique",
+   "titre": "L'ampoule des prisonniers, état initial inconnu",
+   "parent": "ct-prisonniers-ampoule"
+  },
+  {
+   "id": "ct-prisonniers-boites-limite",
+   "theme": "casse-tete",
+   "niveau": 3,
+   "profils": [
+    "mm",
+    "hf"
+   ],
+   "type": "numerique",
+   "question": "Même jeu des boîtes avec $2n$ prisonniers qui ouvrent chacun $n$ boîtes et la stratégie des cycles. Vers quelle valeur tend la probabilité de succès quand $n \\to \\infty$ ?",
+   "solution": "$$\\sum_{k=n+1}^{2n} \\frac{1}{k} = H_{2n} - H_n \\to \\ln 2,$$\ndonc la probabilité de succès tend vers $1 - \\ln 2 \\approx$ **0,307**. Résultat contre-intuitif : elle ne s'effondre pas avec le nombre de prisonniers, alors que la stratégie au hasard donne $2^{-2n}$.",
+   "indice": "La probabilité d'échec est $\\sum_{k=n+1}^{2n} 1/k$. Reconnais une somme de Riemann.",
+   "categorie": "logique",
+   "titre": "Les prisonniers et les boîtes, beaucoup de prisonniers",
+   "reponse": "1-ln(2)",
+   "valeur": 0.3068528194400547,
+   "tolerance": 0.01,
+   "parent": "ct-prisonniers-boites"
+  },
+  {
+   "id": "ct-prisonniers-boites-cycles",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf"
+   ],
+   "type": "numerique",
+   "question": "On tire une permutation uniforme de $\\{1, \\dots, 10\\}$. Combien a-t-elle de cycles en moyenne (points fixes compris) ?",
+   "solution": "Nombre moyen de cycles de longueur $k$ : $\\binom{n}{k}(k - 1)!\\,(n - k)!/n! = 1/k$. En sommant :\n$$\\mathbb{E}[\\text{cycles}] = \\sum_{k=1}^{n} \\frac1k = H_n.$$\nPour $n = 10$ : $H_{10} \\approx$ **2,93**, et $H_n \\approx \\ln n + 0{,}577$ en général. C'est la même série que pour la grenouille et les records.",
+   "indice": "Le nombre de permutations de $\\{1, \\dots, n\\}$ ayant un cycle **donné** de longueur $k$ est $(n - k)!$. Compte les cycles de longueur $k$ en moyenne.",
+   "categorie": "logique",
+   "titre": "Nombre moyen de cycles d'une permutation",
+   "reponse": "1+1/2+1/3+1/4+1/5+1/6+1/7+1/8+1/9+1/10",
+   "valeur": 2.9289682539682538,
+   "tolerance": 0.005,
+   "parent": "ct-prisonniers-boites"
+  },
+  {
+   "id": "ct-pieces-yeux-bandes-general",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "ouverte",
+   "question": "$N$ pièces sur la table, dont exactement $n$ côté face (tu connais $n$). Les yeux bandés, tu peux déplacer et retourner les pièces. Forme deux tas qui contiennent le même nombre de faces.",
+   "solution": "Prends **$n$ pièces quelconques** et retourne-les toutes. Si elles contenaient $k$ faces, il en reste $n - k$ dans l'autre tas ; après retournement, le petit tas contient $n - k$ faces. Égalité dans tous les cas.",
+   "indice": "La taille du petit tas est la seule chose que tu contrôles.",
+   "categorie": "logique",
+   "titre": "Pièces les yeux bandés, $n$ faces parmi $N$",
+   "parent": "ct-pieces-yeux-bandes"
+  },
+  {
+   "id": "ct-guetteur-mensonge",
+   "theme": "casse-tete",
+   "niveau": 3,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Je pense à un entier entre 1 et 100. Tu poses des questions fermées ; je peux mentir **au plus une fois**. Combien de questions faut-il au minimum pour être sûr de trouver le nombre ?",
+   "solution": "Avec $k$ questions, un scénario est un nombre (100 choix) et une position du mensonge parmi $k$, ou aucun mensonge : $100(k + 1)$ scénarios. Pour chaque nombre, les $k + 1$ suites de réponses possibles doivent être distinctes de celles des autres nombres : il faut $2^k \\ge 100(k + 1)$ (borne de Hamming).\n- $k = 10$ : $1\\,024 < 1\\,100$, impossible.\n- $k = 11$ : $2\\,048 \\ge 1\\,200$.\n**11 questions**, et une stratégie adaptative les atteint (jeu d'Ulam, résolu par Pelc). Sans mensonge il en fallait 7 : un seul mensonge coûte 4 questions.",
+   "indice": "Compte les « scénarios » à distinguer : le nombre, et la position éventuelle du mensonge.",
+   "categorie": "logique",
+   "titre": "Deviner un nombre si je peux mentir une fois",
+   "reponse": "11",
+   "valeur": 11.0,
+   "tolerance": 0.0,
+   "parent": "ct-guetteur-espion"
+  },
+  {
+   "id": "ct-batte-balle-machines",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Il faut 5 minutes à 5 machines pour fabriquer 5 objets. Combien de minutes faut-il à 100 machines pour fabriquer 100 objets ?",
+   "solution": "Chaque machine fabrique un objet en 5 minutes. 100 machines travaillant en parallèle font 100 objets en **5 minutes**. La réponse réflexe (100) confond le nombre d'objets et la durée.",
+   "indice": "Combien de temps faut-il à **une** machine pour faire **un** objet ?",
+   "categorie": "nombres",
+   "titre": "5 machines, 5 objets, 5 minutes",
+   "reponse": "5",
+   "valeur": 5.0,
+   "tolerance": 0.0,
+   "parent": "ct-batte-balle"
+  },
+  {
+   "id": "ct-batte-balle-brique",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Une brique pèse 1 kg plus la moitié d'une brique. Combien pèse une brique (en kg) ?",
+   "solution": "$b = 1 + b/2$, donc $b/2 = 1$ et $b =$ **2 kg**. La réponse intuitive 1,5 kg ne vérifie pas l'énoncé : $1 + 0{,}75 \\ne 1{,}5$.",
+   "indice": "Pose l'équation au lieu de répondre 1,5.",
+   "categorie": "nombres",
+   "titre": "La brique qui pèse 1 kg plus une demi-brique",
+   "reponse": "2",
+   "valeur": 2.0,
+   "tolerance": 0.0,
+   "parent": "ct-batte-balle"
+  },
+  {
+   "id": "ct-batte-balle-action",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Une action perd 50 % un jour, puis gagne 50 % le lendemain. Quelle est sa variation totale, en pourcentage ?",
+   "solution": "$0{,}5 \\times 1{,}5 = 0{,}75$ : **−25 %**. Pour revenir au niveau initial après −50 %, il faudrait +100 %. C'est la raison pour laquelle la moyenne arithmétique des rendements surestime la croissance (écart de l'ordre de $\\sigma^2/2$).",
+   "indice": "Les pourcentages se multiplient, ils ne s'additionnent pas.",
+   "categorie": "nombres",
+   "titre": "−50 % puis +50 %",
+   "reponse": "-25",
+   "valeur": -25.0,
+   "tolerance": 0.0,
+   "parent": "ct-batte-balle"
+  },
+  {
+   "id": "ct-josephus-trois",
+   "theme": "casse-tete",
+   "niveau": 3,
+   "profils": [
+    "mm",
+    "hf",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "41 personnes en cercle, numérotées de 1 à 41. En partant de la 1, on compte jusqu'à 3 et l'on élimine la troisième (la 3, puis la 6, …), en continuant autour du cercle. Quel numéro survit ?",
+   "solution": "Après la première élimination, on renumérote en partant de la personne qui suit l'éliminé : on retrouve le problème à $n - 1$ personnes décalé de $k$. D'où $J(1) = 0$ et $J(n) = (J(n - 1) + 3) \\bmod n$.\nEn déroulant jusqu'à $n = 41$ on trouve $J(41) = 30$, soit le numéro **31**. C'est la place qu'aurait choisie Josèphe selon la légende. Pas de formule fermée pour $k = 3$ : la récurrence en $O(n)$ est la bonne réponse.",
+   "indice": "Avec $J(n)$ le survivant (numérotation à partir de 0) pour $n$ personnes, montre que $J(n) = (J(n - 1) + k) \\bmod n$.",
+   "categorie": "nombres",
+   "titre": "Flavius Josèphe : une personne sur trois",
+   "reponse": "31",
+   "valeur": 31.0,
+   "tolerance": 0.0,
+   "parent": "ct-josephus"
+  },
+  {
+   "id": "ct-sommes-consecutives-puissances",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "ouverte",
+   "question": "Quels entiers $N \\ge 1$ ne s'écrivent **pas** comme somme d'au moins deux entiers positifs consécutifs ?",
+   "solution": "Écrire $N$ comme somme de $k$ consécutifs à partir de $m$, c'est écrire $2N = k \\times L$ avec $L = 2m + k - 1$ : deux facteurs de parités opposées, avec $L > k$.\n- Si $N = 2^a d$ avec $d$ impair, $d > 1$ : $2N = 2^{a+1} \\times d$. On prend $k = \\min(2^{a+1}, d)$ et $L = \\max(2^{a+1}, d)$ : parités opposées, $k \\ge 2$, et $m = (L - k + 1)/2 \\ge 1$. Exemple : $12 = 3 + 4 + 5$.\n- Si $N = 2^a$ : $2N = 2^{a+1}$ n'a pas de facteur impair autre que 1, donc $k = 1$ forcément.\nLes **puissances de 2** sont les seuls entiers qui ne s'écrivent pas ainsi. Plus généralement, le nombre d'écritures (un seul terme compris) est le nombre de diviseurs impairs de $N$.",
+   "indice": "Une somme de $k \\ge 2$ consécutifs vaut $\\frac{k(2m + k - 1)}{2}$ : les deux facteurs sont de parités opposées.",
+   "categorie": "nombres",
+   "titre": "Les entiers qui ne sont pas sommes de consécutifs",
+   "parent": "ct-sommes-consecutives"
+  },
+  {
+   "id": "ct-zeros-factorielle-mille",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Par combien de zéros se termine $1\\,000!$ ?",
+   "solution": "Formule de Legendre :\n$$\\left\\lfloor \\tfrac{1000}{5} \\right\\rfloor + \\left\\lfloor \\tfrac{1000}{25} \\right\\rfloor + \\left\\lfloor \\tfrac{1000}{125} \\right\\rfloor + \\left\\lfloor \\tfrac{1000}{625} \\right\\rfloor = 200 + 40 + 8 + 1 = 249.$$\nLe piège : s'arrêter à $1000/5 = 200$, ou oublier le terme en 625.",
+   "indice": "Compte les facteurs 5, sans oublier 25, 125 et 625.",
+   "categorie": "nombres",
+   "titre": "Les zéros de $1\\,000!$",
+   "reponse": "249",
+   "valeur": 249.0,
+   "tolerance": 0.0,
+   "parent": "ct-zeros-factorielle"
+  },
+  {
+   "id": "ct-zeros-factorielle-non-nul",
+   "theme": "casse-tete",
+   "niveau": 3,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Quel est le dernier chiffre non nul de $100!$ ?",
+   "solution": "$100!$ contient $97$ facteurs 2 et $24$ facteurs 5. On écrit $100! = 10^{24} \\times 2^{73} \\times R$, où $R$ est le produit des entiers de 1 à 100 privés de leurs facteurs 2 et 5 (impair, premier avec 5).\nEn suivant $R$ modulo 10 (bloc par bloc, ou avec la formule récursive $D(n) = 2^{\\lfloor n/5 \\rfloor} D(\\lfloor n/5 \\rfloor) D(n \\bmod 5) \\bmod 10$ pour le dernier chiffre non nul), on obtient **4**.\nVérification rapide : $D(100) = 2^{20} D(20) D(0) = 6 \\times 4 \\times 1 \\equiv 4 \\pmod{10}$, avec $D(20) = 2^4 D(4) = 6 \\times 4 = 24 \\equiv 4$.",
+   "indice": "Retire les 24 couples $2 \\times 5$ qui font les zéros ; il reste un excédent de facteurs 2. Travaille modulo 10 sur ce qui reste.",
+   "categorie": "nombres",
+   "titre": "Le dernier chiffre non nul de $100!$",
+   "reponse": "4",
+   "valeur": 4.0,
+   "tolerance": 0.0,
+   "parent": "ct-zeros-factorielle"
+  },
+  {
+   "id": "ct-dernier-chiffre-modulo-sept",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Quel est le reste de la division de $2^{100}$ par 7 ?",
+   "solution": "$2^3 = 8 \\equiv 1 \\pmod 7$. Or $100 = 3 \\times 33 + 1$, donc $2^{100} = (2^3)^{33} \\times 2 \\equiv 2$. Reste **2**. Même méthode que pour le dernier chiffre : trouver la période des puissances.",
+   "indice": "Cherche une petite puissance de 2 qui vaut 1 modulo 7.",
+   "categorie": "nombres",
+   "titre": "$2^{100}$ modulo 7",
+   "reponse": "2",
+   "valeur": 2.0,
+   "tolerance": 0.0,
+   "parent": "ct-dernier-chiffre"
+  },
+  {
+   "id": "ct-dernier-chiffre-deux",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Quels sont les deux derniers chiffres de $3^{100}$ ? Donne le nombre formé par ces deux chiffres.",
+   "solution": "$3^{10} = 59\\,049 \\equiv 49 \\pmod{100}$, puis $3^{20} \\equiv 49^2 = 2\\,401 \\equiv 1$. Donc $3^{100} = (3^{20})^5 \\equiv 1$ : les deux derniers chiffres sont **01**.\nLe théorème d'Euler donne seulement $3^{40} \\equiv 1$ ($\\varphi(100) = 40$) ; l'ordre réel de 3 est plus petit (20).",
+   "indice": "Travaille modulo 100 ; calcule $3^{10}$ modulo 100 puis élève au carré.",
+   "categorie": "nombres",
+   "titre": "Les deux derniers chiffres de $3^{100}$",
+   "reponse": "1",
+   "valeur": 1.0,
+   "tolerance": 0.0,
+   "parent": "ct-dernier-chiffre"
+  },
+  {
+   "id": "ct-impairs-gauss",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Que vaut $1 + 2 + 3 + \\dots + 100$ ?",
+   "solution": "$1 + 100 = 2 + 99 = \\dots = 101$, et il y a 50 paires : $50 \\times 101 =$ **5 050**. En général $\\frac{n(n + 1)}{2}$.",
+   "indice": "Apparie le premier et le dernier terme, le deuxième et l'avant-dernier…",
+   "categorie": "nombres",
+   "titre": "La somme de Gauss",
+   "reponse": "5050",
+   "valeur": 5050.0,
+   "tolerance": 0.0,
+   "parent": "ct-impairs"
+  },
+  {
+   "id": "ct-impairs-chiffres",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "On écrit tous les nombres de 1 à 100. Quelle est la somme de tous les chiffres écrits ?",
+   "solution": "De 00 à 99, chaque chiffre de 0 à 9 apparaît 10 fois aux unités et 10 fois aux dizaines : $2 \\times 10 \\times (0 + 1 + \\dots + 9) = 900$. On ajoute 100, dont les chiffres font 1 : **901**.",
+   "indice": "Écris les nombres de 00 à 99 sur deux chiffres : chaque chiffre apparaît autant de fois à chaque position.",
+   "categorie": "nombres",
+   "titre": "La somme de tous les chiffres de 1 à 100",
+   "reponse": "901",
+   "valeur": 901.0,
+   "tolerance": 0.0,
+   "parent": "ct-impairs"
+  },
+  {
+   "id": "ct-frobenius-nuggets",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Des nuggets se vendent par boîtes de 6, 9 et 20. Quel est le plus grand nombre de nuggets qu'on ne peut pas acheter exactement ?",
+   "solution": "6 et 9 donnent les multiples de 3 à partir de 6. Selon le reste modulo 3 :\n- reste 0 : tout multiple de 3 dès 6 ;\n- reste 2 : un 20, puis des multiples de 3, donc tout nombre $\\ge 26$ (et 20) ;\n- reste 1 : deux 20, donc tout nombre $\\ge 46$ (et 40).\nLe plus grand impossible est $46 - 3 =$ **43**. Pas de formule fermée avec trois valeurs, contrairement au cas de deux ($ab - a - b$).",
+   "indice": "Avec 6 et 9 on n'obtient que des multiples de 3 ; un ou deux 20 changent le reste modulo 3.",
+   "categorie": "nombres",
+   "titre": "Les nuggets par 6, 9 et 20",
+   "reponse": "43",
+   "valeur": 43.0,
+   "tolerance": 0.0,
+   "parent": "ct-frobenius"
+  },
+  {
+   "id": "ct-frobenius-pgcd",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "ouverte",
+   "question": "Tu n'as que des pièces de 4 € et de 6 €. Existe-t-il un plus grand montant entier impossible à payer ?",
+   "solution": "**Non** : tout montant payable est pair, donc tous les montants impairs sont impossibles, et il y en a une infinité. La formule de Frobenius $ab - a - b$ suppose $\\mathrm{pgcd}(a, b) = 1$. Ici $\\mathrm{pgcd}(4, 6) = 2$ : on paie exactement les nombres pairs à partir de 4.",
+   "indice": "Quelle est la parité de tout montant payable ?",
+   "categorie": "nombres",
+   "titre": "Pièces de 4 et de 6",
+   "parent": "ct-frobenius"
+  },
+  {
+   "id": "ct-multiples-3-5-combien",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Combien d'entiers de 1 à 1 000 sont multiples de 3 ou de 5 ?",
+   "solution": "$\\lfloor 1000/3 \\rfloor + \\lfloor 1000/5 \\rfloor - \\lfloor 1000/15 \\rfloor = 333 + 200 - 66 =$ **467**.",
+   "indice": "Inclusion-exclusion : n'oublie pas de retirer les multiples de 15.",
+   "categorie": "nombres",
+   "titre": "Combien de multiples de 3 ou de 5 ?",
+   "reponse": "467",
+   "valeur": 467.0,
+   "tolerance": 0.0,
+   "parent": "ct-multiples-3-5"
+  },
+  {
+   "id": "ct-multiples-3-5-euler",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Combien d'entiers de 1 à 1 000 sont premiers avec 1 000 ?",
+   "solution": "Inclusion-exclusion : $1000 - 500 - 200 + 100 = 400$. C'est l'indicatrice d'Euler :\n$$\\varphi(1000) = 1000\\left(1 - \\tfrac12\\right)\\left(1 - \\tfrac15\\right) = 400.$$\nRéponse : **400**.",
+   "indice": "Être premier avec $1\\,000 = 2^3 \\times 5^3$, c'est n'être divisible ni par 2 ni par 5.",
+   "categorie": "nombres",
+   "titre": "Les entiers premiers avec 1 000",
+   "reponse": "400",
+   "valeur": 400.0,
+   "tolerance": 0.0,
+   "parent": "ct-multiples-3-5"
+  },
+  {
+   "id": "ct-diviseurs-impair",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "ouverte",
+   "question": "Pour quels entiers $n \\ge 1$ le nombre de diviseurs positifs est-il impair ?",
+   "solution": "Les diviseurs vont par paires $(d, n/d)$, sauf quand $d = n/d$, c'est-à-dire $d = \\sqrt n$. Le nombre de diviseurs est impair **si et seulement si $n$ est un carré parfait**. Autre preuve : $\\prod (a_i + 1)$ est impair si et seulement si tous les exposants $a_i$ sont pairs.\nC'est la clé du problème des 100 casiers.",
+   "indice": "Associe chaque diviseur $d$ à $n/d$.",
+   "categorie": "nombres",
+   "titre": "Quand le nombre de diviseurs est-il impair ?",
+   "parent": "ct-diviseurs"
+  },
+  {
+   "id": "ct-diviseurs-premiers",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Combien y a-t-il de nombres premiers inférieurs à 100 ?",
+   "solution": "2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97 : **25**. Ordre de grandeur : $100/\\ln 100 \\approx 22$ (théorème des nombres premiers).",
+   "indice": "Crible d'Ératosthène : il suffit de barrer les multiples de 2, 3, 5 et 7 ($7^2 < 100 < 11^2$).",
+   "categorie": "nombres",
+   "titre": "Les nombres premiers inférieurs à 100",
+   "reponse": "25",
+   "valeur": 25.0,
+   "tolerance": 0.0,
+   "parent": "ct-diviseurs"
+  },
+  {
+   "id": "ct-e-pi-puissances",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "ouverte",
+   "question": "Sans calculatrice : lequel est le plus grand, $2^{100}$ ou $3^{63}$ ?",
+   "solution": "$\\log_2 3^{63} = 63 \\log_2 3 \\approx 63 \\times 1{,}585 = 99{,}86 < 100$. Donc **$2^{100}$ est plus grand**, de peu ($2^{0{,}14} \\approx 1{,}1$, environ 10 %).\nPour retrouver $\\log_2 3$ : $3^{12} = 531\\,441$ est proche de $2^{19} = 524\\,288$, d'où $\\log_2 3 \\approx 19/12 \\approx 1{,}583$. Deux décimales ne suffiraient pas ici ($63 \\times 1{,}59 = 100{,}2$) : c'est le genre de comparaison serrée où il faut le dire, puis affiner.",
+   "indice": "Compare les logarithmes en base 2 : il suffit de connaître $\\log_2 3$ à deux décimales.",
+   "categorie": "nombres",
+   "titre": "$2^{100}$ ou $3^{63}$ ?",
+   "parent": "ct-e-pi"
+  },
+  {
+   "id": "ct-e-pi-99-100",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "ouverte",
+   "question": "Lequel est le plus grand, $99^{100}$ ou $100^{99}$ ?",
+   "solution": "$99^{100} > 100^{99} \\iff 100 \\ln 99 > 99 \\ln 100 \\iff \\frac{\\ln 99}{99} > \\frac{\\ln 100}{100}$. La fonction $\\frac{\\ln x}{x}$ décroît après $e$ : c'est vrai, **$99^{100}$ est plus grand**.\nAutre façon : $\\frac{99^{100}}{100^{99}} = 99 \\times \\left(1 - \\frac{1}{100}\\right)^{99} \\approx 99 / e \\approx 36 > 1$.",
+   "indice": "Compare $\\frac{\\ln 99}{99}$ et $\\frac{\\ln 100}{100}$.",
+   "categorie": "nombres",
+   "titre": "$99^{100}$ ou $100^{99}$ ?",
+   "parent": "ct-e-pi"
+  },
+  {
+   "id": "ct-e-pi-equation",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Combien l'équation $2^x = x^2$ a-t-elle de solutions réelles ?",
+   "solution": "$x = 2$ et $x = 4$ sont solutions. Pour $x < 0$, $2^x$ croît de 0 à 1 tandis que $x^2$ décroît de $+\\infty$ à 0 : une troisième solution, vers $x \\approx -0{,}767$. Sur $]0, 2[$, $]2, 4[$ et $]4, +\\infty[$, l'étude de $\\frac{\\ln x}{x} = \\frac{\\ln 2}{2}$ montre qu'il n'y en a pas d'autre. **3 solutions**. Le piège : oublier les négatifs.",
+   "indice": "Deux solutions entières se voient tout de suite. Regarde aussi ce qui se passe pour $x < 0$.",
+   "categorie": "nombres",
+   "titre": "Combien de solutions à $2^x = x^2$ ?",
+   "reponse": "3",
+   "valeur": 3.0,
+   "tolerance": 0.0,
+   "parent": "ct-e-pi"
+  },
+  {
+   "id": "ct-tour-puissances-quatre",
+   "theme": "casse-tete",
+   "niveau": 3,
+   "profils": [
+    "mm",
+    "hf"
+   ],
+   "type": "ouverte",
+   "question": "Même méthode que pour $x^{x^{x^{\\cdots}}} = 2$ : si la tour vaut 4, alors $x^4 = 4$, donc $x = \\sqrt 2$. Où est l'erreur ?",
+   "solution": "L'équation $x^y = y$ est une condition **nécessaire** si la tour converge, pas suffisante. Pour $x = \\sqrt 2$, la suite $a_{n+1} = \\sqrt 2^{\\,a_n}$ partant de $a_1 = \\sqrt 2$ croît et converge vers le **plus petit** point fixe, 2, jamais vers 4.\nLa tour converge si et seulement si $e^{-e} \\le x \\le e^{1/e}$, et sa valeur est alors au plus $e$ : la valeur 4 est impossible, l'équation $x^{x^{\\cdots}} = 4$ n'a **pas de solution**. Leçon : vérifier la convergence avant de résoudre une équation de point fixe.",
+   "indice": "Pour $x = \\sqrt 2$, que vaut réellement la tour ? Quelles valeurs une tour infinie peut-elle prendre ?",
+   "categorie": "nombres",
+   "titre": "Une tour infinie égale à 4 ?",
+   "parent": "ct-tour-puissances"
+  },
+  {
+   "id": "ct-tour-puissances-radical",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf"
+   ],
+   "type": "numerique",
+   "question": "Que vaut $\\sqrt{2 + \\sqrt{2 + \\sqrt{2 + \\cdots}}}$ ?",
+   "solution": "$y = \\sqrt{2 + y}$, donc $y^2 - y - 2 = 0$, $y = 2$ (la racine $-1$ est exclue, $y > 0$). La suite $a_{n+1} = \\sqrt{2 + a_n}$ est croissante et majorée par 2 : elle converge bien vers **2**.",
+   "indice": "Appelle $y$ la valeur : elle se retrouve sous le premier radical.",
+   "categorie": "nombres",
+   "titre": "Le radical infini",
+   "reponse": "2",
+   "valeur": 2.0,
+   "tolerance": 0.0,
+   "parent": "ct-tour-puissances"
+  },
+  {
+   "id": "ct-tour-puissances-fraction",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf"
+   ],
+   "type": "numerique",
+   "question": "Que vaut la fraction continue $1 + \\cfrac{1}{1 + \\cfrac{1}{1 + \\cdots}}$ ?",
+   "solution": "$\\varphi = 1 + 1/\\varphi$, soit $\\varphi^2 - \\varphi - 1 = 0$ : $\\varphi = \\frac{1 + \\sqrt 5}{2} \\approx$ **1,618**, le nombre d'or. Les réduites $1, 2, 3/2, 5/3, 8/5, \\dots$ sont des rapports de termes consécutifs de Fibonacci.",
+   "indice": "Même idée : la valeur se retrouve au dénominateur.",
+   "categorie": "nombres",
+   "titre": "La fraction continue $1 + 1/(1 + 1/(1 + \\cdots))$",
+   "reponse": "(1+sqrt(5))/2",
+   "valeur": 1.618033988749895,
+   "tolerance": 0.005,
+   "parent": "ct-tour-puissances"
+  },
+  {
+   "id": "ct-produit-max-reels",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "On écrit 10 comme somme de **réels** positifs (en nombre quelconque). Quel est le plus grand produit possible ?",
+   "solution": "Avec $k$ parts, le maximum est $(10/k)^k$, atteint pour des parts égales. La fonction $k \\mapsto (10/k)^k$ est maximale pour $k$ réel égal à $10/e \\approx 3{,}68$ ; parmi les entiers : $k = 3$ donne $37{,}04$, $k = 4$ donne $2{,}5^4 = 39{,}0625$. Réponse : **39,0625**, un peu plus que les 36 des entiers.",
+   "indice": "À nombre de parts $k$ fixé, l'inégalité arithmético-géométrique impose des parts égales. Optimise ensuite sur $k$ entier.",
+   "categorie": "nombres",
+   "titre": "Produit maximal avec des réels",
+   "reponse": "2.5^4",
+   "valeur": 39.0625,
+   "tolerance": 0.005,
+   "parent": "ct-produit-max"
+  },
+  {
+   "id": "ct-produit-max-xx",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Quel est le minimum de $x^x$ sur $]0, +\\infty[$ ?",
+   "solution": "$x^x = e^{x \\ln x}$ et $(x \\ln x)' = \\ln x + 1$ s'annule en $x = 1/e$. Minimum : $e^{-1/e} \\approx$ **0,692**. Et $x^x \\to 1$ quand $x \\to 0^+$ ($x \\ln x \\to 0$).",
+   "indice": "Dérive $x \\ln x$.",
+   "categorie": "nombres",
+   "titre": "Minimum de $x^x$",
+   "reponse": "exp(-1/e)",
+   "valeur": 0.6922006275553464,
+   "tolerance": 0.005,
+   "parent": "ct-produit-max"
+  },
+  {
+   "id": "ct-chiffres-puissance-factorielle",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Estime $\\log_2(100!)$ à une unité près.",
+   "solution": "$\\ln 100! \\approx 100 \\times 4{,}605 - 100 + \\frac12 \\ln(628) \\approx 460{,}5 - 100 + 3{,}22 = 363{,}7$. Divisé par $\\ln 2$ : $\\log_2 100! \\approx$ **524,8**.\nInterprétation : il faut 525 bits pour coder une permutation de 100 éléments, et un tri par comparaisons fait au moins 525 comparaisons au pire.",
+   "indice": "Formule de Stirling : $\\ln n! \\approx n \\ln n - n + \\frac12 \\ln(2\\pi n)$, avec $\\ln 10 \\approx 2{,}303$ et $\\ln 2 \\approx 0{,}693$.",
+   "categorie": "nombres",
+   "titre": "Combien de bits pour $100!$ ?",
+   "reponse": "log2(factorial(100))",
+   "valeur": 524.7649932900597,
+   "tolerance": 0.002,
+   "parent": "ct-chiffres-puissance"
+  },
+  {
+   "id": "ct-irrationnel-puissance",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "ouverte",
+   "question": "Existe-t-il deux irrationnels $a$ et $b$ tels que $a^b$ soit rationnel ?",
+   "solution": "**Oui.** Soit $x = \\sqrt 2^{\\sqrt 2}$.\n- Si $x$ est rationnel, $a = b = \\sqrt 2$ conviennent.\n- Sinon, $a = x$ et $b = \\sqrt 2$ conviennent : $x^{\\sqrt 2} = \\sqrt 2^{\\sqrt 2 \\cdot \\sqrt 2} = \\sqrt 2^2 = 2$.\nPreuve non constructive classique. (On sait en fait que $x$ est irrationnel, par le théorème de Gelfond-Schneider.) Exemple constructif : $a = \\sqrt 2$, $b = 2\\log_2 3$ donne $a^b = 3$.",
+   "indice": "Considère $\\sqrt 2^{\\sqrt 2}$, sans chercher à savoir s'il est rationnel.",
+   "categorie": "nombres",
+   "titre": "Un irrationnel puissance un irrationnel",
+   "parent": "ct-irrationnel"
+  },
+  {
+   "id": "ct-casiers-mille",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Même jeu avec 1 000 casiers et 1 000 passages : combien de casiers sont ouverts à la fin ?",
+   "solution": "Carrés parfaits jusqu'à 1 000 : $1^2, \\dots, 31^2 = 961$ ($32^2 = 1\\,024 > 1\\,000$). **31 casiers**, soit $\\lfloor \\sqrt{1000} \\rfloor$.",
+   "indice": "Les casiers ouverts sont toujours les carrés parfaits.",
+   "categorie": "nombres",
+   "titre": "1 000 casiers",
+   "reponse": "31",
+   "valeur": 31.0,
+   "tolerance": 0.0,
+   "parent": "ct-casiers"
+  },
+  {
+   "id": "ct-pieces-balance-quatre-pesees",
+   "theme": "casse-tete",
+   "niveau": 3,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Parmi $N$ pièces, une est fausse, plus lourde ou plus légère (on ne sait pas), et l'on doit la trouver **et** dire son sens, sans pièce de référence. Avec 3 pesées le maximum est 12. Quel est le maximum avec **4 pesées** ?",
+   "solution": "Comptage : $2N$ cas (pièce, sens) pour $3^k$ suites d'issues. La suite « toujours équilibre » ne donne pas le sens, et les suites vont par paires miroirs (échanger gauche et droite échange « lourde » et « légère ») : $N \\le \\frac{3^k - 1}{2}$. Sans pièce de référence, on perd encore une pièce, car la première pesée doit mettre autant de pièces de chaque côté (Dyson) : $N \\le \\frac{3^k - 3}{2}$, et cette borne est atteinte.\n- $k = 3$ : $\\frac{27 - 3}{2} = 12$.\n- $k = 4$ : $\\frac{81 - 3}{2} =$ **39**.\nAvec une pièce de référence en plus, on gagne une pièce : 13 en 3 pesées, 40 en 4 ($\\frac{3^k - 1}{2}$).",
+   "indice": "Comptage : $2N$ cas et $3^k$ issues, mais deux suites d'issues sont inutilisables. Lesquelles ?",
+   "categorie": "pesees",
+   "titre": "Pièce fausse inconnue : combien de pièces en 4 pesées ?",
+   "reponse": "39",
+   "valeur": 39.0,
+   "tolerance": 0.0,
+   "parent": "ct-pieces-balance"
+  },
+  {
+   "id": "ct-billes-plus-lourde-huit",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Parmi 8 billes, une seule est plus lourde. Combien de pesées faut-il au minimum, au pire, avec une balance à deux plateaux ?",
+   "solution": "3 contre 3 (2 billes de côté). Si un plateau penche, 1 contre 1 parmi ses 3 billes (la troisième si équilibre). Si équilibre, 1 contre 1 entre les 2 billes restantes. **2 pesées**. La pesée 4 contre 4 gaspille l'issue « équilibre », impossible ici, et en demande 3.",
+   "indice": "Une pesée a trois issues. Ne pèse pas 4 contre 4.",
+   "categorie": "pesees",
+   "titre": "8 billes, une plus lourde",
+   "reponse": "2",
+   "valeur": 2.0,
+   "tolerance": 0.0,
+   "parent": "ct-billes-plus-lourde"
+  },
+  {
+   "id": "ct-billes-plus-lourde-mille",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Parmi 1 000 billes, une seule est plus lourde. Combien de pesées au minimum, au pire ?",
+   "solution": "$3^6 = 729 < 1\\,000 \\le 2\\,187 = 3^7$ : **7 pesées**, en divisant à chaque fois en trois groupes aussi égaux que possible. (Et 27 billes demandent 3 pesées.)",
+   "indice": "$k$ pesées distinguent au plus $3^k$ billes.",
+   "categorie": "pesees",
+   "titre": "1 000 billes, une plus lourde",
+   "reponse": "7",
+   "valeur": 7.0,
+   "tolerance": 0.0,
+   "parent": "ct-billes-plus-lourde"
+  },
+  {
+   "id": "ct-piles-pieces-plusieurs",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "ouverte",
+   "question": "Dix piles de pièces ; les vraies pèsent 10 g, les fausses 11 g. Cette fois, **un nombre quelconque** de piles peuvent être fausses (une pile est entièrement vraie ou entièrement fausse). Chaque pile contient assez de pièces. Comment trouver toutes les piles fausses en une seule pesée ?",
+   "solution": "Prends $1, 2, 4, 8, \\dots, 512$ pièces des piles 1 à 10 (puissances de 2). L'excédent par rapport au poids attendu, en grammes, s'écrit de façon unique en binaire : ses bits à 1 désignent les piles fausses. Exemple : excédent $37 = 32 + 4 + 1$, piles 6, 3 et 1.\nIl faut $1\\,023$ pièces : c'est le coût de passer d'une seule pile fausse (10 cas, 55 pièces) à n'importe quel ensemble ($2^{10}$ cas).",
+   "indice": "L'excédent de poids doit déterminer un **ensemble** de piles : il faut que toutes les sommes de sous-ensembles soient différentes.",
+   "categorie": "pesees",
+   "titre": "Plusieurs piles fausses, une seule pesée",
+   "parent": "ct-piles-pieces-une-pesee"
+  },
+  {
+   "id": "ct-piles-pieces-poids-inconnu",
+   "theme": "casse-tete",
+   "niveau": 3,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "ouverte",
+   "question": "Dix piles de pièces de 10 g, dont une pile de fausses pièces d'un poids **inconnu** (différent de 10 g). Combien de pesées faut-il sur une balance électronique pour trouver la pile fausse, et comment ?",
+   "solution": "**Deux pesées.**\n- Pesée 1 : une pièce de chaque pile. L'écart à 100 g vaut $\\delta$, l'écart de poids d'une fausse pièce.\n- Pesée 2 : $1, 2, \\dots, 10$ pièces des piles 1 à 10. L'écart à 550 g vaut $k\\delta$ : on en déduit le numéro $k = \\text{écart}/\\delta$.\nUne seule pesée ne suffit pas : l'écart $k\\delta$ ne sépare pas $k$ et $\\delta$ (pile 2 avec $\\delta = 2$ g et pile 4 avec $\\delta = 1$ g donnent le même écart), quelles que soient les quantités prises.",
+   "indice": "Une seule pesée de $1, 2, \\dots, 10$ pièces donne un excédent $k \\times \\delta$ : deux inconnues pour une équation.",
+   "categorie": "pesees",
+   "titre": "Une pile fausse de poids inconnu",
+   "parent": "ct-piles-pieces-une-pesee"
+  },
+  {
+   "id": "ct-poids-balance-binaire",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "On ne peut poser les poids que sur **un seul** plateau (l'objet sur l'autre). Combien de poids faut-il au minimum pour peser toutes les masses entières de 1 à 63 g, et lesquels ?",
+   "solution": "Système binaire : $1, 2, 4, 8, 16, 32$, soit **6 poids** ($2^6 - 1 = 63$). Avec 5 poids, au plus $2^5 - 1 = 31$ masses positives. Les deux plateaux donnent trois états par poids, d'où les puissances de 3 du problème d'origine.",
+   "indice": "Chaque poids a maintenant deux états : posé ou non.",
+   "categorie": "pesees",
+   "titre": "Les poids sur un seul plateau",
+   "reponse": "6",
+   "valeur": 6.0,
+   "tolerance": 0.0,
+   "parent": "ct-poids-balance"
+  },
+  {
+   "id": "ct-cordes-quinze",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "ouverte",
+   "question": "Deux cordes brûlent chacune en une heure, de façon irrégulière. Comment mesurer exactement **15 minutes** ?",
+   "solution": "Allume A par les deux bouts et B par un bout. Quand A est consumée (30 minutes), allume l'autre bout de B et **commence à compter** à cet instant : B finit 15 minutes plus tard.\nLe piège est de vouloir partir de $t = 0$ : on ne sait pas mesurer 15 minutes d'emblée, mais on sait les mesurer entre $t = 30$ et $t = 45$.",
+   "indice": "Le début de la mesure n'est pas forcément au moment où tu allumes la première corde.",
+   "categorie": "pesees",
+   "titre": "Mesurer 15 minutes avec deux cordes",
+   "parent": "ct-cordes"
+  },
+  {
+   "id": "ct-cordes-une-seule",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "ouverte",
+   "question": "Avec **une seule** corde qui brûle en une heure de façon irrégulière, quelles durées peux-tu mesurer à coup sûr ?",
+   "solution": "**60 minutes** (un bout) et **30 minutes** (les deux bouts), rien d'autre de garanti. Couper la corde en deux ne donne pas deux demi-heures (la combustion est irrégulière), et allumer le second bout en cours de route ne sert que si l'on sait quand le faire, ce qui demande une autre mesure.",
+   "indice": "Combien d'extrémités peux-tu allumer, et quand ?",
+   "categorie": "pesees",
+   "titre": "Une seule corde",
+   "parent": "ct-cordes"
+  },
+  {
+   "id": "ct-cordes-trois",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "ouverte",
+   "question": "Trois cordes brûlent chacune en une heure, de façon irrégulière. Comment mesurer exactement 7 minutes 30 secondes ?",
+   "solution": "- $t = 0$ : allume A par les deux bouts, B par un bout, C par un bout.\n- $t = 30$ : A est finie. B et C ont chacune 30 minutes de reste ; allume le second bout de B (il lui reste 15 minutes).\n- $t = 45$ : B est finie. C brûle par un bout depuis 45 minutes : il lui reste 15 minutes. Allume son second bout : elle finit en 7 min 30 s.\nL'intervalle entre $t = 45$ et $t = 52{,}5$ dure **7 min 30 s**. Chaque allumage d'un second bout divise un reste par deux : avec trois cordes on atteint $60/8$ minutes. Dérouler chaque instant à voix haute est ce qui est noté.",
+   "indice": "Pour obtenir 7 min 30 s, il faut allumer par les deux bouts une corde à laquelle il reste exactement 15 minutes de combustion par un bout.",
+   "categorie": "pesees",
+   "titre": "Mesurer 7 min 30 s avec trois cordes",
+   "parent": "ct-cordes"
+  },
+  {
+   "id": "ct-sabliers-neuf",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "ouverte",
+   "question": "Avec un sablier de 4 minutes et un de 7 minutes, comment mesurer exactement 9 minutes ?",
+   "solution": "- $t = 0$ : retourne les deux.\n- $t = 4$ : le 4 est vide, retourne-le.\n- $t = 7$ : le 7 est vide, retourne-le.\n- $t = 8$ : le 4 est vide ; le 7 coule depuis 1 minute : retourne-le, il lui reste 1 minute.\n- $t = 9$ : le 7 est vide. **9 minutes.**",
+   "indice": "Quand un sablier se vide, retourne l'autre pour « rendre » la durée qu'il vient d'écouler.",
+   "categorie": "pesees",
+   "titre": "Sabliers de 4 et 7 minutes : mesurer 9 minutes",
+   "parent": "ct-sabliers"
+  },
+  {
+   "id": "ct-sabliers-treize",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "ouverte",
+   "question": "Avec un sablier de 5 minutes et un de 9 minutes, comment mesurer exactement 13 minutes ?",
+   "solution": "- $t = 0$ : retourne les deux.\n- $t = 5$ : le 5 est vide, retourne-le.\n- $t = 9$ : le 9 est vide ; le 5 coule depuis 4 minutes (4 minutes de sable en bas). Retourne-le : il se vide en 4 minutes.\n- $t = 13$ : le 5 est vide. **13 minutes.**",
+   "indice": "Lance les deux ensemble et regarde ce qu'il reste dans le petit quand le grand se vide.",
+   "categorie": "pesees",
+   "titre": "Sabliers de 5 et 9 minutes : mesurer 13 minutes",
+   "parent": "ct-sabliers"
+  },
+  {
+   "id": "ct-cruches-petite-d-abord",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Cruches de 3 L et de 5 L, robinet et évier. On impose de commencer par **remplir la petite**. Combien d'opérations au minimum pour obtenir 4 L ?",
+   "solution": "(3, 0) ; (0, 3) ; (3, 3) ; (1, 5) ; (1, 0) ; (0, 1) ; (3, 1) ; (0, 4). **8 opérations**, contre 6 en commençant par la grande. Les deux sens de rotation atteignent 4 L, mais pas à la même vitesse.",
+   "indice": "Remplis 3, verse dans 5, recommence : que reste-t-il dans la petite ?",
+   "categorie": "pesees",
+   "titre": "Les cruches de 3 et 5 L, en commençant par la petite",
+   "reponse": "8",
+   "valeur": 8.0,
+   "tolerance": 0.0,
+   "parent": "ct-cruches"
+  },
+  {
+   "id": "ct-cruches-pgcd",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "ouverte",
+   "question": "Avec une cruche de 4 L, une de 6 L, un robinet et un évier, peut-on obtenir exactement 1 L, 2 L, 3 L ou 5 L ?",
+   "solution": "Toutes les quantités restent **paires** : remplir, vider et transvaser entre des cruches de 4 et 6 L ne produit que des multiples de $\\mathrm{pgcd}(4, 6) = 2$. On obtient 2 L (remplir 6, verser dans 4), mais **jamais** 1, 3 ou 5 L.",
+   "indice": "Quelle propriété du contenu de chaque cruche est conservée par toutes les opérations ?",
+   "categorie": "pesees",
+   "titre": "Cruches de 4 et 6 litres",
+   "parent": "ct-cruches"
+  },
+  {
+   "id": "ct-cruches-partage",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Une cruche de 8 L est pleine ; on a aussi deux cruches vides de 5 L et 3 L, sans robinet ni évier. Combien de transvasements au minimum pour partager le vin en deux fois 4 L ?",
+   "solution": "(8, 0, 0) → (3, 5, 0) → (3, 2, 3) → (6, 2, 0) → (6, 0, 2) → (1, 5, 2) → (1, 4, 3) → (4, 4, 0). **7 transvasements** (problème de Tartaglia). Le parcours en largeur garantit la minimalité.",
+   "indice": "Parcours en largeur sur les états $(a, b, c)$ avec $a + b + c = 8$.",
+   "categorie": "pesees",
+   "titre": "Partager 8 litres avec des cruches de 5 et 3",
+   "reponse": "7",
+   "valeur": 7.0,
+   "tolerance": 0.0,
+   "parent": "ct-cruches"
+  },
+  {
+   "id": "ct-barre-or-chaine",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Un voyageur paie son hôtel un maillon d'une chaîne de 7 maillons par nuit, pendant 7 nuits, et peut récupérer de la monnaie. Combien de maillons faut-il **ouvrir** au minimum ?",
+   "solution": "Ouvre le **troisième** maillon : on obtient des morceaux de 1 (le maillon ouvert), 2 et 4 maillons. Avec 1, 2, 4 on paie chaque nuit en rendant la monnaie, comme pour la barre d'or. **Un seul maillon** suffit, alors qu'il fallait deux coupes pour la barre : ouvrir un maillon crée trois morceaux d'un coup.",
+   "indice": "Ouvrir un maillon au milieu de la chaîne crée trois morceaux, dont le maillon ouvert lui-même.",
+   "categorie": "pesees",
+   "titre": "La chaîne de 7 maillons",
+   "reponse": "1",
+   "valeur": 1.0,
+   "tolerance": 0.0,
+   "parent": "ct-barre-or"
+  },
+  {
+   "id": "ct-barre-or-quinze",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "L'ouvrier travaille maintenant 15 jours, payé chaque soir $1/15$ d'une barre d'or divisée en 15 segments. Combien de coupes au minimum ?",
+   "solution": "Morceaux $1, 2, 4, 8$ (écriture binaire de 1 à 15) : **3 coupes**. Avec 2 coupes, 3 morceaux ne permettent que $2^3 - 1 = 7$ montants : insuffisant.",
+   "indice": "Quels morceaux permettent d'écrire tous les entiers de 1 à 15 ?",
+   "categorie": "pesees",
+   "titre": "La barre d'or sur 15 jours",
+   "reponse": "3",
+   "valeur": 3.0,
+   "tolerance": 0.0,
+   "parent": "ct-barre-or"
+  },
+  {
+   "id": "ct-vin-empoisonne-deux-vagues",
+   "theme": "casse-tete",
+   "niveau": 3,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Une bouteille sur 1 000 est empoisonnée, le poison tue en 24 h. Tu as maintenant **48 heures** (deux vagues de tests). Combien de rats au minimum ?",
+   "solution": "Chaque rat finit mort le jour 1, mort le jour 2, ou vivant : 3 issues. On numérote les bouteilles en **base 3** : le chiffre $i$ dit si le rat $i$ boit le jour 1 (chiffre 1), le jour 2 (chiffre 2) ou jamais (0). Un rat mort le jour 1 ne boit pas le jour 2, ce qui est cohérent avec le codage.\n$3^6 = 729 < 1\\,000 \\le 2\\,187 = 3^7$ : **7 rats**.",
+   "indice": "À la fin, chaque rat est dans l'un de trois états. Lesquels ?",
+   "categorie": "pesees",
+   "titre": "Le vin empoisonné en 48 heures",
+   "reponse": "7",
+   "valeur": 7.0,
+   "tolerance": 0.0,
+   "parent": "ct-vin-empoisonne"
+  },
+  {
+   "id": "ct-vin-empoisonne-deux-bouteilles",
+   "theme": "casse-tete",
+   "niveau": 3,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Deux bouteilles sur 1 000 sont empoisonnées ; 24 h, une seule vague. Donne une **borne inférieure** sur le nombre de rats nécessaires, par un argument d'information.",
+   "solution": "Il y a $\\binom{1000}{2} = 499\\,500$ paires possibles, et $r$ rats donnent au plus $2^r$ issues. $2^{18} = 262\\,144 < 499\\,500 \\le 524\\,288 = 2^{19}$ : il faut **au moins 19 rats**. En pratique, les schémas connus (tests de groupe non adaptatifs) en demandent davantage, car l'issue « mort » d'un rat ne dit plus laquelle des deux bouteilles il a bue.",
+   "indice": "Combien de cas faut-il distinguer, et combien d'issues donnent $r$ rats ?",
+   "categorie": "pesees",
+   "titre": "Deux bouteilles empoisonnées",
+   "reponse": "19",
+   "valeur": 19.0,
+   "tolerance": 0.0,
+   "parent": "ct-vin-empoisonne"
+  },
+  {
+   "id": "ct-chevaux-plus-rapide",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "25 chevaux, 5 par course, pas de chronomètre. Combien de courses au minimum pour trouver **le** plus rapide ?",
+   "solution": "5 courses pour que chaque cheval coure, puis la course des 5 vainqueurs : **6 courses**. On ne peut pas faire mieux : chaque cheval sauf un doit avoir perdu au moins une fois, et 5 courses où chaque cheval court ne laissent que 5 candidats, à départager.",
+   "indice": "Combien de courses pour que chaque cheval ait couru au moins une fois ?",
+   "categorie": "recherche",
+   "titre": "25 chevaux : seulement le plus rapide",
+   "reponse": "6",
+   "valeur": 6.0,
+   "tolerance": 0.0,
+   "parent": "ct-chevaux"
+  },
+  {
+   "id": "ct-chevaux-deux",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "25 chevaux, 5 par course, pas de chronomètre. Combien de courses au minimum pour trouver les **deux** plus rapides ?",
+   "solution": "Après les 5 courses de groupe et la course des vainqueurs, le 2ᵉ est soit A2 (deuxième du groupe du vainqueur), soit B1 (deuxième de la course des vainqueurs). Une 7ᵉ course entre eux (on peut même y ajouter d'autres chevaux) : **7 courses**, autant que pour les trois plus rapides.",
+   "indice": "Après 6 courses, qui peut encore être deuxième ?",
+   "categorie": "recherche",
+   "titre": "25 chevaux : les deux plus rapides",
+   "reponse": "7",
+   "valeur": 7.0,
+   "tolerance": 0.0,
+   "parent": "ct-chevaux"
+  },
+  {
+   "id": "ct-chevaux-soixante-quatre",
+   "theme": "casse-tete",
+   "niveau": 3,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "64 chevaux, une piste à 8 couloirs, pas de chronomètre. Avec la méthode classique (courses de groupes, course des vainqueurs, puis courses de départage), combien de courses faut-il au pire pour trouver les 4 plus rapides ?",
+   "solution": "- 8 courses de groupes, puis la course des 8 vainqueurs (9 courses) : A1 est le plus rapide.\n- Candidats aux places 2 à 4 : A2, A3, A4 ; B1, B2, B3 ; C1, C2 ; D1, soit **9 chevaux** pour 8 couloirs.\n- 10ᵉ course avec 8 d'entre eux : quel que soit le cheval laissé de côté, il existe un cas où il pourrait être 4ᵉ (par exemple D1 si B1 et C1 terminent premiers). Une 11ᵉ course départage alors les derniers prétendants.\nRéponse : **11 courses** au pire avec cette méthode. On attend surtout le tableau des candidats déroulé à voix haute.",
+   "indice": "Après 9 courses, dresse le tableau des candidats : un cheval est éliminé dès que 4 chevaux plus rapides que lui sont connus.",
+   "categorie": "recherche",
+   "titre": "64 chevaux, 8 couloirs, les 4 plus rapides",
+   "reponse": "11",
+   "valeur": 11.0,
+   "tolerance": 0.0,
+   "parent": "ct-chevaux"
+  },
+  {
+   "id": "ct-oeufs-trois",
+   "theme": "casse-tete",
+   "niveau": 3,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Même problème avec **trois** œufs et 100 étages : combien de lâchers au pire avec la meilleure stratégie ?",
+   "solution": "$f(n, k) = \\sum_{i=1}^{k} \\binom{n}{i}$. Avec 3 œufs : $f(8, 3) = 8 + 28 + 56 = 92 < 100$ et $f(9, 3) = 9 + 36 + 84 = 129 \\ge 100$. **9 lâchers**, contre 14 avec deux œufs.",
+   "indice": "Avec $n$ lâchers et $k$ œufs, le nombre d'étages couverts vérifie $f(n, k) = f(n - 1, k - 1) + 1 + f(n - 1, k)$.",
+   "categorie": "recherche",
+   "titre": "Trois œufs et 100 étages",
+   "reponse": "9",
+   "valeur": 9.0,
+   "tolerance": 0.0,
+   "parent": "ct-oeufs"
+  },
+  {
+   "id": "ct-oeufs-quatre",
+   "theme": "casse-tete",
+   "niveau": 3,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Avec 4 œufs et au plus 10 lâchers, combien d'étages au maximum peut-on traiter à coup sûr ?",
+   "solution": "$f(n, k) = f(n - 1, k - 1) + 1 + f(n - 1, k)$, d'où $f(n, k) = \\sum_{i=1}^{k} \\binom{n}{i}$.\n$f(10, 4) = 10 + 45 + 120 + 210 =$ **385** étages. C'est la programmation dynamique classique, à savoir écrire en code.",
+   "indice": "Le premier lâcher coupe l'immeuble : en dessous il reste $k - 1$ œufs et $n - 1$ lâchers, au-dessus $k$ œufs et $n - 1$ lâchers.",
+   "categorie": "recherche",
+   "titre": "Quatre œufs et dix lâchers",
+   "reponse": "385",
+   "valeur": 385.0,
+   "tolerance": 0.0,
+   "parent": "ct-oeufs"
+  },
+  {
+   "id": "ct-oeufs-un",
+   "theme": "casse-tete",
+   "niveau": 3,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Avec **un seul** œuf et 100 étages, combien de lâchers au pire ?",
+   "solution": "On ne peut prendre aucun risque : étage 1, puis 2, puis 3… Si l'on saute un étage et que l'œuf casse, on ne sait plus si l'étage sauté était sûr. **100 lâchers** au pire.",
+   "indice": "Que se passe-t-il si tu sautes un étage et que l'œuf casse ?",
+   "categorie": "recherche",
+   "titre": "Un seul œuf",
+   "reponse": "100",
+   "valeur": 100.0,
+   "tolerance": 0.0,
+   "parent": "ct-oeufs"
+  },
+  {
+   "id": "ct-pont-escorte",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Même pont, même lampe, au plus deux à la fois, mais les quatre personnes mettent 1, 5, 6 et 7 minutes. Temps minimal ?",
+   "solution": "- Les deux lents ensemble : $5 + 1 + 7 + 5 + 5 = 23$.\n- Le plus rapide escorte : $7 + 1 + 6 + 1 + 5 =$ **20**.\nRègle : avec $t_1 \\le t_2 \\le t_3 \\le t_4$, faire passer les deux lents ensemble coûte $2t_2$ contre $t_1 + t_3$ pour l'escorte. Ici $2 \\times 5 = 10 > 1 + 6 = 7$ : l'escorte gagne. Avec 1, 2, 5, 10 c'était l'inverse ($4 < 6$).",
+   "indice": "Compare les deux stratégies : « les deux lents ensemble » et « le plus rapide accompagne chacun ».",
+   "categorie": "recherche",
+   "titre": "Le pont avec 1, 5, 6 et 7 minutes",
+   "reponse": "20",
+   "valeur": 20.0,
+   "tolerance": 0.0,
+   "parent": "ct-pont"
+  },
+  {
+   "id": "ct-pasteques-max-min",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf"
+   ],
+   "type": "numerique",
+   "question": "16 pastèques de poids distincts, une balance qui compare deux pastèques. Combien de pesées au minimum, au pire, pour trouver **la plus lourde et la plus légère** ?",
+   "solution": "8 pesées par paires ; la plus lourde est parmi les 8 gagnantes (7 pesées), la plus légère parmi les 8 perdantes (7 pesées) : $8 + 7 + 7 =$ **22**. En général $\\lceil 3n/2 \\rceil - 2$, contre $2n - 3$ si l'on cherche les deux séparément.",
+   "indice": "Commence par comparer les pastèques deux à deux.",
+   "categorie": "recherche",
+   "titre": "La plus lourde et la plus légère",
+   "reponse": "22",
+   "valeur": 22.0,
+   "tolerance": 0.0,
+   "parent": "ct-pasteques"
+  },
+  {
+   "id": "ct-nombre-manquant-deux",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "data"
+   ],
+   "type": "ouverte",
+   "question": "Une liste non triée contient les entiers de 1 à $n$, sauf **deux**. Comment les trouver en temps $O(n)$ et mémoire $O(1)$ ?",
+   "solution": "Somme : $s = a + b = \\frac{n(n + 1)}{2} - \\sum t_i$. Somme des carrés : $q = a^2 + b^2 = \\frac{n(n + 1)(2n + 1)}{6} - \\sum t_i^2$. Alors $ab = \\frac{s^2 - q}{2}$, et $a, b$ sont les racines de $x^2 - sx + ab$.\nVariante sans dépassement : le ou exclusif de tout donne $a \\oplus b$ ; un bit à 1 de ce résultat sépare les nombres en deux groupes, chacun contenant un seul manquant. Pour $k$ manquants : sommes des puissances 1 à $k$ (identités de Newton).",
+   "indice": "La somme donne $a + b$ ; il te faut une deuxième équation.",
+   "categorie": "recherche",
+   "titre": "Deux nombres manquants",
+   "parent": "ct-nombre-manquant"
+  },
+  {
+   "id": "ct-nombre-manquant-doublon",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "data"
+   ],
+   "type": "ouverte",
+   "question": "Une liste de $n$ entiers devrait contenir $1, \\dots, n$, mais un nombre $x$ manque et un nombre $y$ apparaît deux fois. Comment trouver $x$ et $y$ en $O(n)$ et mémoire $O(1)$ ?",
+   "solution": "$\\sum t_i - \\frac{n(n + 1)}{2} = y - x$ et $\\sum t_i^2 - \\frac{n(n + 1)(2n + 1)}{6} = y^2 - x^2 = (y - x)(y + x)$. On en tire $y + x$, puis $x$ et $y$. Autre méthode si l'on peut modifier le tableau : marquer les cases vues par un signe négatif.",
+   "indice": "Écris deux équations, avec la somme et la somme des carrés.",
+   "categorie": "recherche",
+   "titre": "Un manquant et un doublon",
+   "parent": "ct-nombre-manquant"
+  },
+  {
+   "id": "ct-riviere-chevre",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Un passeur doit faire traverser une chèvre, un loup et un chou ; sa barque ne prend qu'un passager. Sans surveillance, le loup mange la chèvre et la chèvre mange le chou. Combien de traversées au minimum ?",
+   "solution": "Chèvre (aller), retour à vide, loup (aller), **chèvre ramenée**, chou (aller), retour à vide, chèvre (aller) : **7 traversées**. On peut échanger les rôles du loup et du chou. L'idée du retour d'un passager est la même que la lampe du pont.",
+   "indice": "Il faudra ramener un passager en arrière.",
+   "categorie": "recherche",
+   "titre": "La chèvre, le loup et le chou",
+   "reponse": "7",
+   "valeur": 7.0,
+   "tolerance": 0.0,
+   "parent": "ct-riviere",
+   "voir": [
+    "ct-pont"
+   ]
+  },
+  {
+   "id": "ct-riviere-quatre",
+   "theme": "casse-tete",
+   "niveau": 3,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "ouverte",
+   "question": "Même règle que les missionnaires et cannibales, mais avec **quatre** de chaque et une barque de deux places. Est-ce possible ?",
+   "solution": "**Impossible.** L'exploration des états sûrs atteignables (au plus $5 \\times 5 \\times 2 = 50$) ne contient jamais l'état final. Intuition : il faut faire passer des missionnaires, mais dès que deux missionnaires traversent, les cannibales restés sur une rive deviennent majoritaires. Avec une barque de **trois** places, c'est de nouveau possible. La méthode (graphe d'états) se transpose telle quelle.",
+   "indice": "Parcours en largeur sur les états : un état est le nombre de missionnaires et de cannibales sur la rive de départ, et la rive de la barque.",
+   "categorie": "recherche",
+   "titre": "Quatre missionnaires et quatre cannibales",
+   "parent": "ct-riviere"
+  },
+  {
+   "id": "ct-tri-cinq-borne",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "data"
+   ],
+   "type": "ouverte",
+   "question": "Montre qu'un tri par comparaisons de $n$ éléments distincts fait au moins $\\log_2 n!$ comparaisons au pire, puis donne l'ordre de grandeur.",
+   "solution": "Un algorithme de tri par comparaisons se représente par un arbre binaire de décision ; chacune des $n!$ permutations doit aboutir à une feuille différente. Un arbre de hauteur $h$ a au plus $2^h$ feuilles : $2^h \\ge n!$, donc $h \\ge \\log_2 n!$.\nPar Stirling, $\\log_2 n! = n \\log_2 n - n \\log_2 e + O(\\log n) \\sim n \\log_2 n$. Le tri fusion atteint $O(n \\log n)$ : il est optimal à une constante près. Un tri par dénombrement contourne la borne car il ne compare pas.",
+   "indice": "Arbre de décision : chaque feuille est un ordre possible.",
+   "categorie": "recherche",
+   "titre": "La borne inférieure du tri par comparaisons",
+   "parent": "ct-tri-cinq"
+  },
+  {
+   "id": "ct-pirates-majorite-stricte",
+   "theme": "casse-tete",
+   "niveau": 3,
+   "profils": [
+    "mm",
+    "hf"
+   ],
+   "type": "numerique",
+   "question": "Cinq pirates, 100 pièces, mêmes préférences (survivre, puis l'or, puis voir les autres jetés), mais la proposition doit obtenir une majorité **stricte** (plus de la moitié des voix, proposant compris). Combien de pièces garde le plus ancien ?",
+   "solution": "Pirates numérotés de 1 (le plus jeune) à 5.\n- 2 pirates : il faut 2 voix ; le pirate 1 refuse tout (il aurait 100 seul) : le pirate 2 est **jeté**.\n- 3 pirates : il faut 2 voix ; le pirate 2 vote pour n'importe quoi pour éviter de se retrouver à deux : $(0, 0, 100)$.\n- 4 pirates : il faut 3 voix ; les pirates 1 et 2 ont 0 dans le cas à 3, une pièce chacun suffit : $(1, 1, 0, 98)$.\n- 5 pirates : il faut 3 voix ; le pirate 3 a 0 dans le cas à 4 (1 pièce), et l'un des pirates 1 ou 2 a 1 (il en faut 2) : $(2, 0, 1, 0, 97)$.\nLe plus ancien garde **97**. Changer une règle change toute la chaîne : il faut refaire l'induction, pas adapter la réponse.",
+   "indice": "Refais tout depuis 2 pirates : le plus ancien des deux peut-il obtenir une majorité stricte ?",
+   "categorie": "strategie",
+   "titre": "Les pirates à majorité stricte",
+   "reponse": "97",
+   "valeur": 97.0,
+   "tolerance": 0.0,
+   "parent": "ct-pirates"
+  },
+  {
+   "id": "ct-pirates-omohundro",
+   "theme": "casse-tete",
+   "niveau": 3,
+   "profils": [
+    "mm",
+    "hf"
+   ],
+   "type": "numerique",
+   "question": "Même jeu (au moins la moitié des voix suffit), 100 pièces, mais beaucoup de pirates. Jusqu'à 200, le plus ancien survit en achetant des voix. Parmi les nombres de pirates de 201 à 300, quel est le plus grand pour lequel le plus ancien survit ?",
+   "solution": "Avec $n > 200$ pirates, le proposant a sa voix, 100 voix achetées, et celles des pirates condamnés si sa proposition échoue (ceux entre le dernier nombre « survivant » et lui). Il survit si ce total atteint $n/2$.\n- 201 et 202 survivent (101 voix suffisent).\n- 203 meurt (il faut 102 voix, il en a 101) ; 204 survit grâce à la voix de 203.\n- 205 à 207 meurent, 208 survit grâce à 205, 206, 207 ; puis 216, 232, 264, 328…\nLes survivants sont les $200 + 2^k$. Le plus grand $\\le 300$ est **264** (problème d'Omohundro, popularisé par Ian Stewart).",
+   "indice": "Au-delà de 200, il ne peut acheter que 100 voix. Mais les pirates qui seraient jetés après lui votent pour lui gratuitement.",
+   "categorie": "strategie",
+   "titre": "Plus de 200 pirates pour 100 pièces",
+   "reponse": "264",
+   "valeur": 264.0,
+   "tolerance": 0.0,
+   "parent": "ct-pirates"
+  },
+  {
+   "id": "ct-allumettes-misere",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "ouverte",
+   "question": "21 allumettes ; chacun en retire 1, 2 ou 3 à tour de rôle ; cette fois, **celui qui prend la dernière perd**. Tu commences : que fais-tu ?",
+   "solution": "Il faut laisser à l'adversaire un nombre de la forme $4k + 1$ (1, 5, 9, 13, 17, 21). Or $21 = 4 \\times 5 + 1$ : **tu es déjà en position perdante**. Contre un adversaire parfait, aucun coup ne gagne ; tu retires une allumette et tu espères une erreur, après laquelle tu reviens à $4k + 1$.\nLeçon : la version « misère » décale l'analyse ; refais-la depuis la fin.",
+   "indice": "La position perdante n'est plus 0 mais 1 : laisser une seule allumette à l'adversaire le fait perdre.",
+   "categorie": "strategie",
+   "titre": "Les allumettes : qui prend la dernière perd",
+   "parent": "ct-allumettes"
+  },
+  {
+   "id": "ct-allumettes-general",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "40 allumettes ; chacun en retire de 1 à 6 ; celui qui prend la dernière gagne. Tu commences : combien en retires-tu ?",
+   "solution": "Il faut laisser un multiple de $m + 1 = 7$. $40 = 7 \\times 5 + 5$ : retire **5**, puis complète chaque coup adverse à 7.",
+   "indice": "Quel multiple faut-il laisser quand on peut prendre de 1 à $m$ ?",
+   "categorie": "strategie",
+   "titre": "Allumettes : retirer de 1 à 6",
+   "reponse": "5",
+   "valeur": 5.0,
+   "tolerance": 0.0,
+   "parent": "ct-allumettes"
+  },
+  {
+   "id": "ct-course-a-100-pieces",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "100 pièces sur la table ; chacun en prend de 1 à 10 à tour de rôle ; celui qui prend la dernière gagne. Tu commences : combien en prends-tu ?",
+   "solution": "Laisse un multiple de 11 : $100 = 11 \\times 9 + 1$, prends **1**, puis complète chaque coup adverse à 11.",
+   "indice": "C'est la course à 100 déguisée.",
+   "categorie": "strategie",
+   "titre": "100 pièces, de 1 à 10 par tour",
+   "reponse": "1",
+   "valeur": 1.0,
+   "tolerance": 0.0,
+   "parent": "ct-course-a-100"
+  },
+  {
+   "id": "ct-course-a-cinquante",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Deux joueurs ajoutent à tour de rôle un entier de 1 à 6 à un total qui part de 0 ; celui qui atteint exactement 50 gagne. Tu commences : quel nombre annonces-tu ?",
+   "solution": "Atteindre 43 garantit 50 (l'adversaire ajoute $k$, tu ajoutes $7 - k$) ; de même 36, 29, …, 8, 1 : les totaux $\\equiv 1 \\pmod 7$. Annonce **1**.",
+   "indice": "Quels totaux faut-il atteindre pour être sûr d'atteindre 50 ?",
+   "categorie": "strategie",
+   "titre": "La course à 50, de 1 à 6",
+   "reponse": "1",
+   "valeur": 1.0,
+   "tolerance": 0.0,
+   "parent": "ct-course-a-100"
+  },
+  {
+   "id": "ct-pieces-en-rangee-impair",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf"
+   ],
+   "type": "ouverte",
+   "question": "Même jeu (prendre une pièce à l'une des extrémités, à tour de rôle), mais avec un nombre **impair** de pièces. Le premier joueur peut-il toujours garantir au moins la moitié ?",
+   "solution": "**Non.** Avec 1, 5, 1 : le premier joueur prend un 1, le second prend le 5. Le premier obtient 2 sur 7. La stratégie des parités ne marche plus : après le premier coup, il reste un nombre pair de pièces, et c'est l'adversaire qui peut choisir sa parité.",
+   "indice": "Essaie avec trois pièces.",
+   "categorie": "strategie",
+   "titre": "Pièces en rangée, nombre impair",
+   "parent": "ct-pieces-en-rangee"
+  },
+  {
+   "id": "ct-table-ronde-chocolat",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf"
+   ],
+   "type": "ouverte",
+   "question": "Deux joueurs placent à tour de rôle un domino sur un échiquier $8 \\times 8$ (sur deux cases libres voisines). Celui qui ne peut plus jouer perd. Qui gagne ?",
+   "solution": "Le **second** joueur gagne, par symétrie centrale : à chaque domino adverse, il répond par le domino symétrique par rapport au centre de l'échiquier. Ce domino ne peut jamais recouvrir le domino adverse (aucun domino n'est son propre symétrique, puisque le centre est un coin commun de quatre cases), et la position reste symétrique : il a toujours un coup.\nSur la table ronde, le premier joueur occupe le centre pour devenir « second » ; ici, ce n'est pas possible.",
+   "indice": "Ici, il n'y a pas de case centrale. Quelle symétrie le **second** joueur peut-il utiliser ?",
+   "categorie": "strategie",
+   "titre": "La stratégie de la copie, ailleurs",
+   "parent": "ct-table-ronde"
+  },
+  {
+   "id": "ct-chocolat-tournoi",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Un tournoi de tennis à élimination directe réunit 64 joueurs. Combien de matchs faut-il pour désigner le vainqueur ? Et avec 100 joueurs (certains exemptés à certains tours) ?",
+   "solution": "Chaque match élimine exactement un joueur ; il faut en éliminer tous sauf un : **63** matchs, et 99 avec 100 joueurs, quelle que soit l'organisation des tours. Même argument que les cassures de la tablette.",
+   "indice": "Combien de joueurs chaque match élimine-t-il ?",
+   "categorie": "strategie",
+   "titre": "Le tournoi à élimination directe",
+   "reponse": "63",
+   "valeur": 63.0,
+   "tolerance": 0.0,
+   "parent": "ct-chocolat"
+  },
+  {
+   "id": "ct-p-pistolets-limite",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "$n$ personnes ont chacune un pistolet à eau et visent chacune une des $n - 1$ autres au hasard. Vers quelle proportion de personnes sèches tend-on quand $n$ devient grand ?",
+   "solution": "Proportion moyenne : $\\left(1 - \\frac{1}{n - 1}\\right)^{n - 1} \\to e^{-1} \\approx$ **0,368**. Même limite que la proportion de boîtes vides quand on lance $n$ balles dans $n$ boîtes : chaque personne est une « boîte » que $n - 1$ tirs évitent.",
+   "indice": "Une personne reste sèche avec probabilité $(1 - \\frac{1}{n - 1})^{n - 1}$.",
+   "categorie": "probas",
+   "titre": "Pistolets à eau : la proportion de personnes sèches",
+   "reponse": "exp(-1)",
+   "valeur": 0.36787944117144233,
+   "tolerance": 0.005,
+   "parent": "ct-p-pistolets"
+  },
+  {
+   "id": "ct-p-ecart-deux-des-carre",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "On lance deux dés. Probabilité que le produit des deux résultats soit un carré parfait ?",
+   "solution": "Carrés : 1 (1·1), 4 (1·4, 4·1, 2·2), 9 (3·3), 16 (4·4), 25 (5·5), 36 (6·6) : 8 issues sur 36, soit **2/9**. Le piège : oublier les couples non doubles comme $(1, 4)$.",
+   "indice": "Liste les carrés possibles entre 1 et 36 et leurs décompositions en deux faces.",
+   "categorie": "probas",
+   "titre": "Le produit de deux dés est un carré",
+   "reponse": "2/9",
+   "valeur": 0.2222222222222222,
+   "tolerance": 0.005,
+   "parent": "ct-p-ecart-deux-des"
+  },
+  {
+   "id": "ct-p-ecart-deux-des-min",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "On lance deux dés. Quelle est l'espérance du plus petit des deux résultats ?",
+   "solution": "$$\\mathbb{E}[\\min] = \\frac{36 + 25 + 16 + 9 + 4 + 1}{36} = \\frac{91}{36} \\approx 2{,}53.$$\nEt $\\mathbb{E}[\\max] = 7 - \\mathbb{E}[\\min] = \\frac{161}{36}$, car $\\min + \\max = X + Y$ a pour espérance 7. Ce contrôle est la bonne habitude.",
+   "indice": "$\\mathbb{E}[\\min] = \\sum_{k \\ge 1} \\mathbb{P}(\\min \\ge k)$, et $\\mathbb{P}(\\min \\ge k) = \\left(\\frac{7 - k}{6}\\right)^2$.",
+   "categorie": "probas",
+   "titre": "Espérance du minimum de deux dés",
+   "reponse": "91/36",
+   "valeur": 2.5277777777777777,
+   "tolerance": 0.005,
+   "parent": "ct-p-ecart-deux-des"
+  },
+  {
+   "id": "ct-p-total-cent",
+   "theme": "casse-tete",
+   "niveau": 3,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "On lance un dé en additionnant les résultats jusqu'à ce que le total atteigne au moins 100. Combien de lancers en moyenne ? Donne d'abord un ordre de grandeur, puis la valeur.",
+   "solution": "Première approximation : $100/3{,}5 \\approx 28{,}6$. Mais au moment de l'arrêt, le total dépasse 99 en moyenne de plus que zéro. Par le théorème du renouvellement, le dépassement moyen tend vers $\\frac{\\mathbb{E}[X^2]}{2\\mathbb{E}[X]} = \\frac{91/6}{7} \\approx 2{,}17$ au-delà de 99, donc le total final moyen vaut environ $101{,}67$, et par l'identité de Wald $\\mathbb{E}[N] = \\mathbb{E}[S_N]/3{,}5 \\approx 29{,}05$.\nLa récurrence exacte $e(t) = 1 + \\frac16 \\sum_{d=1}^{6} e(t + d)$ ($e(t) = 0$ pour $t \\ge 100$) donne **29,048**.",
+   "indice": "Ordre de grandeur : $100 / 3{,}5$. La correction vient du dépassement final : quelle est sa taille moyenne ?",
+   "categorie": "probas",
+   "titre": "Lancer un dé jusqu'à atteindre 100",
+   "reponse": "29.047619",
+   "valeur": 29.047619,
+   "tolerance": 0.005,
+   "parent": "ct-p-total-sept"
+  },
+  {
+   "id": "ct-p-triangle-aigu-centre",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Trois points uniformes et indépendants sur un cercle. Probabilité que le triangle formé contienne le centre du cercle ?",
+   "solution": "Le triangle contient le centre exactement quand il est aigu, c'est-à-dire quand les trois points **ne** tiennent **pas** dans un demi-cercle : $1 - 3/4 =$ **1/4**. Même événement que le triangle aigu, vu autrement.",
+   "indice": "Le triangle contient le centre si et seulement si…",
+   "categorie": "probas",
+   "titre": "Le triangle contient-il le centre ?",
+   "reponse": "1/4",
+   "valeur": 0.25,
+   "tolerance": 0.005,
+   "parent": "ct-p-triangle-aigu",
+   "voir": [
+    "proba-demi-cercle"
+   ]
+  },
+  {
+   "id": "ct-p-triangle-aigu-sphere",
+   "theme": "casse-tete",
+   "niveau": 3,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Quatre points uniformes et indépendants sur une sphère. Probabilité que le tétraèdre formé contienne le centre ?",
+   "solution": "Argument de Wendel : chaque point $P_i$ peut être remplacé par $-P_i$ sans changer la loi. Parmi les $2^3$ choix de signes pour les trois premiers points, exactement un donne un tétraèdre contenant le centre (presque sûrement). Probabilité **1/8**.\nThéorème de Wendel : $n$ points sont dans un même hémisphère de la sphère de $\\mathbb{R}^d$ avec probabilité $2^{1-n} \\sum_{k=0}^{d-1} \\binom{n-1}{k}$, soit $7/8$ ici ; le centre est dans l'enveloppe convexe avec la probabilité complémentaire. Sur le cercle ($d = 2$, $n = 3$) : $1 - 3/4 = 1/4$.",
+   "indice": "Pour trois points $A, B, C$ fixés, considère les huit tétraèdres obtenus en remplaçant chacun d'eux par son antipode ou non, avec le quatrième point.",
+   "categorie": "probas",
+   "titre": "Le tétraèdre contient-il le centre de la sphère ?",
+   "reponse": "1/8",
+   "valeur": 0.125,
+   "tolerance": 0.005,
+   "parent": "ct-p-triangle-aigu"
+  },
+  {
+   "id": "ct-p-rendez-vous-attente",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Deux amis arrivent indépendamment à un instant uniforme entre 8 h et 9 h ; chacun attend **10 minutes** puis s'en va. Probabilité qu'ils se rencontrent ?",
+   "solution": "Ils se rencontrent si $|X - Y| \\le t$, de probabilité $1 - (1 - t)^2$. Avec $t = 1/6$ : $1 - (5/6)^2 = 1 - 25/36 =$ **11/36** $\\approx 0{,}31$.",
+   "indice": "Formule générale avec une attente $t$ (en fraction d'heure).",
+   "categorie": "probas",
+   "titre": "Le rendez-vous avec 10 minutes d'attente",
+   "reponse": "11/36",
+   "valeur": 0.3055555555555556,
+   "tolerance": 0.005,
+   "parent": "ct-p-rendez-vous"
+  },
+  {
+   "id": "ct-p-rendez-vous-asymetrique",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Deux amis arrivent indépendamment à un instant uniforme entre 8 h et 9 h. Alice attend 10 minutes, Bob attend 20 minutes. Probabilité qu'ils se rencontrent ?",
+   "solution": "Avec $A$ et $B$ les heures d'arrivée (en heures) : rencontre si $B - A \\le 1/6$ (Alice attend) et $A - B \\le 1/3$ (Bob attend). Les zones exclues sont deux triangles de côtés $5/6$ et $2/3$ :\n$$\\mathbb{P} = 1 - \\frac12\\left(\\frac56\\right)^2 - \\frac12\\left(\\frac23\\right)^2 = 1 - \\frac{25}{72} - \\frac{16}{72} = \\frac{31}{72} \\approx 0{,}43.$$",
+   "indice": "Si Alice arrive la première, c'est son attente qui compte. Dessine le carré et les deux triangles exclus, de tailles différentes.",
+   "categorie": "probas",
+   "titre": "Le rendez-vous où l'un attend plus que l'autre",
+   "reponse": "31/72",
+   "valeur": 0.4305555555555556,
+   "tolerance": 0.005,
+   "parent": "ct-p-rendez-vous"
+  },
+  {
+   "id": "ct-p-buffon-courte",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "On lance une aiguille de longueur $1/2$ sur un parquet dont les lames ont une largeur 1. Probabilité que l'aiguille croise une ligne ?",
+   "solution": "$\\mathbb{P} = \\frac{2\\ell}{\\pi d}$ ; avec $\\ell = 1/2$ et $d = 1$ : $\\frac{1}{\\pi} \\approx$ **0,318**. La probabilité est proportionnelle à la longueur (tant que $\\ell \\le d$), cohérent avec la « nouille de Buffon ». C'est la première méthode de Monte-Carlo pour estimer $\\pi$.",
+   "indice": "Formule générale pour $\\ell \\le d$.",
+   "categorie": "probas",
+   "titre": "L'aiguille de Buffon plus courte que les lames",
+   "reponse": "1/pi",
+   "valeur": 0.3183098861837907,
+   "tolerance": 0.005,
+   "parent": "ct-p-buffon"
+  },
+  {
+   "id": "ct-p-bertrand-longueur",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "On choisit deux points uniformes et indépendants sur un cercle de rayon 1. Quelle est la longueur moyenne de la corde qui les relie ?",
+   "solution": "$$\\mathbb{E} = \\frac{1}{\\pi}\\int_0^{\\pi} 2\\sin\\frac{\\theta}{2}\\,d\\theta = \\frac{1}{\\pi}\\left[-4\\cos\\frac{\\theta}{2}\\right]_0^{\\pi} = \\frac{4}{\\pi} \\approx 1{,}27.$$\nRéponse : **$4/\\pi$**. Avec un autre modèle de « corde au hasard », la réponse change, comme dans le paradoxe de Bertrand.",
+   "indice": "Si l'angle au centre est $\\theta$, uniforme sur $[0, \\pi]$ par symétrie, la corde mesure $2 \\sin(\\theta/2)$.",
+   "categorie": "probas",
+   "titre": "Longueur moyenne d'une corde aléatoire",
+   "reponse": "4/pi",
+   "valeur": 1.2732395447351628,
+   "tolerance": 0.005,
+   "parent": "ct-p-bertrand-corde"
+  },
+  {
+   "id": "ct-p-de-deux-egaux",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "On lance un dé jusqu'à ce que deux lancers **consécutifs** donnent la même face. Combien de lancers en moyenne ?",
+   "solution": "Le premier lancer ne peut pas conclure ; ensuite chaque lancer reproduit le précédent avec probabilité $1/6$ : attente géométrique de moyenne 6. Total : $1 + 6 =$ **7**. À comparer avec $3{,}77$ pour une face **déjà sortie** n'importe quand.",
+   "indice": "Après le premier lancer, chaque lancer suivant « gagne » avec probabilité $1/6$, indépendamment.",
+   "categorie": "probas",
+   "titre": "Deux lancers consécutifs égaux",
+   "reponse": "7",
+   "valeur": 7.0,
+   "tolerance": 0.0,
+   "parent": "ct-p-de-repetition"
+  },
+  {
+   "id": "ct-p-cube-oppose-hexagone",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Une grenouille saute à chaque minute vers l'un des deux sommets voisins d'un hexagone, au hasard. En combien de minutes en moyenne atteint-elle le sommet opposé à son départ ?",
+   "solution": "$e_3 = 1 + e_2$ ; $e_2 = 1 + \\frac12 e_1 + \\frac12 e_3$ ; $e_1 = 1 + \\frac12 e_2$. On obtient $e_1 = 5$, $e_2 = 8$, $e_3 =$ **9**. C'est $k(n - k)$ avec $n = 6$, $k = 3$ : la marche simple sur un cycle.",
+   "indice": "Utilise la distance au sommet visé (0 à 3), comme pour le cube.",
+   "categorie": "probas",
+   "titre": "La grenouille sur un hexagone",
+   "reponse": "9",
+   "valeur": 9.0,
+   "tolerance": 0.0,
+   "parent": "ct-p-cube-oppose"
+  },
+  {
+   "id": "ct-p-cube-retour",
+   "theme": "casse-tete",
+   "niveau": 3,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "La fourmi part d'un sommet du cube et suit à chaque minute une arête au hasard. Combien de minutes en moyenne avant de **revenir** à son sommet de départ ?",
+   "solution": "La loi stationnaire est uniforme sur les 8 sommets ($\\pi_i = 1/8$) ; théorème de Kac : temps moyen de retour $= 1/\\pi_i =$ **8**. Vérification avec les distances : $1 + e_1 = 1 + 7 = 8$, où $e_1 = 7$ est le temps moyen depuis un voisin (calculé dans le problème d'origine).",
+   "indice": "Pour une marche aléatoire sur un graphe régulier, la loi stationnaire est uniforme, et le temps moyen de retour en un sommet vaut $1/\\pi_i$.",
+   "categorie": "probas",
+   "titre": "Le retour au point de départ sur un cube",
+   "reponse": "8",
+   "valeur": 8.0,
+   "tolerance": 0.0,
+   "parent": "ct-p-cube-oppose"
+  },
+  {
+   "id": "ct-p-piece-un-tiers",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Avec une pièce équitable, comment simuler un événement de probabilité exactement $1/3$ ? Combien de lancers en moyenne ?",
+   "solution": "Lance deux fois : PP donne « oui », PF ou FP « non », FF : recommence. Chaque paire conclut avec probabilité $3/4$ : en moyenne $4/3$ paires, soit **$8/3$ lancers**. C'est un échantillonnage par rejet, comme pour construire un dé à 7 faces à partir d'un dé à 5.",
+   "indice": "Deux lancers donnent quatre issues équiprobables : garde-en trois.",
+   "categorie": "probas",
+   "titre": "Simuler une probabilité $1/3$ avec une pièce",
+   "reponse": "8/3",
+   "valeur": 2.6666666666666665,
+   "tolerance": 0.005,
+   "parent": "ct-p-piece-equitable",
+   "voir": [
+    "algo-rand7"
+   ]
+  },
+  {
+   "id": "ct-p-chaussettes-pair",
+   "theme": "casse-tete",
+   "niveau": 3,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Même tiroir : tirer deux chaussettes rouges a une probabilité exactement $1/2$. On sait en plus que le nombre de chaussettes **noires** est pair. Quel est le plus petit nombre total possible ?",
+   "solution": "Solutions $(n, r)$ : $(4, 3)$ avec 1 noire (impair), puis $(21, 15)$ avec **6 noires** : $\\frac{15 \\times 14}{21 \\times 20} = \\frac{210}{420} = \\frac12$. Réponse : **21**. L'équation est une équation de Pell déguisée : $(2n - 1)^2 - 2(2r - 1)^2 = -1$.",
+   "indice": "Les solutions de $2r(r - 1) = n(n - 1)$ forment une suite : (4, 3), (21, 15), (120, 85)…",
+   "categorie": "probas",
+   "titre": "Les chaussettes avec un nombre pair de noires",
+   "reponse": "21",
+   "valeur": 21.0,
+   "tolerance": 0.0,
+   "parent": "ct-p-chaussettes"
+  },
+  {
+   "id": "ct-p-chaussettes-tiroirs",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Un tiroir contient 10 chaussettes rouges et 10 noires. Dans le noir, combien faut-il en tirer pour être **sûr** d'avoir deux rouges ? Et pour être sûr d'avoir une paire de même couleur ?",
+   "solution": "Au pire on tire d'abord les 10 noires : il en faut $10 + 2 =$ **12** pour deux rouges. Pour une paire quelconque, **3** suffisent (principe des tiroirs : deux couleurs, trois chaussettes). Ce n'est pas une question de probabilité mais de pire cas.",
+   "indice": "Imagine le pire tirage possible.",
+   "categorie": "probas",
+   "titre": "Tirer dans le noir pour être sûr",
+   "reponse": "12",
+   "valeur": 12.0,
+   "tolerance": 0.0,
+   "parent": "ct-p-chaussettes"
+  },
+  {
+   "id": "ct-p-cinquante-piles",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "On lance 100 pièces équilibrées. Probabilité d'obtenir exactement 50 piles ? Donne une approximation sans calculatrice.",
+   "solution": "$\\binom{100}{50} 2^{-100} \\approx \\frac{1}{\\sqrt{\\pi n}}$ avec $n = 50$ : $\\frac{1}{\\sqrt{157}} \\approx 0{,}080$. Valeur exacte $\\approx$ **0,0796**. Contre-intuitif : le résultat le plus probable n'arrive que 8 % du temps.",
+   "indice": "Approximation normale : la densité de $\\mathcal{N}(50, 25)$ en 50, ou Stirling sur $\\binom{2n}{n}$.",
+   "categorie": "probas",
+   "titre": "Exactement 50 piles sur 100",
+   "reponse": "comb(100,50)/2^100",
+   "valeur": 0.07958923738717877,
+   "tolerance": 0.005,
+   "parent": "ct-p-pari-60-piles"
+  },
+  {
+   "id": "ct-p-roulette-hasard",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Même jeu, mais les deux balles sont placées dans **deux chambres au hasard** (pas forcément adjacentes), puis le barillet est tourné. Ton adversaire tire à vide. Ta probabilité de survie si tu tires sans tourner ? Faut-il tourner ?",
+   "solution": "$\\mathbb{P}(\\text{chambre courante et suivante vides}) = \\binom{4}{2} / \\binom{6}{2} = 6/15 = 2/5$, et $\\mathbb{P}(\\text{courante vide}) = 2/3$. Survie sans tourner : $\\frac{2/5}{2/3} =$ **3/5**. En tournant : $2/3 > 3/5$ : **il faut tourner**, à l'inverse du cas des balles adjacentes.",
+   "indice": "Calcule la probabilité que deux chambres consécutives données soient toutes deux vides.",
+   "categorie": "probas",
+   "titre": "Roulette russe, balles placées au hasard",
+   "reponse": "3/5",
+   "valeur": 0.6,
+   "tolerance": 0.005,
+   "parent": "ct-p-roulette-russe"
+  },
+  {
+   "id": "ct-p-morceau-plus-court",
+   "theme": "casse-tete",
+   "niveau": 3,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "On casse un bâton de longueur 1 en deux points uniformes indépendants. Quelle est la longueur moyenne du **plus court** des trois morceaux ?",
+   "solution": "Les trois morceaux dépassent tous $x$ avec probabilité $(1 - 3x)^2$ (on retire $x$ à chacun, il reste $1 - 3x$ à répartir). Donc\n$$\\mathbb{E}[\\min] = \\int_0^{1/3} (1 - 3x)^2\\,dx = \\frac{1}{9}.$$\nRéponse : **1/9**. Le plus long vaut en moyenne $11/18$ et le moyen $5/18$ (somme 1, bon contrôle).",
+   "indice": "$\\mathbb{P}(\\text{plus court} > x) = (1 - 3x)^2$ pour $x \\le 1/3$.",
+   "categorie": "probas",
+   "titre": "Le plus court des trois morceaux",
+   "reponse": "1/9",
+   "valeur": 0.1111111111111111,
+   "tolerance": 0.005,
+   "parent": "ct-p-morceau-milieu",
+   "voir": [
+    "proba-baton-plus-long"
+   ]
+  },
+  {
+   "id": "ct-p-baton-hasard",
+   "theme": "casse-tete",
+   "niveau": 3,
+   "profils": [
+    "mm",
+    "hf"
+   ],
+   "type": "numerique",
+   "question": "On casse un bâton de longueur 1 en un point uniforme, puis on choisit **au hasard** (une chance sur deux) l'un des deux morceaux et on le casse en un point uniforme. Probabilité que les trois morceaux forment un triangle ?",
+   "solution": "- Casser le plus court (probabilité $1/2$) : le plus long dépasse $1/2$, aucun triangle.\n- Casser le plus long (probabilité $1/2$) : c'est le problème d'origine, probabilité $2 \\ln 2 - 1$.\nTotal : $\\frac12 (2\\ln 2 - 1) = \\ln 2 - \\frac12 \\approx$ **0,193**.",
+   "indice": "Si l'on casse le plus court, le plus long reste plus grand que $1/2$.",
+   "categorie": "probas",
+   "titre": "Casser l'un des deux morceaux au hasard",
+   "reponse": "ln(2)-1/2",
+   "valeur": 0.1931471805599453,
+   "tolerance": 0.005,
+   "parent": "ct-p-baton-casse-deux-fois"
+  },
+  {
+   "id": "ct-p-trois-longueurs",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf"
+   ],
+   "type": "numerique",
+   "question": "On tire trois longueurs indépendantes uniformes sur $[0, 1]$. Probabilité qu'elles forment un triangle ?",
+   "solution": "$\\mathbb{P}(X \\ge Y + Z) = \\int_0^1 \\frac{x^2}{2}\\,dx = \\frac16$ (aire du triangle $y + z \\le x$). Les trois événements « une longueur dépasse la somme des deux autres » sont disjoints : $\\mathbb{P}(\\text{échec}) = 3/6$. Triangle : **1/2**.",
+   "indice": "Le triangle échoue si la plus grande dépasse la somme des deux autres. Calcule $\\mathbb{P}(X \\ge Y + Z)$.",
+   "categorie": "probas",
+   "titre": "Trois longueurs uniformes forment-elles un triangle ?",
+   "reponse": "1/2",
+   "valeur": 0.5,
+   "tolerance": 0.005,
+   "parent": "ct-p-baton-casse-deux-fois"
+  },
+  {
+   "id": "ct-p-tennis-jeu",
+   "theme": "casse-tete",
+   "niveau": 3,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Tu gagnes chaque point avec probabilité $0{,}6$. Probabilité de gagner un jeu de tennis depuis 0-0 (il faut 4 points et deux d'avance) ?",
+   "solution": "- 4-0, 4-1, 4-2 : le dernier point est gagné et les $k$ points perdus se placent parmi les $3 + k$ précédents, $\\binom{3}{0}, \\binom{4}{1}, \\binom{5}{2} = 1, 4, 10$ façons : $p^4\\left(1 + 4q + 10q^2\\right)$.\n- Égalité à 3-3 : $\\binom{6}{3} p^3 q^3 = 20p^3q^3$, puis $\\frac{p^2}{p^2 + q^2} = \\frac{9}{13}$.\nTotal : $0{,}5443 + 0{,}1914 \\approx$ **0,736**. Un avantage de 60 % par point devient 74 % par jeu, et davantage par set : le format amplifie l'avantage.",
+   "indice": "Sépare les jeux gagnés à 4-0, 4-1, 4-2, et ceux qui passent par 3-3 (« égalité »).",
+   "categorie": "probas",
+   "titre": "Gagner un jeu de tennis depuis 0-0",
+   "reponse": "0.6^4*(1+4*0.4+10*0.4^2)+20*0.6^3*0.4^3*9/13",
+   "valeur": 0.7357292307692308,
+   "tolerance": 0.005,
+   "parent": "ct-p-deuce-tennis"
+  },
+  {
+   "id": "ct-p-paires-rouge-puis-noire",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "On aligne un jeu de 52 cartes mélangé. En moyenne, combien de positions sont occupées par une carte rouge immédiatement suivie d'une carte noire ?",
+   "solution": "$\\mathbb{P}(\\text{rouge puis noire}) = \\frac{26}{52} \\times \\frac{26}{51}$ pour chaque paire ; sur 51 paires : $51 \\times \\frac{26}{52} \\times \\frac{26}{51} = 13$. Réponse : **13**, la moitié des 26 changements de couleur.",
+   "indice": "Linéarité de l'espérance sur les 51 paires de voisines.",
+   "categorie": "probas",
+   "titre": "Paires « rouge puis noire »",
+   "reponse": "13",
+   "valeur": 13.0,
+   "tolerance": 0.0,
+   "parent": "ct-p-paires-rouge-noire"
+  },
+  {
+   "id": "ct-p-series-pieces",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "On lance 10 fois une pièce équilibrée. Une « série » est un bloc maximal de résultats identiques (PPFPPP contient 3 séries). Nombre moyen de séries ?",
+   "solution": "Séries $= 1 +$ nombre de changements entre lancers consécutifs. Chacun des 9 couples change avec probabilité $1/2$ : $1 + 9/2 =$ **5,5**. Utile pour tester l'indépendance d'une suite (test des séries) : trop peu de séries signale une persistance.",
+   "indice": "Une série commence au premier lancer, puis à chaque changement.",
+   "categorie": "probas",
+   "titre": "Le nombre moyen de séries",
+   "reponse": "5.5",
+   "valeur": 5.5,
+   "tolerance": 0.005,
+   "parent": "ct-p-paires-rouge-noire"
+  },
+  {
+   "id": "ct-p-ivrogne-equitable",
+   "theme": "casse-tete",
+   "niveau": 3,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "ouverte",
+   "question": "L'ivrogne est à un pas de la falaise et fait maintenant chaque pas vers le bord ou vers l'intérieur avec probabilité $1/2$. Tombe-t-il presque sûrement ? Combien de pas en moyenne avant la chute ?",
+   "solution": "$x = \\frac12 + \\frac12 x^2$ donne $(x - 1)^2 = 0$ : il **tombe presque sûrement** (la marche simple sur $\\mathbb{Z}$ est récurrente).\nMais le temps moyen est **infini** : avec une seconde barrière à distance $N$, la durée moyenne vaut $1 \\times (N - 1)$, qui tend vers l'infini. Il tombe à coup sûr, mais peut errer très longtemps ($\\mathbb{P}(T > n) \\sim c/\\sqrt n$). C'est l'exemple type d'un temps d'arrêt fini mais d'espérance infinie.",
+   "indice": "L'équation $x = \\frac12 + \\frac12 x^2$ a une racine double. Pour le temps moyen, compare avec la ruine du joueur contre une banque infinie.",
+   "categorie": "probas",
+   "titre": "L'ivrogne avec $p = 1/2$",
+   "parent": "ct-p-ivrogne-falaise"
+  },
+  {
+   "id": "ct-p-serie-trois-piles",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "On lance 5 fois une pièce équilibrée. Probabilité qu'apparaissent au moins 3 piles consécutifs ?",
+   "solution": "Suites sans PPP : $a_n = a_{n-1} + a_{n-2} + a_{n-3}$ (la suite commence par F, PF ou PPF), avec $a_1 = 2$, $a_2 = 4$, $a_3 = 7$ : $a_4 = 13$, $a_5 = 24$. Avec PPP : $32 - 24 = 8$. Probabilité $8/32 =$ **1/4**.",
+   "indice": "Compte les suites sans 3 piles consécutifs par une récurrence, ou énumère selon la position du premier bloc PPP.",
+   "categorie": "probas",
+   "titre": "Une série d'au moins 3 piles en 5 lancers",
+   "reponse": "1/4",
+   "valeur": 0.25,
+   "tolerance": 0.005,
+   "parent": "ct-p-sans-piles-consecutifs"
+  },
+  {
+   "id": "ct-p-intrus-cafe",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Trois amis lancent chacun une pièce ; celui dont le résultat diffère des deux autres paie le café. Si les trois résultats sont identiques, on recommence. Nombre moyen de tours ?",
+   "solution": "Un tour échoue seulement si les trois pièces sont identiques : $2/8$. Il réussit avec probabilité $6/8 = 3/4$ : nombre moyen de tours $1/(3/4) =$ **4/3**.",
+   "indice": "Quelle est la probabilité qu'un tour désigne un intrus ?",
+   "categorie": "probas",
+   "titre": "L'intrus paie le café",
+   "reponse": "4/3",
+   "valeur": 1.3333333333333333,
+   "tolerance": 0.005,
+   "parent": "ct-p-egalite-piles"
+  },
+  {
+   "id": "ct-p-craps-huit",
+   "theme": "casse-tete",
+   "niveau": 3,
+   "profils": [
+    "mm",
+    "hf"
+   ],
+   "type": "numerique",
+   "question": "On lance deux dés de façon répétée. Probabilité d'obtenir un total de 8 avant d'obtenir un total de 7 ?",
+   "solution": "On conditionne sur le premier lancer qui donne 7 ou 8 : $\\frac{p_8}{p_8 + p_7} = \\frac{5/36}{5/36 + 6/36} =$ **5/11**. C'est le calcul de chaque « point » au craps.",
+   "indice": "Les lancers qui ne donnent ni 7 ni 8 ne comptent pas.",
+   "categorie": "probas",
+   "titre": "Un 8 avant un 7",
+   "reponse": "5/11",
+   "valeur": 0.45454545454545453,
+   "tolerance": 0.005,
+   "parent": "ct-p-craps"
+  },
+  {
+   "id": "ct-p-distance-centre-carre",
+   "theme": "casse-tete",
+   "niveau": 3,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "On choisit un point uniforme dans un carré de côté 1. Probabilité qu'il soit plus près du centre du carré que du bord ?",
+   "solution": "Centre en $(0, 0)$, carré $[-\\frac12, \\frac12]^2$, huitième $0 \\le x \\le y \\le \\frac12$ où le bord le plus proche est $y = \\frac12$. Condition : $\\sqrt{x^2 + y^2} < \\frac12 - y$, soit $y < \\frac14 - x^2$. On intègre entre la droite $y = x$ et la parabole, de $x = 0$ jusqu'à leur intersection $x_0 = \\frac{\\sqrt 2 - 1}{2}$ :\n$$\\int_0^{x_0} \\left(\\frac14 - x^2 - x\\right)dx,$$\npuis on multiplie par 8 (et divise par l'aire 1) : $\\frac{4\\sqrt 2 - 5}{3} \\approx$ **0,219**.",
+   "indice": "Par symétrie, travaille dans un huitième du carré, où le bord le plus proche est un côté donné. La frontière est une parabole.",
+   "categorie": "probas",
+   "titre": "Plus près du centre que du bord",
+   "reponse": "(4*sqrt(2)-5)/3",
+   "valeur": 0.2189514164974602,
+   "tolerance": 0.01,
+   "parent": "ct-p-distance-centre"
+  },
+  {
+   "id": "ct-p-distance-centre-boule",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "On choisit un point uniforme dans une boule de rayon 1 (en dimension 3). Quelle est sa distance moyenne au centre ?",
+   "solution": "Densité de $R$ : $3r^2$ sur $[0, 1]$. $\\mathbb{E}[R] = \\int_0^1 3r^3\\,dr =$ **3/4**. En dimension $d$ : $\\frac{d}{d + 1}$, de plus en plus proche de 1 : en grande dimension, presque tout le volume est près de la surface.",
+   "indice": "$\\mathbb{P}(R \\le r) = r^3$.",
+   "categorie": "probas",
+   "titre": "Distance moyenne au centre d'une boule",
+   "reponse": "3/4",
+   "valeur": 0.75,
+   "tolerance": 0.005,
+   "parent": "ct-p-distance-centre"
+  },
+  {
+   "id": "ct-p-laplace-general",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Une pièce de biais inconnu, uniforme a priori sur $[0, 1]$, donne 7 piles en 10 lancers. Probabilité que le lancer suivant soit pile ?",
+   "solution": "A posteriori, $p \\sim \\mathrm{Beta}(k + 1, n - k + 1) = \\mathrm{Beta}(8, 4)$, de moyenne $\\frac{8}{12}$. Probabilité **$2/3$**, et non $0{,}7$ : l'a priori uniforme tire l'estimation vers $1/2$ (règle $\\frac{k + 1}{n + 2}$). Sans aucun lancer, on retrouve $1/2$.",
+   "indice": "La loi a posteriori est une loi bêta.",
+   "categorie": "probas",
+   "titre": "La règle de succession, 7 piles sur 10",
+   "reponse": "2/3",
+   "valeur": 0.6666666666666666,
+   "tolerance": 0.005,
+   "parent": "ct-p-succession-laplace"
+  },
+  {
+   "id": "proba-deux-enfants-aine",
+   "theme": "probas",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Une famille a deux enfants. On sait que l'**aîné** est un garçon. Probabilité que les deux soient des garçons ?",
+   "solution": "L'information exclut FG et FF (aîné en premier) : il reste GG et GF, probabilité **1/2**. Avec « au moins un garçon », on gardait trois cas et l'on trouvait $1/3$ : la façon dont l'information a été obtenue change la réponse.",
+   "indice": "Quels cas l'information exclut-elle cette fois ?",
+   "categorie": "probas",
+   "titre": "L'aîné est un garçon",
+   "reponse": "1/2",
+   "valeur": 0.5,
+   "tolerance": 0.005,
+   "parent": "proba-deux-enfants",
+   "voir": [
+    "ct-p-garcon-mardi"
+   ]
+  },
+  {
+   "id": "proba-monty-hall-cent",
+   "theme": "probas",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "100 portes, une voiture. Tu en choisis une ; le présentateur, qui sait, ouvre 98 autres portes vides. Probabilité de gagner si tu changes pour la dernière porte fermée ?",
+   "solution": "Ton choix initial gagne avec probabilité $1/100$, et l'ouverture des portes n'y change rien. Changer gagne avec probabilité **99/100**. Cette version rend l'intuition évidente : c'est la meilleure façon d'expliquer Monty Hall.",
+   "indice": "Quelle est la probabilité que ton premier choix soit le bon ?",
+   "categorie": "probas",
+   "titre": "Monty Hall à 100 portes",
+   "reponse": "99/100",
+   "valeur": 0.99,
+   "tolerance": 0.005,
+   "parent": "proba-monty-hall"
+  },
+  {
+   "id": "proba-monty-hall-hasard",
+   "theme": "probas",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Trois portes. Tu choisis la porte 1 ; le présentateur, qui **ne sait pas** où est la voiture, ouvre au hasard l'une des deux autres, et elle se trouve vide. Probabilité de gagner en changeant ?",
+   "solution": "Cas équiprobables (voiture, porte ouverte) : (1, 2), (1, 3), (2, 3), (3, 2), et (2, 2), (3, 3) où il montre la voiture. Sachant la porte ouverte vide, il reste 4 cas : la voiture est en 1 dans 2 cas, derrière l'autre porte fermée dans 2 cas. Changer ou non : **1/2**. Toute la valeur de l'énoncé d'origine vient de ce que le présentateur **sait**.",
+   "indice": "Le fait que la porte ouverte soit vide est maintenant une information sur la position de la voiture.",
+   "categorie": "probas",
+   "titre": "Monty Hall avec un présentateur ignorant",
+   "reponse": "1/2",
+   "valeur": 0.5,
+   "tolerance": 0.005,
+   "parent": "proba-monty-hall"
+  },
+  {
+   "id": "proba-monty-hall-gauche",
+   "theme": "probas",
+   "niveau": 3,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Tu choisis la porte 1. Le présentateur sait où est la voiture et ouvre toujours une porte vide ; quand il a le choix (voiture derrière ta porte), il ouvre la porte 2. Il ouvre la porte 2. Probabilité de gagner en changeant pour la porte 3 ?",
+   "solution": "- Voiture en 1 (probabilité $1/3$) : il ouvre la 2 (règle).\n- Voiture en 3 ($1/3$) : il doit ouvrir la 2.\n- Voiture en 2 : il ouvre la 3, exclu.\nSachant qu'il ouvre la 2, la voiture est en 1 ou en 3 avec la même probabilité : changer gagne avec probabilité **1/2**. S'il avait ouvert la 3, changer gagnerait à coup sûr. En moyenne sur les deux cas, on retrouve $2/3$.",
+   "indice": "Liste les positions de la voiture compatibles avec « il ouvre la porte 2 », avec leurs probabilités.",
+   "categorie": "probas",
+   "titre": "Monty Hall avec un présentateur prévisible",
+   "reponse": "1/2",
+   "valeur": 0.5,
+   "tolerance": 0.005,
+   "parent": "proba-monty-hall"
+  },
+  {
+   "id": "proba-demi-cercle-quatre",
+   "theme": "probas",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque"
+   ],
+   "type": "numerique",
+   "question": "On place quatre points uniformément sur un cercle. Probabilité qu'ils soient tous dans un même demi-cercle ?",
+   "solution": "Pour un point donné, les trois autres sont dans le demi-cercle horaire qui part de lui avec probabilité $(1/2)^3$ ; ces événements sont disjoints : $4 \\times 1/8 =$ **1/2**. En général $\\frac{n}{2^{n-1}}$.",
+   "indice": "Même argument qu'à trois points : quel point « ouvre » le demi-cercle ?",
+   "categorie": "probas",
+   "titre": "Quatre points dans un demi-cercle",
+   "reponse": "1/2",
+   "valeur": 0.5,
+   "tolerance": 0.005,
+   "parent": "proba-demi-cercle",
+   "voir": [
+    "ct-p-triangle-aigu"
+   ]
+  },
+  {
+   "id": "proba-uniformes-decroissance",
+   "theme": "probas",
+   "niveau": 3,
+   "profils": [
+    "mm",
+    "hf",
+    "banque"
+   ],
+   "type": "numerique",
+   "question": "On tire des uniformes indépendantes sur $[0, 1]$ et l'on s'arrête dès qu'un tirage est plus petit que le précédent. Combien de tirages en moyenne (le dernier compris) ?",
+   "solution": "Les $n$ premiers tirages sont dans l'ordre croissant avec probabilité $1/n!$ (un ordre parmi $n!$ équiprobables). Donc $\\mathbb{E}[N] = \\sum_{n \\ge 0} \\mathbb{P}(N > n) = \\sum_{n \\ge 0} \\frac{1}{n!} =$ **$e$**. Même réponse que pour la somme qui dépasse 1, pour la même raison : un volume $1/n!$.",
+   "indice": "$\\mathbb{P}(N > n)$ est la probabilité que les $n$ premiers tirages soient croissants.",
+   "categorie": "probas",
+   "titre": "Tirer jusqu'à une décroissance",
+   "reponse": "e",
+   "valeur": 2.718281828459045,
+   "tolerance": 0.005,
+   "parent": "proba-somme-uniformes-depasse-un"
+  },
+  {
+   "id": "proba-anniversaires-99",
+   "theme": "probas",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "À partir de combien de personnes la probabilité qu'au moins deux aient le même anniversaire dépasse-t-elle 99 % ?",
+   "solution": "$\\exp\\left(-\\frac{n(n - 1)}{730}\\right) < 0{,}01 \\iff n(n - 1) > 730 \\ln 100 \\approx 3\\,362$, soit $n \\ge 59$ avec cette approximation, un peu pessimiste. Le calcul exact donne **57**. Ordre de grandeur général : $\\sqrt{2 \\times 365 \\times \\ln(1/\\varepsilon)}$.",
+   "indice": "$\\mathbb{P}(\\text{aucune collision}) \\approx \\exp\\left(-\\frac{n(n - 1)}{730}\\right)$ ; cherche quand elle passe sous $0{,}01$.",
+   "categorie": "probas",
+   "titre": "Anniversaires : dépasser 99 %",
+   "reponse": "57",
+   "valeur": 57.0,
+   "tolerance": 0.0,
+   "parent": "proba-anniversaires"
+  },
+  {
+   "id": "proba-de-relance-payante",
+   "theme": "probas",
+   "niveau": 3,
+   "profils": [
+    "mm",
+    "hf",
+    "banque"
+   ],
+   "type": "numerique",
+   "question": "Tu lances un dé et reçois le montant affiché ; tu peux relancer autant de fois que tu veux, chaque relance coûtant 1 €. Valeur du jeu avec la meilleure stratégie ?",
+   "solution": "Supposons qu'on garde 4, 5, 6 et qu'on relance 1, 2, 3 : $V = \\frac{4 + 5 + 6}{6} + \\frac12(V - 1)$, soit $V = 2{,}5 + \\frac{V}{2} - \\frac12$ et $V = 4$. Cohérence : relancer rapporte $V - 1 = 3$, donc on relance 1 et 2 et l'on est indifférent pour 3. Valeur **4 €**.",
+   "indice": "Si le jeu vaut $V$, on relance tant que le résultat est inférieur à $V - 1$.",
+   "categorie": "strategie",
+   "titre": "Relances illimitées à 1 € chacune",
+   "reponse": "4",
+   "valeur": 4.0,
+   "tolerance": 0.0,
+   "parent": "proba-de-avec-relance"
+  },
+  {
+   "id": "proba-bertrand-cartes",
+   "theme": "probas",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Trois cartes : l'une rouge des deux côtés, l'une blanche des deux côtés, l'une rouge d'un côté et blanche de l'autre. On en tire une au hasard et on la pose sur la table : la face visible est rouge. Probabilité que l'autre face soit rouge ?",
+   "solution": "Il y a 3 faces rouges équiprobables, dont 2 sur la carte rouge-rouge : **2/3**. La réponse intuitive $1/2$ (« c'est l'une des deux cartes à face rouge ») oublie que la carte rouge-rouge a deux façons de montrer du rouge.",
+   "indice": "Compte les **faces** rouges, pas les cartes.",
+   "categorie": "probas",
+   "titre": "Les trois cartes bicolores",
+   "reponse": "2/3",
+   "valeur": 0.6666666666666666,
+   "tolerance": 0.005,
+   "parent": "proba-bertrand-boites"
+  },
+  {
+   "id": "proba-piece-truquee-mille",
+   "theme": "probas",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Parmi 1 000 pièces, une a deux faces pile. Tu en prends une au hasard et la lances 10 fois : 10 piles. Probabilité d'avoir la pièce truquée ?",
+   "solution": "Cote a posteriori : $\\frac{1}{999} \\times 1\\,024 = \\frac{1024}{999}$, soit une probabilité $\\frac{1024}{1024 + 999} = \\frac{1024}{2023} \\approx$ **0,506**. Malgré dix piles d'affilée, c'est à peine plus d'une chance sur deux : l'a priori est très défavorable.",
+   "indice": "Raisonne en cotes : a priori 1 contre 999, rapport de vraisemblance $2^{10}$.",
+   "categorie": "probas",
+   "titre": "1 000 pièces dont une à deux piles",
+   "reponse": "1024/2023",
+   "valeur": 0.5061789421651013,
+   "tolerance": 0.005,
+   "parent": "proba-piece-truquee-bayes"
+  },
+  {
+   "id": "proba-piece-truquee-deux",
+   "theme": "probas",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Deux pièces : l'une normale, l'autre à deux faces pile. Tu en prends une au hasard et la lances 3 fois : 3 piles. Probabilité d'avoir la pièce truquée ?",
+   "solution": "Cote a posteriori $8 : 1$, probabilité **8/9**.",
+   "indice": "Cotes : a priori 1 contre 1, rapport de vraisemblance $2^3$.",
+   "categorie": "probas",
+   "titre": "Deux pièces, trois piles",
+   "reponse": "8/9",
+   "valeur": 0.8888888888888888,
+   "tolerance": 0.005,
+   "parent": "proba-piece-truquee-bayes"
+  },
+  {
+   "id": "proba-de-mere-deux-des",
+   "theme": "probas",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Probabilité d'obtenir au moins un double six en lançant 24 fois deux dés ?",
+   "solution": "$1 - (35/36)^{24} \\approx$ **0,491**, moins de 1/2. Le chevalier pensait que ce pari valait le premier ($4/6 = 24/36$, « règle de proportionnalité ») ; elle ne vaut pas pour des probabilités : c'est l'erreur qui a lancé la correspondance Pascal-Fermat.",
+   "indice": "Passe par le complémentaire.",
+   "categorie": "probas",
+   "titre": "Le second pari du chevalier de Méré",
+   "reponse": "1-(35/36)^24",
+   "valeur": 0.4914038761309034,
+   "tolerance": 0.005,
+   "parent": "proba-de-mere-un"
   },
   {
    "id": "der-formule-bs",
@@ -6285,16 +9368,16 @@ window.PREPA_BANQUE = {
    "question": "Combien de lancers d'une pièce équilibrée faut-il en moyenne pour obtenir trois « pile » consécutifs ?",
    "solution": "Même méthode que pour deux piles (états 0, 1, 2 piles consécutifs), ou formule $2^{n+1} - 2$ : **14**.\nVérification avec les états : $E_{2} = 1 + E_{0}/2, E_{1} = 1 + E_{2}/2 + E_{0}/2, E_{0} = 1 + E_{1}/2 + E_{0}/2$ donne $E_{0} = 14$.",
    "en": "Expected number of fair coin flips to get three heads in a row?",
-   "variantes": [
-    "Deux piles consécutifs : 6 lancers en moyenne ; $k$ piles consécutifs : $2^{k+1} - 2$.",
-    "Deux 6 consécutifs avec un dé : 42 lancers en moyenne."
-   ],
    "categorie": "probas",
    "titre": "Attendre une série de piles (PP, PPP…)",
    "reponse": "14",
    "valeur": 14.0,
    "tolerance": 0.005,
-   "duree": 120
+   "duree": 120,
+   "voir": [
+    "proba-pile-pile",
+    "proba-deux-six-consecutifs"
+   ]
   },
   {
    "id": "jeu-marche-aleatoire-sortie",
@@ -7277,15 +10360,15 @@ window.PREPA_BANQUE = {
     "Ordre de grandeur pour $n$ faces ? ($n \\cdot \\ln n + 0{,}577 \\cdot n$)",
     "Variance de ce temps ? (somme des variances géométriques, $\\approx 38{,}99$)"
    ],
-   "variantes": [
-    "10 vignettes : nombre moyen d’achats pour en avoir 5 différentes : $10\\left(\\frac{1}{10} + \\frac19 + \\frac18 + \\frac17 + \\frac16\\right) \\approx 6{,}46$."
-   ],
    "categorie": "probas",
    "titre": "Voir les six faces d’un dé (collectionneur de vignettes)",
    "reponse": "6*(1+1/2+1/3+1/4+1/5+1/6)",
    "valeur": 14.7,
    "tolerance": 0.005,
    "duree": 180,
+   "voir": [
+    "proba-coupons-moitie"
+   ],
    "essentiel": true
   },
   {
@@ -7427,16 +10510,15 @@ window.PREPA_BANQUE = {
    "relances": [
     "Variante : « au moins un garçon né un mardi » ? ($13/27$ : plus l'information est précise, plus on se rapproche de $1/2$)"
    ],
-   "variantes": [
-    "« L’aîné est un garçon » : $1/2$.",
-    "« Au moins un garçon né un mardi » : $13/27$ (fiche dédiée)."
-   ],
    "categorie": "probas",
    "titre": "Deux enfants, au moins un garçon",
    "reponse": "1/3",
    "valeur": 0.3333333333333333,
    "tolerance": 0.005,
-   "duree": 90
+   "duree": 90,
+   "voir": [
+    "ct-p-garcon-mardi"
+   ]
   },
   {
    "id": "proba-test-medical",
@@ -7484,11 +10566,6 @@ window.PREPA_BANQUE = {
    "piege": "Le résultat dépend du comportement du présentateur : s'il ouvrait une porte au hasard (et tombait par chance sur une chèvre), changer ne donnerait que $1/2$.",
    "relances": [
     "Et avec 100 portes dont le présentateur en ouvre 98 ? ($99/100$ en changeant)"
-   ],
-   "variantes": [
-    "100 portes, le présentateur en ouvre 98 vides : changer gagne avec probabilité $99/100$.",
-    "Présentateur qui ouvre une porte **au hasard** et tombe par chance sur une chèvre : changer ou non donne $1/2$.",
-    "Présentateur qui, entre deux chèvres, ouvre toujours la plus à gauche : la probabilité de gagner en changeant dépend de la porte ouverte (entre $1/2$ et $1$)."
    ],
    "categorie": "probas",
    "titre": "Le problème de Monty Hall",
@@ -7565,16 +10642,15 @@ window.PREPA_BANQUE = {
     "Généralisation à $n$ points ? ($n / 2^{n-1}$)",
     "Probabilité que le triangle formé contienne le centre ? ($1 - 3/4 = 1/4$)"
    ],
-   "variantes": [
-    "$n$ points sur un cercle : $n / 2^{n-1}$ ; quatre points : $1/2$.",
-    "Triangle aigu, ou contenant le centre : $1/4$ (fiche dédiée)."
-   ],
    "categorie": "probas",
    "titre": "Trois points dans un même demi-cercle",
    "reponse": "3/4",
    "valeur": 0.75,
    "tolerance": 0.005,
-   "duree": 240
+   "duree": 240,
+   "voir": [
+    "ct-p-triangle-aigu"
+   ]
   },
   {
    "id": "proba-max-deux-uniformes",
@@ -7660,9 +10736,6 @@ window.PREPA_BANQUE = {
    "indice": "Calcule $\\mathbb{P}(N > n) = \\mathbb{P}(U_{1} + \\dots + U_{n} \\le 1)$, puis utilise $\\mathbb{E}[N] = \\sum \\mathbb{P}(N > n)$.",
    "relances": [
     "Et si le seuil est $x \\le 1$ au lieu de 1 ? ($e^{x}$)"
-   ],
-   "variantes": [
-    "Tirer des uniformes jusqu’à ce que l’une soit plus petite que la précédente : nombre moyen de tirages $e$ aussi."
    ],
    "categorie": "probas",
    "titre": "Additionner des uniformes jusqu’à dépasser 1",
@@ -7765,9 +10838,6 @@ window.PREPA_BANQUE = {
     "Combien de personnes pour que l'un des autres ait le même anniversaire que TOI avec probabilité $> 1/2$ ? (253)",
     "Lien avec les collisions de hachage ? ($\\approx \\sqrt{N}$ valeurs suffisent pour une collision probable)"
    ],
-   "variantes": [
-    "Nombre de personnes pour dépasser 50 % : 23 ; pour dépasser 99 % : 57."
-   ],
    "categorie": "probas",
    "titre": "Le paradoxe des anniversaires",
    "reponse": "0.5073",
@@ -7817,16 +10887,15 @@ window.PREPA_BANQUE = {
     "Et avec deux relances possibles ? ($14/3 \\approx 4{,}67$ : on garde 5 ou 6 au premier lancer, puis 4 ou plus au deuxième)",
     "Combien paierais-tu pour jouer ? (au plus 4,25 si tu es neutre au risque)"
    ],
-   "variantes": [
-    "Jusqu’à trois lancers : $14/3$.",
-    "Relances illimitées, chacune coûtant 1 € : le jeu vaut 4 € (on relance tant qu’on obtient 1, 2 ou 3)."
-   ],
    "categorie": "strategie",
    "titre": "Un dé avec droit de relance",
    "reponse": "17/4",
    "valeur": 4.25,
    "tolerance": 0.005,
    "duree": 240,
+   "voir": [
+    "proba-de-deux-relances"
+   ],
    "essentiel": true
   },
   {
@@ -7888,15 +10957,15 @@ window.PREPA_BANQUE = {
    "relances": [
     "Position moyenne du dernier as ? ($4 \\times 53/5 = 42{,}4$)"
    ],
-   "variantes": [
-    "Urne de 3 rouges et 7 bleues tirées sans remise : la première rouge sort en moyenne au tirage $11/4$ (formule $\\frac{n + 1}{r + 1}$)."
-   ],
    "categorie": "probas",
    "titre": "Position moyenne du premier as",
    "reponse": "53/5",
    "valeur": 10.6,
    "tolerance": 0.005,
-   "duree": 240
+   "duree": 240,
+   "voir": [
+    "proba-premiere-rouge"
+   ]
   },
   {
    "id": "proba-ruine-equitable",
@@ -8125,9 +11194,6 @@ window.PREPA_BANQUE = {
    "solution": "Il y a 3 pièces d'or équiprobables ; 2 d'entre elles sont dans la boîte or-or. Probabilité **$2/3$**.",
    "en": "Three boxes: gold-gold, silver-silver, gold-silver. You pick a box at random and draw a coin: it is gold. What is the probability that the other coin is also gold?",
    "piege": "« Il reste deux boîtes possibles, donc $1/2$ » : les deux boîtes n'ont pas la même probabilité de donner une pièce d'or.",
-   "variantes": [
-    "Trois cartes rouge-rouge, blanc-blanc, rouge-blanc ; on voit une face rouge : l’autre face est rouge avec probabilité $2/3$."
-   ],
    "categorie": "probas",
    "titre": "Les boîtes de Bertrand",
    "reponse": "2/3",
@@ -8146,12 +11212,9 @@ window.PREPA_BANQUE = {
    ],
    "type": "numerique",
    "question": "A lance 101 pièces équilibrées et B en lance 100. Probabilité que A obtienne strictement plus de « face » que B ?",
-   "solution": "Symétrie : A a plus de faces que B ou plus de piles que B (A a 101 pièces : $\\text{faces}_A + \\text{piles}_A = 101 = (\\text{faces}_B + \\text{piles}_B) + 1$), exactement l'un des deux. Par symétrie pile/face, les deux événements ont la même probabilité : **$1/2$**.",
+   "solution": "Symétrie : A a plus de faces que B ou plus de piles que B (A a 101 pièces : $\\text{faces}_A + \\text{piles}_A = 101 = (\\text{faces}_B + \\text{piles}_B) + 1$), exactement l'un des deux. Par symétrie pile/face, les deux événements ont la même probabilité : **$1/2$**.\nMême argument si Alice lance 10 pièces et Bob 11 : Bob a strictement plus de piles avec probabilité $1/2$.",
    "en": "A flips 101 fair coins, B flips 100. What is the probability that A gets strictly more heads than B?",
    "indice": "Compare d'abord les 100 premières pièces de A à celles de B. Que fait la dernière ? Ou : symétrie entre « face » et « pile ».",
-   "variantes": [
-    "Alice lance 10 pièces, Bob 11 : Bob obtient strictement plus de piles avec probabilité $1/2$ (même argument de symétrie)."
-   ],
    "categorie": "probas",
    "titre": "101 pièces contre 100 : qui fait plus de piles ?",
    "reponse": "1/2",
@@ -8340,10 +11403,6 @@ window.PREPA_BANQUE = {
    "en": "One of 10 coins is double-headed, the others are fair. You pick one at random and flip it 5 times: 5 heads. Probability that you hold the double-headed coin?",
    "relances": [
     "Probabilité que le 6ᵉ lancer donne pile ? ($32/41 + 9/41 \\times 1/2 = 73/82 \\approx 0{,}89$)"
-   ],
-   "variantes": [
-    "1 000 pièces dont une à deux piles, 10 piles de suite : $\\frac{1024}{1024 + 999} \\approx 0{,}506$.",
-    "Deux pièces dont une à deux piles, trois piles de suite : $8/9$."
    ],
    "categorie": "probas",
    "titre": "Pièce à deux piles cachée parmi des pièces normales",
@@ -8539,9 +11598,6 @@ window.PREPA_BANQUE = {
    "solution": "$1 - (5/6)^{4} \\approx$ **0,518**. Le chevalier de Méré gagnait de l'argent en pariant dessus ; il en perdait avec le pari suivant (un double six en 24 lancers de deux dés : $1 - (35/36)^{24} \\approx 0{,}491$).",
    "en": "Probability of at least one 6 in 4 rolls of a die?",
    "piege": "Additionner : $4 \\times 1/6 = 2/3$. Les événements ne sont pas disjoints.",
-   "variantes": [
-    "Au moins un double six en 24 lancers de deux dés : $1 - (35/36)^{24} \\approx 0{,}491$, moins probable que le premier pari ($0{,}518$), ce qui intriguait le chevalier de Méré."
-   ],
    "categorie": "probas",
    "titre": "Les paris du chevalier de Méré",
    "reponse": "1-(5/6)^4",
@@ -8799,15 +11855,15 @@ window.PREPA_BANQUE = {
    "question": "On lance 10 balles au hasard dans 10 boîtes. Nombre moyen de boîtes vides ?",
    "solution": "Une boîte reste vide avec probabilité $(9/10)^{10} \\approx 0{,}349$. Par linéarité : $10 \\times 0{,}9^{10} \\approx$ **3,49**. Pour $n$ balles dans $n$ boîtes, environ $n/e$ boîtes vides.",
    "en": "10 balls are thrown at random into 10 boxes. Expected number of empty boxes?",
-   "variantes": [
-    "Nombre moyen de faces différentes en 6 lancers de dé : $6\\left(1 - (5/6)^6\\right) \\approx 3{,}99$."
-   ],
    "categorie": "probas",
    "titre": "Boîtes vides et faces distinctes",
    "reponse": "10*0.9^10",
    "valeur": 3.486784401000001,
    "tolerance": 0.005,
-   "duree": 120
+   "duree": 120,
+   "voir": [
+    "proba-faces-distinctes"
+   ]
   },
   {
    "id": "proba-premiers-entre-eux",

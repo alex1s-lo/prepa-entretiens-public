@@ -95,8 +95,8 @@
     if (essentiels.length && me < 0.8) {
       taches.push({ fait: false, titre: 'Les essentiels', detail: Math.round(100 * me) + ' % maîtrisés : les ' + essentiels.length + ' questions les plus fréquentes, à connaître en priorité', lien: '#revisions/onglet=themes/theme=essentiels/mode=libre', bouton: 'Réviser' });
     }
-    // casse-tête du jour : une énigme jamais vue, la même toute la journée
-    const enigmes = toutes.filter(function (x) { return x.categorie && !etat.cartes[x.id]; });
+    // casse-tête du jour : une énigme jamais vue (une variante seulement après son problème d'origine), la même toute la journée
+    const enigmes = toutes.filter(function (x) { return x.categorie && !etat.cartes[x.id] && (!x.parent || etat.cartes[x.parent]); });
     const enigmeFaite = toutes.some(function (x) { return x.categorie && etat.cartes[x.id] && etat.cartes[x.id].derniere === jour; });
     if (enigmes.length || enigmeFaite) {
       let h = 0;
@@ -104,6 +104,14 @@
       const e = enigmes.length ? enigmes[h % enigmes.length] : null;
       taches.push({ fait: enigmeFaite, titre: 'Casse-tête du jour', detail: enigmeFaite ? 'Fait aujourd’hui' : o.sansTex(e.titre) + ' (jamais vu)',
         lien: enigmeFaite ? '#casse-tetes' : '#casse-tetes/f=' + encodeURIComponent(e.id), bouton: 'Chercher' });
+    }
+    // QCM : une session de 10 par jour, en commençant par les erreurs passées
+    if (P.qcm && P.qcm.toutes().length) {
+      const qcmJour = (etat.jours[jour] && etat.jours[jour].qcm) || 0;
+      const erreurs = P.qcm.toutes().filter(function (q) { return etat.qcm && etat.qcm[q.id] && !etat.qcm[q.id].r; }).length;
+      taches.push({ fait: qcmJour >= 10, titre: 'QCM', detail: qcmJour >= 10 ? qcmJour + ' questions aujourd’hui' :
+        (erreurs ? erreurs + ' erreur' + (erreurs > 1 ? 's' : '') + ' à retravailler, puis des questions jamais vues' : '10 questions à choix multiples, pièges expliqués'),
+        lien: '#qcm', bouton: 'Commencer' });
     }
     if (histoiresManquantes.length) {
       taches.push({ fait: false, titre: 'Mes histoires', detail: 'À écrire : « ' + histoiresManquantes[0].titre + ' »' + (histoiresManquantes.length > 1 ? ' (+' + (histoiresManquantes.length - 1) + ')' : ''), lien: '#histoires', bouton: 'Écrire' });

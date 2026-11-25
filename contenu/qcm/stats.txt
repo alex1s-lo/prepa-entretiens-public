@@ -1,0 +1,264 @@
+# QCM des fiches de statistiques (contenu/stats.txt).
+
+=== stats-p-valeur
+? Une p-valeur de 0,03 signifie :
++ Si $H_0$ était vraie, on observerait un résultat au moins aussi extrême dans 3 % des cas
+  C'est une probabilité calculée sous l'hypothèse nulle.
+- Il y a 3 % de chances que $H_0$ soit vraie
+  Confusion classique : la p-valeur n'est pas $\mathbb{P}(H_0 \mid \text{données})$.
+- L'effet est petit
+  La p-valeur ne mesure pas la taille de l'effet.
+- Il y a 97 % de chances que l'effet soit réel
+  Même confusion, retournée.
+
+=== stats-erreurs
+? En trading, retenir un signal qui n'a en réalité aucun pouvoir prédictif, c'est :
++ Une erreur de première espèce (faux positif)
+  On rejette à tort $H_0$ « pas d'effet ».
+- Une erreur de seconde espèce
+  C'est rater un vrai signal.
+- Un manque de puissance
+  La puissance concerne la détection des vrais effets.
+- Un biais de survie
+  C'est un autre biais, lié aux données disparues.
+
+=== stats-sharpe-annualise
++ Environ 1,59
+  $0{,}1 \times \sqrt{252}$.
+- 25,2
+  On a multiplié par 252 : l'écart-type ne croît qu'en $\sqrt{252}$.
+- 0,1
+  Le Sharpe dépend de l'horizon.
+- Environ 0,006
+  On a divisé par $\sqrt{252}$ au lieu de multiplier.
+
+=== stats-sharpe-erreur
++ Environ 0,5
+  $\sqrt{(1 + \mathrm{SR}^2/2)/T}$ en années : $\approx \sqrt{1/4}$.
+- Environ 0,03
+  On a utilisé le nombre de jours sans annualiser l'erreur.
+- 0
+  Un Sharpe estimé a une incertitude importante.
+- Environ 0,25
+  On a divisé par 4 au lieu de $\sqrt 4$.
+
+=== stats-tests-multiples
++ Environ 99,4 %
+  $1 - 0{,}95^{100}$.
+- 5 %
+  C'est pour **un** test.
+- 100 %
+  Presque, mais pas certain.
+- 50 %
+  On a raisonné « un test sur deux » : avec 100 tests à 5 %, un faux positif est presque certain.
+
+=== stats-bonferroni
++ Environ $3{,}2 \times 10^{-5}$
+  $0{,}05/1\,540$.
+- 0,05
+  Sans correction.
+- $0{,}05 \times 1\,540$
+  On a multiplié au lieu de diviser.
+- 0,01
+  Correction insuffisante pour 1 540 tests.
+
+=== stats-biais-backtest
++ Regard vers le futur, biais de survie, sur-ajustement, coûts ignorés
+  Chacun gonfle la performance d'un backtest.
+- Trop peu de paramètres
+  Le risque est l'excès de paramètres.
+- Utiliser des données propres
+  C'est souhaitable.
+- Tester sur un autre marché
+  C'est une bonne pratique.
+
+=== stats-ols-hypotheses
+? Quelle violation des hypothèses des MCO **biaise** les coefficients (et pas seulement leurs écarts-types) ?
++ Une variable omise corrélée aux régresseurs (non-exogénéité)
+  $\mathbb{E}[\varepsilon \mid X] \ne 0$ biaise $\hat\beta$.
+- L'hétéroscédasticité
+  Les coefficients restent sans biais ; seuls les écarts-types sont faux.
+- L'autocorrélation des résidus
+  Même effet : écarts-types faux, coefficients sans biais.
+- Des résidus non gaussiens
+  Les MCO restent sans biais ; seule l'inférence en petit échantillon souffre.
+
+=== stats-pentes-croisees
++ $0{,}3125$
+  Le produit des deux pentes vaut $\rho^2 = 0{,}25$.
+- $1{,}25$
+  On a pris l'inverse de la pente : vrai seulement si $\rho^2 = 1$.
+- $0{,}8$
+  Les pentes ne sont pas symétriques.
+- $0{,}5$
+  C'est la corrélation.
+
+=== stats-donnees-doublees
++ Coefficients inchangés ; écarts-types divisés par environ $\sqrt 2$ ; t-stats multipliées par $\sqrt 2$
+  Le logiciel croit avoir deux fois plus d'information.
+- Tout reste identique
+  La taille d'échantillon apparente double.
+- Les coefficients doublent
+  $X^TX$ et $X^Ty$ doublent ensemble.
+- Les t-stats sont divisées par 2
+  Elles augmentent, à tort.
+
+=== stats-r2
++ Part de variance expliquée ; 1 % peut être très rentable sur des rendements
+  Un faible pouvoir prédictif appliqué souvent fait un bon Sharpe.
+- 1 % est toujours inutile
+  En finance, les signaux sont faibles mais exploitables.
+- Le $R^2$ mesure la causalité
+  Il ne dit rien de la causalité.
+- Un $R^2$ élevé garantit un bon modèle
+  Il peut venir d'un sur-ajustement ou d'une régression fallacieuse.
+
+=== stats-regression-fallacieuse
++ Pas forcément : deux marches aléatoires indépendantes donnent souvent ce résultat
+  Il faut travailler en rendements ou tester la cointégration.
+- Oui, la relation est très forte
+  Les tests usuels sont invalides sur des séries non stationnaires.
+- Oui, si la t-stat dépasse 2
+  La t-stat n'a pas sa loi habituelle ici.
+- Non, un $R^2$ de 0,9 est toujours faux
+  Il peut être vrai en cas de cointégration.
+
+=== stats-stationnarite
++ Moyenne et autocovariances stables ; les prix non, les rendements à peu près
+  Les prix ont une racine unitaire.
+- Les prix sont stationnaires
+  Ils dérivent sans revenir.
+- Les rendements ne sont jamais stationnaires
+  Approximativement oui, malgré la volatilité variable.
+- Stationnaire veut dire constante
+  Une série stationnaire varie, mais sa loi est stable.
+
+=== stats-adf
++ Test d'une racine unitaire ; sur des résidus estimés, la régression a déjà minimisé leur variance, d'où des seuils plus sévères
+  Valeurs critiques de MacKinnon pour Engle-Granger.
+- Les valeurs critiques sont les mêmes
+  L'estimation préalable rend les résidus « trop » stationnaires.
+- C'est un test de normalité
+  C'est un test de racine unitaire.
+- On teste la corrélation des résidus
+  On teste $\gamma = 0$ dans la régression de $\Delta x_t$.
+
+=== stats-mle-exponentielle
++ $\hat\lambda = 1/\bar x$
+  Dérivée de $n\ln\lambda - \lambda\sum x_i$.
+- $\hat\lambda = \bar x$
+  C'est l'estimateur de la moyenne $1/\lambda$.
+- $\hat\lambda = n/\sum x_i^2$
+  Ce serait l'estimateur pour une autre loi (moment d'ordre 2) : la vraisemblance exponentielle ne fait intervenir que $\sum x_i$.
+- $\hat\lambda = 1/\mathrm{médiane}$
+  Pas l'estimateur du maximum de vraisemblance.
+
+=== stats-variance-n-moins-un
++ La moyenne empirique est ajustée aux données : les écarts sont trop petits en moyenne
+  Diviser par $n - 1$ corrige ce biais.
+- Pour avoir une valeur plus grande, par prudence
+  C'est une correction exacte du biais, pas de la prudence.
+- Parce que la première observation ne compte pas
+  Toutes les observations comptent.
+- C'est une convention sans justification
+  Le calcul de l'espérance la justifie.
+
+=== stats-intervalle-moyenne
++ 1,96
+  $1{,}96 \times 10/\sqrt{100}$.
+- 19,6
+  On a oublié de diviser par $\sqrt n$.
+- 0,196
+  On a divisé par $n$.
+- 1
+  C'est l'erreur standard, sans le quantile.
+
+=== stats-taille-echantillon
++ 400
+  La largeur évolue en $1/\sqrt n$.
+- 200
+  Raisonnement linéaire.
+- 141
+  On a multiplié par $\sqrt 2$.
+- 10 000
+  Ce serait pour diviser par 10.
+
+=== stats-vol-portefeuille
++ Environ 21,8 %
+  $\sigma^2 = 0{,}0475$.
+- 25 %
+  Moyenne des volatilités : ignore la diversification.
+- 18 %
+  Trop de diversification, comme avec une corrélation plus basse.
+- Environ 18,0 %
+  C'est le résultat avec une corrélation nulle.
+
+=== stats-heteroscedasticite
++ Variance des erreurs non constante ; tests de White ou Breusch-Pagan ; écarts-types robustes (HAC pour l'autocorrélation)
+  Coefficients sans biais, inférence corrigée.
+- Elle biaise les coefficients
+  Elle fausse seulement les écarts-types.
+- On la corrige en supprimant des observations
+  On corrige l'inférence, pas les données.
+- Elle n'existe pas en finance
+  La volatilité varie beaucoup dans le temps.
+
+=== stats-erreur-variable
++ 0,8
+  Atténuation : $1/(1 + 0{,}25)$.
+- 1
+  Le bruit sur $x$ biaise la pente vers 0.
+- 1,25
+  Le biais va vers 0, pas vers le haut.
+- 0,75
+  On a soustrait 0,25 au lieu de diviser.
+
+=== stats-pca-taux
++ Niveau, pente, courbure expliquent presque toute la variance ; sert à couvrir et réduire le risque
+  Trois facteurs suffisent souvent à plus de 95 %.
+- Un facteur par maturité
+  Les taux sont très corrélés : peu de facteurs suffisent.
+- Le premier facteur est la courbure
+  C'est le niveau.
+- L'ACP prédit les taux futurs
+  Elle décrit la covariance, elle ne prévoit pas.
+
+=== stats-colinearite
++ Coefficients instables et peu significatifs ; régulariser (ridge), combiner ou retirer une variable
+  Les prédictions peuvent rester bonnes.
+- Les coefficients deviennent biaisés
+  Ils restent sans biais mais très variables.
+- Le $R^2$ chute
+  Le $R^2$ global n'est pas affecté.
+- Rien, les MCO gèrent cela
+  La variance des estimateurs explose.
+
+=== stats-correlation-rendements
++ La corrélation dépend de l'horizon (dynamiques de long terme, décalages, bruit de microstructure)
+  Un même couple peut être corrélé à court terme et peu à long terme.
+- C'est une erreur de calcul
+  C'est un phénomène réel.
+- La corrélation mensuelle est toujours plus forte
+  Pas forcément, comme ici.
+- Les corrélations sont invariantes à l'horizon
+  Seulement pour des rendements i.i.d.
+
+=== stats-bootstrap
++ Rééchantillonner les données ; par blocs pour garder la dépendance temporelle
+  Un bootstrap simple casserait l'autocorrélation.
+- Simuler des données gaussiennes
+  C'est un bootstrap paramétrique, pas celui du projet.
+- Le bootstrap enlève tout biais
+  Il estime la dispersion, pas le biais de sélection.
+- On mélange les jours au hasard
+  Détruit la structure temporelle.
+
+=== stats-sharpe-deflate
++ Correction du Sharpe du meilleur parmi $N$ essais, gonflé par la sélection
+  Même sans effet, le maximum de $N$ Sharpe estimés est positif.
+- Sharpe après inflation
+  Sans rapport avec l'inflation.
+- Sharpe après coûts
+  C'est un autre ajustement.
+- Sharpe annualisé
+  L'annualisation n'est pas la déflation.

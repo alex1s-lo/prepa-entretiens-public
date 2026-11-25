@@ -42,6 +42,24 @@
     return h;
   }
 
+  // Lien vers une fiche : les énigmes s'ouvrent dans Casse-têtes, les autres questions dans Révisions.
+  function lienFiche(f) {
+    return (f.categorie ? '#casse-tetes/f=' : '#revisions/fiche=') + encodeURIComponent(f.id);
+  }
+  function nomFiche(f) {
+    return f.titre ? o.enLigne(f.titre) : o.echapper(o.resume(f.question, 90));
+  }
+  // Variantes d'un problème d'origine (fiches qui portent « parent: id »).
+  function variantesDe(id) {
+    return A.fiches().filter(function (x) { return x.parent === id; });
+  }
+  function listeLiens(fiches) {
+    return '<ul class="liens-fiches">' + fiches.map(function (x) {
+      const vue = A.etat.cartes[x.id];
+      return '<li><a href="' + lienFiche(x) + '">' + nomFiche(x) + '</a>' + (vue ? ' <span class="etiquette accent">vu</span>' : '') + '</li>';
+    }).join('') + '</ul>';
+  }
+
   // Carte de question réutilisable (révisions et entretien blanc).
   // options : onNote(note, infos) appelé après la note ; chrono (bool) ; titre (texte au-dessus) ; sansNote (bool)
   function carteQuestion(f, options) {
@@ -63,6 +81,7 @@
       (f.en ? '<button class="discret" data-langue title="Changer de langue (touche e)">' + (infos.anglais ? 'FR' : 'EN') + '</button>' : '') +
       (voixDisponible() ? '<button class="discret" data-lire title="Écouter la question (touche l)" aria-label="Écouter la question"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg></button>' : '') +
       '</div>' +
+      (f.parent && A.fiche(f.parent) ? '<p class="remarque-variante">Variante de <a href="' + lienFiche(A.fiche(f.parent)) + '">' + nomFiche(A.fiche(f.parent)) + '</a></p>' : '') +
       '<div class="question" data-enonce>' + o.markdown(enonce()) + '</div>' +
       (f.type === 'numerique' ?
         '<form class="ligne" data-form autocomplete="off"><input data-saisie aria-label="Ta réponse" placeholder="Ta réponse (ex. 1/6, 0,17, e^-1, √2/2)" style="flex:1;min-width:12ch">' +
@@ -129,10 +148,10 @@
       const jour = A.aujourdhui();
       let h = '<div class="bloc-titre">Solution</div>' + o.markdown(f.solution);
       if (f.piege) h += '<div class="encadre alerte"><div class="bloc-titre">Piège classique</div>' + o.markdown(f.piege) + '</div>';
-      if (f.variantes && f.variantes.length) {
-        h += '<div class="bloc-titre">Variantes de l’énoncé</div><ul class="variantes">' +
-          f.variantes.map(function (r) { return '<li>' + o.enLigne(r) + '</li>'; }).join('') + '</ul>';
-      }
+      const enfants = variantesDe(f.id);
+      if (enfants.length) h += '<div class="bloc-titre">Variantes de ce problème</div><div class="variantes">' + listeLiens(enfants) + '</div>';
+      const voisins = (f.voir || []).map(A.fiche).filter(Boolean);
+      if (voisins.length) h += '<div class="bloc-titre">Problèmes voisins</div>' + listeLiens(voisins);
       if (f.relances && f.relances.length) {
         h += '<div class="bloc-titre">Relances probables de l’intervieweur</div><ul>' +
           f.relances.map(function (r) { return '<li>' + o.enLigne(r) + '</li>'; }).join('') + '</ul>';
@@ -420,6 +439,8 @@
   });
   P.composants = P.composants || {};
   P.composants.carteQuestion = carteQuestion;
+  P.composants.lienFiche = lienFiche;
+  P.composants.variantesDe = variantesDe;
   P.composants.parler = parler;
   P.composants.taire = taire;
   P.composants.voixDisponible = voixDisponible;

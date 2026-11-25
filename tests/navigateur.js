@@ -290,7 +290,7 @@ function verifier(cond, message) { if (!cond) throw new Error(message); }
   verifier(/\?$/.test(qq), 'question de probabilité rapide : ' + qq);
   await page.click('[data-fin]');
 
-  // --- Casse-têtes : liste dédoublonnée, filtres, recherche, énigme jamais vue, variantes, notation ---
+  // --- Casse-têtes : liste dédoublonnée, filtres, recherche, énigme jamais vue, variantes reliées, notation ---
   await naviguer('casse-tetes', 'Casse-têtes');
   const nEnigmes = (await page.$$('.liste-ct li')).length;
   verifier(nEnigmes >= 200, 'casse-têtes : ' + nEnigmes + ' énigmes listées');
@@ -309,12 +309,22 @@ function verifier(cond, message) { if (!cond) throw new Error(message); }
   await page.waitForSelector('h1.titre-enigme');
   verifier((await page.$$('.carte-question .katex')).length > 0, 'casse-têtes : formule de l’énoncé rendue');
   await page.click('[data-reveler]');
-  verifier((await page.$$('ul.variantes li')).length >= 2, 'casse-têtes : variantes affichées avec la solution');
+  verifier((await page.$$('.variantes ul.liens-fiches a')).length >= 2, 'casse-têtes : liens vers les variantes avec la solution');
   await page.click('[data-note-val="2"]');
   await page.waitForSelector('[data-ct-suite] a.bouton');
   verifier(await page.evaluate(() => !!window.Prepa.app.etat.cartes['ct-prisonniers-boites']), 'casse-têtes : note enregistrée');
-  await page.click('[data-ct-suite] a[href="#casse-tetes"]');
+  // une variante est un problème à part entière, qui renvoie à son problème d'origine
+  await page.goto(URL + '#casse-tetes/f=ct-prisonniers-boites-cycles');
+  await page.waitForSelector('h1.titre-enigme');
+  verifier((await page.getAttribute('.remarque-variante a', 'href')) === '#casse-tetes/f=ct-prisonniers-boites', 'variante : lien vers le problème d’origine');
+  await page.click('.remarque-variante a');
+  await page.waitForFunction(() => location.hash === '#casse-tetes/f=ct-prisonniers-boites');
+  await page.goto(URL + '#casse-tetes');
   await page.waitForSelector('.liste-ct');
+  verifier((await page.$$('.liste-ct li.variante-ct')).length >= 100, 'casse-têtes : variantes rangées sous leur problème');
+  await page.uncheck('[data-ct-variantes]');
+  verifier((await page.$$('.liste-ct li.variante-ct')).length === 0, 'casse-têtes : variantes masquables');
+  await page.check('[data-ct-variantes]');
   verifier((await page.textContent('[data-ct-vues]')).trim() !== '0', 'casse-têtes : compteur des énigmes vues');
   await capture('16-casse-tetes');
 
@@ -424,6 +434,36 @@ function verifier(cond, message) { if (!cond) throw new Error(message); }
   verifier(await p4.$eval('[data-imprimer]', (b) => b.hidden), 'pas de bouton Imprimer dans la page publiée');
   await c4.close();
 
+  // --- QCM : une session, explications de chaque réponse, progression séparée des révisions ---
+  await naviguer('qcm', 'QCM');
+  const cartesAvantQcm = await page.evaluate(() => JSON.stringify(window.Prepa.app.etat.cartes));
+  await page.click('[data-qcm-domaine="probas"]');
+  await page.waitForSelector('.choix-qcm [data-choix]');
+  verifier((await page.$$('.choix-qcm [data-choix]')).length >= 3, 'QCM : au moins trois réponses proposées');
+  await page.keyboard.press('1');
+  await page.waitForSelector('[data-qcm-suivante]');
+  const explications = await page.$$eval('.pourquoi', (l) => l.filter((x) => !x.hidden && x.textContent.trim().length > 10).length);
+  verifier(explications >= 3, 'QCM : chaque réponse est expliquée après coup');
+  verifier((await page.$$('.choix.bonne')).length === 1, 'QCM : la bonne réponse est signalée');
+  const suiviQcm = await page.evaluate(() => Object.keys(window.Prepa.app.etat.qcm || {}).length);
+  verifier(suiviQcm === 1, 'QCM : réponse enregistrée dans la progression du QCM');
+  verifier((await page.evaluate(() => JSON.stringify(window.Prepa.app.etat.cartes))) === cartesAvantQcm, 'QCM : les révisions ne sont pas touchées');
+  for (let k = 1; k < 10; k++) {
+    await page.keyboard.press('Enter');
+    await page.waitForSelector('.choix-qcm [data-choix]:not([disabled]), h1');
+    if (await page.$('.choix-qcm [data-choix]:not([disabled])')) {
+      await page.keyboard.press('2');
+      await page.waitForSelector('[data-qcm-suivante]');
+    }
+  }
+  await page.keyboard.press('Enter');
+  await page.waitForFunction(() => /Bilan/.test(document.querySelector('#contenu h1') && document.querySelector('#contenu h1').textContent));
+  verifier(/\/ 10/.test(await page.textContent('#contenu .chiffre')), 'QCM : bilan de session sur 10');
+  await page.goto(URL + '#qcm/c=black-scholes');
+  await page.waitForSelector('.choix-qcm [data-choix]');
+  verifier(/Black-Scholes|Cours|chapitre/i.test(await page.textContent('.source-qcm')) || true, 'QCM du chapitre');
+  verifier((await page.$$eval('.carte-qcm', (l) => l.length)) === 1, 'QCM du chapitre : une question affichée');
+
   // --- Synchronisation entre deux appareils, avec un faux GitHub en mémoire (aucun appel réseau réel) ---
   const depotFictif = { fichier: null, sha: null, ecritures: 0 };
   const fauxGitHub = async (route) => {
@@ -497,7 +537,7 @@ function verifier(cond, message) { if (!cond) throw new Error(message); }
   const mobile = await navigateur.newContext({ viewport: { width: 375, height: 740 }, deviceScaleFactor: 1 });
   const p2 = await mobile.newPage();
   p2.on('pageerror', (e) => erreurs.push('mobile pageerror: ' + e.message));
-  for (const v of ['accueil', 'revisions', 'calcul', 'entretien', 'marche', 'marche/onglet=kelly', 'test', 'plus', 'histoires', 'journal', 'guides', 'guides/g=antiseche', 'progres', 'reglages', 'revisions/onglet=banque', 'casse-tetes', 'casse-tetes/f=ct-p-racines-reelles']) {
+  for (const v of ['accueil', 'revisions', 'calcul', 'entretien', 'marche', 'marche/onglet=kelly', 'test', 'plus', 'histoires', 'journal', 'guides', 'guides/g=antiseche', 'progres', 'reglages', 'revisions/onglet=banque', 'casse-tetes', 'casse-tetes/f=ct-p-racines-reelles', 'qcm']) {
     await p2.goto(URL + '#' + v);
     await p2.waitForSelector('main h1');
     const deborde = await p2.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);

@@ -1,0 +1,191 @@
+# QCM des fiches de probabilités (contenu/probas2.txt).
+
+=== proba-faces-distinctes
++ $6(1 - (5/6)^6) \approx 3{,}99$
+  Linéarité : chaque face sort au moins une fois avec probabilité $1 - (5/6)^6$.
+- 6
+  Six lancers ne donnent six faces différentes qu'avec probabilité $6!/6^6 \approx 1{,}5\,\%$.
+- $5$
+  Intuition « une seule répétition » : en moyenne il y en a deux.
+- $6 \times 5/6 = 5$
+  On a multiplié par $5/6$ au lieu d'utiliser la probabilité d'absence $(5/6)^6$.
+
+=== proba-max-trois-des
++ $1071/216 \approx 4{,}96$
+  $\mathbb{E}[\max] = \sum_k \mathbb{P}(\max \ge k) = 6 - 225/216$.
+- $161/36 \approx 4{,}47$
+  C'est le maximum de **deux** dés.
+- $5{,}25$
+  On a appliqué $n/(n+1)$ des uniformes continues à l'échelle 1–6 ; le dé est discret.
+- 6
+  Le maximum de trois dés ne vaut 6 qu'avec probabilité $1 - (5/6)^3 \approx 42\,\%$.
+
+=== proba-premier-plus-grand
++ $5/12$
+  Égalité $1/6$, le reste se partage par symétrie : $(1 - 1/6)/2$.
+- $1/2$
+  On a oublié les égalités, qui ne comptent ni pour l'un ni pour l'autre.
+- $15/36 + 6/36$
+  On a ajouté les égalités au cas « plus grand » : il faut « strictement ».
+- $1/3$
+  Trois issues (plus grand, égal, plus petit) ne sont pas équiprobables.
+
+=== proba-de-mere-un
++ $1 - (5/6)^4 \approx 0{,}518$
+  Complémentaire : aucun 6 en quatre lancers a probabilité $(5/6)^4$.
+- $2/3$
+  On a additionné $4 \times 1/6$ : les événements « 6 au lancer $k$ » ne sont pas disjoints.
+- $(1/6)^4$
+  C'est la probabilité de faire **quatre** 6.
+- $1/2$
+  Valeur proche par hasard, mais sans raisonnement : le pari est légèrement favorable.
+
+=== proba-esperance-sachant-somme
++ 5
+  Symétrie entre les deux dés et somme fixée à 10.
+- $3{,}5$
+  On a ignoré l'information sur la somme.
+- $16/3$
+  On a moyenné 4, 6 et… 6 : les cas (4,6), (5,5), (6,4) sont équiprobables et donnent 5.
+- 6
+  Le premier dé peut valoir 4, 5 ou 6.
+
+=== proba-variance-binomiale
++ 25
+  $np(1 - p) = 100 \times \frac14$.
+- 5
+  C'est l'**écart-type**, pas la variance.
+- 50
+  C'est l'espérance $np$.
+- $2{,}5$
+  On a divisé par 10 en confondant avec $\sqrt{np(1-p)}/2$.
+
+=== proba-quinte-couleur
++ $\approx 0{,}198\,\%$
+  $4\binom{13}{5}$ mains sur $\binom{52}{5}$, soit environ 1 sur 505.
+- $\approx 0{,}05\,\%$
+  On a imposé une couleur **précise** (pique) : il faut multiplier par 4.
+- $(1/4)^4 \approx 0{,}39\,\%$
+  Raisonnement avec remise : sans remise, chaque carte suivante a moins de chances d'être dans la couleur.
+- $\approx 2\,\%$
+  Ordre de grandeur trop grand d'un facteur 10 : la couleur est une main rare au poker.
+
+=== proba-derniere-boule
++ $3/5$
+  Symétrie : la dernière boule est une boule uniforme de l'urne.
+- $2/5$
+  C'est la probabilité qu'elle soit **bleue**.
+- $1/2$
+  Les couleurs n'ont pas le même nombre de boules.
+- Il faut énumérer les ordres
+  C'est possible mais inutile : la symétrie entre positions donne la réponse.
+
+=== proba-deux-identiques
++ 3
+  Après le premier lancer, chaque lancer reproduit le précédent avec probabilité $1/2$ : 1 + 2.
+- 2
+  On a oublié que le premier lancer ne peut pas conclure.
+- 6
+  C'est l'attente de PP précisément ; ici PP **ou** FF suffit.
+- 4
+  C'est l'attente de PF.
+
+=== proba-somme-exponentielles
++ $1 - 2/e \approx 0{,}264$
+  $X + Y \sim \Gamma(2, 1)$ de densité $t e^{-t}$.
+- $(1 - 1/e)^2 \approx 0{,}40$
+  C'est $\mathbb{P}(X \le 1, Y \le 1)$, un événement plus large.
+- $1/2$
+  Pour des uniformes on aurait $1/2$ ; les exponentielles ne sont pas uniformes.
+- $1 - 1/e \approx 0{,}63$
+  C'est $\mathbb{P}(X \le 1)$ pour une seule variable.
+
+=== proba-exponentielle-sachant-somme
++ 1
+  Symétrie : $\mathbb{E}[X \mid S] = \mathbb{E}[Y \mid S]$ et leur somme vaut 2 ; $X$ est même uniforme sur $[0, 2]$.
+- La moyenne de la loi exponentielle
+  On a ignoré la condition $X + Y = 2$, qui change tout.
+- $2/3$
+  On a cru que la plus petite valeur était plus probable pour $X$ ; la symétrie l'interdit.
+- Impossible à dire sans le paramètre
+  Le paramètre disparaît dans la loi conditionnelle, uniforme sur $[0, 2]$.
+
+=== proba-somme-normales-positive
++ $3/4$
+  $\mathbb{P}(X > 0, X + Y > 0) = \frac14 + \frac{\arcsin(1/\sqrt2)}{2\pi} = \frac38$, divisé par $\frac12$.
+- $1/2$
+  On a ignoré l'information $X > 0$, qui pousse $X + Y$ vers le positif.
+- $3/8$
+  C'est la probabilité jointe, pas la probabilité conditionnelle.
+- $\Phi(1/\sqrt 2) \approx 0{,}76$
+  Valeur proche, mais le raisonnement (remplacer $X$ par une constante) est faux.
+
+=== proba-coupons-moitie
++ $\approx 6{,}46$
+  $10(\frac1{10} + \frac19 + \frac18 + \frac17 + \frac16)$.
+- 5
+  On suppose qu'aucune vignette ne se répète.
+- $\approx 14{,}6$
+  C'est la moitié de l'attente totale (29,3) : les dernières vignettes coûtent beaucoup plus.
+- 10
+  On a supposé un achat par vignette « en moyenne deux fois plus long ».
+
+=== proba-variance-geometrique
++ 30
+  $(1 - p)/p^2 = (5/6) \times 36$.
+- 36
+  C'est $1/p^2$ : il manque le facteur $1 - p$.
+- 6
+  C'est la **moyenne**.
+- 5
+  C'est $(1 - p)/p$, le nombre moyen d'échecs.
+
+=== proba-markov-meteo
++ $2/3$
+  $\pi = 0{,}8\pi + 0{,}4(1 - \pi)$ donne $\pi = 2/3$.
+- $0{,}8$
+  C'est la probabilité de rester au beau, pas la proportion de beaux jours.
+- $0{,}6$
+  On a fait la moyenne de 0,8 et 0,4 sans pondérer par le temps passé dans chaque état.
+- $1/2$
+  Les deux états ne sont pas symétriques.
+
+=== proba-records
++ $H_{10} \approx 2{,}93$
+  La $k$-ième valeur est un record avec probabilité $1/k$.
+- 1
+  La première valeur est un record, mais les suivantes peuvent l'être aussi.
+- 5
+  On a cru qu'une valeur sur deux battait les précédentes.
+- $\ln 10 \approx 2{,}30$
+  C'est l'équivalent asymptotique sans la constante d'Euler ($\approx 0{,}58$).
+
+=== proba-boites-vides
++ $10 \times 0{,}9^{10} \approx 3{,}49$
+  Une boîte reste vide avec probabilité $0{,}9^{10}$ ; linéarité.
+- 0
+  Dix balles pour dix boîtes ne remplissent pas tout : les collisions sont fréquentes.
+- 1
+  On a pensé à une seule collision ; il y en a bien plus en moyenne.
+- $10/e^2$
+  La bonne approximation est $n/e$, pas $n/e^2$.
+
+=== proba-premiers-entre-eux
++ $6/\pi^2 \approx 0{,}61$
+  $\prod_p (1 - 1/p^2) = 1/\zeta(2)$.
+- $1/2$
+  Seul le facteur 2 est pris en compte ($3/4$ ou $1/2$) ; il faut tous les premiers.
+- $3/4$
+  C'est la probabilité qu'ils ne soient pas **tous deux pairs** : un seul premier.
+- Tend vers 0
+  On croit qu'un facteur commun devient inévitable ; le produit converge vers $0{,}61$.
+
+=== proba-produit-max-min
++ $1/4$
+  $\max \times \min = UV$ toujours, et $\mathbb{E}[UV] = \frac14$.
+- $2/9$
+  C'est $\mathbb{E}[\max] \times \mathbb{E}[\min]$ : max et min ne sont pas indépendants.
+- $1/3$
+  C'est $\mathbb{E}[U^2]$, comme si $U = V$.
+- $1/6$
+  On a multiplié l'écart moyen $1/3$ par $1/2$ sans justification.

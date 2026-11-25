@@ -20,6 +20,7 @@
       histoires: {},     // id d'histoire -> texte
       perso: [],         // fiches ajoutées par toi (questions posées en vrai)
       notes: {},         // id de fiche -> note personnelle
+      qcm: {},           // id de question de QCM -> { n tentatives, j justes, r dernière juste, d date } (à part des révisions)
       cours: { exercices: {}, lus: {}, demos: {} },  // exercices faits, chapitres lus, démonstrations maîtrisées
       reglages: { profils: ['hf', 'banque', 'mm'], nouveauxParJour: 15, anglais: false, theme: 'auto', niveauCalcul: 2 }
     };
@@ -33,7 +34,7 @@
     const e = Object.assign(base, lu || {});
     e.reglages = Object.assign(etatVide().reglages, (lu && lu.reglages) || {});
     ['calcul', 'marche', 'entretiens', 'tests', 'kelly', 'journal', 'perso'].forEach(function (k) { if (!Array.isArray(e[k])) e[k] = []; });
-    ['cartes', 'jours', 'histoires', 'notes'].forEach(function (k) { if (!e[k] || typeof e[k] !== 'object') e[k] = {}; });
+    ['cartes', 'jours', 'histoires', 'notes', 'qcm'].forEach(function (k) { if (!e[k] || typeof e[k] !== 'object') e[k] = {}; });
     if (!e.cours || typeof e.cours !== 'object') e.cours = {};
     if (!e.cours.exercices || typeof e.cours.exercices !== 'object') e.cours.exercices = {};
     if (!e.cours.lus || typeof e.cours.lus !== 'object') e.cours.lus = {};
@@ -223,6 +224,7 @@
 
   // Icônes au trait (24 × 24), dessinées pour l'application : une par section.
   const TRACES = {
+    qcm: '<rect x="3.5" y="3.5" width="17" height="17" rx="2.5"/><path d="m7.5 9 1.5 1.5 3-3"/><path d="M14 9.5h3"/><path d="M7.5 15.5h.01"/><path d="M10.5 15.5h6.5"/>',
     accueil: '<path d="M3.5 10.5 12 3.5l8.5 7"/><path d="M5.5 9v11h13V9"/><path d="M10 20v-6h4v6"/>',
     cours: '<path d="M3 4.5h5.5A3.5 3.5 0 0 1 12 8v12a2.5 2.5 0 0 0-2.5-2.5H3z"/><path d="M21 4.5h-5.5A3.5 3.5 0 0 0 12 8v12a2.5 2.5 0 0 1 2.5-2.5H21z"/>',
     revisions: '<rect x="3" y="7" width="13" height="13" rx="2"/><path d="M7.5 3.5H19a1.5 1.5 0 0 1 1.5 1.5v11.5"/>',
@@ -249,7 +251,7 @@
   const GROUPES = [
     { titre: '', ids: ['accueil'] },
     { titre: 'Apprendre', ids: ['cours', 'revisions', 'calcul'] },
-    { titre: 'S’entraîner', ids: ['entretien', 'casse-tetes', 'marche'] },
+    { titre: 'S’entraîner', ids: ['entretien', 'qcm', 'casse-tetes', 'marche'] },
     { titre: 'Préparer', ids: ['histoires', 'journal', 'guides'] },
     { titre: 'Suivi', ids: ['progres', 'reglages'] }
   ];

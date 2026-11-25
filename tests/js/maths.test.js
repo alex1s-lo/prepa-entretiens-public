@@ -47,10 +47,10 @@ function chargerBanque() {
   return ctx.window.PREPA_BANQUE;
 }
 function textesFiche(f) {
-  return [f.titre, f.question, f.en, f.indice, f.solution, f.piege].concat(f.relances || [], f.variantes || []).filter(Boolean);
+  return [f.titre, f.question, f.en, f.indice, f.solution, f.piege].concat(f.relances || []).filter(Boolean);
 }
 
-test('chaque formule des fiches, des variantes et des guides se compile avec KaTeX', () => {
+test('chaque formule des fiches et des guides se compile avec KaTeX', () => {
   const banque = chargerBanque();
   let total = 0;
   const erreurs = [];

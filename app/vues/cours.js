@@ -336,6 +336,7 @@
       '<div class="carte fin-chapitre"><h2 style="margin-top:0">Et maintenant ?</h2>' +
       (chap.fiches.length ? '<p>Les ' + chap.fiches.length + ' fiches de ce chapitre, en révision espacée : elles reviendront ensuite au bon moment avec les autres.</p>' +
         '<div class="ligne"><a class="bouton principal" href="#revisions/chapitre=' + chap.id + '">S’entraîner sur ces fiches</a>' : '<div class="ligne">') +
+      '<a class="bouton" href="#qcm/c=' + encodeURIComponent(chap.id) + '" title="Questions à choix multiples sur le chapitre et ses fiches, avec les pièges expliqués">QCM du chapitre</a>' +
       '<button data-lu>' + (pr.lu ? 'Marqué comme lu ✓' : 'Marquer ce chapitre comme lu') + '</button>' +
       (A.restreint ? '' : '<button data-imprimer-chapitre title="Pour travailler sur papier : solutions dépliées, sans les simulations">Imprimer ou enregistrer en PDF</button>') +
       '</div></div>' +

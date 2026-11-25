@@ -19,9 +19,6 @@ Raisonnement à rebours (pirates 1 à 5, 5 étant le plus ancien) :
 - 4 pirates : il faut 2 voix ; le 2 aurait 0 dans le cas à 3 : $(0, 1, 0, 99)$.
 - 5 pirates : il faut 3 voix ; acheter les pirates 1 et 3 (qui auraient 0 dans le cas à 4) avec 1 pièce chacun.
 Proposition : **98 pour le plus ancien, 1 pour les pirates 1 et 3, 0 pour les autres**. C'est l'induction à rebours, comme pour une option américaine.
---- variantes
-- Majorité **stricte** exigée : même méthode à rebours, mais le cas à 2 pirates change (le plus ancien est jeté), ce qui modifie toute la chaîne ; refais le raisonnement depuis 1 pirate.
-- Plus de 200 pirates pour 100 pièces : certains pirates acceptent sans rien recevoir pour ne pas mourir ; la structure devient périodique en puissances de 2 (problème d'Omohundro).
 
 === ct-allumettes
 theme: casse-tete
@@ -38,9 +35,6 @@ Il y a 21 allumettes. À tour de rôle, chaque joueur en retire 1, 2 ou 3. Celui
 Quelles sont les positions perdantes pour celui qui doit jouer ? Commence par 4.
 --- solution
 Laisser un multiple de 4 à l'adversaire est gagnant : quoi qu'il prenne ($k$), tu prends $4 - k$. $21 = 4 \times 5 + 1$ : retire **1** allumette, puis complète toujours à 4.
---- variantes
-- Version « celui qui prend la dernière **perd** » : il faut laisser $4k + 1$ ; avec 21 allumettes, le premier joueur perd contre un adversaire parfait.
-- Retirer de 1 à $m$ : laisser un multiple de $m + 1$.
 
 === ct-course-a-100
 theme: casse-tete
@@ -57,9 +51,6 @@ Deux joueurs ajoutent à tour de rôle un entier entre 1 et 10 à un total qui p
 Quels totaux faut-il atteindre pour être sûr d'atteindre 100 ? Pars de 100 et descends de 11 en 11.
 --- solution
 Atteindre 89 garantit 100 (l'adversaire ajoute $k$, tu ajoutes $11 - k$). De même 78, 67, …, 12, 1. Annonce **1**, puis complète chaque coup adverse à 11.
---- variantes
-- 100 pièces sur la table, chacun en prend de 1 à 10, celui qui prend la dernière gagne : prends 1, puis complète à 11.
-- Course à 50 en ajoutant de 1 à 6 : viser les totaux $\equiv 1 \pmod 7$, donc annoncer 1.
 
 === ct-nim
 theme: casse-tete
@@ -91,8 +82,6 @@ Colorie les positions en alternance. Le premier joueur peut-il forcer l'adversai
 --- solution
 Oui. Numérote les positions de 1 à $2n$. Le premier joueur calcule la somme des positions impaires et des positions paires, et choisit la plus grande. S'il commence par la pièce 1 (impaire), les deux extrémités restantes sont paires : l'adversaire prend forcément une paire, et une impaire redevient disponible. Il prend ainsi **toutes** les pièces de la parité choisie, donc au moins la moitié.
 Pour le maximum exact, il faut la programmation dynamique ($O(n^2)$).
---- variantes
-- Nombre impair de pièces : la garantie disparaît (exemple 1, 5, 1).
 
 === ct-table-ronde
 theme: casse-tete
@@ -106,8 +95,6 @@ Deux joueurs posent à tour de rôle une pièce (toutes identiques) sur une tabl
 Symétrie centrale.
 --- solution
 Le **premier** joueur gagne : il pose sa première pièce exactement au centre, puis répond à chaque pièce adverse par la pièce symétrique par rapport au centre. Cette place est toujours libre (la configuration reste symétrique), donc il a toujours un coup.
---- variantes
-- Même stratégie de « copie » : jeu sur un échiquier où l'on pose des dominos, ou le jeu de la tablette de chocolat symétrique.
 
 === ct-duel-trois
 theme: casse-tete
@@ -140,8 +127,6 @@ On veut séparer une tablette de $6 \times 8$ carrés en carrés individuels. Ch
 Combien de morceaux de plus après chaque cassure ?
 --- solution
 Chaque cassure augmente le nombre de morceaux d'exactement 1. On passe de 1 à 48 morceaux : **47 cassures**, quelle que soit la méthode. Conséquence : un jeu où l'on casse à tour de rôle (le dernier à casser gagne) est décidé d'avance par la parité.
---- variantes
-- Tournoi à élimination directe avec 64 joueurs : chaque match élimine un joueur, donc 63 matchs.
 
 === ct-somme-quinze
 theme: casse-tete

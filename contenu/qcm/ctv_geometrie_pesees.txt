@@ -1,0 +1,1061 @@
+# QCM des variantes de casse-têtes : géométrie, mouvement, invariants, pesées, recherche, stratégie.
+
+=== ct-points-antipodaux-moine
++ Superposer les deux journées : un moine qui monte et un qui descend se croisent forcément
+  Ou : montée moins descente change de signe, donc s'annule (valeurs intermédiaires).
+- Seulement s'il marche à vitesse constante
+  L'argument ne dépend pas du rythme, pauses comprises.
+- Au milieu du sentier, à 13 h
+  Rien n'impose le lieu ni l'heure : seule l'existence est garantie.
+- Ce n'est pas toujours vrai
+  La continuité des deux trajets le garantit toujours.
+
+=== ct-points-antipodaux-borsuk
++ Oui, par le théorème de Borsuk-Ulam
+  Toute application continue $S^2 \to \mathbb{R}^2$ égale ses valeurs en deux points antipodaux.
+- Non : deux grandeurs à la fois, c'est trop demander
+  Borsuk-Ulam traite exactement deux grandeurs sur la sphère.
+- Oui, en appliquant deux fois les valeurs intermédiaires sur l'équateur
+  On trouverait deux couples différents, pas un seul couple pour les deux grandeurs.
+- Seulement si température et pression sont liées
+  Le théorème vaut pour deux fonctions continues quelconques.
+
+=== ct-fourmi-cube-pave
++ $\sqrt{18} \approx 4{,}24$
+  Le dépliage qui laisse seule la plus grande dimension : $\sqrt{(1 + 2)^2 + 3^2}$.
+- $\sqrt{14} \approx 3{,}74$
+  C'est la diagonale **à travers** le pavé.
+- $\sqrt{26}$
+  Le dépliage qui laisse seule la plus petite dimension : le plus long des trois.
+- 6
+  En longeant les arêtes.
+
+=== ct-fourmi-cube-dudeney
++ 40
+  Un dépliage par cinq faces donne un triangle rectangle 24–32–40.
+- 42
+  Le trajet naturel par le plafond ; un dépliage plus astucieux fait mieux.
+- $\sqrt{30^2 + 10^2} \approx 31{,}6$
+  On a traversé l'air de la pièce : l'araignée marche sur les parois.
+- 41
+  Un dépliage à quatre faces donne environ 40,7, encore plus long que 40.
+
+=== ct-piece-roule-rayon
++ 4 tours
+  $1 + R/r = 1 + 3$.
+- 3 tours
+  On oublie le tour dû au contournement.
+- 2 tours
+  C'est la réponse pour deux pièces identiques.
+- 6 tours
+  On a doublé la réponse sans justification.
+
+=== ct-angle-horloge-trois-vingt-cinq
++ 47,5°
+  Minutes 150°, heures $90° + 12{,}5°$.
+- 60°
+  On a mis l'aiguille des heures exactement sur 3.
+- 52,5°
+  On a fait avancer l'aiguille des heures dans le mauvais sens.
+- 35°
+  On a compté 1° par minute pour l'aiguille des heures.
+
+=== ct-angle-horloge-formule
++ 105°
+  $|30 \times 9 - 5{,}5 \times 30|$.
+- 90°
+  On oublie que l'aiguille des heures est à mi-chemin entre 9 et 10.
+- 120°
+  On a placé l'aiguille des heures sur 10.
+- 255°
+  C'est le grand angle ; on demande le plus petit.
+
+=== ct-superpositions-angle-droit
++ 44
+  Deux angles droits par rattrapage, 22 rattrapages par jour.
+- 48
+  Deux par heure, en oubliant que l'aiguille des heures avance.
+- 22
+  C'est le nombre de superpositions.
+- 24
+  Un par heure : sous-estimation.
+
+=== ct-superpositions-cinq-heures
++ $300/11 \approx 27{,}27$ minutes après 5 h
+  150° d'avance, rattrapés à 5,5° par minute.
+- 25 minutes
+  On a placé l'aiguille des minutes sur le 5 sans tenir compte de l'avance de l'aiguille des heures.
+- 30 minutes
+  À 5 h 30 l'aiguille des heures est déjà entre 5 et 6, dépassée.
+- $150/6 = 25$ minutes
+  On a oublié que l'aiguille des heures avance de 0,5° par minute.
+
+=== ct-vitesse-moyenne-impossible
++ C'est impossible, même à vitesse infinie
+  Deux tours à 60 de moyenne prennent $d/30$, déjà dépensé au premier tour.
+- 90 km/h
+  Moyenne arithmétique $(30 + 90)/2 = 60$, mais la moyenne des vitesses n'est pas la vitesse moyenne.
+- 120 km/h
+  Il resterait du temps à rattraper : on ne peut pas.
+- 180 km/h
+  Toujours insuffisant : aucun temps ne reste.
+
+=== ct-vitesse-moyenne-vent
++ Plus long
+  $\frac{2dv}{v^2 - w^2} > \frac{2d}{v}$ : on passe plus de temps vent de face.
+- Identique, le vent se compense
+  Le gain et la perte de vitesse se compensent, pas les temps.
+- Plus court
+  Le vent arrière n'aide pas assez longtemps.
+- Ça dépend du sens du vent
+  Aller-retour : les deux sens sont parcourus, le résultat est le même.
+
+=== ct-escargot-dix
++ Jour 8
+  Il part de 7 m au matin du 8ᵉ jour.
+- Jour 10
+  Raisonnement à 1 m net par jour jusqu'au bout.
+- Jour 7
+  Le soir du jour 7, il redescend à 5 m… il n'atteint 7 m qu'au matin suivant.
+- Jour 4
+  On a ignoré les glissades.
+
+=== ct-nenuphars-deux
++ Jour 47
+  Deux plants valent un plant avec un jour d'avance.
+- Jour 24
+  La croissance est exponentielle, pas linéaire.
+- Jour 46
+  On a gagné deux jours au lieu d'un.
+- Jour 48
+  On ignore l'avance donnée par le second plant.
+
+=== ct-chapeau-riviere-courant
++ 3 km/h
+  Le chapeau a dérivé 20 minutes pour faire 1 km.
+- 6 km/h
+  On a compté 10 minutes de dérive au lieu de 20.
+- 1 km/h
+  On a supposé une heure de dérive.
+- Impossible sans la vitesse du rameur
+  Elle disparaît dans le référentiel de l'eau.
+
+=== ct-train-mouche-chien
++ 6 km
+  Le chien court 24 minutes à 15 km/h.
+- 2 km
+  C'est la distance du maître.
+- 4 km
+  On a compté un seul aller-retour.
+- Une série infinie sans somme simple
+  Distance $=$ vitesse $\times$ durée.
+
+=== ct-echiquier-dominos-gomory
++ Oui, toujours (circuit hamiltonien coupé en deux chemins pairs)
+  L'invariant de couleur était la seule obstruction.
+- Non, cela dépend des cases retirées
+  Toute paire de couleurs différentes convient.
+- Seulement si les cases sont voisines
+  Elles peuvent être n'importe où.
+- Non, jamais
+  Les couleurs restent équilibrées : 31 et 31.
+
+=== ct-echiquier-dominos-barres
++ Non : avec la couleur $(i + j) \bmod 4$, on a 25, 26, 25 et 24 cases
+  Chaque barre couvre une case de chaque couleur.
+- Oui, car $100 = 25 \times 4$
+  L'aire est nécessaire, pas suffisante.
+- Non, par le coloriage en damier
+  Le damier donne 50 et 50 : pas de contradiction.
+- Oui, en alternant barres horizontales et verticales
+  Aucune disposition n'échappe au coloriage en 4 couleurs.
+
+=== ct-echiquier-dominos-triminos
++ Seulement la case centrale
+  Deux coloriages modulo 3 imposent la couleur de la case retirée ; seul le centre convient, et il marche.
+- N'importe quelle case
+  Le comptage des couleurs l'interdit.
+- Les quatre coins
+  Ils sont de la mauvaise couleur dans l'un des deux coloriages.
+- Aucune case
+  Le centre convient : quatre rectangles $2 \times 3$ en moulinet.
+
+=== ct-cameleons-possible
++ Oui : 44 bruns
+  $16 - 13 = 3$ : gris et pourpres peuvent s'annuler ensemble.
+- Non, comme dans le problème d'origine
+  Une différence est maintenant multiple de 3.
+- Oui : 44 pourpres
+  Il faudrait annuler gris et bruns ($15 - 13 = 2$, non multiple de 3).
+- Oui : 44 gris
+  Bruns et pourpres ne s'annulent pas ensemble ($16 - 15 = 1$).
+
+=== ct-tableau-effacer-produit
++ $11! - 1 = 39\,916\,799$
+  $\prod(1 + x_i)$ est invariant et vaut $11!$.
+- $10!$
+  On a oublié les « $+1$ ».
+- $11!$
+  C'est la valeur de $1 + x$, pas de $x$.
+- Ça dépend de l'ordre
+  L'invariant montre que non.
+
+=== ct-tableau-effacer-choix
++ Non : la parité de la somme reste impaire
+  $a + b$ et $|a - b|$ ont la même parité.
+- Oui, en choisissant les différences
+  Le choix ne change pas la parité.
+- Oui, car on peut obtenir des nombres pairs
+  On en obtient en cours de route, mais pas un total final pair.
+- Ça dépend de l'ordre
+  L'invariant vaut pour tous les ordres.
+
+=== ct-fourmis-rencontres
++ 25
+  Chaque fourmi de gauche croise chaque fourmi de droite une fois.
+- 5
+  On croit qu'une rencontre renvoie chaque fourmi définitivement.
+- 10
+  On a compté les fourmis, pas les paires.
+- 45
+  C'est $\binom{10}{2}$ : les fourmis qui vont dans le même sens ne se rencontrent pas.
+
+=== ct-fourmis-triangle
++ $3/4$
+  Pas de rencontre seulement si toutes tournent dans le même sens : $2/8$.
+- $1/4$
+  C'est la probabilité de **ne pas** se rencontrer.
+- $1/2$
+  On a raisonné sur une seule paire de fourmis.
+- $7/8$
+  On a compté un seul sens sans collision.
+
+=== ct-pieces-balance-quatre-pesees
++ 39
+  $\frac{3^4 - 3}{2}$.
+- 40
+  C'est le cas avec une pièce de référence.
+- 81
+  $3^4$ issues, mais chaque pièce demande deux cas (lourde ou légère).
+- 36
+  $12 \times 3$ : extrapolation linéaire.
+
+=== ct-billes-plus-lourde-huit
++ 2
+  3 contre 3, puis 1 contre 1.
+- 3
+  En pesant 4 contre 4 d'abord, on gaspille une pesée.
+- 1
+  Une pesée a trois issues, pas huit.
+- 4
+  Raisonnement binaire.
+
+=== ct-billes-plus-lourde-mille
++ 7
+  $3^6 = 729 < 1\,000 \le 3^7$.
+- 10
+  C'est la réponse binaire $\log_2 1\,000$.
+- 6
+  729 billes seulement.
+- 333
+  On a pesé les billes trois par trois.
+
+=== ct-piles-pieces-plusieurs
++ Prendre $1, 2, 4, \dots, 512$ pièces : l'excédent en binaire désigne les piles fausses
+  Chaque sous-ensemble a une somme distincte.
+- Prendre $1, 2, \dots, 10$ pièces
+  $1 + 4 = 2 + 3$ : deux ensembles différents donneraient le même excédent.
+- Peser chaque pile
+  Dix pesées, pas une.
+- C'est impossible en une pesée
+  Les puissances de 2 le permettent.
+
+=== ct-piles-pieces-poids-inconnu
++ Deux pesées : l'une donne l'écart $\delta$, l'autre $k\delta$
+  Une seule pesée ne sépare pas $k$ et $\delta$.
+- Une pesée de $1, 2, \dots, 10$ pièces
+  L'écart $k\delta$ a deux inconnues.
+- Dix pesées
+  Deux suffisent.
+- Impossible
+  La pesée de référence lève l'ambiguïté.
+
+=== ct-poids-balance-binaire
++ 6 poids : 1, 2, 4, 8, 16, 32
+  Deux états par poids : binaire.
+- 4 poids : 1, 3, 9, 27
+  Il faudrait pouvoir poser des poids des deux côtés.
+- 5 poids
+  $2^5 - 1 = 31 < 63$.
+- 63 poids de 1 g
+  Correct mais loin du minimum.
+
+=== ct-cordes-quinze
++ Allumer A par les deux bouts et B par un bout ; quand A finit, allumer l'autre bout de B et commencer à compter
+  La mesure va de $t = 30$ à $t = 45$.
+- Allumer une corde par les quatre bouts
+  Une corde n'a que deux bouts.
+- Plier la corde en quatre
+  Combustion irrégulière : pas de quart garanti.
+- Impossible avec deux cordes
+  On mesure 15 minutes entre deux événements.
+
+=== ct-cordes-une-seule
++ 30 et 60 minutes seulement
+  Un bout ou deux bouts ; rien d'autre de garanti.
+- 15, 30, 45 et 60 minutes
+  Il faudrait une seconde corde pour savoir quand allumer.
+- N'importe quelle durée en coupant la corde
+  Les morceaux ne brûlent pas proportionnellement à leur longueur.
+- Seulement 60 minutes
+  Allumer les deux bouts donne 30.
+
+=== ct-cordes-trois
++ A deux bouts, B et C un bout ; à 30, second bout de B ; à 45, second bout de C : fin à 52,5
+  C a alors 15 minutes de reste, divisées par deux.
+- A deux bouts ; à 30, B deux bouts ; à 45, C deux bouts
+  C, allumée à 45 par les deux bouts, dure 30 minutes.
+- Allumer les trois cordes par les deux bouts
+  On ne mesure que 30 minutes.
+- Impossible : seules les durées de 15 en 15 sont mesurables
+  Chaque nouveau bout divise un reste par deux : 7,5 est possible.
+
+=== ct-sabliers-neuf
++ À 4 retourner le 4 ; à 7 retourner le 7 ; à 8 retourner le 7 (1 min) : fin à 9
+  À 8, le 7 n'a coulé qu'une minute depuis son retournement.
+- $4 + 4 + 1$
+  On ne sait pas mesurer 1 minute seule.
+- $7 + 2$, avec deux minutes mesurées par le 4
+  On ne mesure pas 2 minutes directement.
+- Impossible
+  La combinaison décrite donne 9.
+
+=== ct-sabliers-treize
++ Lancer les deux ; à 5 retourner le 5 ; à 9 le retourner encore : fin à 13
+  À 9, il a 4 minutes de sable en bas.
+- $9 + 5 - 1$
+  On ne sait pas retirer une minute.
+- $5 + 5 + 3$
+  Pas de 3 minutes mesurables directement.
+- Impossible
+  $13 = 9 + 4$, et $4 = 9 - 5$.
+
+=== ct-cruches-petite-d-abord
++ 8
+  Deux remplissages de la petite avant d'obtenir 4 L.
+- 6
+  C'est en commençant par la grande.
+- 4
+  Trop peu d'opérations.
+- Impossible en commençant par la petite
+  Les deux sens atteignent 4.
+
+=== ct-cruches-pgcd
++ Non : toutes les quantités restent paires
+  $\mathrm{pgcd}(4, 6) = 2$.
+- Oui, 2 L seulement en plus des pleines
+  2 est possible, mais pas les impairs ; la question porte sur 1, 3, 5.
+- Oui, en transvasant à moitié
+  Sans graduation, impossible de verser « à moitié ».
+- Oui, avec assez d'opérations
+  Aucune opération ne casse l'invariant.
+
+=== ct-cruches-partage
++ 7
+  Le parcours en largeur trouve 7 transvasements (Tartaglia).
+- 6
+  Aucune suite de 6 ne mène à (4, 4, 0).
+- 8
+  Il existe une suite plus courte.
+- Impossible sans robinet
+  On partage par transvasements seulement.
+
+=== ct-barre-or-chaine
++ 1
+  Ouvrir le 3ᵉ maillon donne 1, 2 et 4.
+- 2
+  C'est la réponse pour la barre (coupes, pas maillons ouverts).
+- 3
+  Trop.
+- 6
+  Sans rendre la monnaie.
+
+=== ct-barre-or-quinze
++ 3
+  Morceaux 1, 2, 4, 8.
+- 4
+  Quatre coupes donnent 5 morceaux : un de trop.
+- 2
+  Trois morceaux ne font que 7 montants.
+- 14
+  Sans rendre la monnaie.
+
+=== ct-vin-empoisonne-deux-vagues
++ 7
+  Trois issues par rat : base 3, $3^7 \ge 1\,000$.
+- 10
+  C'est la réponse à une seule vague.
+- 5
+  $3^5 = 243$ ne suffit pas.
+- 20
+  On a doublé 10.
+
+=== ct-vin-empoisonne-deux-bouteilles
++ 19
+  $\log_2 \binom{1000}{2} \approx 18{,}9$.
+- 20
+  On a pris deux fois 10 rats : c'est une construction, pas la borne.
+- 10
+  Les paires sont bien plus nombreuses que les bouteilles.
+- 1 000
+  Borne triviale.
+
+=== ct-chevaux-plus-rapide
++ 6
+  5 courses de groupes et la course des vainqueurs.
+- 5
+  Les vainqueurs de groupe doivent encore être départagés.
+- 7
+  C'est pour les trois plus rapides.
+- 25
+  Chaque course compare cinq chevaux.
+
+=== ct-chevaux-deux
++ 7
+  A2 contre B1 après les 6 premières courses.
+- 6
+  Le deuxième n'est pas connu après la course des vainqueurs.
+- 8
+  Une seule course de départage suffit.
+- 10
+  Trop.
+
+=== ct-chevaux-soixante-quatre
++ 11 (avec la méthode classique)
+  9 candidats pour 8 couloirs : une 11ᵉ course peut être nécessaire.
+- 10
+  Il reste un cas où le cheval laissé de côté pourrait être 4ᵉ.
+- 9
+  Les 9 premières courses ne trouvent que le plus rapide.
+- 12
+  Une seule course de départage suffit après la 10ᵉ.
+
+=== ct-oeufs-trois
++ 9
+  $\binom91 + \binom92 + \binom93 = 129 \ge 100$.
+- 14
+  Avec deux œufs.
+- 7
+  Dichotomie, avec un stock illimité d'œufs.
+- 8
+  $f(8, 3) = 92 < 100$.
+
+=== ct-oeufs-quatre
++ 385
+  $10 + 45 + 120 + 210$.
+- 1 024
+  $2^{10}$ : un nombre illimité d'œufs.
+- 175
+  On a oublié $\binom{10}{4}$.
+- 40
+  Raisonnement linéaire.
+
+=== ct-oeufs-un
++ 100
+  Étage par étage, sans risque.
+- 14
+  Avec deux œufs.
+- 50
+  On ne peut pas sauter d'étage avec un seul œuf.
+- 10
+  Sauter des étages fait perdre l'information.
+
+=== ct-pont-escorte
++ 20
+  L'escorte par le plus rapide : $7 + 1 + 6 + 1 + 5$.
+- 23
+  « Les deux lents ensemble », moins bon ici car $2t_2 > t_1 + t_3$.
+- 19
+  Trop optimiste.
+- 17
+  C'était pour 1, 2, 5, 10.
+
+=== ct-pasteques-max-min
++ 22
+  8 pesées par paires, puis 7 et 7.
+- 29
+  $2n - 3$ : chercher séparément.
+- 15
+  Le maximum seul.
+- 18
+  C'est pour les deux plus lourdes.
+
+=== ct-nombre-manquant-deux
++ Somme et somme des carrés donnent $a + b$ et $a^2 + b^2$, donc $a$ et $b$
+  Ou le ou exclusif, séparé selon un bit de $a \oplus b$.
+- La somme seule
+  Elle ne donne que $a + b$.
+- Trier la liste
+  $O(n \log n)$.
+- Le produit des éléments
+  Dépassements énormes et une seule équation de plus… il faut deux équations bien choisies.
+
+=== ct-nombre-manquant-doublon
++ Somme et somme des carrés donnent $y - x$ et $y^2 - x^2$
+  On en déduit $x + y$, puis $x$ et $y$.
+- La somme seule
+  Elle donne seulement $y - x$.
+- Le ou exclusif seul
+  Il donne $x \oplus y$, insuffisant seul.
+- Un tableau de comptage
+  Juste, mais en mémoire $O(n)$.
+
+=== ct-riviere-chevre
++ 7 traversées
+  En ramenant la chèvre une fois.
+- 5 traversées
+  Sans retour d'un passager, la chèvre est toujours en danger.
+- 3 traversées
+  Le passeur doit revenir chercher chaque passager.
+- 11 traversées
+  C'est le problème des missionnaires.
+
+=== ct-riviere-quatre
++ Impossible
+  Aucun état final dans l'exploration des états sûrs.
+- 15 traversées
+  Aucun chemin n'existe.
+- Possible en ramenant deux cannibales
+  Les rives deviennent toujours dangereuses.
+- Possible, comme à trois
+  Le passage de 3 à 4 rend le problème impossible avec 2 places.
+
+=== ct-tri-cinq-borne
++ Arbre de décision binaire à au moins $n!$ feuilles : hauteur $\ge \log_2 n! \sim n \log_2 n$
+  Chaque comparaison a deux issues.
+- Parce qu'il faut comparer toutes les paires : $n^2/2$
+  C'est une borne supérieure d'un algorithme naïf, pas inférieure.
+- Parce que le tri fusion fait $n \log n$ comparaisons
+  Un algorithme ne prouve pas une borne inférieure.
+- Il n'y a pas de borne : le tri par comptage est linéaire
+  Il ne compare pas, il échappe au modèle.
+
+=== ct-pirates-majorite-stricte
++ 97
+  Le pirate 2 seul serait jeté : tout change à rebours.
+- 98
+  C'est la réponse avec « au moins la moitié ».
+- 100
+  Il lui faut des voix.
+- 96
+  On a payé trop de voix.
+
+=== ct-pirates-omohundro
++ 264
+  Les survivants au-delà de 200 sont les $200 + 2^k$.
+- 300
+  300 n'est pas de la forme $200 + 2^k$.
+- 200
+  On a cru que personne ne survit au-delà.
+- 202
+  Il survit, mais ce n'est pas le plus grand.
+
+=== ct-allumettes-misere
++ Aucun coup ne garantit la victoire : 21 est perdant
+  Il faut laisser $4k + 1$, et $21 = 4 \times 5 + 1$.
+- Retirer 1
+  C'est la réponse quand la dernière gagne.
+- Retirer 2
+  On laisse 19, que l'adversaire ramène à 17 ($4k + 1$).
+- Retirer 3
+  On laisse 18, ramené à 17.
+
+=== ct-allumettes-general
++ 5
+  $40 = 7 \times 5 + 5$.
+- 4
+  Laisserait 36, non multiple de 7.
+- 6
+  Laisserait 34.
+- 1
+  Laisserait 39.
+
+=== ct-course-a-100-pieces
++ 1
+  $100 = 11 \times 9 + 1$.
+- 10
+  Laisserait 90, non multiple de 11.
+- 0
+  Il faut prendre au moins une pièce.
+- 9
+  Laisserait 91.
+
+=== ct-course-a-cinquante
++ 1
+  Viser les totaux $\equiv 1 \pmod 7$.
+- 7
+  On ne peut ajouter que de 1 à 6.
+- 6
+  6 n'est pas $\equiv 1 \pmod 7$.
+- 2
+  On a visé $\equiv 2$.
+
+=== ct-pieces-en-rangee-impair
++ Non : contre-exemple 1, 5, 1
+  Après le premier coup, l'adversaire choisit sa parité.
+- Oui, avec la même stratégie
+  Elle repose sur un nombre pair de pièces.
+- Oui, en prenant la plus grosse extrémité
+  1, 5, 1 : les deux extrémités valent 1.
+- Seulement avec trois pièces
+  Le contre-exemple suffit à réfuter la garantie générale.
+
+=== ct-table-ronde-chocolat
++ Le second joueur, par symétrie centrale
+  Aucun domino n'est son propre symétrique : le second copie toujours.
+- Le premier joueur, en jouant au centre
+  Le centre de l'échiquier est un coin commun : aucun domino ne s'y pose « au centre ».
+- Ça dépend de la parité des cases
+  La symétrie suffit.
+- Celui qui joue en dernier sur les bords
+  Ce n'est pas une stratégie.
+
+=== ct-chocolat-tournoi
++ 63
+  Chaque match élimine un joueur.
+- 64
+  Le vainqueur n'est pas éliminé.
+- 32
+  C'est le premier tour seulement.
+- 6
+  C'est le nombre de tours.
+
+=== ct-p-pistolets-limite
++ $1/e \approx 0{,}37$
+  $(1 - \frac{1}{n-1})^{n-1} \to e^{-1}$.
+- 0
+  On croit que tout le monde finit mouillé.
+- $1/2$
+  On croit qu'il y a autant de personnes sèches que mouillées ; la limite est $1/e$.
+- $1 - 1/e$
+  C'est la proportion de personnes **mouillées**.
+
+=== ct-p-ecart-deux-des-carre
++ $2/9$
+  8 issues sur 36.
+- $1/6$
+  On n'a compté que les doubles.
+- $5/36$
+  On a oublié un des couples (1,4) ou (4,1).
+- $1/9$
+  On a oublié (1,4), (4,1) et (2,2).
+
+=== ct-p-ecart-deux-des-min
++ $91/36$
+  $\sum_k \mathbb{P}(\min \ge k)$.
+- $161/36$
+  C'est le maximum.
+- $3{,}5$
+  Un seul dé.
+- 2
+  Ordre de grandeur, pas la valeur exacte.
+
+=== ct-p-total-cent
++ $\approx 29{,}05$
+  $100/3{,}5$ corrigé du dépassement final moyen.
+- $\approx 28{,}6$
+  $100/3{,}5$ sans le dépassement.
+- 100
+  Il faudrait des 1 à chaque lancer.
+- $\approx 33{,}3$
+  On a divisé par 3.
+
+=== ct-p-triangle-aigu-centre
++ $1/4$
+  Même événement que « triangle aigu ».
+- $3/4$
+  C'est la probabilité qu'il **ne** contienne **pas** le centre.
+- $1/2$
+  On a pensé « contient le centre une fois sur deux » par symétrie, ce qui est faux.
+- $1/8$
+  C'est la réponse sur la sphère pour un tétraèdre.
+
+=== ct-p-triangle-aigu-sphere
++ $1/8$
+  Wendel : un choix de signes sur huit contient le centre.
+- $1/4$
+  C'est la réponse sur le cercle.
+- $1/16$
+  On a compté un signe de trop.
+- $7/8$
+  C'est la probabilité que les quatre points soient dans un hémisphère.
+
+=== ct-p-rendez-vous-attente
++ $11/36$
+  $1 - (5/6)^2$.
+- $1/6$
+  On a pris la durée d'attente pour la probabilité.
+- $1/3$
+  On a doublé $1/6$ sans retirer le chevauchement.
+- $25/36$
+  C'est la probabilité de **ne pas** se rencontrer.
+
+=== ct-p-rendez-vous-asymetrique
++ $31/72$
+  Deux triangles de côtés $5/6$ et $2/3$ exclus.
+- $1/2$
+  On croit à une chance sur deux parce que les deux attentes se « compensent » ; la géométrie donne 1/72$.
+- $1/4$
+  Moyenne des deux attentes prise pour la probabilité.
+- $41/72$
+  C'est le complémentaire.
+
+=== ct-p-buffon-courte
++ $1/\pi$
+  $\frac{2\ell}{\pi d}$ avec $\ell = 1/2$.
+- $2/\pi$
+  Aiguille de longueur 1.
+- $1/4$
+  On a supposé l'aiguille toujours perpendiculaire aux lames, puis divisé par 2.
+- $1/(2\pi)$
+  On a divisé deux fois par deux.
+
+=== ct-p-bertrand-longueur
++ $4/\pi \approx 1{,}27$
+  $\frac1\pi\int_0^\pi 2\sin(\theta/2)\,d\theta$.
+- 1
+  C'est le rayon.
+- $\sqrt 2$
+  Corde d'un angle droit : ce n'est pas la moyenne.
+- 2
+  C'est le diamètre, la plus longue corde.
+
+=== ct-p-de-deux-egaux
++ 7
+  Le premier lancer ne compte pas, puis attente géométrique de 6.
+- 6
+  On oublie le premier lancer.
+- $1223/324$
+  C'est une répétition de face **n'importe quand**.
+- 36
+  Deux 6 consécutifs donneraient 42 : ici n'importe quelle face convient.
+
+=== ct-p-cube-oppose-hexagone
++ 9
+  $e_1 = 5$, $e_2 = 8$, $e_3 = 9$ ; $k(n - k)$.
+- 3
+  La distance, pas le temps aléatoire.
+- 6
+  On a additionné les distances 1 + 2 + 3 au lieu de résoudre le système.
+- 10
+  Réponse pour le cube.
+
+=== ct-p-cube-retour
++ 8
+  Théorème de Kac : $1/\pi_i$ avec $\pi_i = 1/8$.
+- 10
+  Vers le sommet opposé.
+- 2
+  Aller-retour immédiat, qui n'est qu'un des chemins.
+- 7
+  Depuis un voisin, sans le premier pas.
+
+=== ct-p-piece-un-tiers
++ $8/3$ lancers : PP « oui », PF ou FP « non », FF recommencer
+  Chaque paire conclut avec probabilité $3/4$.
+- 3 lancers
+  Trois lancers ne donnent pas un nombre d'issues multiple de 3 ($2^3 = 8$) : il faut du rejet.
+- 2 lancers, sans rejet
+  Deux lancers ont 4 issues : on ne fait pas $1/3$ sans rejet.
+- Impossible avec une pièce équitable
+  Le rejet le permet.
+
+=== ct-p-chaussettes-pair
++ 21
+  15 rouges et 6 noires.
+- 4
+  Une seule noire : nombre impair.
+- 120
+  Solution suivante, pas la plus petite.
+- 6
+  Aucune répartition de 6 ne donne $1/2$.
+
+=== ct-p-chaussettes-tiroirs
++ 12 pour deux rouges, 3 pour une paire
+  Au pire on tire d'abord les 10 noires.
+- 4 pour deux rouges
+  C'est une probabilité, pas une certitude.
+- 11 pour deux rouges
+  Une rouge seulement au pire.
+- 2 pour une paire
+  Deux chaussettes peuvent être de couleurs différentes.
+
+=== ct-p-cinquante-piles
++ $\approx 0{,}080$
+  $\binom{100}{50}2^{-100} \approx 1/\sqrt{50\pi}$.
+- $1/2$
+  C'est $\mathbb{P}(X \ge 50)$ environ, pas l'égalité exacte.
+- $\approx 0{,}01$
+  On a pris $1/101$, comme si tous les résultats étaient équiprobables.
+- $\approx 0{,}25$
+  Trop.
+
+=== ct-p-roulette-hasard
++ $3/5$ sans tourner : il faut tourner ($2/3$)
+  Deux chambres consécutives vides : $2/5$, divisé par $2/3$.
+- $3/4$ sans tourner
+  C'est le cas des balles adjacentes.
+- $2/3$ dans les deux cas
+  Le coup vide informe différemment.
+- $1/2$ sans tourner
+  Trop pessimiste.
+
+=== ct-p-morceau-plus-court
++ $1/9$
+  $\int_0^{1/3}(1 - 3x)^2\,dx$.
+- $1/3$
+  C'est la moyenne d'un morceau quelconque.
+- $1/6$
+  On a pris la longueur d'un morceau dans un découpage en six parts.
+- $11/18$
+  C'est le plus long.
+
+=== ct-p-baton-hasard
++ $\ln 2 - 1/2 \approx 0{,}19$
+  Moitié du cas « plus long », zéro sinon.
+- $2\ln 2 - 1$
+  C'est en cassant toujours le plus long.
+- $1/4$
+  Deux cassures simultanées.
+- $1/8$
+  On a pris $1/2$ (casser le plus long) puis divisé par 4 au lieu de 2.
+
+=== ct-p-trois-longueurs
++ $1/2$
+  Trois événements disjoints de probabilité $1/6$.
+- $1/4$
+  Le bâton cassé en deux points : autre modèle.
+- $1/6$
+  Un seul des trois cas d'échec.
+- $5/6$
+  On n'a exclu qu'un cas.
+
+=== ct-p-tennis-jeu
++ $\approx 0{,}736$
+  4-0, 4-1, 4-2, plus l'égalité à 3-3 suivie de $9/13$.
+- $0{,}6$
+  L'avantage par point est amplifié.
+- $9/13$
+  Depuis l'égalité seulement.
+- $0{,}6^4$
+  Gagner les quatre premiers points n'est qu'un cas.
+
+=== ct-p-paires-rouge-puis-noire
++ 13
+  $51 \times \frac{26}{52} \times \frac{26}{51}$.
+- 26
+  Changements de couleur dans les deux sens.
+- 12,75
+  On a pris $\frac14$ par paire (avec remise).
+- 25,5
+  On a compté les changements dans les deux sens, en pensant à des tirages avec remise.
+
+=== ct-p-series-pieces
++ 5,5
+  $1 + 9/2$.
+- 5
+  On oublie la première série.
+- 2
+  On croit qu'il n'y a que piles et faces groupés.
+- 10
+  Une série par lancer : seulement si tout alterne.
+
+=== ct-p-ivrogne-equitable
++ Il tombe presque sûrement, mais le temps moyen est infini
+  Marche récurrente nulle.
+- Il tombe avec probabilité $1/2$
+  C'est pour une dérive vers l'intérieur.
+- Il ne tombe jamais presque sûrement
+  La marche équitable revient toujours.
+- Il tombe en moyenne au bout de 1 pas
+  La durée moyenne est infinie.
+
+=== ct-p-serie-trois-piles
++ $1/4$
+  Récurrence tribonacci : 24 suites sans PPP sur 32.
+- $3/32$
+  On a compté seulement les positions de début de PPP sans les chevauchements.
+- $1/8$
+  Pour 3 lancers.
+- $1/2$
+  Trop.
+
+=== ct-p-intrus-cafe
++ $4/3$
+  Succès avec probabilité $3/4$ par tour.
+- 4
+  On a pris la probabilité d'échec.
+- 1
+  Un tour échoue parfois.
+- 2
+  On a supposé que chaque tour échoue une fois sur deux.
+
+=== ct-p-craps-huit
++ $5/11$
+  $\frac{5/36}{5/36 + 6/36}$.
+- $5/36$
+  Un seul lancer.
+- $1/2$
+  7 est plus fréquent que 8.
+- $6/11$
+  C'est le 7 avant le 8.
+
+=== ct-p-distance-centre-carre
++ $\frac{4\sqrt2 - 5}{3} \approx 0{,}22$
+  Huitième du carré, frontière parabolique.
+- $\pi/16$
+  On a pris le disque inscrit de rayon $1/4$.
+- $1/4$
+  Le carré central de côté $1/2$ n'est pas la bonne frontière.
+- $1/2$
+  Trop.
+
+=== ct-p-distance-centre-boule
++ $3/4$
+  Densité $3r^2$.
+- $2/3$
+  Pour un disque.
+- $1/2$
+  $R$ uniforme : faux.
+- $\sqrt[3]{1/2}$
+  C'est la médiane.
+
+=== ct-p-laplace-general
++ $2/3$
+  $\frac{7 + 1}{10 + 2}$.
+- $0{,}7$
+  Fréquence observée, sans a priori.
+- $1/2$
+  On ignore les données.
+- $8/11$
+  On a ajouté un seul lancer imaginaire.
+
+=== proba-deux-enfants-aine
++ $1/2$
+  Restent GG et GF.
+- $1/3$
+  C'est « au moins un garçon ».
+- $1/4$
+  A priori.
+- $2/3$
+  On a cru que le choix de l'aîné ajoutait une asymétrie en faveur du garçon.
+
+=== proba-monty-hall-cent
++ $99/100$
+  Ton choix garde $1/100$.
+- $1/2$
+  Deux portes ne sont pas symétriques.
+- $1/100$
+  C'est en gardant.
+- $1/98$
+  On a réparti la probabilité sur les 98 portes ouvertes, qui sont vides.
+
+=== proba-monty-hall-hasard
++ $1/2$
+  Un présentateur ignorant n'apporte pas l'information « il savait ».
+- $2/3$
+  Il faut qu'il sache.
+- $1/3$
+  En gardant… qui vaut aussi $1/2$ ici.
+- 1
+  On croit que changer gagne à coup sûr ; le présentateur ignorant peut ouvrir la voiture.
+
+=== proba-monty-hall-gauche
++ $1/2$
+  Voiture en 1 ou en 3, également probables sachant qu'il ouvre la 2.
+- $2/3$
+  Moyenne sur les deux portes ouvertes possibles, pas sachant celle-ci.
+- 1
+  C'est s'il avait ouvert la 3.
+- $1/3$
+  On a gardé l'a priori $1/3$ de la porte 3.
+
+=== proba-demi-cercle-quatre
++ $1/2$
+  $4 \times 1/8$.
+- $3/4$
+  Pour trois points.
+- $1/8$
+  Un seul point d'ouverture.
+- $1/4$
+  On a compté deux points « ouvrants » au lieu de quatre.
+
+=== proba-uniformes-decroissance
++ $e$
+  Les $n$ premiers sont croissants avec probabilité $1/n!$.
+- 2
+  Il en faut au moins deux, souvent plus.
+- 3
+  Trop.
+- $e - 1$
+  On a oublié le terme $n = 0$.
+
+=== proba-anniversaires-99
++ 57
+  Calcul exact ; l'approximation exponentielle donne 59.
+- 23
+  Pour 50 %.
+- 365
+  Bien trop.
+- 100
+  Les 99 % sont atteints bien avant 100 personnes : la croissance du nombre de paires est quadratique.
+
+=== proba-de-relance-payante
++ 4
+  On relance 1 et 2 (indifférent pour 3) : $V = 2{,}5 + (V - 1)/2$.
+- $3{,}5$
+  Sans relance.
+- 5
+  On oublie le coût des relances.
+- 6
+  En relançant jusqu'à 6 gratuitement.
+
+=== proba-bertrand-cartes
++ $2/3$
+  Trois faces rouges, deux sur la carte rouge-rouge.
+- $1/2$
+  On compte les cartes au lieu des faces.
+- $1/3$
+  A priori.
+- $3/4$
+  On a compté les cartes ayant du rouge (deux sur trois), puis ajouté le hasard de la face.
+
+=== proba-piece-truquee-mille
++ $1024/2023 \approx 0{,}51$
+  Cotes $1 : 999$ multipliées par $1\,024$.
+- $\approx 0{,}999$
+  On oublie l'a priori.
+- $1/1000$
+  On ignore les données.
+- $1/2$
+  Coïncidence presque juste, mais sans calcul.
+
+=== proba-piece-truquee-deux
++ $8/9$
+  Cotes $1 : 1$ fois $8$.
+- $7/8$
+  Probabilité qu'une pièce normale ne fasse pas 3 piles.
+- $1/2$
+  A priori.
+- $1$
+  Trois piles ne prouvent rien de certain.
+
+=== proba-de-mere-deux-des
++ $\approx 0{,}491$
+  $1 - (35/36)^{24}$.
+- $2/3$
+  $24/36$ : règle de proportionnalité fausse.
+- $\approx 0{,}518$
+  C'est le premier pari.
+- $1/2$
+  Proche, mais légèrement en dessous.

@@ -1,0 +1,232 @@
+# QCM des fiches de calcul stochastique (contenu/stoch.txt).
+
+=== stoch-definition-brownien
+? Laquelle de ces propriétés n'est **pas** vraie pour un mouvement brownien standard ?
++ Ses trajectoires sont dérivables presque partout
+  Elles sont continues mais nulle part dérivables.
+- $W_t - W_s \sim \mathcal{N}(0, t - s)$
+  Accroissements gaussiens de variance égale à la durée.
+- Ses accroissements sur des intervalles disjoints sont indépendants
+  C'est la définition.
+- $W$ est une martingale
+  Accroissements centrés et indépendants du passé.
+
+=== stoch-covariance
++ 2
+  $\mathbb{E}[W_s W_t] = \min(s, t)$.
+- 5
+  On a pris le max.
+- 10
+  On a multiplié les temps.
+- 0
+  Les valeurs à deux dates ne sont pas indépendantes.
+
+=== stoch-moment-quatre
++ 12
+  $3\sigma^4$ avec $\sigma^2 = 2$.
+- 4
+  C'est $(\mathbb{E}W_2^2)^2$ : on a oublié le facteur 3 du quatrième moment gaussien.
+- 16
+  $2^4$ : on a pris $W_2 = 2$.
+- 6
+  On a pris $3\sigma^2$.
+
+=== stoch-ito-carre
++ $d(W^2) = 2W\,dW + dt$, car $(dW)^2 = dt$
+  Le terme de second ordre ne s'annule pas.
+- $d(W^2) = 2W\,dW$
+  Règle classique, oublie la variation quadratique.
+- $d(W^2) = dt$
+  Il manque le terme aléatoire.
+- $d(W^2) = W\,dW + \frac12 dt$
+  Facteurs faux.
+
+=== stoch-integrale-w-dw
++ $(W_T^2 - T)/2$
+  Conséquence de $d(W^2) = 2W\,dW + dt$.
+- $W_T^2/2$
+  Calcul classique : manque $-T/2$, alors que l'intégrale d'Itô est centrée.
+- $T/2$
+  C'est le terme correctif seul.
+- 0
+  C'est son espérance, pas sa valeur.
+
+=== stoch-isometrie
++ $1/3$
+  Isométrie d'Itô : $\int_0^1 t^2\,dt$.
+- $1/2$
+  $\int_0^1 t\,dt$ : on a oublié le carré.
+- 1
+  On a pris la variance de $W_1$.
+- 0
+  L'intégrale est aléatoire.
+
+=== stoch-integrale-temps
++ $1/3$
+  $\iint \min(s, t)\,ds\,dt$.
+- $1/2$
+  On a pris $\int_0^1 t\,dt$, la variance moyenne de $W_t$.
+- 1
+  On a pris la variance de $W_1$.
+- $1/6$
+  On a oublié le facteur 2 de symétrie.
+
+=== stoch-gbm
++ $S_t = S_0 \exp((\mu - \sigma^2/2)t + \sigma W_t)$
+  Itô sur $\ln S$ fait apparaître $-\sigma^2/2$.
+- $S_t = S_0 \exp(\mu t + \sigma W_t)$
+  Oubli du terme d'Itô.
+- $S_t = S_0(1 + \mu t + \sigma W_t)$
+  Solution d'une équation à coefficients constants, pas proportionnels.
+- $S_t = S_0 e^{\mu t}$
+  Oubli de l'aléa.
+
+=== stoch-esperance-gbm
++ $100\,e^{0{,}05} \approx 105{,}13$
+  L'espérance ne dépend pas de $\sigma$.
+- $100\,e^{0{,}05 - 0{,}045}$
+  C'est la médiane, pas l'espérance.
+- $100\,e^{0{,}095}$
+  On a ajouté $\sigma^2/2$.
+- 105
+  Composition simple, pas continue.
+
+=== stoch-mediane-gbm
++ $100\,e^{-0{,}02} \approx 98{,}02$
+  La médiane du log est $\ln 100 - \sigma^2/2$.
+- 100
+  C'est l'espérance quand $\mu = 0$.
+- $100\,e^{0{,}02}$
+  Signe inversé.
+- $100\,e^{-0{,}2}$
+  On a pris $\sigma$ au lieu de $\sigma^2/2$.
+
+=== stoch-proba-au-dessus
++ Environ 0,46
+  $W_1 > 0{,}1$.
+- 0,5
+  Sans dérive, l'espérance reste 100, mais la médiane est en dessous.
+- Environ 0,54
+  C'est $\Phi(0{,}1)$, l'événement inverse.
+- Environ 0,16
+  On a pris $W_1 > 1$.
+
+=== stoch-martingale-exponentielle
++ Itô donne $dM = \theta M\,dW$ sans terme en $dt$ ; elle sert au changement de probabilité et aux temps d'atteinte
+  C'est la densité de Girsanov.
+- Parce que $\mathbb{E}[e^{\theta W_t}] = 1$
+  Cette espérance vaut $e^{\theta^2 t/2}$, d'où la correction.
+- Parce que l'exponentielle est croissante
+  Sans rapport.
+- Ce n'est pas une martingale
+  Elle l'est.
+
+=== stoch-sortie-intervalle
++ $2/3$
+  $0 = p - 2(1 - p)$.
+- $1/2$
+  Les barrières ne sont pas symétriques.
+- $1/3$
+  C'est la probabilité d'atteindre $-2$ d'abord.
+- $1/4$
+  Sans rapport avec la martingale.
+
+=== stoch-temps-sortie
++ 2
+  $\mathbb{E}[\tau] = a \cdot b = 1 \times 2$.
+- 3
+  On a additionné les distances.
+- 1
+  Distance à la barrière la plus proche.
+- 4
+  Carré de la barrière la plus lointaine.
+
+=== stoch-reflexion
++ Environ 0,317
+  Réflexion : $2\,\mathbb{P}(W_1 \ge 1)$.
+- Environ 0,159
+  C'est seulement $\mathbb{P}(W_1 \ge 1)$ : on oublie les trajectoires qui sont redescendues.
+- 0,5
+  On a cru à une chance sur deux de toucher 1 « par symétrie » ; le principe de réflexion double $\mathbb{P}(W_1 \ge 1)$.
+- Environ 0,683
+  C'est $\mathbb{P}(|W_1| \le 1)$.
+
+=== stoch-variation-quadratique
++ La limite de $\sum (\Delta X)^2$ ; pour le brownien, elle vaut $t$, d'où $dW^2 = dt$
+  Les termes ont espérance $\Delta t$ et une variance qui disparaît.
+- Elle vaut 0 comme pour une fonction dérivable
+  Le brownien est trop irrégulier.
+- Elle vaut $W_t^2$
+  C'est une quantité déterministe, $t$.
+- C'est la variance de $W_t$
+  Même valeur $t$, mais notion trajectorielle différente.
+
+=== stoch-w-cube
++ Non : $d(W^3) = 3W^2\,dW + 3W\,dt$ ; $W^3 - 3\int_0^t W_s\,ds$ en est une
+  Il faut retirer le terme de dérive.
+- Oui, car $\mathbb{E}[W_t^3] = 0$
+  Espérance nulle ne suffit pas à faire une martingale.
+- Non, il faut retirer $3t$
+  C'est pour $W^2 - t$, pas $W^3$.
+- Oui, comme toute puissance impaire
+  Seul $W$ lui-même est une martingale parmi les puissances.
+
+=== stoch-ornstein-uhlenbeck
++ $dX = \kappa(\theta - X)dt + \sigma dW$ ; variance stationnaire $\sigma^2/(2\kappa)$ ; demi-vie $\ln 2/\kappa$
+  Modèle d'un spread qui revient à la moyenne.
+- Variance stationnaire $\sigma^2/\kappa$
+  Il manque le facteur 2.
+- Demi-vie $1/\kappa$
+  C'est la constante de temps, pas la demi-vie.
+- Il diverge comme un brownien
+  Il revient vers $\theta$.
+
+=== stoch-demi-vie
++ Environ 6,93 jours
+  $\ln 2/\kappa$.
+- 10 jours
+  $1/\kappa$, la constante de temps.
+- 5 jours
+  $1/(2\kappa)$.
+- 0,069 jour
+  On a multiplié par $\kappa$.
+
+=== stoch-ito-stratonovich
++ Itô évalue l'intégrande au début de l'intervalle : non anticipatif, cohérent avec le trading
+  Stratonovich prend le milieu et suit le calcul classique.
+- Elles donnent toujours le même résultat
+  Elles diffèrent d'un terme de covariation.
+- Stratonovich est martingale
+  C'est l'intégrale d'Itô qui l'est.
+- La finance utilise Stratonovich
+  Elle utilise Itô.
+
+=== stoch-girsanov
++ Changer de probabilité ajoute une dérive au brownien ; on choisit celle qui fait rapporter $r$ à l'actif
+  $W_t + \int \theta\,ds$ devient brownien sous $Q$.
+- Il change la volatilité
+  La volatilité est invariante par changement de mesure équivalent.
+- Il supprime l'aléa
+  Le processus reste aléatoire.
+- Il ne s'applique qu'aux taux
+  Il s'applique à tout brownien.
+
+=== stoch-feynman-kac
++ Solution d'une EDP parabolique $=$ espérance d'une fonction du processus ; Black-Scholes : prix $= e^{-rT}\mathbb{E}^{\mathbb{Q}}[\text{payoff}]$
+  Relie le monde EDP et le monde Monte-Carlo.
+- Une formule pour la variance
+  Sans rapport.
+- Elle résout toute EDP non linéaire
+  Le cadre est linéaire.
+- Elle donne le delta directement
+  Elle donne le prix.
+
+=== stoch-discretisation-euler
++ $X_{n+1} = X_n + a\Delta t + b\sqrt{\Delta t}\,Z_n$ ; ordre fort $1/2$, faible 1
+  Milstein améliore l'ordre fort.
+- $X_{n+1} = X_n + a\Delta t + b\Delta t\,Z_n$
+  Le bruit est en $\sqrt{\Delta t}$.
+- Ordre fort 1
+  C'est l'ordre faible d'Euler.
+- Euler est exact pour le brownien géométrique
+  Il ne l'est pas ; le schéma log est exact.

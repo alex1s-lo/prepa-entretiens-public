@@ -1,0 +1,247 @@
+# Variantes des casse-têtes de dénombrement (une fiche par variante, reliée par « parent: »).
+
+=== ct-rois-non-attaquants-cavaliers
+parent: ct-rois-non-attaquants
+titre: Cavaliers non attaquants
+niveau: 2
+type: numerique
+reponse: 32
+tolerance: 0
+--- question
+Combien de cavaliers au maximum peut-on placer sur un échiquier $8 \times 8$ sans que deux d'entre eux s'attaquent ?
+--- indice
+Un cavalier change toujours de couleur de case. Pour la borne supérieure, découpe l'échiquier en rectangles $2 \times 4$.
+--- solution
+**32** : on place un cavalier sur chaque case blanche ; un cavalier n'attaque que des cases de l'autre couleur.
+On ne peut pas faire mieux : chaque rectangle $2 \times 4$ se découpe en 4 paires de cases qui s'attaquent mutuellement (un « circuit » du cavalier), donc il contient au plus 4 cavaliers ; 8 rectangles donnent au plus 32.
+
+=== ct-rois-non-attaquants-dames
+parent: ct-rois-non-attaquants
+titre: Les huit dames
+niveau: 3
+type: numerique
+reponse: 92
+tolerance: 0
+--- question
+On sait qu'on peut placer au plus 8 dames sur un échiquier sans qu'elles s'attaquent (une par ligne). Combien y a-t-il de façons de placer ces 8 dames ?
+--- indice
+Pas de formule : décris un algorithme de retour sur trace (une dame par ligne, colonnes et diagonales libres).
+--- solution
+Retour sur trace : on place une dame ligne par ligne, en mémorisant les colonnes et les deux familles de diagonales ($i + j$ et $i - j$) occupées, et l'on revient en arrière en cas d'impasse. On trouve **92** solutions (12 à symétrie près).
+En entretien, on attend surtout l'algorithme et ses structures (trois ensembles, ou trois masques de bits), pas le nombre par cœur.
+
+=== ct-carres-echiquier-rectangles
+parent: ct-carres-echiquier
+titre: Les rectangles d'un échiquier
+type: numerique
+reponse: 1296
+tolerance: 0
+--- question
+Combien de rectangles (carrés compris, de toutes tailles) contient un échiquier $8 \times 8$ ?
+--- indice
+Un rectangle est déterminé par ses deux côtés verticaux et ses deux côtés horizontaux, choisis parmi les lignes de la grille.
+--- solution
+La grille a 9 lignes verticales et 9 horizontales : $\binom{9}{2} \times \binom{9}{2} = 36 \times 36 =$ **1 296**. Le piège : compter les cases (64) ou les carrés (204).
+
+=== ct-carres-echiquier-grille
+parent: ct-carres-echiquier
+titre: Les carrés d'une grille $10 \times 10$
+type: numerique
+reponse: 385
+tolerance: 0
+--- question
+Combien de carrés (de toutes tailles) contient une grille $10 \times 10$ ?
+--- indice
+Un carré de côté $k$ se place de $(n + 1 - k)^2$ façons.
+--- solution
+$$\sum_{k=1}^{10} k^2 = \frac{10 \times 11 \times 21}{6} = 385.$$
+En général $\frac{n(n + 1)(2n + 1)}{6}$ carrés et $\binom{n+1}{2}^2$ rectangles.
+
+=== ct-poignees-diagonales
+parent: ct-poignees
+titre: Les diagonales d'un décagone
+type: numerique
+reponse: 35
+tolerance: 0
+--- question
+Combien de diagonales a un décagone convexe (10 côtés) ?
+--- indice
+Une diagonale relie deux sommets non voisins.
+--- solution
+Paires de sommets moins les côtés : $\binom{10}{2} - 10 = 45 - 10 =$ **35**. En général $\frac{n(n - 3)}{2}$ : chaque sommet a $n - 3$ diagonales, et chacune est comptée deux fois.
+
+=== ct-poignees-championnat
+parent: ct-poignees
+titre: Un championnat aller-retour
+type: numerique
+reponse: 380
+tolerance: 0
+--- question
+Un championnat réunit 20 équipes ; chacune rencontre chaque autre deux fois (à domicile et à l'extérieur). Combien de matchs au total ?
+--- indice
+Ici l'ordre compte : (A reçoit B) et (B reçoit A) sont deux matchs différents.
+--- solution
+Couples ordonnés d'équipes distinctes : $20 \times 19 =$ **380**, soit deux fois les 190 poignées de main.
+
+=== ct-chiffre-un-sept
+parent: ct-chiffre-un
+titre: Le chiffre 7 de 1 à 100
+type: numerique
+reponse: 20
+tolerance: 0
+--- question
+Combien de fois écrit-on le chiffre 7 en écrivant tous les nombres de 1 à 100 ?
+--- indice
+Compte séparément les unités et les dizaines ; attention à 77.
+--- solution
+Unités : 7, 17, …, 97 → 10. Dizaines : 70 à 79 → 10. Total **20** (77 compte deux fois, une fois dans chaque groupe, et c'est correct : il contient deux chiffres 7). Contrairement au chiffre 1, il n'y a pas de bonus dû à 100.
+
+=== ct-chiffre-un-mille
+parent: ct-chiffre-un
+titre: Le chiffre 1 de 1 à 1 000
+niveau: 2
+type: numerique
+reponse: 301
+tolerance: 0
+--- question
+Combien de fois écrit-on le chiffre 1 en écrivant tous les nombres de 1 à 1 000 ?
+--- indice
+De 000 à 999 (sur trois chiffres), chaque position contient chaque chiffre autant de fois.
+--- solution
+De 000 à 999 : 1 000 nombres, chaque position vaut 1 dans un dixième des cas, soit $100$ par position et $300$ au total. On ajoute le 1 de 1 000 : **301**.
+
+=== ct-anagrammes-bridge
+parent: ct-anagrammes
+titre: Le nombre de mains de bridge
+type: numerique
+reponse: 635013559600
+--- question
+Combien de mains différentes de 13 cartes peut-on recevoir dans un jeu de 52 cartes ? Donne l'ordre de grandeur, puis la valeur.
+--- indice
+L'ordre des cartes dans la main ne compte pas.
+--- solution
+$\binom{52}{13} = 635\,013\,559\,600 \approx 6{,}35 \times 10^{11}$, environ 635 milliards : chaque main précise a une chance sur 635 milliards de sortir.
+
+=== ct-dominos-escalier-binaire
+parent: ct-dominos-escalier
+titre: Sous-ensembles sans deux entiers consécutifs
+niveau: 2
+type: numerique
+reponse: 144
+tolerance: 0
+voir: algo-escalier
+--- question
+Combien de sous-ensembles de $\{1, 2, \dots, 10\}$ (ensemble vide compris) ne contiennent jamais deux entiers consécutifs ?
+--- indice
+Conditionne sur la présence de 10 : s'il est pris, 9 est exclu.
+--- solution
+Soit $s_n$ le nombre pour $\{1, \dots, n\}$. Sans $n$ : $s_{n-1}$ ; avec $n$ : $s_{n-2}$. Donc $s_n = s_{n-1} + s_{n-2}$, $s_1 = 2$, $s_2 = 3$ : $2, 3, 5, 8, 13, 21, 34, 55, 89, 144$. Réponse : **144** $= F_{12}$.
+Même nombre de mots binaires de longueur 10 sans deux 1 consécutifs (bijection évidente), et même récurrence que les dominos ou l'escalier.
+
+=== ct-regions-cercle-pizza
+parent: ct-regions-cercle
+titre: La pizza coupée par 7 droites
+niveau: 2
+type: numerique
+reponse: 29
+tolerance: 0
+--- question
+Combien de parts au maximum obtient-on en coupant une pizza (un disque) par 7 coupes droites ?
+--- indice
+La $k$-ième coupe croise au plus les $k - 1$ précédentes, donc traverse au plus $k$ régions.
+--- solution
+La $k$-ième droite est coupée en au plus $k$ segments par les précédentes, et chaque segment sépare une région en deux : elle ajoute au plus $k$ parts. $1 + (1 + 2 + \dots + 7) = 1 + 28 =$ **29**. Formule du « traiteur paresseux » : $1 + n + \binom{n}{2}$.
+À distinguer des cordes entre points du cercle, où l'on n'a pas le choix des croisements.
+
+=== ct-regions-cercle-gateau
+parent: ct-regions-cercle
+titre: Le gâteau coupé par 5 plans
+niveau: 3
+type: numerique
+reponse: 26
+tolerance: 0
+--- question
+Combien de morceaux au maximum obtient-on en coupant un gâteau (un volume convexe) par 5 coupes planes ?
+--- indice
+La $k$-ième coupe plane est découpée par les précédentes comme une pizza par $k - 1$ droites.
+--- solution
+La $k$-ième coupe ajoute autant de morceaux que de régions dans le plan découpé par $k - 1$ droites : $1 + (k - 1) + \binom{k-1}{2}$. En sommant : $\binom{n}{0} + \binom{n}{1} + \binom{n}{2} + \binom{n}{3}$. Pour $n = 5$ : $1 + 5 + 10 + 10 =$ **26** (nombres du gâteau : 1, 2, 4, 8, 15, 26).
+
+=== ct-chiffres-impairs-palindromes
+parent: ct-chiffres-impairs
+titre: Les palindromes à trois chiffres
+type: numerique
+reponse: 90
+tolerance: 0
+--- question
+Combien y a-t-il de nombres palindromes à trois chiffres (comme 141 ou 707) ?
+--- indice
+Le dernier chiffre est imposé par le premier.
+--- solution
+Premier chiffre : 1 à 9 (9 choix) ; chiffre du milieu : 0 à 9 (10 choix) ; le dernier est imposé. $9 \times 10 =$ **90**.
+
+=== ct-chiffres-impairs-distincts
+parent: ct-chiffres-impairs
+titre: Entiers à 4 chiffres tous distincts
+type: numerique
+reponse: 4536
+tolerance: 0
+--- question
+Combien d'entiers à 4 chiffres ont leurs 4 chiffres tous distincts ?
+--- indice
+Le premier chiffre ne peut pas être 0, les suivants si.
+--- solution
+$9$ choix pour le premier (1 à 9), puis $9$ (le 0 redevient possible), $8$, $7$ : $9 \times 9 \times 8 \times 7 =$ **4 536**. Le piège : $10 \times 9 \times 8 \times 7$ ou $9 \times 8 \times 7 \times 6$.
+
+=== ct-etoiles-barres-positifs
+parent: ct-etoiles-barres
+titre: Étoiles et barres, entiers strictement positifs
+type: numerique
+reponse: 36
+tolerance: 0
+--- question
+Combien de triplets d'entiers $x, y, z \ge 1$ vérifient $x + y + z = 10$ ?
+--- indice
+Pose $x' = x - 1$, etc., pour revenir à des entiers positifs ou nuls ; ou place les barres entre les étoiles.
+--- solution
+Avec $x' + y' + z' = 7$ en entiers $\ge 0$ : $\binom{9}{2} = 36$. Directement : on choisit 2 des 9 espaces entre 10 étoiles, $\binom{9}{2} =$ **36**. C'est aussi le nombre de façons de répartir 10 bonbons identiques entre 3 enfants qui en reçoivent chacun au moins un.
+
+=== ct-bracelets-colliers
+parent: ct-bracelets
+titre: Colliers à 6 perles, rotations seulement
+type: numerique
+reponse: 14
+tolerance: 0
+--- question
+Combien de colliers différents de 6 perles noires ou blanches, si deux colliers sont identiques lorsqu'ils se déduisent par **rotation** (on ne peut pas les retourner) ?
+--- indice
+Lemme de Burnside avec le groupe des 6 rotations seulement.
+--- solution
+Coloriages fixés par les rotations de 0 à 5 crans : $2^6, 2, 2^2, 2^3, 2^2, 2$, soit $64 + 2 + 4 + 8 + 4 + 2 = 84$. Moyenne sur 6 rotations : $84/6 =$ **14**, un de plus que les 13 bracelets : seule la paire 001011 et 001101 (miroirs l'une de l'autre) se distingue sans retournement.
+
+=== ct-cube-peint-dix
+parent: ct-cube-peint
+titre: Le cube $10 \times 10 \times 10$ peint
+type: numerique
+reponse: 512
+tolerance: 0
+--- question
+Un cube $10 \times 10 \times 10$ est peint à l'extérieur puis découpé en 1 000 petits cubes. Combien de petits cubes n'ont aucune face peinte ?
+--- indice
+Les cubes intacts forment un cube intérieur.
+--- solution
+Le cœur non peint est un cube $8 \times 8 \times 8$ : **512**. Pour le reste : 8 coins (3 faces), $12 \times 8 = 96$ cubes d'arête (2 faces), $6 \times 64 = 384$ centres de face (1 face) ; vérification $8 + 96 + 384 + 512 = 1\,000$.
+
+=== ct-cube-peint-coupes
+parent: ct-cube-peint
+titre: Couper un cube en 27 avec le moins de coupes
+niveau: 2
+type: numerique
+reponse: 6
+tolerance: 0
+--- question
+On veut découper un cube de bois $3 \times 3 \times 3$ en 27 petits cubes par des coupes planes. On a le droit de réempiler les morceaux entre deux coupes. Combien de coupes au minimum ?
+--- indice
+Regarde le petit cube central : combien de ses faces doivent être créées, et combien une coupe peut-elle en créer à la fois ?
+--- solution
+Le cube central n'a aucune face à l'extérieur : ses 6 faces doivent toutes être créées par des coupes, et une coupe plane ne crée qu'une face de ce cube. Il faut donc **au moins 6** coupes, et les 6 coupes droites habituelles suffisent : le réempilement ne sert à rien.

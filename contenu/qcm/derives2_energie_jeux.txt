@@ -1,0 +1,291 @@
+# QCM des fiches de dérivés (suite), d'énergie et de jeux (contenu/derives2.txt, energie.txt, jeux.txt).
+
+=== der-arbre-un-pas
++ 10
+  Probabilité risque-neutre $q = 1/2$ : $\frac12 \times 20$.
+- 12
+  On a utilisé une probabilité réelle (par exemple 0,6) : le prix ne dépend pas des probabilités réelles.
+- 20
+  C'est le payoff dans l'état haut seulement.
+- 0
+  Le call peut finir dans la monnaie.
+
+=== der-arbre-delta
++ 0,5 action
+  $(20 - 0)/(120 - 80)$.
+- 1 action
+  Surcouverture : l'option ne suit pas l'action une pour une.
+- 0,25 action
+  Erreur de dénominateur.
+- 0,2 action
+  On a divisé 20 par 100.
+
+=== der-arbre-deux-pas
++ $21/4 = 5{,}25$
+  Seul 121 paie (21), avec probabilité $1/4$.
+- 10,5
+  On a oublié la probabilité de l'état 121.
+- 5
+  On a ignoré le nœud intermédiaire.
+- 0
+  L'état 121 est dans la monnaie.
+
+=== der-put-americain-arbre
++ Environ 7,99
+  On compare exercice et continuation à chaque nœud ; au nœud 80, exercer (20) vaut plus que continuer.
+- Environ 6,02
+  C'est le put **européen** : on a oublié l'exercice anticipé.
+- 20
+  C'est la valeur d'exercice au nœud bas seulement.
+- 0
+  Le put peut finir dans la monnaie.
+
+=== der-forward-start
++ Environ 7,97
+  À taux nul, l'option vaut le prix d'un call à la monnaie à 1 an, homogène en $S$.
+- Environ 11,25
+  On a pris une maturité de deux ans ($\sqrt 2$).
+- 0
+  L'option a de la valeur dès aujourd'hui.
+- Environ 4
+  Divisé par deux sans raison.
+
+=== der-margrabe
++ Environ 7,97
+  Volatilité effective $\sqrt{0{,}04 + 0{,}04 - 2 \times 0{,}5 \times 0{,}04} = 20\,\%$.
+- Environ 11,2
+  On a additionné les variances sans la corrélation.
+- 0
+  L'option d'échange a de la valeur.
+- Environ 5,6
+  On a mal calculé la volatilité effective ($\sqrt{0{,}02}$).
+
+=== der-swap-variance
++ Paie la variance réalisée moins un strike ; se réplique par un panier d'options pondérées en $1/K^2$ ; strike au-dessus de la vol ATM à cause du skew
+  Les puts bas, chers, entrent dans la réplication.
+- Il se réplique par un seul straddle
+  Le straddle a une exposition qui dépend du prix.
+- Son strike vaut toujours la vol ATM
+  Le skew le pousse au-dessus.
+- Il paie la volatilité réalisée
+  C'est un swap de volatilité, convexe différemment.
+
+=== der-quanto
++ Option sur un actif étranger payée en devise domestique à un taux fixé ; l'ajustement vient de la corrélation actif–change
+  Dérive ajustée de $-\rho\sigma_S\sigma_X$.
+- Une option sur le taux de change seul
+  C'est une option de change.
+- Aucun ajustement n'est nécessaire
+  La corrélation modifie la dérive.
+- Un ajustement de dividende
+  Sans rapport.
+
+=== der-couverture-discrete
++ Une erreur de couverture de variance proportionnelle au gamma, d'espérance nulle ; avec coûts, on couvre moins souvent (bandes)
+  Compromis erreur contre coûts (Leland, Whalley-Wilmott).
+- La couverture devient parfaite
+  Seulement en continu.
+- Le PnL a une espérance positive
+  L'erreur est centrée.
+- Il faut couvrir plus souvent avec des coûts
+  Les coûts poussent à couvrir moins souvent.
+
+=== der-greeks-portefeuille
++ D'abord une autre option pour annuler le gamma, puis l'action pour le delta
+  L'action n'a pas de gamma.
+- D'abord l'action, puis l'option
+  L'option ajoutée change à nouveau le delta.
+- L'action seule suffit
+  Elle n'annule pas le gamma.
+- Un future sur l'indice
+  Son gamma est nul.
+
+=== der-strangle-straddle
++ Straddle : call et put de même strike ; strangle : strikes différents, moins cher, il faut un plus grand mouvement
+  Deux paris sur la volatilité, à coût et seuil différents.
+- Le strangle est plus cher
+  Il est hors de la monnaie des deux côtés.
+- Le straddle parie sur la baisse
+  Il parie sur l'amplitude.
+- Ce sont des positions courtes en volatilité
+  Achetés, ils sont longs en volatilité.
+
+=== nrj-specificites-electricite
++ Non stockable, équilibre instantané, saisonnalité forte, pics de prix et retour rapide à la moyenne
+  Le prix spot peut sauter de plusieurs ordres de grandeur.
+- Elle se stocke comme le pétrole
+  Stockage très limité et coûteux.
+- Son prix suit un brownien géométrique simple
+  Retour à la moyenne et sauts.
+- Elle se négocie seulement au comptant
+  Forwards, futures et options existent.
+
+=== nrj-prix-negatifs
++ L'offre dépasse la demande et certains producteurs préfèrent payer plutôt que s'arrêter (rigidités, subventions)
+  Arrêter une centrale coûte, le renouvelable subventionné produit à prix négatif.
+- C'est une erreur de cotation
+  C'est un phénomène réel et fréquent.
+- À cause d'un taux d'intérêt négatif
+  Sans rapport.
+- Parce que la demande est trop forte
+  C'est l'excès d'offre.
+
+=== nrj-spark-spread
++ 20 €/MWh
+  $90 - 2 \times 35$.
+- 55 €/MWh
+  On a oublié le taux de chaleur de 2.
+- 72,5 €/MWh
+  On a divisé le prix du gaz par 2.
+- $-12$ €/MWh
+  C'est avec le CO$_2$.
+
+=== nrj-clean-spark
++ $-12$ €/MWh : elle ne doit pas produire
+  $90 - 70 - 32$.
+- 20 €/MWh : elle produit
+  On a oublié le CO$_2$.
+- 4 €/MWh
+  On a pris 0,2 t par MWh.
+- $-44$ €/MWh
+  On a compté le CO$_2$ deux fois.
+
+=== nrj-centrale-option
++ Chaque heure, produire si le spread est positif : une série d'options sur spread
+  Valorisation par simulation, avec contraintes techniques.
+- C'est un actif sans optionalité
+  On peut arrêter la production.
+- Une option sur le seul prix du gaz
+  L'option porte sur l'écart électricité–gaz.
+- Elle se valorise comme une obligation
+  Ses flux sont aléatoires et optionnels.
+
+=== nrj-schwartz
++ Log-prix en Ornstein-Uhlenbeck ; la volatilité des forwards baisse avec la maturité (effet Samuelson)
+  Les forwards lointains bougent peu.
+- Brownien géométrique, forwards aussi volatils que le spot
+  Ignore le retour à la moyenne.
+- Le forward vaut toujours le spot
+  Il converge vers la moyenne de long terme.
+- Le modèle de Black-Scholes avec dividendes
+  Pas de retour à la moyenne.
+
+=== nrj-couverture-producteur
++ Vendre à terme une partie de la production, acheter des puts ; restent les risques de volume, de base et de contrepartie
+  La couverture parfaite n'existe pas.
+- Acheter des forwards
+  Cela augmente l'exposition à la baisse.
+- Tout couvrir à 100 %
+  Risque de volume : on peut produire moins que prévu.
+- Rien, les prix remontent toujours
+  Pari, pas couverture.
+
+=== nrj-parler-stage
++ Relier honnêtement les compétences du stage (données, modélisation, prix de l'énergie) au poste visé
+  Sans exagérer ni inventer.
+- Dire que le stage n'a aucun rapport
+  On perd une occasion.
+- Prétendre avoir fait du trading
+  Mensonge vite démasqué.
+- Parler seulement de l'entreprise
+  On attend ton apport.
+
+=== jeu-malediction-vainqueur
++ 0 : ne rien offrir
+  Si l'offre $b$ est acceptée, la valeur pour toi est $1{,}5 \times b/2 = 0{,}75\,b < b$.
+- 50
+  Gain espéré négatif.
+- 100
+  Tu paies 100 pour une valeur moyenne de 75.
+- 67
+  Calcul oubliant la sélection adverse.
+
+=== jeu-dichotomie
++ 7
+  $2^7 - 1 = 127 \ge 100$.
+- 6
+  $2^6 - 1 = 63 < 100$.
+- 10
+  Raisonnement décimal.
+- 50
+  Recherche linéaire.
+
+=== jeu-trois-piles
++ 14
+  $2^{n+1} - 2$ avec $n = 3$.
+- 8
+  $2^3$, valable sans recouvrement.
+- 6
+  Deux piles seulement.
+- 16
+  $2^4$.
+
+=== jeu-marche-aleatoire-sortie
++ 100
+  $\mathbb{E}[T] = a \cdot b = 10 \times 10$.
+- 10
+  Distance, pas durée.
+- 20
+  Somme des distances.
+- Infini
+  Avec deux barrières, la durée est finie.
+
+=== jeu-arret-uniforme
++ $1 - \sqrt{0{,}02} \approx 0{,}859$
+  Seuil $V$ avec $(1 - V)^2/2 = 0{,}01$.
+- 0,99
+  Ignore le coût cumulé des tirages.
+- 0,5
+  Valeur d'un seul tirage.
+- 0,9
+  Approximation sans calcul.
+
+=== jeu-saint-petersbourg
++ Peu, malgré l'espérance infinie : utilité concave et richesse finie de la banque
+  Bernoulli : l'utilité logarithmique donne une valeur finie.
+- Une somme infinie
+  Personne ne le ferait.
+- 2 €
+  Ce n'est que le premier terme.
+- Rien du tout
+  Le jeu rapporte au moins 2 €.
+
+=== jeu-deux-enveloppes
++ Supposer 50 et 200 équiprobables quelle que soit la somme vue est impossible avec une loi a priori
+  Aucune loi propre ne rend ces cas toujours équiprobables.
+- Il faut toujours changer
+  Le paradoxe vient d'un raisonnement faux.
+- L'espérance vaut bien 125
+  Seulement avec une hypothèse impossible.
+- Il ne faut jamais changer
+  Par symétrie, changer ne change rien sans information.
+
+=== jeu-pari-de-plus-grand
++ $1/2$
+  Symétrie une fois les égalités relancées.
+- $5/12$
+  Sans relance.
+- $7/12$
+  On a compté les égalités comme gagnantes.
+- $1/6$
+  Probabilité d'égalité.
+
+=== jeu-pari-sequence
++ Non : la plus longue suite de piles est d'environ $\log_2 100 \approx 6$, au moins 5 est très probable
+  Il gagne environ 80 % du temps.
+- Oui : 5 piles d'affilée est rare
+  Rare à un endroit donné, pas sur 100 lancers.
+- Indifférent, le pari est équitable
+  Il est déséquilibré.
+- Oui si la pièce est équilibrée
+  C'est justement le cas où il gagne.
+
+=== jeu-partage-mise
++ $7/8$
+  B devrait gagner 3 manches d'affilée : $1/8$.
+- $2/3$
+  Proportion des manches gagnées (4 sur 6) : ignore ce qui reste à jouer.
+- $4/5$
+  Rapport à l'objectif.
+- $1/2$
+  Remboursement des mises, ignore l'avance.

@@ -1,0 +1,391 @@
+# QCM des compléments du cours (contenu/cours_complements.txt) et des fiches de taux, risque et crédit (contenu/taux.txt).
+
+=== stoch-ou-variance
++ $2/3$
+  $\sigma^2/(2\kappa) = 4/6$.
+- $4/3$
+  On a oublié le facteur 2 du dénominateur.
+- $\sqrt{2/3}$
+  C'est l'écart-type stationnaire, pas la variance.
+- 4
+  C'est $\sigma^2$ sans retour à la moyenne.
+
+=== stoch-cir-moyenne
++ $0{,}05 - 0{,}04\,e^{-1} \approx 3{,}53\,\%$
+  La moyenne suit $m' = \kappa(\theta - m)$, comme pour Vasicek.
+- 5 %
+  C'est la moyenne de long terme, pas atteinte en un an.
+- 1 %
+  On ignore le retour à la moyenne.
+- 3 %
+  Interpolation linéaire, pas exponentielle.
+
+=== stoch-vasicek-zc
++ $\int_0^T r_t\,dt$ est gaussienne : $\mathbb{E}[e^{-I}] = e^{-m + v/2}$
+  La transformée de Laplace d'une gaussienne est explicite.
+- Par Monte-Carlo seulement
+  Il existe une formule fermée.
+- $P = e^{-r_0 T}$
+  Ignore la dynamique des taux.
+- $P = e^{-\mathbb{E}[I]}$
+  Jensen : il manque $+v/2$.
+
+=== der-black76
++ Environ 7,96
+  $e^{-0{,}04} \times 80 \times (2 \times 0{,}5497 - 1)$.
+- Environ 8,28
+  On a oublié l'actualisation.
+- Environ 4
+  On a pris un seul terme $N(d_1) - 0{,}5$ sans doubler.
+- 0
+  À la monnaie, le prix vient de la valeur temps.
+
+=== der-grecques-identite
++ $\varphi(d_1)/\varphi(d_2) = e^{-(d_1^2 - d_2^2)/2} = K e^{-rT}/S$, d'où vega $= S\sqrt T\,\varphi(d_1)$
+  Les termes en $\partial d/\partial\sigma$ se compensent.
+- $\varphi(d_1) = \varphi(d_2)$
+  Seulement si $S = K e^{-rT}$.
+- Vega $= S N(d_1)$
+  C'est le terme en delta.
+- Vega $= K\sqrt T\,N(d_2)$
+  Mélange de formules.
+
+=== der-dupire
++ $\sigma_{\mathrm{loc}}^2 = \partial_T C / (\frac12 K^2 \partial_{KK} C)$
+  Vient de l'équation de Fokker-Planck de la densité risque-neutre.
+- $\sigma_{\mathrm{loc}} = $ volatilité implicite
+  La volatilité locale diffère de l'implicite.
+- $\sigma_{\mathrm{loc}}^2 = \partial_K C / \partial_T C$
+  Mauvaises dérivées.
+- Elle vient de la parité call-put
+  Elle vient de l'évolution de la densité.
+
+=== mm-glosten-milgrom
++ 105
+  $\mathbb{P}(120 \mid \text{achat}) = 0{,}625$ : ask $= 0{,}625 \times 120 + 0{,}375 \times 80$.
+- 100
+  On ignore la sélection adverse.
+- 120
+  Seulement si tous les clients étaient informés.
+- 110
+  On a pris la moitié des informés.
+
+=== mm-reservation-equivalent-certain
++ L'équivalent certain d'un inventaire gaussien sous utilité exponentielle retire $\frac12\gamma q^2\sigma^2(T - t)$ ; la différence entre $q$ et $q \pm 1$ donne $r$
+  Le prix de réservation rend le teneur indifférent à une unité de plus.
+- C'est l'espérance du prix final
+  Elle ignore l'aversion au risque.
+- Par Black-Scholes
+  Autre cadre.
+- Par la parité call-put
+  Sans rapport.
+
+=== risque-portefeuille-variance-min
++ 0,8
+  $\sigma_2^2/(\sigma_1^2 + \sigma_2^2)$.
+- 0,5
+  Ignore la différence de volatilités.
+- $2/3$
+  Pondération par l'inverse des volatilités, pas des variances.
+- 1
+  Diversifier un peu réduit encore la variance.
+
+=== risque-sharpe-strategies
++ 1
+  $\sqrt{0{,}6^2 + 0{,}8^2}$.
+- 1,4
+  Les Sharpe ne s'additionnent pas.
+- 0,8
+  Garder la meilleure ignore la diversification.
+- 0,7
+  La moyenne est pire que la combinaison optimale.
+
+=== risque-var-sous-additivite
++ Deux prêts à 4 % de défaut : chacun a une VaR 95 % nulle, le portefeuille non ; l'ES est sous-additive
+  Défaut d'au moins un : $1 - 0{,}96^2 \approx 7{,}8\,\% > 5\,\%$.
+- La VaR est toujours sous-additive
+  Contre-exemple classique ci-dessus.
+- L'ES est plus simple à calculer
+  Elle est préférée pour sa cohérence, pas sa simplicité.
+- La VaR ignore la moyenne
+  Ce n'est pas l'argument de sous-additivité.
+
+=== risque-proba-drawdown
++ $e^{-1} \approx 0{,}37$
+  $e^{-2\mu x/\sigma^2} = e^{-2 \times 0{,}05 \times 0{,}1/0{,}01}$.
+- 0
+  Une dérive positive n'empêche pas les baisses.
+- 1
+  Seulement sans dérive.
+- $\approx 0{,}16$
+  Probabilité d'être sous $-10\,\%$ à une date fixée, pas un jour quelconque.
+
+=== stats-lasso-seuillage
++ 0,3
+  Seuillage doux : $z - \lambda/2$.
+- 0,8
+  Les moindres carrés sans pénalité.
+- 0
+  Seulement si $z \le \lambda/2$.
+- 0,4
+  On a divisé par 2 au lieu de retrancher.
+
+=== stats-variance-mco
++ $\hat\beta = (X^TX)^{-1}X^Ty$ ; variance $\sigma^2(X^TX)^{-1}$ sous exogénéité et erreurs homoscédastiques non corrélées
+  La normalité n'est pas nécessaire pour ce résultat.
+- La normalité des erreurs est indispensable
+  Elle sert à l'inférence exacte, pas à la variance.
+- $\hat\beta = X^Ty$
+  Il manque $(X^TX)^{-1}$.
+- La variance vaut $\sigma^2 X^TX$
+  C'est l'inverse.
+
+=== ml-foret-variance
++ 0,216
+  $\rho\sigma^2 + (1 - \rho)\sigma^2/B$.
+- 0,02
+  On suppose les arbres indépendants.
+- 0,2
+  On oublie le terme résiduel.
+- 1
+  Moyenner réduit la variance.
+
+=== ml-gradient-logistique
++ $\nabla = X^T(p - y)$
+  Grâce à $\sigma' = \sigma(1 - \sigma)$, tout se simplifie.
+- $\nabla = X^T(y - p)\,p(1 - p)$
+  Ce serait pour la perte quadratique.
+- $\nabla = p - y$ sans $X$
+  Il manque la dérivée de $z$ par rapport à $\beta$.
+- $\nabla = X^T y$
+  Ignore la prédiction.
+
+=== num-antithetique
++ Quand $f$ est monotone (covariance $f(Z), f(-Z)$ négative) ; inutiles si $f$ est paire
+  Pour $f$ paire, $f(Z) = f(-Z)$ : aucun gain.
+- Toujours
+  Elles peuvent même augmenter la variance à coût égal.
+- Jamais
+  Elles aident pour les payoffs monotones.
+- Seulement pour les options asiatiques
+  Le critère est la monotonie.
+
+=== num-stabilite-explicite
++ Environ 0,0044 an
+  $\Delta\tau \le \Delta x^2/\sigma^2$.
+- Environ 0,067 an
+  On a pris $\Delta x/\sigma$.
+- 0,0004 an
+  On a oublié de diviser par $\sigma^2$.
+- Aucune limite
+  Le schéma explicite est conditionnellement stable.
+
+=== num-box-muller
++ $R = \sqrt{-2\ln U_1}$, $\Theta = 2\pi U_2$, $Z_1 = R\cos\Theta$, $Z_2 = R\sin\Theta$
+  En polaires, la densité gaussienne se sépare : $R^2/2$ exponentielle, angle uniforme.
+- $Z = U_1 + U_2 - 1$
+  Loi triangulaire, pas gaussienne.
+- $Z = \Phi(U)$
+  Il faut $\Phi^{-1}(U)$.
+- Somme de 12 uniformes moins 6, exacte
+  Approximation seulement.
+
+=== taux-swap-telescopage
++ Chaque flux variable se réplique par $P(T_{i-1}) - P(T_i)$ ; la somme télescope en $1 - P(T_n)$ ; taux au pair $= (1 - P_n)/\sum \delta_i P_i$
+  La jambe fixe doit valoir la même chose.
+- La jambe variable vaut 0 car les taux sont inconnus
+  Elle se réplique sans connaître les taux.
+- Elle vaut la somme des forwards non actualisés
+  Il faut actualiser.
+- Elle vaut toujours 1
+  Il manque le remboursement $P(T_n)$.
+
+=== taux-duration
++ Environ 4,81
+  $5/1{,}04$.
+- 5
+  Duration de Macaulay, pas modifiée.
+- 5,2
+  On a multiplié par $1{,}04$.
+- 4
+  On a retiré une année ($D - 1$) au lieu de diviser par $1 + y$.
+
+=== taux-dv01
++ 4 800 €
+  $10^7 \times 4{,}8 \times 10^{-4}$.
+- 48 000 €
+  Un point de base vaut $10^{-4}$, pas $10^{-3}$.
+- 480 €
+  Erreur d'un facteur 10.
+- 4,8 €
+  On a oublié la valeur de la position.
+
+=== taux-convexite
++ Le terme du second ordre : le prix monte plus quand les taux baissent qu'il ne baisse quand ils montent
+  Une convexité positive est un avantage, qui se paie.
+- La sensibilité au premier ordre
+  C'est la duration.
+- Elle est toujours négative
+  Positive pour une obligation classique.
+- Elle mesure le risque de crédit
+  Sans rapport.
+
+=== taux-forward
++ Environ 5,01 %
+  $1{,}04^2/1{,}03 - 1$.
+- 3,5 %
+  Moyenne des deux taux.
+- 4 %
+  Le taux 2 ans n'est pas le forward.
+- 5 %
+  Approximation linéaire ; la valeur exacte est un peu plus haute.
+
+=== taux-swap-par
++ Environ 3,14 %
+  $(1 - 0{,}94)/(0{,}97 + 0{,}94)$.
+- 3 %
+  Taux 1 an implicite.
+- 6 %
+  On a oublié de diviser par la somme des facteurs.
+- 6,38 %
+  C'est $1/0{,}94 - 1$, un rendement sur deux ans, non annualisé.
+
+=== taux-swap-definition
++ Échange de flux d'intérêts fixe contre variable sur un nominal non échangé ; sert à couvrir ou transformer une dette
+  Le nominal sert seulement au calcul.
+- Échange de nominaux dans deux devises
+  C'est un swap de devises.
+- Un prêt à taux variable
+  Le swap n'échange pas de capital.
+- Une option sur taux
+  C'est une swaption.
+
+=== taux-courbe-inversee
++ Taux courts au-dessus des longs, souvent anticipation de baisses de taux ; théories des anticipations, de la prime de liquidité, de la segmentation
+  Historiquement un signal de récession.
+- Taux longs au-dessus des courts
+  C'est une courbe normale.
+- Elle est impossible sans arbitrage
+  Elle est observée régulièrement.
+- Elle signale toujours de l'inflation
+  Plutôt un ralentissement anticipé.
+
+=== taux-var-normale
++ Environ 23 260 €
+  $2{,}326 \times 1\,\% \times 10^6$.
+- 10 000 €
+  Un écart-type, sans le quantile.
+- 19 600 €
+  Quantile à 97,5 % (1,96).
+- 16 450 €
+  Quantile à 95 %.
+
+=== taux-var-10-jours
++ Environ 73 565 €
+  $\times\sqrt{10}$.
+- 232 630 €
+  $\times 10$ : la variance croît linéairement, pas l'écart-type.
+- 23 263 €
+  La VaR augmente avec l'horizon.
+- 46 526 €
+  $\times 2$.
+
+=== taux-var-es
++ La VaR est un quantile, simple mais aveugle à la queue et non sous-additive ; l'ES moyenne la queue
+  L'ES est plus exigeante à estimer et à backtester.
+- L'ES est toujours inférieure à la VaR
+  Elle est supérieure au même niveau.
+- La VaR mesure la perte moyenne dans la queue
+  C'est l'ES.
+- Elles sont identiques pour une loi gaussienne
+  Proches à des niveaux différents, mais pas égales.
+
+=== taux-es-gaussienne
++ Environ $2{,}34\,\sigma$
+  $\varphi(1{,}96)/0{,}025$.
+- $1{,}96\,\sigma$
+  C'est la VaR à 97,5 %.
+- $2{,}33\,\sigma$
+  C'est la VaR à 99 %, très proche : c'est l'argument de Bâle.
+- $3\,\sigma$
+  Trop.
+
+=== taux-exceptions-var
++ 2,5
+  $250 \times 1\,\%$.
+- 0
+  Une VaR bien calibrée est dépassée 1 % du temps.
+- 25
+  On a pris 10 %.
+- 1
+  On a confondu l'espérance (2,5) avec un seuil d'alerte.
+
+=== taux-intensite-defaut
++ Environ 2 % par an
+  $0{,}012/(1 - 0{,}4)$.
+- 1,2 %
+  On oublie de diviser par la perte en cas de défaut.
+- 3 %
+  On a divisé par 0,4.
+- 0,72 %
+  On a multiplié par 0,6.
+
+=== taux-survie
++ Environ 90,5 %
+  $e^{-0{,}02 \times 5}$.
+- 90 %
+  Approximation linéaire $1 - 5 \times 2\,\%$.
+- 98 %
+  Un an seulement.
+- $0{,}98^5 \approx 90{,}4\,\%$
+  Composition annuelle, proche mais pas le modèle à intensité.
+
+=== taux-cva-simple
++ 12 000 €
+  $(1 - R) \times \mathrm{PD} \times \mathrm{EPE}$.
+- 20 000 €
+  On a oublié le recouvrement.
+- 8 000 €
+  On a multiplié par $R$ au lieu de $1 - R$.
+- 600 000 €
+  On a oublié la probabilité de défaut.
+
+=== taux-xva
++ CVA, DVA, FVA, MVA, KVA : défaut de la contrepartie, défaut propre, financement, marge initiale, capital
+  Ajustements au prix sans risque.
+- Une mesure de volatilité
+  Sans rapport.
+- Uniquement la CVA
+  Plusieurs ajustements coexistent.
+- Des frais de courtage
+  Ce sont des ajustements de valorisation.
+
+=== taux-validation-modele
++ Une équipe indépendante vérifie la théorie, l'implémentation, le calage, la stabilité et les limites d'usage
+  On mesure le risque de modèle, pas seulement les erreurs de code.
+- Vérifier que le code compile
+  Bien plus large.
+- Comparer à un seul prix de marché
+  Insuffisant.
+- C'est le rôle du trader
+  La validation est indépendante.
+
+=== taux-modeles-taux-courts
++ Vasicek : gaussien, taux négatifs possibles ; CIR : taux positifs (Feller) ; Hull-White : Vasicek calé sur la courbe initiale
+  Hull-White a une moyenne dépendante du temps.
+- CIR autorise des taux très négatifs
+  La racine carrée l'empêche.
+- Vasicek se cale exactement sur la courbe
+  C'est Hull-White.
+- Ils sont tous identiques
+  Différences de loi et de calage.
+
+=== taux-hedge-ratio-future
++ 60 contrats vendus
+  $4\,800/80$.
+- 60 contrats achetés
+  Long obligations : on vend des futures.
+- 6 contrats
+  Erreur d'un facteur 10.
+- 384 000 contrats
+  On a multiplié.

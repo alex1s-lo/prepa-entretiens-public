@@ -16,8 +16,6 @@ Trois boîtes portent les étiquettes « pommes », « oranges » et « mélange
 Commence par la boîte étiquetée « mélange » : que contient-elle forcément ?
 --- solution
 La boîte « mélange » n'est pas le mélange : elle ne contient qu'un seul type de fruit. Tire **un fruit** : si c'est une pomme, c'est la boîte de pommes. La boîte étiquetée « oranges » n'est ni les oranges ni (désormais) les pommes : c'est le mélange ; la dernière est les oranges.
---- variantes
-- Tirer dans la boîte « pommes » ne suffit pas : une orange laisse deux possibilités.
 
 === ct-batte-balle
 theme: casse-tete
@@ -34,10 +32,6 @@ Une batte et une balle coûtent 1,10 € au total. La batte coûte 1 € de plus
 Ce n'est pas 0,10 € : vérifie la réponse intuitive.
 --- solution
 Balle $x$, batte $x + 1$ : $2x + 1 = 1{,}10$, donc $x =$ **0,05 €**. La réponse intuitive (0,10 €) donnerait une batte à 1,10 € et un total de 1,20 €. Ces questions testent le réflexe de **vérifier** avant d'annoncer.
---- variantes
-- 5 machines font 5 objets en 5 minutes : 100 machines font 100 objets en **5 minutes**.
-- Une brique pèse 1 kg plus la moitié d'une brique : elle pèse **2 kg**.
-- Une action perd 50 % puis gagne 50 % : elle a perdu 25 %.
 
 === ct-josephus
 theme: casse-tete
@@ -54,8 +48,6 @@ duree: 300
 Avec $2^m$ personnes, c'est la n° 1 qui survit. Écris $100 = 64 + 36$.
 --- solution
 Avec $n = 2^m + \ell$ ($0 \le \ell < 2^m$), après $\ell$ éliminations il reste $2^m$ personnes et c'est au tour de la personne $2\ell + 1$, qui survivra. $100 = 64 + 36$ : survivant $2 \times 36 + 1 =$ **73**. En binaire : faire tourner le premier bit à la fin ($1100100 \to 1001001 = 73$).
---- variantes
-- 41 personnes, une sur trois éliminée : le survivant est le n° 31 (récurrence $J(n) = (J(n - 1) + k) \bmod n$).
 
 === ct-cavalier
 theme: casse-tete
@@ -72,8 +64,6 @@ Combien de coups faut-il au minimum à un cavalier pour aller de a1 à h8 ?
 Chaque coup change la somme des coordonnées de 1 ou 3 ; il faut la faire varier de 14.
 --- solution
 Chaque coup augmente la somme $x + y$ d'au plus 3, et il faut gagner 14 : au moins 5 coups. Mais un coup de cavalier change la couleur de la case, et a1 et h8 sont de la même couleur : il faut un nombre pair de coups, donc au moins 6. Six coups suffisent : a1, b3, c5, d7, f8, g6, h8. Réponse : **6** (un parcours en largeur le confirme).
---- variantes
-- Parcours en largeur sur un graphe : méthode générale pour tous les « nombre minimal de coups ».
 
 === ct-rois-non-attaquants
 theme: casse-tete
@@ -90,8 +80,6 @@ Combien de rois au maximum peut-on placer sur un échiquier $8 \times 8$ sans qu
 Découpe l'échiquier en blocs $2 \times 2$.
 --- solution
 Chacun des 16 blocs $2 \times 2$ contient au plus un roi (deux rois dans un même bloc se touchent) : au plus 16. Et 16 est atteint (un roi dans le coin inférieur gauche de chaque bloc). **16**.
---- variantes
-- Cavaliers : 32 (toutes les cases d'une couleur). Dames : 8 (92 solutions). Tours : 8.
 
 === ct-p-pays-garcons
 theme: casse-tete
@@ -105,8 +93,6 @@ Dans un pays, chaque famille fait des enfants jusqu'au premier garçon, puis s'a
 Chaque naissance reste un pile ou face équitable, quelle que soit la règle d'arrêt.
 --- solution
 **Une moitié**. Chaque naissance est un tirage équitable indépendant : aucune règle d'arrêt ne change la proportion (théorème d'arrêt). Par famille : exactement 1 garçon, et en moyenne $\sum_{k \ge 0} k\,2^{-(k+1)} = 1$ fille.
---- variantes
-- Le nombre moyen d'enfants par famille est 2.
 
 === ct-canard-renard
 theme: casse-tete
@@ -133,9 +119,6 @@ Montre qu'à tout instant, il existe deux points diamétralement opposés de l'�
 Considère $g(\theta) = T(\theta) - T(\theta + \pi)$ sur l'équateur.
 --- solution
 $g(\theta) = T(\theta) - T(\theta + \pi)$ est continue et $g(\theta + \pi) = -g(\theta)$ : elle prend des valeurs de signes opposés (ou nulles), donc s'annule par le théorème des valeurs intermédiaires. En ce point, les températures sont égales.
---- variantes
-- Un moine monte une montagne de 7 h à 19 h, en redescend le lendemain aux mêmes heures : il passe à la même heure au même endroit les deux jours (même argument).
-- Théorème de Borsuk-Ulam : sur la sphère, il existe deux points antipodaux de même température **et** même pression.
 
 === ct-p-chuck-a-luck
 theme: casse-tete
@@ -218,8 +201,6 @@ De combien de façons peut-on écrire 1 000 comme somme d'un ou plusieurs entier
 Une somme de $k$ consécutifs à partir de $m$ vaut $k(2m + k - 1)/2$. Les deux facteurs $k$ et $2m + k - 1$ sont de parités différentes.
 --- solution
 $2000 = k(2m + k - 1)$ avec $k < 2m + k - 1$ de parités opposées : chaque façon correspond à un **diviseur impair** de 1 000. $1\,000 = 2^3 \times 5^3$ a 4 diviseurs impairs (1, 5, 25, 125) : **4 façons** ($1\,000$ ; $198 + \dots + 202$ ; $28 + \dots + 52$ ; $55 + \dots + 70$).
---- variantes
-- Les puissances de 2 sont les seuls entiers qui ne s'écrivent pas comme somme d'au moins deux entiers consécutifs.
 
 === ct-poteaux-croises
 theme: casse-tete
@@ -284,8 +265,6 @@ Dix personnes ont chacune un pistolet à eau. Au signal, chacune vise une des ne
 Linéarité de l'espérance : probabilité qu'une personne donnée ne soit visée par aucune des 9 autres.
 --- solution
 Une personne donnée reste sèche si chacune des 9 autres vise ailleurs : $(8/9)^9$. Par linéarité : $10\,(8/9)^9 \approx$ **3,46** personnes.
---- variantes
-- Avec $n$ personnes, la proportion de personnes sèches tend vers $1/e \approx 0{,}37$.
 
 === ct-p-ecart-deux-des
 theme: casse-tete
@@ -302,9 +281,6 @@ On lance deux dés. Quelle est l'espérance de la valeur absolue de leur différ
 Compte les couples par écart : 6 couples d'écart 0, 10 d'écart 1, …
 --- solution
 Nombre de couples d'écart $d \ge 1$ : $2(6 - d)$. $\mathbb{E}|X - Y| = \frac{1}{36}\sum_{d=1}^{5} d \cdot 2(6 - d) = \frac{2(5 + 8 + 9 + 8 + 5)}{36} = \frac{70}{36} =$ **35/18** $\approx 1{,}94$.
---- variantes
-- Probabilité que le produit de deux dés soit un carré parfait : $8/36 = 2/9$.
-- Espérance du minimum de deux dés : $91/36$ ; du maximum : $161/36$.
 
 === ct-p-distance-bord-carre
 theme: casse-tete
@@ -353,8 +329,6 @@ On lance un dé en additionnant les résultats jusqu'à ce que le total atteigne
 $e(n) = 1 + \frac16 \sum_{k=1}^{6} e(n - k)$, avec $e(m) = 0$ pour $m \le 0$. Les premiers termes ont une forme simple.
 --- solution
 Pour $1 \le n \le 6$, $e(n) = (7/6)^{n-1}$ ; puis $e(7) = 1 + \frac16 \sum_{k=1}^{6} e(7 - k) = 1 + \frac16 \sum_{j=0}^{5} (7/6)^j = (7/6)^6 = \frac{117649}{46656} \approx$ **2,52**.
---- variantes
-- Atteindre au moins 100 : environ 29,05 lancers, soit $100/3{,}5 \approx 28{,}6$ plus une petite constante due au dépassement final (théorème du renouvellement).
 
 === ct-partage-secret
 theme: casse-tete

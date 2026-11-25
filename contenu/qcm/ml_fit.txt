@@ -1,0 +1,311 @@
+# QCM des fiches de machine learning (contenu/ml.txt) et d'entretien de motivation (contenu/fit.txt).
+
+=== ml-biais-variance
++ Erreur $=$ biais² $+$ variance $+$ bruit : un modèle trop simple a du biais, un modèle trop souple de la variance
+  On règle la complexité (régularisation, profondeur) par validation.
+- Plus le modèle est complexe, plus l'erreur baisse
+  Seulement l'erreur d'entraînement ; l'erreur de test remonte.
+- Le bruit irréductible se réduit avec plus de données
+  Il est irréductible par définition.
+- Biais et variance baissent toujours ensemble
+  Ils s'échangent en général.
+
+=== ml-l1-l2
++ Ridge rétrécit tous les coefficients ; Lasso en annule certains, car la boule L1 a des coins sur les axes
+  Le Lasso fait de la sélection de variables.
+- Ridge annule des coefficients exactement
+  Il les rétrécit sans les annuler.
+- Lasso et Ridge donnent les mêmes coefficients
+  Ils diffèrent dès que $\lambda > 0$.
+- Le Lasso n'a pas de paramètre
+  $\lambda$ règle la pénalité.
+
+=== ml-ridge-1d
++ 0,4 (contre 0,5 sans pénalité)
+  $10/(20 + 5)$.
+- 0,5
+  Sans pénalité.
+- $10/(20 - 5) \approx 0{,}67$
+  La pénalité s'ajoute au dénominateur.
+- 0,25
+  On a retranché la pénalité au numérateur.
+
+=== ml-validation-temporelle
++ Les données sont dépendantes dans le temps : le k-fold aléatoire fait fuiter le futur ; on valide en walk-forward avec purge et embargo
+  On entraîne toujours sur le passé.
+- Le k-fold est toujours valide
+  Il suppose des observations indépendantes.
+- On mélange les dates pour éviter les biais
+  Cela crée la fuite.
+- On valide sur les données d'entraînement
+  Aucune mesure hors échantillon.
+
+=== ml-fuite-information
++ Normaliser sur tout l'échantillon, utiliser des données révisées, des étiquettes qui chevauchent la période de test
+  Chacune donne une performance trop belle.
+- Utiliser trop peu de variables
+  Ce n'est pas une fuite.
+- Tester sur une période ultérieure
+  C'est ce qu'il faut faire.
+- Utiliser une régularisation
+  Sans rapport.
+
+=== ml-foret-boosting
++ Forêt : arbres profonds en parallèle, moyenne (réduit la variance) ; boosting : petits arbres en série qui corrigent les erreurs (réduit le biais)
+  Le boosting est souvent plus précis mais plus sensible au réglage.
+- Les deux entraînent leurs arbres en série
+  La forêt les entraîne indépendamment.
+- Le boosting réduit surtout la variance
+  Il réduit surtout le biais.
+- Une forêt n'a qu'un arbre
+  Elle en a beaucoup.
+
+=== ml-surapprentissage-finance
++ Signal minuscule, non-stationnarité, peu de données indépendantes, et des agents qui s'adaptent
+  Une corrélation de 0,05 est déjà excellente.
+- Il y a trop de données financières
+  Les données vraiment indépendantes sont rares.
+- Les prix sont déterministes
+  Ils sont très bruités.
+- Les modèles d'images ne marchent pas en finance par principe
+  Les difficultés viennent des données.
+
+=== ml-metriques-desequilibre
++ Non : on a 99,9 % en ne prédisant jamais de fraude ; utiliser précision, rappel, F1, AUC-PR
+  L'exactitude est trompeuse sur des classes déséquilibrées.
+- Oui, 99,9 % est excellent
+  C'est le score du modèle trivial.
+- Utiliser l'exactitude pondérée par le temps
+  Ne résout pas le déséquilibre.
+- La métrique n'a pas d'importance
+  Elle décide de ce qu'on optimise.
+
+=== ml-precision-rappel
++ Environ 0,533
+  $2PR/(P + R)$ avec $P = 0{,}8$, $R = 0{,}4$.
+- 0,6
+  Moyenne arithmétique de $P$ et $R$ : le $F_1$ est une moyenne harmonique.
+- 0,4
+  C'est le rappel.
+- 0,8
+  C'est la précision.
+
+=== ml-log-loss
++ Environ 0,223
+  $-\ln 0{,}8$.
+- 0,2
+  C'est l'erreur $1 - 0{,}8$, pas la log-loss.
+- 0,04
+  Erreur quadratique $(1 - 0{,}8)^2$.
+- Environ 1,61
+  C'est $-\ln 0{,}2$ : la probabilité de la mauvaise classe.
+
+=== ml-regression-logistique
++ $\mathbb{P}(y = 1) = \sigma(\beta^Tx)$ ; on maximise la vraisemblance (log-loss) ; $e^{\beta_j}$ est un rapport de cotes
+  Chaque coefficient agit sur le log des cotes.
+- On minimise l'erreur quadratique
+  On maximise la vraisemblance.
+- $\beta_j$ est l'effet sur la probabilité
+  Il agit sur le log des cotes, pas directement la probabilité.
+- La sortie est un nombre réel quelconque
+  C'est une probabilité.
+
+=== ml-importance-variables
++ Importance par permutation ou valeurs de Shapley ; pièges : variables corrélées, biais de l'importance par impureté
+  Deux variables corrélées se partagent l'importance.
+- Les coefficients bruts suffisent toujours
+  Ils dépendent des échelles et des corrélations.
+- L'importance par impureté est sans biais
+  Elle favorise les variables à nombreuses valeurs.
+- Une variable importante est causale
+  L'importance n'est pas la causalité.
+
+=== ml-descente-gradient
++ Mise à jour sur un mini-lot ; trop grand : divergence ou oscillations ; trop petit : convergence lente
+  On ajuste ou fait décroître le taux.
+- Trop grand accélère toujours
+  Il peut diverger.
+- Trop petit diverge
+  Il converge lentement.
+- Le gradient est calculé sur toutes les données à chaque pas
+  C'est la descente non stochastique.
+
+=== ml-pca
++ Directions orthogonales de variance maximale (vecteurs propres de la covariance) ; sur des actions, le premier facteur est le marché
+  Utile pour les facteurs de risque et la réduction de dimension.
+- Elle sélectionne les meilleures actions
+  Elle décrit la covariance.
+- Les composantes sont corrélées
+  Elles sont décorrélées.
+- Elle prédit les rendements
+  Elle ne prévoit pas.
+
+=== ml-k-means
++ Alterner affectation au centre le plus proche et recalcul des centres ; limites : choix de $k$, minima locaux, clusters sphériques
+  Plusieurs initialisations aident.
+- Il trouve toujours le minimum global
+  Il converge vers un minimum local.
+- Il détermine $k$ automatiquement
+  $k$ est choisi à l'avance.
+- C'est un algorithme supervisé
+  Non supervisé.
+
+=== ml-normalisation
++ Pour les modèles sensibles à l'échelle ; paramètres calculés sur le passé seulement (fenêtre glissante ou d'entraînement)
+  Normaliser sur tout l'échantillon fait fuiter le futur.
+- Toujours sur tout l'échantillon
+  C'est une fuite d'information.
+- Jamais pour les arbres… donc jamais
+  Les arbres n'en ont pas besoin, les autres si.
+- Avec les paramètres de la période de test
+  Fuite.
+
+=== fit-ouverture-presente-toi
++ 60 à 90 secondes préparées : qui tu es, ce que tu as fait de marquant, pourquoi ce poste
+  Un fil conducteur qui mène à la question.
+- Réciter tout le CV dans l'ordre
+  Trop long, sans message.
+- Parler surtout de ta vie personnelle
+  Le contexte professionnel prime.
+- Improviser
+  La première impression se prépare.
+
+=== fit-ouverture-parcours
++ Dérouler chronologiquement en expliquant les choix et le fil rouge
+  On cherche la cohérence de tes décisions.
+- Énumérer les lignes du CV
+  Le recruteur les a déjà lues.
+- Commencer par le plus récent sans explication
+  Il manque les raisons.
+- Insister sur les notes
+  Elles comptent moins que les choix et les projets.
+
+=== fit-pourquoi-quant
++ Un déclic concret, ce que tu as fait pour approfondir, ce que tu cherches dans le métier
+  Des preuves, pas des déclarations.
+- « J'aime les maths et la finance »
+  Générique, ne distingue pas.
+- « Pour le salaire »
+  Peu convaincant seul.
+- « Parce que c'est prestigieux »
+  Motivation superficielle.
+
+=== fit-pourquoi-nous
++ Trois éléments précis sur l'équipe, son activité et ce que tu pourrais y apporter
+  Préparé pour chaque entreprise.
+- « Vous êtes les meilleurs »
+  Flatteur et vide.
+- « J'ai postulé partout »
+  Honnête mais maladroit.
+- Lire le site internet à voix haute
+  Pas de lien avec toi.
+
+=== fit-cesure
++ Présenter le calendrier comme un choix construit, avec un objectif clair pour chaque étape
+  Le stage s'inscrit dans un parcours.
+- S'excuser de faire une césure
+  Elle est courante et légitime.
+- Dire qu'on ne sait pas ce qu'on fera après
+  On attend une projection.
+- Éviter le sujet
+  Il sera abordé de toute façon.
+
+=== fit-stage-actuel
++ Méthode STAR, en 1 à 2 minutes, avec un résultat chiffré et ce que tu as appris
+  Situation, tâche, action, résultat.
+- Décrire l'entreprise en général
+  On veut ton rôle.
+- Parler de l'équipe sans dire ce que tu as fait
+  Le « je » compte.
+- Donner des détails confidentiels
+  À éviter absolument.
+
+=== fit-echec
++ Un vrai échec, ta part de responsabilité, ce que tu as changé ensuite
+  On évalue la lucidité et l'apprentissage.
+- Un faux défaut (« je suis perfectionniste »)
+  Perçu comme une esquive.
+- Rejeter la faute sur les autres
+  Signal très négatif.
+- Dire qu'on n'a jamais échoué
+  Peu crédible.
+
+=== fit-equipe
++ Une situation précise : comprendre l'autre position, argumenter avec des faits, trouver une issue
+  Montrer écoute et efficacité.
+- Montrer que tu avais raison
+  On évalue la manière, pas la victoire.
+- Dire que tu évites les conflits
+  On attend une gestion constructive.
+- Critiquer le collègue
+  Mauvais signal.
+
+=== fit-qualites-defauts
++ Deux qualités prouvées par un exemple, un défaut réel et ce que tu fais pour le corriger
+  La preuve et la lucidité comptent.
+- Des qualités sans exemple
+  Invérifiable.
+- Un défaut rédhibitoire pour le poste
+  Choisir un défaut compatible.
+- Aucun défaut
+  Peu crédible.
+
+=== fit-ia
++ Honnête : ce pour quoi tu l'utilises, comment tu vérifies, ce que tu comprends toi-même
+  On évalue la maîtrise et l'esprit critique.
+- « Je ne l'utilise jamais »
+  Peu crédible aujourd'hui.
+- « Elle code tout pour moi »
+  Inquiétant.
+- Éviter la question
+  Elle revient souvent.
+
+=== fit-plan-b
++ Montrer le fil rouge (modéliser des données bruitées, décider sous incertitude) et une préférence argumentée
+  La cohérence rassure.
+- Nier postuler ailleurs
+  Peu crédible et risqué.
+- Dire que tout t'est égal
+  Manque de motivation.
+- Dire que la quant est un plan B
+  À éviter dans cet entretien.
+
+=== fit-pression
++ Un exemple concret : prioriser, découper, communiquer, résultat
+  Les faits plutôt que les adjectifs.
+- « Je ne stresse jamais »
+  Peu crédible.
+- « Je travaille mieux sous pression » sans exemple
+  Cliché.
+- Raconter un échec sans issue
+  Il faut montrer la gestion.
+
+=== fit-cinq-ans
++ Ambitieux et réaliste, centré sur l'expertise et le métier
+  On cherche quelqu'un qui restera et progressera.
+- « À votre place »
+  Maladroit.
+- « Je ne sais pas »
+  Manque de projection.
+- Un autre métier sans rapport
+  Signal de départ rapide.
+
+=== fit-dernieres-nouvelles
++ Une lecture réelle et récente, résumée avec ton avis critique
+  On peut te poser des questions dessus.
+- Un titre célèbre jamais lu
+  Démasqué à la première question.
+- « Je ne lis pas »
+  Mauvais signal.
+- Un résumé de l'actualité sans avis
+  On attend une réflexion.
+
+=== fit-questions-a-poser
++ Toujours deux ou trois questions préparées sur l'équipe, le travail et l'évaluation
+  Montre l'intérêt et la préparation.
+- « Non, tout est clair »
+  Occasion manquée.
+- Demander le salaire en premier
+  Plutôt plus tard dans le processus.
+- Poser une question dont la réponse est sur le site
+  Montre un manque de préparation.

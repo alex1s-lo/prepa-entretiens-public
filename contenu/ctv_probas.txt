@@ -1,0 +1,571 @@
+# Variantes des casse-têtes de probabilités (une fiche par variante, reliée à son problème d'origine par « parent: »).
+
+=== ct-p-pistolets-limite
+parent: ct-p-pistolets
+titre: Pistolets à eau : la proportion de personnes sèches
+niveau: 2
+type: numerique
+reponse: exp(-1)
+--- question
+$n$ personnes ont chacune un pistolet à eau et visent chacune une des $n - 1$ autres au hasard. Vers quelle proportion de personnes sèches tend-on quand $n$ devient grand ?
+--- indice
+Une personne reste sèche avec probabilité $(1 - \frac{1}{n - 1})^{n - 1}$.
+--- solution
+Proportion moyenne : $\left(1 - \frac{1}{n - 1}\right)^{n - 1} \to e^{-1} \approx$ **0,368**. Même limite que la proportion de boîtes vides quand on lance $n$ balles dans $n$ boîtes : chaque personne est une « boîte » que $n - 1$ tirs évitent.
+
+=== ct-p-ecart-deux-des-carre
+parent: ct-p-ecart-deux-des
+titre: Le produit de deux dés est un carré
+type: numerique
+reponse: 2/9
+--- question
+On lance deux dés. Probabilité que le produit des deux résultats soit un carré parfait ?
+--- indice
+Liste les carrés possibles entre 1 et 36 et leurs décompositions en deux faces.
+--- solution
+Carrés : 1 (1·1), 4 (1·4, 4·1, 2·2), 9 (3·3), 16 (4·4), 25 (5·5), 36 (6·6) : 8 issues sur 36, soit **2/9**. Le piège : oublier les couples non doubles comme $(1, 4)$.
+
+=== ct-p-ecart-deux-des-min
+parent: ct-p-ecart-deux-des
+titre: Espérance du minimum de deux dés
+niveau: 2
+type: numerique
+reponse: 91/36
+--- question
+On lance deux dés. Quelle est l'espérance du plus petit des deux résultats ?
+--- indice
+$\mathbb{E}[\min] = \sum_{k \ge 1} \mathbb{P}(\min \ge k)$, et $\mathbb{P}(\min \ge k) = \left(\frac{7 - k}{6}\right)^2$.
+--- solution
+$$\mathbb{E}[\min] = \frac{36 + 25 + 16 + 9 + 4 + 1}{36} = \frac{91}{36} \approx 2{,}53.$$
+Et $\mathbb{E}[\max] = 7 - \mathbb{E}[\min] = \frac{161}{36}$, car $\min + \max = X + Y$ a pour espérance 7. Ce contrôle est la bonne habitude.
+
+=== ct-p-total-cent
+parent: ct-p-total-sept
+titre: Lancer un dé jusqu'à atteindre 100
+niveau: 3
+type: numerique
+reponse: 29.047619
+--- question
+On lance un dé en additionnant les résultats jusqu'à ce que le total atteigne au moins 100. Combien de lancers en moyenne ? Donne d'abord un ordre de grandeur, puis la valeur.
+--- indice
+Ordre de grandeur : $100 / 3{,}5$. La correction vient du dépassement final : quelle est sa taille moyenne ?
+--- solution
+Première approximation : $100/3{,}5 \approx 28{,}6$. Mais au moment de l'arrêt, le total dépasse 99 en moyenne de plus que zéro. Par le théorème du renouvellement, le dépassement moyen tend vers $\frac{\mathbb{E}[X^2]}{2\mathbb{E}[X]} = \frac{91/6}{7} \approx 2{,}17$ au-delà de 99, donc le total final moyen vaut environ $101{,}67$, et par l'identité de Wald $\mathbb{E}[N] = \mathbb{E}[S_N]/3{,}5 \approx 29{,}05$.
+La récurrence exacte $e(t) = 1 + \frac16 \sum_{d=1}^{6} e(t + d)$ ($e(t) = 0$ pour $t \ge 100$) donne **29,048**.
+
+=== ct-p-triangle-aigu-centre
+parent: ct-p-triangle-aigu
+titre: Le triangle contient-il le centre ?
+type: numerique
+reponse: 1/4
+voir: proba-demi-cercle
+--- question
+Trois points uniformes et indépendants sur un cercle. Probabilité que le triangle formé contienne le centre du cercle ?
+--- indice
+Le triangle contient le centre si et seulement si…
+--- solution
+Le triangle contient le centre exactement quand il est aigu, c'est-à-dire quand les trois points **ne** tiennent **pas** dans un demi-cercle : $1 - 3/4 =$ **1/4**. Même événement que le triangle aigu, vu autrement.
+
+=== ct-p-triangle-aigu-sphere
+parent: ct-p-triangle-aigu
+titre: Le tétraèdre contient-il le centre de la sphère ?
+niveau: 3
+type: numerique
+reponse: 1/8
+--- question
+Quatre points uniformes et indépendants sur une sphère. Probabilité que le tétraèdre formé contienne le centre ?
+--- indice
+Pour trois points $A, B, C$ fixés, considère les huit tétraèdres obtenus en remplaçant chacun d'eux par son antipode ou non, avec le quatrième point.
+--- solution
+Argument de Wendel : chaque point $P_i$ peut être remplacé par $-P_i$ sans changer la loi. Parmi les $2^3$ choix de signes pour les trois premiers points, exactement un donne un tétraèdre contenant le centre (presque sûrement). Probabilité **1/8**.
+Théorème de Wendel : $n$ points sont dans un même hémisphère de la sphère de $\mathbb{R}^d$ avec probabilité $2^{1-n} \sum_{k=0}^{d-1} \binom{n-1}{k}$, soit $7/8$ ici ; le centre est dans l'enveloppe convexe avec la probabilité complémentaire. Sur le cercle ($d = 2$, $n = 3$) : $1 - 3/4 = 1/4$.
+
+=== ct-p-rendez-vous-attente
+parent: ct-p-rendez-vous
+titre: Le rendez-vous avec 10 minutes d'attente
+type: numerique
+reponse: 11/36
+--- question
+Deux amis arrivent indépendamment à un instant uniforme entre 8 h et 9 h ; chacun attend **10 minutes** puis s'en va. Probabilité qu'ils se rencontrent ?
+--- indice
+Formule générale avec une attente $t$ (en fraction d'heure).
+--- solution
+Ils se rencontrent si $|X - Y| \le t$, de probabilité $1 - (1 - t)^2$. Avec $t = 1/6$ : $1 - (5/6)^2 = 1 - 25/36 =$ **11/36** $\approx 0{,}31$.
+
+=== ct-p-rendez-vous-asymetrique
+parent: ct-p-rendez-vous
+titre: Le rendez-vous où l'un attend plus que l'autre
+niveau: 2
+type: numerique
+reponse: 31/72
+--- question
+Deux amis arrivent indépendamment à un instant uniforme entre 8 h et 9 h. Alice attend 10 minutes, Bob attend 20 minutes. Probabilité qu'ils se rencontrent ?
+--- indice
+Si Alice arrive la première, c'est son attente qui compte. Dessine le carré et les deux triangles exclus, de tailles différentes.
+--- solution
+Avec $A$ et $B$ les heures d'arrivée (en heures) : rencontre si $B - A \le 1/6$ (Alice attend) et $A - B \le 1/3$ (Bob attend). Les zones exclues sont deux triangles de côtés $5/6$ et $2/3$ :
+$$\mathbb{P} = 1 - \frac12\left(\frac56\right)^2 - \frac12\left(\frac23\right)^2 = 1 - \frac{25}{72} - \frac{16}{72} = \frac{31}{72} \approx 0{,}43.$$
+
+=== ct-p-buffon-courte
+parent: ct-p-buffon
+titre: L'aiguille de Buffon plus courte que les lames
+niveau: 2
+type: numerique
+reponse: 1/pi
+--- question
+On lance une aiguille de longueur $1/2$ sur un parquet dont les lames ont une largeur 1. Probabilité que l'aiguille croise une ligne ?
+--- indice
+Formule générale pour $\ell \le d$.
+--- solution
+$\mathbb{P} = \frac{2\ell}{\pi d}$ ; avec $\ell = 1/2$ et $d = 1$ : $\frac{1}{\pi} \approx$ **0,318**. La probabilité est proportionnelle à la longueur (tant que $\ell \le d$), cohérent avec la « nouille de Buffon ». C'est la première méthode de Monte-Carlo pour estimer $\pi$.
+
+=== ct-p-bertrand-longueur
+parent: ct-p-bertrand-corde
+titre: Longueur moyenne d'une corde aléatoire
+niveau: 2
+type: numerique
+reponse: 4/pi
+--- question
+On choisit deux points uniformes et indépendants sur un cercle de rayon 1. Quelle est la longueur moyenne de la corde qui les relie ?
+--- indice
+Si l'angle au centre est $\theta$, uniforme sur $[0, \pi]$ par symétrie, la corde mesure $2 \sin(\theta/2)$.
+--- solution
+$$\mathbb{E} = \frac{1}{\pi}\int_0^{\pi} 2\sin\frac{\theta}{2}\,d\theta = \frac{1}{\pi}\left[-4\cos\frac{\theta}{2}\right]_0^{\pi} = \frac{4}{\pi} \approx 1{,}27.$$
+Réponse : **$4/\pi$**. Avec un autre modèle de « corde au hasard », la réponse change, comme dans le paradoxe de Bertrand.
+
+=== ct-p-de-deux-egaux
+parent: ct-p-de-repetition
+titre: Deux lancers consécutifs égaux
+type: numerique
+reponse: 7
+tolerance: 0
+--- question
+On lance un dé jusqu'à ce que deux lancers **consécutifs** donnent la même face. Combien de lancers en moyenne ?
+--- indice
+Après le premier lancer, chaque lancer suivant « gagne » avec probabilité $1/6$, indépendamment.
+--- solution
+Le premier lancer ne peut pas conclure ; ensuite chaque lancer reproduit le précédent avec probabilité $1/6$ : attente géométrique de moyenne 6. Total : $1 + 6 =$ **7**. À comparer avec $3{,}77$ pour une face **déjà sortie** n'importe quand.
+
+=== ct-p-cube-oppose-hexagone
+parent: ct-p-cube-oppose
+titre: La grenouille sur un hexagone
+type: numerique
+reponse: 9
+tolerance: 0
+--- question
+Une grenouille saute à chaque minute vers l'un des deux sommets voisins d'un hexagone, au hasard. En combien de minutes en moyenne atteint-elle le sommet opposé à son départ ?
+--- indice
+Utilise la distance au sommet visé (0 à 3), comme pour le cube.
+--- solution
+$e_3 = 1 + e_2$ ; $e_2 = 1 + \frac12 e_1 + \frac12 e_3$ ; $e_1 = 1 + \frac12 e_2$. On obtient $e_1 = 5$, $e_2 = 8$, $e_3 =$ **9**. C'est $k(n - k)$ avec $n = 6$, $k = 3$ : la marche simple sur un cycle.
+
+=== ct-p-cube-retour
+parent: ct-p-cube-oppose
+titre: Le retour au point de départ sur un cube
+niveau: 3
+type: numerique
+reponse: 8
+tolerance: 0
+--- question
+La fourmi part d'un sommet du cube et suit à chaque minute une arête au hasard. Combien de minutes en moyenne avant de **revenir** à son sommet de départ ?
+--- indice
+Pour une marche aléatoire sur un graphe régulier, la loi stationnaire est uniforme, et le temps moyen de retour en un sommet vaut $1/\pi_i$.
+--- solution
+La loi stationnaire est uniforme sur les 8 sommets ($\pi_i = 1/8$) ; théorème de Kac : temps moyen de retour $= 1/\pi_i =$ **8**. Vérification avec les distances : $1 + e_1 = 1 + 7 = 8$, où $e_1 = 7$ est le temps moyen depuis un voisin (calculé dans le problème d'origine).
+
+=== ct-p-piece-un-tiers
+parent: ct-p-piece-equitable
+titre: Simuler une probabilité $1/3$ avec une pièce
+niveau: 2
+type: numerique
+reponse: 8/3
+voir: algo-rand7
+--- question
+Avec une pièce équitable, comment simuler un événement de probabilité exactement $1/3$ ? Combien de lancers en moyenne ?
+--- indice
+Deux lancers donnent quatre issues équiprobables : garde-en trois.
+--- solution
+Lance deux fois : PP donne « oui », PF ou FP « non », FF : recommence. Chaque paire conclut avec probabilité $3/4$ : en moyenne $4/3$ paires, soit **$8/3$ lancers**. C'est un échantillonnage par rejet, comme pour construire un dé à 7 faces à partir d'un dé à 5.
+
+=== ct-p-chaussettes-pair
+parent: ct-p-chaussettes
+titre: Les chaussettes avec un nombre pair de noires
+niveau: 3
+type: numerique
+reponse: 21
+tolerance: 0
+--- question
+Même tiroir : tirer deux chaussettes rouges a une probabilité exactement $1/2$. On sait en plus que le nombre de chaussettes **noires** est pair. Quel est le plus petit nombre total possible ?
+--- indice
+Les solutions de $2r(r - 1) = n(n - 1)$ forment une suite : (4, 3), (21, 15), (120, 85)…
+--- solution
+Solutions $(n, r)$ : $(4, 3)$ avec 1 noire (impair), puis $(21, 15)$ avec **6 noires** : $\frac{15 \times 14}{21 \times 20} = \frac{210}{420} = \frac12$. Réponse : **21**. L'équation est une équation de Pell déguisée : $(2n - 1)^2 - 2(2r - 1)^2 = -1$.
+
+=== ct-p-chaussettes-tiroirs
+parent: ct-p-chaussettes
+titre: Tirer dans le noir pour être sûr
+type: numerique
+reponse: 12
+tolerance: 0
+--- question
+Un tiroir contient 10 chaussettes rouges et 10 noires. Dans le noir, combien faut-il en tirer pour être **sûr** d'avoir deux rouges ? Et pour être sûr d'avoir une paire de même couleur ?
+--- indice
+Imagine le pire tirage possible.
+--- solution
+Au pire on tire d'abord les 10 noires : il en faut $10 + 2 =$ **12** pour deux rouges. Pour une paire quelconque, **3** suffisent (principe des tiroirs : deux couleurs, trois chaussettes). Ce n'est pas une question de probabilité mais de pire cas.
+
+=== ct-p-cinquante-piles
+parent: ct-p-pari-60-piles
+titre: Exactement 50 piles sur 100
+niveau: 2
+type: numerique
+reponse: comb(100,50)/2^100
+--- question
+On lance 100 pièces équilibrées. Probabilité d'obtenir exactement 50 piles ? Donne une approximation sans calculatrice.
+--- indice
+Approximation normale : la densité de $\mathcal{N}(50, 25)$ en 50, ou Stirling sur $\binom{2n}{n}$.
+--- solution
+$\binom{100}{50} 2^{-100} \approx \frac{1}{\sqrt{\pi n}}$ avec $n = 50$ : $\frac{1}{\sqrt{157}} \approx 0{,}080$. Valeur exacte $\approx$ **0,0796**. Contre-intuitif : le résultat le plus probable n'arrive que 8 % du temps.
+
+=== ct-p-roulette-hasard
+parent: ct-p-roulette-russe
+titre: Roulette russe, balles placées au hasard
+niveau: 2
+type: numerique
+reponse: 3/5
+--- question
+Même jeu, mais les deux balles sont placées dans **deux chambres au hasard** (pas forcément adjacentes), puis le barillet est tourné. Ton adversaire tire à vide. Ta probabilité de survie si tu tires sans tourner ? Faut-il tourner ?
+--- indice
+Calcule la probabilité que deux chambres consécutives données soient toutes deux vides.
+--- solution
+$\mathbb{P}(\text{chambre courante et suivante vides}) = \binom{4}{2} / \binom{6}{2} = 6/15 = 2/5$, et $\mathbb{P}(\text{courante vide}) = 2/3$. Survie sans tourner : $\frac{2/5}{2/3} =$ **3/5**. En tournant : $2/3 > 3/5$ : **il faut tourner**, à l'inverse du cas des balles adjacentes.
+
+=== ct-p-morceau-plus-court
+parent: ct-p-morceau-milieu
+titre: Le plus court des trois morceaux
+niveau: 3
+type: numerique
+reponse: 1/9
+voir: proba-baton-plus-long
+--- question
+On casse un bâton de longueur 1 en deux points uniformes indépendants. Quelle est la longueur moyenne du **plus court** des trois morceaux ?
+--- indice
+$\mathbb{P}(\text{plus court} > x) = (1 - 3x)^2$ pour $x \le 1/3$.
+--- solution
+Les trois morceaux dépassent tous $x$ avec probabilité $(1 - 3x)^2$ (on retire $x$ à chacun, il reste $1 - 3x$ à répartir). Donc
+$$\mathbb{E}[\min] = \int_0^{1/3} (1 - 3x)^2\,dx = \frac{1}{9}.$$
+Réponse : **1/9**. Le plus long vaut en moyenne $11/18$ et le moyen $5/18$ (somme 1, bon contrôle).
+
+=== ct-p-baton-hasard
+parent: ct-p-baton-casse-deux-fois
+titre: Casser l'un des deux morceaux au hasard
+niveau: 3
+type: numerique
+reponse: ln(2)-1/2
+--- question
+On casse un bâton de longueur 1 en un point uniforme, puis on choisit **au hasard** (une chance sur deux) l'un des deux morceaux et on le casse en un point uniforme. Probabilité que les trois morceaux forment un triangle ?
+--- indice
+Si l'on casse le plus court, le plus long reste plus grand que $1/2$.
+--- solution
+- Casser le plus court (probabilité $1/2$) : le plus long dépasse $1/2$, aucun triangle.
+- Casser le plus long (probabilité $1/2$) : c'est le problème d'origine, probabilité $2 \ln 2 - 1$.
+Total : $\frac12 (2\ln 2 - 1) = \ln 2 - \frac12 \approx$ **0,193**.
+
+=== ct-p-trois-longueurs
+parent: ct-p-baton-casse-deux-fois
+titre: Trois longueurs uniformes forment-elles un triangle ?
+niveau: 2
+type: numerique
+reponse: 1/2
+--- question
+On tire trois longueurs indépendantes uniformes sur $[0, 1]$. Probabilité qu'elles forment un triangle ?
+--- indice
+Le triangle échoue si la plus grande dépasse la somme des deux autres. Calcule $\mathbb{P}(X \ge Y + Z)$.
+--- solution
+$\mathbb{P}(X \ge Y + Z) = \int_0^1 \frac{x^2}{2}\,dx = \frac16$ (aire du triangle $y + z \le x$). Les trois événements « une longueur dépasse la somme des deux autres » sont disjoints : $\mathbb{P}(\text{échec}) = 3/6$. Triangle : **1/2**.
+
+=== ct-p-tennis-jeu
+parent: ct-p-deuce-tennis
+titre: Gagner un jeu de tennis depuis 0-0
+niveau: 3
+type: numerique
+reponse: 0.6^4*(1+4*0.4+10*0.4^2)+20*0.6^3*0.4^3*9/13
+--- question
+Tu gagnes chaque point avec probabilité $0{,}6$. Probabilité de gagner un jeu de tennis depuis 0-0 (il faut 4 points et deux d'avance) ?
+--- indice
+Sépare les jeux gagnés à 4-0, 4-1, 4-2, et ceux qui passent par 3-3 (« égalité »).
+--- solution
+- 4-0, 4-1, 4-2 : le dernier point est gagné et les $k$ points perdus se placent parmi les $3 + k$ précédents, $\binom{3}{0}, \binom{4}{1}, \binom{5}{2} = 1, 4, 10$ façons : $p^4\left(1 + 4q + 10q^2\right)$.
+- Égalité à 3-3 : $\binom{6}{3} p^3 q^3 = 20p^3q^3$, puis $\frac{p^2}{p^2 + q^2} = \frac{9}{13}$.
+Total : $0{,}5443 + 0{,}1914 \approx$ **0,736**. Un avantage de 60 % par point devient 74 % par jeu, et davantage par set : le format amplifie l'avantage.
+
+=== ct-p-paires-rouge-puis-noire
+parent: ct-p-paires-rouge-noire
+titre: Paires « rouge puis noire »
+type: numerique
+reponse: 13
+tolerance: 0
+--- question
+On aligne un jeu de 52 cartes mélangé. En moyenne, combien de positions sont occupées par une carte rouge immédiatement suivie d'une carte noire ?
+--- indice
+Linéarité de l'espérance sur les 51 paires de voisines.
+--- solution
+$\mathbb{P}(\text{rouge puis noire}) = \frac{26}{52} \times \frac{26}{51}$ pour chaque paire ; sur 51 paires : $51 \times \frac{26}{52} \times \frac{26}{51} = 13$. Réponse : **13**, la moitié des 26 changements de couleur.
+
+=== ct-p-series-pieces
+parent: ct-p-paires-rouge-noire
+titre: Le nombre moyen de séries
+type: numerique
+reponse: 5.5
+--- question
+On lance 10 fois une pièce équilibrée. Une « série » est un bloc maximal de résultats identiques (PPFPPP contient 3 séries). Nombre moyen de séries ?
+--- indice
+Une série commence au premier lancer, puis à chaque changement.
+--- solution
+Séries $= 1 +$ nombre de changements entre lancers consécutifs. Chacun des 9 couples change avec probabilité $1/2$ : $1 + 9/2 =$ **5,5**. Utile pour tester l'indépendance d'une suite (test des séries) : trop peu de séries signale une persistance.
+
+=== ct-p-ivrogne-equitable
+parent: ct-p-ivrogne-falaise
+titre: L'ivrogne avec $p = 1/2$
+niveau: 3
+--- question
+L'ivrogne est à un pas de la falaise et fait maintenant chaque pas vers le bord ou vers l'intérieur avec probabilité $1/2$. Tombe-t-il presque sûrement ? Combien de pas en moyenne avant la chute ?
+--- indice
+L'équation $x = \frac12 + \frac12 x^2$ a une racine double. Pour le temps moyen, compare avec la ruine du joueur contre une banque infinie.
+--- solution
+$x = \frac12 + \frac12 x^2$ donne $(x - 1)^2 = 0$ : il **tombe presque sûrement** (la marche simple sur $\mathbb{Z}$ est récurrente).
+Mais le temps moyen est **infini** : avec une seconde barrière à distance $N$, la durée moyenne vaut $1 \times (N - 1)$, qui tend vers l'infini. Il tombe à coup sûr, mais peut errer très longtemps ($\mathbb{P}(T > n) \sim c/\sqrt n$). C'est l'exemple type d'un temps d'arrêt fini mais d'espérance infinie.
+
+=== ct-p-serie-trois-piles
+parent: ct-p-sans-piles-consecutifs
+titre: Une série d'au moins 3 piles en 5 lancers
+niveau: 2
+type: numerique
+reponse: 1/4
+--- question
+On lance 5 fois une pièce équilibrée. Probabilité qu'apparaissent au moins 3 piles consécutifs ?
+--- indice
+Compte les suites sans 3 piles consécutifs par une récurrence, ou énumère selon la position du premier bloc PPP.
+--- solution
+Suites sans PPP : $a_n = a_{n-1} + a_{n-2} + a_{n-3}$ (la suite commence par F, PF ou PPF), avec $a_1 = 2$, $a_2 = 4$, $a_3 = 7$ : $a_4 = 13$, $a_5 = 24$. Avec PPP : $32 - 24 = 8$. Probabilité $8/32 =$ **1/4**.
+
+=== ct-p-intrus-cafe
+parent: ct-p-egalite-piles
+titre: L'intrus paie le café
+type: numerique
+reponse: 4/3
+--- question
+Trois amis lancent chacun une pièce ; celui dont le résultat diffère des deux autres paie le café. Si les trois résultats sont identiques, on recommence. Nombre moyen de tours ?
+--- indice
+Quelle est la probabilité qu'un tour désigne un intrus ?
+--- solution
+Un tour échoue seulement si les trois pièces sont identiques : $2/8$. Il réussit avec probabilité $6/8 = 3/4$ : nombre moyen de tours $1/(3/4) =$ **4/3**.
+
+=== ct-p-craps-huit
+parent: ct-p-craps
+titre: Un 8 avant un 7
+type: numerique
+reponse: 5/11
+--- question
+On lance deux dés de façon répétée. Probabilité d'obtenir un total de 8 avant d'obtenir un total de 7 ?
+--- indice
+Les lancers qui ne donnent ni 7 ni 8 ne comptent pas.
+--- solution
+On conditionne sur le premier lancer qui donne 7 ou 8 : $\frac{p_8}{p_8 + p_7} = \frac{5/36}{5/36 + 6/36} =$ **5/11**. C'est le calcul de chaque « point » au craps.
+
+=== ct-p-distance-centre-carre
+parent: ct-p-distance-centre
+titre: Plus près du centre que du bord
+niveau: 3
+type: numerique
+reponse: (4*sqrt(2)-5)/3
+tolerance: 0.01
+--- question
+On choisit un point uniforme dans un carré de côté 1. Probabilité qu'il soit plus près du centre du carré que du bord ?
+--- indice
+Par symétrie, travaille dans un huitième du carré, où le bord le plus proche est un côté donné. La frontière est une parabole.
+--- solution
+Centre en $(0, 0)$, carré $[-\frac12, \frac12]^2$, huitième $0 \le x \le y \le \frac12$ où le bord le plus proche est $y = \frac12$. Condition : $\sqrt{x^2 + y^2} < \frac12 - y$, soit $y < \frac14 - x^2$. On intègre entre la droite $y = x$ et la parabole, de $x = 0$ jusqu'à leur intersection $x_0 = \frac{\sqrt 2 - 1}{2}$ :
+$$\int_0^{x_0} \left(\frac14 - x^2 - x\right)dx,$$
+puis on multiplie par 8 (et divise par l'aire 1) : $\frac{4\sqrt 2 - 5}{3} \approx$ **0,219**.
+
+=== ct-p-distance-centre-boule
+parent: ct-p-distance-centre
+titre: Distance moyenne au centre d'une boule
+type: numerique
+reponse: 3/4
+--- question
+On choisit un point uniforme dans une boule de rayon 1 (en dimension 3). Quelle est sa distance moyenne au centre ?
+--- indice
+$\mathbb{P}(R \le r) = r^3$.
+--- solution
+Densité de $R$ : $3r^2$ sur $[0, 1]$. $\mathbb{E}[R] = \int_0^1 3r^3\,dr =$ **3/4**. En dimension $d$ : $\frac{d}{d + 1}$, de plus en plus proche de 1 : en grande dimension, presque tout le volume est près de la surface.
+
+=== ct-p-laplace-general
+parent: ct-p-succession-laplace
+titre: La règle de succession, 7 piles sur 10
+type: numerique
+reponse: 2/3
+--- question
+Une pièce de biais inconnu, uniforme a priori sur $[0, 1]$, donne 7 piles en 10 lancers. Probabilité que le lancer suivant soit pile ?
+--- indice
+La loi a posteriori est une loi bêta.
+--- solution
+A posteriori, $p \sim \mathrm{Beta}(k + 1, n - k + 1) = \mathrm{Beta}(8, 4)$, de moyenne $\frac{8}{12}$. Probabilité **$2/3$**, et non $0{,}7$ : l'a priori uniforme tire l'estimation vers $1/2$ (règle $\frac{k + 1}{n + 2}$). Sans aucun lancer, on retrouve $1/2$.
+
+=== proba-deux-enfants-aine
+parent: proba-deux-enfants
+titre: L'aîné est un garçon
+type: numerique
+reponse: 1/2
+voir: ct-p-garcon-mardi
+--- question
+Une famille a deux enfants. On sait que l'**aîné** est un garçon. Probabilité que les deux soient des garçons ?
+--- indice
+Quels cas l'information exclut-elle cette fois ?
+--- solution
+L'information exclut FG et FF (aîné en premier) : il reste GG et GF, probabilité **1/2**. Avec « au moins un garçon », on gardait trois cas et l'on trouvait $1/3$ : la façon dont l'information a été obtenue change la réponse.
+
+=== proba-monty-hall-cent
+parent: proba-monty-hall
+titre: Monty Hall à 100 portes
+type: numerique
+reponse: 99/100
+--- question
+100 portes, une voiture. Tu en choisis une ; le présentateur, qui sait, ouvre 98 autres portes vides. Probabilité de gagner si tu changes pour la dernière porte fermée ?
+--- indice
+Quelle est la probabilité que ton premier choix soit le bon ?
+--- solution
+Ton choix initial gagne avec probabilité $1/100$, et l'ouverture des portes n'y change rien. Changer gagne avec probabilité **99/100**. Cette version rend l'intuition évidente : c'est la meilleure façon d'expliquer Monty Hall.
+
+=== proba-monty-hall-hasard
+parent: proba-monty-hall
+titre: Monty Hall avec un présentateur ignorant
+niveau: 2
+type: numerique
+reponse: 1/2
+--- question
+Trois portes. Tu choisis la porte 1 ; le présentateur, qui **ne sait pas** où est la voiture, ouvre au hasard l'une des deux autres, et elle se trouve vide. Probabilité de gagner en changeant ?
+--- indice
+Le fait que la porte ouverte soit vide est maintenant une information sur la position de la voiture.
+--- solution
+Cas équiprobables (voiture, porte ouverte) : (1, 2), (1, 3), (2, 3), (3, 2), et (2, 2), (3, 3) où il montre la voiture. Sachant la porte ouverte vide, il reste 4 cas : la voiture est en 1 dans 2 cas, derrière l'autre porte fermée dans 2 cas. Changer ou non : **1/2**. Toute la valeur de l'énoncé d'origine vient de ce que le présentateur **sait**.
+
+=== proba-monty-hall-gauche
+parent: proba-monty-hall
+titre: Monty Hall avec un présentateur prévisible
+niveau: 3
+type: numerique
+reponse: 1/2
+--- question
+Tu choisis la porte 1. Le présentateur sait où est la voiture et ouvre toujours une porte vide ; quand il a le choix (voiture derrière ta porte), il ouvre la porte 2. Il ouvre la porte 2. Probabilité de gagner en changeant pour la porte 3 ?
+--- indice
+Liste les positions de la voiture compatibles avec « il ouvre la porte 2 », avec leurs probabilités.
+--- solution
+- Voiture en 1 (probabilité $1/3$) : il ouvre la 2 (règle).
+- Voiture en 3 ($1/3$) : il doit ouvrir la 2.
+- Voiture en 2 : il ouvre la 3, exclu.
+Sachant qu'il ouvre la 2, la voiture est en 1 ou en 3 avec la même probabilité : changer gagne avec probabilité **1/2**. S'il avait ouvert la 3, changer gagnerait à coup sûr. En moyenne sur les deux cas, on retrouve $2/3$.
+
+=== proba-demi-cercle-quatre
+parent: proba-demi-cercle
+titre: Quatre points dans un demi-cercle
+type: numerique
+reponse: 1/2
+voir: ct-p-triangle-aigu
+--- question
+On place quatre points uniformément sur un cercle. Probabilité qu'ils soient tous dans un même demi-cercle ?
+--- indice
+Même argument qu'à trois points : quel point « ouvre » le demi-cercle ?
+--- solution
+Pour un point donné, les trois autres sont dans le demi-cercle horaire qui part de lui avec probabilité $(1/2)^3$ ; ces événements sont disjoints : $4 \times 1/8 =$ **1/2**. En général $\frac{n}{2^{n-1}}$.
+
+=== proba-uniformes-decroissance
+parent: proba-somme-uniformes-depasse-un
+titre: Tirer jusqu'à une décroissance
+niveau: 3
+type: numerique
+reponse: e
+--- question
+On tire des uniformes indépendantes sur $[0, 1]$ et l'on s'arrête dès qu'un tirage est plus petit que le précédent. Combien de tirages en moyenne (le dernier compris) ?
+--- indice
+$\mathbb{P}(N > n)$ est la probabilité que les $n$ premiers tirages soient croissants.
+--- solution
+Les $n$ premiers tirages sont dans l'ordre croissant avec probabilité $1/n!$ (un ordre parmi $n!$ équiprobables). Donc $\mathbb{E}[N] = \sum_{n \ge 0} \mathbb{P}(N > n) = \sum_{n \ge 0} \frac{1}{n!} =$ **$e$**. Même réponse que pour la somme qui dépasse 1, pour la même raison : un volume $1/n!$.
+
+=== proba-anniversaires-99
+parent: proba-anniversaires
+titre: Anniversaires : dépasser 99 %
+niveau: 2
+type: numerique
+reponse: 57
+tolerance: 0
+--- question
+À partir de combien de personnes la probabilité qu'au moins deux aient le même anniversaire dépasse-t-elle 99 % ?
+--- indice
+$\mathbb{P}(\text{aucune collision}) \approx \exp\left(-\frac{n(n - 1)}{730}\right)$ ; cherche quand elle passe sous $0{,}01$.
+--- solution
+$\exp\left(-\frac{n(n - 1)}{730}\right) < 0{,}01 \iff n(n - 1) > 730 \ln 100 \approx 3\,362$, soit $n \ge 59$ avec cette approximation, un peu pessimiste. Le calcul exact donne **57**. Ordre de grandeur général : $\sqrt{2 \times 365 \times \ln(1/\varepsilon)}$.
+
+=== proba-de-relance-payante
+parent: proba-de-avec-relance
+titre: Relances illimitées à 1 € chacune
+niveau: 3
+type: numerique
+reponse: 4
+tolerance: 0
+--- question
+Tu lances un dé et reçois le montant affiché ; tu peux relancer autant de fois que tu veux, chaque relance coûtant 1 €. Valeur du jeu avec la meilleure stratégie ?
+--- indice
+Si le jeu vaut $V$, on relance tant que le résultat est inférieur à $V - 1$.
+--- solution
+Supposons qu'on garde 4, 5, 6 et qu'on relance 1, 2, 3 : $V = \frac{4 + 5 + 6}{6} + \frac12(V - 1)$, soit $V = 2{,}5 + \frac{V}{2} - \frac12$ et $V = 4$. Cohérence : relancer rapporte $V - 1 = 3$, donc on relance 1 et 2 et l'on est indifférent pour 3. Valeur **4 €**.
+
+=== proba-bertrand-cartes
+parent: proba-bertrand-boites
+titre: Les trois cartes bicolores
+type: numerique
+reponse: 2/3
+--- question
+Trois cartes : l'une rouge des deux côtés, l'une blanche des deux côtés, l'une rouge d'un côté et blanche de l'autre. On en tire une au hasard et on la pose sur la table : la face visible est rouge. Probabilité que l'autre face soit rouge ?
+--- indice
+Compte les **faces** rouges, pas les cartes.
+--- solution
+Il y a 3 faces rouges équiprobables, dont 2 sur la carte rouge-rouge : **2/3**. La réponse intuitive $1/2$ (« c'est l'une des deux cartes à face rouge ») oublie que la carte rouge-rouge a deux façons de montrer du rouge.
+
+=== proba-piece-truquee-mille
+parent: proba-piece-truquee-bayes
+titre: 1 000 pièces dont une à deux piles
+niveau: 2
+type: numerique
+reponse: 1024/2023
+--- question
+Parmi 1 000 pièces, une a deux faces pile. Tu en prends une au hasard et la lances 10 fois : 10 piles. Probabilité d'avoir la pièce truquée ?
+--- indice
+Raisonne en cotes : a priori 1 contre 999, rapport de vraisemblance $2^{10}$.
+--- solution
+Cote a posteriori : $\frac{1}{999} \times 1\,024 = \frac{1024}{999}$, soit une probabilité $\frac{1024}{1024 + 999} = \frac{1024}{2023} \approx$ **0,506**. Malgré dix piles d'affilée, c'est à peine plus d'une chance sur deux : l'a priori est très défavorable.
+
+=== proba-piece-truquee-deux
+parent: proba-piece-truquee-bayes
+titre: Deux pièces, trois piles
+type: numerique
+reponse: 8/9
+--- question
+Deux pièces : l'une normale, l'autre à deux faces pile. Tu en prends une au hasard et la lances 3 fois : 3 piles. Probabilité d'avoir la pièce truquée ?
+--- indice
+Cotes : a priori 1 contre 1, rapport de vraisemblance $2^3$.
+--- solution
+Cote a posteriori $8 : 1$, probabilité **8/9**.
+
+=== proba-de-mere-deux-des
+parent: proba-de-mere-un
+titre: Le second pari du chevalier de Méré
+type: numerique
+reponse: 1-(35/36)^24
+--- question
+Probabilité d'obtenir au moins un double six en lançant 24 fois deux dés ?
+--- indice
+Passe par le complémentaire.
+--- solution
+$1 - (35/36)^{24} \approx$ **0,491**, moins de 1/2. Le chevalier pensait que ce pari valait le premier ($4/6 = 24/36$, « règle de proportionnalité ») ; elle ne vaut pas pour des probabilités : c'est l'erreur qui a lancé la correspondance Pascal-Fermat.

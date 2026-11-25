@@ -15,9 +15,6 @@ Une fourmi marche à la surface d'un cube d'arête 1, d'un sommet au sommet oppo
 Déplie deux faces adjacentes à plat.
 --- solution
 En dépliant deux faces adjacentes, on obtient un rectangle $1 \times 2$ dont le trajet est la diagonale : $\sqrt{1^2 + 2^2} = \sqrt 5 \approx$ **2,236**. (À travers le cube, ce serait $\sqrt 3$, et en longeant les arêtes, 3.)
---- variantes
-- Pavé $a \times b \times c$ : le plus court est $\sqrt{(a + b)^2 + c^2}$ avec $c$ la plus grande dimension.
-- L'araignée et la mouche dans une pièce $30 \times 12 \times 12$ (problème de Dudeney) : 40, par un dépliage qui traverse cinq faces.
 
 === ct-corde-terre
 theme: casse-tete
@@ -50,8 +47,6 @@ Une pièce roule sans glisser autour d'une pièce identique fixe, jusqu'à reven
 Le centre de la pièce mobile décrit un cercle de rayon $2r$.
 --- solution
 Le centre parcourt un cercle de rayon $2r$, soit $4\pi r$ ; la rotation propre vaut cette distance divisée par $r$, soit $4\pi$ : **2 tours**. Intuitivement : un tour dû au roulement, plus un tour dû au fait de contourner le cercle.
---- variantes
-- Autour d'une pièce de rayon $R$ : $1 + R/r$ tours ; à l'intérieur d'un anneau de rayon $R$ : $R/r - 1$ tours.
 
 === ct-anneau-serviette
 theme: casse-tete
@@ -116,9 +111,6 @@ What is the angle (in degrees) between the clock hands at 3:15?
 L'aiguille des heures avance de 0,5° par minute.
 --- solution
 L'aiguille des minutes est sur 3 (90°). Celle des heures a avancé d'un quart d'heure au-delà de 3 : $90° + 15 \times 0{,}5° = 97{,}5°$. Angle : **7,5°**.
---- variantes
-- À 3 h 25 : minutes à 150°, heures à $90 + 12{,}5 = 102{,}5°$, angle 47,5°.
-- À 9 h 30 : 105°. Formule générale : $|30h - 5{,}5m|$ degrés.
 
 === ct-superpositions
 theme: casse-tete
@@ -135,9 +127,6 @@ Combien de fois par jour (24 heures) les aiguilles des heures et des minutes se 
 L'aiguille des minutes fait 24 tours, celle des heures 2.
 --- solution
 L'aiguille des minutes rattrape celle des heures une fois par tour de retard : $24 - 2 =$ **22** fois (toutes les $12/11$ heures).
---- variantes
-- Angles droits : 44 fois par jour (deux par « rattrapage »).
-- Première superposition après 5 h : à 5 h $\frac{300}{11}$ min, soit 5 h 27 min 16 s.
 
 === ct-vitesse-moyenne
 theme: casse-tete
@@ -154,9 +143,6 @@ Une voiture fait l'aller à 30 km/h et le retour, même distance, à 60 km/h. Qu
 Ce n'est pas 45 : la voiture passe plus de temps à 30 km/h.
 --- solution
 Pour une distance $d$ : temps $d/30 + d/60 = d/20$, distance $2d$ : $40$ km/h (moyenne harmonique $\frac{2}{1/30 + 1/60}$). **40 km/h**.
---- variantes
-- Premier tour d'un circuit à 30 km/h : impossible d'atteindre 60 km/h de moyenne sur deux tours, même infiniment vite au second (le temps est déjà épuisé).
-- Avion aller-retour avec un vent constant : le trajet est **plus long** qu'en air calme ($\frac{2d\,v}{v^2 - w^2} > \frac{2d}{v}$).
 
 === ct-escargot
 theme: casse-tete
@@ -173,8 +159,6 @@ Un escargot au fond d'un puits de 30 m monte de 3 m le jour et glisse de 2 m la 
 Le dernier jour, il ne glisse pas.
 --- solution
 Après $n$ jours et nuits, il est à $n$ mètres. Il sort pendant la journée où il atteint 30 : il doit partir d'au moins 27 m, atteint au matin du 28ᵉ jour. **Jour 28**.
---- variantes
-- Puits de 10 m : jour 8.
 
 === ct-nenuphars
 theme: casse-tete
@@ -191,8 +175,6 @@ Une tache de nénuphars double de surface chaque jour et couvre tout l'étang le
 Pense à rebours.
 --- solution
 La veille : **jour 47**.
---- variantes
-- Si l'on part avec deux nénuphars au lieu d'un : un jour de moins, l'étang est couvert le 47ᵉ jour.
 
 === ct-chapeau-riviere
 theme: casse-tete
@@ -209,8 +191,6 @@ Un rameur remonte une rivière ; son chapeau tombe à l'eau. Il s'en aperçoit 1
 Place-toi dans le référentiel de l'eau.
 --- solution
 Dans le référentiel de l'eau, le chapeau est immobile et le rameur s'en éloigne 10 minutes puis revient à la même vitesse : **10 minutes**, quelle que soit la vitesse du courant.
---- variantes
-- Si le chapeau est retrouvé 1 km en aval du point de chute, le courant vaut $1 / (20/60) = 3$ km/h.
 
 === ct-course-handicap
 theme: casse-tete
@@ -255,5 +235,3 @@ Two trains 100 km apart approach each other at 50 km/h each. A fly shuttles betw
 Combien de temps vole-t-elle ?
 --- solution
 Les trains se rencontrent après 1 heure ; la mouche vole pendant 1 heure : **75 km**. Inutile de sommer la série infinie des allers-retours (anecdote attribuée à von Neumann, qui… a sommé la série de tête).
---- variantes
-- Un chien fait des allers-retours entre son maître et la maison : même principe, $\text{distance} = \text{vitesse} \times \text{durée}$.

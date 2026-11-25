@@ -1,0 +1,661 @@
+# QCM des variantes de casse-têtes : logique, nombres, dénombrement.
+
+=== ct-boites-etiquettes-pommes
++ Non : une orange laisse deux possibilités (oranges ou mélange)
+  Seule la boîte « mélange » contient forcément un seul type de fruit.
+- Oui, comme dans la boîte « mélange »
+  La boîte « pommes » peut contenir le mélange, qui contient aussi des oranges.
+- Oui, si l'on tire une pomme
+  Dans ce cas, oui ; mais il faut que cela marche dans tous les cas.
+- Non, il faut toujours trois fruits
+  Un fruit suffit dans la boîte « mélange ».
+
+=== ct-interrupteurs-trois-ampoules
++ Allumer le 1 un moment, l'éteindre, allumer le 2 : allumée, éteinte chaude, éteinte froide
+  Trois états distincts pour trois ampoules, comme pour une seule ampoule.
+- Allumer les trois et observer laquelle s'éteint en dernier
+  Il n'y a qu'une visite : on ne peut pas observer dans le temps.
+- C'est impossible avec une seule visite
+  La chaleur fournit l'information manquante.
+- Allumer le 1 et le 2 en même temps
+  Leurs ampoules seraient indiscernables.
+
+=== ct-interrupteurs-quatre
++ Combiner deux informations par ampoule (allumée ou non, chaude ou non) : 4 états
+  Allumer 1 et 2 longtemps, éteindre 2, allumer 3 juste avant d'entrer.
+- C'est impossible : il n'y a que trois états
+  « Allumée et froide » est un quatrième état si l'on allume juste avant d'entrer.
+- Utiliser trois niveaux de chaleur
+  Trop imprécis : on ne distingue pas « tiède » de « chaude » de façon fiable.
+- Allumer chaque interrupteur une durée différente
+  Une ampoule éteinte ne dit pas combien de temps elle a brillé, seulement si elle a chauffé.
+
+=== ct-deux-gardiens-un-seul
++ « Si je te demandais si la gauche mène à la liberté, répondrais-tu oui ? »
+  Le menteur ment sur un mensonge : la double négation donne la vérité.
+- « La gauche mène-t-elle à la liberté ? »
+  La réponse dépend de la nature du gardien, inconnue.
+- « Es-tu menteur ? »
+  Les deux répondent « non ».
+- C'est impossible avec un seul gardien
+  La question imbriquée suffit.
+
+=== ct-deux-gardiens-villages
++ « Montre-moi la route de ton village »
+  Le sincère montre le sien (sincères), le menteur ment sur le sien et montre celui des sincères.
+- « Quelle route mène au village des sincères ? »
+  Le menteur montrerait l'autre route.
+- « Es-tu sincère ? »
+  Tout le monde répond oui.
+- « Quelle route ne mène pas au village des menteurs ? »
+  La réponse dépend encore de la nature de l'habitant.
+
+=== ct-chevaliers-fripons-au-moins-un
++ A chevalier, B fripon
+  Un fripon ne peut pas dire « au moins l'un de nous est fripon », qui serait vrai.
+- A fripon, B chevalier
+  La phrase de A serait vraie : impossible pour un fripon.
+- Les deux fripons
+  Même contradiction : la phrase serait vraie.
+- Les deux chevaliers
+  La phrase de A serait fausse.
+
+=== ct-chevaliers-fripons-meme-nature
++ B est chevalier ; la nature de A est indéterminée
+  A chevalier ⇒ B chevalier ; A fripon ⇒ B de nature différente, donc chevalier.
+- A et B sont chevaliers
+  A peut aussi être fripon : on ne sait rien de lui.
+- A est fripon, B chevalier
+  Possible, mais pas forcé.
+- On ne peut rien dire
+  On sait au moins que B est chevalier.
+
+=== ct-chevaliers-fripons-trois
++ A fripon, B chevalier, C fripon
+  A ne peut pas être chevalier ; si B était fripon, C serait l'unique chevalier et B dirait vrai.
+- A fripon, B fripon, C chevalier
+  Alors « exactement un chevalier » serait vrai dans la bouche d'un fripon.
+- Tous fripons
+  La phrase de A serait vraie.
+- A chevalier, B et C fripons
+  Un chevalier ne dit pas « nous sommes tous fripons ».
+
+=== ct-yeux-bleus-fronts-sales
++ Au $k$-ième appel, tous ensemble
+  Chacun voit $k - 1$ fronts sales et attend $k - 1$ appels sans main levée.
+- Au premier appel
+  Seulement si $k = 1$.
+- Jamais : chacun voit des fronts sales
+  L'annonce crée une connaissance commune qui permet de conclure.
+- Un par un, à chaque appel
+  Ils raisonnent tous pareil et lèvent la main en même temps.
+
+=== ct-yeux-bleus-maris
++ Les $k$ maris infidèles sont chassés ensemble le $k$-ième soir
+  Même structure que les yeux bleus, chaque épouse trompée connaissant $k - 1$ infidèles.
+- Rien ne se passe
+  L'annonce publique déclenche le compte à rebours.
+- Ils sont chassés le premier soir
+  Chaque épouse trompée connaît d'autres infidèles et ne peut pas conclure seule.
+- Tous les maris sont chassés le $k$-ième soir
+  Les épouses non trompées, qui connaissent $k$ infidèles, attendraient le soir $k + 1$, inutilement.
+
+=== ct-ages-trois-filles-72
++ 3, 3 et 8 ans
+  Somme ambiguë 14 entre (2,6,6) et (3,3,8) ; l'aînée unique exclut (2,6,6).
+- 2, 6 et 6 ans
+  Pas d'aînée unique.
+- 2, 2 et 9 ans
+  C'est la réponse pour un produit de 36.
+- 3, 4 et 6 ans
+  Somme 13 unique : il n'aurait pas manqué d'information.
+
+=== ct-ages-cinq-enfants
++ Non : (1,1,3,3,8) et (1,2,2,2,9) restent possibles
+  Seule la somme 16 est ambiguë, et l'aîné unique n'élimine que (1,1,2,6,6).
+- Oui : 1, 1, 3, 3 et 8
+  C'est plaquer la réponse du problème à trois filles.
+- Oui : 1, 2, 2, 2 et 9
+  Possible, mais pas unique.
+- Oui : 1, 1, 2, 6 et 6
+  Deux aînés de 6 ans : exclu par l'indice.
+
+=== ct-chapeaux-k-couleurs
++ 99
+  Le dernier annonce la somme des couleurs modulo $k$ ; chacun en déduit la sienne.
+- $100 - (k - 1)$
+  Une seule annonce de somme modulo $k$ suffit, quel que soit $k$.
+- 50
+  C'est la stratégie naïve par paires.
+- $100/k$
+  Le nombre de couleurs n'affecte que la chance du dernier.
+
+=== ct-chapeaux-cercle
++ La personne $i$ suppose que la somme des couleurs vaut $i$ modulo $n$
+  La somme réelle prend une seule valeur : exactement une personne a raison.
+- Chacun annonce la couleur la plus fréquente qu'il voit
+  Rien ne garantit qu'un seul ait raison.
+- Chacun annonce au hasard
+  Une personne a raison en moyenne, mais pas à coup sûr.
+- C'est impossible quand tout le monde parle en même temps
+  La stratégie des sommes modulo $n$ garantit une réponse juste.
+
+=== ct-chapeaux-simultanes-sept
++ $7/8$
+  Code de Hamming $(7, 4)$ : on ne perd que sur les 16 mots du code parmi 128.
+- $3/4$
+  C'est la réponse à trois joueurs.
+- $1/2$
+  Il ne suffit pas qu'un seul joue : on regroupe les erreurs.
+- $127/128$
+  On ne peut faire mieux que $1 - 1/(n + 1)$.
+
+=== ct-prisonniers-ampoule-inconnue
++ Chacun allume deux fois ; le compteur annonce à 198
+  198 est atteignable dans tous les cas et garantit que les 99 sont passés.
+- Chacun allume deux fois ; le compteur annonce à 197
+  Si l'ampoule était allumée au départ, 98 prisonniers suffisent à atteindre 197.
+- Même stratégie qu'avant, compteur à 99
+  Un allumage initial fausserait le compte.
+- Chacun allume une fois, compteur à 100
+  Si l'ampoule était éteinte, le compte n'atteint jamais 100.
+
+=== ct-prisonniers-boites-limite
++ $1 - \ln 2 \approx 0{,}31$
+  $\sum_{k=n+1}^{2n} 1/k \to \ln 2$.
+- 0
+  La stratégie des cycles résiste au nombre : c'est le résultat surprenant.
+- $1/2$
+  C'est la probabilité de réussite d'un prisonnier isolé.
+- $1/e$
+  Constante voisine, mais la limite est $1 - \ln 2$.
+
+=== ct-prisonniers-boites-cycles
++ $H_{10} \approx 2{,}93$
+  Il y a en moyenne $1/k$ cycle de longueur $k$.
+- 1
+  Une permutation aléatoire a souvent plusieurs cycles.
+- 5
+  On a imaginé une permutation faite de transpositions.
+- $10/e$
+  C'est le nombre moyen de points fixes… qui vaut en fait 1.
+
+=== ct-pieces-yeux-bandes-general
++ Prendre $n$ pièces quelconques et toutes les retourner
+  Si elles contiennent $k$ faces, l'autre tas en a $n - k$, et elles aussi après retournement.
+- Faire deux tas de $N/2$
+  Rien ne garantit l'égalité.
+- Prendre $N - n$ pièces et les retourner
+  La taille du tas doit être le nombre de faces $n$.
+- C'est impossible si $n$ est impair
+  La méthode marche pour tout $n$.
+
+=== ct-guetteur-mensonge
++ 11
+  Il faut $2^k \ge 100(k + 1)$ : $k = 11$, et c'est atteignable.
+- 14
+  C'est $7 \times 2$, comme si l'on posait chaque question deux fois.
+- 21
+  C'est $7 \times 3$ : répéter chaque question trois fois marche mais gaspille.
+- 8
+  Un seul mensonge coûte plus qu'une question supplémentaire.
+
+=== ct-batte-balle-machines
++ 5 minutes
+  Chaque machine fait un objet en 5 minutes, toutes en parallèle.
+- 100 minutes
+  On a mis le nombre d'objets à la place de la durée.
+- 1 minute
+  On a divisé par 5 sans raison.
+- 20 minutes
+  On a pris $100/5$.
+
+=== ct-batte-balle-brique
++ 2 kg
+  $b = 1 + b/2$.
+- 1,5 kg
+  Réponse intuitive : $1 + 0{,}5$ ; la demi-brique pèse alors $0{,}75$.
+- 1 kg
+  On a oublié la demi-brique.
+- 3 kg
+  Erreur dans la résolution de $b/2 = 1$.
+
+=== ct-batte-balle-action
++ −25 %
+  $0{,}5 \times 1{,}5 = 0{,}75$.
+- 0 %
+  Les pourcentages ne s'additionnent pas.
+- −50 %
+  On a oublié la remontée.
+- +25 %
+  Le signe est inversé.
+
+=== ct-josephus-trois
++ 31
+  Récurrence $J(n) = (J(n - 1) + 3) \bmod n$ jusqu'à $n = 41$.
+- 19
+  C'est le survivant pour $k = 2$ ($41 = 32 + 9$, $2 \times 9 + 1$).
+- 41
+  Le dernier n'est pas favorisé.
+- 3
+  Il est éliminé en premier.
+
+=== ct-sommes-consecutives-puissances
++ Les puissances de 2
+  $2N = k(2m + k - 1)$ exige un facteur impair $> 1$, absent pour $2^a$.
+- Les nombres premiers
+  $7 = 3 + 4$ : un premier impair s'écrit toujours ainsi.
+- Les nombres pairs
+  $6 = 1 + 2 + 3$.
+- Aucun : tout entier s'écrit ainsi
+  1, 2, 4, 8, … n'ont pas d'écriture à au moins deux termes.
+
+=== ct-zeros-factorielle-mille
++ 249
+  $200 + 40 + 8 + 1$ (Legendre).
+- 200
+  On a oublié les multiples de 25, 125 et 625.
+- 248
+  On a oublié 625.
+- 100
+  On a compté les multiples de 10.
+
+=== ct-zeros-factorielle-non-nul
++ 4
+  Après avoir retiré les paires $2 \times 5$, on suit le reste modulo 10.
+- 0
+  C'est le dernier chiffre, pas le dernier non nul.
+- 2
+  On a oublié l'excédent de facteurs 2.
+- 8
+  Erreur de suivi des puissances de 2 restantes.
+
+=== ct-dernier-chiffre-modulo-sept
++ 2
+  $2^3 \equiv 1$ et $100 = 3 \times 33 + 1$.
+- 1
+  On a supposé $100$ multiple de 3.
+- 4
+  On a pris un reste de 2 dans la division de 100 par 3.
+- 0
+  $2^{100}$ n'est pas divisible par 7.
+
+=== ct-dernier-chiffre-deux
++ 01
+  $3^{10} \equiv 49$, $49^2 \equiv 1 \pmod{100}$.
+- 49
+  C'est $3^{10}$ modulo 100.
+- 81
+  C'est $3^4$ : on a raisonné avec une période de 4 qui ne vaut que pour le dernier chiffre.
+- 00
+  Une puissance de 3 n'est pas divisible par 10.
+
+=== ct-impairs-gauss
++ 5 050
+  50 paires de somme 101.
+- 5 000
+  On a pris 100 × 50 sans le terme « +1 ».
+- 10 100
+  On a oublié de diviser par 2.
+- 2 500
+  C'est la somme des impairs seulement.
+
+=== ct-impairs-chiffres
++ 901
+  De 00 à 99, chaque chiffre apparaît 20 fois ; plus 1 pour 100.
+- 900
+  On a oublié le 1 de 100.
+- 5 050
+  C'est la somme des **nombres**, pas des chiffres.
+- 450
+  On a compté une seule position.
+
+=== ct-frobenius-nuggets
++ 43
+  Reste 1 modulo 3 : il faut deux boîtes de 20 ; tout nombre $\ge 46$ marche, 43 non.
+- 23
+  Impossible aussi, mais pas le plus grand.
+- 120
+  C'est $6 \times 20$, sans rapport.
+- Il n'y en a pas
+  $\mathrm{pgcd}(6, 9, 20) = 1$ garantit seulement qu'il y en a un nombre fini.
+
+=== ct-frobenius-pgcd
++ Non : tous les montants impairs sont impossibles
+  $\mathrm{pgcd}(4, 6) = 2$ : on ne paie que des nombres pairs.
+- Oui, 7
+  7 est impossible, mais 9, 11, 13… aussi : il n'y a pas de plus grand.
+- Oui, 14
+  La formule de Frobenius ne s'applique pas ici.
+- Oui, 2
+  2 est impossible, mais 3, 5, 7… aussi.
+
+=== ct-multiples-3-5-combien
++ 467
+  $333 + 200 - 66$.
+- 533
+  On a oublié de retirer les multiples de 15.
+- 466
+  On a exclu 1 000 alors qu'il est multiple de 5.
+- 400
+  On a confondu avec les entiers premiers avec 1 000.
+
+=== ct-multiples-3-5-euler
++ 400
+  $1000 \times \frac12 \times \frac45$.
+- 500
+  On a seulement retiré les pairs.
+- 300
+  On a retiré pairs et multiples de 5 sans rajouter les multiples de 10.
+- 600
+  On a compté les entiers **non** premiers avec 1 000.
+
+=== ct-diviseurs-impair
++ Les carrés parfaits
+  Les diviseurs vont par paires $(d, n/d)$, sauf $d = \sqrt n$.
+- Les nombres premiers
+  Ils ont 2 diviseurs, un nombre pair.
+- Les nombres impairs
+  9 a 3 diviseurs, mais 15 en a 4.
+- Les puissances de 2
+  $2^a$ a $a + 1$ diviseurs, impair seulement si $a$ est pair (et alors c'est un carré).
+
+=== ct-diviseurs-premiers
++ 25
+  Crible jusqu'à 100 avec 2, 3, 5, 7.
+- 22
+  C'est l'approximation $100/\ln 100$.
+- 50
+  Les impairs ne sont pas tous premiers.
+- 26
+  On a compté 1, qui n'est pas premier.
+
+=== ct-e-pi-puissances
++ $2^{100}$
+  $63 \log_2 3 \approx 99{,}86 < 100$.
+- $3^{63}$
+  L'écart est faible : il faut $\log_2 3$ à trois décimales.
+- Ils sont égaux
+  $\log_2 3$ est irrationnel.
+- Impossible à dire sans calculatrice
+  $3^{12} \approx 2^{19}$ donne une estimation suffisante.
+
+=== ct-e-pi-99-100
++ $99^{100}$
+  $\frac{\ln x}{x}$ décroît après $e$ ; ou $\frac{99^{100}}{100^{99}} \approx 99/e$.
+- $100^{99}$
+  La plus grande base ne gagne pas : l'exposant pèse davantage ici.
+- Ils sont égaux
+  Aucune égalité de ce type entre entiers distincts au-delà de (2, 4).
+- Ça dépend de la base du logarithme
+  La comparaison ne dépend d'aucun choix de base.
+
+=== ct-e-pi-equation
++ 3
+  2, 4, et une racine négative vers $-0{,}77$.
+- 2
+  On oublie la solution négative.
+- 1
+  On ne pense qu'à $x = 2$.
+- Une infinité
+  $2^x$ finit par dominer $x^2$ : pas d'autre croisement.
+
+=== ct-tour-puissances-quatre
++ Une tour infinie ne peut pas valoir 4 : elle converge vers au plus $e$, et pour $\sqrt 2$ vers 2
+  $x^y = y$ est nécessaire mais pas suffisant.
+- Il n'y a pas d'erreur : $\sqrt 2$ donne à la fois 2 et 4
+  La suite converge vers un seul point fixe, le plus petit.
+- La bonne réponse est $\sqrt[4]{4}$
+  C'est aussi $\sqrt 2$.
+- La tour diverge pour $\sqrt 2$
+  Elle converge, vers 2.
+
+=== ct-tour-puissances-radical
++ 2
+  $y = \sqrt{2 + y}$ donne $y = 2$.
+- $\sqrt 2$
+  C'est le premier terme seulement.
+- $-1$
+  Racine parasite, exclue car $y > 0$.
+- Infini
+  La suite est croissante et bornée par 2.
+
+=== ct-tour-puissances-fraction
++ $\frac{1 + \sqrt 5}{2}$
+  $\varphi = 1 + 1/\varphi$.
+- 2
+  C'est la seconde réduite.
+- $\sqrt 2$
+  On a confondu avec un radical infini.
+- $\frac{1 - \sqrt 5}{2}$
+  Racine négative, exclue.
+
+=== ct-produit-max-reels
++ $2{,}5^4 \approx 39{,}06$
+  Quatre parts égales ; $k$ réel optimal $10/e \approx 3{,}7$.
+- 36
+  C'est le maximum avec des **entiers**.
+- $e^{10/e} \approx 39{,}6$
+  C'est la valeur pour $k$ réel, impossible : le nombre de parts est entier.
+- $(10/3)^3 \approx 37$
+  Trois parts sont moins bonnes que quatre.
+
+=== ct-produit-max-xx
++ $e^{-1/e} \approx 0{,}69$
+  Minimum en $x = 1/e$.
+- 0
+  $x^x \to 1$ quand $x \to 0^+$.
+- 1
+  C'est la valeur en $x = 1$ et la limite en 0, pas le minimum.
+- $1/e$
+  C'est le point du minimum, pas sa valeur.
+
+=== ct-chiffres-puissance-factorielle
++ $\approx 525$
+  Stirling : $\ln 100! \approx 363{,}7$, divisé par $\ln 2$.
+- 100
+  Un bit par élément ne suffit pas à coder un ordre.
+- 158
+  C'est le nombre de chiffres **décimaux** de $100!$.
+- 700
+  On a utilisé $n \log_2 n$ sans le terme $-n \log_2 e$.
+
+=== ct-irrationnel-puissance
++ Oui : avec $\sqrt 2^{\sqrt 2}$, rationnel ou non, une des deux constructions marche
+  Preuve non constructive classique.
+- Non : un irrationnel puissance un irrationnel est irrationnel
+  $\left(\sqrt 2^{\sqrt 2}\right)^{\sqrt 2} = 2$.
+- Non : il faudrait que l'un des deux soit rationnel
+  Faux : $\left(\sqrt 2^{\sqrt 2}\right)^{\sqrt 2} = 2$, ou encore $e^{\ln 2} = 2$ avec $e$ et $\ln 2$ irrationnels.
+- On ne le sait pas
+  On le sait, et l'on sait même que $\sqrt 2^{\sqrt 2}$ est irrationnel.
+
+=== ct-casiers-mille
++ 31
+  $31^2 = 961 \le 1\,000 < 32^2$.
+- 32
+  $32^2 = 1\,024$ dépasse 1 000.
+- 100
+  Mauvaise généralisation de l'énoncé à 100 casiers.
+- 500
+  Ce n'est pas un sur deux.
+
+=== ct-rois-non-attaquants-cavaliers
++ 32
+  Toutes les cases d'une couleur ; borne par les rectangles $2 \times 4$.
+- 16
+  C'est la réponse pour les rois.
+- 8
+  C'est la réponse pour les dames.
+- 64
+  Deux cavaliers voisins par saut s'attaquent.
+
+=== ct-rois-non-attaquants-dames
++ 92
+  Retour sur trace (12 à symétrie près).
+- 8
+  C'est le nombre de dames, pas de dispositions.
+- 12
+  C'est le nombre de solutions à symétrie près.
+- $8!$
+  Les permutations ne tiennent pas compte des diagonales.
+
+=== ct-carres-echiquier-rectangles
++ 1 296
+  $\binom92^2$.
+- 204
+  Ce sont les seuls carrés.
+- 64
+  Les cases unitaires.
+- 784
+  On a pris $\binom82^2$ : il y a 9 lignes de grille, pas 8.
+
+=== ct-carres-echiquier-grille
++ 385
+  $\frac{10 \cdot 11 \cdot 21}{6}$.
+- 100
+  Les cases unitaires seulement.
+- 3 025
+  C'est le nombre de rectangles $\binom{11}{2}^2$.
+- 285
+  C'est la somme des carrés jusqu'à 9.
+
+=== ct-poignees-diagonales
++ 35
+  $\binom{10}{2} - 10$.
+- 45
+  On a compté les côtés.
+- 70
+  Chaque diagonale comptée deux fois.
+- 20
+  On a pris deux par sommet.
+
+=== ct-poignees-championnat
++ 380
+  $20 \times 19$ couples ordonnés.
+- 190
+  C'est le nombre de matchs **simples**.
+- 400
+  On a inclus les « matchs » contre soi-même.
+- 38
+  C'est le nombre de journées d'un championnat aller-retour.
+
+=== ct-chiffre-un-sept
++ 20
+  10 aux unités, 10 aux dizaines.
+- 21
+  Pas de bonus pour 100 avec le chiffre 7.
+- 19
+  77 contient deux 7, il faut compter les deux.
+- 10
+  On n'a compté qu'une position.
+
+=== ct-chiffre-un-mille
++ 301
+  100 par position sur 000–999, plus 1 000.
+- 300
+  On a oublié 1 000.
+- 271
+  On a compté les **nombres** contenant au moins un 1, pas les chiffres.
+- 210
+  On a extrapolé linéairement à partir de 21.
+
+=== ct-anagrammes-bridge
++ $\approx 6{,}35 \times 10^{11}$
+  $\binom{52}{13}$ : l'ordre ne compte pas.
+- $\approx 4 \times 10^{21}$
+  On a compté l'ordre des cartes ($52!/39!$).
+- $52 \times 13$
+  On a multiplié le nombre de cartes par la taille de la main, comme s'il n'y avait qu'une carte à choisir.
+- $4^{13}$
+  On a pensé aux couleurs seulement.
+
+=== ct-dominos-escalier-binaire
++ 144
+  $s_n = s_{n-1} + s_{n-2}$, $s_1 = 2$, $s_2 = 3$.
+- 89
+  Décalage d'un rang.
+- 512
+  C'est la moitié des sous-ensembles : la contrainte retire bien plus.
+- 55
+  Deux rangs de décalage.
+
+=== ct-regions-cercle-pizza
++ 29
+  $1 + 7 + \binom72$.
+- 128
+  $2^7$ : chaque coupe ne double pas le nombre de parts.
+- 14
+  Deux parts par coupe : seulement si toutes les coupes passent par le centre.
+- 64
+  Le doublement ne vaut que pour les trois premières coupes.
+
+=== ct-regions-cercle-gateau
++ 26
+  $\binom50 + \binom51 + \binom52 + \binom53$.
+- 32
+  $2^5$ : on ne double pas à chaque coupe au-delà de 3.
+- 16
+  C'est la pizza coupée par 5 droites : on a oublié la troisième dimension.
+- 15
+  C'est la valeur pour 4 plans.
+
+=== ct-chiffres-impairs-palindromes
++ 90
+  9 choix pour le premier chiffre, 10 pour le milieu.
+- 100
+  On a autorisé un 0 en premier chiffre.
+- 81
+  On a interdit le 0 au milieu.
+- 900
+  Tous les nombres à trois chiffres.
+
+=== ct-chiffres-impairs-distincts
++ 4 536
+  $9 \times 9 \times 8 \times 7$.
+- 5 040
+  $10 \times 9 \times 8 \times 7$ inclut les nombres commençant par 0.
+- 3 024
+  $9 \times 8 \times 7 \times 6$ : on a oublié que 0 redevient possible.
+- 9 000
+  Tous les entiers à 4 chiffres.
+
+=== ct-etoiles-barres-positifs
++ 36
+  $\binom92$.
+- 66
+  C'est le cas des entiers positifs ou nuls.
+- 28
+  C'est $\binom82$, un décalage.
+- 45
+  C'est $\binom{10}{2}$.
+
+=== ct-bracelets-colliers
++ 14
+  Burnside sur les 6 rotations : $84/6$.
+- 13
+  C'est le nombre de bracelets (retournements permis).
+- $64/6$
+  Il faut compter les coloriages fixes, pas diviser.
+- 64
+  Aucune identification.
+
+=== ct-cube-peint-dix
++ 512
+  Cube intérieur $8 \times 8 \times 8$.
+- 729
+  On a retiré une seule couche ($9^3$).
+- 1 000
+  Tous les cubes.
+- 488
+  C'est le nombre de cubes **peints**.
+
+=== ct-cube-peint-coupes
++ 6
+  Le cube central a 6 faces à créer, une par coupe.
+- 4
+  Réempiler ne permet pas de créer deux faces du cube central d'un coup.
+- 3
+  Une coupe par direction ne découpe qu'en 8.
+- 26
+  On a pensé une coupe par petit cube.

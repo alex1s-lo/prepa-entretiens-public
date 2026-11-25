@@ -1,0 +1,341 @@
+# QCM des fiches de marchés et de market making (contenu/marches.txt) et des constantes à connaître (contenu/constantes.txt).
+
+=== mm-kelly
++ 20 %
+  Kelly à cote 1 contre 1 : $f^* = p - q = 0{,}2$.
+- 60 %
+  On a misé la probabilité de gagner : beaucoup trop, la croissance devient négative.
+- 100 %
+  Une seule perte ruine.
+- 10 %
+  Demi-Kelly : prudent, mais pas le maximum de croissance.
+
+=== mm-kelly-cote
++ 10 %
+  $(bp - q)/b = (0{,}8 - 0{,}6)/2$.
+- 40 %
+  La probabilité de gain n'est pas la mise.
+- 0, le pari est défavorable
+  Espérance $0{,}4 \times 2 - 0{,}6 = 0{,}2 > 0$ : il est favorable.
+- 20 %
+  On a oublié de diviser par la cote $b = 2$.
+
+=== mm-option-sur-de
++ 1
+  Paiements 0, 0, 0, 1, 2, 3.
+- 0,5
+  On a appliqué l'option à l'espérance $3{,}5 - 3$ : Jensen, l'option vaut plus.
+- 1,5
+  On a moyenné sur 4 issues seulement.
+- 2
+  Paiement moyen conditionnel aux cas positifs, sans le pondérer.
+
+=== mm-cartes-rouges-noires
++ Environ 2,62 €
+  Récurrence d'arrêt optimal à rebours.
+- 0
+  Le jeu est équilibré, mais pouvoir s'arrêter a de la valeur.
+- 26 €
+  On ne peut pas prendre toutes les rouges sans les noires.
+- Environ 1 €
+  Sous-estimation de la valeur de l'option d'arrêt.
+
+=== mm-faire-un-marche
++ Estimer à voix haute, coter un bid et un ask autour, puis ajuster en fonction des échanges
+  Si on te prend ton ask, ton estimation monte.
+- Donner un seul nombre
+  Un marché, c'est deux prix.
+- Refuser faute de connaître la réponse
+  On attend une estimation raisonnée.
+- Coter très large pour ne jamais perdre
+  Un marché trop large n'est pas utile ; on évalue la prise de risque.
+
+=== mm-marche-somme-des
++ Autour de 7 au départ (par exemple 6,5–7,5), puis autour de 9,5 une fois le 6 connu
+  $6 + 3{,}5$, et l'écart se resserre car il reste un seul dé.
+- Garder le même marché
+  L'information du premier dé change tout.
+- Coter 12 après le 6
+  Le second dé vaut 3,5 en moyenne.
+- Élargir le marché après le 6
+  L'incertitude diminue : on peut le resserrer.
+
+=== mm-selection-adverse
++ Les contreparties informées traitent quand le prix est faux ; on élargit le spread, on réduit la taille, on ajuste vite
+  Glosten-Milgrom : le spread rémunère ce risque.
+- Le risque que le client ne paie pas
+  C'est le risque de contrepartie.
+- Le coût de l'inventaire seulement
+  C'est une autre composante du spread.
+- On s'en protège en cotant plus serré
+  On s'expose encore plus.
+
+=== mm-carnet-ordres
++ Ordres limites en attente des deux côtés ; un ordre au marché consomme le meilleur prix ; priorité prix puis temps
+  Le spread est l'écart entre meilleur bid et meilleur ask.
+- Un registre des transactions passées
+  C'est l'historique, pas le carnet.
+- Les ordres au marché attendent dans le carnet
+  Ils s'exécutent immédiatement.
+- Priorité à la taille d'abord
+  En général prix puis temps.
+
+=== mm-composantes-spread
++ Coûts de traitement, risque d'inventaire, sélection adverse
+  Plus large sur les actifs volatils, illiquides ou à information asymétrique.
+- Uniquement la commission de la bourse
+  Une petite partie seulement.
+- La volatilité seule
+  Elle joue via l'inventaire et l'information.
+- La marge du régulateur
+  Sans rapport.
+
+=== mm-impact-marche
++ Impact $\approx \sigma_{\mathrm{jour}}\sqrt{Q/V}$ ; exécuter progressivement (TWAP, VWAP)
+  Loi en racine carrée, empirique.
+- Impact proportionnel à $Q$
+  L'impact est concave.
+- Aucun impact pour 5 % du volume
+  Il est significatif.
+- Tout acheter à l'ouverture
+  Maximise l'impact.
+
+=== mm-arbitrage-etf
++ Créations et rachats contre le panier : si l'ETF cote au-dessus, on crée et vend ; en dessous, on rachète et vend le panier
+  Maintient l'ETF proche de sa valeur liquidative.
+- Il n'y a pas de lien entre l'ETF et son panier
+  Le mécanisme de création les relie.
+- On arbitre en achetant l'ETF à terme
+  Le mécanisme passe par les participants autorisés.
+- Seuls les particuliers peuvent créer des parts
+  Ce sont les participants autorisés.
+
+=== mm-pnl-trader-options
++ Delta (nul si couvert) + $\frac12\Gamma(\delta S)^2$ + $\Theta\,\delta t$ + vega $\times \delta\sigma$ + inexpliqué
+  Le PnL explain vérifie les grecques et les modèles.
+- Seulement le delta
+  Le livre est couvert en delta.
+- Seulement le theta
+  Il manque gamma et vega.
+- PnL = prix final moins prix initial, sans décomposition
+  On attend l'attribution par risque.
+
+=== mm-vix
++ Volatilité implicite à 30 jours du S&P 500, tirée d'un panier d'options ; on l'échange via futures et options sur VIX
+  L'indice lui-même ne s'achète pas.
+- Une volatilité historique
+  Elle est implicite.
+- On peut acheter l'indice directement
+  Pas de réplication simple de l'indice.
+- La volatilité d'une seule option à la monnaie
+  C'est un panier d'options hors de la monnaie.
+
+=== mm-carry
++ Gagner ce que rapporte une position si les prix ne bougent pas ; risque de retournement brutal
+  Exemples : carry de change, pente de courbe.
+- Une stratégie sans risque
+  « Monter en ascenseur, descendre par la fenêtre ».
+- Acheter les actifs qui ont le plus monté
+  C'est du momentum.
+- Une stratégie d'arbitrage pur
+  Elle porte un risque.
+
+=== mm-pari-favorable
++ Ça dépend de ma richesse : l'espérance est positive mais perdre 1 million peut être ruineux
+  Utilité concave et Kelly.
+- Oui, toujours : l'espérance est positive
+  L'espérance seule ignore le risque.
+- Non, jamais : on peut perdre
+  Pour quelqu'un de très riche, c'est excellent.
+- Oui, en négociant de le jouer plusieurs fois avec une fraction
+  Bonne idée, mais la question est le pari unique.
+
+=== mm-sujet-de-marche
++ Préparer un sujet précis, chiffré, avec un avis argumenté et les risques
+  Montrer qu'on suit les marchés et qu'on sait raisonner.
+- Résumer l'actualité générale
+  Trop vague.
+- Dire qu'on ne suit pas les marchés
+  Signal négatif.
+- Donner une recommandation d'achat sans argument
+  On attend le raisonnement.
+
+=== mm-short-gamma
++ Il doit vendre quand l'indice baisse et acheter quand il monte : cela amplifie les mouvements
+  Couverture procyclique.
+- Il gagne quand le marché bouge fortement
+  C'est l'inverse : il perd.
+- Il stabilise le marché
+  C'est le desk long gamma qui stabilise.
+- Rien, il est couvert en delta
+  La couverture doit être refaite en suivant le marché.
+
+=== mm-meme-de-deux-fois
++ Environ 4,33 €
+  $\mathbb{E}[A^2]/3{,}5 = 3{,}5 + \mathrm{Var}(A)/3{,}5$.
+- 3,5 €
+  On a supposé $\mathbb{E}[A^2] = \mathbb{E}[A]^2$.
+- 7 €
+  On a doublé sans raison.
+- Environ 2,9 €
+  On a pris $\mathrm{Var}(A)$ seule.
+
+=== cst-racine-2
++ 1,414
+  $\sqrt 3 \approx 1{,}732$, $\sqrt 5 \approx 2{,}236$.
+- 1,732
+  C'est $\sqrt 3$.
+- 1,141
+  Chiffres permutés.
+- 1,442
+  C'est $\sqrt[3]{3}$.
+
+=== cst-ln-2
++ 0,693
+  Utile pour les demi-vies et la règle de 72.
+- 0,301
+  C'est $\log_{10} 2$.
+- 1,099
+  C'est $\ln 3$.
+- 0,707
+  C'est $1/\sqrt 2$.
+
+=== cst-e
++ 2,718, et $1/e \approx 0{,}368$
+  $e = 2{,}718281828\dots$
+- 2,781
+  Chiffres permutés.
+- 3,142
+  C'est $\pi$.
+- 2,718, et $1/e \approx 0{,}632$
+  0,632 est $1 - 1/e$.
+
+=== cst-un-septieme
++ 0,1429
+  Période 142857.
+- 0,1667
+  C'est $1/6$.
+- 0,125
+  C'est $1/8$.
+- 0,1428
+  Mal arrondi : $0{,}142857$ s'arrondit à 0,1429.
+
+=== cst-n-1
++ 0,841
+  D'où environ 68 % entre $-1$ et 1.
+- 0,683
+  C'est $\mathbb{P}(|Z| \le 1)$.
+- 0,975
+  C'est $N(1{,}96)$.
+- 0,159
+  C'est $1 - N(1)$.
+
+=== cst-quantile-975
++ 1,96
+  Intervalle de confiance à 95 %.
+- 1,645
+  Quantile à 95 %.
+- 2,326
+  Quantile à 99 %.
+- 2
+  Arrondi, pas la valeur.
+
+=== cst-quantile-99
++ 2,326
+  VaR 99 %.
+- 2,576
+  Quantile à 99,5 %.
+- 1,96
+  Quantile à 97,5 %.
+- 3
+  Règle des trois sigmas, environ 99,87 %.
+
+=== cst-densite-zero
++ Environ 0,399
+  Le « 0,4 » du call à la monnaie.
+- 0,5
+  C'est $N(0)$, une probabilité.
+- 0,242
+  C'est $\varphi(1)$.
+- 0,318
+  C'est $1/\pi$.
+
+=== cst-racine-252
++ Environ 15,87
+  Souvent arrondi à 16.
+- 12,6
+  C'est $\sqrt{160}$.
+- 16,9
+  Trop.
+- 21
+  C'est le nombre de jours de bourse par mois.
+
+=== cst-vol-quotidienne
++ Environ 2 %
+  $32/\sqrt{252} \approx 32/16$.
+- 0,13 %
+  On a divisé par 252.
+- 32 %
+  C'est la volatilité annuelle.
+- 8 %
+  On a divisé par 4.
+
+=== cst-regle-72
++ Environ 12 ans
+  $72/6$ ; exactement $\ln 2/\ln 1{,}06 \approx 11{,}9$.
+- 16,7 ans
+  On a calculé $100/6$, comme sans intérêts composés.
+- 6 ans
+  Doublement trop rapide.
+- 10 ans
+  Règle mal appliquée ($60/6$).
+
+=== cst-puissances-2
++ 65 536
+  $2^{16}$.
+- 32 768
+  C'est $2^{15}$.
+- 65 535
+  C'est $2^{16} - 1$, le plus grand entier sur 16 bits.
+- 131 072
+  C'est $2^{17}$.
+
+=== cst-e-01
++ Environ 1,105
+  $1 + x + x^2/2$.
+- 1,1
+  Premier ordre seulement.
+- 1,01
+  C'est $e^{0{,}01}$.
+- 1,2
+  Trop.
+
+=== cst-carres
++ 289
+  $17^2 = 289$.
+- 279
+  Erreur de retenue.
+- 299
+  Confusion avec $300 - 1$.
+- 324
+  C'est $18^2$.
+
+=== cst-variance-de
++ $35/12 \approx 2{,}92$
+  $91/6 - 49/4$.
+- $91/6$
+  C'est $\mathbb{E}[X^2]$.
+- $3{,}5$
+  C'est la moyenne.
+- $1{,}71$
+  C'est l'écart-type.
+
+=== cst-pi-carre
++ $\pi^2/6 \approx 1{,}645$
+  Problème de Bâle.
+- Diverge
+  C'est $\sum 1/n$ qui diverge.
+- 2
+  Majoration classique, pas la valeur.
+- $\pi/4$
+  C'est la série de Leibniz.

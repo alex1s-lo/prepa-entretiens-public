@@ -1,0 +1,377 @@
+# Variantes des casse-têtes de nombres et d'arithmétique (une fiche par variante, reliée par « parent: »).
+
+=== ct-batte-balle-machines
+parent: ct-batte-balle
+titre: 5 machines, 5 objets, 5 minutes
+type: numerique
+reponse: 5
+tolerance: 0
+--- question
+Il faut 5 minutes à 5 machines pour fabriquer 5 objets. Combien de minutes faut-il à 100 machines pour fabriquer 100 objets ?
+--- indice
+Combien de temps faut-il à **une** machine pour faire **un** objet ?
+--- solution
+Chaque machine fabrique un objet en 5 minutes. 100 machines travaillant en parallèle font 100 objets en **5 minutes**. La réponse réflexe (100) confond le nombre d'objets et la durée.
+
+=== ct-batte-balle-brique
+parent: ct-batte-balle
+titre: La brique qui pèse 1 kg plus une demi-brique
+type: numerique
+reponse: 2
+tolerance: 0
+--- question
+Une brique pèse 1 kg plus la moitié d'une brique. Combien pèse une brique (en kg) ?
+--- indice
+Pose l'équation au lieu de répondre 1,5.
+--- solution
+$b = 1 + b/2$, donc $b/2 = 1$ et $b =$ **2 kg**. La réponse intuitive 1,5 kg ne vérifie pas l'énoncé : $1 + 0{,}75 \ne 1{,}5$.
+
+=== ct-batte-balle-action
+parent: ct-batte-balle
+titre: −50 % puis +50 %
+type: numerique
+reponse: -25
+tolerance: 0
+--- question
+Une action perd 50 % un jour, puis gagne 50 % le lendemain. Quelle est sa variation totale, en pourcentage ?
+--- indice
+Les pourcentages se multiplient, ils ne s'additionnent pas.
+--- solution
+$0{,}5 \times 1{,}5 = 0{,}75$ : **−25 %**. Pour revenir au niveau initial après −50 %, il faudrait +100 %. C'est la raison pour laquelle la moyenne arithmétique des rendements surestime la croissance (écart de l'ordre de $\sigma^2/2$).
+
+=== ct-josephus-trois
+parent: ct-josephus
+titre: Flavius Josèphe : une personne sur trois
+niveau: 3
+type: numerique
+reponse: 31
+tolerance: 0
+--- question
+41 personnes en cercle, numérotées de 1 à 41. En partant de la 1, on compte jusqu'à 3 et l'on élimine la troisième (la 3, puis la 6, …), en continuant autour du cercle. Quel numéro survit ?
+--- indice
+Avec $J(n)$ le survivant (numérotation à partir de 0) pour $n$ personnes, montre que $J(n) = (J(n - 1) + k) \bmod n$.
+--- solution
+Après la première élimination, on renumérote en partant de la personne qui suit l'éliminé : on retrouve le problème à $n - 1$ personnes décalé de $k$. D'où $J(1) = 0$ et $J(n) = (J(n - 1) + 3) \bmod n$.
+En déroulant jusqu'à $n = 41$ on trouve $J(41) = 30$, soit le numéro **31**. C'est la place qu'aurait choisie Josèphe selon la légende. Pas de formule fermée pour $k = 3$ : la récurrence en $O(n)$ est la bonne réponse.
+
+=== ct-sommes-consecutives-puissances
+parent: ct-sommes-consecutives
+titre: Les entiers qui ne sont pas sommes de consécutifs
+niveau: 2
+--- question
+Quels entiers $N \ge 1$ ne s'écrivent **pas** comme somme d'au moins deux entiers positifs consécutifs ?
+--- indice
+Une somme de $k \ge 2$ consécutifs vaut $\frac{k(2m + k - 1)}{2}$ : les deux facteurs sont de parités opposées.
+--- solution
+Écrire $N$ comme somme de $k$ consécutifs à partir de $m$, c'est écrire $2N = k \times L$ avec $L = 2m + k - 1$ : deux facteurs de parités opposées, avec $L > k$.
+- Si $N = 2^a d$ avec $d$ impair, $d > 1$ : $2N = 2^{a+1} \times d$. On prend $k = \min(2^{a+1}, d)$ et $L = \max(2^{a+1}, d)$ : parités opposées, $k \ge 2$, et $m = (L - k + 1)/2 \ge 1$. Exemple : $12 = 3 + 4 + 5$.
+- Si $N = 2^a$ : $2N = 2^{a+1}$ n'a pas de facteur impair autre que 1, donc $k = 1$ forcément.
+Les **puissances de 2** sont les seuls entiers qui ne s'écrivent pas ainsi. Plus généralement, le nombre d'écritures (un seul terme compris) est le nombre de diviseurs impairs de $N$.
+
+=== ct-zeros-factorielle-mille
+parent: ct-zeros-factorielle
+titre: Les zéros de $1\,000!$
+type: numerique
+reponse: 249
+tolerance: 0
+--- question
+Par combien de zéros se termine $1\,000!$ ?
+--- indice
+Compte les facteurs 5, sans oublier 25, 125 et 625.
+--- solution
+Formule de Legendre :
+$$\left\lfloor \tfrac{1000}{5} \right\rfloor + \left\lfloor \tfrac{1000}{25} \right\rfloor + \left\lfloor \tfrac{1000}{125} \right\rfloor + \left\lfloor \tfrac{1000}{625} \right\rfloor = 200 + 40 + 8 + 1 = 249.$$
+Le piège : s'arrêter à $1000/5 = 200$, ou oublier le terme en 625.
+
+=== ct-zeros-factorielle-non-nul
+parent: ct-zeros-factorielle
+titre: Le dernier chiffre non nul de $100!$
+niveau: 3
+type: numerique
+reponse: 4
+tolerance: 0
+--- question
+Quel est le dernier chiffre non nul de $100!$ ?
+--- indice
+Retire les 24 couples $2 \times 5$ qui font les zéros ; il reste un excédent de facteurs 2. Travaille modulo 10 sur ce qui reste.
+--- solution
+$100!$ contient $97$ facteurs 2 et $24$ facteurs 5. On écrit $100! = 10^{24} \times 2^{73} \times R$, où $R$ est le produit des entiers de 1 à 100 privés de leurs facteurs 2 et 5 (impair, premier avec 5).
+En suivant $R$ modulo 10 (bloc par bloc, ou avec la formule récursive $D(n) = 2^{\lfloor n/5 \rfloor} D(\lfloor n/5 \rfloor) D(n \bmod 5) \bmod 10$ pour le dernier chiffre non nul), on obtient **4**.
+Vérification rapide : $D(100) = 2^{20} D(20) D(0) = 6 \times 4 \times 1 \equiv 4 \pmod{10}$, avec $D(20) = 2^4 D(4) = 6 \times 4 = 24 \equiv 4$.
+
+=== ct-dernier-chiffre-modulo-sept
+parent: ct-dernier-chiffre
+titre: $2^{100}$ modulo 7
+type: numerique
+reponse: 2
+tolerance: 0
+--- question
+Quel est le reste de la division de $2^{100}$ par 7 ?
+--- indice
+Cherche une petite puissance de 2 qui vaut 1 modulo 7.
+--- solution
+$2^3 = 8 \equiv 1 \pmod 7$. Or $100 = 3 \times 33 + 1$, donc $2^{100} = (2^3)^{33} \times 2 \equiv 2$. Reste **2**. Même méthode que pour le dernier chiffre : trouver la période des puissances.
+
+=== ct-dernier-chiffre-deux
+parent: ct-dernier-chiffre
+titre: Les deux derniers chiffres de $3^{100}$
+niveau: 2
+type: numerique
+reponse: 1
+tolerance: 0
+--- question
+Quels sont les deux derniers chiffres de $3^{100}$ ? Donne le nombre formé par ces deux chiffres.
+--- indice
+Travaille modulo 100 ; calcule $3^{10}$ modulo 100 puis élève au carré.
+--- solution
+$3^{10} = 59\,049 \equiv 49 \pmod{100}$, puis $3^{20} \equiv 49^2 = 2\,401 \equiv 1$. Donc $3^{100} = (3^{20})^5 \equiv 1$ : les deux derniers chiffres sont **01**.
+Le théorème d'Euler donne seulement $3^{40} \equiv 1$ ($\varphi(100) = 40$) ; l'ordre réel de 3 est plus petit (20).
+
+=== ct-impairs-gauss
+parent: ct-impairs
+titre: La somme de Gauss
+type: numerique
+reponse: 5050
+tolerance: 0
+--- question
+Que vaut $1 + 2 + 3 + \dots + 100$ ?
+--- indice
+Apparie le premier et le dernier terme, le deuxième et l'avant-dernier…
+--- solution
+$1 + 100 = 2 + 99 = \dots = 101$, et il y a 50 paires : $50 \times 101 =$ **5 050**. En général $\frac{n(n + 1)}{2}$.
+
+=== ct-impairs-chiffres
+parent: ct-impairs
+titre: La somme de tous les chiffres de 1 à 100
+niveau: 2
+type: numerique
+reponse: 901
+tolerance: 0
+--- question
+On écrit tous les nombres de 1 à 100. Quelle est la somme de tous les chiffres écrits ?
+--- indice
+Écris les nombres de 00 à 99 sur deux chiffres : chaque chiffre apparaît autant de fois à chaque position.
+--- solution
+De 00 à 99, chaque chiffre de 0 à 9 apparaît 10 fois aux unités et 10 fois aux dizaines : $2 \times 10 \times (0 + 1 + \dots + 9) = 900$. On ajoute 100, dont les chiffres font 1 : **901**.
+
+=== ct-frobenius-nuggets
+parent: ct-frobenius
+titre: Les nuggets par 6, 9 et 20
+niveau: 2
+type: numerique
+reponse: 43
+tolerance: 0
+--- question
+Des nuggets se vendent par boîtes de 6, 9 et 20. Quel est le plus grand nombre de nuggets qu'on ne peut pas acheter exactement ?
+--- indice
+Avec 6 et 9 on n'obtient que des multiples de 3 ; un ou deux 20 changent le reste modulo 3.
+--- solution
+6 et 9 donnent les multiples de 3 à partir de 6. Selon le reste modulo 3 :
+- reste 0 : tout multiple de 3 dès 6 ;
+- reste 2 : un 20, puis des multiples de 3, donc tout nombre $\ge 26$ (et 20) ;
+- reste 1 : deux 20, donc tout nombre $\ge 46$ (et 40).
+Le plus grand impossible est $46 - 3 =$ **43**. Pas de formule fermée avec trois valeurs, contrairement au cas de deux ($ab - a - b$).
+
+=== ct-frobenius-pgcd
+parent: ct-frobenius
+titre: Pièces de 4 et de 6
+--- question
+Tu n'as que des pièces de 4 € et de 6 €. Existe-t-il un plus grand montant entier impossible à payer ?
+--- indice
+Quelle est la parité de tout montant payable ?
+--- solution
+**Non** : tout montant payable est pair, donc tous les montants impairs sont impossibles, et il y en a une infinité. La formule de Frobenius $ab - a - b$ suppose $\mathrm{pgcd}(a, b) = 1$. Ici $\mathrm{pgcd}(4, 6) = 2$ : on paie exactement les nombres pairs à partir de 4.
+
+=== ct-multiples-3-5-combien
+parent: ct-multiples-3-5
+titre: Combien de multiples de 3 ou de 5 ?
+type: numerique
+reponse: 467
+tolerance: 0
+--- question
+Combien d'entiers de 1 à 1 000 sont multiples de 3 ou de 5 ?
+--- indice
+Inclusion-exclusion : n'oublie pas de retirer les multiples de 15.
+--- solution
+$\lfloor 1000/3 \rfloor + \lfloor 1000/5 \rfloor - \lfloor 1000/15 \rfloor = 333 + 200 - 66 =$ **467**.
+
+=== ct-multiples-3-5-euler
+parent: ct-multiples-3-5
+titre: Les entiers premiers avec 1 000
+niveau: 2
+type: numerique
+reponse: 400
+tolerance: 0
+--- question
+Combien d'entiers de 1 à 1 000 sont premiers avec 1 000 ?
+--- indice
+Être premier avec $1\,000 = 2^3 \times 5^3$, c'est n'être divisible ni par 2 ni par 5.
+--- solution
+Inclusion-exclusion : $1000 - 500 - 200 + 100 = 400$. C'est l'indicatrice d'Euler :
+$$\varphi(1000) = 1000\left(1 - \tfrac12\right)\left(1 - \tfrac15\right) = 400.$$
+Réponse : **400**.
+
+=== ct-diviseurs-impair
+parent: ct-diviseurs
+titre: Quand le nombre de diviseurs est-il impair ?
+--- question
+Pour quels entiers $n \ge 1$ le nombre de diviseurs positifs est-il impair ?
+--- indice
+Associe chaque diviseur $d$ à $n/d$.
+--- solution
+Les diviseurs vont par paires $(d, n/d)$, sauf quand $d = n/d$, c'est-à-dire $d = \sqrt n$. Le nombre de diviseurs est impair **si et seulement si $n$ est un carré parfait**. Autre preuve : $\prod (a_i + 1)$ est impair si et seulement si tous les exposants $a_i$ sont pairs.
+C'est la clé du problème des 100 casiers.
+
+=== ct-diviseurs-premiers
+parent: ct-diviseurs
+titre: Les nombres premiers inférieurs à 100
+type: numerique
+reponse: 25
+tolerance: 0
+--- question
+Combien y a-t-il de nombres premiers inférieurs à 100 ?
+--- indice
+Crible d'Ératosthène : il suffit de barrer les multiples de 2, 3, 5 et 7 ($7^2 < 100 < 11^2$).
+--- solution
+2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97 : **25**. Ordre de grandeur : $100/\ln 100 \approx 22$ (théorème des nombres premiers).
+
+=== ct-e-pi-puissances
+parent: ct-e-pi
+titre: $2^{100}$ ou $3^{63}$ ?
+--- question
+Sans calculatrice : lequel est le plus grand, $2^{100}$ ou $3^{63}$ ?
+--- indice
+Compare les logarithmes en base 2 : il suffit de connaître $\log_2 3$ à deux décimales.
+--- solution
+$\log_2 3^{63} = 63 \log_2 3 \approx 63 \times 1{,}585 = 99{,}86 < 100$. Donc **$2^{100}$ est plus grand**, de peu ($2^{0{,}14} \approx 1{,}1$, environ 10 %).
+Pour retrouver $\log_2 3$ : $3^{12} = 531\,441$ est proche de $2^{19} = 524\,288$, d'où $\log_2 3 \approx 19/12 \approx 1{,}583$. Deux décimales ne suffiraient pas ici ($63 \times 1{,}59 = 100{,}2$) : c'est le genre de comparaison serrée où il faut le dire, puis affiner.
+
+=== ct-e-pi-99-100
+parent: ct-e-pi
+titre: $99^{100}$ ou $100^{99}$ ?
+--- question
+Lequel est le plus grand, $99^{100}$ ou $100^{99}$ ?
+--- indice
+Compare $\frac{\ln 99}{99}$ et $\frac{\ln 100}{100}$.
+--- solution
+$99^{100} > 100^{99} \iff 100 \ln 99 > 99 \ln 100 \iff \frac{\ln 99}{99} > \frac{\ln 100}{100}$. La fonction $\frac{\ln x}{x}$ décroît après $e$ : c'est vrai, **$99^{100}$ est plus grand**.
+Autre façon : $\frac{99^{100}}{100^{99}} = 99 \times \left(1 - \frac{1}{100}\right)^{99} \approx 99 / e \approx 36 > 1$.
+
+=== ct-e-pi-equation
+parent: ct-e-pi
+titre: Combien de solutions à $2^x = x^2$ ?
+niveau: 2
+type: numerique
+reponse: 3
+tolerance: 0
+--- question
+Combien l'équation $2^x = x^2$ a-t-elle de solutions réelles ?
+--- indice
+Deux solutions entières se voient tout de suite. Regarde aussi ce qui se passe pour $x < 0$.
+--- solution
+$x = 2$ et $x = 4$ sont solutions. Pour $x < 0$, $2^x$ croît de 0 à 1 tandis que $x^2$ décroît de $+\infty$ à 0 : une troisième solution, vers $x \approx -0{,}767$. Sur $]0, 2[$, $]2, 4[$ et $]4, +\infty[$, l'étude de $\frac{\ln x}{x} = \frac{\ln 2}{2}$ montre qu'il n'y en a pas d'autre. **3 solutions**. Le piège : oublier les négatifs.
+
+=== ct-tour-puissances-quatre
+parent: ct-tour-puissances
+titre: Une tour infinie égale à 4 ?
+niveau: 3
+--- question
+Même méthode que pour $x^{x^{x^{\cdots}}} = 2$ : si la tour vaut 4, alors $x^4 = 4$, donc $x = \sqrt 2$. Où est l'erreur ?
+--- indice
+Pour $x = \sqrt 2$, que vaut réellement la tour ? Quelles valeurs une tour infinie peut-elle prendre ?
+--- solution
+L'équation $x^y = y$ est une condition **nécessaire** si la tour converge, pas suffisante. Pour $x = \sqrt 2$, la suite $a_{n+1} = \sqrt 2^{\,a_n}$ partant de $a_1 = \sqrt 2$ croît et converge vers le **plus petit** point fixe, 2, jamais vers 4.
+La tour converge si et seulement si $e^{-e} \le x \le e^{1/e}$, et sa valeur est alors au plus $e$ : la valeur 4 est impossible, l'équation $x^{x^{\cdots}} = 4$ n'a **pas de solution**. Leçon : vérifier la convergence avant de résoudre une équation de point fixe.
+
+=== ct-tour-puissances-radical
+parent: ct-tour-puissances
+titre: Le radical infini
+type: numerique
+reponse: 2
+tolerance: 0
+--- question
+Que vaut $\sqrt{2 + \sqrt{2 + \sqrt{2 + \cdots}}}$ ?
+--- indice
+Appelle $y$ la valeur : elle se retrouve sous le premier radical.
+--- solution
+$y = \sqrt{2 + y}$, donc $y^2 - y - 2 = 0$, $y = 2$ (la racine $-1$ est exclue, $y > 0$). La suite $a_{n+1} = \sqrt{2 + a_n}$ est croissante et majorée par 2 : elle converge bien vers **2**.
+
+=== ct-tour-puissances-fraction
+parent: ct-tour-puissances
+titre: La fraction continue $1 + 1/(1 + 1/(1 + \cdots))$
+type: numerique
+reponse: (1+sqrt(5))/2
+--- question
+Que vaut la fraction continue $1 + \cfrac{1}{1 + \cfrac{1}{1 + \cdots}}$ ?
+--- indice
+Même idée : la valeur se retrouve au dénominateur.
+--- solution
+$\varphi = 1 + 1/\varphi$, soit $\varphi^2 - \varphi - 1 = 0$ : $\varphi = \frac{1 + \sqrt 5}{2} \approx$ **1,618**, le nombre d'or. Les réduites $1, 2, 3/2, 5/3, 8/5, \dots$ sont des rapports de termes consécutifs de Fibonacci.
+
+=== ct-produit-max-reels
+parent: ct-produit-max
+titre: Produit maximal avec des réels
+niveau: 2
+type: numerique
+reponse: 2.5^4
+--- question
+On écrit 10 comme somme de **réels** positifs (en nombre quelconque). Quel est le plus grand produit possible ?
+--- indice
+À nombre de parts $k$ fixé, l'inégalité arithmético-géométrique impose des parts égales. Optimise ensuite sur $k$ entier.
+--- solution
+Avec $k$ parts, le maximum est $(10/k)^k$, atteint pour des parts égales. La fonction $k \mapsto (10/k)^k$ est maximale pour $k$ réel égal à $10/e \approx 3{,}68$ ; parmi les entiers : $k = 3$ donne $37{,}04$, $k = 4$ donne $2{,}5^4 = 39{,}0625$. Réponse : **39,0625**, un peu plus que les 36 des entiers.
+
+=== ct-produit-max-xx
+parent: ct-produit-max
+titre: Minimum de $x^x$
+niveau: 2
+type: numerique
+reponse: exp(-1/e)
+--- question
+Quel est le minimum de $x^x$ sur $]0, +\infty[$ ?
+--- indice
+Dérive $x \ln x$.
+--- solution
+$x^x = e^{x \ln x}$ et $(x \ln x)' = \ln x + 1$ s'annule en $x = 1/e$. Minimum : $e^{-1/e} \approx$ **0,692**. Et $x^x \to 1$ quand $x \to 0^+$ ($x \ln x \to 0$).
+
+=== ct-chiffres-puissance-factorielle
+parent: ct-chiffres-puissance
+titre: Combien de bits pour $100!$ ?
+niveau: 2
+type: numerique
+reponse: log2(factorial(100))
+tolerance: 0.002
+--- question
+Estime $\log_2(100!)$ à une unité près.
+--- indice
+Formule de Stirling : $\ln n! \approx n \ln n - n + \frac12 \ln(2\pi n)$, avec $\ln 10 \approx 2{,}303$ et $\ln 2 \approx 0{,}693$.
+--- solution
+$\ln 100! \approx 100 \times 4{,}605 - 100 + \frac12 \ln(628) \approx 460{,}5 - 100 + 3{,}22 = 363{,}7$. Divisé par $\ln 2$ : $\log_2 100! \approx$ **524,8**.
+Interprétation : il faut 525 bits pour coder une permutation de 100 éléments, et un tri par comparaisons fait au moins 525 comparaisons au pire.
+
+=== ct-irrationnel-puissance
+parent: ct-irrationnel
+titre: Un irrationnel puissance un irrationnel
+niveau: 2
+--- question
+Existe-t-il deux irrationnels $a$ et $b$ tels que $a^b$ soit rationnel ?
+--- indice
+Considère $\sqrt 2^{\sqrt 2}$, sans chercher à savoir s'il est rationnel.
+--- solution
+**Oui.** Soit $x = \sqrt 2^{\sqrt 2}$.
+- Si $x$ est rationnel, $a = b = \sqrt 2$ conviennent.
+- Sinon, $a = x$ et $b = \sqrt 2$ conviennent : $x^{\sqrt 2} = \sqrt 2^{\sqrt 2 \cdot \sqrt 2} = \sqrt 2^2 = 2$.
+Preuve non constructive classique. (On sait en fait que $x$ est irrationnel, par le théorème de Gelfond-Schneider.) Exemple constructif : $a = \sqrt 2$, $b = 2\log_2 3$ donne $a^b = 3$.
+
+=== ct-casiers-mille
+parent: ct-casiers
+titre: 1 000 casiers
+type: numerique
+reponse: 31
+tolerance: 0
+--- question
+Même jeu avec 1 000 casiers et 1 000 passages : combien de casiers sont ouverts à la fin ?
+--- indice
+Les casiers ouverts sont toujours les carrés parfaits.
+--- solution
+Carrés parfaits jusqu'à 1 000 : $1^2, \dots, 31^2 = 961$ ($32^2 = 1\,024 > 1\,000$). **31 casiers**, soit $\lfloor \sqrt{1000} \rfloor$.

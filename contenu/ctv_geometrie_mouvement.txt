@@ -1,0 +1,301 @@
+# Variantes des casse-têtes de géométrie, de mouvement et d'invariants (une fiche par variante).
+
+=== ct-points-antipodaux-moine
+parent: ct-points-antipodaux
+titre: Le moine qui monte et redescend
+niveau: 1
+--- question
+Un moine part du pied d'une montagne à 7 h, monte par un unique sentier à son rythme (avec des pauses) et arrive au sommet à 19 h. Le lendemain, il repart du sommet à 7 h et redescend par le même sentier, arrivant à 19 h. Montre qu'il existe un point du sentier où il passe à la même heure les deux jours.
+--- indice
+Imagine deux moines, l'un qui monte et l'autre qui descend, le même jour.
+--- solution
+Superpose les deux journées : un moine monte pendant qu'un autre descend, le même jour, sur le même sentier. Ils partent des deux extrémités et finissent aux extrémités opposées : ils se croisent forcément. Le point et l'heure de la rencontre conviennent.
+Version analytique : $g(t) = \text{montée}(t) - \text{descente}(t)$ est continue, négative à 7 h, positive à 19 h : elle s'annule (valeurs intermédiaires). Même argument que les points antipodaux.
+
+=== ct-points-antipodaux-borsuk
+parent: ct-points-antipodaux
+titre: Température et pression aux antipodes
+niveau: 3
+--- question
+On suppose la température et la pression continues à la surface de la Terre (une sphère). Existe-t-il deux points antipodaux ayant **à la fois** la même température et la même pression ?
+--- indice
+Le cas d'une seule grandeur sur un cercle se fait par les valeurs intermédiaires. En dimension 2, il faut un théorème plus fort.
+--- solution
+**Oui**, par le théorème de Borsuk-Ulam : toute application continue $f$ de la sphère $S^2$ dans $\mathbb{R}^2$ envoie au moins une paire de points antipodaux sur la même valeur ($f(x) = f(-x)$). Avec $f = (\text{température}, \text{pression})$, c'est exactement l'énoncé.
+Le cas de l'équateur en est la version en dimension 1 : $S^1 \to \mathbb{R}$. On ne démontre pas Borsuk-Ulam en entretien ; on attend de reconnaître la structure et de citer le bon théorème.
+
+=== ct-fourmi-cube-pave
+parent: ct-fourmi-cube
+titre: La fourmi sur un pavé $1 \times 2 \times 3$
+niveau: 2
+type: numerique
+reponse: sqrt(18)
+--- question
+Une fourmi marche à la surface d'un pavé de dimensions $1 \times 2 \times 3$, d'un sommet au sommet opposé. Quelle est la longueur du plus court chemin ?
+--- indice
+Il y a trois dépliages possibles (selon l'arête traversée). Compare-les.
+--- solution
+En dépliant deux faces adjacentes, on obtient un rectangle dont la diagonale vaut $\sqrt{(a + b)^2 + c^2}$, où $c$ est la dimension non additionnée :
+- $\sqrt{(1 + 2)^2 + 3^2} = \sqrt{18} \approx 4{,}243$ ;
+- $\sqrt{(1 + 3)^2 + 2^2} = \sqrt{20}$ ;
+- $\sqrt{(2 + 3)^2 + 1^2} = \sqrt{26}$.
+Le plus court laisse seule la **plus grande** dimension : $\sqrt{18} = 3\sqrt 2 \approx$ **4,243**.
+
+=== ct-fourmi-cube-dudeney
+parent: ct-fourmi-cube
+titre: L'araignée et la mouche de Dudeney
+niveau: 3
+type: numerique
+reponse: 40
+tolerance: 0
+--- question
+Une pièce mesure $30 \times 12 \times 12$ (longueur, largeur, hauteur). Une araignée est au milieu d'un des petits murs, à 1 du plafond ; une mouche est au milieu du mur opposé, à 1 du sol. L'araignée marche sur les murs, le sol et le plafond. Quelle est la longueur du plus court chemin jusqu'à la mouche ?
+--- indice
+Le chemin évident (monter de 1, traverser le plafond, descendre de 11) mesure 42. Essaie des dépliages qui passent par davantage de faces.
+--- solution
+Chemin direct : $1 + 30 + 11 = 42$. Mais un dépliage qui traverse **cinq** faces (le mur de départ, le plafond, un grand mur latéral, le sol, le mur d'arrivée) met les deux points aux sommets d'un triangle rectangle de côtés 24 et 32 :
+$$\sqrt{24^2 + 32^2} = 40.$$
+Réponse : **40**. Leçon : sur un polyèdre, le plus court chemin peut traverser des faces « inutiles » ; il faut comparer les dépliages, pas se fier au trajet le plus naturel.
+
+=== ct-piece-roule-rayon
+parent: ct-piece-roule
+titre: Une pièce autour d'une pièce trois fois plus grande
+type: numerique
+reponse: 4
+tolerance: 0
+--- question
+Une pièce de rayon $r$ roule sans glisser autour d'une pièce fixe de rayon $3r$, jusqu'à revenir à son point de départ. Combien de tours fait-elle sur elle-même ?
+--- indice
+Le centre de la pièce mobile parcourt un cercle de rayon $R + r$.
+--- solution
+Le centre parcourt $2\pi(3r + r) = 8\pi r$ ; la rotation propre vaut cette distance divisée par $r$ : $8\pi$, soit **4 tours**. En général $1 + R/r$ tours autour, et $R/r - 1$ tours si la pièce roule à l'intérieur d'un anneau de rayon $R$ (le « un tour de plus » devient un tour de moins).
+
+=== ct-angle-horloge-trois-vingt-cinq
+parent: ct-angle-horloge
+titre: L'angle des aiguilles à 3 h 25
+type: numerique
+reponse: 47.5
+--- question
+Quel angle (en degrés) forment les aiguilles d'une horloge à 3 h 25 ?
+--- indice
+L'aiguille des heures avance de $0{,}5°$ par minute.
+--- solution
+Minutes : $25 \times 6° = 150°$. Heures : $3 \times 30° + 25 \times 0{,}5° = 102{,}5°$. Angle : $150 - 102{,}5 =$ **47,5°**.
+
+=== ct-angle-horloge-formule
+parent: ct-angle-horloge
+titre: L'angle à 9 h 30 et la formule générale
+type: numerique
+reponse: 105
+--- question
+Quel angle (le plus petit des deux, en degrés) forment les aiguilles à 9 h 30 ? Donne aussi une formule pour $h$ heures et $m$ minutes.
+--- indice
+Formule : $|30h - 5{,}5m|$, puis prendre le complément à 360° si l'on dépasse 180°.
+--- solution
+$|30 \times 9 - 5{,}5 \times 30| = |270 - 165| =$ **105°**. La formule vient de : heures à $30h + 0{,}5m$ degrés, minutes à $6m$ degrés, différence $30h - 5{,}5m$. Le piège : répondre 90° en oubliant que l'aiguille des heures est à mi-chemin entre 9 et 10.
+
+=== ct-superpositions-angle-droit
+parent: ct-superpositions
+titre: Les angles droits des aiguilles
+niveau: 2
+type: numerique
+reponse: 44
+tolerance: 0
+--- question
+Combien de fois par jour (24 heures) les aiguilles des heures et des minutes forment-elles un angle droit ?
+--- indice
+Entre deux superpositions, combien de fois l'écart passe-t-il par 90° ?
+--- solution
+L'écart entre les aiguilles parcourt 360° entre deux superpositions, en passant une fois par 90° et une fois par 270° : deux angles droits par « rattrapage ». 22 rattrapages par jour : **44** angles droits, et non 48 (deux par heure) : l'aiguille des heures avance pendant ce temps.
+
+=== ct-superpositions-cinq-heures
+parent: ct-superpositions
+titre: La première superposition après 5 h
+niveau: 2
+type: numerique
+reponse: 300/11
+--- question
+À quelle heure exacte (en minutes après 5 h) les aiguilles se superposent-elles pour la première fois après 5 h ?
+--- indice
+À 5 h, l'aiguille des heures a 150° d'avance ; celle des minutes gagne $5{,}5°$ par minute.
+--- solution
+$150 / 5{,}5 = 300/11 \approx 27{,}27$ minutes, soit 5 h 27 min 16 s. Réponse : **$300/11$ minutes** après 5 h. Contrôle : les superpositions ont lieu toutes les $12/11$ h, et $5 \times 12/11 = 60/11$ h $= 5$ h $27{,}27$ min.
+
+=== ct-vitesse-moyenne-impossible
+parent: ct-vitesse-moyenne
+titre: Le second tour à vitesse infinie
+niveau: 2
+--- question
+Une voiture fait un premier tour de circuit à 30 km/h. À quelle vitesse doit-elle faire le second tour pour obtenir une moyenne de 60 km/h sur les deux tours ?
+--- indice
+Combien de temps faut-il pour faire deux tours à 60 km/h de moyenne ? Combien en a-t-on déjà dépensé ?
+--- solution
+C'est **impossible**. Pour un tour de longueur $d$, deux tours à 60 km/h de moyenne prennent $2d/60 = d/30$. Or le premier tour à 30 km/h a déjà pris $d/30$ : il ne reste aucun temps, même à vitesse infinie.
+La vitesse moyenne est une moyenne **harmonique** des vitesses, pondérée par les distances : les tours lents pèsent plus.
+
+=== ct-vitesse-moyenne-vent
+parent: ct-vitesse-moyenne
+titre: L'aller-retour en avion avec du vent
+niveau: 2
+--- question
+Un avion vole à vitesse $v$ par rapport à l'air. Il fait un aller-retour de $d$ dans chaque sens, avec un vent constant de vitesse $w < v$ dans l'axe du trajet. Le vent rend-il l'aller-retour plus court, plus long, ou ne change-t-il rien ?
+--- indice
+Calcule la durée totale et compare-la à $2d/v$.
+--- solution
+Durée : $\frac{d}{v + w} + \frac{d}{v - w} = \frac{2dv}{v^2 - w^2} > \frac{2d}{v}$. L'aller-retour est **plus long**. Intuition : on passe plus de temps à vent contraire (lent) qu'à vent arrière (rapide), donc le vent nuit plus qu'il n'aide.
+
+=== ct-escargot-dix
+parent: ct-escargot
+titre: L'escargot dans un puits de 10 m
+type: numerique
+reponse: 8
+tolerance: 0
+--- question
+Un escargot au fond d'un puits de 10 m monte de 3 m le jour et glisse de 2 m la nuit. Quel jour sort-il ?
+--- indice
+Le dernier jour, il ne glisse pas.
+--- solution
+Il doit commencer une journée à au moins 7 m, ce qui arrive au matin du jour 8 (après 7 jours et nuits, il est à 7 m). Il sort pendant le **jour 8**. Le piège : répondre 10 (10 m à 1 m net par jour).
+
+=== ct-nenuphars-deux
+parent: ct-nenuphars
+titre: Les nénuphars partant de deux plants
+type: numerique
+reponse: 47
+tolerance: 0
+--- question
+Un nénuphar double de surface chaque jour et, planté seul, couvre l'étang le 48ᵉ jour. Si l'on plante deux nénuphars au lieu d'un, quel jour l'étang est-il couvert ?
+--- indice
+Deux plants le jour 1, c'est la surface d'un seul plant le jour 2.
+--- solution
+Partir de deux plants revient à prendre un jour d'avance : l'étang est couvert le **47ᵉ jour**, pas le 24ᵉ. La croissance exponentielle rend le doublement du point de départ équivalent à un seul jour gagné.
+
+=== ct-chapeau-riviere-courant
+parent: ct-chapeau-riviere
+titre: Le chapeau retrouvé 1 km en aval
+niveau: 2
+type: numerique
+reponse: 3
+tolerance: 0
+--- question
+Même rameur : son chapeau tombe, il s'en aperçoit 10 minutes plus tard, fait demi-tour, et le rattrape 1 km en aval du point où il est tombé. Quelle est la vitesse du courant (en km/h) ?
+--- indice
+Combien de temps le chapeau a-t-il dérivé au total ?
+--- solution
+Dans le référentiel de l'eau, le rameur s'éloigne 10 minutes et revient en 10 minutes : le chapeau a dérivé **20 minutes** pour parcourir 1 km. Courant : $1 / (20/60) =$ **3 km/h**.
+
+=== ct-train-mouche-chien
+parent: ct-train-mouche
+titre: Le chien entre son maître et la maison
+type: numerique
+reponse: 6
+tolerance: 0
+--- question
+Un promeneur est à 2 km de sa maison et rentre à 5 km/h. Son chien court à 15 km/h : il va jusqu'à la maison, revient vers le maître, repart, et ainsi de suite jusqu'à ce que le maître arrive. Quelle distance parcourt le chien (en km) ?
+--- indice
+Ne somme pas les allers-retours : combien de temps le chien court-il ?
+--- solution
+Le maître met $2/5$ h $= 24$ minutes à rentrer ; le chien court pendant tout ce temps : $15 \times 0{,}4 =$ **6 km**. Même principe que la mouche : distance $=$ vitesse $\times$ durée.
+
+=== ct-echiquier-dominos-gomory
+parent: ct-echiquier-dominos
+titre: Retirer deux cases de couleurs différentes
+niveau: 3
+--- question
+On retire d'un échiquier $8 \times 8$ deux cases de couleurs **différentes**, n'importe où. Peut-on toujours paver les 62 cases restantes avec 31 dominos ?
+--- indice
+Trouve un circuit qui passe par les 64 cases en allant chaque fois d'une case à une case voisine.
+--- solution
+**Oui, toujours** (théorème de Gomory). On trace un circuit fermé qui visite les 64 cases une fois chacune par des pas entre cases voisines (un serpentin refermé) ; les couleurs y alternent. Retirer deux cases de couleurs différentes coupe le circuit en deux chemins, chacun de longueur **paire** (les deux extrémités retirées sont de couleurs différentes). Chaque chemin de longueur paire se pave en suivant le circuit, deux cases par domino.
+L'invariant de couleur était donc la **seule** obstruction : ici la condition nécessaire est aussi suffisante.
+
+=== ct-echiquier-dominos-barres
+parent: ct-echiquier-dominos
+titre: Paver $10 \times 10$ avec des barres $1 \times 4$
+niveau: 3
+--- question
+Peut-on paver un carré $10 \times 10$ avec 25 barres $1 \times 4$ (horizontales ou verticales) ?
+--- indice
+Colorie la case $(i, j)$ avec la couleur $(i + j) \bmod 4$ : combien de cases de chaque couleur une barre couvre-t-elle ?
+--- solution
+**Non.** Avec la couleur $(i + j) \bmod 4$, une barre de 4 cases alignées couvre exactement une case de chaque couleur, quelle que soit son orientation : 25 barres couvriraient 25 cases de chaque couleur.
+Or le $10 \times 10$ en contient 25, 26, 25 et 24 (couleurs 0, 1, 2, 3) : impossible. Le coloriage en deux couleurs ne suffisait pas (50 et 50) : il faut adapter le nombre de couleurs à la taille des pièces.
+
+=== ct-echiquier-dominos-triminos
+parent: ct-echiquier-dominos
+titre: Un $5 \times 5$ troué, des triminos droits
+niveau: 3
+--- question
+On retire une case d'une grille $5 \times 5$ et l'on veut paver les 24 cases restantes avec 8 triminos droits $1 \times 3$. Quelles cases peut-on retirer ?
+--- indice
+Colorie selon $(i + j) \bmod 3$, puis selon $(i - j) \bmod 3$ : un trimino couvre une case de chaque couleur dans les deux coloriages.
+--- solution
+Seulement la **case centrale**.
+- Coloriage $(i + j) \bmod 3$ (lignes et colonnes numérotées de 0 à 4) : 8, 9 et 8 cases des couleurs 0, 1 et 2. Les 8 triminos couvrent 8 cases de chaque couleur : la case retirée doit être de couleur 1.
+- Coloriage $(i - j) \bmod 3$ : 9 cases de couleur 0 et 8 des autres : la case retirée doit être de couleur 0.
+- $i + j \equiv 1$ et $i \equiv j \pmod 3$ donnent $2i \equiv 1$, soit $i \equiv j \equiv 2$ : seule la case $(2, 2)$, le centre.
+Et le centre convient : la grille privée de son centre se découpe en quatre rectangles $2 \times 3$ disposés en moulinet autour de lui, chacun pavé par deux triminos.
+
+=== ct-cameleons-possible
+parent: ct-cameleons
+titre: Les caméléons 13, 15, 16
+type: numerique
+reponse: 44
+tolerance: 0
+--- question
+Même règle des caméléons (deux de couleurs différentes se rencontrent et prennent tous deux la troisième couleur), avec 13 gris, 15 bruns et 16 pourpres. Peuvent-ils devenir tous de la même couleur ? Si oui, combien de caméléons auront alors cette couleur ?
+--- indice
+Cherche deux effectifs dont la différence est un multiple de 3 : ce sont eux qu'il faut pouvoir annuler ensemble.
+--- solution
+$16 - 13 = 3$ : les gris et les pourpres peuvent être annulés ensemble. Une rencontre gris-brun donne $(12, 14, 18)$ ; puis 12 rencontres gris-pourpre (chacune : $-1$ gris, $-1$ pourpre, $+2$ bruns) donnent $(0, 38, 6)$. Il reste à vider les pourpres par cycles « une rencontre brun-pourpre, puis deux gris-pourpre », qui retirent 3 pourpres : $(0, 41, 3)$ puis $(0, 44, 0)$. Tous deviennent bruns : **44**.
+L'invariant modulo 3 dit **ce qui est impossible** ; pour prouver que c'est possible, il faut exhiber une suite de rencontres.
+
+=== ct-tableau-effacer-produit
+parent: ct-tableau-effacer
+titre: On écrit $a + b + ab$
+niveau: 2
+type: numerique
+reponse: 39916799
+tolerance: 0
+--- question
+Les nombres 1, 2, …, 10 sont au tableau. À chaque étape, on efface $a$ et $b$ et l'on écrit $a + b + ab$. Que vaut le dernier nombre ?
+--- indice
+$a + b + ab = (1 + a)(1 + b) - 1$.
+--- solution
+La quantité $\prod (1 + x_i)$ ne change pas : $(1 + a)(1 + b)$ est remplacé par $1 + (a + b + ab)$, la même valeur. Au départ, $\prod_{k=1}^{10}(1 + k) = 11!$. À la fin, il reste $x$ avec $1 + x = 11!$ : **$x = 11! - 1 = 39\,916\,799$**, quel que soit l'ordre des opérations.
+
+=== ct-tableau-effacer-choix
+parent: ct-tableau-effacer
+titre: On écrit $a + b$ ou $|a - b|$ au choix
+--- question
+Les nombres 1 à 10 sont au tableau. À chaque étape, on efface $a$ et $b$ et l'on écrit, au choix, $a + b$ ou $|a - b|$. Peut-on finir avec 0 ?
+--- indice
+Les deux opérations ont un point commun.
+--- solution
+**Non.** $a + b$ et $|a - b|$ ont la même parité que $a + b$ : la parité de la somme est invariante quel que soit le choix. Elle vaut $55$, impaire : le dernier nombre est impair. Avec le choix, on peut atteindre tous les impairs de 1 à 55, mais jamais 0.
+
+=== ct-fourmis-rencontres
+parent: ct-fourmis
+titre: Le nombre de rencontres des fourmis
+niveau: 2
+type: numerique
+reponse: 25
+tolerance: 0
+--- question
+Sur un bâton, 5 fourmis orientées vers la droite sont toutes à gauche de 5 fourmis orientées vers la gauche. Mêmes règles (demi-tour à chaque rencontre, chute aux extrémités). Combien de rencontres ont lieu en tout ?
+--- indice
+Une rencontre de deux fourmis qui font demi-tour ressemble à deux fourmis qui se traversent.
+--- solution
+Avec l'argument des « fantômes » qui se traversent, chaque fourmi de droite croise chaque fourmi de gauche exactement une fois : $5 \times 5 =$ **25** rencontres. En général, le nombre de rencontres est le nombre de paires (fourmi vers la droite, fourmi vers la gauche placée à sa droite).
+
+=== ct-fourmis-triangle
+parent: ct-fourmis
+titre: Trois fourmis aux sommets d'un triangle
+type: numerique
+reponse: 3/4
+--- question
+Trois fourmis sont aux sommets d'un triangle équilatéral. Chacune choisit au hasard l'un des deux côtés partant de son sommet et le parcourt à la même vitesse. Probabilité qu'au moins deux fourmis se rencontrent ?
+--- indice
+Quand n'y a-t-il **aucune** rencontre ?
+--- solution
+Aucune rencontre seulement si les trois tournent dans le même sens (toutes dans le sens horaire, ou toutes dans l'autre) : $2/8$. Probabilité de rencontre : $1 - 2/8 =$ **3/4**. Avec $n$ fourmis sur un polygone à $n$ sommets : $1 - 2/2^n$.

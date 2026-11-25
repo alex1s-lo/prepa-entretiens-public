@@ -1,0 +1,361 @@
+# QCM des casse-têtes de logique et de nombres (contenu/ct_logique.txt, contenu/ct_nombres.txt).
+
+=== ct-interrupteurs
++ Allumer le 1 quelques minutes, l'éteindre, allumer le 2, puis monter
+  Allumée : 2 ; éteinte et chaude : 1 ; éteinte et froide : 3. La chaleur donne la troisième information.
+- Allumer le 1, monter, et redescendre si l'ampoule est éteinte
+  On n'a droit qu'à une montée : il faut distinguer trois cas avec une seule observation.
+- Allumer le 1 et le 2 en même temps, puis monter
+  Allumée ne distinguerait pas 1 de 2 : il faut décaler les allumages dans le temps.
+- C'est impossible : une ampoule n'a que deux états
+  Vrai pour la seule lumière, mais l'ampoule a aussi une température.
+
+=== ct-deux-gardiens
++ « Laquelle me désignerait l'autre gardien ? », puis prendre l'autre porte
+  Vérité et mensonge se composent toujours en un mensonge : la porte désignée est la mauvaise.
+- « Laquelle mène à la liberté ? », et suivre la réponse
+  La réponse dépend du gardien interrogé, que tu ne connais pas.
+- « Es-tu le menteur ? »
+  Les deux répondent « non » : on n'apprend rien.
+- « Laquelle mène à la liberté ? », et prendre l'autre porte
+  Ce serait juste face au menteur seulement : il faut une question qui marche pour les deux.
+
+=== ct-chevaliers-fripons
++ A est fripon, B est chevalier
+  Un chevalier ne dit pas « je suis fripon » ; la phrase de A est fausse, donc B n'est pas fripon.
+- Les deux sont fripons
+  Alors la phrase de A serait vraie, impossible pour un fripon.
+- A est chevalier, B est fripon
+  Un chevalier dirait une phrase vraie, donc se déclarerait fripon : contradiction.
+- On ne peut pas savoir
+  La contradiction élimine tous les cas sauf un.
+
+=== ct-trois-oracles
++ Poser des questions imbriquées « Si je te demandais Q, répondrais-tu da ? », d'abord pour trouver un oracle qui n'est pas Aléatoire
+  La question imbriquée neutralise le sens inconnu de « da » et le menteur ; on interroge ensuite un oracle sûr.
+- Demander à chacun « Es-tu Aléatoire ? »
+  Aléatoire peut répondre n'importe quoi, et le sens de « da » est inconnu : aucune conclusion possible.
+- Demander « 1 + 1 = 2 ? » pour apprendre le sens de « da »
+  Le menteur et Aléatoire brouillent la réponse : on n'apprend ni le sens de « da » ni l'identité.
+- C'est impossible en trois questions, il en faut quatre
+  Trois suffisent, à condition que la première élimine Aléatoire d'un oracle.
+
+=== ct-yeux-bleus
++ Les 100 partent ensemble le centième soir
+  Avec $k$ yeux bleus, chacun en voit $k - 1$ et attend $k - 1$ soirs avant de conclure.
+- Rien : l'annonce n'apprend rien à personne
+  Chacun savait déjà qu'il y avait des yeux bleus, mais l'annonce crée une **connaissance commune**.
+- Ils partent tous le premier soir
+  Personne ne peut conclure avant d'avoir vu les autres rester le soir précédent.
+- Un seul part, le premier soir
+  Il faudrait qu'un insulaire ne voie aucun œil bleu ; chacun en voit 99.
+
+=== ct-anniversaire-cheryl
++ Le 16 juillet
+  Mai et juin éliminés (jours uniques), puis le 14, puis août (deux dates restantes).
+- Le 15 août
+  Albert, qui a le mois, ne pourrait pas conclure avec août (15 et 17 restent possibles).
+- Le 17 juin
+  Albert est sûr que Bernard ne sait pas : il n'a donc ni mai ni juin, où 18 et 19 sont uniques.
+- Le 14 juillet
+  Le 14 est ambigu (juillet et août) : Bernard n'aurait pas pu conclure.
+
+=== ct-somme-produit
++ 4 et 13
+  Somme 17, produit 52 : la seule paire qui survit aux quatre filtres « ce que l'autre sait ».
+- 2 et 3
+  Le produit 6 se factorise de façon unique : P aurait connu les nombres d'emblée.
+- 4 et 9
+  Somme 13 : S ne pouvait pas être sûr que P ignorait (13 = 2 + 11, deux premiers).
+- Il n'y a pas assez d'informations
+  Chaque déclaration filtre les cas ; à la fin, il en reste exactement un.
+
+=== ct-ages-trois-filles
++ 2, 2 et 9 ans
+  Somme ambiguë 13, entre (1,6,6) et (2,2,9) ; une « aînée » unique exclut (1,6,6).
+- 1, 6 et 6 ans
+  Il n'y aurait pas d'aînée unique : deux filles de 6 ans.
+- 3, 3 et 4 ans
+  Sa somme (10) est unique : le recenseur n'aurait pas eu besoin d'information.
+- On ne peut pas savoir sans le numéro
+  Le fait que le numéro **ne suffise pas** est l'information : seule la somme 13 est ambiguë.
+
+=== ct-chapeaux
++ 99
+  Le dernier annonce la parité des noirs qu'il voit ; tous les autres en déduisent leur couleur.
+- 50
+  C'est ce que donne « chacun annonce la couleur du suivant » : une paire sur deux seulement.
+- 100
+  Le dernier n'a aucune information sur son propre chapeau : il joue à pile ou face.
+- 75
+  Aucune stratégie classique ne donne 75 ; la parité garantit 99.
+
+=== ct-chapeaux-simultanes
++ $3/4$
+  Annoncer l'autre couleur quand on voit deux couleurs identiques : on ne perd que sur RRR et BBB.
+- $1/2$
+  C'est le cas où un seul joueur annonce au hasard : on peut regrouper les erreurs pour faire mieux.
+- $1/8$
+  Pour que les trois annoncent juste au hasard ; mais il suffit d'un juste et d'aucune erreur.
+- $7/8$
+  C'est la valeur pour **sept** joueurs (code de Hamming), pas pour trois.
+
+=== ct-logiciens-file
++ « Oui, rouge »
+  Le « non » du n° 3 exclut deux bleus devant lui ; le « non » du n° 2 exclut alors un bleu sur le n° 1.
+- « Non »
+  Ne rien voir n'empêche pas de conclure : les « non » des autres sont des informations.
+- « Oui, bleu »
+  Si le n° 1 était bleu, le n° 2 l'aurait vu et aurait su être rouge.
+- Ça dépend des couleurs des n° 2 et 3
+  Elles restent indéterminées, mais la réponse du n° 1 ne l'est pas.
+
+=== ct-prisonniers-ampoule
++ Un compteur unique éteint et compte ; chacun des autres allume une seule fois
+  Le compteur annonce quand il a compté 99 allumages : chaque prisonnier n'a contribué qu'une fois.
+- Chacun allume l'ampoule à chaque passage
+  Le compteur ne pourrait pas distinguer un nouveau prisonnier d'un prisonnier déjà venu.
+- Annoncer au bout d'un nombre de jours assez grand
+  Ce n'est jamais une certitude, et une erreur les condamne.
+- Chacun compte les fois où il trouve l'ampoule allumée
+  Sans rôle de compteur unique, personne ne sait combien de prisonniers distincts sont passés.
+
+=== ct-prisonniers-boites
++ $\approx 0{,}31$
+  Suivre le cycle de son numéro ; échec seulement s'il existe un cycle de longueur $> 50$, de probabilité $\approx \ln 2$.
+- $2^{-100}$
+  C'est la stratégie au hasard, où les réussites sont indépendantes.
+- $1/2$
+  Chaque prisonnier réussit avec probabilité $1/2$, mais il faut que **tous** réussissent ensemble.
+- $\ln 2 \approx 0{,}69$
+  C'est la probabilité d'**échec** de la stratégie des cycles.
+
+=== ct-meurtriers-balle
++ Annoncer qu'on tirera sur le plus petit numéro parmi les fuyards
+  Le n° 1 est sûr de mourir s'il fuit ; sachant cela, le n° 2 aussi, et ainsi de suite.
+- Annoncer qu'on tirera sur le premier qui s'enfuit
+  S'ils s'enfuient tous en même temps, chacun a une chance de survivre.
+- Tirer au hasard parmi les fuyards
+  Chaque fuyard a alors une probabilité non nulle de survivre : ils fuient tous.
+- C'est impossible avec une seule balle
+  La menace crédible et ordonnée suffit, par récurrence.
+
+=== ct-coffres-inscriptions
++ Dans le coffre d'argent
+  C'est le seul cas où exactement une inscription (celle du plomb) est vraie.
+- Dans le coffre d'or
+  Alors l'or et l'argent diraient vrai : deux inscriptions vraies.
+- Dans le coffre de plomb
+  Alors l'argent et le plomb diraient vrai : deux inscriptions vraies.
+- On ne peut pas conclure
+  Une seule hypothèse sur trois respecte la contrainte.
+
+=== ct-tigres-mouton
++ Non, il survit
+  Le mouton est mangé si et seulement si le nombre de tigres est impair ; 100 est pair.
+- Oui, immédiatement
+  Le tigre qui mange deviendrait mouton parmi 99 tigres, nombre impair : il serait mangé.
+- Oui, mais après 50 étapes
+  Le raisonnement à rebours montre qu'aucun tigre ne commence.
+- Ça dépend de l'ordre des tigres
+  Tous les tigres sont identiques et rationnels : seule la parité compte.
+
+=== ct-pieces-yeux-bandes
++ Prendre 10 pièces quelconques et les retourner toutes
+  Si elles contiennent $k$ faces, l'autre tas en a $10 - k$ et, retournées, elles en ont $10 - k$.
+- Faire deux tas de 50 pièces
+  Les faces n'ont aucune raison de se répartir également.
+- Retourner toutes les pièces puis faire deux tas de 50
+  Retourner tout ne change pas le problème : il y a alors 90 faces.
+- C'est impossible sans voir les pièces
+  La taille du petit tas (10) suffit à compenser, sans rien voir.
+
+=== ct-cadenas
++ Elle ajoute son cadenas, tu retires le tien, tu renvoies
+  La boîte voyage toujours verrouillée et aucune clé n'est envoyée : c'est l'idée de l'échange de clés de Diffie-Hellman.
+- Envoyer la clé dans un autre colis
+  Elle serait copiée : la boîte n'est plus sûre.
+- Envoyer la boîte fermée, et la clé ouverte dans la même boîte
+  Ton amie ne peut pas ouvrir la boîte pour prendre la clé.
+- C'est impossible sans clé commune
+  Trois allers-retours suffisent, chacun gardant sa clé.
+
+=== ct-cinq-cartes-fitch
++ Montrer en premier une carte de la même couleur que la cachée, et coder l'écart (1 à 6) par l'ordre des trois autres
+  Deux cartes partagent une couleur ; l'une est à au plus 6 crans de l'autre ; $3! = 6$ ordres codent l'écart.
+- Montrer les quatre cartes dans l'ordre croissant
+  Un seul ordre ne transmet aucune information.
+- Le magicien déduit la carte manquante des 48 restantes
+  48 possibilités ne se réduisent pas sans code.
+- C'est un tour de manipulation, sans mathématiques
+  Le tour de Fitch Cheney fonctionne à coup sûr grâce aux tiroirs et aux permutations.
+
+=== ct-guetteur-espion
++ 7
+  $2^6 = 64 < 100 \le 128 = 2^7$ : dichotomie.
+- 10
+  On a pensé en base 10, une question par chiffre ; une question oui/non n'a que deux issues.
+- 6
+  $2^6 = 64$ réponses ne distinguent pas 100 nombres.
+- 50
+  C'est la recherche « est-ce 1 ? est-ce 2 ? » en moyenne, sans dichotomie.
+
+=== ct-zeros-factorielle
++ 24
+  $\lfloor 100/5 \rfloor + \lfloor 100/25 \rfloor = 20 + 4$.
+- 20
+  On a oublié que 25, 50, 75 et 100 apportent chacun un 5 de plus.
+- 11
+  On a compté les multiples de 10 (10, 20, …, 100) : ce sont les facteurs 5 qui comptent.
+- 97
+  C'est le nombre de facteurs 2 : les 5, moins nombreux, limitent les zéros.
+
+=== ct-dernier-chiffre
++ 9
+  Cycle 7, 9, 3, 1 de période 4 ; $2026 \equiv 2 \pmod 4$.
+- 7
+  On a supposé que $2026 \equiv 1 \pmod 4$.
+- 1
+  On a cru que l'exposant pair donnait 1 : il faut un multiple de 4.
+- 3
+  C'est le reste pour un exposant $\equiv 3 \pmod 4$.
+
+=== ct-impairs
++ 2 500
+  50 termes, et la somme des $n$ premiers impairs vaut $n^2$.
+- 5 050
+  C'est $1 + 2 + \dots + 100$, tous les entiers.
+- 2 450
+  C'est la somme des pairs de 2 à 98.
+- 4 950
+  C'est $1 + \dots + 99$.
+
+=== ct-frobenius
++ 7
+  Formule de Frobenius $ab - a - b = 15 - 8$ ; 8, 9, 10 consécutifs, puis tout.
+- 4
+  4 est impossible, mais 7 aussi, et il est plus grand.
+- 15
+  C'est $ab$ : on oublie de retirer $a + b$.
+- Il n'y en a pas : tout est payable
+  Les petits montants comme 1, 2, 4, 7 ne le sont pas.
+
+=== ct-restes-chinois
++ 301
+  $n - 1$ multiple de 60 ; $60k + 1 \equiv 4k + 1 \equiv 0 \pmod 7$ donne $k = 5$.
+- 61
+  $61 = 7 \times 8 + 5$ n'est pas divisible par 7.
+- 721
+  Il convient aussi ($k = 12$), mais ce n'est pas le plus petit.
+- 119
+  Divisible par 7, mais $119 = 2 \times 59 + 1$ … et $119 \bmod 3 = 2$ : la condition modulo 3 échoue.
+
+=== ct-multiples-3-5
++ 233 168
+  Inclusion-exclusion : multiples de 3, plus ceux de 5, moins ceux de 15.
+- 266 333
+  On a oublié de retirer les multiples de 15, comptés deux fois.
+- 234 168
+  On a inclus 1 000, qui n'est pas **inférieur** à 1 000.
+- 166 833
+  On n'a compté que les multiples de 3.
+
+=== ct-diviseurs
++ 24
+  $360 = 2^3 \cdot 3^2 \cdot 5$ : $(3+1)(2+1)(1+1)$.
+- 6
+  On a multiplié les exposants $3 \times 2 \times 1$ sans ajouter 1.
+- 3
+  C'est le nombre de facteurs premiers distincts.
+- 12
+  On a oublié un facteur : l'exposant 0 est permis pour chaque premier.
+
+=== ct-e-pi
++ $e^{\pi}$
+  $\frac{\ln x}{x}$ est maximal en $e$, donc $\frac{\ln \pi}{\pi} < \frac1e$, ce qui équivaut à $e^\pi > \pi^e$.
+- $\pi^{e}$
+  L'intuition « la plus grande base gagne » est fausse ici : c'est l'exposant qui compte le plus.
+- Ils sont égaux
+  $x^y = y^x$ avec $x \ne y$ n'arrive que pour des couples particuliers comme (2, 4).
+- On ne peut pas conclure sans calculatrice
+  L'étude de $\frac{\ln x}{x}$ conclut sans calcul numérique.
+
+=== ct-tour-puissances
++ $\sqrt 2$
+  La tour vérifie $x^y = y$ avec $y = 2$, et la suite $\sqrt 2^{\,a_n}$ converge bien vers 2.
+- 2
+  On a confondu la valeur de la tour (2) avec la base cherchée.
+- $\sqrt[4]{4}$
+  C'est aussi $\sqrt 2$ : bonne valeur, mais déduite de la mauvaise équation (tour égale à 4, impossible).
+- $e^{1/e}$
+  C'est la plus grande base pour laquelle la tour converge, où elle vaut $e$, pas 2.
+
+=== ct-produit-max
++ 36
+  Des 3, complétés par des 2 : $3 \times 3 \times 4$ ou $3 \times 3 \times 2 \times 2$.
+- 32
+  $2^5$ : les 2 sont moins efficaces que les 3.
+- 30
+  $2 \times 3 \times 5$ : un 5 gagne à être coupé en $2 + 3$.
+- 25
+  $5 \times 5$ : même erreur, $2 \times 3 > 5$.
+
+=== ct-cheque-inverse
++ 31,63 dollars
+  $98y - 199x = 5$ avec $x = 31$ dollars, $y = 63$ cents.
+- 63,31 dollars
+  C'est le montant **versé** par le caissier, pas celui du chèque.
+- 31,36 dollars
+  On a inversé les chiffres au lieu des dollars et des cents.
+- Il n'y a pas de solution entière
+  L'équation diophantienne en a une, trouvée modulo 98.
+
+=== ct-autodescriptif
++ 6 210 001 000
+  Six 0, deux 1, un 2, un 6 : la somme des chiffres et la somme pondérée valent 10.
+- 2 100 010 006
+  On a écrit le nombre à l'envers.
+- 9 000 000 001
+  Il contiendrait un 1 et un 9 qui ne sont pas comptés correctement.
+- 1 210
+  C'est l'autodescriptif à **quatre** chiffres.
+
+=== ct-age-carre
++ 45 ans
+  $45^2 = 2025$ : née en 1980 ; $44^2 = 1936$ supposerait une naissance en 1892.
+- 44 ans
+  Une personne de 44 ans en 1936 aurait 134 ans fin 2026.
+- 46 ans
+  $46^2 = 2116$ est dans le futur.
+- 43 ans
+  $43^2 = 1849$ : il faudrait être né en 1806.
+
+=== ct-chiffres-puissance
++ 31
+  $100 \log_{10} 2 = 30{,}10$ : le nombre est entre $10^{30}$ et $10^{31}$.
+- 30
+  Un nombre entre $10^{30}$ et $10^{31}$ a 31 chiffres, pas 30.
+- 100
+  C'est le nombre de chiffres **binaires** (101, en fait).
+- 33
+  On a pris $\log_{10} 2 \approx 1/3$ : trop grossier.
+
+=== ct-irrationnel
++ Par l'absurde dans les deux cas : $p^2 = 2q^2$ force $p$ et $q$ pairs ; $p_1 \cdots p_n + 1$ n'a aucun des $p_i$ comme facteur
+  Deux preuves classiques par contradiction, à savoir réciter en une minute.
+- $\sqrt 2 = 1{,}41421\dots$ ne se termine pas, donc il est irrationnel
+  Un développement infini peut être périodique (comme $1/3$) : il faut une preuve.
+- $p_1 \cdots p_n + 1$ est toujours premier
+  Faux ($2 \cdot 3 \cdot 5 \cdot 7 \cdot 11 \cdot 13 + 1 = 30\,031 = 59 \times 509$) ; il a seulement un facteur premier nouveau.
+- Les premiers sont infinis car il y a une infinité d'entiers
+  Ce n'est pas un argument : il faut montrer qu'on ne peut pas tous les lister.
+
+=== ct-casiers
++ 10
+  Seuls les carrés parfaits ont un nombre impair de diviseurs : 1, 4, …, 100.
+- 50
+  Intuition « un sur deux » ; c'est la parité du nombre de diviseurs qui compte.
+- 25
+  C'est le nombre de nombres premiers sous 100, qui ont exactement deux diviseurs : ils finissent fermés.
+- 0
+  Les carrés parfaits sont touchés un nombre impair de fois.

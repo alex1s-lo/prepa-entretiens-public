@@ -1,0 +1,273 @@
+# Variantes des casse-têtes de logique : chacune est un problème à part entière, relié à son problème d'origine
+# par « parent: ». Elles héritent du thème, de la famille, des profils et du niveau quand elles ne les précisent pas.
+
+=== ct-boites-etiquettes-pommes
+parent: ct-boites-etiquettes
+titre: Boîtes mal étiquetées : tirer dans la boîte « pommes »
+--- question
+Trois boîtes étiquetées « pommes », « oranges » et « mélange », toutes mal étiquetées. Cette fois, on t'impose de tirer ton premier fruit dans la boîte étiquetée « pommes ». Ce seul fruit suffit-il toujours à réétiqueter les trois boîtes ?
+--- indice
+Envisage le cas où tu tires une orange : quelles boîtes la boîte « pommes » peut-elle encore être ?
+--- solution
+**Non.** La boîte « pommes » contient soit des oranges, soit le mélange. Si tu tires une pomme, c'est le mélange, et tout se déduit. Mais si tu tires une **orange**, elle peut être la boîte d'oranges **ou** le mélange (qui contient aussi des oranges) : deux possibilités restent ouvertes.
+La boîte « mélange » est la seule dont le contenu est forcément pur : c'est pour cela qu'un fruit y suffit. Leçon : choisir l'observation qui ne laisse qu'une issue par résultat.
+
+=== ct-interrupteurs-trois-ampoules
+parent: ct-interrupteurs
+titre: Trois interrupteurs, trois ampoules, une visite
+--- question
+Trois interrupteurs dans le couloir commandent chacun une des trois ampoules d'une pièce fermée. Tu n'entres qu'une fois dans la pièce. Comment associer chaque interrupteur à son ampoule ?
+--- indice
+Chaque ampoule doit être dans un état différent quand tu entres : combien d'états distincts peux-tu créer ?
+--- solution
+Allume l'interrupteur 1 quelques minutes, éteins-le, allume le 2, entre.
+- L'ampoule **allumée** est commandée par le 2.
+- L'ampoule **éteinte et chaude** par le 1.
+- L'ampoule **éteinte et froide** par le 3.
+Même principe que pour une seule ampoule : la chaleur donne une deuxième information, d'où trois états distinguables.
+
+=== ct-interrupteurs-quatre
+parent: ct-interrupteurs
+titre: Quatre interrupteurs, quatre ampoules
+niveau: 2
+--- question
+Quatre interrupteurs commandent quatre ampoules d'une pièce que tu ne visites qu'une fois. Comment associer chaque interrupteur à son ampoule ?
+--- indice
+Deux informations binaires par ampoule (allumée ou non, chaude ou non) donnent $2 \times 2 = 4$ états.
+--- solution
+Allume 1 et 2 pendant dix minutes, éteins le 2, allume le 3, entre aussitôt.
+- Allumée et chaude : 1.
+- Éteinte et chaude : 2.
+- Allumée et froide : 3 (allumée depuis trop peu de temps pour chauffer).
+- Éteinte et froide : 4.
+Avec deux bits par ampoule on distingue $2^2 = 4$ interrupteurs : c'est un argument de comptage, comme pour les pesées.
+
+=== ct-deux-gardiens-un-seul
+parent: ct-deux-gardiens
+titre: Un seul gardien, menteur ou non
+niveau: 2
+--- question
+Deux portes, l'une vers la liberté. Un seul gardien, dont tu ignores s'il ment toujours ou dit toujours la vérité. Une seule question fermée (oui ou non) : laquelle poser pour savoir si la porte de gauche est la bonne ?
+--- indice
+Fais passer la question deux fois par le gardien : deux mensonges s'annulent.
+--- solution
+Demande : « Si je te demandais si la porte de gauche mène à la liberté, répondrais-tu oui ? »
+- Le sincère répond la vérité.
+- Le menteur ment sur ce qu'il répondrait, lequel serait déjà un mensonge : la double négation redonne la vérité.
+Dans les deux cas, « oui » signifie que la gauche est la bonne porte.
+
+=== ct-deux-gardiens-villages
+parent: ct-deux-gardiens
+titre: La bifurcation entre deux villages
+--- question
+À une bifurcation, une route mène au village des sincères, l'autre au village des menteurs. Un habitant de l'un des deux villages se trouve là (sincère ou menteur, tu l'ignores). Tu veux aller au village des sincères. Quelle question lui poser ?
+--- indice
+Demande-lui une chose qui dépend de son identité, de sorte que le mensonge se retourne contre lui.
+--- solution
+« Montre-moi la route de ton village. »
+- Un sincère montre la route de son village : celui des sincères.
+- Un menteur doit mentir sur la route de son village (celui des menteurs) : il montre l'autre, celle des sincères.
+Dans les deux cas, on te désigne le village des sincères.
+
+=== ct-chevaliers-fripons-au-moins-un
+parent: ct-chevaliers-fripons
+titre: « Au moins l'un de nous est un fripon »
+--- question
+Sur l'île des chevaliers (toujours sincères) et des fripons (toujours menteurs), A dit : « Au moins l'un de nous deux est un fripon. » Que sont A et B ?
+--- indice
+Si A était un fripon, sa phrase serait-elle vraie ou fausse ?
+--- solution
+Si A était un fripon, la phrase « au moins l'un de nous est un fripon » serait **vraie** : un fripon ne peut pas la dire. Donc A est un **chevalier**, sa phrase est vraie, et comme lui n'est pas fripon, **B est un fripon**.
+
+=== ct-chevaliers-fripons-meme-nature
+parent: ct-chevaliers-fripons
+titre: « B et moi sommes de même nature »
+niveau: 2
+--- question
+A dit : « B et moi sommes de même nature. » Que peut-on dire de A et de B ?
+--- indice
+Traite les deux cas pour A.
+--- solution
+- A chevalier : la phrase est vraie, B est chevalier.
+- A fripon : la phrase est fausse, B est de nature différente : chevalier.
+Dans les deux cas **B est un chevalier**, et la nature de A reste **indéterminée**. C'est le schéma de « double négation » des gardiens : on apprend une chose sur l'autre, rien sur celui qui parle.
+
+=== ct-chevaliers-fripons-trois
+parent: ct-chevaliers-fripons
+titre: Chevaliers et fripons à trois
+niveau: 2
+--- question
+Trois habitants A, B, C. A dit : « Nous sommes tous les trois des fripons. » B dit : « Exactement l'un de nous trois est un chevalier. » Que sont A, B et C ?
+--- indice
+Commence par A, comme dans le problème à deux.
+--- solution
+Un chevalier ne peut pas dire « nous sommes tous fripons » : **A est fripon**, et sa phrase est fausse, donc au moins un chevalier parmi B et C.
+- Si B était fripon, C serait le seul chevalier : « exactement un chevalier » serait vrai, impossible pour un fripon.
+- Donc **B est chevalier**, sa phrase est vraie : il est l'unique chevalier, **C est fripon**.
+Vérification : A fripon, B chevalier, C fripon ; A ment, B dit vrai.
+
+=== ct-yeux-bleus-fronts-sales
+parent: ct-yeux-bleus
+titre: Les enfants au front sale
+--- question
+$n$ enfants jouent ; $k$ d'entre eux ont le front sale, chacun voit les fronts des autres mais pas le sien. Le père annonce : « Au moins l'un de vous a le front sale. » Puis il demande, à plusieurs reprises et tous ensemble : « Levez la main si vous savez que votre front est sale. » À quel appel les enfants sales lèvent-ils la main ?
+--- indice
+Commence par $k = 1$, puis $k = 2$ : que déduit un enfant sale de l'absence de main levée ?
+--- solution
+Au **$k$-ième appel**, les $k$ enfants sales lèvent la main ensemble.
+- $k = 1$ : l'enfant sale ne voit aucun front sale ; l'annonce lui apprend que c'est lui. Main levée au premier appel.
+- $k = 2$ : chacun voit un front sale ; si personne ne lève la main au premier appel, c'est que l'autre en voyait un aussi : main levée au deuxième.
+- Récurrence : au rang $k$, chacun en voit $k - 1$ et attend $k - 1$ appels.
+C'est le même mécanisme que les yeux bleus : l'annonce crée une **connaissance commune**.
+
+=== ct-yeux-bleus-maris
+parent: ct-yeux-bleus
+titre: Les maris infidèles
+niveau: 3
+--- question
+Dans un village, chaque épouse sait exactement quels maris sont infidèles, sauf le sien. La reine annonce : « Au moins un mari est infidèle ; toute épouse qui le découvre pour le sien doit le chasser le soir même, à minuit. » Il y a $k$ maris infidèles. Que se passe-t-il ?
+--- indice
+Mets-toi à la place d'une épouse trompée qui connaît $k - 1$ infidèles.
+--- solution
+Les $k$ maris infidèles sont chassés **ensemble le $k$-ième soir**, et aucun avant.
+Une épouse trompée connaît $k - 1$ infidèles. Si seulement eux l'étaient, leurs épouses les chasseraient le soir $k - 1$ (récurrence). Ne voyant rien se passer ce soir-là, elle comprend que le sien l'est aussi. Une épouse non trompée connaît $k$ infidèles et attendrait le soir $k + 1$ : elle n'a pas à agir.
+
+=== ct-ages-trois-filles-72
+parent: ct-ages-trois-filles
+titre: Les trois filles, produit 72
+niveau: 2
+--- question
+« Le produit des âges de mes trois filles vaut 72. La somme est le numéro de la maison d'en face. » Le recenseur regarde le numéro : « Il me manque une information. » « Mon aînée aime le chocolat. » Quels sont les âges ?
+--- indice
+Liste les triplets de produit 72 et leurs sommes : une seule somme est ambiguë.
+--- solution
+Triplets et sommes : (1,1,72) 74 ; (1,2,36) 39 ; (1,3,24) 28 ; (1,4,18) 23 ; (1,6,12) 19 ; (1,8,9) 18 ; (2,2,18) 22 ; (2,3,12) 17 ; (2,4,9) 15 ; (2,6,6) **14** ; (3,3,8) **14** ; (3,4,6) 13.
+Seule la somme 14 laisse deux possibilités. « L'aînée » exclut (2,6,6), où les deux aînées ont le même âge : **3, 3 et 8 ans**.
+
+=== ct-ages-cinq-enfants
+parent: ct-ages-trois-filles
+titre: Cinq enfants, produit 72 : un piège
+niveau: 3
+--- question
+« Le produit des âges de mes **cinq** enfants vaut 72 ; la somme est le numéro d'en face. » Le recenseur : « Il me manque une information. » « Mon aîné est unique. » Le recenseur peut-il maintenant donner les âges ?
+--- indice
+Énumère les quintuplets de produit 72 : quelle somme est ambiguë, et combien de candidats « aîné unique » laisse-t-elle ?
+--- solution
+La seule somme ambiguë est **16**, avec trois candidats : (1,1,2,6,6), (1,1,3,3,8) et (1,2,2,2,9).
+« L'aîné est unique » n'élimine que (1,1,2,6,6). Il reste (1,1,3,3,8) et (1,2,2,2,9), qui ont tous deux un aîné unique : **le recenseur ne peut pas conclure**.
+Leçon d'entretien : ne jamais plaquer la réponse d'un problème connu. Refaire l'énumération, et oser dire que l'énoncé ne suffit pas.
+
+=== ct-chapeaux-k-couleurs
+parent: ct-chapeaux
+titre: La file de prisonniers, chapeaux de $k$ couleurs
+niveau: 3
+type: numerique
+reponse: 99
+tolerance: 0
+--- question
+100 prisonniers en file indienne, chacun voit les chapeaux devant lui. Les chapeaux sont maintenant de **$k$ couleurs** numérotées $0, \dots, k - 1$. En partant du dernier, chacun annonce une couleur. Combien peuvent être sauvés à coup sûr avec une stratégie concertée ?
+--- indice
+Remplace la parité par une somme modulo $k$.
+--- solution
+Le dernier annonce la somme des couleurs qu'il voit, **modulo $k$**. Chaque suivant connaît cette somme, voit les chapeaux devant lui et a entendu les couleurs (justes) de ceux qui sont derrière lui, sauf la sienne : il retrouve sa couleur par soustraction modulo $k$.
+Seul le dernier joue à pile ou face (probabilité $1/k$) : **99** sauvés à coup sûr, quel que soit $k$.
+
+=== ct-chapeaux-cercle
+parent: ct-chapeaux
+titre: $n$ personnes, $n$ couleurs, annonces simultanées
+niveau: 3
+--- question
+$n$ personnes numérotées $0, \dots, n - 1$ reçoivent chacune un chapeau d'une couleur parmi $n$ (numérotées aussi). Chacune voit tous les autres chapeaux, pas le sien, puis **toutes** annoncent en même temps une couleur pour leur propre chapeau. Trouve une stratégie qui garantit qu'**au moins une** personne a raison, quelle que soit la distribution.
+--- indice
+Soit $S$ la somme de toutes les couleurs modulo $n$. Chaque personne peut parier sur une valeur différente de $S$.
+--- solution
+La personne $i$ suppose que $S \equiv i \pmod n$ et annonce la couleur qui rendrait cela vrai, compte tenu des chapeaux qu'elle voit.
+$S$ prend exactement une valeur $s$ modulo $n$ : la personne $i = s$ a fait la bonne hypothèse, donc annonce juste. Exactement une personne a raison, à coup sûr.
+On ne peut pas faire mieux en garantie : chaque personne a raison avec probabilité $1/n$, donc en moyenne une seule.
+
+=== ct-chapeaux-simultanes-sept
+parent: ct-chapeaux-simultanes
+titre: Chapeaux simultanés à sept joueurs
+niveau: 3
+type: numerique
+reponse: 7/8
+--- question
+Même jeu que les chapeaux rouges et bleus à trois joueurs (chacun annonce ou s'abstient, on gagne si au moins un annonce et que personne ne se trompe), mais avec **7 joueurs**. Quelle probabilité de gagner atteint-on avec la meilleure stratégie ?
+--- indice
+À trois joueurs, on concentre toutes les erreurs sur 2 configurations sur 8. Quel code correcteur fait la même chose sur 7 bits ?
+--- solution
+Le code de Hamming $(7, 4)$ contient 16 mots ; toute suite de 7 bits est soit un mot du code, soit à distance 1 d'exactement un mot. Stratégie : si en complétant ton bit tu peux obtenir un mot du code, annonce le bit qui n'en donne **pas** ; sinon abstiens-toi.
+- Configuration hors du code (112 sur 128) : un seul joueur peut « compléter en un mot du code », il annonce juste ; les autres s'abstiennent.
+- Configuration dans le code (16 sur 128) : les sept annoncent faux.
+Probabilité $112/128 =$ **7/8**, soit $1 - 1/(n + 1)$ avec $n = 7$.
+
+=== ct-prisonniers-ampoule-inconnue
+parent: ct-prisonniers-ampoule
+titre: L'ampoule des prisonniers, état initial inconnu
+--- question
+Même problème des 100 prisonniers et de l'ampoule, mais on ne sait pas si l'ampoule est allumée ou éteinte au départ. Comment adapter la stratégie du compteur ?
+--- indice
+Le compteur ne sait pas si la première ampoule allumée vient d'un prisonnier ou de l'état initial : chaque prisonnier doit donc « compter » plus d'une fois.
+--- solution
+Chaque prisonnier autre que le compteur allume l'ampoule **deux fois** (les deux premières fois qu'il la trouve éteinte). Le compteur éteint et compte chaque ampoule allumée qu'il trouve ; il annonce quand son compte atteint $2 \times 99 = 198$.
+- Le seuil est **atteignable** : même si l'ampoule était éteinte au départ, les 99 prisonniers fournissent $198$ allumages.
+- Le seuil est **sûr** : si l'ampoule était allumée au départ, un compte est parasite et $197$ viennent des prisonniers ; or 98 prisonniers n'en fournissent que $196$. Donc les 99 sont passés.
+Le piège est de s'arrêter à $197$ : si l'ampoule était allumée au départ, 98 prisonniers suffisent à faire $1 + 196 = 197$, et l'un d'eux peut ne jamais être venu.
+Méthode : vérifier qu'un seuil est à la fois atteignable dans le pire cas et concluant dans le pire cas.
+
+=== ct-prisonniers-boites-limite
+parent: ct-prisonniers-boites
+titre: Les prisonniers et les boîtes, beaucoup de prisonniers
+niveau: 3
+type: numerique
+reponse: 1-ln(2)
+tolerance: 0.01
+--- question
+Même jeu des boîtes avec $2n$ prisonniers qui ouvrent chacun $n$ boîtes et la stratégie des cycles. Vers quelle valeur tend la probabilité de succès quand $n \to \infty$ ?
+--- indice
+La probabilité d'échec est $\sum_{k=n+1}^{2n} 1/k$. Reconnais une somme de Riemann.
+--- solution
+$$\sum_{k=n+1}^{2n} \frac{1}{k} = H_{2n} - H_n \to \ln 2,$$
+donc la probabilité de succès tend vers $1 - \ln 2 \approx$ **0,307**. Résultat contre-intuitif : elle ne s'effondre pas avec le nombre de prisonniers, alors que la stratégie au hasard donne $2^{-2n}$.
+
+=== ct-prisonniers-boites-cycles
+parent: ct-prisonniers-boites
+titre: Nombre moyen de cycles d'une permutation
+niveau: 2
+type: numerique
+reponse: 1+1/2+1/3+1/4+1/5+1/6+1/7+1/8+1/9+1/10
+--- question
+On tire une permutation uniforme de $\{1, \dots, 10\}$. Combien a-t-elle de cycles en moyenne (points fixes compris) ?
+--- indice
+Le nombre de permutations de $\{1, \dots, n\}$ ayant un cycle **donné** de longueur $k$ est $(n - k)!$. Compte les cycles de longueur $k$ en moyenne.
+--- solution
+Nombre moyen de cycles de longueur $k$ : $\binom{n}{k}(k - 1)!\,(n - k)!/n! = 1/k$. En sommant :
+$$\mathbb{E}[\text{cycles}] = \sum_{k=1}^{n} \frac1k = H_n.$$
+Pour $n = 10$ : $H_{10} \approx$ **2,93**, et $H_n \approx \ln n + 0{,}577$ en général. C'est la même série que pour la grenouille et les records.
+
+=== ct-pieces-yeux-bandes-general
+parent: ct-pieces-yeux-bandes
+titre: Pièces les yeux bandés, $n$ faces parmi $N$
+--- question
+$N$ pièces sur la table, dont exactement $n$ côté face (tu connais $n$). Les yeux bandés, tu peux déplacer et retourner les pièces. Forme deux tas qui contiennent le même nombre de faces.
+--- indice
+La taille du petit tas est la seule chose que tu contrôles.
+--- solution
+Prends **$n$ pièces quelconques** et retourne-les toutes. Si elles contenaient $k$ faces, il en reste $n - k$ dans l'autre tas ; après retournement, le petit tas contient $n - k$ faces. Égalité dans tous les cas.
+
+=== ct-guetteur-mensonge
+parent: ct-guetteur-espion
+titre: Deviner un nombre si je peux mentir une fois
+niveau: 3
+type: numerique
+reponse: 11
+tolerance: 0
+--- question
+Je pense à un entier entre 1 et 100. Tu poses des questions fermées ; je peux mentir **au plus une fois**. Combien de questions faut-il au minimum pour être sûr de trouver le nombre ?
+--- indice
+Compte les « scénarios » à distinguer : le nombre, et la position éventuelle du mensonge.
+--- solution
+Avec $k$ questions, un scénario est un nombre (100 choix) et une position du mensonge parmi $k$, ou aucun mensonge : $100(k + 1)$ scénarios. Pour chaque nombre, les $k + 1$ suites de réponses possibles doivent être distinctes de celles des autres nombres : il faut $2^k \ge 100(k + 1)$ (borne de Hamming).
+- $k = 10$ : $1\,024 < 1\,100$, impossible.
+- $k = 11$ : $2\,048 \ge 1\,200$.
+**11 questions**, et une stratégie adaptative les atteint (jeu d'Ulam, résolu par Pelc). Sans mensonge il en fallait 7 : un seul mensonge coûte 4 questions.

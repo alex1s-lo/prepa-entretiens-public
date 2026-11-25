@@ -20,9 +20,6 @@ duree: 300
 2. 6ᵉ course : les 5 vainqueurs. Le gagnant (A1) est le plus rapide de tous.
 3. Candidats pour les places 2 et 3 : A2, A3 (groupe du 1ᵉʳ), B1, B2 (groupe du 2ᵉ de la course 6), C1 (groupe du 3ᵉ). Tous les autres ont au moins trois chevaux plus rapides. 7ᵉ course avec ces 5 : les deux premiers sont les 2ᵉ et 3ᵉ.
 Total : **7 courses**.
---- variantes
-- Seulement le plus rapide : **6** courses ; les deux plus rapides : 7 (A2 contre B1).
-- Variante à 64 chevaux et 8 couloirs pour les 4 plus rapides : même tableau des candidats (un cheval est éliminé dès que quatre chevaux plus rapides que lui sont identifiés) ; ici il reste 9 candidats pour 3 places, d'où une course de plus que ce qu'on espère ; dérouler le tableau à voix haute est ce qui est noté.
 
 === ct-oeufs
 theme: casse-tete
@@ -43,10 +40,6 @@ Si tu disposes de $n$ lâchers au total, de quel étage lâcher le premier œuf 
 Avec $n$ lâchers, on lâche le premier œuf à l'étage $n$ ; s'il casse, on teste un à un les $n - 1$ étages en dessous avec le second. S'il ne casse pas, on monte de $n - 1$ étages, puis $n - 2$, etc. On couvre
 $$n + (n - 1) + \dots + 1 = \frac{n(n + 1)}{2} \text{ étages}.$$
 Il faut $n(n + 1)/2 \ge 100$, donc **$n = 14$** ($14 \times 15 / 2 = 105$). Étages du premier œuf : 14, 27, 39, 50, 60, 69, 77, 84, 90, 95, 99, 100.
---- variantes
-- **Trois** œufs : avec $n$ lâchers on couvre $\binom{n}{1} + \binom{n}{2} + \binom{n}{3}$ étages ; il faut **9** lâchers ($9 + 36 + 84 = 129 \ge 100$, alors que 8 donne $8 + 28 + 56 = 92$).
-- $k$ œufs et $n$ lâchers : $\sum_{i=1}^{k} \binom{n}{i}$ étages couverts (programmation dynamique classique).
-- Un seul œuf : on monte étage par étage, 100 lâchers au pire.
 
 === ct-pont
 theme: casse-tete
@@ -57,6 +50,7 @@ profils: mm hf banque data
 type: numerique
 reponse: 17
 duree: 300
+voir: ct-riviere
 --- question
 Quatre personnes doivent traverser un pont la nuit avec une seule lampe ; au plus deux personnes à la fois, et la lampe doit accompagner chaque traversée. Elles mettent 1, 2, 5 et 10 minutes ; un groupe avance au rythme du plus lent. Temps minimal ?
 --- en
@@ -66,9 +60,6 @@ Le 5 et le 10 doivent-ils traverser séparément ?
 --- solution
 1 et 2 traversent (2), 1 revient (1), 5 et 10 traversent (10), 2 revient (2), 1 et 2 traversent (2) : **17 minutes**.
 L'astuce : faire traverser les deux plus lents ensemble. La stratégie « 1 accompagne tout le monde » donne 19.
---- variantes
-- Temps 1, 2, 7, 10 : 17 aussi ($2 + 1 + 10 + 2 + 2$) ; avec 1, 5, 6, 7 c'est la stratégie « le plus rapide accompagne » qui gagne ($6 + 1 + 7 + 1 + 5 = 20$). Règle : comparer $2t_2$ et $t_1 + t_3$.
-- Chèvre, loup et chou : voir la fiche des traversées de rivière.
 
 === ct-pasteques
 theme: casse-tete
@@ -79,15 +70,13 @@ profils: mm hf
 type: numerique
 reponse: 18
 duree: 300
+voir: ct-chevaux
 --- question
 16 pastèques de poids tous différents et une balance à deux plateaux qui compare deux pastèques à la fois. Combien de pesées au minimum, au pire, pour trouver les **deux** plus lourdes ?
 --- indice
 Un tournoi à élimination trouve la plus lourde. Qui peut être la deuxième ?
 --- solution
 Tournoi à élimination directe : $16 - 1 = 15$ pesées pour la plus lourde. La deuxième a forcément perdu **directement** contre la plus lourde : il y a $\log_2 16 = 4$ candidates, départagées en 3 pesées. Total : $15 + 3 =$ **18** (et c'est optimal : $n + \lceil \log_2 n \rceil - 2$).
---- variantes
-- La plus lourde **et** la plus légère : $\lceil 3n/2 \rceil - 2 = 22$ pesées (comparer par paires, puis max des gagnants et min des perdants).
-- 25 chevaux : même idée de « candidats qui n'ont perdu que contre le vainqueur ».
 
 === ct-celebrite
 theme: casse-tete
@@ -117,9 +106,6 @@ Que vaut $1 + 2 + \dots + n$ ?
 --- solution
 Manquant : $n(n + 1)/2$ moins la somme de la liste (ou le ou exclusif de $1, \dots, n$ et de la liste, qui évite les dépassements).
 Doublon dans une liste de $n + 1$ entiers pris dans $1..n$ : somme de la liste moins $n(n + 1)/2$ ; sans pouvoir sommer, l'algorithme de Floyd (lièvre et tortue) sur la suite $i \mapsto t[i]$ trouve le cycle, dont l'entrée est le doublon, en $O(n)$ et $O(1)$ de mémoire.
---- variantes
-- $k$ nombres manquants ($k$ petit) : sommes des puissances $1$ à $k$ (identités de Newton) ou tableau de présence.
-- Un manquant et un doublon : somme et somme des carrés donnent deux équations.
 
 === ct-pain-grille
 theme: casse-tete
@@ -169,9 +155,6 @@ Modélise les états (personnes sur la rive de départ, position de la barque) e
 --- solution
 Un parcours en largeur sur les états donne **11 traversées**, par exemple (M, C sur la rive de départ) : CC partent, C revient ; CC partent, C revient ; MM partent, MC revient ; MM partent, C revient ; CC partent, C revient ; CC partent.
 En entretien, la méthode compte : graphe des états, recherche du plus court chemin.
---- variantes
-- Chèvre, loup et chou (le passeur ne prend qu'un passager) : chèvre, retour, loup, ramener la chèvre, chou, retour, chèvre : **7** traversées.
-- Quatre missionnaires et quatre cannibales avec une barque de deux places : **impossible**.
 
 === ct-hanoi
 theme: casse-tete
@@ -204,8 +187,6 @@ Combien de comparaisons faut-il au minimum, au pire, pour trier 5 éléments dis
 Borne d'information : $5! = 120$ ordres possibles, chaque comparaison a deux issues.
 --- solution
 Borne inférieure : $\lceil \log_2 120 \rceil = 7$ ($2^7 = 128$). Elle est atteinte : compare $a, b$ puis $c, d$ ; compare les deux vainqueurs (on obtient une chaîne $a < b < d$ avec $c < d$) ; insère $e$ dans la chaîne $a < b < d$ en 2 comparaisons ; insère $c$ (dont on sait $c < d$) dans le reste en 2 comparaisons. **7 comparaisons**.
---- variantes
-- Tri par comparaisons de $n$ éléments : au moins $\log_2 n! \approx n \log_2 n$ comparaisons, d'où l'optimalité du tri fusion.
 
 === ct-stations-circuit
 theme: casse-tete

@@ -1,5 +1,5 @@
 # Casse-têtes : logique et déduction (menteurs, chapeaux, connaissance commune, information).
-# Chaque fiche regroupe un problème et ses variantes d'énoncé rencontrées en entretien.
+# Les variantes de chaque problème sont des fiches à part entière (contenu/ctv_*.txt, clé « parent: »).
 
 === ct-interrupteurs
 theme: casse-tete
@@ -16,9 +16,6 @@ Une observation visuelle n'a que deux issues (allumée ou éteinte). Quelle autr
 --- solution
 Allume le 1 pendant quelques minutes, éteins-le, allume le 2, monte. Ampoule allumée : interrupteur 2. Éteinte mais chaude : 1. Éteinte et froide : 3.
 L'astuce est d'utiliser une deuxième information (la chaleur) : trois états à distinguer avec une seule visite.
---- variantes
-- Trois interrupteurs, **trois ampoules** dans la pièce, une seule visite : même méthode (allumée, chaude éteinte, froide éteinte).
-- **Quatre** interrupteurs et quatre ampoules : allume 1 et 2 dix minutes, éteins 2, allume 3, entre. Allumée et chaude : 1 ; éteinte et chaude : 2 ; allumée et froide : 3 ; éteinte et froide : 4.
 
 === ct-deux-gardiens
 theme: casse-tete
@@ -35,9 +32,6 @@ Demande à l'un d'eux : « Si je demandais à l'autre gardien quelle porte mène
 - Si tu interroges le sincère, il rapporte fidèlement le mensonge de l'autre : il désigne la mauvaise porte.
 - Si tu interroges le menteur, il déforme la réponse (vraie) du sincère : il désigne aussi la mauvaise porte.
 Autre question valable : « Si je te demandais si cette porte mène à la liberté, que répondrais-tu ? » : la double négation du menteur donne la vérité.
---- variantes
-- Un seul gardien, dont on ne sait pas s'il ment : « Si je te demandais si la porte de gauche mène à la liberté, répondrais-tu oui ? » La réponse est juste dans les deux cas.
-- Village de sincères et de menteurs à une bifurcation : « Montre-moi la route de ton village » mène toujours au village des sincères (le menteur désigne l'autre route).
 
 === ct-chevaliers-fripons
 theme: casse-tete
@@ -52,10 +46,6 @@ Un chevalier pourrait-il prononcer cette phrase ?
 --- solution
 Un chevalier ne peut pas dire « je suis un fripon » : A est donc un **fripon**. Sa phrase est fausse, donc ils ne sont pas tous deux fripons : B est un **chevalier**.
 Méthode générale : supposer un cas, chercher la contradiction ; ou écrire chaque affirmation comme une équation logique « A est chevalier ⇔ la phrase est vraie ».
---- variantes
-- A dit : « Au moins l'un de nous est un fripon. » Alors A est chevalier et B fripon (un fripon dirait une vérité).
-- A dit : « B et moi sommes de même nature. » B est alors forcément un chevalier, et la nature de A reste indéterminée.
-- Trois habitants, A : « Nous sommes tous fripons », B : « Exactement l'un de nous est chevalier » : A fripon, B chevalier, C fripon.
 
 === ct-trois-oracles
 theme: casse-tete
@@ -90,9 +80,6 @@ Par récurrence : avec $k$ insulaires aux yeux bleus, ils partent **tous le $k$-
 - $k = 2$ : chacun voit un œil bleu ; si l'autre ne part pas le premier soir, c'est qu'il voyait lui aussi quelqu'un : ils partent le deuxième soir.
 - Au rang $k$, chacun en voit $k - 1$ ; ne voyant personne partir le soir $k - 1$, il conclut.
 L'annonce n'apporte aucun fait nouveau à chacun, mais crée une **connaissance commune** (tout le monde sait que tout le monde sait… à tout ordre) qui déclenche le compte à rebours.
---- variantes
-- Enfants au front sale : « Au moins l'un de vous a le front sale ; levez la main si vous savez. » Avec $k$ enfants sales, ils lèvent la main au $k$-ième appel.
-- Maris infidèles (« les épouses savent pour tous les maris sauf le leur ») : même structure, les $k$ maris sont chassés le $k$-ième jour.
 
 === ct-anniversaire-cheryl
 theme: casse-tete
@@ -100,6 +87,7 @@ categorie: logique
 titre: L'anniversaire de Cheryl (ce que l'autre sait)
 niveau: 2
 profils: mm hf banque data
+voir: ct-somme-produit
 --- question
 Cheryl donne à Albert le mois et à Bernard le jour de son anniversaire, parmi : 15, 16, 19 mai ; 17, 18 juin ; 14, 16 juillet ; 14, 15, 17 août. Albert : « Je ne sais pas, mais je sais que Bernard ne sait pas non plus. » Bernard : « Je ne savais pas, mais maintenant je sais. » Albert : « Alors moi aussi je sais. » Quelle est la date ?
 --- indice
@@ -108,8 +96,6 @@ Seuls les jours 18 et 19 sont uniques. Pour qu'Albert soit sûr que Bernard ne s
 1. Les jours 18 (juin) et 19 (mai) sont uniques. Albert est sûr que Bernard ne sait pas : le mois n'est ni mai ni juin. Restent juillet (14, 16) et août (14, 15, 17).
 2. Bernard sait maintenant : son jour n'est pas 14 (ambigu). Restent 16 juillet, 15 août, 17 août.
 3. Albert sait aussi : son mois n'a qu'une date restante, c'est juillet. Réponse : **16 juillet**.
---- variantes
-- Même logique « Je ne sais pas, mais je sais que tu ne sais pas » dans le problème somme-produit (voir la fiche dédiée).
 
 === ct-somme-produit
 theme: casse-tete
@@ -141,9 +127,6 @@ Liste les triplets de produit 36 et leurs sommes. Pourquoi le numéro de la mais
 --- solution
 Triplets de produit 36 et sommes : (1,1,36) 38 ; (1,2,18) 21 ; (1,3,12) 16 ; (1,4,9) 14 ; (1,6,6) 13 ; (2,2,9) 13 ; (2,3,6) 11 ; (3,3,4) 10.
 Le numéro ne suffit pas : la somme vaut 13, ambiguë entre (1,6,6) et (2,2,9). « L'aînée » suppose une aînée unique : **2, 2 et 9 ans**.
---- variantes
-- Produit 72, et « l'aînée aime le chocolat » : la somme ambiguë est 14, entre (2,6,6) et (3,3,8) ; réponse **3, 3 et 8**.
-- Cinq enfants, produit 72 : même principe ; énumère les quintuplets et cherche la somme ambiguë qu'une aînée unique départage.
 
 === ct-chapeaux
 theme: casse-tete
@@ -163,9 +146,6 @@ Le dernier ne peut rien savoir de son propre chapeau. Quel unique bit d'informat
 --- solution
 **99** à coup sûr. Le dernier annonce la parité du nombre de chapeaux noirs qu'il voit (« noir » si ce nombre est impair). Il a une chance sur deux pour lui-même. Chacun des suivants connaît cette parité, voit les chapeaux devant lui et a entendu les réponses (justes) de ceux de derrière : il en déduit la couleur de son chapeau.
 Idée clé : un seul bit de parité suffit, et chaque réponse transmet de l'information aux suivants.
---- variantes
-- Chapeaux de $k$ couleurs : le dernier annonce la somme des couleurs vues modulo $k$ ; toujours 99 sauvés.
-- Annonces simultanées, $n$ personnes en cercle et $n$ couleurs : la personne $i$ parie que la somme totale vaut $i \bmod n$ ; exactement une personne a raison, quelle que soit la distribution.
 
 === ct-chapeaux-simultanes
 theme: casse-tete
@@ -185,24 +165,22 @@ Stratégie : si tu vois deux chapeaux de même couleur, annonce l'autre couleur 
 - Configurations mélangées (6 sur 8) : exactement un joueur voit deux couleurs identiques, et il a raison ; les autres s'abstiennent : gagné.
 - Configurations unicolores (2 sur 8) : les trois annoncent et se trompent : perdu.
 Probabilité **3/4**. On ne change pas le nombre total d'erreurs, mais on les regroupe sur peu de configurations. Avec $n = 2^k - 1$ joueurs, les codes de Hamming donnent $1 - 1/(n + 1)$.
---- variantes
-- Sept joueurs : probabilité $7/8$ grâce au code de Hamming $(7, 4)$.
 
 === ct-logiciens-file
 theme: casse-tete
 categorie: logique
-titre: Cinq logiciens en file, 3 chapeaux rouges et 2 bleus
+titre: Trois logiciens en file, chapeaux tirés parmi 3 rouges et 2 bleus
 niveau: 2
 profils: mm hf banque data
 --- question
-Cinq logiciens en file, numérotés de 1 (devant) à 5 (derrière) ; chacun voit les chapeaux de ceux qui sont devant lui. On a posé 3 chapeaux rouges et 2 bleus, un par tête (tous le savent). On demande au n° 5, puis au n° 4 : « Connais-tu ta couleur ? » Tous deux répondent « non ». Que répond le n° 3, et quelles sont toutes les couleurs ?
+Trois logiciens en file, numérotés de 1 (devant) à 3 (derrière) ; chacun voit les chapeaux de ceux qui sont devant lui, pas le sien. On a pris 3 chapeaux au hasard parmi 3 rouges et 2 bleus, un par tête (tous le savent). On demande au n° 3, puis au n° 2 : « Connais-tu ta couleur ? » Tous deux répondent « non ». Que répond le n° 1, qui ne voit personne ?
 --- indice
-Le n° 5 dirait « oui » s'il voyait les deux bleus. Le n° 4 dirait « oui » s'il voyait un bleu devant lui, sachant que les n° 1 à 4 n'ont pas les deux bleus.
+Le n° 3 dirait « oui » s'il voyait deux bleus. Le n° 2 sait ce que le « non » du n° 3 exclut : que dirait-il s'il voyait un bleu devant lui ?
 --- solution
-- Le 5 dit non : les n° 1 à 4 ne portent pas les deux bleus (sinon il saurait être rouge).
-- Le 4 dit non : il voit les n° 1 à 3 ; s'il y voyait un bleu, sachant que 1 à 4 n'en ont pas deux, il saurait être rouge. Donc **1, 2 et 3 sont rouges**.
-- Le 3 le déduit à son tour : il répond « oui, rouge » (et 1 et 2 le savent aussi).
-Les trois rouges sont devant : **4 et 5 sont bleus**. Le moteur de ces énigmes : « s'il avait vu…, il aurait su ».
+- Le n° 3 dit non : les n° 1 et 2 ne portent pas tous les deux un bleu (sinon, les deux bleus étant pris, il saurait être rouge).
+- Le n° 2 dit non : s'il voyait un bleu sur le n° 1, il saurait (grâce au « non » du n° 3) ne pas en porter lui-même, donc être rouge. Puisqu'il ne sait pas, le n° 1 n'est pas bleu.
+- Le n° 1 répond donc **« oui, rouge »**, sans rien voir. Les couleurs des n° 2 et 3 restent indéterminées.
+Le moteur de ces énigmes : « s'il avait vu…, il aurait su ». Attention à la cohérence de l'énoncé : avec cinq logiciens et exactement 3 rouges et 2 bleus posés, le dernier de la file connaîtrait toujours sa couleur (il voit quatre chapeaux et sait ce qui reste).
 
 === ct-prisonniers-ampoule
 theme: casse-tete
@@ -217,8 +195,6 @@ Désigne un compteur. Les autres n'ont le droit d'agir qu'une seule fois.
 --- solution
 Un prisonnier est le **compteur**. Chaque autre prisonnier allume l'ampoule la première fois qu'il la trouve éteinte, puis ne la touche plus jamais. Le compteur éteint l'ampoule chaque fois qu'il la trouve allumée et ajoute 1 à son compte. Quand il atteint 99, il annonce que tous sont passés.
 Durée moyenne longue (de l'ordre de 10 000 passages) ; on peut l'accélérer par des schémas à plusieurs étapes, mais en entretien la correction de la stratégie compte d'abord.
---- variantes
-- État initial de l'ampoule inconnu : chaque prisonnier allume deux fois, le compteur va jusqu'à $2 \times 99 - 1 = 197$.
 
 === ct-prisonniers-boites
 theme: casse-tete
@@ -239,9 +215,6 @@ Chacun suit le cycle de la permutation qui contient son numéro : il ouvre la bo
 Le nombre de permutations de $\{1, \dots, n\}$ ayant un cycle de longueur $k > n/2$ (au plus un tel cycle) est $n!/k$. D'où
 $$\mathbb{P}(\text{échec}) = \sum_{k=51}^{100} \frac{1}{k} = H_{100} - H_{50} \approx \ln 2 \approx 0{,}688.$$
 Probabilité de succès : $1 - \sum_{k=51}^{100} 1/k \approx$ **0,312**. Toute la difficulté est que les succès individuels deviennent fortement corrélés.
---- variantes
-- Avec $2n$ prisonniers et $n$ essais, la probabilité tend vers $1 - \ln 2 \approx 0{,}307$.
-- Nombre moyen de cycles d'une permutation aléatoire de taille $n$ : $H_n \approx \ln n$.
 
 === ct-meurtriers-balle
 theme: casse-tete
@@ -272,8 +245,7 @@ Teste les trois hypothèses et compte les inscriptions vraies dans chaque cas.
 - Or dans le coffre d'argent : or faux, argent faux, plomb vrai (une), possible.
 - Or dans le coffre de plomb : argent vrai et plomb vrai (deux), impossible.
 L'or est dans le **coffre d'argent**. Méthode : énumérer les hypothèses, compter les contraintes.
---- variantes
-- Version « au plus une vraie » ou « exactement une fausse » : même méthode, seule la règle de comptage change.
+Si la règle devient « au plus une inscription vraie » ou « exactement une fausse », la méthode est la même : seule la règle de comptage change.
 
 === ct-tigres-mouton
 theme: casse-tete
@@ -303,8 +275,6 @@ profils: mm hf banque data
 Prends un tas de 10 pièces quelconques. S'il contient $k$ faces, combien l'autre tas en contient-il ?
 --- solution
 Prends 10 pièces quelconques : si elles contiennent $k$ faces, l'autre tas en contient $10 - k$. **Retourne les 10 pièces** du petit tas : il contient maintenant $10 - k$ faces, comme l'autre.
---- variantes
-- $n$ faces parmi $N$ pièces : tas de $n$ pièces, que l'on retourne.
 
 === ct-cadenas
 theme: casse-tete
@@ -345,12 +315,10 @@ profils: mm hf banque data
 type: numerique
 reponse: 7
 duree: 120
+voir: jeu-dichotomie
 --- question
 Je pense à un entier entre 1 et 100. Tu poses des questions fermées (oui ou non) et je réponds honnêtement. Combien de questions faut-il au minimum pour être sûr de le trouver ?
 --- indice
 Chaque réponse divise au mieux le nombre de candidats par deux.
 --- solution
 $k$ réponses binaires distinguent au plus $2^k$ cas. $2^6 = 64 < 100 \le 128 = 2^7$ : **7 questions** (dichotomie). C'est l'argument d'information, à rapprocher des pesées (trois issues : $3^k$).
---- variantes
-- Si je peux mentir une fois : il faut $2^k \ge 100\,(k + 1)$ (chaque nombre et chaque position possible du mensonge), soit **11 questions**, et c'est atteignable (jeu d'Ulam).
-- Jeu de devinette avec paiement (« combien paierais-tu ? ») : voir la fiche « Dichotomie » dans les jeux.

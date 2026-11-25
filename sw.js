@@ -1,7 +1,7 @@
 // Fichier généré par construire.py : ne pas modifier à la main.
 // Usage hors ligne quand l'application est servie en http(s) (GitHub Pages) ; inactif en ouverture locale (file://).
 // Stratégie « réseau d'abord » : en ligne on reçoit toujours la dernière version, hors ligne on lit le cache.
-const VERSION = 'prepa-31c1273b20c5';
+const VERSION = 'prepa-0467f40c7e7c';
 const FICHIERS = [
   './index.html',
   './manifest.webmanifest',
@@ -15,6 +15,7 @@ const FICHIERS = [
   './app/kelly.js',
   './app/marche.js',
   './app/outils.js',
+  './app/qcm.js',
   './app/srs.js',
   './app/style.css',
   './app/synchro.js',
@@ -50,6 +51,7 @@ const FICHIERS = [
   './app/vues/journal.js',
   './app/vues/marche.js',
   './app/vues/progres.js',
+  './app/vues/qcm.js',
   './app/vues/reglages.js',
   './app/vues/revisions.js',
   './app/vues/test.js',

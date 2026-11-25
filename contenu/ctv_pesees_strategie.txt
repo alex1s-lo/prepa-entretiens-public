@@ -1,0 +1,536 @@
+# Variantes des casse-têtes de pesées et mesures, de recherche et de stratégie (une fiche par variante).
+
+=== ct-pieces-balance-quatre-pesees
+parent: ct-pieces-balance
+titre: Pièce fausse inconnue : combien de pièces en 4 pesées ?
+niveau: 3
+type: numerique
+reponse: 39
+tolerance: 0
+--- question
+Parmi $N$ pièces, une est fausse, plus lourde ou plus légère (on ne sait pas), et l'on doit la trouver **et** dire son sens, sans pièce de référence. Avec 3 pesées le maximum est 12. Quel est le maximum avec **4 pesées** ?
+--- indice
+Comptage : $2N$ cas et $3^k$ issues, mais deux suites d'issues sont inutilisables. Lesquelles ?
+--- solution
+Comptage : $2N$ cas (pièce, sens) pour $3^k$ suites d'issues. La suite « toujours équilibre » ne donne pas le sens, et les suites vont par paires miroirs (échanger gauche et droite échange « lourde » et « légère ») : $N \le \frac{3^k - 1}{2}$. Sans pièce de référence, on perd encore une pièce, car la première pesée doit mettre autant de pièces de chaque côté (Dyson) : $N \le \frac{3^k - 3}{2}$, et cette borne est atteinte.
+- $k = 3$ : $\frac{27 - 3}{2} = 12$.
+- $k = 4$ : $\frac{81 - 3}{2} =$ **39**.
+Avec une pièce de référence en plus, on gagne une pièce : 13 en 3 pesées, 40 en 4 ($\frac{3^k - 1}{2}$).
+
+=== ct-billes-plus-lourde-huit
+parent: ct-billes-plus-lourde
+titre: 8 billes, une plus lourde
+type: numerique
+reponse: 2
+tolerance: 0
+--- question
+Parmi 8 billes, une seule est plus lourde. Combien de pesées faut-il au minimum, au pire, avec une balance à deux plateaux ?
+--- indice
+Une pesée a trois issues. Ne pèse pas 4 contre 4.
+--- solution
+3 contre 3 (2 billes de côté). Si un plateau penche, 1 contre 1 parmi ses 3 billes (la troisième si équilibre). Si équilibre, 1 contre 1 entre les 2 billes restantes. **2 pesées**. La pesée 4 contre 4 gaspille l'issue « équilibre », impossible ici, et en demande 3.
+
+=== ct-billes-plus-lourde-mille
+parent: ct-billes-plus-lourde
+titre: 1 000 billes, une plus lourde
+type: numerique
+reponse: 7
+tolerance: 0
+--- question
+Parmi 1 000 billes, une seule est plus lourde. Combien de pesées au minimum, au pire ?
+--- indice
+$k$ pesées distinguent au plus $3^k$ billes.
+--- solution
+$3^6 = 729 < 1\,000 \le 2\,187 = 3^7$ : **7 pesées**, en divisant à chaque fois en trois groupes aussi égaux que possible. (Et 27 billes demandent 3 pesées.)
+
+=== ct-piles-pieces-plusieurs
+parent: ct-piles-pieces-une-pesee
+titre: Plusieurs piles fausses, une seule pesée
+niveau: 2
+--- question
+Dix piles de pièces ; les vraies pèsent 10 g, les fausses 11 g. Cette fois, **un nombre quelconque** de piles peuvent être fausses (une pile est entièrement vraie ou entièrement fausse). Chaque pile contient assez de pièces. Comment trouver toutes les piles fausses en une seule pesée ?
+--- indice
+L'excédent de poids doit déterminer un **ensemble** de piles : il faut que toutes les sommes de sous-ensembles soient différentes.
+--- solution
+Prends $1, 2, 4, 8, \dots, 512$ pièces des piles 1 à 10 (puissances de 2). L'excédent par rapport au poids attendu, en grammes, s'écrit de façon unique en binaire : ses bits à 1 désignent les piles fausses. Exemple : excédent $37 = 32 + 4 + 1$, piles 6, 3 et 1.
+Il faut $1\,023$ pièces : c'est le coût de passer d'une seule pile fausse (10 cas, 55 pièces) à n'importe quel ensemble ($2^{10}$ cas).
+
+=== ct-piles-pieces-poids-inconnu
+parent: ct-piles-pieces-une-pesee
+titre: Une pile fausse de poids inconnu
+niveau: 3
+--- question
+Dix piles de pièces de 10 g, dont une pile de fausses pièces d'un poids **inconnu** (différent de 10 g). Combien de pesées faut-il sur une balance électronique pour trouver la pile fausse, et comment ?
+--- indice
+Une seule pesée de $1, 2, \dots, 10$ pièces donne un excédent $k \times \delta$ : deux inconnues pour une équation.
+--- solution
+**Deux pesées.**
+- Pesée 1 : une pièce de chaque pile. L'écart à 100 g vaut $\delta$, l'écart de poids d'une fausse pièce.
+- Pesée 2 : $1, 2, \dots, 10$ pièces des piles 1 à 10. L'écart à 550 g vaut $k\delta$ : on en déduit le numéro $k = \text{écart}/\delta$.
+Une seule pesée ne suffit pas : l'écart $k\delta$ ne sépare pas $k$ et $\delta$ (pile 2 avec $\delta = 2$ g et pile 4 avec $\delta = 1$ g donnent le même écart), quelles que soient les quantités prises.
+
+=== ct-poids-balance-binaire
+parent: ct-poids-balance
+titre: Les poids sur un seul plateau
+type: numerique
+reponse: 6
+tolerance: 0
+--- question
+On ne peut poser les poids que sur **un seul** plateau (l'objet sur l'autre). Combien de poids faut-il au minimum pour peser toutes les masses entières de 1 à 63 g, et lesquels ?
+--- indice
+Chaque poids a maintenant deux états : posé ou non.
+--- solution
+Système binaire : $1, 2, 4, 8, 16, 32$, soit **6 poids** ($2^6 - 1 = 63$). Avec 5 poids, au plus $2^5 - 1 = 31$ masses positives. Les deux plateaux donnent trois états par poids, d'où les puissances de 3 du problème d'origine.
+
+=== ct-cordes-quinze
+parent: ct-cordes
+titre: Mesurer 15 minutes avec deux cordes
+--- question
+Deux cordes brûlent chacune en une heure, de façon irrégulière. Comment mesurer exactement **15 minutes** ?
+--- indice
+Le début de la mesure n'est pas forcément au moment où tu allumes la première corde.
+--- solution
+Allume A par les deux bouts et B par un bout. Quand A est consumée (30 minutes), allume l'autre bout de B et **commence à compter** à cet instant : B finit 15 minutes plus tard.
+Le piège est de vouloir partir de $t = 0$ : on ne sait pas mesurer 15 minutes d'emblée, mais on sait les mesurer entre $t = 30$ et $t = 45$.
+
+=== ct-cordes-une-seule
+parent: ct-cordes
+titre: Une seule corde
+--- question
+Avec **une seule** corde qui brûle en une heure de façon irrégulière, quelles durées peux-tu mesurer à coup sûr ?
+--- indice
+Combien d'extrémités peux-tu allumer, et quand ?
+--- solution
+**60 minutes** (un bout) et **30 minutes** (les deux bouts), rien d'autre de garanti. Couper la corde en deux ne donne pas deux demi-heures (la combustion est irrégulière), et allumer le second bout en cours de route ne sert que si l'on sait quand le faire, ce qui demande une autre mesure.
+
+=== ct-cordes-trois
+parent: ct-cordes
+titre: Mesurer 7 min 30 s avec trois cordes
+niveau: 2
+--- question
+Trois cordes brûlent chacune en une heure, de façon irrégulière. Comment mesurer exactement 7 minutes 30 secondes ?
+--- indice
+Pour obtenir 7 min 30 s, il faut allumer par les deux bouts une corde à laquelle il reste exactement 15 minutes de combustion par un bout.
+--- solution
+- $t = 0$ : allume A par les deux bouts, B par un bout, C par un bout.
+- $t = 30$ : A est finie. B et C ont chacune 30 minutes de reste ; allume le second bout de B (il lui reste 15 minutes).
+- $t = 45$ : B est finie. C brûle par un bout depuis 45 minutes : il lui reste 15 minutes. Allume son second bout : elle finit en 7 min 30 s.
+L'intervalle entre $t = 45$ et $t = 52{,}5$ dure **7 min 30 s**. Chaque allumage d'un second bout divise un reste par deux : avec trois cordes on atteint $60/8$ minutes. Dérouler chaque instant à voix haute est ce qui est noté.
+
+=== ct-sabliers-neuf
+parent: ct-sabliers
+titre: Sabliers de 4 et 7 minutes : mesurer 9 minutes
+--- question
+Avec un sablier de 4 minutes et un de 7 minutes, comment mesurer exactement 9 minutes ?
+--- indice
+Quand un sablier se vide, retourne l'autre pour « rendre » la durée qu'il vient d'écouler.
+--- solution
+- $t = 0$ : retourne les deux.
+- $t = 4$ : le 4 est vide, retourne-le.
+- $t = 7$ : le 7 est vide, retourne-le.
+- $t = 8$ : le 4 est vide ; le 7 coule depuis 1 minute : retourne-le, il lui reste 1 minute.
+- $t = 9$ : le 7 est vide. **9 minutes.**
+
+=== ct-sabliers-treize
+parent: ct-sabliers
+titre: Sabliers de 5 et 9 minutes : mesurer 13 minutes
+--- question
+Avec un sablier de 5 minutes et un de 9 minutes, comment mesurer exactement 13 minutes ?
+--- indice
+Lance les deux ensemble et regarde ce qu'il reste dans le petit quand le grand se vide.
+--- solution
+- $t = 0$ : retourne les deux.
+- $t = 5$ : le 5 est vide, retourne-le.
+- $t = 9$ : le 9 est vide ; le 5 coule depuis 4 minutes (4 minutes de sable en bas). Retourne-le : il se vide en 4 minutes.
+- $t = 13$ : le 5 est vide. **13 minutes.**
+
+=== ct-cruches-petite-d-abord
+parent: ct-cruches
+titre: Les cruches de 3 et 5 L, en commençant par la petite
+type: numerique
+reponse: 8
+tolerance: 0
+--- question
+Cruches de 3 L et de 5 L, robinet et évier. On impose de commencer par **remplir la petite**. Combien d'opérations au minimum pour obtenir 4 L ?
+--- indice
+Remplis 3, verse dans 5, recommence : que reste-t-il dans la petite ?
+--- solution
+(3, 0) ; (0, 3) ; (3, 3) ; (1, 5) ; (1, 0) ; (0, 1) ; (3, 1) ; (0, 4). **8 opérations**, contre 6 en commençant par la grande. Les deux sens de rotation atteignent 4 L, mais pas à la même vitesse.
+
+=== ct-cruches-pgcd
+parent: ct-cruches
+titre: Cruches de 4 et 6 litres
+--- question
+Avec une cruche de 4 L, une de 6 L, un robinet et un évier, peut-on obtenir exactement 1 L, 2 L, 3 L ou 5 L ?
+--- indice
+Quelle propriété du contenu de chaque cruche est conservée par toutes les opérations ?
+--- solution
+Toutes les quantités restent **paires** : remplir, vider et transvaser entre des cruches de 4 et 6 L ne produit que des multiples de $\mathrm{pgcd}(4, 6) = 2$. On obtient 2 L (remplir 6, verser dans 4), mais **jamais** 1, 3 ou 5 L.
+
+=== ct-cruches-partage
+parent: ct-cruches
+titre: Partager 8 litres avec des cruches de 5 et 3
+niveau: 2
+type: numerique
+reponse: 7
+tolerance: 0
+--- question
+Une cruche de 8 L est pleine ; on a aussi deux cruches vides de 5 L et 3 L, sans robinet ni évier. Combien de transvasements au minimum pour partager le vin en deux fois 4 L ?
+--- indice
+Parcours en largeur sur les états $(a, b, c)$ avec $a + b + c = 8$.
+--- solution
+(8, 0, 0) → (3, 5, 0) → (3, 2, 3) → (6, 2, 0) → (6, 0, 2) → (1, 5, 2) → (1, 4, 3) → (4, 4, 0). **7 transvasements** (problème de Tartaglia). Le parcours en largeur garantit la minimalité.
+
+=== ct-barre-or-chaine
+parent: ct-barre-or
+titre: La chaîne de 7 maillons
+niveau: 2
+type: numerique
+reponse: 1
+tolerance: 0
+--- question
+Un voyageur paie son hôtel un maillon d'une chaîne de 7 maillons par nuit, pendant 7 nuits, et peut récupérer de la monnaie. Combien de maillons faut-il **ouvrir** au minimum ?
+--- indice
+Ouvrir un maillon au milieu de la chaîne crée trois morceaux, dont le maillon ouvert lui-même.
+--- solution
+Ouvre le **troisième** maillon : on obtient des morceaux de 1 (le maillon ouvert), 2 et 4 maillons. Avec 1, 2, 4 on paie chaque nuit en rendant la monnaie, comme pour la barre d'or. **Un seul maillon** suffit, alors qu'il fallait deux coupes pour la barre : ouvrir un maillon crée trois morceaux d'un coup.
+
+=== ct-barre-or-quinze
+parent: ct-barre-or
+titre: La barre d'or sur 15 jours
+type: numerique
+reponse: 3
+tolerance: 0
+--- question
+L'ouvrier travaille maintenant 15 jours, payé chaque soir $1/15$ d'une barre d'or divisée en 15 segments. Combien de coupes au minimum ?
+--- indice
+Quels morceaux permettent d'écrire tous les entiers de 1 à 15 ?
+--- solution
+Morceaux $1, 2, 4, 8$ (écriture binaire de 1 à 15) : **3 coupes**. Avec 2 coupes, 3 morceaux ne permettent que $2^3 - 1 = 7$ montants : insuffisant.
+
+=== ct-vin-empoisonne-deux-vagues
+parent: ct-vin-empoisonne
+titre: Le vin empoisonné en 48 heures
+niveau: 3
+type: numerique
+reponse: 7
+tolerance: 0
+--- question
+Une bouteille sur 1 000 est empoisonnée, le poison tue en 24 h. Tu as maintenant **48 heures** (deux vagues de tests). Combien de rats au minimum ?
+--- indice
+À la fin, chaque rat est dans l'un de trois états. Lesquels ?
+--- solution
+Chaque rat finit mort le jour 1, mort le jour 2, ou vivant : 3 issues. On numérote les bouteilles en **base 3** : le chiffre $i$ dit si le rat $i$ boit le jour 1 (chiffre 1), le jour 2 (chiffre 2) ou jamais (0). Un rat mort le jour 1 ne boit pas le jour 2, ce qui est cohérent avec le codage.
+$3^6 = 729 < 1\,000 \le 2\,187 = 3^7$ : **7 rats**.
+
+=== ct-vin-empoisonne-deux-bouteilles
+parent: ct-vin-empoisonne
+titre: Deux bouteilles empoisonnées
+niveau: 3
+type: numerique
+reponse: 19
+tolerance: 0
+--- question
+Deux bouteilles sur 1 000 sont empoisonnées ; 24 h, une seule vague. Donne une **borne inférieure** sur le nombre de rats nécessaires, par un argument d'information.
+--- indice
+Combien de cas faut-il distinguer, et combien d'issues donnent $r$ rats ?
+--- solution
+Il y a $\binom{1000}{2} = 499\,500$ paires possibles, et $r$ rats donnent au plus $2^r$ issues. $2^{18} = 262\,144 < 499\,500 \le 524\,288 = 2^{19}$ : il faut **au moins 19 rats**. En pratique, les schémas connus (tests de groupe non adaptatifs) en demandent davantage, car l'issue « mort » d'un rat ne dit plus laquelle des deux bouteilles il a bue.
+
+=== ct-chevaux-plus-rapide
+parent: ct-chevaux
+titre: 25 chevaux : seulement le plus rapide
+type: numerique
+reponse: 6
+tolerance: 0
+--- question
+25 chevaux, 5 par course, pas de chronomètre. Combien de courses au minimum pour trouver **le** plus rapide ?
+--- indice
+Combien de courses pour que chaque cheval ait couru au moins une fois ?
+--- solution
+5 courses pour que chaque cheval coure, puis la course des 5 vainqueurs : **6 courses**. On ne peut pas faire mieux : chaque cheval sauf un doit avoir perdu au moins une fois, et 5 courses où chaque cheval court ne laissent que 5 candidats, à départager.
+
+=== ct-chevaux-deux
+parent: ct-chevaux
+titre: 25 chevaux : les deux plus rapides
+type: numerique
+reponse: 7
+tolerance: 0
+--- question
+25 chevaux, 5 par course, pas de chronomètre. Combien de courses au minimum pour trouver les **deux** plus rapides ?
+--- indice
+Après 6 courses, qui peut encore être deuxième ?
+--- solution
+Après les 5 courses de groupe et la course des vainqueurs, le 2ᵉ est soit A2 (deuxième du groupe du vainqueur), soit B1 (deuxième de la course des vainqueurs). Une 7ᵉ course entre eux (on peut même y ajouter d'autres chevaux) : **7 courses**, autant que pour les trois plus rapides.
+
+=== ct-chevaux-soixante-quatre
+parent: ct-chevaux
+titre: 64 chevaux, 8 couloirs, les 4 plus rapides
+niveau: 3
+type: numerique
+reponse: 11
+tolerance: 0
+--- question
+64 chevaux, une piste à 8 couloirs, pas de chronomètre. Avec la méthode classique (courses de groupes, course des vainqueurs, puis courses de départage), combien de courses faut-il au pire pour trouver les 4 plus rapides ?
+--- indice
+Après 9 courses, dresse le tableau des candidats : un cheval est éliminé dès que 4 chevaux plus rapides que lui sont connus.
+--- solution
+- 8 courses de groupes, puis la course des 8 vainqueurs (9 courses) : A1 est le plus rapide.
+- Candidats aux places 2 à 4 : A2, A3, A4 ; B1, B2, B3 ; C1, C2 ; D1, soit **9 chevaux** pour 8 couloirs.
+- 10ᵉ course avec 8 d'entre eux : quel que soit le cheval laissé de côté, il existe un cas où il pourrait être 4ᵉ (par exemple D1 si B1 et C1 terminent premiers). Une 11ᵉ course départage alors les derniers prétendants.
+Réponse : **11 courses** au pire avec cette méthode. On attend surtout le tableau des candidats déroulé à voix haute.
+
+=== ct-oeufs-trois
+parent: ct-oeufs
+titre: Trois œufs et 100 étages
+type: numerique
+reponse: 9
+tolerance: 0
+--- question
+Même problème avec **trois** œufs et 100 étages : combien de lâchers au pire avec la meilleure stratégie ?
+--- indice
+Avec $n$ lâchers et $k$ œufs, le nombre d'étages couverts vérifie $f(n, k) = f(n - 1, k - 1) + 1 + f(n - 1, k)$.
+--- solution
+$f(n, k) = \sum_{i=1}^{k} \binom{n}{i}$. Avec 3 œufs : $f(8, 3) = 8 + 28 + 56 = 92 < 100$ et $f(9, 3) = 9 + 36 + 84 = 129 \ge 100$. **9 lâchers**, contre 14 avec deux œufs.
+
+=== ct-oeufs-quatre
+parent: ct-oeufs
+titre: Quatre œufs et dix lâchers
+niveau: 3
+type: numerique
+reponse: 385
+tolerance: 0
+--- question
+Avec 4 œufs et au plus 10 lâchers, combien d'étages au maximum peut-on traiter à coup sûr ?
+--- indice
+Le premier lâcher coupe l'immeuble : en dessous il reste $k - 1$ œufs et $n - 1$ lâchers, au-dessus $k$ œufs et $n - 1$ lâchers.
+--- solution
+$f(n, k) = f(n - 1, k - 1) + 1 + f(n - 1, k)$, d'où $f(n, k) = \sum_{i=1}^{k} \binom{n}{i}$.
+$f(10, 4) = 10 + 45 + 120 + 210 =$ **385** étages. C'est la programmation dynamique classique, à savoir écrire en code.
+
+=== ct-oeufs-un
+parent: ct-oeufs
+titre: Un seul œuf
+type: numerique
+reponse: 100
+tolerance: 0
+--- question
+Avec **un seul** œuf et 100 étages, combien de lâchers au pire ?
+--- indice
+Que se passe-t-il si tu sautes un étage et que l'œuf casse ?
+--- solution
+On ne peut prendre aucun risque : étage 1, puis 2, puis 3… Si l'on saute un étage et que l'œuf casse, on ne sait plus si l'étage sauté était sûr. **100 lâchers** au pire.
+
+=== ct-pont-escorte
+parent: ct-pont
+titre: Le pont avec 1, 5, 6 et 7 minutes
+niveau: 2
+type: numerique
+reponse: 20
+tolerance: 0
+--- question
+Même pont, même lampe, au plus deux à la fois, mais les quatre personnes mettent 1, 5, 6 et 7 minutes. Temps minimal ?
+--- indice
+Compare les deux stratégies : « les deux lents ensemble » et « le plus rapide accompagne chacun ».
+--- solution
+- Les deux lents ensemble : $5 + 1 + 7 + 5 + 5 = 23$.
+- Le plus rapide escorte : $7 + 1 + 6 + 1 + 5 =$ **20**.
+Règle : avec $t_1 \le t_2 \le t_3 \le t_4$, faire passer les deux lents ensemble coûte $2t_2$ contre $t_1 + t_3$ pour l'escorte. Ici $2 \times 5 = 10 > 1 + 6 = 7$ : l'escorte gagne. Avec 1, 2, 5, 10 c'était l'inverse ($4 < 6$).
+
+=== ct-pasteques-max-min
+parent: ct-pasteques
+titre: La plus lourde et la plus légère
+niveau: 2
+type: numerique
+reponse: 22
+tolerance: 0
+--- question
+16 pastèques de poids distincts, une balance qui compare deux pastèques. Combien de pesées au minimum, au pire, pour trouver **la plus lourde et la plus légère** ?
+--- indice
+Commence par comparer les pastèques deux à deux.
+--- solution
+8 pesées par paires ; la plus lourde est parmi les 8 gagnantes (7 pesées), la plus légère parmi les 8 perdantes (7 pesées) : $8 + 7 + 7 =$ **22**. En général $\lceil 3n/2 \rceil - 2$, contre $2n - 3$ si l'on cherche les deux séparément.
+
+=== ct-nombre-manquant-deux
+parent: ct-nombre-manquant
+titre: Deux nombres manquants
+niveau: 2
+--- question
+Une liste non triée contient les entiers de 1 à $n$, sauf **deux**. Comment les trouver en temps $O(n)$ et mémoire $O(1)$ ?
+--- indice
+La somme donne $a + b$ ; il te faut une deuxième équation.
+--- solution
+Somme : $s = a + b = \frac{n(n + 1)}{2} - \sum t_i$. Somme des carrés : $q = a^2 + b^2 = \frac{n(n + 1)(2n + 1)}{6} - \sum t_i^2$. Alors $ab = \frac{s^2 - q}{2}$, et $a, b$ sont les racines de $x^2 - sx + ab$.
+Variante sans dépassement : le ou exclusif de tout donne $a \oplus b$ ; un bit à 1 de ce résultat sépare les nombres en deux groupes, chacun contenant un seul manquant. Pour $k$ manquants : sommes des puissances 1 à $k$ (identités de Newton).
+
+=== ct-nombre-manquant-doublon
+parent: ct-nombre-manquant
+titre: Un manquant et un doublon
+niveau: 2
+--- question
+Une liste de $n$ entiers devrait contenir $1, \dots, n$, mais un nombre $x$ manque et un nombre $y$ apparaît deux fois. Comment trouver $x$ et $y$ en $O(n)$ et mémoire $O(1)$ ?
+--- indice
+Écris deux équations, avec la somme et la somme des carrés.
+--- solution
+$\sum t_i - \frac{n(n + 1)}{2} = y - x$ et $\sum t_i^2 - \frac{n(n + 1)(2n + 1)}{6} = y^2 - x^2 = (y - x)(y + x)$. On en tire $y + x$, puis $x$ et $y$. Autre méthode si l'on peut modifier le tableau : marquer les cases vues par un signe négatif.
+
+=== ct-riviere-chevre
+parent: ct-riviere
+titre: La chèvre, le loup et le chou
+type: numerique
+reponse: 7
+tolerance: 0
+voir: ct-pont
+--- question
+Un passeur doit faire traverser une chèvre, un loup et un chou ; sa barque ne prend qu'un passager. Sans surveillance, le loup mange la chèvre et la chèvre mange le chou. Combien de traversées au minimum ?
+--- indice
+Il faudra ramener un passager en arrière.
+--- solution
+Chèvre (aller), retour à vide, loup (aller), **chèvre ramenée**, chou (aller), retour à vide, chèvre (aller) : **7 traversées**. On peut échanger les rôles du loup et du chou. L'idée du retour d'un passager est la même que la lampe du pont.
+
+=== ct-riviere-quatre
+parent: ct-riviere
+titre: Quatre missionnaires et quatre cannibales
+niveau: 3
+--- question
+Même règle que les missionnaires et cannibales, mais avec **quatre** de chaque et une barque de deux places. Est-ce possible ?
+--- indice
+Parcours en largeur sur les états : un état est le nombre de missionnaires et de cannibales sur la rive de départ, et la rive de la barque.
+--- solution
+**Impossible.** L'exploration des états sûrs atteignables (au plus $5 \times 5 \times 2 = 50$) ne contient jamais l'état final. Intuition : il faut faire passer des missionnaires, mais dès que deux missionnaires traversent, les cannibales restés sur une rive deviennent majoritaires. Avec une barque de **trois** places, c'est de nouveau possible. La méthode (graphe d'états) se transpose telle quelle.
+
+=== ct-tri-cinq-borne
+parent: ct-tri-cinq
+titre: La borne inférieure du tri par comparaisons
+niveau: 2
+--- question
+Montre qu'un tri par comparaisons de $n$ éléments distincts fait au moins $\log_2 n!$ comparaisons au pire, puis donne l'ordre de grandeur.
+--- indice
+Arbre de décision : chaque feuille est un ordre possible.
+--- solution
+Un algorithme de tri par comparaisons se représente par un arbre binaire de décision ; chacune des $n!$ permutations doit aboutir à une feuille différente. Un arbre de hauteur $h$ a au plus $2^h$ feuilles : $2^h \ge n!$, donc $h \ge \log_2 n!$.
+Par Stirling, $\log_2 n! = n \log_2 n - n \log_2 e + O(\log n) \sim n \log_2 n$. Le tri fusion atteint $O(n \log n)$ : il est optimal à une constante près. Un tri par dénombrement contourne la borne car il ne compare pas.
+
+=== ct-pirates-majorite-stricte
+parent: ct-pirates
+titre: Les pirates à majorité stricte
+niveau: 3
+type: numerique
+reponse: 97
+tolerance: 0
+--- question
+Cinq pirates, 100 pièces, mêmes préférences (survivre, puis l'or, puis voir les autres jetés), mais la proposition doit obtenir une majorité **stricte** (plus de la moitié des voix, proposant compris). Combien de pièces garde le plus ancien ?
+--- indice
+Refais tout depuis 2 pirates : le plus ancien des deux peut-il obtenir une majorité stricte ?
+--- solution
+Pirates numérotés de 1 (le plus jeune) à 5.
+- 2 pirates : il faut 2 voix ; le pirate 1 refuse tout (il aurait 100 seul) : le pirate 2 est **jeté**.
+- 3 pirates : il faut 2 voix ; le pirate 2 vote pour n'importe quoi pour éviter de se retrouver à deux : $(0, 0, 100)$.
+- 4 pirates : il faut 3 voix ; les pirates 1 et 2 ont 0 dans le cas à 3, une pièce chacun suffit : $(1, 1, 0, 98)$.
+- 5 pirates : il faut 3 voix ; le pirate 3 a 0 dans le cas à 4 (1 pièce), et l'un des pirates 1 ou 2 a 1 (il en faut 2) : $(2, 0, 1, 0, 97)$.
+Le plus ancien garde **97**. Changer une règle change toute la chaîne : il faut refaire l'induction, pas adapter la réponse.
+
+=== ct-pirates-omohundro
+parent: ct-pirates
+titre: Plus de 200 pirates pour 100 pièces
+niveau: 3
+type: numerique
+reponse: 264
+tolerance: 0
+--- question
+Même jeu (au moins la moitié des voix suffit), 100 pièces, mais beaucoup de pirates. Jusqu'à 200, le plus ancien survit en achetant des voix. Parmi les nombres de pirates de 201 à 300, quel est le plus grand pour lequel le plus ancien survit ?
+--- indice
+Au-delà de 200, il ne peut acheter que 100 voix. Mais les pirates qui seraient jetés après lui votent pour lui gratuitement.
+--- solution
+Avec $n > 200$ pirates, le proposant a sa voix, 100 voix achetées, et celles des pirates condamnés si sa proposition échoue (ceux entre le dernier nombre « survivant » et lui). Il survit si ce total atteint $n/2$.
+- 201 et 202 survivent (101 voix suffisent).
+- 203 meurt (il faut 102 voix, il en a 101) ; 204 survit grâce à la voix de 203.
+- 205 à 207 meurent, 208 survit grâce à 205, 206, 207 ; puis 216, 232, 264, 328…
+Les survivants sont les $200 + 2^k$. Le plus grand $\le 300$ est **264** (problème d'Omohundro, popularisé par Ian Stewart).
+
+=== ct-allumettes-misere
+parent: ct-allumettes
+titre: Les allumettes : qui prend la dernière perd
+niveau: 2
+--- question
+21 allumettes ; chacun en retire 1, 2 ou 3 à tour de rôle ; cette fois, **celui qui prend la dernière perd**. Tu commences : que fais-tu ?
+--- indice
+La position perdante n'est plus 0 mais 1 : laisser une seule allumette à l'adversaire le fait perdre.
+--- solution
+Il faut laisser à l'adversaire un nombre de la forme $4k + 1$ (1, 5, 9, 13, 17, 21). Or $21 = 4 \times 5 + 1$ : **tu es déjà en position perdante**. Contre un adversaire parfait, aucun coup ne gagne ; tu retires une allumette et tu espères une erreur, après laquelle tu reviens à $4k + 1$.
+Leçon : la version « misère » décale l'analyse ; refais-la depuis la fin.
+
+=== ct-allumettes-general
+parent: ct-allumettes
+titre: Allumettes : retirer de 1 à 6
+type: numerique
+reponse: 5
+tolerance: 0
+--- question
+40 allumettes ; chacun en retire de 1 à 6 ; celui qui prend la dernière gagne. Tu commences : combien en retires-tu ?
+--- indice
+Quel multiple faut-il laisser quand on peut prendre de 1 à $m$ ?
+--- solution
+Il faut laisser un multiple de $m + 1 = 7$. $40 = 7 \times 5 + 5$ : retire **5**, puis complète chaque coup adverse à 7.
+
+=== ct-course-a-100-pieces
+parent: ct-course-a-100
+titre: 100 pièces, de 1 à 10 par tour
+type: numerique
+reponse: 1
+tolerance: 0
+--- question
+100 pièces sur la table ; chacun en prend de 1 à 10 à tour de rôle ; celui qui prend la dernière gagne. Tu commences : combien en prends-tu ?
+--- indice
+C'est la course à 100 déguisée.
+--- solution
+Laisse un multiple de 11 : $100 = 11 \times 9 + 1$, prends **1**, puis complète chaque coup adverse à 11.
+
+=== ct-course-a-cinquante
+parent: ct-course-a-100
+titre: La course à 50, de 1 à 6
+type: numerique
+reponse: 1
+tolerance: 0
+--- question
+Deux joueurs ajoutent à tour de rôle un entier de 1 à 6 à un total qui part de 0 ; celui qui atteint exactement 50 gagne. Tu commences : quel nombre annonces-tu ?
+--- indice
+Quels totaux faut-il atteindre pour être sûr d'atteindre 50 ?
+--- solution
+Atteindre 43 garantit 50 (l'adversaire ajoute $k$, tu ajoutes $7 - k$) ; de même 36, 29, …, 8, 1 : les totaux $\equiv 1 \pmod 7$. Annonce **1**.
+
+=== ct-pieces-en-rangee-impair
+parent: ct-pieces-en-rangee
+titre: Pièces en rangée, nombre impair
+niveau: 2
+--- question
+Même jeu (prendre une pièce à l'une des extrémités, à tour de rôle), mais avec un nombre **impair** de pièces. Le premier joueur peut-il toujours garantir au moins la moitié ?
+--- indice
+Essaie avec trois pièces.
+--- solution
+**Non.** Avec 1, 5, 1 : le premier joueur prend un 1, le second prend le 5. Le premier obtient 2 sur 7. La stratégie des parités ne marche plus : après le premier coup, il reste un nombre pair de pièces, et c'est l'adversaire qui peut choisir sa parité.
+
+=== ct-table-ronde-chocolat
+parent: ct-table-ronde
+titre: La stratégie de la copie, ailleurs
+niveau: 2
+--- question
+Deux joueurs placent à tour de rôle un domino sur un échiquier $8 \times 8$ (sur deux cases libres voisines). Celui qui ne peut plus jouer perd. Qui gagne ?
+--- indice
+Ici, il n'y a pas de case centrale. Quelle symétrie le **second** joueur peut-il utiliser ?
+--- solution
+Le **second** joueur gagne, par symétrie centrale : à chaque domino adverse, il répond par le domino symétrique par rapport au centre de l'échiquier. Ce domino ne peut jamais recouvrir le domino adverse (aucun domino n'est son propre symétrique, puisque le centre est un coin commun de quatre cases), et la position reste symétrique : il a toujours un coup.
+Sur la table ronde, le premier joueur occupe le centre pour devenir « second » ; ici, ce n'est pas possible.
+
+=== ct-chocolat-tournoi
+parent: ct-chocolat
+titre: Le tournoi à élimination directe
+type: numerique
+reponse: 63
+tolerance: 0
+--- question
+Un tournoi de tennis à élimination directe réunit 64 joueurs. Combien de matchs faut-il pour désigner le vainqueur ? Et avec 100 joueurs (certains exemptés à certains tours) ?
+--- indice
+Combien de joueurs chaque match élimine-t-il ?
+--- solution
+Chaque match élimine exactement un joueur ; il faut en éliminer tous sauf un : **63** matchs, et 99 avec 100 joueurs, quelle que soit l'organisation des tours. Même argument que les cassures de la tablette.

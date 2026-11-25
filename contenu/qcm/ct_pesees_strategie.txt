@@ -1,0 +1,331 @@
+# QCM des casse-têtes de pesées, de recherche et de stratégie.
+
+=== ct-pieces-balance
++ 4 contre 4, puis des pesées qui mélangent pièces suspectes et pièces sûres, en déplaçant certaines d'un plateau à l'autre
+  24 cas pour 27 issues : chaque pesée doit séparer les cas en trois groupes de taille presque égale.
+- 6 contre 6, puis 3 contre 3, puis 1 contre 1
+  La première pesée laisse 12 cas sur une seule issue « penche » et gaspille l'issue « équilibre ».
+- 4 contre 4, puis 2 contre 2 parmi le groupe suspect
+  Sans mélanger pièces sûres et suspectes, on ne sépare pas « lourde » et « légère » assez vite.
+- C'est impossible en 3 pesées, il en faut 4
+  24 cas tiennent dans $3^3 = 27$ issues, et une construction existe.
+
+=== ct-billes-plus-lourde
++ 2
+  3 contre 3, puis 1 contre 1 : chaque pesée a trois issues.
+- 3
+  En pesant 4 contre 4, on gaspille l'issue « équilibre » ; avec des tiers, 2 suffisent.
+- 4
+  C'est la dichotomie binaire ($\log_2 9$), qui ignore l'issue « équilibre ».
+- 1
+  Une pesée a trois issues, pas neuf.
+
+=== ct-piles-pieces-une-pesee
++ 1
+  1, 2, …, 10 pièces des piles 1 à 10 : l'excédent en grammes donne le numéro de la pile.
+- 2
+  Une pesée suffit grâce à la balance électronique qui donne un nombre.
+- 4
+  C'est ce qu'il faudrait avec une dichotomie binaire.
+- 10
+  Peser chaque pile séparément est inutile.
+
+=== ct-poids-balance
++ 4 poids : 1, 3, 9, 27
+  Trois états par poids (gauche, droite, absent) : système ternaire équilibré.
+- 6 poids : 1, 2, 4, 8, 16, 32
+  C'est la réponse si l'on ne pose les poids que sur **un** plateau.
+- 3 poids : 1, 4, 13
+  Trois poids ne donnent au plus que 13 masses positives.
+- 5 poids
+  Quatre suffisent dès qu'on utilise les deux plateaux.
+
+=== ct-cordes
++ A par les deux bouts et B par un bout ; quand A finit, allumer le second bout de B
+  A dure 30 min ; il reste 30 min à B, qui finit en 15 min : total 45.
+- Couper une corde en deux et brûler une moitié
+  La combustion est irrégulière : une demi-corde ne dure pas forcément 30 min.
+- Brûler A par un bout, puis la moitié de B
+  On ne sait pas repérer la moitié d'une corde irrégulière.
+- C'est impossible avec deux cordes
+  Allumer par les deux bouts divise toujours la durée restante par deux.
+
+=== ct-sabliers
++ Lancer les deux ; à 7 retourner le petit ; à 11, le retourner encore : il se vide à 15
+  À 11, il a 4 min de sable en bas ; retourné, il les rend en 4 min.
+- Lancer le 11 puis deux fois de suite le petit
+  $11 + 7 + 7 = 25$ : on ne mesure pas 15.
+- Lancer le 7 deux fois et attendre 1 minute de plus
+  On ne sait pas mesurer 1 minute seule sans combinaison des deux.
+- C'est impossible car 15 n'est pas une combinaison simple de 7 et 11
+  $15 = 11 + 4$, et 4 se mesure par la différence $11 - 7$.
+
+=== ct-cruches
++ 6 opérations
+  Remplir 5, verser dans 3, vider 3, verser 2 dans 3, remplir 5, compléter 3 : il reste 4.
+- 4 opérations
+  Aucune suite de 4 opérations n'atteint 4 L (un parcours en largeur le montre).
+- 8 opérations
+  C'est le minimum si l'on commence par la petite cruche.
+- Impossible
+  $\mathrm{pgcd}(3, 5) = 1$ : toutes les quantités entières jusqu'à 5 L sont atteignables.
+
+=== ct-vin-eau
++ Autant de vin dans l'eau que d'eau dans le vin
+  Chaque verre retrouve son volume ; ce qui manque de vin d'un côté a été remplacé par de l'eau.
+- Plus de vin dans l'eau
+  On pense que la première cuillère était pure ; mais la seconde rapporte aussi du vin.
+- Plus d'eau dans le vin
+  La seconde cuillère est un mélange, mais l'égalité des volumes compense exactement.
+- Ça dépend de la taille de la cuillère
+  L'égalité vaut quelle que soit la cuillère, et même si l'on mélange mal.
+
+=== ct-pommes-de-terre
++ 50 kg
+  La matière sèche (1 kg) passe de 1 % à 2 % du total.
+- 99 kg
+  On a retiré 1 % de l'eau ; c'est la proportion de matière sèche qui double.
+- 98 kg
+  Raisonnement en points de pourcentage, qui ignore que la base change.
+- 90 kg
+  Aucun calcul correct n'y mène : la matière sèche fixe le poids total.
+
+=== ct-barre-or
++ 2 coupes
+  Morceaux 1, 2 et 4 : en rendant la monnaie, on paie tous les jours (écriture binaire).
+- 6 coupes
+  Sans rendre de morceaux, il faudrait 7 morceaux.
+- 3 coupes
+  C'est ce qu'il faut pour 15 jours.
+- 1 coupe
+  Deux morceaux ne permettent pas sept montants.
+
+=== ct-vin-empoisonne
++ 10 rats
+  Chaque rat code un bit : $2^{10} = 1\,024 \ge 1\,000$.
+- 999 rats
+  Un rat par bouteille gaspille l'information : chaque rat donne un bit.
+- 500 rats
+  Associer des paires de bouteilles ne suffit pas à les distinguer.
+- 7 rats
+  C'est la réponse avec **deux** vagues (base 3), pas une.
+
+=== ct-chevaux
++ 7
+  5 courses de groupes, la course des vainqueurs, puis une course de 5 candidats (A2, A3, B1, B2, C1).
+- 6
+  Six courses trouvent seulement le plus rapide.
+- 8
+  On a gardé trop de candidats : seuls 5 chevaux peuvent encore être 2ᵉ ou 3ᵉ.
+- 11
+  C'est la réponse pour 64 chevaux et 8 couloirs.
+
+=== ct-oeufs
++ 14
+  $n(n+1)/2 \ge 100$ : intervalles décroissants 14, 13, 12, …
+- 10
+  Lâcher tous les 10 étages coûte jusqu'à $10 + 9 = 19$ lâchers.
+- 7
+  C'est la dichotomie, qui suppose un nombre illimité d'œufs.
+- 50
+  On lâche au 50ᵉ puis un à un : jusqu'à 50 lâchers.
+
+=== ct-pont
++ 17 minutes
+  Faire traverser 5 et 10 **ensemble**, avec 1 et 2 comme navettes.
+- 19 minutes
+  « Le plus rapide escorte chacun » : $10 + 1 + 5 + 1 + 2$.
+- 18 minutes
+  Aucune organisation ne donne 18 : on passe de 17 à 19.
+- 16 minutes
+  On a oublié un retour de la lampe.
+
+=== ct-pasteques
++ 18
+  15 pesées pour la plus lourde, puis 3 entre les 4 qui ont perdu directement contre elle.
+- 29
+  On a refait un tournoi complet de 14 pesées pour la deuxième.
+- 16
+  On croit que la deuxième est l'autre finaliste : elle a pu être éliminée plus tôt par la plus lourde.
+- 15
+  Ces 15 pesées ne donnent que la plus lourde.
+
+=== ct-celebrite
++ Éliminer les candidats un à un (« c connaît x ? »), puis vérifier le dernier : $3(n - 1)$ questions au plus
+  Chaque question élimine quelqu'un ; la vérification finale est indispensable.
+- Demander à chacun s'il connaît tout le monde : $O(n^2)$
+  Correct mais trop lent : on veut $O(n)$.
+- Garder le candidat le plus connu sans vérification
+  Il peut ne pas y avoir de célébrité : sans vérification, on se trompe.
+- C'est impossible en moins de $n^2$ questions
+  L'élimination montre que $O(n)$ suffit.
+
+=== ct-nombre-manquant
++ Somme attendue $n(n+1)/2$ moins la somme de la liste (ou un ou exclusif) ; pour un doublon, l'algorithme de Floyd
+  Temps $O(n)$, mémoire $O(1)$ dans les deux cas.
+- Trier la liste puis la parcourir
+  Le tri coûte $O(n \log n)$.
+- Utiliser un tableau de présence
+  Juste, mais en mémoire $O(n)$.
+- Comparer chaque paire de nombres
+  $O(n^2)$ : beaucoup trop lent.
+
+=== ct-pain-grille
++ 90 secondes
+  A1, B1 ; puis A2, C1 ; puis B2, C2 : la poêle n'est jamais à moitié vide.
+- 120 secondes
+  Approche naïve : deux tranches complètes, puis la troisième seule avec une place vide.
+- 60 secondes
+  Il faut 6 faces de 30 s, deux à la fois : au moins 90 s.
+- 180 secondes
+  On grille une face à la fois.
+
+=== ct-pneus
++ 25 000 km
+  $5 \times 20\,000 = 100\,000$ km-pneu, 4 utilisés à chaque kilomètre.
+- 20 000 km
+  On oublie qu'on peut faire tourner la roue de secours.
+- 100 000 km
+  On a oublié que chaque kilomètre use 4 pneus.
+- 24 000 km
+  Rotation sous-optimale : en répartissant parfaitement, chaque pneu roule $4/5$ du trajet.
+
+=== ct-riviere
++ 11 traversées
+  Un parcours en largeur sur les états sûrs le confirme.
+- 9 traversées
+  Ce serait possible sans la contrainte de sécurité sur chaque rive.
+- 7 traversées
+  C'est la réponse pour la chèvre, le loup et le chou.
+- Impossible
+  C'est impossible avec **quatre** missionnaires et quatre cannibales, pas trois.
+
+=== ct-hanoi
++ 1 023
+  $T_n = 2T_{n-1} + 1 = 2^n - 1$.
+- 1 024
+  C'est $2^{10}$ : un de trop.
+- 100
+  C'est $n^2$, une croissance polynomiale fausse.
+- 512
+  C'est $2^{n-1}$, le nombre de déplacements du seul plus petit disque, pas le total.
+
+=== ct-tri-cinq
++ 7
+  $\lceil \log_2 120 \rceil = 7$, et une insertion astucieuse l'atteint.
+- 10
+  C'est le nombre de paires, comme si l'on comparait tout à tout.
+- 8
+  C'est ce que donne un tri fusion simple, pas optimal.
+- 6
+  $2^6 = 64 < 120 = 5!$ : impossible.
+
+=== ct-stations-circuit
++ Partir de la station qui suit le point le plus bas du réservoir « virtuel »
+  Depuis là, le niveau ne descend jamais sous 0 ; un seul passage suffit.
+- Partir de la station qui a le plus d'essence
+  Elle peut être suivie d'un trajet très long : ce n'est pas un critère.
+- Essayer chaque station de départ
+  Juste mais en $O(n^2)$, pas en un passage.
+- Il n'en existe pas toujours
+  La somme exacte garantit l'existence (argument du minimum).
+
+=== ct-pirates
++ 98 pour lui, 1 pour les pirates 1 et 3, 0 pour les autres
+  À rebours : il achète les voix de ceux qui n'auraient rien dans le cas à 4 pirates.
+- 20 pièces pour chacun
+  Un partage égal n'est pas un équilibre : il peut obtenir les voix bien moins cher.
+- 100 pour lui
+  Il lui faut 3 voix : la sienne ne suffit pas.
+- 97 pour lui, 1 pour chacun des trois plus jeunes
+  Il n'a besoin que de deux voix achetées, à ceux qui auraient 0 sinon.
+
+=== ct-allumettes
++ 1
+  $21 = 4 \times 5 + 1$ : laisser un multiple de 4, puis compléter chaque coup adverse à 4.
+- 3
+  On laisserait 18, que l'adversaire ramène à 16, un multiple de 4.
+- 2
+  On laisserait 19 ; l'adversaire prend 3 et laisse 16.
+- Aucun coup ne gagne
+  C'est la réponse si **la dernière perd** (21 est alors perdant).
+
+=== ct-course-a-100
++ 1
+  Les totaux gagnants sont $\equiv 1 \pmod{11}$ : 1, 12, …, 89, 100.
+- 10
+  On viserait 10, qui n'est pas $\equiv 1 \pmod{11}$.
+- 11
+  Les positions sûres sont séparées de 11, mais la première est 1.
+- Ça dépend de l'adversaire
+  La stratégie de complément à 11 gagne contre tout adversaire.
+
+=== ct-nim
++ 1
+  $3 \oplus 4 \oplus 5 = 2$ : un seul coup ramène le ou exclusif à 0 (prendre 2 du tas de 3).
+- 0
+  La position n'est pas perdante : le ou exclusif n'est pas nul.
+- 3
+  On croit qu'un coup par tas fonctionne ; seul le tas de 3 contient le bit à changer.
+- 12
+  C'est le nombre total de coups possibles, gagnants ou non.
+
+=== ct-pieces-en-rangee
++ Oui : il choisit la parité (positions paires ou impaires) la plus riche, et peut prendre toutes ses pièces
+  Après chacun de ses coups, les deux extrémités sont de l'autre parité.
+- Non, l'adversaire peut toujours le contrer
+  Avec un nombre pair de pièces, la stratégie des parités est imparable.
+- Oui, en prenant toujours la plus grande extrémité
+  La gourmandise peut perdre : elle ouvre parfois une grosse pièce à l'adversaire.
+- Ça dépend des valeurs
+  La garantie de la moitié vaut pour toutes les valeurs (pas le maximum exact).
+
+=== ct-table-ronde
++ Le premier joueur, en jouant au centre puis symétriquement
+  La position reste symétrique : à chaque coup adverse correspond une place libre.
+- Le second joueur, par symétrie
+  Le centre est son propre symétrique : le premier joueur le prend et devient le « copieur ».
+- Ça dépend de la taille de la table
+  La stratégie de symétrie marche pour toute table centrée.
+- Celui qui pose la plus grande pièce
+  Toutes les pièces sont identiques.
+
+=== ct-duel-trois
++ En l'air
+  A ne veut tuer personne : il laisse B et C s'affronter et tire en premier sur le survivant.
+- Sur C, le plus dangereux
+  S'il tue C, B lui tire dessus avec $2/3$ de réussite.
+- Sur B
+  S'il tue B, C le tue à coup sûr.
+- Peu importe
+  Les trois choix donnent des probabilités de survie très différentes.
+
+=== ct-chocolat
++ 47
+  Chaque cassure ajoute exactement un morceau : de 1 à 48.
+- 12
+  On a compté les lignes ($5 + 7$) comme si l'on cassait tous les morceaux à la fois.
+- 48
+  Il faut 47 cassures pour obtenir 48 morceaux.
+- Ça dépend de l'ordre des cassures
+  Le nombre est le même quelle que soit la méthode.
+
+=== ct-somme-quinze
++ Match nul : c'est le morpion déguisé, via le carré magique 2 7 6 / 9 5 1 / 4 3 8
+  Les triplets de somme 15 sont les lignes du carré magique.
+- Le premier joueur gagne en prenant 5
+  5 est le meilleur premier coup (centre du morpion), mais l'adversaire peut toujours tenir le nul.
+- Le second joueur gagne
+  Au morpion, le second joueur ne gagne pas contre un jeu parfait.
+- Il faut tout calculer par ordinateur
+  L'isomorphisme avec le morpion donne la réponse immédiatement.
+
+=== ct-martingale-doublement
++ Non : espérance négative à chaque coup, et une longue série de pertes ruine un capital fini
+  On gagne souvent 1 €, on perd rarement une somme énorme ; l'espérance reste négative.
+- Oui, on finit toujours par gagner
+  Seulement avec un capital et un temps infinis, et sans plafond de mise.
+- Oui, si l'on s'arrête après le premier gain
+  Le théorème d'arrêt : aucune règle d'arrêt bornée ne transforme un jeu défavorable en jeu favorable.
+- Oui, sur rouge et noir seulement
+  La probabilité $18/37 < 1/2$ rend la stratégie encore pire.

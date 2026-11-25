@@ -75,8 +75,11 @@ CATEGORIES = {
     "fermi": "Estimations (Fermi)",
 }
 TYPES = {"ouverte", "numerique"}
-SECTIONS = {"question", "en", "indice", "solution", "piege", "relances", "variantes"}
-CLES = {"theme", "niveau", "profils", "type", "reponse", "tolerance", "duree", "source", "categorie", "titre"}
+SECTIONS = {"question", "en", "indice", "solution", "piege", "relances"}
+CLES = {"theme", "niveau", "profils", "type", "reponse", "tolerance", "duree", "source", "categorie", "titre", "parent", "voir"}
+# Une variante (« parent: id ») est un problème à part entière : elle hérite du thème, de la catégorie, des profils et du
+# niveau de son problème d'origine quand elle ne les précise pas. « voir: id id » relie des problèmes voisins.
+HERITES = ("theme", "categorie", "profils", "niveau")
 
 _OPS = {ast.Add: operator.add, ast.Sub: operator.sub, ast.Mult: operator.mul, ast.Div: operator.truediv,
         ast.Pow: operator.pow, ast.USub: operator.neg, ast.UAdd: operator.pos}
@@ -112,9 +115,27 @@ def evaluer(expr: str) -> float:
 
 
 def lire_fiches(dossier: Path = CONTENU) -> list[dict]:
-    fiches: list[dict] = []
+    bruts: list[dict] = []
     for chemin in sorted(dossier.glob("*.txt")):
-        fiches.extend(_lire_fichier(chemin))
+        bruts.extend(_lire_fichier(chemin))
+    par_id = {b["id"]: b for b in bruts}
+    for b in bruts:
+        if b.get("parent"):
+            p = par_id.get(b["parent"])
+            if p is None:
+                raise ErreurContenu(f"{b['_ou']} : problème d'origine inconnu {b['parent']!r}")
+            if p.get("parent"):
+                raise ErreurContenu(f"{b['_ou']} : une variante doit dépendre d'un problème d'origine, pas d'une autre variante")
+            for cle in HERITES:
+                if cle not in b and cle in p:
+                    b[cle] = p[cle]
+    fiches = [_normaliser(b) for b in bruts]
+    for f in fiches:
+        for v in f.get("voir", []):
+            if v not in par_id:
+                raise ErreurContenu(f"{f['id']} : « voir » vers une fiche inconnue {v!r}")
+            if v == f["id"]:
+                raise ErreurContenu(f"{f['id']} : « voir » vers elle-même")
     return fiches
 
 
@@ -150,7 +171,7 @@ def _lire_fichier(chemin: Path) -> list[dict]:
             courante[m.group(1)] = m.group(2).strip()
         else:
             courante["_sections"][section].append(ligne)
-    return [_normaliser(f) for f in fiches]
+    return fiches
 
 
 def _normaliser(brut: dict) -> dict:
@@ -183,7 +204,7 @@ def _normaliser(brut: dict) -> dict:
     for cle in ("en", "indice", "piege"):
         if sections.get(cle):
             fiche[cle] = sections[cle]
-    for cle in ("relances", "variantes"):
+    for cle in ("relances",):
         if sections.get(cle):
             fiche[cle] = [re.sub(r"^-\s*", "", l).strip() for l in sections[cle].splitlines() if l.strip()]
     categorie = brut.get("categorie")
@@ -209,6 +230,10 @@ def _normaliser(brut: dict) -> dict:
         fiche["duree"] = int(brut["duree"])
     if brut.get("source"):
         fiche["source"] = brut["source"]
+    if brut.get("parent"):
+        fiche["parent"] = brut["parent"]
+    if brut.get("voir"):
+        fiche["voir"] = brut["voir"].split()
     return fiche
 
 
@@ -250,6 +275,93 @@ def construire() -> str:
     corps = json.dumps(donnees, ensure_ascii=False, indent=1)
     return ("// Fichier généré par construire.py à partir de contenu/ : ne pas modifier à la main.\n"
             f"window.PREPA_BANQUE = {corps};\n")
+
+
+# --- QCM ------------------------------------------------------------------------------------------------------------
+# contenu/qcm/*.txt : une question à choix multiples par bloc, reliée à une fiche (« === id ») ou à un chapitre du cours
+# (« === cours:id-du-chapitre »). Format :
+#   === proba-monty-hall
+#   ? Question (facultative : par défaut, l'énoncé de la fiche)
+#   + Bonne réponse
+#     Pourquoi elle est juste (lignes indentées).
+#   - Réponse fausse, idéalement un piège courant
+#     Pourquoi elle est fausse.
+# Plusieurs blocs peuvent viser la même fiche. Chaque réponse a son explication : on apprend autant des pièges.
+QCM_DOSSIER = CONTENU / "qcm"
+QCM_JS = RACINE / "app" / "qcm.js"
+
+
+def lire_qcm(dossier: Path = QCM_DOSSIER, fiches: list[dict] | None = None, chapitres: list[str] | None = None) -> list[dict]:
+    if fiches is None:
+        fiches = lire_fiches()
+    if chapitres is None:
+        import cours
+        chapitres = [c["id"] for c in cours.lire_chapitres()]
+    connues = {f["id"] for f in fiches}
+    questions: list[dict] = []
+    for chemin in sorted(dossier.glob("*.txt")) if dossier.exists() else []:
+        courant: dict | None = None
+        option: dict | None = None
+        for num, ligne in enumerate(chemin.read_text(encoding="utf-8").splitlines(), 1):
+            ou = f"qcm/{chemin.name}:{num}"
+            if not ligne.strip() or ligne.startswith("#"):
+                option = None if not ligne.strip() else option
+                continue
+            if ligne.startswith("=== "):
+                cible = ligne[4:].strip()
+                courant = {"cible": cible, "choix": [], "_ou": ou}
+                questions.append(courant)
+                option = None
+                continue
+            if courant is None:
+                raise ErreurContenu(f"{ou} : texte hors question")
+            if ligne.startswith("? "):
+                if courant["choix"] or "question" in courant:
+                    raise ErreurContenu(f"{ou} : la question doit précéder les réponses, une seule fois")
+                courant["question"] = ligne[2:].strip()
+                continue
+            if ligne.startswith(("+ ", "- ")):
+                option = {"t": ligne[2:].strip(), "ok": ligne[0] == "+", "pourquoi": ""}
+                courant["choix"].append(option)
+                continue
+            if ligne.startswith((" ", "\t")) and option is not None:
+                option["pourquoi"] = (option["pourquoi"] + " " + ligne.strip()).strip()
+                continue
+            if ligne.startswith((" ", "\t")) and courant.get("question") and not courant["choix"]:
+                courant["question"] += "\n" + ligne.strip()
+                continue
+            raise ErreurContenu(f"{ou} : ligne inattendue {ligne!r}")
+    vus: dict[str, int] = {}
+    for q in questions:
+        ou, cible = q.pop("_ou"), q["cible"]
+        if cible.startswith("cours:"):
+            if cible[6:] not in chapitres:
+                raise ErreurContenu(f"{ou} : chapitre inconnu {cible[6:]!r}")
+            if not q.get("question"):
+                raise ErreurContenu(f"{ou} : une question de cours doit avoir son énoncé (« ? »)")
+        elif cible not in connues:
+            raise ErreurContenu(f"{ou} : fiche inconnue {cible!r}")
+        bonnes = [c for c in q["choix"] if c["ok"]]
+        if len(bonnes) != 1:
+            raise ErreurContenu(f"{ou} : il faut exactement une bonne réponse ({len(bonnes)})")
+        if not 3 <= len(q["choix"]) <= 5:
+            raise ErreurContenu(f"{ou} : entre 3 et 5 réponses ({len(q['choix'])})")
+        textes = [c["t"] for c in q["choix"]]
+        if len(set(textes)) != len(textes):
+            raise ErreurContenu(f"{ou} : deux réponses identiques")
+        for c in q["choix"]:
+            if not c["pourquoi"]:
+                raise ErreurContenu(f"{ou} : réponse sans explication {c['t']!r}")
+        vus[cible] = vus.get(cible, 0) + 1
+        q["id"] = cible + "~" + str(vus[cible])
+    return questions
+
+
+def construire_qcm() -> str:
+    # une question par ligne : fichier compact et différences lisibles
+    lignes = ",\n".join(json.dumps(q, ensure_ascii=False, separators=(",", ":")) for q in lire_qcm())
+    return ("// Fichier généré par construire.py à partir de contenu/qcm/ : ne pas modifier à la main.\n"
+            "window.PREPA_QCM = {\"questions\": [\n" + lignes + "\n]};\n")
 
 
 SW = RACINE / "sw.js"
@@ -341,8 +453,10 @@ def construire_artefact() -> str:
 def main(argv: list[str]) -> int:
     texte = construire()
     cours_js = construire_cours()
+    qcm_js = construire_qcm()
     if "--verifier" not in argv:
         COURS_JS.write_text(cours_js, encoding="utf-8", newline="\n")
+        QCM_JS.write_text(qcm_js, encoding="utf-8", newline="\n")
     sw = construire_sw(texte)
     artefact = construire_artefact()
     if "--verifier" in argv:
@@ -350,7 +464,8 @@ def main(argv: list[str]) -> int:
         sw_actuel = SW.read_text(encoding="utf-8") if SW.exists() else ""
         art_actuel = ARTEFACT.read_text(encoding="utf-8") if ARTEFACT.exists() else ""
         cours_actuel = COURS_JS.read_text(encoding="utf-8") if COURS_JS.exists() else ""
-        if actuel != texte or sw_actuel != sw or art_actuel != artefact or cours_actuel != cours_js:
+        qcm_actuel = QCM_JS.read_text(encoding="utf-8") if QCM_JS.exists() else ""
+        if actuel != texte or sw_actuel != sw or art_actuel != artefact or cours_actuel != cours_js or qcm_actuel != qcm_js:
             print("app/banque.js, sw.js ou artefact.html n'est pas à jour : lance « python construire.py ».")
             return 1
         print("app/banque.js, sw.js et artefact.html sont à jour.")

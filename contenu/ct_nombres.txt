@@ -19,9 +19,6 @@ Un zéro final, c'est un facteur $10 = 2 \times 5$. Lequel des deux facteurs est
 Chaque zéro vient d'un facteur $10 = 2 \times 5$ ; les 2 sont plus nombreux que les 5. Facteurs 5 :
 $$\left\lfloor \frac{100}{5} \right\rfloor + \left\lfloor \frac{100}{25} \right\rfloor = 20 + 4 = 24.$$
 Réponse : **24**.
---- variantes
-- $1\,000!$ : $200 + 40 + 8 + 1 = 249$ zéros (formule de Legendre).
-- Dernier chiffre **non nul** de $100!$ : 4 (on retire les paires $2 \times 5$ et l'on suit le reste modulo 10).
 
 === ct-dernier-chiffre
 theme: casse-tete
@@ -40,9 +37,6 @@ What is the last digit of $7^{2026}$?
 Regarde les derniers chiffres de $7, 7^2, 7^3, 7^4, \dots$
 --- solution
 Les derniers chiffres des puissances de 7 forment le cycle 7, 9, 3, 1 (période 4). $2026 = 4 \times 506 + 2$ : même dernier chiffre que $7^2 = 49$, soit **9**.
---- variantes
-- $2^{100} \bmod 7$ : $2^3 = 8 \equiv 1$, et $100 = 3 \times 33 + 1$, donc $2^{100} \equiv 2$.
-- Deux derniers chiffres : travailler modulo 100 (théorème d'Euler, $\varphi(100) = 40$).
 
 === ct-impairs
 theme: casse-tete
@@ -61,9 +55,6 @@ Compute $1 + 3 + 5 + \dots + 99$.
 Combien de termes, et quelle est leur moyenne ?
 --- solution
 Il y a 50 termes ; la somme des $n$ premiers impairs vaut $n^2$ : **2 500**. (Ou : 50 termes de moyenne 50.)
---- variantes
-- $1 + 2 + \dots + 100 = 100 \times 101 / 2 = 5\,050$ (Gauss : on apparie $1 + 100$, $2 + 99$, …).
-- Somme des chiffres de tous les nombres de 1 à 100 : $901$ (chaque chiffre 0 à 9 apparaît 10 fois aux unités et aux dizaines de 0 à 99, soit $2 \times 10 \times 45 = 900$, plus 1 pour 100).
 
 === ct-frobenius
 theme: casse-tete
@@ -80,9 +71,6 @@ Tu n'as que des pièces de 3 € et de 5 €, en quantité illimitée. Quel est 
 Une fois que trois montants consécutifs sont payables, tous les suivants le sont (ajoute des 3).
 --- solution
 Payables : 3, 5, 6, 8, 9, 10, puis tout (8, 9, 10 consécutifs, on ajoute des 3). Impayables : 1, 2, 4, **7**. Formule de Frobenius pour deux valeurs premières entre elles : $ab - a - b = 15 - 8 = 7$.
---- variantes
-- Boîtes de 6, 9 et 20 nuggets : le plus grand nombre impossible est **43**.
-- Valeurs 4 et 6 : il y a une infinité de montants impossibles (tous les impairs), car $\mathrm{pgcd}(4, 6) = 2$.
 
 === ct-restes-chinois
 theme: casse-tete
@@ -116,9 +104,6 @@ Inclusion-exclusion : multiples de 3, plus multiples de 5, moins multiples de 15
 --- solution
 Somme des multiples de $k$ sous 1 000 : $k \cdot m(m + 1)/2$ avec $m = \lfloor 999/k \rfloor$.
 $3 \times \frac{333 \times 334}{2} + 5 \times \frac{199 \times 200}{2} - 15 \times \frac{66 \times 67}{2} = 166\,833 + 99\,500 - 33\,165 =$ **233 168**.
---- variantes
-- **Combien** d'entiers de 1 à 1 000 sont multiples de 3 ou de 5 : $333 + 200 - 66 = 467$.
-- Entiers de 1 à 1 000 premiers avec 1 000 : $1\,000 \times (1 - 1/2)(1 - 1/5) = 400$ (indicatrice d'Euler).
 
 === ct-diviseurs
 theme: casse-tete
@@ -135,9 +120,6 @@ Combien 360 a-t-il de diviseurs positifs ?
 Décompose 360 en facteurs premiers.
 --- solution
 $360 = 2^3 \times 3^2 \times 5$. Un diviseur choisit un exposant de 2 parmi 4, de 3 parmi 3, de 5 parmi 2 : $4 \times 3 \times 2 =$ **24**.
---- variantes
-- Un nombre a un nombre impair de diviseurs si et seulement si c'est un carré parfait (lien avec les 100 casiers).
-- Combien de nombres premiers inférieurs à 100 ? 25.
 
 === ct-e-pi
 theme: casse-tete
@@ -151,10 +133,6 @@ Sans calculatrice : lequel est le plus grand, $e^{\pi}$ ou $\pi^{e}$ ?
 Compare $\frac{\ln x}{x}$ en $x = e$ et $x = \pi$.
 --- solution
 $e^{\pi} > \pi^{e} \iff \pi > e \ln \pi \iff \frac{1}{e} > \frac{\ln \pi}{\pi}$. Or $f(x) = \frac{\ln x}{x}$ a pour dérivée $\frac{1 - \ln x}{x^2}$, maximale en $x = e$ où elle vaut $1/e$. Donc $\frac{\ln \pi}{\pi} < \frac{1}{e}$ : **$e^{\pi}$ est plus grand** ($23{,}14$ contre $22{,}46$).
---- variantes
-- $2^{100}$ ou $3^{63}$ : $\log_2 3 \approx 1{,}585$, donc $3^{63} = 2^{99{,}86} < 2^{100}$.
-- $99^{100}$ ou $100^{99}$ : même fonction $\ln x / x$, décroissante après $e$ : $99^{100} > 100^{99}$.
-- Résoudre $2^x = x^2$ : solutions $x = 2$, $x = 4$, et une négative près de $-0{,}77$.
 
 === ct-tour-puissances
 theme: casse-tete
@@ -171,10 +149,6 @@ Quel réel $x > 0$ vérifie $x^{x^{x^{\cdots}}} = 2$ (tour infinie) ?
 La tour se retrouve dans son propre exposant.
 --- solution
 Si la tour vaut $y$, alors $x^{y} = y$, donc $x^2 = 2$ et $x = \sqrt{2} \approx$ **1,414**. On vérifie que la suite $a_{n+1} = \sqrt{2}^{\,a_n}$ converge bien vers 2.
---- variantes
-- Piège : la même équation avec 4 donne aussi $x = \sqrt{2}$ ; or la tour de $\sqrt{2}$ vaut 2, pas 4. La tour converge seulement pour $e^{-e} \le x \le e^{1/e}$, et sa valeur est au plus $e$.
-- Radical infini $\sqrt{2 + \sqrt{2 + \sqrt{2 + \cdots}}}$ : $y = \sqrt{2 + y}$, d'où $y = 2$.
-- Fraction continue $1 + \frac{1}{1 + \frac{1}{1 + \cdots}} = \varphi = \frac{1 + \sqrt 5}{2}$, limite du rapport de deux termes consécutifs de Fibonacci.
 
 === ct-produit-max
 theme: casse-tete
@@ -191,9 +165,6 @@ On écrit 10 comme somme d'entiers positifs. Quel est le plus grand produit poss
 Un 4 vaut 2 + 2 ; un nombre au moins 5 gagne à être cassé en 2 et 3.
 --- solution
 Tout terme $\ge 5$ gagne à être coupé ($2(n - 2) > n$), et $3 \times 3 > 2 \times 2 \times 2$ : on utilise des 3, complétés par des 2. $10 = 3 + 3 + 4$ (ou $3 + 3 + 2 + 2$) : **36**.
---- variantes
-- Réels positifs de somme 10 : $k$ parts égales à $10/k$, maximum pour $k$ proche de $10/e$, soit $k = 4$ : $2{,}5^4 \approx 39{,}06$.
-- Minimum de $x^x$ sur $]0, +\infty[$ : en $x = 1/e$, où il vaut $e^{-1/e} \approx 0{,}692$.
 
 === ct-cheque-inverse
 theme: casse-tete
@@ -258,8 +229,6 @@ Combien de chiffres a $2^{100}$ (en base 10) ?
 $2^{10} = 1\,024 \approx 10^3$, ou $\log_{10} 2 \approx 0{,}301$.
 --- solution
 $\log_{10} 2^{100} = 100 \times 0{,}30103 = 30{,}103$ : le nombre est entre $10^{30}$ et $10^{31}$, donc **31 chiffres**. Estimation rapide : $2^{100} = (2^{10})^{10} \approx 1{,}024^{10} \times 10^{30} \approx 1{,}27 \times 10^{30}$.
---- variantes
-- $\log_2(100!) \approx 525$ : avec Stirling, $\ln 100! \approx 100 \ln 100 - 100 + \frac12 \ln(200\pi) \approx 363{,}7$, à diviser par $\ln 2$ (c'est aussi le nombre de bits pour coder une permutation de 100 éléments).
 
 === ct-irrationnel
 theme: casse-tete
@@ -274,8 +243,6 @@ Par l'absurde dans les deux cas : $\sqrt 2 = p/q$ irréductible ; puis une liste
 --- solution
 1. Si $\sqrt 2 = p/q$ avec $p, q$ premiers entre eux, $p^2 = 2q^2$ : $p$ est pair, $p = 2r$, d'où $q^2 = 2r^2$ : $q$ est pair. Contradiction.
 2. Si $p_1, \dots, p_n$ sont tous les premiers, $N = p_1 \cdots p_n + 1$ n'est divisible par aucun d'eux ; or $N > 1$ a un facteur premier : contradiction.
---- variantes
-- Existe-t-il deux irrationnels $a, b$ avec $a^b$ rationnel ? Oui : si $\sqrt 2^{\sqrt 2}$ est rationnel c'est fini, sinon $(\sqrt 2^{\sqrt 2})^{\sqrt 2} = 2$.
 
 === ct-casiers
 theme: casse-tete
@@ -294,6 +261,4 @@ duree: 180
 Combien de fois le casier $n$ est-il touché ?
 --- solution
 Le casier $n$ est touché une fois par diviseur de $n$. Les diviseurs vont par paires $(d, n/d)$, sauf quand $d = n/d$ : seuls les carrés parfaits ont un nombre impair de diviseurs. Carrés jusqu'à 100 : $1, 4, \dots, 100$, soit **10 casiers**.
---- variantes
-- 1 000 casiers : 31 ouverts ($31^2 = 961 \le 1\,000 < 1\,024$).
-- 100 ampoules et 100 interrupteurs, même règle : mêmes réponses.
+Même réponse pour 100 ampoules et 100 interrupteurs avec la même règle de bascule.

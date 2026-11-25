@@ -1,0 +1,341 @@
+# QCM des casse-têtes de dénombrement, d'invariants, de géométrie et de mouvement.
+
+=== ct-carres-echiquier
++ 204
+  $\sum_{k=1}^{8} k^2$ : un carré de côté $k$ se place de $(9 - k)^2$ façons.
+- 64
+  On n'a compté que les carrés $1 \times 1$.
+- 1 296
+  C'est le nombre de **rectangles**, carrés compris.
+- 65
+  On a ajouté le grand carré aux 64 cases, en oubliant toutes les tailles intermédiaires.
+
+=== ct-poignees
++ 190
+  $\binom{20}{2}$ : chaque poignée concerne une paire non ordonnée.
+- 380
+  On a compté chaque poignée deux fois (A serre B et B serre A).
+- 400
+  C'est $20^2$, qui compte aussi les poignées de main avec soi-même.
+- 210
+  C'est $\binom{21}{2}$ : une personne de trop.
+
+=== ct-chiffre-un
++ 21
+  10 aux unités, 10 aux dizaines (10 à 19), plus le 1 de 100.
+- 20
+  On a oublié le 1 de 100.
+- 19
+  On a compté 11 une seule fois, alors qu'il contient deux 1.
+- 11
+  On n'a compté que les dizaines ou que les unités, plus 100.
+
+=== ct-anagrammes
++ 34 650
+  $\frac{11!}{4!\,4!\,2!}$ : on divise par les permutations des lettres répétées (S, I, P).
+- $11! = 39\,916\,800$
+  On a traité toutes les lettres comme distinctes.
+- 69 300
+  On a oublié de diviser par le $2!$ des deux P.
+- 415 800
+  On n'a divisé que par $4!$ une fois : les I aussi sont répétés.
+
+=== ct-dominos-escalier
++ 89
+  $a_n = a_{n-1} + a_{n-2}$, $a_1 = 1$, $a_2 = 2$ : suite de Fibonacci.
+- 55
+  Décalage d'un rang dans la suite de Fibonacci ($a_9$).
+- $2^{10}$
+  On a supposé deux choix indépendants par colonne ; les dominos horizontaux vont par paires.
+- 10
+  Il n'y a pas qu'une façon par nombre de dominos horizontaux : leurs positions comptent.
+
+=== ct-regions-cercle
++ 31
+  $1 + \binom{6}{2} + \binom{6}{4} = 1 + 15 + 15$.
+- 32
+  Le piège de la suite 1, 2, 4, 8, 16 : la régularité s'arrête à $n = 6$.
+- 30
+  On a oublié la région initiale (le disque).
+- 16
+  C'est la valeur pour 5 points.
+
+=== ct-triangles-entiers
++ 3
+  $(2, 5, 5)$, $(3, 4, 5)$, $(4, 4, 4)$ : il faut $c < 6$.
+- 4
+  On a inclus $(2, 4, 6)$ ou $(3, 3, 6)$, dégénérés ($a + b = c$).
+- 7
+  On a compté toutes les décompositions de 12 en trois parts, sans l'inégalité triangulaire.
+- 1
+  On n'a pensé qu'au triangle équilatéral $(4, 4, 4)$.
+
+=== ct-chiffres-impairs
++ 155
+  $5 + 5^2 + 5^3$ : un, deux ou trois chiffres, 5 choix chacun.
+- 125
+  On n'a compté que les nombres à trois chiffres.
+- 500
+  On a pris la moitié des nombres, comme si un chiffre sur deux comptait.
+- 156
+  On a compté 0, qui n'est pas un entier positif (et 0 est pair).
+
+=== ct-monnaie
++ 10
+  On énumère par le nombre de pièces de 50 c : 6 + 3 + 1.
+- 6
+  On a oublié les solutions avec une ou deux pièces de 50 c.
+- 4
+  On n'a compté que les solutions « simples » ($2 \times 50$, $5 \times 20$, $10 \times 10$, $50 + 5 \times 10$).
+- 11
+  On a compté une décomposition deux fois, en tenant compte de l'ordre.
+
+=== ct-etoiles-barres
++ 66
+  $\binom{12}{2}$ : 2 barres parmi 12 positions.
+- 36
+  C'est $\binom{9}{2}$, le cas des entiers **strictement** positifs.
+- $11^3$
+  On a laissé chaque variable libre de 0 à 10 sans imposer la somme.
+- 45
+  C'est $\binom{10}{2}$ : on a choisi les barres parmi les seules étoiles.
+
+=== ct-bracelets
++ 13
+  Burnside sur le groupe diédral : $(84 + 72)/12$.
+- 14
+  C'est le nombre de **colliers** (rotations seulement).
+- $64/12 \approx 5{,}3$
+  On a divisé le nombre de coloriages par la taille du groupe : les coloriages symétriques sont comptés à tort.
+- 64
+  On n'a identifié aucun coloriage.
+
+=== ct-cube-peint
++ 12
+  Un cube au milieu de chaque arête ; un cube a 12 arêtes.
+- 8
+  Ce sont les coins, qui ont trois faces peintes.
+- 6
+  Ce sont les centres de faces, une seule face peinte.
+- 24
+  On a compté deux cubes par arête, ce qui vaut pour un cube $4 \times 4 \times 4$.
+
+=== ct-echiquier-dominos
++ Non : il reste 32 cases d'une couleur et 30 de l'autre
+  Les coins opposés sont de même couleur ; chaque domino couvre une case de chaque couleur.
+- Oui, en tournant les dominos dans les coins
+  Aucune disposition ne contourne l'argument de couleur.
+- Oui, car 62 est pair
+  La parité est nécessaire, pas suffisante.
+- On ne peut le savoir qu'en essayant par ordinateur
+  Un invariant prouve l'impossibilité sans aucun essai.
+
+=== ct-cameleons
++ Non : les différences d'effectifs modulo 3 sont invariantes, et aucune n'est nulle
+  Il faudrait deux effectifs nuls, donc une différence multiple de 3.
+- Oui, tous deviennent pourpres
+  Atteindre $(0, 0, 45)$ exigerait $g - b \equiv 0$, or $g - b \equiv -2$ reste constant modulo 3.
+- Oui, car le total 45 est multiple de 3
+  Le total ne suffit pas : ce sont les différences qui comptent.
+- Ça dépend de l'ordre des rencontres
+  L'invariant vaut pour tous les ordres.
+
+=== ct-poignees-impaires
++ La somme des degrés vaut deux fois le nombre de poignées, donc elle est paire
+  Une somme paire contient un nombre pair de termes impairs.
+- Par symétrie : chaque poignée concerne deux personnes impaires
+  Faux : une poignée peut relier deux personnes de degrés pairs.
+- C'est faux : un seul invité peut avoir serré un nombre impair de mains
+  Le lemme des poignées de main l'interdit.
+- Par récurrence sur le nombre de personnes
+  Possible mais inutile : le double comptage règle tout en une ligne.
+
+=== ct-tableau-effacer
++ Non : la parité de la somme est invariante et vaut celle de 55
+  $a + b$ et $|a - b|$ ont la même parité.
+- Oui, en effaçant toujours deux nombres égaux
+  Il n'y a pas de doublon au départ, et la parité interdit 0 de toute façon.
+- Oui, car on peut produire 1 puis $|1 - 1|$
+  Il faudrait deux 1 à la fin : l'invariant l'empêche.
+- Ça dépend de l'ordre
+  L'invariant est valable quel que soit l'ordre.
+
+=== ct-puzzle-15
++ Non : la parité de la permutation plus la couleur de la case vide est invariante
+  L'échange de 14 et 15 change la parité sans déplacer la case vide.
+- Oui, avec beaucoup de coups
+  Sam Loyd offrait 1 000 \$ précisément parce que c'est impossible.
+- Oui, car on peut toujours faire tourner trois pièces
+  Une rotation de trois pièces est paire : elle ne crée pas une transposition.
+- Ça dépend de la position des autres pièces
+  Elles sont à leur place : seul l'échange compte.
+
+=== ct-recouvrement-pieces
++ Non : la parité des faces dans un carré $2 \times 2$ d'angle est invariante
+  Chaque ligne ou colonne y retourne 0 ou 2 pièces ; au départ il y a une face, impair.
+- Oui, en retournant la ligne et la colonne du centre
+  Le centre est retourné deux fois, et quatre autres pièces passent côté face.
+- Oui, car chaque opération retourne un nombre impair de pièces
+  La parité globale n'est pas le bon invariant ici.
+- On ne peut pas conclure sans essayer les $2^6$ combinaisons
+  C'est possible, mais l'invariant répond immédiatement.
+
+=== ct-fourmis
++ 100 secondes
+  Les fourmis qui font demi-tour se comportent comme si elles se traversaient : chaque trajectoire mesure au plus 1 m.
+- 200 secondes
+  On croit que les demi-tours rallongent les trajets ; il suffit d'échanger les noms.
+- 50 secondes
+  C'est le temps pour une fourmi partie du milieu, pas le pire cas.
+- C'est infini si elles se renvoient indéfiniment
+  Les trajectoires « fantômes » sortent toutes en au plus 100 s.
+
+=== ct-fourmi-cube
++ $\sqrt 5$
+  Le dépliage de deux faces donne un rectangle $1 \times 2$ dont la diagonale vaut $\sqrt 5$.
+- $\sqrt 3$
+  C'est la diagonale **à travers** le cube, interdite à une fourmi en surface.
+- $1 + \sqrt 2$
+  Une diagonale de face puis une arête : plus long que le dépliage.
+- 3
+  En longeant trois arêtes.
+
+=== ct-corde-terre
++ $\frac{1}{2\pi} \approx 0{,}16$ m
+  $2\pi(R + h) = 2\pi R + 1$, quel que soit $R$.
+- Quelques micromètres
+  L'intuition « 1 m sur 40 000 km, c'est rien » est trompeuse : $h$ ne dépend pas de $R$.
+- 1 m
+  On a confondu l'allongement de la circonférence et du rayon.
+- $\frac1\pi$ m
+  C'est l'augmentation du **diamètre**.
+
+=== ct-piece-roule
++ 2 tours
+  Le centre parcourt $4\pi r$ ; un tour de roulement plus un tour dû au contournement.
+- 1 tour
+  Le piège : les deux circonférences sont égales, mais la pièce tourne aussi autour de l'autre.
+- 3 tours
+  On a ajouté un tour de trop.
+- $\pi$ tours
+  On a mélangé distance et angle.
+
+=== ct-anneau-serviette
++ $36\pi$ cm³
+  Le volume ne dépend pas du rayon : avec un trou nul, c'est une sphère de diamètre 6.
+- Impossible sans le rayon
+  L'énoncé sous-entend une réponse unique : le cas limite la donne.
+- $288\pi$ cm³
+  On a pris 6 cm comme **rayon** de la sphère.
+- $9\pi$ cm³
+  On a calculé l'aire d'un disque de rayon 3, pas un volume.
+
+=== ct-pole-nord
++ Au pôle Nord, ou près du pôle Sud, 1 km au nord d'un cercle de circonférence $1/n$ km
+  Il existe une infinité de points de départ, pas seulement le pôle Nord.
+- Seulement au pôle Nord
+  La réponse classique, incomplète : les cercles près du pôle Sud marchent aussi.
+- Nulle part, c'est impossible sur une sphère
+  Le pôle Nord est déjà une solution.
+- N'importe où sur l'équateur
+  Après 1 km vers l'est, on n'est pas revenu à la même longitude.
+
+=== ct-somme-angles
++ 720°
+  4 triangles depuis un sommet : $(n - 2) \times 180°$.
+- 1 080°
+  C'est la somme pour un octogone ($n = 8$).
+- 360°
+  C'est la somme des angles **extérieurs**, toujours 360°.
+- 540°
+  C'est la valeur pour un pentagone.
+
+=== ct-angle-horloge
++ 7,5°
+  L'aiguille des heures a avancé de $15 \times 0{,}5° = 7{,}5°$ au-delà du 3.
+- 0°
+  On oublie que l'aiguille des heures bouge entre deux heures pleines.
+- 15°
+  On a pris $1°$ par minute pour l'aiguille des heures au lieu de $0{,}5°$.
+- 90°
+  C'est l'angle à 3 h pile, mesuré à partir de midi.
+
+=== ct-superpositions
++ 22
+  Une superposition toutes les $12/11$ h : 11 par 12 heures.
+- 24
+  On compte une superposition par heure, mais entre 11 h et 1 h il n'y en a qu'une (à midi).
+- 12
+  On n'a compté que sur 12 heures.
+- 23
+  On a enlevé un seul chevauchement au lieu de deux (midi et minuit).
+
+=== ct-vitesse-moyenne
++ 40 km/h
+  Moyenne harmonique : le trajet lent dure deux fois plus longtemps.
+- 45 km/h
+  Moyenne arithmétique des vitesses, qui ignore les durées.
+- 42,4 km/h
+  Moyenne géométrique, sans fondement ici.
+- Ça dépend de la distance
+  La distance se simplifie.
+
+=== ct-escargot
++ Jour 28
+  Il atteint 27 m au matin du 28ᵉ jour et grimpe les 3 derniers mètres sans glisser.
+- Jour 30
+  On applique « 1 m net par jour » jusqu'au bout, en oubliant le dernier jour sans glissade.
+- Jour 27
+  Il est à 27 m au **matin** du jour 28, pas le soir du 27.
+- Jour 10
+  On a divisé 30 par 3 en oubliant les glissades.
+
+=== ct-nenuphars
++ Jour 47
+  La surface double chaque jour : la veille, c'était la moitié.
+- Jour 24
+  L'intuition linéaire : la croissance est exponentielle.
+- Jour 46
+  Le jour 46, c'est le quart.
+- Ça dépend de la taille de l'étang
+  La taille n'intervient pas : seul le doublement compte.
+
+=== ct-chapeau-riviere
++ 10 minutes
+  Dans le référentiel de l'eau, le chapeau est immobile : aller et retour durent autant.
+- 20 minutes
+  On a pensé que le chapeau s'éloignait pendant le retour ; il dérive avec l'eau, comme le rameur.
+- Moins de 10 minutes, grâce au courant
+  Le courant entraîne rameur et chapeau de la même façon.
+- Ça dépend de la vitesse du courant
+  Elle disparaît dans le référentiel de l'eau.
+
+=== ct-course-handicap
++ A gagne
+  À 10 m de l'arrivée ils sont côte à côte, et A est plus rapide.
+- Égalité
+  On a pensé que 10 m de handicap compensaient exactement 10 m d'écart ; ils s'égalisent à 90 m, pas à 100 m.
+- B gagne
+  A part de plus loin, mais court plus vite sur la fin.
+- Ça dépend des vitesses
+  Les rapports de vitesse sont fixés par la première course.
+
+=== ct-jour-semaine
++ Samedi
+  Vendredi le 1ᵉʳ janvier 2027, puis 51 ans dont 13 bissextiles : décalage de $64 \equiv 1$.
+- Vendredi
+  C'est le 1ᵉʳ janvier 2027 : il reste 51 ans de décalage.
+- Dimanche
+  On a compté une année bissextile de trop (2078 n'en est pas une, et le 29 février 2076 est déjà compté).
+- Jeudi
+  On a oublié les années bissextiles.
+
+=== ct-train-mouche
++ 75 km
+  Les trains se rencontrent en 1 h ; la mouche vole 1 h à 75 km/h.
+- 100 km
+  La distance entre les trains n'est pas celle de la mouche.
+- 150 km
+  On a doublé en pensant aux allers-retours.
+- Une série infinie sans valeur simple
+  La série converge, et sa somme vaut 75 : inutile de la calculer.

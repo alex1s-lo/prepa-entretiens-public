@@ -65,8 +65,6 @@ Probability of at least one 6 in 4 rolls of a die?
 $1 - (5/6)^{4} \approx$ **0,518**. Le chevalier de Méré gagnait de l'argent en pariant dessus ; il en perdait avec le pari suivant (un double six en 24 lancers de deux dés : $1 - (35/36)^{24} \approx 0{,}491$).
 --- piege
 Additionner : $4 \times 1/6 = 2/3$. Les événements ne sont pas disjoints.
---- variantes
-- Au moins un double six en 24 lancers de deux dés : $1 - (35/36)^{24} \approx 0{,}491$, moins probable que le premier pari ($0{,}518$), ce qui intriguait le chevalier de Méré.
 
 === proba-esperance-sachant-somme
 theme: probas
@@ -262,14 +260,13 @@ profils: mm hf banque data
 type: numerique
 reponse: 10*0.9^10
 duree: 120
+voir: proba-faces-distinctes
 --- question
 On lance 10 balles au hasard dans 10 boîtes. Nombre moyen de boîtes vides ?
 --- en
 10 balls are thrown at random into 10 boxes. Expected number of empty boxes?
 --- solution
 Une boîte reste vide avec probabilité $(9/10)^{10} \approx 0{,}349$. Par linéarité : $10 \times 0{,}9^{10} \approx$ **3,49**. Pour $n$ balles dans $n$ boîtes, environ $n/e$ boîtes vides.
---- variantes
-- Nombre moyen de faces différentes en 6 lancers de dé : $6\left(1 - (5/6)^6\right) \approx 3{,}99$.
 
 === proba-premiers-entre-eux
 categorie: nombres

@@ -1,5 +1,5 @@
 // Casse-têtes : toutes les énigmes d'entretien rangées par famille (logique, pesées, stratégie, probabilités…),
-// avec leurs variantes. Objectif : qu'aucune énigme posée en entretien ne soit vraiment nouvelle.
+// chacune avec ses variantes (problèmes à part entière, rangés sous leur problème d'origine). Objectif : qu'aucune énigme posée en entretien ne soit vraiment nouvelle.
 // Chaque fiche qui porte une « categorie » y figure, quel que soit son thème ; la notation alimente la répétition espacée.
 (function (racine) {
   'use strict';
@@ -12,7 +12,7 @@
   };
   // Filtres de la liste, gardés le temps de la visite (et dans le navigateur, si possible).
   const CLE_FILTRES = 'prepa-casse-tetes-filtres';
-  let filtres = { cat: '', niveau: '', etat: 'tous', texte: '' };
+  let filtres = { cat: '', niveau: '', etat: 'tous', texte: '', variantes: true };
   try { Object.assign(filtres, JSON.parse(racine.localStorage.getItem(CLE_FILTRES) || '{}')); } catch (e) { /* sans stockage */ }
   function garderFiltres() {
     try { racine.localStorage.setItem(CLE_FILTRES, JSON.stringify(filtres)); } catch (e) { /* sans stockage */ }
@@ -42,9 +42,10 @@
     if (filtres.etat === 'revoir' && e !== 'revoir') return false;
     if (filtres.etat === 'vus' && e === 'nouveau') return false;
     if (filtres.etat === 'maitrises' && e !== 'maitrise') return false;
+    if (!filtres.variantes && f.parent) return false;
     if (filtres.texte) {
       const cherche = o.sansTex(filtres.texte).toLowerCase();
-      const texte = o.sansTex([f.titre, f.question, (f.variantes || []).join(' ')].join(' ')).toLowerCase();
+      const texte = o.sansTex([f.titre, f.question].join(' ')).toLowerCase();
       if (texte.indexOf(cherche) < 0) return false;
     }
     return true;
@@ -61,13 +62,13 @@
     const vues = toutes.filter(function (f) { return A.etat.cartes[f.id]; }).length;
     const maitrisees = toutes.filter(function (f) { return etatDe(f) === 'maitrise'; }).length;
     const aRevoir = toutes.filter(function (f) { return etatDe(f) === 'revoir'; }).length;
-    const nVariantes = toutes.reduce(function (s, f) { return s + (f.variantes ? f.variantes.length : 0); }, 0);
+    const nVariantes = toutes.filter(function (f) { return f.parent; }).length;
 
     main.innerHTML = '<h1>Casse-têtes</h1><p class="doux">Les énigmes posées en entretien quant, recensées sur une vingtaine de sources et ' +
-      'dédoublonnées : chaque fiche regroupe un problème et ses variantes d’énoncé. Cherche à voix haute avant de regarder l’indice ; ' +
+      'dédoublonnées. Les variantes d’un problème sont des énigmes à part entière, rangées juste sous lui. Cherche à voix haute avant de regarder l’indice ; ' +
       'la note que tu te donnes décide quand l’énigme reviendra.</p>' +
       '<div class="grille stats-ct">' +
-      '<div class="carte"><div class="chiffre">' + toutes.length + '</div><div class="legende">énigmes, plus ' + nVariantes + ' variantes d’énoncé</div></div>' +
+      '<div class="carte"><div class="chiffre">' + toutes.length + '</div><div class="legende">énigmes, dont ' + nVariantes + ' variantes d’un problème classique</div></div>' +
       '<div class="carte"><div class="chiffre" data-ct-vues>' + vues + '</div><div class="legende">déjà vues · ' + (toutes.length - vues) + ' jamais vues</div>' +
       '<div class="barre" style="margin-top:6px"><span style="width:' + Math.round(100 * vues / Math.max(1, toutes.length)) + '%"></span></div></div>' +
       '<div class="carte"><div class="chiffre">' + maitrisees + '</div><div class="legende">maîtrisées · ' + aRevoir + ' à revoir aujourd’hui</div></div></div>' +
@@ -76,7 +77,7 @@
       '<select data-ct-niveau aria-label="Difficulté"><option value="">Toutes difficultés</option><option value="1">Facile</option><option value="2">Moyen</option><option value="3">Difficile</option></select>' +
       '<select data-ct-etat aria-label="Progression">' + Object.keys(ETATS).map(function (k) {
         return '<option value="' + k + '">' + ETATS[k] + '</option>';
-      }).join('') + '</select></div>' +
+      }).join('') + '</select><label class="case-ct"><input type="checkbox" data-ct-variantes' + (filtres.variantes ? ' checked' : '') + '> Variantes</label></div>' +
       '<div class="puces-ct" role="group" aria-label="Familles"><button type="button" data-ct-cat="" aria-pressed="' + (!filtres.cat) + '">Toutes</button>' +
       Object.keys(cats).filter(function (c) { return toutes.some(function (f) { return f.categorie === c; }); }).map(function (c) {
         return '<button type="button" data-ct-cat="' + c + '" aria-pressed="' + (filtres.cat === c) + '">' + o.echapper(cats[c]) + '</button>';
@@ -94,15 +95,27 @@
       const parCat = {};
       retenues.forEach(function (f) { (parCat[f.categorie] = parCat[f.categorie] || []).push(f); });
       const html = Object.keys(cats).filter(function (c) { return parCat[c]; }).map(function (c) {
-        const liste = parCat[c].slice().sort(function (a, b) { return a.niveau - b.niveau || o.sansTex(a.titre).localeCompare(o.sansTex(b.titre), 'fr'); });
+        // problèmes d'origine par difficulté puis par titre, chaque variante juste sous son problème
+        const ordre = function (a, b) { return a.niveau - b.niveau || o.sansTex(a.titre).localeCompare(o.sansTex(b.titre), 'fr'); };
+        const ici = parCat[c];
+        const tete = function (f) { return f.parent && A.fiche(f.parent) ? A.fiche(f.parent) : f; };
+        const meres = [];
+        ici.forEach(function (f) { const m = tete(f); if (meres.indexOf(m) < 0) meres.push(m); });
+        meres.sort(ordre);
+        const liste = [];
+        meres.forEach(function (m) {
+          if (ici.indexOf(m) >= 0) liste.push(m);
+          ici.filter(function (f) { return f.parent === m.id; }).sort(ordre).forEach(function (f) { liste.push(f); });
+        });
         const total = toutes.filter(function (f) { return f.categorie === c; });
         const vuesCat = total.filter(function (f) { return A.etat.cartes[f.id]; }).length;
         return '<section class="famille-ct"><div class="entete-famille"><h2 class="partie-cours">' + o.echapper(cats[c]) + '</h2>' +
           '<span class="legende">' + vuesCat + ' / ' + total.length + ' vues</span></div><ul class="liste-ct">' + liste.map(function (f) {
-            const nv = f.variantes ? f.variantes.length : 0;
-            return '<li><a href="#casse-tetes/f=' + encodeURIComponent(f.id) + '" data-ct-fiche="' + o.echapper(f.id) + '">' +
+            const nv = P.composants.variantesDe(f.id).length;
+            const mere = f.parent ? A.fiche(f.parent) : null;
+            return '<li' + (mere ? ' class="variante-ct"' : '') + '><a href="#casse-tetes/f=' + encodeURIComponent(f.id) + '" data-ct-fiche="' + o.echapper(f.id) + '">' +
               '<span class="titre-ct">' + o.enLigne(f.titre) + '</span>' +
-              '<span class="resume-ct">' + o.echapper(o.resume(f.question, 110)) + '</span>' +
+              '<span class="resume-ct">' + (mere ? 'Variante de « ' + o.echapper(o.sansTex(mere.titre || '')) + ' » · ' : '') + o.echapper(o.resume(f.question, 110)) + '</span>' +
               '<span class="meta-ct">' + niveau(f.niveau) + (nv ? '<span class="legende">' + nv + ' variante' + (nv > 1 ? 's' : '') + '</span>' : '') +
               LIBELLE_ETAT[etatDe(f)] + '</span></a></li>';
           }).join('') + '</ul></section>';
@@ -114,6 +127,7 @@
 
     main.querySelector('[data-ct-texte]').addEventListener('input', function (e) { filtres.texte = e.target.value; garderFiltres(); majListe(); });
     main.querySelector('[data-ct-niveau]').addEventListener('change', function (e) { filtres.niveau = e.target.value; garderFiltres(); majListe(); });
+    main.querySelector('[data-ct-variantes]').addEventListener('change', function (e) { filtres.variantes = e.target.checked; garderFiltres(); majListe(); });
     main.querySelector('[data-ct-etat]').addEventListener('change', function (e) { filtres.etat = e.target.value; garderFiltres(); majListe(); });
     main.querySelectorAll('[data-ct-cat]').forEach(function (b) {
       b.addEventListener('click', function () {
@@ -141,8 +155,11 @@
       return (!filtres.cat || f.categorie === filtres.cat) && (!filtres.niveau || String(f.niveau) === filtres.niveau);
     });
     const dues = o.melanger(Math.random, base.filter(function (f) { return etatDe(f) === 'revoir'; }));
-    const neuves = o.melanger(Math.random, base.filter(function (f) { return etatDe(f) === 'nouveau'; }));
-    return dues.concat(neuves).slice(0, n);
+    const neuves = base.filter(function (f) { return etatDe(f) === 'nouveau'; });
+    // une variante passe après son problème d'origine : on la propose une fois l'origine déjà travaillée
+    const pretes = o.melanger(Math.random, neuves.filter(function (f) { return !f.parent || A.etat.cartes[f.parent]; }));
+    const plusTard = o.melanger(Math.random, neuves.filter(function (f) { return f.parent && !A.etat.cartes[f.parent]; }));
+    return dues.concat(pretes, plusTard).slice(0, n);
   }
 
   // --- Entraînement sur une énigme (ou une session) -----------------------------------------------------------------

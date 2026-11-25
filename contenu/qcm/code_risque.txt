@@ -1,0 +1,391 @@
+# QCM des fiches de code (contenu/code2.txt), de risque (contenu/risque.txt) et des compléments (contenu/cours_complements2.txt).
+
+=== sql-group-by
++ `GROUP BY ticker HAVING COUNT(*) >= 200 ORDER BY moyenne DESC`
+  `HAVING` filtre après l'agrégation.
+- `WHERE COUNT(*) >= 200`
+  `WHERE` s'applique avant le regroupement : un agrégat y est interdit.
+- `GROUP BY ticker, jour`
+  On obtiendrait une ligne par jour.
+- `ORDER BY` avant `GROUP BY`
+  L'ordre des clauses SQL est imposé.
+
+=== sql-fenetre
++ `AVG(r) OVER (PARTITION BY ticker ORDER BY jour ROWS BETWEEN 19 PRECEDING AND CURRENT ROW)`
+  Une fonction de fenêtre garde toutes les lignes.
+- `GROUP BY ticker` avec `AVG(r)`
+  Une seule ligne par ticker.
+- `ROWS BETWEEN 20 PRECEDING AND CURRENT ROW`
+  Cela fait 21 observations.
+- Sans `PARTITION BY`
+  Les tickers se mélangeraient.
+
+=== sql-rendement-lag
++ `cloture / LAG(cloture) OVER (PARTITION BY ticker ORDER BY jour) - 1`
+  La première ligne de chaque ticker vaut NULL.
+- `LEAD(cloture)` à la place de `LAG`
+  Regarde le jour suivant : regard vers le futur.
+- `LAG` sans `PARTITION BY`
+  Le premier jour d'un ticker utiliserait le dernier d'un autre.
+- `cloture - LAG(cloture)`
+  C'est une variation absolue, pas un rendement.
+
+=== sql-jointures
++ Au moins 1 000 lignes (exactement 1 000 si `clients.id` est unique)
+  `LEFT JOIN` garde toutes les lignes de gauche.
+- 100
+  C'est la taille de la table de droite.
+- 100 000
+  C'est un produit cartésien.
+- Au plus 100
+  `INNER` ou `LEFT`, on ne descend pas sous 1 000 avec une clé unique.
+
+=== sql-dedoublonnage
++ `ROW_NUMBER() OVER (PARTITION BY ticker ORDER BY horodatage DESC)` puis garder le rang 1
+  Robuste même en cas d'égalité gérée par l'ordre.
+- `SELECT DISTINCT ticker, prix`
+  Garde toutes les combinaisons distinctes.
+- `MAX(prix)` par ticker
+  Donne le plus haut prix, pas le dernier.
+- `GROUP BY ticker` avec `prix` non agrégé
+  Invalide ou non déterministe.
+
+=== sql-null
++ `NULL = NULL` est inconnu ; `COUNT(col)` ignore les NULL ; `NOT IN` avec un NULL ne renvoie rien
+  Utiliser `IS NULL` et `COALESCE`.
+- `NULL = NULL` est vrai
+  C'est inconnu.
+- `COUNT(*)` ignore les NULL
+  C'est `COUNT(col)`.
+- `AVG` compte les NULL comme des zéros
+  Il les ignore.
+
+=== cpp-virtuel
++ Appel via la vtable : une indirection, pas d'inlining ; coût faible mais gênant en très basse latence
+  Alternatives : templates (CRTP).
+- Les fonctions virtuelles sont résolues à la compilation
+  À l'exécution.
+- Elles copient l'objet
+  Sans rapport.
+- Elles sont gratuites
+  L'indirection empêche souvent l'inlining.
+
+=== cpp-comportement-indefini
++ Une opération sans résultat imposé par la norme : débordement d'entier signé, accès hors limites, pointeur libéré
+  Le compilateur peut supposer qu'il n'arrive jamais.
+- Une erreur de compilation
+  Il compile souvent sans avertissement.
+- Un plantage garanti
+  Il peut sembler marcher.
+- Un débordement d'entier non signé
+  Lui est bien défini (modulo).
+
+=== cpp-move
++ Voler les ressources d'un objet temporaire ; `std::move` est un simple transtypage en rvalue
+  Le déplacement évite des copies coûteuses.
+- `std::move` déplace physiquement l'objet
+  Il ne fait que convertir le type.
+- Le déplacement copie toujours
+  Il transfère les ressources.
+- L'objet d'origine est détruit immédiatement
+  Il reste valide mais dans un état non spécifié.
+
+=== py-copie
++ `[[1, 0, 0], [1, 0, 0], [1, 0, 0]]`
+  Les trois lignes sont la même liste.
+- `[[1, 0, 0], [0, 0, 0], [0, 0, 0]]`
+  Ce serait le cas avec `[[0] * 3 for _ in range(3)]`.
+- Une erreur
+  Le code est valide.
+- `[[1, 1, 1], [0, 0, 0], [0, 0, 0]]`
+  Le `* 3` intérieur copie des entiers, pas des références partagées problématiques.
+
+=== py-decorateur
++ Une fonction qui reçoit `f` et renvoie une enveloppe chronométrée, avec `functools.wraps`
+  `wraps` garde le nom et la documentation.
+- Une classe héritant de `f`
+  On ne peut pas hériter d'une fonction.
+- Modifier le code de `f`
+  Le but est de ne pas le modifier.
+- `time.sleep` autour de `f`
+  Cela attend, ne mesure pas.
+
+=== algo-fusion-intervalles
++ Trier par début puis fusionner en un passage : $O(n \log n)$
+  Un intervalle chevauche le précédent si son début est avant la fin courante.
+- Comparer toutes les paires
+  $O(n^2)$ et compliqué.
+- Trier par fin uniquement
+  Ne garantit pas une fusion correcte en un passage.
+- Fusionner sans trier
+  Les chevauchements non voisins échappent.
+
+=== algo-k-plus-grands
++ Un tas min de taille $k$ : $O(n \log k)$
+  On compare à la plus petite des $k$ gardées.
+- Trier : $O(n \log n)$, optimal
+  Correct, mais le tas fait mieux pour $k$ petit.
+- Un tas max de taille $n$ puis $k$ extractions
+  $O(n + k\log n)$ : bien, mais mémoire $O(n)$.
+- Parcourir $k$ fois la liste
+  $O(nk)$.
+
+=== algo-paires-nombre
++ 499 500
+  $\binom{1000}{2}$.
+- 1 000 000
+  On a compté les paires ordonnées avec répétition.
+- 999 000
+  Paires ordonnées.
+- 500 000
+  Approximation $n^2/2$.
+
+=== risque-garch-long-terme
++ 1 % par jour
+  $\omega/(1 - \alpha - \beta) = 0{,}0001$.
+- 0,01 %
+  C'est la variance, pas la volatilité.
+- Environ 0,14 %
+  On a oublié de diviser par $1 - \alpha - \beta$.
+- 2 %
+  On a divisé par $\alpha$ ou mal pris la racine.
+
+=== risque-ewma-demi-vie
++ Environ 11 jours
+  $\ln 0{,}5/\ln 0{,}94$.
+- 16,7 jours
+  $1/(1 - \lambda)$ : durée moyenne, pas demi-vie.
+- 47 jours
+  On a pris $0{,}94 \times 50$.
+- 6 jours
+  Sous-estimation.
+
+=== risque-diversification-limite
++ 10 %
+  $\sigma\sqrt\rho = 20\,\% \times 0{,}5$.
+- 0
+  La corrélation commune empêche de tout diversifier.
+- 5 %
+  $\sigma\rho$ au lieu de $\sigma\sqrt\rho$.
+- 20 %
+  Aucune diversification.
+
+=== risque-beta
++ 1,2
+  $\rho\,\sigma/\sigma_m$.
+- 0,6
+  C'est la corrélation.
+- 2
+  $\sigma/\sigma_m$ sans la corrélation.
+- 0,3
+  On a inversé le rapport.
+
+=== risque-couverture-variance-min
++ 0,72
+  $\rho\,\sigma_S/\sigma_F$.
+- 0,9
+  Corrélation seule.
+- 0,8
+  Rapport des volatilités seul.
+- 1,125
+  Rapport inversé.
+
+=== risque-var-historique
++ Rejouer les variations passées sur le portefeuille actuel et prendre le quantile ; sans hypothèse de loi, mais dépend de la fenêtre
+  Les crises absentes de la fenêtre n'existent pas pour la VaR.
+- Supposer des rendements gaussiens
+  C'est la VaR paramétrique.
+- Utiliser le portefeuille passé
+  On applique les chocs passés au portefeuille d'aujourd'hui.
+- Elle capte tous les scénarios futurs
+  Seulement ceux de la fenêtre.
+
+=== risque-exceptions-historique
++ 5
+  $500 \times 1\,\%$.
+- 1
+  Ce serait avec 100 jours.
+- 50
+  10 % des scénarios.
+- 0
+  Le quantile laisse des scénarios au-delà.
+
+=== risque-stress-test
++ Pertes dans des scénarios extrêmes plausibles, sans probabilité ; complète la VaR sur les queues et les ruptures
+  Historiques ou hypothétiques.
+- Une VaR à 99,9 %
+  Le stress test n'est pas un quantile.
+- Un test de performance informatique
+  Homonymie.
+- Il remplace la VaR
+  Il la complète.
+
+=== risque-correlation-crise
++ Un facteur commun domine en crise ; la diversification disparaît quand on en a besoin
+  Tester les portefeuilles avec des corrélations stressées.
+- Les corrélations baissent en crise
+  Elles montent.
+- C'est un artefact statistique sans conséquence
+  Les pertes simultanées sont réelles.
+- Seules les obligations sont concernées
+  Toutes les classes d'actifs.
+
+=== risque-liquidite
++ Ne pas pouvoir déboucler sans faire bouger le prix ; on ajuste la VaR par l'horizon de liquidation et le coût du spread
+  VaR ajustée de la liquidité.
+- Le risque de manquer de trésorerie seulement
+  C'est la liquidité de financement, autre notion.
+- Il est nul pour les grandes positions
+  Il augmente avec la taille.
+- Il est inclus dans toute VaR standard
+  La VaR standard suppose une liquidation sans coût.
+
+=== risque-autocorrelation-ar1
++ 0,512
+  $0{,}8^3$.
+- 0,8
+  Retard 1.
+- 2,4
+  $3 \times 0{,}8$.
+- 0
+  Un AR(1) a une mémoire géométrique.
+
+=== risque-variance-ar1
++ Environ 2,78
+  $1/(1 - 0{,}64)$.
+- 1
+  Variance du bruit seule.
+- 5
+  $1/(1 - 0{,}8)$ : il faut $\varphi^2$.
+- 1,64
+  $1 + 0{,}64$ : un seul terme de la série.
+
+=== risque-sharpe-levier
++ Rendement excédentaire et volatilité doublent, Sharpe inchangé
+  Le Sharpe est invariant au levier.
+- Le Sharpe double
+  La volatilité double aussi.
+- Le Sharpe est divisé par deux
+  Le rendement double aussi.
+- La volatilité est multipliée par $\sqrt 2$
+  Elle double exactement.
+
+=== risque-drawdown-attendu
++ Pas forcément : un drawdown de 1,5 volatilité annuelle n'est pas rare avec un Sharpe de 1
+  On juge sur des tests statistiques, pas sur une impression.
+- Oui, elle est cassée
+  Le hasard produit de tels drawdowns.
+- Oui, car un Sharpe de 1 interdit les pertes
+  Une année sur six est négative en moyenne.
+- On ne peut rien dire
+  On peut comparer à la loi des drawdowns.
+
+=== proba-scrutin
++ $2/5$
+  Théorème du scrutin : $(a - b)/(a + b)$.
+- $7/10$
+  Part des voix.
+- $1/2$
+  Sans rapport.
+- $4/7$
+  Mauvais dénominateur.
+
+=== proba-catalan
++ 14
+  $\binom84/5$.
+- 70
+  Toutes les suites, bien formées ou non.
+- 16
+  $2^4$.
+- 24
+  $4!$.
+
+=== proba-amincissement
++ Environ 0,594
+  Les gros ordres forment un Poisson d'intensité 2 : $1 - 3e^{-2}$.
+- Environ 0,983
+  On a pris l'intensité totale 6.
+- $1/9$
+  On a raisonné avec deux ordres seulement.
+- Environ 0,865
+  C'est au moins **un** gros ordre ($1 - e^{-2}$).
+
+=== stats-equicorrelation
++ 2
+  $1 + (n - 1)\rho$.
+- 1,2
+  $1 + \rho$.
+- 0,8
+  C'est l'autre valeur propre, $1 - \rho$.
+- 6
+  Corrélation parfaite seulement.
+
+=== stats-cholesky
++ $\sqrt 3$
+  $L_{22} = \sqrt{4 - 1}$.
+- 2
+  On a oublié de retirer $L_{21}^2$.
+- 1
+  C'est $L_{21}$.
+- $\sqrt 2$
+  Soustraction de 2 au lieu de 1.
+
+=== der-barriere-carr
++ Environ 0,089
+  Réplication de Carr : $\frac{K}{B}$ puts de strike $B^2/K$.
+- Environ 7,97
+  C'est le call vanille ; le down-and-in vaut beaucoup moins.
+- 0
+  La barrière peut être touchée.
+- Environ 0,4
+  On a pris un seul put de strike 80.
+
+=== der-asiatique-geometrique
++ Environ 13,9 %
+  $\sigma/\sqrt 3$.
+- 24 %
+  La moyenne est moins volatile.
+- 12 %
+  $\sigma/2$.
+- 8 %
+  $\sigma/3$ : c'est la variance qui est divisée par 3.
+
+=== der-digitale-skew
++ La digitale est $-\partial C/\partial K$ avec une volatilité dépendant de $K$ : un terme $-\text{vega}\,\partial\sigma/\partial K$ s'ajoute ; skew négatif, digitale call plus chère
+  Le skew augmente le prix de la digitale call.
+- La volatilité implicite du strike suffit
+  Il manque la pente du smile.
+- Le skew la rend moins chère
+  Avec un skew négatif, $-\partial\sigma/\partial K > 0$.
+- Le skew n'a pas d'effet
+  Il a un effet de premier ordre.
+
+=== nrj-samuelson
++ Environ 61 %
+  $e^{-\kappa(T - t)} = e^{-0{,}5}$.
+- 100 %
+  Les forwards lointains bougent moins que le spot.
+- Environ 25 %
+  $\kappa T$ pris linéairement.
+- Environ 37 %
+  $e^{-1}$ : on a pris un an.
+
+=== nrj-calendaire
++ Environ 90,51 €/MWh
+  Moyenne pondérée par les heures.
+- 90 €/MWh
+  Moyenne simple : février a moins d'heures.
+- 100 €/MWh
+  Le plus cher seulement.
+- 80 €/MWh
+  Le moins cher seulement.
+
+=== algo-amorti
++ La capacité est multipliée à chaque débordement : les recopies totalisent $O(n)$ ; avec +10 cases, elles coûtent $O(n^2)$
+  Une progression géométrique amortit les copies.
+- Chaque ajout coûte $O(n)$
+  Seulement occasionnellement.
+- Ajouter 10 cases suffit à garder $O(1)$
+  Les recopies deviennent quadratiques.
+- La mémoire est réservée à l'infini
+  Elle croît par paliers.

@@ -40,8 +40,6 @@ Approche par la demande :
 - $45 \times 10^9 / (4 \times 10^6) \approx$ **11 000 stations**.
 Contrôle par l'offre : $\sim 35\,000$ communes, une station pour 3 à 4 communes : $\sim 10\,000$. Cohérent.
 Dire quelle hypothèse est la plus fragile (volume par station) et comment l'affiner.
---- variantes
-- Essence consommée chaque semaine aux États-Unis : $\sim 280$ millions de véhicules, $\sim 20$ L par semaine chacun, soit $\sim 5$ milliards de litres ($\sim 1{,}4$ milliard de gallons).
 
 === ct-fermi-balles-avion
 theme: casse-tete

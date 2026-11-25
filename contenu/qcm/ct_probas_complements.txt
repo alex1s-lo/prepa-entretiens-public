@@ -1,0 +1,601 @@
+# QCM des casse-têtes de probabilités, des estimations de Fermi et des compléments.
+
+=== ct-p-triangle-aigu
++ $1/4$
+  Obtus ou rectangle exactement quand les trois points tiennent dans un demi-cercle ($3/4$).
+- $1/2$
+  Un triangle « au hasard » n'est pas aigu une fois sur deux : les triangles obtus dominent.
+- $3/4$
+  C'est la probabilité d'un triangle **obtus**.
+- $1/3$
+  Raisonnement « trois types de triangles équiprobables », sans fondement.
+
+=== ct-p-rendez-vous
++ $7/16$
+  Complémentaire : deux triangles de côté $3/4$, d'aire totale $9/16$.
+- $1/4$
+  On a pris la durée d'attente (un quart d'heure) pour la probabilité.
+- $1/2$
+  On a doublé $1/4$ pour tenir compte des deux attentes ; les zones se chevauchent.
+- $1/16$
+  C'est l'aire d'un carré de côté $1/4$, sans rapport avec la bande $|X - Y| \le 1/4$.
+
+=== ct-p-buffon
++ $2/\pi \approx 0{,}64$
+  $\int_0^{\pi/2} \frac12 \sin\theta\,d\theta$ rapporté à l'aire $\frac12 \cdot \frac\pi2$.
+- $1/2$
+  L'orientation compte : une aiguille verticale croise plus souvent.
+- $1/\pi$
+  C'est la réponse pour une aiguille de longueur moitié.
+- $\pi/4$
+  C'est la probabilité qu'un point du carré tombe dans le disque inscrit.
+
+=== ct-p-bertrand-corde
++ Ça dépend du modèle de « corde au hasard » : $1/3$, $1/2$ ou $1/4$
+  Extrémités uniformes, rayon puis point, ou milieu uniforme : trois modèles, trois réponses.
+- $1/3$, sans ambiguïté
+  C'est une des réponses, pour un modèle précis ; l'énoncé ne le fixe pas.
+- $1/2$, par symétrie
+  Aucune symétrie ne tranche entre les modèles : c'est tout le paradoxe.
+- La question n'a pas de réponse
+  Elle en a, une par modèle ; il faut les donner toutes.
+
+=== ct-p-de-repetition
++ $1223/324 \approx 3{,}77$
+  $\mathbb{E}[N] = \sum_k \mathbb{P}(N > k)$ avec $\mathbb{P}(N > k) = 6 \cdot 5 \cdots (7 - k)/6^k$.
+- 7
+  C'est le maximum possible : au 7ᵉ lancer, une répétition est certaine.
+- 6
+  On a confondu avec l'attente d'une face donnée.
+- 2
+  C'est l'attente d'une répétition **immédiate** de la même face… qui vaut en fait 7.
+
+=== ct-p-cube-oppose
++ 10
+  $e_3 = 1 + e_2$, $e_2 = 1 + \frac13 e_3 + \frac23 e_1$, $e_1 = 1 + \frac23 e_2$.
+- 3
+  C'est la distance minimale en arêtes ; la marche est aléatoire.
+- 8
+  C'est le temps moyen de **retour** au sommet de départ.
+- 6
+  On a supposé qu'on ne revenait jamais en arrière.
+
+=== ct-p-piece-equitable
++ Lancer deux fois : PF donne « pile », FP « face », PP ou FF : recommencer ; $\frac{1}{p(1-p)}$ lancers en moyenne
+  PF et FP ont la même probabilité $p(1 - p)$, quel que soit $p$.
+- Lancer une fois et inverser le résultat une fois sur deux
+  Il faudrait une source de hasard équitable, justement ce qu'on cherche.
+- Prendre la majorité sur trois lancers
+  Le biais est réduit mais pas supprimé.
+- C'est impossible sans connaître $p$
+  La méthode de von Neumann n'a pas besoin de $p$.
+
+=== ct-p-urnes-bleues
++ Une seule boule bleue dans une urne, les 9 autres dans l'autre : $13/18$
+  $\frac12 \times 1 + \frac12 \times \frac49$.
+- Répartir également : $1/2$
+  La répartition égale ne profite pas du choix de l'urne.
+- Toutes les bleues dans une urne : $1/2 \times 1 + 1/2 \times 0$
+  Elle vaut $1/2$ : l'urne des rouges est perdue à coup sûr.
+- Une bleue et une rouge dans une urne : $1/2$
+  L'urne mixte ne garantit rien ; la bleue seule garantit $1/2$.
+
+=== ct-p-chaussettes
++ 4
+  3 rouges et 1 noire : $\frac34 \times \frac23 = \frac12$.
+- 2
+  Avec 2 chaussettes, deux rouges n'arrivent qu'avec 2 rouges, probabilité 1.
+- 21
+  C'est la solution suivante (15 rouges), pas la plus petite.
+- 3
+  Aucune répartition de 3 chaussettes ne donne exactement $1/2$.
+
+=== ct-p-cartes-broyees
++ $1/221$
+  Par symétrie, deux cartes restantes sont deux cartes uniformes du jeu : $\frac{4}{52} \cdot \frac{3}{51}$.
+- Ça dépend des cartes broyées
+  Elles sont inconnues : en moyenne, rien ne change.
+- $\frac{4}{32} \cdot \frac{3}{31}$
+  On a supposé les 4 as restés dans les 32 cartes.
+- $1/169$
+  C'est $(4/52)^2$, un tirage avec remise.
+
+=== ct-p-pari-60-piles
++ $\approx 2{,}8\,\%$ : ne pas jouer
+  $\mathbb{P}(X \ge 60) \approx \mathbb{P}(Z \ge 1{,}9)$ ; gain espéré $\approx 0{,}28$ € pour 1 € de mise.
+- $\approx 16\,\%$ : jouer
+  On a pris $\mathbb{P}(Z \ge 1)$ : 60 est à deux écarts-types, pas un.
+- $\approx 40\,\%$
+  On a confondu 60 % de piles avec 60 piles sur 100 en pensant à une seule pièce.
+- $\approx 0{,}1\,\%$
+  Trop pessimiste : c'est l'ordre de grandeur à trois écarts-types.
+
+=== ct-p-roulette-russe
++ Tirer sans tourner : survie $3/4$
+  Sachant la chambre vide, la suivante est vide dans 3 cas sur 4.
+- Tourner : survie $2/3$
+  C'est moins bien que $3/4$.
+- Indifférent : $2/3$ dans les deux cas
+  L'information du coup vide favorise le tir direct quand les balles sont adjacentes.
+- Tirer sans tourner : survie $1/2$
+  Sous-estimation : seule une chambre vide sur quatre précède une balle.
+
+=== ct-p-six-sachant-pairs
++ $3/2$
+  Conditionnellement aux lancers pairs, $N$ est géométrique de paramètre $2/3$ (le 6 parmi les pairs 2, 4, 6).
+- 3
+  Le piège : on raisonne sur un dé « réduit » à 2, 4, 6 ; le conditionnement change la loi de $N$.
+- 6
+  On a ignoré l'information « tous pairs ».
+- 2
+  Proche, mais la loi conditionnelle est géométrique de paramètre $2/3$.
+
+=== ct-p-morceau-milieu
++ $3/4$
+  Le morceau du milieu est le plus long, $\max(U, 1 - U)$, uniforme sur $[1/2, 1]$.
+- $1/2$
+  On oublie que le morceau contenant le milieu est biaisé vers le grand (paradoxe de l'inspection).
+- $2/3$
+  C'est l'espérance du max de **deux** uniformes indépendantes.
+- $1/4$
+  C'est l'espérance du **plus court** morceau.
+
+=== ct-p-baton-casse-deux-fois
++ $2\ln 2 - 1 \approx 0{,}386$
+  Probabilité $\frac{1-L}{L}$ sachant $L$, intégrée pour $L$ uniforme sur $[1/2, 1]$.
+- $1/4$
+  C'est la réponse pour deux cassures simultanées.
+- $\ln 2 - 1/2$
+  C'est la réponse si l'on casse un morceau **au hasard**.
+- $1/2$
+  Trop optimiste : le plus long dépasse souvent $1/2$ même après cassure.
+
+=== ct-p-un-et-six
++ 9
+  Le premier des deux arrive en 3 lancers en moyenne, l'autre en 6 de plus.
+- 12
+  On a additionné deux attentes de 6 : la première est plus courte car deux faces conviennent.
+- 6
+  C'est l'attente d'une seule face.
+- 7
+  Aucune décomposition ne donne 7.
+
+=== ct-p-total-atteint
++ $2/7$
+  Le total avance de 3,5 en moyenne : il touche une proportion $1/3{,}5$ des entiers.
+- $1/6$
+  On croit qu'il faut « tomber pile » avec un lancer ; plusieurs chemins mènent à $n$.
+- $1/2$
+  Un entier sur deux n'est pas une bonne image : l'avancée moyenne est 3,5.
+- 0
+  La probabilité ne tend pas vers 0 : elle converge vers $2/7$.
+
+=== ct-p-deuce-tennis
++ $9/13 \approx 0{,}69$
+  $w = p^2 + 2pq\,w$, soit $\frac{p^2}{p^2 + q^2}$.
+- $0{,}6$
+  L'avantage sur un point est amplifié sur deux points d'avance.
+- $0{,}36$
+  C'est seulement gagner les deux points suivants ; on peut aussi repasser par égalité.
+- $0{,}6^2 + 0{,}4^2 = 0{,}52$
+  C'est la probabilité que les deux points aillent au même joueur, pas de gagner.
+
+=== ct-p-garcon-mardi
++ $13/27$
+  27 couples contiennent un « garçon-mardi », dont 13 ont deux garçons.
+- $1/3$
+  C'est la réponse sans le mardi ; le détail rend la situation plus proche de « un garçon précis ».
+- $1/2$
+  Le jour rapproche de $1/2$ sans l'atteindre : il reste un double comptage.
+- $1/7$
+  Le jour de naissance n'est pas la question posée.
+
+=== ct-p-paires-rouge-noire
++ 26
+  51 paires, chacune bicolore avec probabilité $26/51$.
+- $25{,}5$
+  On a pris $1/2$ par paire : sans remise, deux voisines sont plus souvent de couleurs différentes.
+- 13
+  C'est le nombre de paires « rouge puis noire » seulement.
+- 51
+  Chaque paire n'est pas forcément bicolore.
+
+=== ct-p-ivrogne-falaise
++ $1/2$
+  Racines 1 et $\frac12$ ; la marche dérive vers l'intérieur, on prend la plus petite.
+- 1
+  C'est l'autre racine de l'équation, valable seulement sans dérive vers l'intérieur.
+- $1/3$
+  C'est la probabilité de tomber **au premier pas**.
+- $2/3$
+  On a confondu les deux probabilités de pas.
+
+=== ct-p-sans-piles-consecutifs
++ $9/64$
+  Fibonacci : $a_{10} = 144$ suites sur 1 024.
+- $(3/4)^9$
+  On a supposé les paires de lancers voisins indépendantes, ce qu'elles ne sont pas.
+- $1/2$
+  Beaucoup trop : sur 10 lancers, deux piles consécutifs sont presque inévitables.
+- $89/1024$
+  Décalage d'un rang dans la suite de Fibonacci.
+
+=== ct-p-trois-piles-cinq-faces
++ $31/38$
+  Deux états (série de piles commencée, série de faces commencée) et un petit système linéaire.
+- $3/5$
+  On a pensé « 3 contre 5 » : PPP est bien plus fréquent que FFFFF.
+- $1/2$
+  Les deux objectifs n'ont pas la même longueur.
+- $32/36$
+  On a comparé $2^{-3}$ et $2^{-5}$ sans tenir compte des remises à zéro.
+
+=== ct-p-egalite-piles
++ $1/3$
+  Au premier tour décisif : égalité $1/4$, victoire de l'un $1/2$.
+- $1/4$
+  C'est seulement l'égalité au premier tour.
+- $1/2$
+  Il y a trois issues, et l'égalité est la moins probable.
+- $1/9$
+  Aucun calcul correct n'y mène.
+
+=== ct-p-racines-reelles
++ $\frac{5 + 3\ln 4}{36} \approx 0{,}254$
+  Il faut $b^2 \ge 4ac$, avec $\mathbb{P}(ac \le t) = t(1 - \ln t)$.
+- $1/4$
+  Valeur proche mais fausse : le calcul exact donne un terme en $\ln 4$.
+- $1/2$
+  Le discriminant n'est pas positif une fois sur deux : $4ac$ est souvent plus grand que $b^2$.
+- $1/9$
+  On a traité $b^2$ et $4ac$ comme des uniformes indépendantes.
+
+=== ct-p-craps
++ $244/495 \approx 0{,}493$
+  $\frac{8}{36} + \sum p_k \frac{p_k}{p_k + 6/36}$ : jeu légèrement défavorable.
+- $1/2$
+  Le craps est presque équitable, mais pas tout à fait.
+- $8/36$
+  On a oublié les gains après l'établissement d'un point.
+- $0{,}6$
+  Trop optimiste : une fois le point fixé, le 7 sort plus souvent que le point.
+
+=== ct-p-distance-centre
++ $2/3$
+  La densité de $R$ est $2r$ : le disque a plus de surface près du bord.
+- $1/2$
+  On a pris $R$ uniforme sur $[0, 1]$.
+- $\sqrt 2 / 2$
+  C'est la **médiane** de $R$ ($\mathbb{P}(R \le r) = r^2$).
+- $3/4$
+  C'est la réponse pour une **boule** en dimension 3.
+
+=== ct-p-succession-laplace
++ $4/5$
+  $\frac{k + 1}{n + 2}$ : un pile et un face « imaginaires » ajoutés.
+- 1
+  L'estimateur fréquentiel $3/3$ ignore l'incertitude sur $p$.
+- $1/2$
+  On ignore les trois piles observés.
+- $3/4$
+  On a ajouté un seul lancer imaginaire.
+
+=== ct-p-sharpe-negatif
++ $N(-1) \approx 16\,\%$
+  Rendement négatif quand $Z < -1$ : une année sur six environ.
+- $\approx 2{,}3\,\%$
+  C'est $N(-2)$, valable pour un Sharpe de 2.
+- 0
+  Un Sharpe de 1 n'empêche pas les années négatives.
+- $50\,\%$
+  C'est le cas d'un Sharpe nul.
+
+=== ct-p-grenouille-nenuphars
++ $H_{10} \approx 2{,}93$
+  Le nénuphar $k$ (compté depuis l'arrivée) est visité avec probabilité $1/k$.
+- $5{,}5$
+  On a supposé qu'elle avance d'un ou deux nénuphars à la fois ; ses sauts sont souvent bien plus longs.
+- 10
+  Seulement si elle avançait d'un nénuphar à la fois.
+- $\log_2 10 \approx 3{,}3$
+  Une division par deux à chaque saut est une approximation, pas la réponse exacte.
+
+=== ct-p-des-efron
++ « Bat le plus souvent » n'est pas transitif : quel que soit ton dé, un autre le bat avec probabilité $5/9$
+  A bat B, B bat C, C bat A : celui qui choisit en second gagne.
+- Parce que mes dés ont une plus grande espérance
+  Les trois dés peuvent avoir la même moyenne : c'est l'ordre qui compte.
+- Ce n'est pas une mauvaise affaire si tu prends le meilleur dé
+  Il n'y a pas de meilleur dé : chacun est battu par un autre.
+- Parce que le premier joueur perd toujours aux dés
+  C'est la non-transitivité qui donne l'avantage au second, pas l'ordre en lui-même.
+
+=== ct-p-simpson
++ Oui (paradoxe de Simpson) : les groupes n'ont pas la même composition ; en backtest, toujours regarder par régime
+  Le traitement A est surtout donné aux patients graves, qui guérissent moins.
+- Non, c'est mathématiquement impossible
+  Une moyenne pondérée peut s'inverser quand les poids diffèrent.
+- Oui, mais seulement avec de petits échantillons
+  Le paradoxe tient avec des effectifs arbitrairement grands.
+- Oui, et il faut toujours croire le chiffre agrégé
+  L'agrégat mélange un effet de composition ; il faut comprendre le mécanisme.
+
+=== ct-fermi-pianos
++ On décompose (habitants, pianos par foyer, accords par an, accords par accordeur) et on obtient quelques centaines
+  Ce qui est noté : la chaîne d'hypothèses, l'ordre de grandeur et la vérification.
+- Quelques dizaines de milliers
+  Il faudrait un piano accordé chaque jour par habitant : l'ordre de grandeur est faux d'un facteur 100.
+- On refuse de répondre sans données
+  L'exercice consiste justement à estimer avec des hypothèses explicites.
+- Exactement 1 200
+  La précision affichée est illusoire : on donne un ordre de grandeur.
+
+=== ct-fermi-stations
++ De l'ordre de 10 000, par la demande en carburant et un contrôle par l'offre
+  $\sim 45$ milliards de litres par an, $\sim 4$ millions de litres par station.
+- De l'ordre de 100 000
+  Une station par 600 habitants vendrait trop peu pour vivre.
+- De l'ordre de 1 000
+  Chaque station devrait vendre 45 millions de litres par an, irréaliste.
+- On ne peut pas l'estimer sans annuaire
+  Deux décompositions indépendantes suffisent à cadrer l'ordre de grandeur.
+
+=== ct-fermi-balles-avion
++ Quelques millions : volume utile divisé par le volume d'une balle, avec un taux de remplissage d'environ 60 %
+  $\sim 2\,000$ m³ et $\sim 140$ cm³ par balle.
+- Quelques milliers
+  Erreur d'unités : un mètre cube contient déjà plusieurs milliers de balles.
+- Quelques milliards
+  Il faudrait des balles de la taille d'une bille.
+- Exactement le volume divisé par celui d'une balle
+  On oublie l'espace perdu entre des sphères (empilement d'environ 64 %).
+
+=== ct-fermi-avions-en-vol
++ De l'ordre de 10 000
+  $\sim 100\,000$ vols par jour de $\sim 2$ h en moyenne : $100\,000 \times 2 / 24$.
+- De l'ordre de 100 000
+  C'est le nombre de vols **par jour**, pas simultanés.
+- De l'ordre de 1 000
+  On a oublié que les vols durent plusieurs heures.
+- De l'ordre du million
+  Il n'y a qu'environ 25 000 avions de ligne dans le monde.
+
+=== ct-fermi-cafe
++ Quelques millions par jour, par la demande (habitants, travailleurs, touristes) recoupée par l'offre (nombre de cafés)
+  Deux décompositions qui se contrôlent mutuellement.
+- Quelques milliers
+  Il y a des milliers de cafés à Paris, chacun en vend des centaines.
+- Un par habitant, soit 2 millions, sans autre calcul
+  Une hypothèse unique non vérifiée ; il faut au moins un contrôle.
+- Impossible sans données de vente
+  L'estimation de Fermi se fait sans données.
+
+=== ct-fermi-cheveux
++ Environ 100 000 à 150 000 cheveux ; oui, deux Parisiens ont forcément le même nombre (tiroirs)
+  2 millions de Parisiens et au plus quelques centaines de milliers de valeurs possibles.
+- Environ 10 000 ; non, rien n'est forcé
+  Ordre de grandeur trop petit, et les tiroirs s'appliquent de toute façon.
+- Environ 1 million ; oui
+  Trop : il faudrait plus de 1 500 cheveux par cm².
+- Environ 100 000 ; non, c'est une question de probabilité
+  Le principe des tiroirs donne une certitude, pas une probabilité.
+
+=== ct-boites-etiquettes
++ 1
+  On tire dans la boîte « mélange » : elle ne contient qu'un type de fruit, qui fixe tout le reste.
+- 2
+  On croit devoir vérifier deux boîtes ; une seule observation bien choisie suffit.
+- 3
+  Un fruit par boîte est inutile vu que toutes les étiquettes sont fausses.
+- 1, mais dans n'importe quelle boîte
+  Dans la boîte « pommes », une orange laisse deux possibilités.
+
+=== ct-batte-balle
++ 0,05 €
+  $x + (x + 1) = 1{,}10$.
+- 0,10 €
+  La réponse intuitive : la batte coûterait 1,10 €, total 1,20 €.
+- 0,01 €
+  Erreur de calcul : $2x = 0{,}10$, pas $0{,}02$.
+- 0,55 €
+  On a partagé le total en deux sans tenir compte de l'écart.
+
+=== ct-josephus
++ 73
+  $100 = 64 + 36$ : survivant $2 \times 36 + 1$.
+- 1
+  Le premier n'est jamais éliminé au premier tour, mais il l'est ensuite.
+- 64
+  C'est la puissance de 2 en dessous de 100 ; elle n'est le survivant que si $n$ en est une.
+- 99
+  Le dernier impair n'est pas favorisé : le cercle se reboucle.
+
+=== ct-cavalier
++ 6
+  Au moins 5 par la somme des coordonnées, et un nombre pair car a1 et h8 sont de même couleur.
+- 5
+  La borne de distance donne 5, mais la parité des couleurs l'interdit.
+- 7
+  Un chemin en 6 existe : a1, b3, c5, d7, f8, g6, h8.
+- 14
+  On a compté les cases à franchir comme pour une tour.
+
+=== ct-rois-non-attaquants
++ 16
+  Au plus un roi par bloc $2 \times 2$, et 16 est atteint.
+- 32
+  C'est la réponse pour les **cavaliers**.
+- 8
+  C'est la réponse pour les dames ou les tours.
+- 64
+  Deux rois voisins s'attaquent.
+
+=== ct-p-pays-garcons
++ Une moitié
+  Chaque naissance reste un tirage équitable : une règle d'arrêt ne change pas la proportion.
+- Moins de la moitié
+  On croit que les familles s'arrêtent « avant » d'avoir des filles : mais en moyenne il y a une fille par famille.
+- Plus de la moitié
+  On pense que les filles s'accumulent dans les grandes familles ; elles compensent exactement.
+- Ça dépend du nombre de familles
+  La proportion attendue vaut $1/2$ quel que soit le nombre de familles.
+
+=== ct-canard-renard
++ Oui : tourner sur un cercle de rayon un peu inférieur à $R/4$ pour se mettre à l'opposé, puis foncer vers la rive
+  Il lui reste $\frac34 R$ à nager, contre $\pi R$ pour le renard, qui court 4 fois plus vite : $\pi > 3$.
+- Non : le renard court 4 fois plus vite, il l'attend toujours
+  Foncer tout droit échoue, mais la stratégie en deux temps réussit.
+- Oui : il suffit de nager tout droit à l'opposé du renard
+  Il faut nager $R$ quand le renard court $\pi R$ à vitesse 4 : $R/v > \pi R/(4v)$, le renard arrive avant.
+- Seulement si le renard court moins de $\pi$ fois plus vite
+  C'est la condition de la stratégie naïve ; la spirale tient jusqu'à environ 4,6.
+
+=== ct-points-antipodaux
++ Par les valeurs intermédiaires appliquées à $g(\theta) = T(\theta) - T(\theta + \pi)$
+  $g$ est continue et change de signe en un demi-tour, donc s'annule.
+- C'est faux : la température peut être différente partout
+  Le théorème des valeurs intermédiaires garantit un point.
+- Par symétrie de la Terre
+  La température n'est pas symétrique ; seul l'argument de continuité marche.
+- Parce que la température moyenne est la même au nord et au sud
+  Une moyenne ne donne pas une égalité ponctuelle.
+
+=== ct-p-chuck-a-luck
++ $-17/216 \approx -7{,}9$ centimes
+  $\frac{75 + 2 \times 15 + 3 \times 1 - 125}{216}$.
+- 0
+  L'intuition « trois dés, trois chances sur six » fait croire à un jeu équitable.
+- $+1/2$
+  On a compté le gain moyen ($3 \times 1/6$) sans retirer la mise perdue quand le numéro ne sort pas.
+- $-1/6$
+  On a oublié les gains doubles et triples.
+
+=== ct-infection-grille
++ 10
+  Le périmètre de la zone infectée ne croît jamais ; il doit atteindre 40, et chaque case en apporte au plus 4.
+- 20
+  On croit qu'il faut deux voisines par case dès le départ.
+- 5
+  Le périmètre initial serait au plus 20, insuffisant.
+- 50
+  Un damier marche, mais la diagonale (10 cases) suffit.
+
+=== ct-p-nouilles
++ $\sum_{k=1}^{100} \frac{1}{2k - 1} \approx 3{,}28$
+  Avec $k$ brins, la boucle se ferme avec probabilité $\frac{1}{2k - 1}$.
+- 50
+  On a cru qu'un nœud sur deux fermait une boucle.
+- 1
+  On pense que tout finit en une seule grande boucle ; il y en a plusieurs en moyenne.
+- $H_{100} \approx 5{,}19$
+  Ce serait $\sum 1/k$ ; la bonne probabilité est $1/(2k - 1)$.
+
+=== ct-sous-marin
++ Oui : énumérer tous les couples $(a, v)$ et, à la minute $t$, tirer sur $a_t + v_t t$
+  $\mathbb{Z}^2$ est dénombrable : le vrai couple est atteint en un temps fini.
+- Non : la vitesse inconnue rend la cible infiniment éloignée
+  L'énumération des couples contourne le problème.
+- Oui, mais seulement si $v \ge 0$
+  L'énumération en spirale couvre aussi les vitesses négatives.
+- Seulement avec une probabilité qui tend vers 1
+  La garantie est certaine, pas probabiliste.
+
+=== ct-sommes-consecutives
++ 4
+  Une façon par diviseur impair de 1 000 : 1, 5, 25, 125.
+- 3
+  On a oublié l'écriture à un seul terme (1 000 lui-même).
+- 16
+  C'est le nombre total de diviseurs de 1 000.
+- 1
+  Il existe aussi $198 + \dots + 202$, $28 + \dots + 52$ et $55 + \dots + 70$.
+
+=== ct-poteaux-croises
++ 2 m
+  $\frac1h = \frac16 + \frac13$ : la distance entre les poteaux n'intervient pas.
+- 4,5 m
+  C'est la moyenne arithmétique des hauteurs.
+- 3 m
+  On a cru que le croisement était au niveau du petit poteau.
+- Ça dépend de la distance
+  Les triangles semblables éliminent la distance.
+
+=== ct-hotel-hilbert
++ Oui dans les deux cas : $n \to n + 1$ pour un client, $n \to 2n$ pour une infinité
+  Les chambres impaires se libèrent pour le car.
+- Oui pour un client, non pour une infinité
+  Doubler les numéros libère une infinité de chambres.
+- Non : l'hôtel est complet
+  « Complet » ne veut pas dire qu'on ne peut plus déplacer personne dans un ensemble infini.
+- Oui, en mettant le nouveau client dans la chambre $\infty$
+  Il n'y a pas de chambre « infini ».
+
+=== ct-hauteur-chute
++ Environ 44 m
+  $\frac12 g t^2 = \frac12 \times 9{,}8 \times 9$.
+- Environ 30 m
+  On a pris une vitesse constante de $10$ m/s.
+- Environ 88 m
+  On a oublié le facteur $\frac12$.
+- Environ 15 m
+  On a pris $g t$ (la vitesse finale) divisé par deux, sans multiplier par $t$.
+
+=== ct-p-pistolets
++ $10(8/9)^9 \approx 3{,}46$
+  Une personne reste sèche si les 9 autres visent ailleurs : linéarité.
+- 0
+  Dix tirs pour dix personnes ne touchent pas tout le monde.
+- 1
+  On pense à un seul « doublon » ; il y en a bien plus.
+- $10/e \approx 3{,}68$
+  C'est la limite pour $n$ grand ; avec 10 personnes, $(8/9)^9$ est un peu plus petit.
+
+=== ct-p-ecart-deux-des
++ $35/18 \approx 1{,}94$
+  $\frac{1}{36}\sum_d d \cdot 2(6 - d)$.
+- 0
+  C'est l'espérance de $X - Y$, pas de sa valeur absolue.
+- $2{,}5$
+  On a moyenné les écarts possibles 0 à 5 sans les pondérer.
+- $35/12$
+  C'est la variance d'un dé : autre grandeur.
+
+=== ct-p-distance-bord-carre
++ $1/6$
+  $\mathbb{P}(D > t) = (1 - 2t)^2$, intégré sur $[0, 1/2]$.
+- $1/4$
+  On a supposé $D$ uniforme sur $[0, 1/2]$.
+- $1/2$
+  C'est la distance maximale (au centre du carré), pas la moyenne.
+- $1/3$
+  C'est l'espérance de $|U - V|$, un autre problème.
+
+=== ct-p-couleurs-main
++ $4\left(1 - \binom{39}{13}/\binom{52}{13}\right) \approx 3{,}95$
+  Une couleur manque avec probabilité $\approx 1{,}3\,\%$.
+- 4
+  Une main sans une couleur arrive : la moyenne est un peu sous 4.
+- $3{,}5$
+  Trop pessimiste : avec 13 cartes, il manque rarement une couleur.
+- $13/4$
+  On a divisé les cartes par les couleurs, ce qui n'a pas de sens ici.
+
+=== ct-p-total-sept
++ $(7/6)^6 \approx 2{,}52$
+  $e(n) = (7/6)^{n-1}$ par récurrence.
+- 2
+  $7/3{,}5 = 2$ ignore le dépassement final.
+- 3
+  Trop : beaucoup de parties finissent en deux lancers.
+- $7/6$
+  C'est le rapport de la récurrence, pas l'espérance.
+
+=== ct-partage-secret
++ Polynôme aléatoire de degré 2 de terme constant $s$, une valeur $P(i)$ par personne (schéma de Shamir)
+  Trois points déterminent le polynôme ; deux laissent $s$ totalement indéterminé.
+- Couper le code en 5 morceaux
+  Deux personnes apprennent des morceaux du code, et il en faut 5 pour le reconstituer.
+- Donner à chacun le code chiffré avec la même clé
+  Une seule personne avec la clé suffirait.
+- Donner le code à 3 personnes seulement
+  Le seuil doit valoir pour **n'importe quelles** 3 personnes.

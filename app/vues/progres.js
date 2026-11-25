@@ -31,7 +31,7 @@
     // activité des 28 derniers jours
     const jours = [];
     for (let k = 27; k >= 0; k--) jours.push(o.ajouterJours(jour, -k));
-    const valeurs = jours.map(function (j) { const x = etat.jours[j] || {}; return (x.revues || 0) + (x.calcul ? Math.ceil(x.calcul / 10) : 0) + 5 * (x.entretiens || 0) + 2 * (x.marche || 0); });
+    const valeurs = jours.map(function (j) { const x = etat.jours[j] || {}; return (x.revues || 0) + (x.calcul ? Math.ceil(x.calcul / 10) : 0) + 5 * (x.entretiens || 0) + 2 * (x.marche || 0) + Math.ceil((x.qcm || 0) / 2); });
     const max = Math.max.apply(null, valeurs.concat([1]));
     const cats = A.banque().categories || {};
     const enigmes = toutes.filter(function (f) { return f.categorie; });
@@ -45,11 +45,29 @@
             '<span>' + vu + ' / ' + l.length + '</span></div>';
         }).join('') + '<p style="margin-bottom:0"><a href="#casse-tetes">Ouvrir les casse-têtes</a></p></div>';
     }
+    // QCM : progression à part, par domaine (dernière tentative de chaque question)
+    if (P.qcm && P.qcm.toutes().length) {
+      const suiviQ = etat.qcm || {};
+      const parDom = {};
+      P.qcm.toutes().forEach(function (q) {
+        const d = P.qcm.domaine(q);
+        const x = parDom[d] || (parDom[d] = { total: 0, faites: 0, justes: 0 });
+        x.total += 1;
+        if (suiviQ[q.id]) { x.faites += 1; if (suiviQ[q.id].r) x.justes += 1; }
+      });
+      const nom = function (d) { return d === 'cours' ? 'Cours' : d === 'casse-tete' ? 'Casse-têtes' : A.nomTheme(d); };
+      html += '<div class="carte"><h2 style="margin-top:0">QCM</h2><p class="legende">Questions répondues et part de réponses justes à la dernière tentative. Progression séparée des révisions.</p>' +
+        ['cours'].concat(Object.keys(A.banque().themes || {})).filter(function (d) { return parDom[d]; }).map(function (d) {
+          const x = parDom[d];
+          return '<div class="theme-ligne"><span>' + o.echapper(nom(d)) + '</span><div class="barre"><span style="width:' + Math.round(100 * x.faites / x.total) + '%"></span></div>' +
+            '<span>' + x.faites + ' / ' + x.total + (x.faites ? ' · ' + Math.round(100 * x.justes / x.faites) + ' %' : '') + '</span></div>';
+        }).join('') + '<p style="margin-bottom:0"><a href="#qcm">Ouvrir le QCM</a></p></div>';
+    }
     html += '<div class="carte"><h2 style="margin-top:0">Activité (4 semaines)</h2><div class="histogramme" role="img" aria-label="Activité quotidienne">' +
       valeurs.map(function (v, i) {
         return '<span class="' + (v ? '' : 'vide') + '" style="height:' + Math.max(3, Math.round(100 * v / max)) + '%" title="' + o.dateLisible(jours[i]) + ' : ' + v + '"></span>';
       }).join('') + '</div><div class="axe">' + jours.map(function (j, i) { return '<span>' + (i % 7 === 0 || i === 27 ? j.slice(8) : '') + '</span>'; }).join('') + '</div>' +
-      '<p class="legende">Révisions + calcul (par dizaine) + entretiens blancs (×5) + parties de market making (×2).</p></div>';
+      '<p class="legende">Révisions + calcul (par dizaine) + QCM (par paire) + entretiens blancs (×5) + parties de market making (×2).</p></div>';
 
     const rates = toutes.filter(function (f) { const e = etat.cartes[f.id]; return e && e.rates > 0; })
       .sort(function (a, b) { return etat.cartes[b.id].rates - etat.cartes[a.id].rates; }).slice(0, 12);

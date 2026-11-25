@@ -1,0 +1,531 @@
+# QCM des fiches de probabilités (contenu/probas.txt). Sans « ? », la question est l'énoncé de la fiche.
+
+=== proba-deux-des-somme-7
++ $1/6$
+  6 couples ordonnés sur 36 : (1,6), (2,5), (3,4) et leurs symétriques.
+- $1/12$
+  On a compté 3 paires non ordonnées sur 36 issues ordonnées : il faut compter dans le même univers.
+- $1/11$
+  On a raisonné sur les 11 sommes possibles (2 à 12), qui ne sont pas équiprobables.
+- $5/36$
+  C'est la probabilité d'une somme de 6 ou de 8 ; 7 est la plus probable, avec 6 couples.
+
+=== proba-des-somme-7-sachant-un-6
++ $2/11$
+  11 couples contiennent au moins un 6 ($6 + 6 - 1$), dont 2 font 7 : (1,6) et (6,1).
+- $1/6$
+  Ce serait vrai si l'on savait que **le premier** dé montre 6 ; « au moins un » ne désigne pas un dé précis.
+- $2/12$
+  On a compté 12 couples avec un 6 en comptant deux fois (6,6).
+- $1/11$
+  On a oublié que (1,6) et (6,1) sont deux issues distinctes.
+
+=== proba-attente-premier-six
++ 6
+  Loi géométrique de paramètre $1/6$ : espérance $1/p = 6$.
+- 5
+  C'est le nombre moyen d'échecs **avant** le premier 6, pas le nombre de lancers.
+- 3,5
+  C'est la valeur moyenne d'un lancer, sans rapport avec le temps d'attente.
+- 4
+  Correspond à $\ln 2 / \ln(6/5) \approx 3{,}8$ : la **médiane** (50 % de chances d'avoir vu un 6), pas la moyenne.
+
+=== proba-toutes-les-faces
++ $14{,}7$
+  $6(1 + \frac12 + \dots + \frac16)$ : chaque nouvelle face coûte $6/(6 - k)$ lancers en moyenne.
+- 6
+  Il faudrait qu'aucune face ne se répète : les dernières faces sont de plus en plus longues à obtenir.
+- 21
+  C'est $1 + 2 + \dots + 6$ : on a additionné des attentes linéaires au lieu de $6/(6-k)$.
+- $36$
+  C'est $6^2$ : aucun raisonnement ne mène là, la croissance réelle est en $n \ln n$.
+
+=== proba-pile-pile
++ 6
+  États « rien » et « un pile » : $E = 2 + E_1$, $E_1 = 1 + E/2$, d'où $E = 6$.
+- 4
+  C'est l'attente de « pile puis face », où un pile de trop ne fait pas perdre la progression ; ici un face remet à zéro.
+- 2
+  On a confondu avec l'attente d'un seul pile.
+- 8
+  On a multiplié deux attentes ($2 \times 4$) : les états se combinent par un système linéaire, pas par un produit.
+
+=== proba-pile-face
++ 4
+  Un pile (2 lancers en moyenne), puis un face (2 de plus) ; un pile supplémentaire ne fait pas perdre la progression.
+- 6
+  C'est l'attente de PP : contrairement à PP, la séquence PF ne se « recouvre » pas avec elle-même.
+- 3
+  On a oublié qu'il faut en moyenne deux lancers pour chacune des deux étapes.
+- 8
+  On a cru que chaque erreur faisait repartir de zéro, ce qui n'est pas le cas après un pile.
+
+=== proba-pfp
++ 10
+  Les auto-recouvrements de PFP (le dernier P peut commencer une nouvelle séquence) donnent $2^3 + 2 = 10$.
+- 8
+  C'est $2^3$, valable pour une séquence sans recouvrement comme PPF.
+- 14
+  C'est l'attente de PPP, qui se recouvre encore davantage.
+- 6
+  C'est l'attente de PP, une séquence de longueur 2.
+
+=== proba-penney-ppf-pff
++ $2/3$
+  Une fois PP obtenu, PPF gagne sûrement ; PFF doit passer par l'état PF sans retomber sur un P.
+- $1/2$
+  Les deux séquences ont la même probabilité ($1/8$) mais pas la même chance d'apparaître **en premier**.
+- $3/4$
+  Surestimation : on suppose que PPF gagne dès le premier P ; or depuis « P », un F mène à « PF », d'où PFF gagne une fois sur deux.
+- $1/3$
+  C'est la probabilité de PFF : on a inversé les deux séquences.
+
+=== proba-premier-a-faire-six
++ $6/11$
+  $p = 1/6 + (25/36)p$ : avantage au premier joueur.
+- $1/2$
+  Le jeu n'est pas symétrique : A a une chance de gagner avant que B ne joue.
+- $1/6$
+  C'est seulement la probabilité que A gagne au premier lancer.
+- $5/11$
+  C'est la probabilité que **B** gagne.
+
+=== proba-deux-enfants
++ $1/3$
+  Restent GG, GF, FG, équiprobables : un seul cas sur trois est GG.
+- $1/2$
+  Juste si l'on savait que **l'aîné** est un garçon ; « au moins un » laisse trois cas.
+- $1/4$
+  C'est la probabilité a priori de GG, avant l'information.
+- $2/3$
+  C'est la probabilité d'avoir une fille, sachant qu'il y a au moins un garçon.
+
+=== proba-test-medical
++ $1/6 \approx 17\,\%$
+  99 vrais positifs contre 495 faux positifs sur 10 000 personnes.
+- $99\,\%$
+  On confond $\mathbb{P}(\text{positif} \mid \text{malade})$ et $\mathbb{P}(\text{malade} \mid \text{positif})$ : l'erreur du taux de base.
+- $95\,\%$
+  On a pris la spécificité du test pour la réponse, en oubliant la rareté de la maladie.
+- $1\,\%$
+  C'est la probabilité a priori : le test positif apporte pourtant de l'information.
+
+=== proba-monty-hall
++ $2/3$
+  Ta porte garde $1/3$ (le présentateur peut toujours ouvrir une porte vide) ; l'autre porte fermée récupère $2/3$.
+- $1/2$
+  Il ne reste que deux portes, mais elles ne sont pas symétriques : le présentateur a choisi en sachant.
+- $1/3$
+  C'est la probabilité de gagner en **gardant** sa porte.
+- Ça dépend de la porte ouverte
+  Avec un présentateur qui choisit au hasard entre deux chèvres, toutes les portes ouvertes donnent la même réponse.
+
+=== proba-baton-triangle
++ $1/4$
+  Les trois morceaux doivent être tous $< 1/2$ : un triangle d'aire $1/8$ dans un demi-carré d'aire $1/2$.
+- $1/2$
+  C'est la probabilité pour trois longueurs **indépendantes** uniformes, un modèle différent.
+- $2\ln 2 - 1$
+  C'est la réponse quand on casse d'abord en un point puis **le plus long** morceau.
+- $1/3$
+  Aucun calcul ne donne ce nombre : c'est une intuition « un cas favorable sur trois ».
+
+=== proba-baton-plus-long
++ $11/18$
+  $\frac13(1 + \frac12 + \frac13)$ ; avec le moyen ($5/18$) et le plus court ($1/9$), la somme fait 1.
+- $1/2$
+  Le plus long dépasse $1/3$ mais peut aller jusqu'à 1 ; sa moyenne n'a pas de raison d'être $1/2$.
+- $2/3$
+  C'est l'espérance du maximum de deux uniformes, un autre problème.
+- $3/4$
+  C'est la longueur moyenne du plus long morceau quand on casse en **un** seul point.
+
+=== proba-demi-cercle
++ $3/4$
+  Trois événements disjoints « le point $i$ ouvre un demi-cercle qui contient les autres », chacun de probabilité $1/4$.
+- $1/4$
+  C'est la probabilité qu'un point **donné** ouvre le demi-cercle ; il y a trois candidats.
+- $1/2$
+  Juste pour quatre points ($4/8$), pas trois.
+- $1/8$
+  On a demandé que les trois points tombent dans un demi-cercle **fixé** à l'avance.
+
+=== proba-max-deux-uniformes
++ $2/3$
+  $\mathbb{P}(\max \le x) = x^2$, densité $2x$, espérance $\int_0^1 2x^2\,dx$.
+- $1/2$
+  C'est l'espérance d'une seule uniforme : le maximum est forcément plus grand.
+- $3/4$
+  C'est l'espérance du max de **trois** uniformes ($n/(n+1)$).
+- $1/3$
+  C'est l'espérance du **minimum** de deux uniformes.
+
+=== proba-min-cinq-uniformes
++ $1/6$
+  Cinq points découpent $[0, 1]$ en six intervalles de même longueur moyenne.
+- $1/5$
+  On a divisé par le nombre de variables au lieu du nombre d'intervalles.
+- $5/6$
+  C'est l'espérance du **maximum** de cinq uniformes.
+- $1/32$
+  C'est $(1/2)^5$, la probabilité que les cinq soient sous $1/2$.
+
+=== proba-ecart-uniformes
++ $1/3$
+  $|U - V| = \max - \min$, et $\frac23 - \frac13 = \frac13$.
+- $1/2$
+  On a pris l'espérance d'une uniforme, comme si l'écart était uniforme sur $[0, 1]$ ; sa densité est $2(1 - d)$.
+- $1/4$
+  On a confondu avec $\mathbb{P}(|U - V| > 1/2)$.
+- $1/6$
+  C'est $\mathbb{E}[(U - V)^2]$, la variance de $U - V$ ($2 \times \frac1{12}$).
+
+=== proba-somme-uniformes-depasse-un
++ $e$
+  $\mathbb{P}(N > n) = 1/n!$ (volume du simplexe), et $\sum 1/n! = e$.
+- 2
+  Il faut au moins deux tirages, mais il en faut souvent trois ou plus.
+- $3$
+  C'est une estimation par excès ; la valeur exacte vaut $e \approx 2{,}718$.
+- $2{,}5$
+  Raisonnement par « somme moyenne $0{,}5$ par tirage » : il faut tenir compte du dépassement.
+
+=== proba-passager-avion
++ $1/2$
+  À chaque choix au hasard, la place du premier et celle du dernier sont symétriques : l'une des deux sera prise en premier.
+- $1/100$
+  C'est la probabilité que le premier passager prenne sa propre place par hasard.
+- $99/100$
+  On pense que le désordre se résorbe presque toujours ; il se propage au contraire jusqu'au bout.
+- $1/e$
+  On a pensé à un dérangement ; le processus ici n'est pas une permutation uniforme.
+
+=== proba-points-fixes
++ 1
+  Linéarité : 52 indicatrices d'espérance $1/52$, quel que soit le nombre de cartes.
+- $1/e$
+  C'est la probabilité qu'il n'y ait **aucun** point fixe, pas le nombre moyen.
+- 0
+  Les points fixes sont rares individuellement, mais il y en a 52 candidats.
+- $52/e$
+  On a mélangé espérance et probabilité de dérangement.
+
+=== proba-derangement
++ $1/e \approx 0{,}368$
+  Inclusion-exclusion : $\sum (-1)^k / k! \to e^{-1}$, déjà exact à $10^{-67}$ près pour 52 cartes.
+- $(51/52)^{52}$
+  On a supposé les événements « carte $i$ à sa place » indépendants ; la valeur est proche mais le raisonnement est faux.
+- $1/2$
+  Aucune symétrie ne donne $1/2$ ici.
+- Presque 0
+  On pense qu'avec 52 cartes une coïncidence est inévitable ; elle manque pourtant dans 37 % des cas.
+
+=== proba-anniversaires
++ $\approx 50{,}7\,\%$
+  Probabilité que tous diffèrent $\approx 0{,}4927$ ; il y a 253 paires de personnes.
+- $\approx 6\,\%$
+  On a calculé $23/365$, comme si l'on cherchait quelqu'un né le même jour que **toi**.
+- $\approx 25\,\%$
+  On a sous-estimé le nombre de paires : il croît comme $n^2$.
+- $\approx 90\,\%$
+  Il faut environ 41 personnes pour 90 %.
+
+=== proba-meme-anniversaire-que-moi
++ 253
+  $1 - (364/365)^n \ge 1/2$ demande $n \ge \ln 2 \times 364{,}5 \approx 252{,}7$.
+- 23
+  C'est la réponse quand **n'importe quelle paire** peut coïncider ; ici la coïncidence doit te concerner.
+- 183
+  C'est $365/2$ : on a supposé des anniversaires tous distincts, ce qui ignore les doublons entre les autres.
+- 365
+  Avec 365 personnes, la probabilité vaut déjà $\approx 63\,\%$.
+
+=== proba-de-avec-relance
++ $4{,}25$
+  On garde 4, 5 ou 6 (moyenne 5), on relance sinon (3,5) : $\frac12 \times 5 + \frac12 \times 3{,}5$.
+- $3{,}5$
+  C'est la valeur sans option : la relance a forcément une valeur positive.
+- 5
+  C'est la moyenne quand on garde, mais on ne garde que la moitié du temps.
+- $4{,}5$
+  On a gardé à partir de 3 ou mal pondéré : garder 3 est pire que relancer (3,5).
+
+=== proba-de-deux-relances
++ $14/3$
+  Au premier lancer, on garde 5 ou 6 (plus que 4,25) : $\frac13 \times 5{,}5 + \frac23 \times 4{,}25$.
+- $4{,}25$
+  C'est la valeur avec une seule relance.
+- 5
+  On a gardé 4 au premier lancer, alors que la suite du jeu vaut 4,25 > 4.
+- $4{,}5$
+  Erreur de seuil : il faut comparer chaque résultat à la valeur du jeu restant.
+
+=== proba-max-deux-des
++ $161/36$
+  $\mathbb{P}(\max = k) = (2k - 1)/36$ ; $\sum k(2k-1) = 161$.
+- $3{,}5$
+  C'est l'espérance d'un seul dé ; le max est forcément plus grand.
+- $91/36$
+  C'est l'espérance du **minimum** ; contrôle : $\min + \max = 7$ en moyenne.
+- 5
+  Valeur trop optimiste : le maximum vaut 6 seulement avec probabilité $11/36$.
+
+=== proba-premier-as
++ $53/5$
+  Les 48 autres cartes se répartissent également dans 5 intervalles : $48/5$ avant le premier as, plus l'as.
+- 13
+  C'est $52/4$ : la position moyenne d'un as quelconque ressemble à cela, pas celle du **premier**.
+- $48/5$
+  C'est le nombre de cartes **avant** le premier as, sans compter l'as lui-même.
+- $26{,}5$
+  C'est la position moyenne d'une carte donnée, pas du premier de quatre as.
+
+=== proba-ruine-equitable
++ $3/10$
+  Fortune martingale bornée : $3 = 10p$.
+- $1/2$
+  Le jeu est équitable à chaque tour, mais les deux barrières ne sont pas à la même distance.
+- $3/7$
+  On a rapporté la distance à 0 à la distance à 10 ($3/7$) au lieu de la distance totale.
+- $7/10$
+  C'est la probabilité de **ruine**.
+
+=== proba-duree-ruine
++ 21
+  $S_n^2 - n$ est une martingale : $\mathbb{E}[T] = k(N - k) = 3 \times 7$.
+- 10
+  On pense « 10 pas vers la plus loin des barrières » ; la marche hésite beaucoup.
+- 9
+  C'est $k^2$ : la formule correcte est $k(N - k)$, qui tient compte des deux barrières.
+- 30
+  C'est $\mathbb{E}[S_T^2]$, une étape intermédiaire du calcul.
+
+=== proba-ruine-biaisee
++ $9/13$
+  $r = q/p = 2/3$ et $P = 1/(1 + r^2)$ quand la cible est le double du départ.
+- $0{,}6$
+  On a pris la probabilité de gagner un tour pour celle de gagner la partie.
+- $1/2$
+  Le biais favorable compte : départ au milieu ne signifie pas une chance sur deux.
+- $0{,}6^2 = 0{,}36$
+  Gagner deux tours d'affilée n'est qu'une des façons d'atteindre 4.
+
+=== proba-polya
++ $1/3$
+  $\frac12 \times \frac23$ : le premier rouge ajoute une boule rouge.
+- $1/4$
+  On a supposé des tirages indépendants avec remise simple.
+- $1/2$
+  C'est la probabilité que le **premier** tirage soit rouge.
+- $2/3$
+  C'est la probabilité du second tirage rouge **sachant** le premier rouge.
+
+=== proba-correlation-trois
++ $-1/2$
+  $\operatorname{Var}(X + Y + Z) = 3 + 6\rho \ge 0$.
+- $-1$
+  Deux variables peuvent être corrélées à $-1$, mais pas trois deux à deux : la matrice ne serait pas positive.
+- 0
+  Des corrélations négatives sont possibles, jusqu'à $-1/2$.
+- $-1/3$
+  C'est la borne $-1/(n-1)$ pour $n = 4$ variables.
+
+=== proba-correlation-xz
++ $0{,}62$
+  $\rho_{XZ} \ge \rho_1\rho_2 - \sqrt{(1 - \rho_1^2)(1 - \rho_2^2)} = 0{,}81 - 0{,}19$.
+- $0{,}81$
+  C'est la valeur « typique » $\rho_1\rho_2$, quand les parties indépendantes sont non corrélées ; ce n'est pas le minimum.
+- $0{,}9$
+  La corrélation n'est pas transitive : rien n'impose $\rho_{XZ} \ge 0{,}9$.
+- $-1$
+  Impossible : avec deux corrélations de 0,9, $X$ et $Z$ restent fortement liées.
+
+=== proba-quadrant-normal
++ $1/3$
+  $\frac14 + \frac{\arcsin \rho}{2\pi} = \frac14 + \frac1{12}$.
+- $1/4$
+  Juste seulement si $\rho = 0$ (indépendance).
+- $3/8$
+  On a ajouté $\rho/4$, comme si la formule était linéaire en $\rho$.
+- $1/2$
+  Juste seulement si $\rho = 1$.
+
+=== proba-max-normales
++ $1/\sqrt{\pi} \approx 0{,}564$
+  $\mathbb{E}[\max] = \mathbb{E}|X - Y|/2$ avec $X - Y \sim \mathcal{N}(0, 2)$.
+- 0
+  Chaque variable est centrée, mais le maximum est biaisé vers le haut.
+- $\sqrt{2/\pi} \approx 0{,}798$
+  C'est $\mathbb{E}|X|$, ou $\mathbb{E}[X \mid X > 0]$ : il manque la division liée à $X - Y$.
+- $1/\sqrt{2\pi} \approx 0{,}399$
+  C'est $\varphi(0)$, une étape d'un autre calcul.
+
+=== proba-normale-positive
++ $\sqrt{2/\pi} \approx 0{,}798$
+  $\mathbb{E}[X\,\mathbf{1}_{X > 0}] = \varphi(0)$, divisé par $\mathbb{P}(X > 0) = 1/2$.
+- $1/\sqrt{2\pi} \approx 0{,}399$
+  On a oublié de diviser par $\mathbb{P}(X > 0)$ : c'est $\mathbb{E}[X^+]$.
+- $1/2$
+  C'est $\mathbb{P}(X > 0)$, pas une espérance conditionnelle.
+- 1
+  L'écart-type de $X$ ; la demi-normale a une moyenne plus faible.
+
+=== proba-bertrand-boites
++ $2/3$
+  Trois pièces d'or équiprobables, dont deux dans la boîte or-or.
+- $1/2$
+  Deux boîtes restent possibles, mais la boîte or-or a deux fois plus de chances de donner de l'or.
+- $1/3$
+  C'est la probabilité a priori de choisir la boîte or-or.
+- $3/4$
+  Aucun dénombrement ne donne 3 cas favorables sur 4 ici.
+
+=== proba-pieces-un-de-plus
++ $1/2$
+  A a soit plus de faces, soit plus de piles que B (exactement l'un des deux), et ces cas sont symétriques.
+- Un peu plus de $1/2$
+  L'intuition « une pièce de plus avantage A » est juste… mais l'égalité est comptée du côté perdant : exactement $1/2$.
+- $101/201$
+  On a pensé à une proportion de pièces ; la symétrie donne exactement $1/2$.
+- Environ $0{,}46$
+  On a retiré la probabilité d'égalité d'un calcul qui supposait 100 pièces chacun.
+
+=== proba-attente-bus
++ 10 minutes
+  Absence de mémoire : depuis n'importe quel instant, l'attente reste exponentielle de moyenne 10.
+- 5 minutes
+  Ce serait vrai pour des bus **réguliers** toutes les 10 minutes.
+- 20 minutes
+  C'est la durée moyenne de l'**intervalle** dans lequel on tombe (paradoxe de l'inspection), pas l'attente.
+- Ça dépend de l'heure du dernier bus
+  Un processus de Poisson n'a pas de mémoire : le passé ne change rien.
+
+=== proba-ampoules
++ $1{,}5$ an
+  Le minimum dure $1/2$ en moyenne, puis la survivante encore 1 an (absence de mémoire).
+- 1 an
+  C'est la durée moyenne d'une seule ampoule ; le maximum de deux est plus long.
+- 2 ans
+  On a additionné les deux durées comme si les ampoules s'allumaient l'une après l'autre.
+- $0{,}5$ an
+  C'est la durée avant la **première** panne.
+
+=== proba-premiere-rouge
++ $11/4$
+  Les 7 bleues se répartissent en 4 groupes de $7/4$ en moyenne : position $7/4 + 1$.
+- $5/2$
+  On a imaginé la première rouge « au milieu » des premiers tirages ; la formule est $(N + 1)/(r + 1)$.
+- $7/4$
+  C'est le nombre moyen de bleues **avant** la première rouge.
+- $10/3 \approx 3{,}33$ (tirage avec remise)
+  Avec remise, l'attente serait géométrique de moyenne $10/3$ ; sans remise, la rouge arrive plus tôt.
+
+=== proba-meme-couleur
++ $4/17$
+  La première carte est quelconque ; 12 cartes de sa couleur parmi les 51 restantes.
+- $1/4$
+  Ce serait vrai avec remise ; sans remise, il reste une carte de moins dans la bonne couleur.
+- $1/16$
+  On a demandé une couleur **précise** pour les deux cartes.
+- $13/51$
+  On a oublié que la première carte a déjà pris une place dans sa couleur.
+
+=== proba-poker-paire
++ $\approx 42{,}3\,\%$
+  $13\binom42\binom{12}{3}4^3$ mains sur $\binom{52}{5}$.
+- $\approx 21\,\%$
+  On a divisé par 2 en pensant compter chaque main deux fois ; le dénombrement $13\binom42\binom{12}{3}4^3$ ne compte qu'une fois.
+- $\approx 49\,\%$
+  On a oublié d'exclure les brelans et doubles paires, en comptant « au moins une paire ».
+- $\approx 4{,}75\,\%$
+  C'est la probabilité d'une **double paire**, une main bien plus rare qu'une paire simple.
+
+=== proba-trois-des-croissants
++ $5/54$
+  20 ensembles de trois valeurs distinctes, un seul ordre croissant chacun, sur 216.
+- $1/6$
+  C'est la proportion d'ordres croissants parmi les 6 ordres, oubliant que les valeurs doivent être distinctes.
+- $56/216$
+  On a compté les suites croissantes au sens large (égalités permises).
+- $5/27$
+  On a compté les suites croissantes **ou** décroissantes (40 sur 216).
+
+=== proba-de-carre
++ $91/6$
+  $\mathbb{E}[X^2] = (1 + 4 + 9 + 16 + 25 + 36)/6$.
+- $12{,}25$
+  C'est $\mathbb{E}[X]^2$ ; l'écart avec $\mathbb{E}[X^2]$ est la variance, $35/12$.
+- 7
+  C'est $2 \times 3{,}5$ : on a doublé au lieu d'élever au carré.
+- 18
+  C'est le milieu entre 1 et 36 : la moyenne des carrés n'est pas le carré du milieu.
+
+=== proba-produit-deux-des
++ $12{,}25$
+  Indépendance : $\mathbb{E}[XY] = \mathbb{E}[X]\mathbb{E}[Y] = 3{,}5^2$.
+- $91/6$
+  C'est $\mathbb{E}[X^2]$, le cas où les deux dés seraient le même.
+- 18
+  Le milieu entre 1 et 36 ne donne pas l'espérance du produit.
+- 12
+  On a pris le produit le plus « central » ; il faut l'espérance exacte.
+
+=== proba-piece-truquee-bayes
++ $32/41$
+  Cotes : a priori $1 : 9$, vraisemblance $32 : 1$, a posteriori $32 : 9$.
+- $1/10$
+  C'est l'a priori : 5 piles d'affilée sont une forte information.
+- $31/32$
+  C'est la probabilité qu'une pièce **normale** ne fasse pas 5 piles ; on a oublié l'a priori.
+- $32/33$
+  On a pris un a priori de $1 : 1$ au lieu de $1 : 9$.
+
+=== proba-premier-pile-pair
++ $1/3$
+  $\sum (1/4)^k = 1/3$, ou $p = \frac12(1 - p)$.
+- $1/2$
+  Les rangs pairs et impairs ne sont pas symétriques : le rang 1 est impair et très probable.
+- $1/4$
+  C'est seulement la probabilité que le premier pile arrive **au rang 2**.
+- $2/3$
+  C'est la probabilité d'un rang **impair**.
+
+=== proba-deux-six-consecutifs
++ 42
+  $E = 6 + E_1$ et $E_1 = 1 + \frac56 E$ ; formule $(1 + p)/p^2$.
+- 36
+  C'est $1/p^2$ : on oublie que l'échec après un 6 fait repartir de zéro.
+- 12
+  On a additionné deux attentes de 6 comme si les deux 6 pouvaient être séparés.
+- 72
+  On a doublé 36 sans raison.
+
+=== proba-variance-uniforme
++ $1/12$
+  $\mathbb{E}[U^2] - \mathbb{E}[U]^2 = \frac13 - \frac14$.
+- $1/4$
+  C'est $\mathbb{E}[U]^2$, pas la variance.
+- $1/3$
+  C'est $\mathbb{E}[U^2]$ : on a oublié de retirer le carré de la moyenne.
+- $1/\sqrt{12}$
+  C'est l'**écart-type**, pas la variance.
+
+=== proba-secretaire
++ $1/e \approx 37\,\%$
+  Seuil $x = 1/e$ maximisant $-x\ln x$ ; la probabilité ne tend pas vers 0.
+- Tend vers 0
+  On croit qu'avec beaucoup de candidats le meilleur est introuvable ; la règle du seuil garde 37 %.
+- $1/2$
+  Observer la moitié des candidats donne $\frac12 \ln 2 \approx 35\,\%$, pas $1/2$.
+- $1/n$
+  C'est le choix au hasard, sans stratégie.
+
+=== proba-esperance-somme-tirages-de
++ 21
+  Wald : $\mathbb{E}[N]\mathbb{E}[X] = 6 \times 3{,}5$ ; ou 5 lancers à 3 en moyenne plus le 6.
+- $23{,}5$
+  On a compté les 5 lancers avant le 6 à 3,5 chacun : ils valent 3, puisqu'on sait qu'ils ne sont pas des 6.
+- $17{,}5$
+  On a oublié le dernier lancer, le 6.
+- $15$
+  C'est la contribution des lancers avant le 6, sans le 6 final.

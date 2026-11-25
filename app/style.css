@@ -62,6 +62,7 @@ a:hover { color: var(--accent-fort); }
 ::selection { background: var(--accent-doux); }
 code, pre { font-family: var(--mono); font-size: .875em; }
 code { background: var(--surface-2); border: 1px solid var(--bord); padding: .05em .35em; border-radius: 5px; }
+:not(pre) > code { overflow-wrap: anywhere; }
 pre { background: var(--surface-2); border: 1px solid var(--bord); padding: 14px 16px; border-radius: var(--rayon-petit); overflow-x: auto; line-height: 1.5; }
 pre code { background: none; border: 0; padding: 0; }
 h1, h2, h3, h4 { line-height: 1.25; margin: 1.6em 0 .6em; font-weight: 650; letter-spacing: -.011em; color: var(--texte); }
@@ -766,7 +767,15 @@ article.guide { padding: 36px 44px; max-width: 52rem; line-height: 1.7; }
 .niveau-points i { width: 7px; height: 7px; border-radius: 50%; background: var(--bord-fort); }
 .niveau-points i.plein { background: var(--accent); }
 .titre-enigme { margin-bottom: 18px; }
-ul.variantes li { margin: 6px 0; }
+ul.liens-fiches { margin: 4px 0 12px; padding-left: 1.2em; }
+ul.liens-fiches li { margin: 4px 0; }
+.remarque-variante { margin: 10px 0 0; font-size: .9rem; color: var(--texte-doux); }
+.remarque-variante::before { content: "↳ "; color: var(--accent); }
+.liste-ct li.variante-ct a { padding-left: 42px; position: relative; }
+.liste-ct li.variante-ct a::before { content: ""; position: absolute; left: 22px; top: 0; bottom: 50%; width: 10px; border-left: 1.5px solid var(--bord-fort); border-bottom: 1.5px solid var(--bord-fort); border-bottom-left-radius: 4px; }
+.liste-ct li.variante-ct .titre-ct { font-weight: 500; }
+@media (max-width: 760px) { .liste-ct li.variante-ct a { padding-left: 34px; } .liste-ct li.variante-ct a::before { left: 14px; } }
+label.case-ct { display: inline-flex; align-items: center; gap: 6px; font-size: .9rem; color: var(--texte-doux); white-space: nowrap; }
 @media (max-width: 760px) {
   .liste-ct a { grid-template-columns: 1fr; grid-template-areas: "titre" "resume" "meta"; padding: 12px 14px; }
   .meta-ct { margin-top: 4px; }
@@ -782,3 +791,31 @@ ul.variantes li { margin: 6px 0; }
   .puces-ct { flex-wrap: nowrap; overflow-x: auto; margin-right: -14px; padding-bottom: 4px; scrollbar-width: none; }
   .puces-ct button { flex: none; }
 }
+
+/* --- QCM ------------------------------------------------------------------------------------------------------------ */
+.liste-qcm { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 10px; }
+.ligne-qcm { display: grid; grid-template-columns: 1fr auto; gap: 6px 12px; align-items: baseline; text-align: left; padding: 14px 16px;
+  background: var(--surface); border: 1px solid var(--bord); border-radius: var(--rayon); box-shadow: var(--ombre); color: var(--texte); font: inherit; cursor: pointer; }
+.ligne-qcm:hover { background: var(--surface-2); }
+.ligne-qcm .barre { grid-column: 1 / -1; }
+.nom-qcm { font-weight: 600; }
+.carte-qcm { margin-top: 14px; }
+.source-qcm { margin-bottom: 8px; }
+.choix-qcm { list-style: none; margin: 16px 0 6px; padding: 0; display: grid; gap: 10px; }
+.choix-qcm li { margin: 0; }
+.choix { display: flex; gap: 12px; align-items: flex-start; width: 100%; text-align: left; padding: 12px 14px; font: inherit; color: var(--texte);
+  background: var(--surface); border: 1px solid var(--bord-fort); border-radius: var(--rayon-petit); cursor: pointer; line-height: 1.5; }
+.choix:hover:not(:disabled) { background: var(--survol); border-color: var(--accent); }
+.choix:disabled { cursor: default; color: var(--texte); opacity: 1; }
+.choix:disabled .katex { color: inherit; }
+.choix .lettre { flex: none; width: 1.75em; height: 1.75em; border-radius: 50%; display: inline-grid; place-items: center; font-size: .8125rem; font-weight: 600;
+  background: var(--surface-2); border: 1px solid var(--bord); }
+.texte-choix { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.choix.bonne { border-color: var(--succes); background: var(--succes-doux); }
+.choix.bonne .lettre { background: var(--succes); border-color: var(--succes); color: #fff; }
+.choix.mauvaise { border-color: var(--erreur); background: var(--erreur-doux); }
+.choix.mauvaise .lettre { background: var(--erreur); border-color: var(--erreur); color: #fff; }
+.choix.autre { opacity: .85; }
+.pourquoi { margin: 6px 4px 0 calc(1.75em + 26px); font-size: .9rem; color: var(--texte-doux); line-height: 1.55; }
+.verdict-choix { font-weight: 600; color: var(--texte); }
+@media (max-width: 760px) { .pourquoi { margin-left: 8px; } }

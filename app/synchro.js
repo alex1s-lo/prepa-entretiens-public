@@ -6,14 +6,14 @@
 // ne voit que des données chiffrées ; la phrase de passe et le jeton restent dans le navigateur, hors de la progression.
 //
 // Fusion :
-// - éléments identifiés (cartes de révision, histoires, notes, cours, entretiens du journal, questions perso, réglages) :
+// - éléments identifiés (cartes de révision, QCM, histoires, notes, cours, entretiens du journal, questions perso, réglages) :
 //   chaque modification est horodatée à l'enregistrement (horodater) ; la plus récente gagne, une suppression aussi ;
 // - historiques (sessions de calcul, entretiens blancs, parties…) : réunion sans doublon ;
 // - activité par jour : maximum de chaque compteur (jamais de double comptage).
 (function (racine) {
   'use strict';
 
-  const OBJETS = ['cartes', 'histoires', 'notes', 'cours.exercices', 'cours.lus', 'cours.demos'];
+  const OBJETS = ['cartes', 'histoires', 'notes', 'qcm', 'cours.exercices', 'cours.lus', 'cours.demos'];
   const LISTES_ID = ['journal', 'perso'];
   const HISTORIQUES = ['calcul', 'marche', 'entretiens', 'tests', 'kelly'];
 

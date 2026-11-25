@@ -50,6 +50,7 @@ profils: mm hf banque
 type: numerique
 reponse: 14
 duree: 120
+voir: proba-pile-pile proba-deux-six-consecutifs
 --- question
 Combien de lancers d'une pièce équilibrée faut-il en moyenne pour obtenir trois « pile » consécutifs ?
 --- en
@@ -57,9 +58,6 @@ Expected number of fair coin flips to get three heads in a row?
 --- solution
 Même méthode que pour deux piles (états 0, 1, 2 piles consécutifs), ou formule $2^{n+1} - 2$ : **14**.
 Vérification avec les états : $E_{2} = 1 + E_{0}/2, E_{1} = 1 + E_{2}/2 + E_{0}/2, E_{0} = 1 + E_{1}/2 + E_{0}/2$ donne $E_{0} = 14$.
---- variantes
-- Deux piles consécutifs : 6 lancers en moyenne ; $k$ piles consécutifs : $2^{k+1} - 2$.
-- Deux 6 consécutifs avec un dé : 42 lancers en moyenne.
 
 === jeu-marche-aleatoire-sortie
 categorie: probas

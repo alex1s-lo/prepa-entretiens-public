@@ -12,10 +12,6 @@ On retire deux coins opposés d'un échiquier $8 \times 8$. Peut-on paver les 62
 Chaque domino couvre une case blanche et une case noire. De quelle couleur sont les deux coins retirés ?
 --- solution
 **Non**. Les deux coins opposés sont de la même couleur : il reste 32 cases d'une couleur et 30 de l'autre, alors que 31 dominos couvrent 31 cases de chaque couleur.
---- variantes
-- Retirer deux cases de couleurs **différentes**, n'importe où : le pavage est toujours possible (théorème de Gomory, par un circuit hamiltonien).
-- Paver un $10 \times 10$ avec des barres $1 \times 4$ : impossible, par un coloriage en 4 couleurs le long des diagonales (25 cases d'une couleur seraient à couvrir différemment).
-- Paver un $6 \times 6$ avec des triminos droits $1 \times 3$ : possible (12 triminos) ; avec un trou au centre d'un $5 \times 5$ : la position du trou se décide par coloriage modulo 3.
 
 === ct-cameleons
 theme: casse-tete
@@ -29,8 +25,6 @@ Sur une île vivent 13 caméléons gris, 15 bruns et 17 pourpres. Quand deux cam
 Regarde les différences des effectifs deux à deux, modulo 3.
 --- solution
 Une rencontre change les effectifs $(g, b, p)$ en $(g - 1, b - 1, p + 2)$ (ou permutations) : chaque différence varie de 0 ou de $\pm 3$. Les différences **modulo 3** sont invariantes. Au départ : $b - g = 2$, $p - b = 2$, $p - g = 4 \equiv 1$. Tous de la même couleur exigerait deux effectifs nuls, donc une différence $\equiv 0$ : aucune n'est multiple de 3. **Impossible**.
---- variantes
-- 13, 15, 16 : la différence $16 - 13 = 3$ est multiple de 3, et tous peuvent devenir bruns.
 
 === ct-poignees-impaires
 theme: casse-tete
@@ -57,9 +51,6 @@ Les nombres 1, 2, …, 10 sont écrits au tableau. À chaque étape, on efface d
 Que devient la parité de la somme des nombres au tableau ?
 --- solution
 $a + b$ et $|a - b|$ ont la même parité : la parité de la somme est invariante. Au départ, $1 + \dots + 10 = 55$ est impair ; le dernier nombre est donc impair : **jamais 0**.
---- variantes
-- On écrit $a + b + ab$ à la place : l'invariant est $\prod (1 + x_i)$, qui ne change pas ; avec 1 à 10, le dernier nombre vaut $11! - 1 = 39\,916\,799$, quel que soit l'ordre.
-- On écrit $a + b$ ou $a - b$ au choix : seule la parité est contrainte.
 
 === ct-puzzle-15
 theme: casse-tete
@@ -104,7 +95,4 @@ duree: 240
 Si l'on ne regarde pas les noms des fourmis, qu'est-ce qui change quand deux fourmis font demi-tour ?
 --- solution
 Deux fourmis qui se croisent et font demi-tour se comportent exactement comme si elles se traversaient (on échange juste leurs noms). Chaque « trajectoire » parcourt au plus 100 cm : **100 secondes** au pire.
---- variantes
-- Nombre total de rencontres : le nombre de paires (fourmi vers la droite à gauche d'une fourmi vers la gauche).
-- Fourmis sur un **cercle** : au bout d'un tour complet, la configuration des positions est la même, à une rotation des noms près.
-- Trois fourmis aux sommets d'un triangle, chacune part au hasard vers un voisin : probabilité de collision $1 - 2/8 = 3/4$.
+Sur un cercle, la même astuce montre qu'au bout d'un tour complet les positions occupées sont les mêmes, à une rotation des noms près.
