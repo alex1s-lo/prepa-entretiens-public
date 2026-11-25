@@ -198,6 +198,7 @@
       A.noterActivite('revues');
       if (n >= 2) A.noterActivite('justes');
       if (!avant) A.noterActivite('nouvelles');
+      if (A.son) A.son(n >= 2 ? 'juste' : n === 1 ? 'clic' : 'faux');
       A.sauver();
       racineEl.querySelectorAll('[data-note-val]').forEach(function (b) { b.disabled = true; });
       if (opt.onNote) opt.onNote(n, infos);

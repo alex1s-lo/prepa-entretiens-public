@@ -468,11 +468,21 @@ function verifier(cond, message) { if (!cond) throw new Error(message); }
   await naviguer('carriere', 'Carrière');
   verifier(!!(await page.$('.joueur .rang')), 'carrière : rang affiché');
   verifier((await page.$$('.quetes .quete')).length === 4, 'carrière : trois quêtes du jour et une de la semaine');
-  verifier((await page.$$('.grille-boss .boss')).length >= 10, 'carrière : épreuves par domaine');
+  verifier(!!(await page.$('[data-continuer]')), 'carrière : bouton Continuer');
+  verifier(!!(await page.$('.coffre')), 'carrière : coffre du jour');
+  await page.click('[data-onglet="competences"]');
   verifier((await page.$$('.grille-competences .competence')).length >= 30, 'carrière : arbre de compétences');
+  await page.click('[data-onglet="desk"]');
+  verifier(/100\s000/.test(await page.textContent('[data-contenu-onglet]')), 'carrière : capital du desk');
+  await page.click('[data-onglet="succes"]');
+  verifier((await page.$$('.pastille-couleur')).length >= 6, 'carrière : couleurs à débloquer');
+  await page.click('[data-onglet="epreuves"]');
+  verifier((await page.$$('.grille-boss .boss')).length >= 10, 'carrière : épreuves par domaine');
   const xpAvantBoss = await page.evaluate(() => window.Prepa.app.resultatJeu().total);
   await page.click('[data-boss="probas"]');
   await page.waitForSelector('[data-boss-go]');
+  verifier(!!(await page.$('[data-mise]')), 'épreuve : mise de Kelly proposée');
+  await page.fill('[data-mise]', '10');
   await page.click('[data-boss-go]');
   for (let k = 0; k < 12; k++) {
     await page.waitForSelector('.choix-qcm [data-choix]:not(.choisie)');
@@ -493,6 +503,7 @@ function verifier(cond, message) { if (!cond) throw new Error(message); }
   verifier((await page.$$('.correction-boss li')).length === 12, 'épreuve : correction complète');
   verifier((await page.evaluate(() => window.Prepa.app.etat.jeu.boss.probas.meilleur)) === 1, 'épreuve : score enregistré');
   verifier((await page.evaluate(() => window.Prepa.app.resultatJeu().total)) > xpAvantBoss, 'épreuve : XP gagnée');
+  verifier((await page.evaluate(() => window.Prepa.app.resultatJeu().desk.capital)) > 100000, 'épreuve : mise gagnée pour le desk');
   await naviguer('reglages', 'Réglages');
   await page.uncheck('#r-jeu');
   verifier(await page.evaluate(() => !window.Prepa.app.jeuActif()), 'mode carrière désactivable');

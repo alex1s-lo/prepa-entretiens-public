@@ -20,7 +20,7 @@
       histoires: {},     // id d'histoire -> texte
       perso: [],         // fiches ajoutées par toi (questions posées en vrai)
       notes: {},         // id de fiche -> note personnelle
-      jeu: { quetes: {}, boss: {}, succes: {} },  // mode carrière : quêtes accomplies, épreuves, succès (le reste est recalculé)
+      jeu: { quetes: {}, boss: {}, succes: {}, bonus: {}, coffres: {}, desk: {} },  // mode carrière : quêtes accomplies, épreuves, succès (le reste est recalculé)
       qcm: {},           // id de question de QCM -> { n tentatives, j justes, r dernière juste, d date } (à part des révisions)
       cours: { exercices: {}, lus: {}, demos: {} },  // exercices faits, chapitres lus, démonstrations maîtrisées
       reglages: { profils: ['hf', 'banque', 'mm'], nouveauxParJour: 15, anglais: false, theme: 'auto', niveauCalcul: 2 }
@@ -37,7 +37,7 @@
     ['calcul', 'marche', 'entretiens', 'tests', 'kelly', 'journal', 'perso'].forEach(function (k) { if (!Array.isArray(e[k])) e[k] = []; });
     ['cartes', 'jours', 'histoires', 'notes', 'qcm'].forEach(function (k) { if (!e[k] || typeof e[k] !== 'object') e[k] = {}; });
     if (!e.jeu || typeof e.jeu !== 'object') e.jeu = {};
-    ['quetes', 'boss', 'succes'].forEach(function (k) { if (!e.jeu[k] || typeof e.jeu[k] !== 'object') e.jeu[k] = {}; });
+    ['quetes', 'boss', 'succes', 'bonus', 'coffres', 'desk'].forEach(function (k) { if (!e.jeu[k] || typeof e.jeu[k] !== 'object') e.jeu[k] = {}; });
     if (!e.cours || typeof e.cours !== 'object') e.cours = {};
     if (!e.cours.exercices || typeof e.cours.exercices !== 'object') e.cours.exercices = {};
     if (!e.cours.lus || typeof e.cours.lus !== 'object') e.cours.lus = {};
@@ -91,8 +91,9 @@
       if (ev.type === 'xp') gainCumule += ev.xp;
       else if (ev.type === 'quete') forts.push('Quête accomplie : ' + ev.titre + ' (+' + ev.xp + ' XP)');
       else if (ev.type === 'succes') forts.push('Succès débloqué : ' + ev.titre);
-      else if (ev.type === 'niveau') forts.push('Niveau ' + ev.niveau + (ev.nouveauRang ? ' : nouveau rang, ' + ev.rang : ''));
+      else if (ev.type === 'niveau') setTimeout(function () { celebrer(ev); }, 350);
     });
+    if (forts.length) son(evenements.some(function (ev) { return ev.type === 'quete'; }) ? 'quete' : 'combo');
     if (gainCumule) {
       let g = document.getElementById('gain-xp');
       if (!g) { g = document.createElement('div'); g.id = 'gain-xp'; g.setAttribute('aria-hidden', 'true'); document.body.appendChild(g); }
@@ -320,7 +321,7 @@
   function rendreNavigation() {
     const nav = document.getElementById('navigation');
     const liste = Object.keys(vues).map(function (k) { return vues[k]; })
-      .filter(function (v) { return !v.cache; }).sort(function (a, b) { return a.ordre - b.ordre; });
+      .filter(function (v) { return !v.cache && (v.id !== 'carriere' || jeuActif()); }).sort(function (a, b) { return a.ordre - b.ordre; });
     const lien = function (v, classe) {
       const pastille = v.pastille ? v.pastille() : '';
       return '<a href="#' + v.id + '"' + (classe ? ' class="' + classe + '"' : '') + (vueCourante === v ? ' aria-current="page"' : '') +
@@ -471,6 +472,84 @@
     const t = etat.reglages.theme;
     if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
     else document.documentElement.removeAttribute('data-theme');
+    const c = etat.reglages.couleur;
+    if (c && c !== 'bleu' && jeuActif()) document.documentElement.setAttribute('data-couleur', c);
+    else document.documentElement.removeAttribute('data-couleur');
+  }
+
+  // --- Sons (Web Audio, synthétisés : aucun fichier à charger), désactivables dans les Réglages ---------------------
+  let audio = null;
+  const SONS = {
+    juste: [[660, 0, .09], [880, .07, .12]],
+    faux: [[220, 0, .16]],
+    combo: [[660, 0, .07], [880, .06, .07], [1100, .12, .12]],
+    quete: [[523, 0, .1], [659, .09, .1], [784, .18, .18]],
+    niveau: [[523, 0, .12], [659, .1, .12], [784, .2, .12], [1047, .3, .3]],
+    coffre: [[392, 0, .08], [523, .08, .08], [659, .16, .08], [784, .24, .08], [1047, .32, .28]],
+    clic: [[440, 0, .04]]
+  };
+  function son(nom) {
+    if (etat.reglages.sons === false || !jeuActif()) return;
+    try {
+      const AC = racine.AudioContext || racine.webkitAudioContext;
+      if (!AC) return;
+      audio = audio || new AC();
+      if (audio.state === 'suspended') audio.resume();
+      const t0 = audio.currentTime + 0.01;
+      (SONS[nom] || []).forEach(function (n) {
+        const osc = audio.createOscillator();
+        const g = audio.createGain();
+        osc.type = nom === 'faux' ? 'triangle' : 'sine';
+        osc.frequency.value = n[0];
+        g.gain.setValueAtTime(0.0001, t0 + n[1]);
+        g.gain.exponentialRampToValueAtTime(0.07, t0 + n[1] + 0.015);
+        g.gain.exponentialRampToValueAtTime(0.0001, t0 + n[1] + n[2]);
+        osc.connect(g); g.connect(audio.destination);
+        osc.start(t0 + n[1]); osc.stop(t0 + n[1] + n[2] + 0.02);
+      });
+    } catch (e) { /* sans son */ }
+  }
+
+  // --- Célébration d'un passage de niveau ---------------------------------------------------------------------------
+  function celebrer(ev) {
+    if (typeof document === 'undefined' || document.getElementById('celebration')) return;
+    son('niveau');
+    const couleur = (jeuDernier && jeuDernier.couleurs || []).filter(function (c) { return c.niveau === ev.niveau; })[0];
+    const d = document.createElement('div');
+    d.id = 'celebration';
+    d.setAttribute('role', 'dialog');
+    d.setAttribute('aria-label', 'Niveau ' + ev.niveau);
+    d.innerHTML = '<canvas></canvas><div class="celebration-carte"><span class="tete-partie">Niveau supérieur</span><div class="celebration-niveau">' + ev.niveau + '</div>' +
+      '<h2>' + (ev.nouveauRang ? 'Nouveau rang : ' + o.echapper(ev.rang) : o.echapper(ev.rang)) + '</h2>' +
+      (couleur ? '<p class="doux" style="margin:0">Couleur débloquée : ' + o.echapper(couleur.nom) + ' (Carrière → Style)</p>' : '') +
+      '<div class="ligne" style="margin-top:8px"><button class="principal" data-fermer>Continuer</button><a class="bouton" href="#carriere" data-fermer>Ma carrière</a></div></div>';
+    document.body.appendChild(d);
+    requestAnimationFrame(function () { d.classList.add('visible'); });
+    // non bloquante : elle ne prend pas le clavier et se ferme seule, pour ne jamais casser une session en cours
+    const fermer = function () { if (!d.isConnected) return; d.classList.remove('visible'); setTimeout(function () { d.remove(); }, 260); };
+    d.addEventListener('click', function (e) { if (e.target.closest('[data-fermer]')) fermer(); });
+    setTimeout(fermer, 3200);
+    // confettis (désactivés si l'on demande moins d'animations)
+    if (racine.matchMedia && racine.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const cv = d.querySelector('canvas');
+    const ctx = cv.getContext && cv.getContext('2d');
+    if (!ctx) return;
+    cv.width = racine.innerWidth; cv.height = racine.innerHeight;
+    const st = getComputedStyle(document.documentElement);
+    const teintes = [st.getPropertyValue('--accent'), st.getPropertyValue('--succes'), st.getPropertyValue('--alerte'), st.getPropertyValue('--accent-fort')].map(function (x) { return x.trim() || '#7ea2ff'; });
+    const parts = [];
+    for (let i = 0; i < 140; i++) parts.push({ x: cv.width / 2, y: cv.height * 0.42, vx: (Math.random() - 0.5) * 14, vy: -Math.random() * 13 - 3, r: 3 + Math.random() * 4, c: teintes[i % teintes.length], a: Math.random() * 6 });
+    const debut = Date.now();
+    (function tic() {
+      if (!d.isConnected || Date.now() - debut > 2200) return;
+      ctx.clearRect(0, 0, cv.width, cv.height);
+      parts.forEach(function (p) {
+        p.vy += 0.35; p.x += p.vx; p.y += p.vy; p.a += 0.15;
+        ctx.fillStyle = p.c;
+        ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.a); ctx.fillRect(-p.r, -p.r / 2, 2 * p.r, p.r); ctx.restore();
+      });
+      requestAnimationFrame(tic);
+    })();
   }
 
   // Raccourcis clavier : transmis à la vue courante (sauf pendant une saisie, à moins que la vue ne le demande).
@@ -518,7 +597,7 @@
     toast: toast, el: el, telecharger: telecharger, exporter: exporter, restreint: restreint, fenetre: fenetre,
     confirmer: confirmer, copier: copier, donnerTexte: donnerTexte, importer: importer, reinitialiser: reinitialiser,
     appliquerTheme: appliquerTheme, rendreNavigation: rendreNavigation, icone: icone, stockageOk: function () { return stockageOk; },
-    jeuActif: jeuActif, contexteJeu: contexteJeu, resultatJeu: resultatJeu, majJeu: majJeu,
+    jeuActif: jeuActif, contexteJeu: contexteJeu, resultatJeu: resultatJeu, majJeu: majJeu, son: son, celebrer: celebrer,
     synchroniser: synchroniser, configSynchro: configSynchro, ecrireConfigSynchro: ecrireConfigSynchro, synchroEtat: synchroEtat
   };
 })(this);

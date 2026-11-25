@@ -121,10 +121,12 @@
     if (rj) {
       const partXp = rj.seuilSuivant ? (rj.total - rj.seuilActuel) / (rj.seuilSuivant - rj.seuilActuel) : 1;
       const qf = rj.quetes.jour.filter(function (q) { return q.reussie; }).length;
-      html += ('<a class="carte bandeau-carriere" href="#carriere"><span class="bandeau-niveau">' + rj.niveau + '</span>' +
-        '<span class="bandeau-texte"><b>' + o.echapper(rj.rang) + '</b><span class="barre barre-xp"><span style="width:' + Math.round(100 * partXp) + '%"></span></span>' +
-        '<span class="legende">' + (rj.seuilSuivant ? (rj.seuilSuivant - rj.total).toLocaleString('fr-FR') + ' XP avant le niveau ' + (rj.niveau + 1) : 'Niveau maximal') + ' · quêtes du jour ' + qf + ' / ' + rj.quetes.jour.length + '</span></span>' +
-        '<span class="bandeau-quete">' + o.echapper((rj.quetes.jour.filter(function (q) { return !q.reussie; })[0] || { titre: 'Toutes les quêtes sont faites' }).titre) + '</span></a>');
+      const suite = rj.prochaine;
+      html += '<div class="carte bandeau-carriere"><a class="bandeau-niveau" href="#carriere" title="Ma carrière">' + rj.niveau + '</a>' +
+        '<a class="bandeau-texte" href="#carriere"><b>' + o.echapper(rj.rang) + '</b><span class="barre barre-xp"><span style="width:' + Math.round(100 * partXp) + '%"></span></span>' +
+        '<span class="legende">' + (rj.seuilSuivant ? (rj.seuilSuivant - rj.total).toLocaleString('fr-FR') + ' XP avant le niveau ' + (rj.niveau + 1) : 'Niveau maximal') + ' · quêtes ' + qf + ' / ' + rj.quetes.jour.length +
+        (rj.serie ? ' · série ' + rj.serie + ' j' : '') + '</span></a>' +
+        (suite ? '<a class="bouton principal continuer" href="' + suite.lien + '"><span class="continuer-libelle">Continuer</span><span class="continuer-titre">' + o.echapper(suite.titre) + '</span></a>' : '') + '</div>';
     }
     const restantes = taches.filter(function (t) { return !t.fait; }).length;
     const premiere = taches.filter(function (t) { return !t.fait; })[0];

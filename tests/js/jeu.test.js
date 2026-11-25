@@ -150,3 +150,53 @@ test('nettoyage : les vieilles quêtes sont archivées sans perdre d’XP', () =
   assert.equal(Object.keys(e.jeu.quetes).length, 2);
   assert.equal(J.calculer(e, ctx).xp.quetes, avant);
 });
+
+test('combos : bonus croissant, plafonné par jour, compté dans l’XP', () => {
+  const ctx = contexte();
+  const e = etatVide();
+  assert.equal(J.bonusCombo(2), 0);
+  assert.equal(J.bonusCombo(3), 1);
+  assert.equal(J.bonusCombo(5), 2);
+  assert.equal(J.bonusCombo(12), 3);
+  let total = 0;
+  for (let k = 0; k < 40; k++) total += J.ajouterBonus(e, JOUR, 3);
+  assert.equal(total, J.BAREME.comboMaxJour);
+  assert.equal(J.calculer(e, ctx).xp.recompenses, J.BAREME.comboMaxJour);
+});
+
+test('coffre du jour : fermé tant que les quêtes ne sont pas faites, récompense fixée par la date, ouvert une fois', () => {
+  const ctx = contexte();
+  const e = etatVide();
+  assert.equal(J.ouvrirCoffre(e, ctx), null);
+  assert.deepEqual(J.tirageCoffre(etatVide(), JOUR, 1), J.tirageCoffre(etatVide(), JOUR, 1));
+  // toutes les quêtes faites artificiellement
+  const r = J.calculer(e, ctx);
+  r.quetes.jour.forEach((q) => { e.jeu.quetes[q.cle] = q.xp; });
+  const t = J.ouvrirCoffre(e, ctx);
+  assert.ok(t && ['xp', 'joker', 'couleur'].indexOf(t.type) >= 0);
+  assert.deepEqual(J.ouvrirCoffre(e, ctx), t, 'on ne rouvre pas le coffre');
+  assert.ok(J.calculer(e, ctx).coffre.ouvert);
+});
+
+test('desk : la mise sur une épreuve gagne ou perd au seuil de victoire ; drawdown suivi', () => {
+  const ctx = contexte();
+  const e = etatVide();
+  J.enregistrerBoss(e, 'cours', 10, 12, JOUR, 20000, 'Le professeur');
+  J.enregistrerBoss(e, 'cours', 6, 12, JOUR, 30000, 'Le professeur');
+  const d = J.calculer(e, ctx).desk;
+  assert.equal(d.capital, 100000 + 20000 - 30000);
+  assert.ok(Math.abs(d.drawdownMax - 30000 / 120000) < 1e-12);
+  // estimation de victoire : bornée, et Kelly nul quand la victoire est improbable
+  const b = J.calculer(e, ctx).boss.filter((x) => x.id === 'cours')[0];
+  const est = J.estimationVictoire(etatVide(), ctx, b);
+  assert.ok(est.victoire >= 0 && est.victoire <= 1);
+  assert.equal(est.kelly, Math.max(0, 2 * est.victoire - 1));
+});
+
+test('prochaine action : la première quête non faite, puis le coffre', () => {
+  const ctx = contexte();
+  const e = etatVide();
+  assert.equal(J.calculer(e, ctx).prochaine.titre, 'Routine');
+  J.calculer(e, ctx).quetes.jour.forEach((q) => { e.jeu.quetes[q.cle] = q.xp; });
+  assert.equal(J.calculer(e, ctx).prochaine.titre, 'Ouvrir le coffre du jour');
+});

@@ -53,8 +53,22 @@
     quete: 30,
     queteHebdo: 100,
     toutesQuetes: 30,
-    boss: { bronze: 100, argent: 200, or: 350 }
+    boss: { bronze: 100, argent: 200, or: 350 },
+    comboMaxJour: 60,      // bonus de combo (bonnes réponses d'affilée au QCM), plafonné par jour
+    capitalDepart: 100000  // capital virtuel du desk
   };
+
+  // Couleurs d'accent débloquées avec les rangs (ou plus tôt par un coffre) : calmes en mode sombre.
+  const COULEURS = [
+    { id: 'bleu', nom: 'Bleu de marché', niveau: 1 },
+    { id: 'emeraude', nom: 'Émeraude', niveau: 4 },
+    { id: 'violet', nom: 'Violet', niveau: 8 },
+    { id: 'ambre', nom: 'Ambre', niveau: 12 },
+    { id: 'rubis', nom: 'Rubis', niveau: 17 },
+    { id: 'sarcelle', nom: 'Sarcelle', niveau: 22 },
+    { id: 'graphite', nom: 'Graphite', niveau: 27 },
+    { id: 'or', nom: 'Or du desk', niveau: 32 }
+  ];
 
   // --- Outils -----------------------------------------------------------------------------------------------------
   function moyenne(l) { return l.length ? l.reduce(function (s, x) { return s + x; }, 0) / l.length : 0; }
@@ -76,7 +90,7 @@
   }
   function etatJeu(etat) {
     const j = etat.jeu && typeof etat.jeu === 'object' ? etat.jeu : (etat.jeu = {});
-    ['quetes', 'boss', 'succes'].forEach(function (k) { if (!j[k] || typeof j[k] !== 'object') j[k] = {}; });
+    ['quetes', 'boss', 'succes', 'bonus', 'coffres', 'desk'].forEach(function (k) { if (!j[k] || typeof j[k] !== 'object') j[k] = {}; });
     return j;
   }
   function exerciceReussi(rec) {
@@ -140,7 +154,7 @@
     ctx.qcm.forEach(function (q) { (qcmParCible[q.cible] = qcmParCible[q.cible] || []).push(q); });
 
     // XP par source
-    const xp = { fiches: 0, qcm: 0, cours: 0, entrainement: 0, carriere: 0, quetes: 0, boss: 0 };
+    const xp = { fiches: 0, qcm: 0, cours: 0, entrainement: 0, carriere: 0, quetes: 0, boss: 0, recompenses: 0 };
     let fichesVues = 0, fichesMaitrisees = 0;
     ctx.fiches.forEach(function (f) {
       const c = cartes[f.id];
@@ -179,6 +193,8 @@
       const m = medaille(jeu.boss[k].meilleur || 0);
       if (m) xp.boss += BAREME.boss[m];
     });
+    Object.keys(jeu.bonus).forEach(function (k) { xp.recompenses += Math.min(BAREME.comboMaxJour, Number(jeu.bonus[k]) || 0); });
+    Object.keys(jeu.coffres).forEach(function (k) { const c = jeu.coffres[k]; if (c && c.type === 'xp') xp.recompenses += Number(c.valeur) || 0; });
     Object.keys(xp).forEach(function (k) { xp[k] = Math.round(xp[k]); });
     const total = Object.keys(xp).reduce(function (s, k) { return s + xp[k]; }, 0);
     const niveau = niveauDe(total);
@@ -233,7 +249,11 @@
     };
     res.quetes = quetes(etat, ctx, res);
     res.boss = listeBoss(etat, ctx);
+    res.desk = desk(etat);
     res.succes = succes(etat, ctx, res);
+    res.couleurs = couleurs(etat, res.niveau);
+    res.coffre = coffreDuJour(etat, jour, res);
+    res.prochaine = prochaineAction(res);
     return res;
   }
 
@@ -249,9 +269,11 @@
     if (!jours.length) return { serie: 0, jokers: 0, utilises: 0, meilleure: 0 };
     let n = 0, jokers = 0, utilises = 0, affilee = 0, meilleure = 0;
     for (let j = jours[0]; j <= jour; j = ajouterJours(j, 1)) {
+      const coffre = etat.jeu && etat.jeu.coffres && etat.jeu.coffres[j];
+      if (coffre && coffre.type === 'joker') jokers = Math.min(3, jokers + 1);
       if (actif(etat, j)) {
         n++; affilee++;
-        if (affilee % 7 === 0) jokers = Math.min(2, jokers + 1);
+        if (affilee % 7 === 0) jokers = Math.min(Math.max(2, jokers), jokers + 1);
       } else if (j !== jour) {
         affilee = 0;
         if (n > 0 && jokers > 0) { jokers--; utilises++; } else { n = 0; utilises = 0; }
@@ -365,9 +387,14 @@
     return liste;
   }
   // Enregistre le résultat d'une épreuve ; renvoie la médaille obtenue (ou null).
-  function enregistrerBoss(etat, id, justes, total, jour) {
+  function enregistrerBoss(etat, id, justes, total, jour, mise, nom) {
     const jeu = etatJeu(etat);
     const score = total ? justes / total : 0;
+    if (mise > 0) {
+      const gagne = score >= (id === 'final' ? 0.8 : 0.75);
+      const cle = 'boss-' + id + '-' + jour + '-' + Object.keys(jeu.desk).length;
+      jeu.desk[cle] = { date: jour, montant: gagne ? Math.round(mise) : -Math.round(mise), libelle: 'Mise sur l’épreuve ' + (nom || id) + (gagne ? ' (gagnée)' : ' (perdue)') };
+    }
     const x = jeu.boss[id] || { meilleur: 0, tentatives: 0 };
     jeu.boss[id] = { meilleur: Math.max(x.meilleur || 0, score), tentatives: (x.tentatives || 0) + 1, dernierScore: score, dernierJour: jour,
       premiere: x.premiere || jour };
@@ -407,7 +434,12 @@
     { id: 'niveau-10', titre: 'Dix niveaux', desc: 'Atteindre le niveau 10.', test: function (s, r) { return r.niveau >= 10; } },
     { id: 'niveau-25', titre: 'Vétéran', desc: 'Atteindre le niveau 25.', test: function (s, r) { return r.niveau >= 25; } },
     { id: 'legende', titre: 'Légende du desk', desc: 'Atteindre le niveau 40.', test: function (s, r) { return r.niveau >= 40; } },
+    { id: 'combo-10', titre: 'En feu', desc: 'Un combo de 10 bonnes réponses au QCM.', test: function (s, r, etat) { return ((etat.jeu || {}).meilleurCombo || 0) >= 10; } },
+    { id: 'coffres-7', titre: 'Chasseur de coffres', desc: '7 coffres du jour ouverts.', test: function (s, r, etat) { return Object.keys((etat.jeu || {}).coffres || {}).length >= 7; } },
+    { id: 'desk-plus', titre: 'Desk dans le vert', desc: 'Capital du desk au-dessus de 110 000 €.', test: function (s, r) { return r.desk && r.desk.capital >= 110000; } },
     // succès cachés
+    { id: 'kelly-sage', titre: 'Disciple de Kelly', cache: true, desc: 'Gagner une mise sur une épreuve en misant moins de 25 % du capital.',
+      test: function (s, r, etat) { const d = (etat.jeu || {}).desk || {}; return Object.keys(d).some(function (k) { return d[k].montant > 0 && d[k].montant < 25000 && k.indexOf('boss-') === 0; }); } },
     { id: 'curieux', titre: 'Curieux', cache: true, desc: 'Explorer une variante avant son problème d’origine.',
       test: function (s, r, etat, ctx) {
         const c = etat.cartes || {};
@@ -428,6 +460,101 @@
       try { ok = !!x.test(res.stats, res, etat, ctx); } catch (e) { ok = false; }
       return { id: x.id, titre: x.titre, desc: x.desc, cache: !!x.cache, obtenu: ok || !!jeu.succes[x.id], date: jeu.succes[x.id] || null, nouveau: ok && !jeu.succes[x.id] };
     });
+  }
+
+  // --- Combos : bonnes réponses d'affilée au QCM ------------------------------------------------------------------------
+  // Bonus par bonne réponse selon la longueur du combo (3 et plus : +1, 5 et plus : +2, 10 et plus : +3), plafonné par jour.
+  function bonusCombo(combo) { return combo >= 10 ? 3 : combo >= 5 ? 2 : combo >= 3 ? 1 : 0; }
+  function ajouterBonus(etat, jour, n) {
+    const jeu = etatJeu(etat);
+    const avant = Number(jeu.bonus[jour]) || 0;
+    const apres = Math.min(BAREME.comboMaxJour, avant + n);
+    jeu.bonus[jour] = apres;
+    return apres - avant;
+  }
+
+  // --- Couleurs ---------------------------------------------------------------------------------------------------
+  function couleurs(etat, niveau) {
+    const jeu = etatJeu(etat);
+    const parCoffre = {};
+    Object.keys(jeu.coffres).forEach(function (k) { const c = jeu.coffres[k]; if (c && c.type === 'couleur') parCoffre[c.valeur] = true; });
+    return COULEURS.map(function (c) { return { id: c.id, nom: c.nom, niveau: c.niveau, debloquee: niveau >= c.niveau || !!parCoffre[c.id] }; });
+  }
+
+  // --- Coffre du jour : s'ouvre quand toutes les quêtes du jour sont faites ; récompense fixée par la date --------------
+  function coffreDuJour(etat, jour, res) {
+    const jeu = etatJeu(etat);
+    const ouvert = jeu.coffres[jour] || null;
+    const disponible = res.quetes.bonus.reussie;
+    return { disponible: disponible, ouvert: ouvert, jour: jour };
+  }
+  function tirageCoffre(etat, jour, niveau) {
+    const h = graine('coffre' + jour);
+    const r = h % 10;
+    if (r >= 7) {
+      const verrouillee = couleurs(etat, niveau).filter(function (c) { return !c.debloquee; })[0];
+      if (verrouillee) return { type: 'couleur', valeur: verrouillee.id, titre: 'Nouvelle couleur : ' + verrouillee.nom };
+    }
+    if (r >= 5) return { type: 'joker', valeur: 1, titre: 'Un joker de série' };
+    const xp = 40 + 10 * (Math.floor(h / 10) % 9);
+    return { type: 'xp', valeur: xp, titre: '+' + xp + ' XP' };
+  }
+  function ouvrirCoffre(etat, ctx) {
+    const jeu = etatJeu(etat);
+    const r = calculer(etat, ctx);
+    if (!r.coffre.disponible || jeu.coffres[ctx.jour]) return jeu.coffres[ctx.jour] || null;
+    const t = tirageCoffre(etat, ctx.jour, r.niveau);
+    jeu.coffres[ctx.jour] = t;
+    return t;
+  }
+
+  // --- Desk : capital virtuel ----------------------------------------------------------------------------------------
+  // Mouvements : mises sur les épreuves (pari à 1 contre 1 sur la victoire, à 75 %) et parties de market making.
+  function desk(etat) {
+    const jeu = etatJeu(etat);
+    const mouvements = [];
+    Object.keys(jeu.desk).forEach(function (k) { const m = jeu.desk[k]; if (m) mouvements.push({ date: m.date, montant: m.montant, libelle: m.libelle, cle: k }); });
+    (etat.marche || []).forEach(function (m, i) {
+      if (typeof m.pnl === 'number') mouvements.push({ date: m.date, montant: Math.round(100 * m.pnl), libelle: 'Market making (' + (m.jeu || 'partie') + ')', cle: 'marche' + i });
+    });
+    mouvements.sort(function (a, b) { return a.date < b.date ? -1 : a.date > b.date ? 1 : a.cle < b.cle ? -1 : 1; });
+    let c = BAREME.capitalDepart, sommet = c, pire = 0;
+    const courbe = [c];
+    mouvements.forEach(function (m) {
+      c += m.montant;
+      courbe.push(c);
+      sommet = Math.max(sommet, c);
+      pire = Math.max(pire, sommet > 0 ? (sommet - c) / sommet : 0);
+    });
+    return { capital: c, depart: BAREME.capitalDepart, performance: c / BAREME.capitalDepart - 1, drawdownMax: pire, courbe: courbe, mouvements: mouvements };
+  }
+  // Probabilité estimée de victoire à une épreuve : précision passée sur le domaine (avec un a priori de 2 justes sur 4),
+  // puis loi binomiale pour atteindre le seuil. Sert à afficher la mise de Kelly f* = 2p - 1 (pari à 1 contre 1).
+  function estimationVictoire(etat, ctx, boss) {
+    const suiviQcm = etat.qcm || {};
+    let n = 6, j = 3;   // a priori : 3 justes sur 6, pour ne pas surestimer après quelques réponses
+    ctx.qcm.forEach(function (q) {
+      if (!boss.final && ctx.domaine(q) !== boss.domaine) return;
+      const s = suiviQcm[q.id];
+      if (s) { n += 1; j += s.r ? 1 : 0; }
+    });
+    const p = j / n;
+    const k = Math.ceil(boss.seuilVictoire * boss.questions);
+    let proba = 0;
+    for (let x = k; x <= boss.questions; x++) proba += comb(boss.questions, x) * Math.pow(p, x) * Math.pow(1 - p, boss.questions - x);
+    return { precision: p, victoire: proba, kelly: Math.max(0, 2 * proba - 1) };
+  }
+  function comb(n, k) { let r = 1; for (let i = 1; i <= k; i++) r = r * (n - k + i) / i; return r; }
+
+  // --- Prochaine action (le bouton « Continuer ») ---------------------------------------------------------------------
+  function prochaineAction(res) {
+    const q = res.quetes.jour.filter(function (x) { return !x.reussie; })[0];
+    if (q) return { titre: q.titre, detail: q.detail + ' · ' + Math.min(q.fait, q.cible) + ' / ' + q.cible, lien: q.lien, xp: q.xp };
+    if (res.coffre.disponible && !res.coffre.ouvert) return { titre: 'Ouvrir le coffre du jour', detail: 'Toutes les quêtes sont faites', lien: '#carriere', xp: null };
+    if (!res.quetes.semaine.reussie) return { titre: res.quetes.semaine.titre, detail: res.quetes.semaine.detail, lien: res.quetes.semaine.lien, xp: res.quetes.semaine.xp };
+    const b = res.boss.filter(function (x) { return !x.vaincu && !x.final; }).sort(function (a, c) { return c.meilleur - a.meilleur; })[0];
+    if (b) return { titre: 'Épreuve : ' + b.nom, detail: b.tentatives ? 'Record ' + Math.round(100 * b.meilleur) + ' % : la victoire est à 75 %' : 'Jamais affrontée', lien: '#qcm/boss=' + encodeURIComponent(b.id), xp: null };
+    return { titre: 'Session de QCM', detail: '10 questions, en commençant par tes erreurs', lien: '#qcm', xp: null };
   }
 
   // --- Mise à jour à l'enregistrement --------------------------------------------------------------------------------
@@ -470,7 +597,8 @@
   const api = {
     BAREME: BAREME, RANGS: RANGS, NIVEAU_MAX: NIVEAU_MAX, PALIERS: PALIERS, seuil: seuil, niveauDe: niveauDe, rangDe: rangDe,
     calculer: calculer, serie: serie, medaille: medaille, enregistrerBoss: enregistrerBoss, mettreAJour: mettreAJour,
-    compacter: compacter, lundi: lundi, SUCCES: SUCCES
+    compacter: compacter, lundi: lundi, SUCCES: SUCCES, COULEURS: COULEURS, bonusCombo: bonusCombo, ajouterBonus: ajouterBonus,
+    ouvrirCoffre: ouvrirCoffre, tirageCoffre: tirageCoffre, desk: desk, estimationVictoire: estimationVictoire, prochaineAction: prochaineAction
   };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else { racine.Prepa = racine.Prepa || {}; racine.Prepa.jeu = api; }

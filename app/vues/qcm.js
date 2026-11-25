@@ -122,6 +122,14 @@
     if (!liste.length) { A.aller('qcm'); return; }
     const resultats = [];
     let rang = 0;
+    let combo = 0;          // bonnes réponses d'affilée dans la session
+    let bonusSession = 0;   // XP de combo gagnée dans la session
+    const jeu = A.jeuActif() && P.jeu;
+    const libelleCombo = function () {
+      if (!jeu || combo < 2) return '';
+      const b = P.jeu.bonusCombo(combo + 1);
+      return '<span class="combo' + (combo >= 5 ? ' chaud' : '') + '" title="Bonnes réponses d’affilée">Combo ×' + combo + (b ? ' · prochaine +' + b + ' XP' : '') + '</span>';
+    };
 
     function question() {
       const q = liste[rang];
@@ -129,7 +137,7 @@
       let repondu = false;
       main.innerHTML = '<p class="petit"><a href="#qcm">← QCM</a></p>' +
         '<div class="ligne petit doux" style="margin-bottom:6px"><span>Question ' + (rang + 1) + ' sur ' + liste.length + '</span><span class="espace"></span>' +
-        '<span>' + resultats.filter(Boolean).length + ' juste' + (resultats.filter(Boolean).length > 1 ? 's' : '') + '</span></div>' +
+        '<span data-combo>' + libelleCombo() + '</span><span>' + resultats.filter(Boolean).length + ' juste' + (resultats.filter(Boolean).length > 1 ? 's' : '') + '</span></div>' +
         barre(rang / liste.length) +
         '<section class="carte carte-qcm"><div class="petit doux source-qcm">' + source(q) + '</div>' +
         '<div class="question">' + o.markdown(enonce(q)) + '</div>' +
@@ -145,9 +153,19 @@
         resultats.push(juste);
         const s = suivi();
         const prec = s[q.id] || { n: 0, j: 0 };
+        const dejaJusteAujourdhui = !!(prec.r && prec.d === A.aujourdhui());
         s[q.id] = { n: prec.n + 1, j: prec.j + (juste ? 1 : 0), r: juste, d: A.aujourdhui() };
         A.noterActivite('qcm');
+        if (juste) {
+          combo += 1;
+          // le combo ne paie que sur une question pas déjà réussie aujourd'hui (pas de farming)
+          if (jeu && !dejaJusteAujourdhui) bonusSession += P.jeu.ajouterBonus(A.etat, A.aujourdhui(), P.jeu.bonusCombo(combo));
+          if (jeu) A.etat.jeu.meilleurCombo = Math.max(A.etat.jeu.meilleurCombo || 0, combo);
+        } else combo = 0;
+        A.son(juste ? (combo >= 3 ? 'combo' : 'juste') : 'faux');
         A.sauver();
+        const zc = main.querySelector('[data-combo]');
+        if (zc) zc.innerHTML = libelleCombo();
         main.querySelectorAll('[data-choix]').forEach(function (b) {
           const k = Number(b.getAttribute('data-choix'));
           const c = q.choix[k];
@@ -191,15 +209,26 @@
       controle = null;
       const n = resultats.filter(Boolean).length;
       const ratees = liste.filter(function (q, i) { return !resultats[i]; });
+      // en mode carrière : où en sont les quêtes, et la suite en un clic
+      const rj = jeu ? A.resultatJeu() : null;
+      const quetes = rj ? rj.quetes.jour.concat([rj.quetes.semaine]) : [];
       main.innerHTML = '<p class="petit"><a href="#qcm">← QCM</a></p><h1>Bilan</h1>' +
         '<div class="carte"><div class="chiffre">' + n + ' / ' + liste.length + '</div><div class="legende">' +
-        (n === liste.length ? 'Sans faute.' : n >= liste.length * 0.7 ? 'Solide : relis les pièges qui t’ont eu.' : 'Les questions ratées reviendront en priorité dans tes prochaines sessions.') + '</div></div>' +
+        (n === liste.length ? 'Sans faute.' : n >= liste.length * 0.7 ? 'Solide : relis les pièges qui t’ont eu.' : 'Les questions ratées reviendront en priorité dans tes prochaines sessions.') +
+        (bonusSession ? ' Bonus de combo : +' + bonusSession + ' XP.' : '') + '</div></div>' +
+        (rj ? '<div class="carte"><div class="ligne"><h2 style="margin:0">Quêtes</h2><span class="espace"></span><span class="legende">Niveau ' + rj.niveau + ' · ' +
+          (rj.seuilSuivant ? (rj.seuilSuivant - rj.total) + ' XP avant le suivant' : 'niveau maximal') + '</span></div><ul class="quetes-mini">' + quetes.map(function (x) {
+            return '<li class="' + (x.reussie ? 'reussie' : '') + '"><span>' + (x.reussie ? '✓ ' : '') + o.echapper(x.titre) + '</span>' + barre(Math.min(1, x.fait / x.cible)) +
+              '<span class="legende">' + Math.min(x.fait, x.cible) + ' / ' + x.cible + '</span></li>';
+          }).join('') + '</ul>' + (rj.prochaine ? '<p class="petit" style="margin-bottom:0">Ensuite : <a href="' + rj.prochaine.lien + '">' + o.echapper(rj.prochaine.titre) + '</a></p>' : '') + '</div>' : '') +
         (ratees.length ? '<h2>À revoir</h2><ul class="liens-fiches">' + ratees.map(function (q) {
           return '<li>' + o.echapper(o.resume(o.sansTex(enonce(q)), 110)) + ' · ' + source(q) + '</li>';
         }).join('') + '</ul>' : '') +
         '<div class="ligne" style="margin-top:16px">' +
-        (ratees.length ? '<button class="principal" data-qcm-refaire>Refaire mes erreurs</button>' : '') +
-        '<button' + (ratees.length ? '' : ' class="principal"') + ' data-qcm-autre>Nouvelle session</button><a class="bouton" href="#qcm">Retour au QCM</a></div>';
+        '<button class="principal" data-qcm-autre>Encore 10 <kbd>Entrée</kbd></button>' +
+        (ratees.length ? '<button data-qcm-refaire>Refaire mes erreurs</button>' : '') +
+        '<a class="bouton" href="#qcm">Retour au QCM</a></div>';
+      controle = { touche: function (e, saisie) { if (!saisie && e.key === 'Enter') { main.querySelector('[data-qcm-autre]').click(); return true; } return false; } };
       const r = main.querySelector('[data-qcm-refaire]');
       if (r) r.addEventListener('click', function () { lancer(o.melanger(Math.random, ratees)); });
       main.querySelector('[data-qcm-autre]').addEventListener('click', function () {
@@ -249,12 +278,31 @@
     main.innerHTML = '<p class="petit"><a href="#carriere">← Carrière</a></p><p class="tete-partie">Épreuve</p><h1>' + o.echapper(b.nom) + '</h1>' +
       '<div class="carte"><p>' + b.questions + ' questions sur ' + o.echapper(dom) + ', ' + Math.round(b.duree / 60) + ' minutes en tout. ' +
       'Pas d’explication pendant l’épreuve : tu les verras toutes à la fin, comme après un vrai test en ligne.</p>' +
-      '<p class="legende">Bronze à 60 %, argent à 75 % (victoire), or à 90 %. ' + (b.tentatives ? 'Ton record : ' + Math.round(100 * b.meilleur) + ' %.' : 'Première tentative.') + '</p>' +
-      '<div class="ligne"><button class="principal" data-boss-go>Commencer l’épreuve <kbd>Entrée</kbd></button></div></div>';
-    controle = { touche: function (e, saisie) { if (!saisie && e.key === 'Enter') { lancerBoss(main, b); return true; } return false; } };
-    main.querySelector('[data-boss-go]').addEventListener('click', function () { lancerBoss(main, b); });
+      '<p class="legende">Bronze à 60 %, argent à ' + Math.round(100 * b.seuilVictoire) + ' % (victoire), or à 90 %. ' + (b.tentatives ? 'Ton record : ' + Math.round(100 * b.meilleur) + ' %.' : 'Première tentative.') + '</p></div>' +
+      blocMise(r, b) +
+      '<div class="ligne"><button class="principal" data-boss-go>Commencer l’épreuve <kbd>Entrée</kbd></button></div>';
+    const lire = function () { const el = main.querySelector('[data-mise]'); return el ? Math.round(r.desk.capital * Number(el.value) / 100) : 0; };
+    const curseur = main.querySelector('[data-mise]');
+    if (curseur) curseur.addEventListener('input', function () {
+      main.querySelector('[data-mise-texte]').textContent = Number(curseur.value) ? curseur.value + ' % du capital, soit ' + lire().toLocaleString('fr-FR') + ' €' : 'aucune mise';
+    });
+    const go = function () { lancerBoss(main, b, Math.max(0, lire())); };
+    controle = { touche: function (e, saisie) { if (!saisie && e.key === 'Enter') { go(); return true; } return false; } };
+    main.querySelector('[data-boss-go]').addEventListener('click', go);
   }
-  function lancerBoss(main, b) {
+  // Mise du desk sur sa propre victoire, à 1 contre 1 : la mise de Kelly f* = 2p − 1 est affichée, avec p estimée.
+  function blocMise(r, b) {
+    if (!r.desk || r.desk.capital <= 0) return '';
+    const est = P.jeu.estimationVictoire(A.etat, A.contexteJeu(), b);
+    const kelly = Math.round(100 * est.kelly);
+    return '<div class="carte mise-desk"><div class="ligne"><h2 style="margin:0">Miser sur ta victoire</h2><span class="espace"></span>' +
+      '<span class="legende">Capital du desk : ' + r.desk.capital.toLocaleString('fr-FR') + ' €</span></div>' +
+      '<p class="petit">Pari à 1 contre 1 sur la victoire (au moins ' + Math.round(100 * b.seuilVictoire) + ' %). D’après ta précision passée sur ce domaine (' + Math.round(100 * est.precision) + ' %), ' +
+      'ta probabilité de victoire est d’environ <strong>' + Math.round(100 * est.victoire) + ' %</strong> ; la mise de Kelly vaut 2p − 1, soit <strong>' + kelly + ' %</strong> du capital' +
+      (kelly === 0 ? ' : aucune mise n’est rentable, sauf si tu penses avoir progressé.' : '. Comme p n’est qu’une estimation, les professionnels misent plutôt la moitié (demi-Kelly : ' + Math.round(kelly / 2) + ' %).') + '</p>' +
+      '<label class="ligne petit" style="gap:12px"><input type="range" min="0" max="50" step="1" value="0" data-mise style="flex:1"><span data-mise-texte style="min-width:16ch">aucune mise</span></label></div>';
+  }
+  function lancerBoss(main, b, mise) {
     const liste = questionsBoss(b);
     const reponses = [];
     const fin = Date.now() + b.duree * 1000;
@@ -283,6 +331,7 @@
         if (fait || termine) return;
         fait = true;
         reponses.push(i);
+        A.son('clic');
         const bouton = main.querySelector('[data-choix="' + i + '"]');
         if (bouton) bouton.classList.add('choisie');
         setTimeout(function () {
@@ -310,13 +359,16 @@
         if (juste) justes++;
         noter(q, juste);
       });
-      const med = P.jeu.enregistrerBoss(A.etat, b.id, justes, liste.length, A.aujourdhui());
+      const med = P.jeu.enregistrerBoss(A.etat, b.id, justes, liste.length, A.aujourdhui(), mise || 0, b.nom);
       A.sauver();
+      A.son(med === 'or' || med === 'argent' ? 'coffre' : med ? 'juste' : 'faux');
+      const gagne = justes / liste.length >= b.seuilVictoire;
       const pct = Math.round(100 * justes / liste.length);
       const verdict = med === 'or' ? 'Médaille d’or. Écrasant.' : med === 'argent' ? 'Victoire : médaille d’argent.' : med === 'bronze' ? 'Médaille de bronze : pas encore une victoire (75 %).' : 'Défaite. Lis la correction, puis reviens.';
       main.innerHTML = '<p class="petit"><a href="#carriere">← Carrière</a></p><h1>' + o.echapper(b.nom) + ' : ' + pct + ' %</h1>' +
         '<div class="carte resultat-boss' + (med ? ' medaille-' + med : '') + '"><div class="chiffre">' + justes + ' / ' + liste.length + '</div><div class="legende">' + verdict +
-        (reponses.length < liste.length ? ' Temps écoulé : ' + (liste.length - reponses.length) + ' question' + (liste.length - reponses.length > 1 ? 's' : '') + ' sans réponse.' : '') + '</div>' +
+        (reponses.length < liste.length ? ' Temps écoulé : ' + (liste.length - reponses.length) + ' question' + (liste.length - reponses.length > 1 ? 's' : '') + ' sans réponse.' : '') +
+        (mise ? ' Mise : ' + (gagne ? '+' : '−') + Math.round(mise).toLocaleString('fr-FR') + ' € pour le desk.' : '') + '</div>' +
         '<div class="ligne" style="margin-top:12px"><a class="bouton principal" href="#qcm/boss=' + encodeURIComponent(b.id) + '" data-boss-rejouer>Rejouer</a><a class="bouton" href="#carriere">Carrière</a></div></div>' +
         '<h2>Correction</h2><ol class="correction-boss">' + liste.map(function (q, k) {
           const rep = k < reponses.length ? reponses[k] : -1;
