@@ -116,6 +116,16 @@
     if (histoiresManquantes.length) {
       taches.push({ fait: false, titre: 'Mes histoires', detail: 'À écrire : « ' + histoiresManquantes[0].titre + ' »' + (histoiresManquantes.length > 1 ? ' (+' + (histoiresManquantes.length - 1) + ')' : ''), lien: '#histoires', bouton: 'Écrire' });
     }
+    // mode carrière : niveau, progression et quêtes du jour
+    const rj = A.jeuActif() ? A.resultatJeu() : null;
+    if (rj) {
+      const partXp = rj.seuilSuivant ? (rj.total - rj.seuilActuel) / (rj.seuilSuivant - rj.seuilActuel) : 1;
+      const qf = rj.quetes.jour.filter(function (q) { return q.reussie; }).length;
+      html += ('<a class="carte bandeau-carriere" href="#carriere"><span class="bandeau-niveau">' + rj.niveau + '</span>' +
+        '<span class="bandeau-texte"><b>' + o.echapper(rj.rang) + '</b><span class="barre barre-xp"><span style="width:' + Math.round(100 * partXp) + '%"></span></span>' +
+        '<span class="legende">' + (rj.seuilSuivant ? (rj.seuilSuivant - rj.total).toLocaleString('fr-FR') + ' XP avant le niveau ' + (rj.niveau + 1) : 'Niveau maximal') + ' · quêtes du jour ' + qf + ' / ' + rj.quetes.jour.length + '</span></span>' +
+        '<span class="bandeau-quete">' + o.echapper((rj.quetes.jour.filter(function (q) { return !q.reussie; })[0] || { titre: 'Toutes les quêtes sont faites' }).titre) + '</span></a>');
+    }
     const restantes = taches.filter(function (t) { return !t.fait; }).length;
     const premiere = taches.filter(function (t) { return !t.fait; })[0];
     const coche = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>';

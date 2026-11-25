@@ -21,6 +21,7 @@
       '<label for="r-nouveaux">Nouvelles questions par jour</label><input id="r-nouveaux" type="number" min="0" max="60" value="' + r.nouveauxParJour + '" style="width:7em">' +
       '<p class="petit doux">15 par jour font environ 20 à 30 minutes de révisions avec les rappels. À moins de deux semaines d’un entretien, monte à 25.</p>' +
       '<label class="case"><input type="checkbox" id="r-anglais"' + (r.anglais ? ' checked' : '') + '> Afficher les questions en anglais quand une version existe</label>' +
+      '<label class="case"><input type="checkbox" id="r-jeu"' + (r.jeu !== false ? ' checked' : '') + '> Mode carrière : niveaux, quêtes, épreuves et succès (rien n’est perdu en le désactivant)</label>' +
       '<label for="r-theme">Apparence</label><select id="r-theme"><option value="auto">Comme le système</option><option value="light">Claire</option><option value="dark">Sombre</option></select></form>' +
       '<div class="carte"><h2 style="margin-top:0">Mon profil pour l’entretien</h2><p class="petit doux">Utilisé dans les consignes de l’entretien oral avec Claude. ' +
       'Complète les parties entre crochets ; n’écris que des faits vrais.</p><textarea id="r-candidat" style="min-height:12em">' +
@@ -45,9 +46,12 @@
       const n = parseInt(form.querySelector('#r-nouveaux').value, 10);
       r.nouveauxParJour = isFinite(n) ? Math.max(0, Math.min(60, n)) : 15;
       r.anglais = form.querySelector('#r-anglais').checked;
+      r.jeu = form.querySelector('#r-jeu').checked;
       r.theme = form.querySelector('#r-theme').value;
       A.appliquerTheme();
       A.sauver();
+      A.resultatJeu();
+      A.rendreNavigation();
     }
     form.addEventListener('change', enregistrer);
     form.addEventListener('submit', function (e) { e.preventDefault(); enregistrer(); });

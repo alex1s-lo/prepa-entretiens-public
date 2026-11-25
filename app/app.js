@@ -20,6 +20,7 @@
       histoires: {},     // id d'histoire -> texte
       perso: [],         // fiches ajoutées par toi (questions posées en vrai)
       notes: {},         // id de fiche -> note personnelle
+      jeu: { quetes: {}, boss: {}, succes: {} },  // mode carrière : quêtes accomplies, épreuves, succès (le reste est recalculé)
       qcm: {},           // id de question de QCM -> { n tentatives, j justes, r dernière juste, d date } (à part des révisions)
       cours: { exercices: {}, lus: {}, demos: {} },  // exercices faits, chapitres lus, démonstrations maîtrisées
       reglages: { profils: ['hf', 'banque', 'mm'], nouveauxParJour: 15, anglais: false, theme: 'auto', niveauCalcul: 2 }
@@ -35,6 +36,8 @@
     e.reglages = Object.assign(etatVide().reglages, (lu && lu.reglages) || {});
     ['calcul', 'marche', 'entretiens', 'tests', 'kelly', 'journal', 'perso'].forEach(function (k) { if (!Array.isArray(e[k])) e[k] = []; });
     ['cartes', 'jours', 'histoires', 'notes', 'qcm'].forEach(function (k) { if (!e[k] || typeof e[k] !== 'object') e[k] = {}; });
+    if (!e.jeu || typeof e.jeu !== 'object') e.jeu = {};
+    ['quetes', 'boss', 'succes'].forEach(function (k) { if (!e.jeu[k] || typeof e.jeu[k] !== 'object') e.jeu[k] = {}; });
     if (!e.cours || typeof e.cours !== 'object') e.cours = {};
     if (!e.cours.exercices || typeof e.cours.exercices !== 'object') e.cours.exercices = {};
     if (!e.cours.lus || typeof e.cours.lus !== 'object') e.cours.lus = {};
@@ -53,7 +56,63 @@
     empreinte = P.synchro ? P.synchro.entrees(etat) : {};
   }
 
+  // --- Mode carrière (voir jeu.js) ---------------------------------------------------------------------------------
+  function jeuActif() { return !!P.jeu && etat.reglages.jeu !== false; }
+  function contexteJeu() {
+    const cours = racine.PREPA_COURS;
+    if (!P.jeu || !cours || !P.qcm) return null;
+    return {
+      fiches: P_BANQUE().fiches, chapitres: cours.chapitres, qcm: P.qcm.toutes(), categories: P_BANQUE().categories || {},
+      themes: P_BANQUE().themes || {}, jour: aujourdhui(), maitrise: P.srs.maitrise, domaine: P.qcm.domaine
+    };
+  }
+  let jeuDernier = null;   // dernier résultat calculé (pour annoncer ce qui vient d'être gagné)
+  function resultatJeu() {
+    const ctx = contexteJeu();
+    if (!ctx) return null;
+    jeuDernier = P.jeu.calculer(etat, ctx);
+    return jeuDernier;
+  }
+  function majJeu() {
+    if (!jeuActif()) return;
+    const ctx = contexteJeu();
+    if (!ctx) return;
+    const avant = jeuDernier;
+    const maj = P.jeu.mettreAJour(etat, ctx, avant);
+    jeuDernier = maj.resultat;
+    if (avant) annoncer(maj.evenements);
+  }
+  let minuteurGain = null;
+  let gainCumule = 0;
+  function annoncer(evenements) {
+    if (!evenements.length || typeof document === 'undefined') return;
+    const forts = [];
+    evenements.forEach(function (ev) {
+      if (ev.type === 'xp') gainCumule += ev.xp;
+      else if (ev.type === 'quete') forts.push('Quête accomplie : ' + ev.titre + ' (+' + ev.xp + ' XP)');
+      else if (ev.type === 'succes') forts.push('Succès débloqué : ' + ev.titre);
+      else if (ev.type === 'niveau') forts.push('Niveau ' + ev.niveau + (ev.nouveauRang ? ' : nouveau rang, ' + ev.rang : ''));
+    });
+    if (gainCumule) {
+      let g = document.getElementById('gain-xp');
+      if (!g) { g = document.createElement('div'); g.id = 'gain-xp'; g.setAttribute('aria-hidden', 'true'); document.body.appendChild(g); }
+      g.textContent = '+' + gainCumule + ' XP';
+      g.classList.remove('visible'); void g.offsetWidth; g.classList.add('visible');
+      clearTimeout(minuteurGain);
+      minuteurGain = setTimeout(function () { g.classList.remove('visible'); gainCumule = 0; }, 1600);
+    }
+    if (forts.length) {
+      let b = document.getElementById('banniere-jeu');
+      if (!b) { b = document.createElement('div'); b.id = 'banniere-jeu'; b.setAttribute('role', 'status'); document.body.appendChild(b); }
+      b.innerHTML = forts.map(function (t) { return '<div>' + o.echapper(t) + '</div>'; }).join('') + '<a href="#carriere">Voir ma carrière</a>';
+      b.classList.add('visible');
+      clearTimeout(b._minuteur);
+      b._minuteur = setTimeout(function () { b.classList.remove('visible'); }, 4200);
+    }
+  }
+
   function sauver() {
+    try { majJeu(); } catch (err) { /* le jeu ne doit jamais empêcher d'enregistrer */ }
     if (P.synchro) empreinte = P.synchro.horodater(etat, empreinte, Date.now());
     try {
       racine.localStorage.setItem(CLE, JSON.stringify(etat));
@@ -139,6 +198,7 @@
 
   // Jours consécutifs avec une activité, jusqu'à aujourd'hui (ou hier si rien encore aujourd'hui).
   function serie() {
+    if (jeuActif()) return P.jeu.serie(etat, aujourdhui()).serie;
     let j = aujourdhui();
     const actif = function (d) { const x = etat.jours[d]; return !!x && Object.keys(x).some(function (k) { return x[k] > 0; }); };
     if (!actif(j)) j = o.ajouterJours(j, -1);
@@ -224,6 +284,7 @@
 
   // Icônes au trait (24 × 24), dessinées pour l'application : une par section.
   const TRACES = {
+    carriere: '<path d="M12 3.5 14.6 8.8l5.9.9-4.25 4.15 1 5.85L12 16.95 6.75 19.7l1-5.85L3.5 9.7l5.9-.9z"/>',
     qcm: '<rect x="3.5" y="3.5" width="17" height="17" rx="2.5"/><path d="m7.5 9 1.5 1.5 3-3"/><path d="M14 9.5h3"/><path d="M7.5 15.5h.01"/><path d="M10.5 15.5h6.5"/>',
     accueil: '<path d="M3.5 10.5 12 3.5l8.5 7"/><path d="M5.5 9v11h13V9"/><path d="M10 20v-6h4v6"/>',
     cours: '<path d="M3 4.5h5.5A3.5 3.5 0 0 1 12 8v12a2.5 2.5 0 0 0-2.5-2.5H3z"/><path d="M21 4.5h-5.5A3.5 3.5 0 0 0 12 8v12a2.5 2.5 0 0 1 2.5-2.5H21z"/>',
@@ -253,7 +314,7 @@
     { titre: 'Apprendre', ids: ['cours', 'revisions', 'calcul'] },
     { titre: 'S’entraîner', ids: ['entretien', 'qcm', 'casse-tetes', 'marche'] },
     { titre: 'Préparer', ids: ['histoires', 'journal', 'guides'] },
-    { titre: 'Suivi', ids: ['progres', 'reglages'] }
+    { titre: 'Suivi', ids: ['carriere', 'progres', 'reglages'] }
   ];
 
   function rendreNavigation() {
@@ -302,6 +363,9 @@
     const prochain = prochainEntretien();
     let html = '<span class="info" title="Jours consécutifs d’entraînement"><span class="info-libelle">Série</span><b>' + s + ' j</b></span>' +
       '<span class="info' + (d ? ' info-accent' : '') + '"><span class="info-libelle">À revoir</span><b>' + d + '</b></span>';
+    if (jeuActif() && jeuDernier) {
+      html += '<a class="info info-niveau" href="#carriere" title="Mode carrière : ' + o.echapper(jeuDernier.rang) + '"><span class="info-libelle">Niveau</span><b>' + jeuDernier.niveau + '</b></a>';
+    }
     if (prochain) {
       const n = o.ecartJours(aujourdhui(), prochain.date);
       html += '<span class="info"><span class="info-libelle">' + o.echapper(prochain.entreprise || 'Entretien') + '</span><b>' + (n === 0 ? 'aujourd’hui' : 'J−' + n) + '</b></span>';
@@ -420,6 +484,7 @@
 
   function demarrer() {
     charger();
+    if (P.jeu) { try { P.jeu.compacter(etat, aujourdhui()); resultatJeu(); } catch (err) { jeuDernier = null; } }
     appliquerTheme();
     racine.addEventListener('hashchange', afficher);
     document.addEventListener('keydown', surTouche);
@@ -453,6 +518,7 @@
     toast: toast, el: el, telecharger: telecharger, exporter: exporter, restreint: restreint, fenetre: fenetre,
     confirmer: confirmer, copier: copier, donnerTexte: donnerTexte, importer: importer, reinitialiser: reinitialiser,
     appliquerTheme: appliquerTheme, rendreNavigation: rendreNavigation, icone: icone, stockageOk: function () { return stockageOk; },
+    jeuActif: jeuActif, contexteJeu: contexteJeu, resultatJeu: resultatJeu, majJeu: majJeu,
     synchroniser: synchroniser, configSynchro: configSynchro, ecrireConfigSynchro: ecrireConfigSynchro, synchroEtat: synchroEtat
   };
 })(this);

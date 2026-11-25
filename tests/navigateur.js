@@ -464,6 +464,40 @@ function verifier(cond, message) { if (!cond) throw new Error(message); }
   verifier(/Black-Scholes|Cours|chapitre/i.test(await page.textContent('.source-qcm')) || true, 'QCM du chapitre');
   verifier((await page.$$eval('.carte-qcm', (l) => l.length)) === 1, 'QCM du chapitre : une question affichée');
 
+  // --- Mode carrière : niveau, quêtes, épreuve chronométrée corrigée à la fin, désactivation ---
+  await naviguer('carriere', 'Carrière');
+  verifier(!!(await page.$('.joueur .rang')), 'carrière : rang affiché');
+  verifier((await page.$$('.quetes .quete')).length === 4, 'carrière : trois quêtes du jour et une de la semaine');
+  verifier((await page.$$('.grille-boss .boss')).length >= 10, 'carrière : épreuves par domaine');
+  verifier((await page.$$('.grille-competences .competence')).length >= 30, 'carrière : arbre de compétences');
+  const xpAvantBoss = await page.evaluate(() => window.Prepa.app.resultatJeu().total);
+  await page.click('[data-boss="probas"]');
+  await page.waitForSelector('[data-boss-go]');
+  await page.click('[data-boss-go]');
+  for (let k = 0; k < 12; k++) {
+    await page.waitForSelector('.choix-qcm [data-choix]:not(.choisie)');
+    verifier(!(await page.$('.pourquoi:not([hidden])')), 'épreuve : pas d’explication pendant l’épreuve');
+    // répond juste à toutes les questions pour vérifier la médaille d'or
+    await page.evaluate(() => {
+      const ids = decodeURIComponent(location.hash);
+      const texte = document.querySelector('.carte-qcm .question').textContent;
+      const q = window.Prepa.qcm.toutes().filter((x) => x.cible && window.Prepa.qcm.domaine(x) === 'probas')
+        .filter((x) => { const f = window.Prepa.app.fiche(x.cible); const t = document.createElement('div'); t.innerHTML = window.Prepa.outils.markdown(x.question || (f && f.question) || ''); return t.textContent === texte; })[0];
+      const bonne = q.choix.findIndex((c) => c.ok);
+      document.querySelector('[data-choix="' + bonne + '"]').click();
+      return ids;
+    });
+    await page.waitForTimeout(260);
+  }
+  await page.waitForSelector('.correction-boss');
+  verifier((await page.$$('.correction-boss li')).length === 12, 'épreuve : correction complète');
+  verifier((await page.evaluate(() => window.Prepa.app.etat.jeu.boss.probas.meilleur)) === 1, 'épreuve : score enregistré');
+  verifier((await page.evaluate(() => window.Prepa.app.resultatJeu().total)) > xpAvantBoss, 'épreuve : XP gagnée');
+  await naviguer('reglages', 'Réglages');
+  await page.uncheck('#r-jeu');
+  verifier(await page.evaluate(() => !window.Prepa.app.jeuActif()), 'mode carrière désactivable');
+  await page.check('#r-jeu');
+
   // --- Synchronisation entre deux appareils, avec un faux GitHub en mémoire (aucun appel réseau réel) ---
   const depotFictif = { fichier: null, sha: null, ecritures: 0 };
   const fauxGitHub = async (route) => {
@@ -537,7 +571,7 @@ function verifier(cond, message) { if (!cond) throw new Error(message); }
   const mobile = await navigateur.newContext({ viewport: { width: 375, height: 740 }, deviceScaleFactor: 1 });
   const p2 = await mobile.newPage();
   p2.on('pageerror', (e) => erreurs.push('mobile pageerror: ' + e.message));
-  for (const v of ['accueil', 'revisions', 'calcul', 'entretien', 'marche', 'marche/onglet=kelly', 'test', 'plus', 'histoires', 'journal', 'guides', 'guides/g=antiseche', 'progres', 'reglages', 'revisions/onglet=banque', 'casse-tetes', 'casse-tetes/f=ct-p-racines-reelles', 'qcm']) {
+  for (const v of ['accueil', 'revisions', 'calcul', 'entretien', 'marche', 'marche/onglet=kelly', 'test', 'plus', 'histoires', 'journal', 'guides', 'guides/g=antiseche', 'progres', 'reglages', 'revisions/onglet=banque', 'casse-tetes', 'casse-tetes/f=ct-p-racines-reelles', 'qcm', 'carriere']) {
     await p2.goto(URL + '#' + v);
     await p2.waitForSelector('main h1');
     const deborde = await p2.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);

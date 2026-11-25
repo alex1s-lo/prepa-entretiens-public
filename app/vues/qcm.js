@@ -220,8 +220,122 @@
     return toutes().filter(function (q) { return q.cible === 'cours:' + id || fiches.indexOf(q.cible) >= 0; });
   }
 
+  // --- Épreuves (boss) : un test chronométré, sans explications pendant l'épreuve, corrigé en entier à la fin --------
+  function noter(q, juste) {
+    const s = suivi();
+    const prec = s[q.id] || { n: 0, j: 0 };
+    s[q.id] = { n: prec.n + 1, j: prec.j + (juste ? 1 : 0), r: juste, d: A.aujourdhui() };
+    A.noterActivite('qcm');
+  }
+  // Questions de l'épreuve : au hasard dans le domaine ; pour l'épreuve finale, une par domaine à tour de rôle.
+  function questionsBoss(b) {
+    if (!b.final) return o.melanger(Math.random, toutes().filter(function (q) { return domaine(q) === b.domaine; })).slice(0, b.questions);
+    const parDom = {};
+    o.melanger(Math.random, toutes()).forEach(function (q) { (parDom[domaine(q)] = parDom[domaine(q)] || []).push(q); });
+    const doms = o.melanger(Math.random, Object.keys(parDom));
+    const res = [];
+    for (let k = 0; res.length < b.questions && k < 1000; k++) {
+      const l = parDom[doms[k % doms.length]];
+      if (l.length) res.push(l.pop());
+    }
+    return res;
+  }
+  let minuteurBoss = null;
+  function rendreBoss(main, id) {
+    const r = A.resultatJeu();
+    const b = r && r.boss.filter(function (x) { return x.id === id; })[0];
+    if (!b) { A.aller('carriere'); return; }
+    const dom = b.final ? 'tous les domaines' : b.domaine === 'cours' ? 'le cours' : b.domaine === 'casse-tete' ? 'les casse-têtes' : A.nomTheme(b.domaine);
+    main.innerHTML = '<p class="petit"><a href="#carriere">← Carrière</a></p><p class="tete-partie">Épreuve</p><h1>' + o.echapper(b.nom) + '</h1>' +
+      '<div class="carte"><p>' + b.questions + ' questions sur ' + o.echapper(dom) + ', ' + Math.round(b.duree / 60) + ' minutes en tout. ' +
+      'Pas d’explication pendant l’épreuve : tu les verras toutes à la fin, comme après un vrai test en ligne.</p>' +
+      '<p class="legende">Bronze à 60 %, argent à 75 % (victoire), or à 90 %. ' + (b.tentatives ? 'Ton record : ' + Math.round(100 * b.meilleur) + ' %.' : 'Première tentative.') + '</p>' +
+      '<div class="ligne"><button class="principal" data-boss-go>Commencer l’épreuve <kbd>Entrée</kbd></button></div></div>';
+    controle = { touche: function (e, saisie) { if (!saisie && e.key === 'Enter') { lancerBoss(main, b); return true; } return false; } };
+    main.querySelector('[data-boss-go]').addEventListener('click', function () { lancerBoss(main, b); });
+  }
+  function lancerBoss(main, b) {
+    const liste = questionsBoss(b);
+    const reponses = [];
+    const fin = Date.now() + b.duree * 1000;
+    let rang = 0;
+    let termine = false;
+    clearInterval(minuteurBoss);
+    minuteurBoss = setInterval(function () {
+      const c = main.querySelector('[data-boss-chrono]');
+      if (!c || !main.isConnected) { clearInterval(minuteurBoss); return; }
+      const reste = Math.max(0, Math.round((fin - Date.now()) / 1000));
+      c.textContent = o.duree(reste);
+      if (reste <= 30) c.classList.add('urgent');
+      if (reste <= 0) terminer();
+    }, 500);
+    function question() {
+      const q = liste[rang];
+      const ordre = o.melanger(Math.random, q.choix.map(function (c, i) { return i; }));
+      main.innerHTML = '<div class="ligne petit doux" style="margin-bottom:6px"><span class="tete-partie" style="margin:0">' + o.echapper(b.nom) + '</span><span class="espace"></span>' +
+        '<span>Question ' + (rang + 1) + ' / ' + liste.length + '</span><span class="chrono" data-boss-chrono>' + o.duree(Math.max(0, Math.round((fin - Date.now()) / 1000))) + '</span></div>' +
+        barre(rang / liste.length) +
+        '<section class="carte carte-qcm"><div class="question">' + o.markdown(enonce(q)) + '</div><ol class="choix-qcm" role="list">' + ordre.map(function (i, k) {
+          return '<li><button type="button" class="choix" data-choix="' + i + '"><span class="lettre">' + LETTRES[k] + '</span><span class="texte-choix">' + o.enLigne(q.choix[i].t) + '</span></button></li>';
+        }).join('') + '</ol></section>';
+      let fait = false;
+      function repondre(i) {
+        if (fait || termine) return;
+        fait = true;
+        reponses.push(i);
+        const bouton = main.querySelector('[data-choix="' + i + '"]');
+        if (bouton) bouton.classList.add('choisie');
+        setTimeout(function () {
+          rang += 1;
+          if (rang >= liste.length) terminer(); else question();
+        }, 220);
+      }
+      main.querySelectorAll('[data-choix]').forEach(function (bt) { bt.addEventListener('click', function () { repondre(Number(bt.getAttribute('data-choix'))); }); });
+      controle = { touche: function (e, saisie) {
+        if (saisie) return false;
+        const k = '1234567'.indexOf(e.key) >= 0 ? Number(e.key) - 1 : LETTRES.indexOf(e.key.toUpperCase());
+        if (k >= 0 && k < ordre.length) { repondre(ordre[k]); return true; }
+        return false;
+      } };
+    }
+    function terminer() {
+      if (termine) return;
+      termine = true;
+      clearInterval(minuteurBoss);
+      controle = null;
+      let justes = 0;
+      liste.forEach(function (q, k) {
+        if (k >= reponses.length) return;   // non répondue faute de temps : comptée fausse, sans toucher au suivi du QCM
+        const juste = !!q.choix[reponses[k]].ok;
+        if (juste) justes++;
+        noter(q, juste);
+      });
+      const med = P.jeu.enregistrerBoss(A.etat, b.id, justes, liste.length, A.aujourdhui());
+      A.sauver();
+      const pct = Math.round(100 * justes / liste.length);
+      const verdict = med === 'or' ? 'Médaille d’or. Écrasant.' : med === 'argent' ? 'Victoire : médaille d’argent.' : med === 'bronze' ? 'Médaille de bronze : pas encore une victoire (75 %).' : 'Défaite. Lis la correction, puis reviens.';
+      main.innerHTML = '<p class="petit"><a href="#carriere">← Carrière</a></p><h1>' + o.echapper(b.nom) + ' : ' + pct + ' %</h1>' +
+        '<div class="carte resultat-boss' + (med ? ' medaille-' + med : '') + '"><div class="chiffre">' + justes + ' / ' + liste.length + '</div><div class="legende">' + verdict +
+        (reponses.length < liste.length ? ' Temps écoulé : ' + (liste.length - reponses.length) + ' question' + (liste.length - reponses.length > 1 ? 's' : '') + ' sans réponse.' : '') + '</div>' +
+        '<div class="ligne" style="margin-top:12px"><a class="bouton principal" href="#qcm/boss=' + encodeURIComponent(b.id) + '" data-boss-rejouer>Rejouer</a><a class="bouton" href="#carriere">Carrière</a></div></div>' +
+        '<h2>Correction</h2><ol class="correction-boss">' + liste.map(function (q, k) {
+          const rep = k < reponses.length ? reponses[k] : -1;
+          const bonne = q.choix.filter(function (c) { return c.ok; })[0];
+          const juste = rep >= 0 && q.choix[rep].ok;
+          return '<li class="' + (juste ? 'juste' : 'faux') + '"><div class="question">' + o.markdown(enonce(q)) + '</div>' +
+            (juste ? '' : '<p class="petit"><strong>Ta réponse :</strong> ' + (rep >= 0 ? o.enLigne(q.choix[rep].t) + ' · ' + o.enLigne(q.choix[rep].pourquoi) : 'aucune (temps écoulé)') + '</p>') +
+            '<p class="petit"><strong>' + (juste ? 'Juste : ' : 'Bonne réponse : ') + '</strong>' + o.enLigne(bonne.t) + ' · ' + o.enLigne(bonne.pourquoi) + '</p>' +
+            '<p class="petit">' + source(q) + '</p></li>';
+        }).join('') + '</ol>';
+      racine.scrollTo(0, 0);
+    }
+    question();
+  }
+
   function rendre(main, params) {
     controle = null;
+    clearInterval(minuteurBoss);
+    if (params.boss) return rendreBoss(main, params.boss);
     if (params.s) return rendreSession(main, params.s.split(',').filter(Boolean));
     if (params.c) {
       const liste = tirer(duChapitre(params.c), TAILLE);

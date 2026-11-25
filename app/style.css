@@ -819,3 +819,77 @@ label.case-ct { display: inline-flex; align-items: center; gap: 6px; font-size: 
 .pourquoi { margin: 6px 4px 0 calc(1.75em + 26px); font-size: .9rem; color: var(--texte-doux); line-height: 1.55; }
 .verdict-choix { font-weight: 600; color: var(--texte); }
 @media (max-width: 760px) { .pourquoi { margin-left: 8px; } }
+
+/* --- Mode carrière ----------------------------------------------------------------------------------------------- */
+.laterale-pied .info.info-niveau { text-decoration: none; }
+.laterale-pied .info:nth-child(3) { grid-column: auto; }
+.laterale-pied .info:not(.info-niveau):nth-child(n+3) { grid-column: 1 / -1; }
+a.info-niveau b { color: var(--accent); }
+.barre-xp { height: 8px; }
+.barre-xp span { background: linear-gradient(90deg, var(--accent), var(--accent-fort)); }
+.joueur { display: flex; gap: 22px; align-items: center; }
+.joueur-texte { flex: 1; min-width: 0; }
+.joueur .rang { margin: 2px 0 10px; font-size: 1.5rem; }
+.embleme { width: 92px; height: 92px; flex: none; }
+.embleme-fond { fill: var(--accent-doux); stroke: var(--bord-fort); stroke-width: 2; }
+.embleme-trait { fill: none; stroke: var(--accent); stroke-width: 4; stroke-linecap: round; transition: stroke-dasharray .6s ease; }
+.embleme text { font: 700 24px var(--police); fill: var(--accent-fort); }
+.quetes { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 10px; }
+.quete { display: flex; gap: 16px; align-items: center; padding: 12px 14px; border: 1px solid var(--bord); border-radius: var(--rayon-petit); background: var(--surface); }
+.quete.reussie { border-color: var(--succes); background: var(--succes-doux); }
+.quete-texte { flex: 1; min-width: 0; display: grid; gap: 4px; }
+.titre-quete { font-weight: 600; }
+.quete-droite { display: grid; justify-items: end; gap: 4px; flex: none; }
+.xp-quete { font-weight: 650; color: var(--accent-fort); font-variant-numeric: tabular-nums; }
+.quete.reussie .xp-quete { color: var(--succes); }
+.grille-boss { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+.boss { display: grid; gap: 6px; align-content: start; margin: 0; }
+.boss .bouton { justify-self: start; margin-top: 6px; }
+.boss-tete { display: flex; align-items: center; gap: 8px; }
+.boss-nom { font-weight: 650; flex: 1; }
+.boss-final { border-color: var(--accent-bord); background: linear-gradient(180deg, var(--accent-doux), var(--surface) 60%); }
+.medaille { font-size: .75rem; font-weight: 650; padding: 2px 8px; border-radius: 99px; border: 1px solid currentColor; }
+.medaille-or .medaille, .resultat-boss.medaille-or .chiffre { color: #b8860b; }
+.medaille-argent .medaille, .resultat-boss.medaille-argent .chiffre { color: #7d8794; }
+.medaille-bronze .medaille, .resultat-boss.medaille-bronze .chiffre { color: #a0603a; }
+.grille-competences { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 10px; }
+.competence { display: grid; gap: 5px; padding: 12px 14px; border: 1px solid var(--bord); border-radius: var(--rayon-petit); background: var(--surface); color: var(--texte); text-decoration: none; }
+.competence:hover { border-color: var(--accent); color: var(--texte); }
+.competence.en-attente { opacity: .65; }
+.competence.conseillee { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-doux); }
+.competence-titre { font-weight: 600; font-size: .9rem; }
+.pips { display: inline-flex; gap: 4px; }
+.pips i { width: 14px; height: 6px; border-radius: 3px; background: var(--bord-fort); }
+.pips i.plein { background: var(--accent); }
+.grille-succes { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; }
+.succes-tuile { display: grid; gap: 3px; padding: 10px 12px; border: 1px dashed var(--bord-fort); border-radius: var(--rayon-petit); opacity: .6; }
+.succes-tuile.obtenu { opacity: 1; border-style: solid; border-color: var(--accent-bord); background: var(--accent-doux); }
+.succes-titre { font-weight: 600; font-size: .9rem; }
+.bandeau-carriere { display: flex; gap: 16px; align-items: center; text-decoration: none; color: var(--texte); margin-bottom: 16px; }
+.bandeau-carriere:hover { color: var(--texte); border-color: var(--accent); }
+.bandeau-niveau { flex: none; width: 46px; height: 46px; display: grid; place-items: center; border-radius: 12px; background: var(--accent-doux); color: var(--accent-fort); font-weight: 700; font-size: 1.2rem; border: 1px solid var(--accent-bord); }
+.bandeau-texte { flex: 1; min-width: 0; display: grid; gap: 5px; }
+.bandeau-quete { flex: none; max-width: 30%; font-size: .85rem; color: var(--texte-doux); text-align: right; }
+.choix.choisie { border-color: var(--accent); background: var(--accent-doux); }
+.correction-boss { padding-left: 1.2em; }
+.correction-boss li { margin: 0 0 16px; padding: 10px 12px; border-left: 3px solid var(--bord-fort); }
+.correction-boss li.juste { border-left-color: var(--succes); }
+.correction-boss li.faux { border-left-color: var(--erreur); }
+.chrono.urgent { color: var(--erreur); }
+#gain-xp { position: fixed; right: 22px; bottom: 22px; z-index: 60; padding: 6px 12px; border-radius: 99px; background: var(--surface); border: 1px solid var(--accent-bord);
+  color: var(--accent-fort); font-weight: 650; font-variant-numeric: tabular-nums; box-shadow: var(--ombre); opacity: 0; transform: translateY(8px); pointer-events: none; transition: opacity .25s, transform .25s; }
+#gain-xp.visible { opacity: 1; transform: translateY(0); }
+#banniere-jeu { position: fixed; left: 50%; top: 18px; z-index: 61; transform: translate(-50%, -12px); opacity: 0; pointer-events: none; transition: opacity .3s, transform .3s;
+  background: var(--surface); border: 1px solid var(--accent-bord); border-radius: var(--rayon); box-shadow: var(--ombre-haute); padding: 12px 18px; min-width: min(420px, 90vw); display: grid; gap: 4px; font-weight: 600; }
+#banniere-jeu.visible { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
+#banniere-jeu a { font-weight: 400; font-size: .85rem; }
+@media (prefers-reduced-motion: reduce) { #gain-xp, #banniere-jeu, .embleme-trait { transition: none; } }
+@media (max-width: 760px) {
+  .joueur { gap: 14px; }
+  .embleme { width: 68px; height: 68px; }
+  .quete { flex-wrap: wrap; }
+  .quete-droite { grid-auto-flow: column; align-items: center; justify-items: start; }
+  .bandeau-quete { display: none; }
+  #gain-xp { bottom: 76px; right: 14px; }
+}
+@media print { #gain-xp, #banniere-jeu { display: none !important; } }

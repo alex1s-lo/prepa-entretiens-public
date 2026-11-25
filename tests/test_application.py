@@ -14,7 +14,7 @@ NODE = shutil.which("node")
 @unittest.skipUnless(NODE, "Node.js absent")
 class TestJavaScript(unittest.TestCase):
     def test_modules(self):
-        r = subprocess.run([NODE, "--test", str(RACINE / "tests" / "js" / "modules.test.js"), str(RACINE / "tests" / "js" / "maths.test.js"), str(RACINE / "tests" / "js" / "synchro.test.js")],
+        r = subprocess.run([NODE, "--test", str(RACINE / "tests" / "js" / "modules.test.js"), str(RACINE / "tests" / "js" / "maths.test.js"), str(RACINE / "tests" / "js" / "synchro.test.js"), str(RACINE / "tests" / "js" / "jeu.test.js")],
                            capture_output=True, text=True, timeout=300)
         self.assertEqual(r.returncode, 0, r.stdout[-4000:] + r.stderr[-2000:])
 
