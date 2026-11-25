@@ -13,7 +13,7 @@
 (function (racine) {
   'use strict';
 
-  const OBJETS = ['cartes', 'histoires', 'notes', 'qcm', 'jeu.quetes', 'jeu.boss', 'jeu.succes', 'jeu.bonus', 'jeu.coffres', 'jeu.desk', 'cours.exercices', 'cours.lus', 'cours.demos'];
+  const OBJETS = ['cartes', 'histoires', 'notes', 'qcm', 'jeu.quetes', 'jeu.boss', 'jeu.succes', 'jeu.bonus', 'jeu.coffres', 'jeu.desk', 'jeu.niveaux', 'jeu.elo', 'jeu.usine', 'cours.exercices', 'cours.lus', 'cours.demos'];
   const LISTES_ID = ['journal', 'perso'];
   const HISTORIQUES = ['calcul', 'marche', 'entretiens', 'tests', 'kelly'];
 

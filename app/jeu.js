@@ -70,6 +70,9 @@
     { id: 'or', nom: 'Or du desk', niveau: 32 }
   ];
 
+  // Extensions (campagne, collection… dans jeu2.js) : function (etat, ctx, xp, ext) appelée par calculer()
+  const EXTENSIONS = [];
+
   // --- Outils -----------------------------------------------------------------------------------------------------
   function moyenne(l) { return l.length ? l.reduce(function (s, x) { return s + x; }, 0) / l.length : 0; }
   function graine(texte) {
@@ -195,6 +198,8 @@
     });
     Object.keys(jeu.bonus).forEach(function (k) { xp.recompenses += Math.min(BAREME.comboMaxJour, Number(jeu.bonus[k]) || 0); });
     Object.keys(jeu.coffres).forEach(function (k) { const c = jeu.coffres[k]; if (c && c.type === 'xp') xp.recompenses += Number(c.valeur) || 0; });
+    const ext = {};
+    EXTENSIONS.forEach(function (f) { f(etat, ctx, xp, ext); });
     Object.keys(xp).forEach(function (k) { xp[k] = Math.round(xp[k]); });
     const total = Object.keys(xp).reduce(function (s, k) { return s + xp[k]; }, 0);
     const niveau = niveauDe(total);
@@ -245,7 +250,8 @@
     const res = {
       xp: xp, total: total, niveau: niveau, rang: rangDe(niveau), prochainRang: prochainRang(niveau),
       seuilActuel: seuil(niveau), seuilSuivant: niveau < NIVEAU_MAX ? seuil(niveau + 1) : null,
-      competences: competences, serie: s.serie, jokers: s.jokers, jokersUtilises: s.utilises, stats: stats
+      competences: competences, serie: s.serie, jokers: s.jokers, jokersUtilises: s.utilises, stats: stats, ext: ext,
+      evenement: evenement(ctx), retour: retour(etat, jour)
     };
     res.quetes = quetes(etat, ctx, res);
     res.boss = listeBoss(etat, ctx);
@@ -281,6 +287,26 @@
       meilleure = Math.max(meilleure, n);
     }
     return { serie: n, jokers: jokers, utilises: utilises, meilleure: meilleure };
+  }
+
+  // --- Événement de la semaine et bonus de retour ---------------------------------------------------------------------
+  const EVENEMENTS = ['probas', 'derives', 'stoch', 'casse-tete', 'stats', 'marches', 'ml', 'taux', 'algo'];
+  const NOMS_EVENEMENTS = { probas: 'Probabilités', derives: 'Dérivés', stoch: 'Calcul stochastique', 'casse-tete': 'Casse-têtes', stats: 'Statistiques',
+    marches: 'Marchés', ml: 'Machine learning', taux: 'Taux et risque', algo: 'Code' };
+  function evenement(ctx) {
+    if (!ctx.domaine) return null;
+    const debut = lundi(ctx.jour);
+    const dispo = EVENEMENTS.filter(function (d) { return ctx.qcm.some(function (q) { return ctx.domaine(q) === d; }); });
+    if (!dispo.length) return null;
+    const d = dispo[graine('evenement' + debut) % dispo.length];
+    return { domaine: d, nom: NOMS_EVENEMENTS[d] || d, debut: debut };
+  }
+  // Retour après au moins trois jours sans activité : les quêtes du jour rapportent double (pas de culpabilité, un accueil).
+  function retour(etat, jour) {
+    const jours = Object.keys(etat.jours || {}).filter(function (j) { return j < jour && actif(etat, j); }).sort();
+    if (!jours.length) return false;
+    const derniere = jours[jours.length - 1];
+    return (Date.parse(jour + 'T12:00:00Z') - Date.parse(derniere + 'T12:00:00Z')) / 86400000 >= 3;
   }
 
   // --- Quêtes ---------------------------------------------------------------------------------------------------------
@@ -337,8 +363,9 @@
     }
     const liste = [{ id: 'revisions', titre: 'Routine', detail: 'Réviser 15 questions (les dues d’abord)', cible: 15, fait: aujourd.revues || 0, lien: '#revisions' }]
       .concat(choisies.map(function (id) { return Object.assign({ id: id }, pool[id]); }));
+    const double = retour(etat, jour);
     liste.forEach(function (q) {
-      q.xp = BAREME.quete;
+      q.xp = BAREME.quete * (double ? 2 : 1);
       q.cle = jour + ':' + q.id;
       q.reussie = q.fait >= q.cible || !!jeu.quetes[q.cle];
     });
@@ -355,8 +382,18 @@
     hebdo.cle = 'semaine-' + debut + ':' + hebdo.id;
     hebdo.reussie = hebdo.fait >= hebdo.cible || !!jeu.quetes[hebdo.cle];
     hebdo.hebdo = true;
-    const bonus = { cle: jour + ':toutes', xp: BAREME.toutesQuetes, reussie: liste.every(function (q) { return q.reussie; }) };
-    return { jour: liste, semaine: hebdo, bonus: bonus };
+    const bonus = { cle: jour + ':toutes', xp: BAREME.toutesQuetes * (double ? 2 : 1), reussie: liste.every(function (q) { return q.reussie; }) };
+    // événement de la semaine : 20 QCM du domaine à l'honneur
+    const ev = evenement(ctx);
+    let evenementQ = null;
+    if (ev) {
+      evenementQ = { id: 'evenement', titre: 'Semaine ' + ev.nom, detail: '20 questions de QCM du domaine à l’honneur cette semaine', cible: 20,
+        fait: ctx.qcm.filter(function (q) { const s = suiviQcm[q.id]; return s && s.d >= ev.debut && s.d <= jour && ctx.domaine(q) === ev.domaine; }).length,
+        lien: '#qcm/classee=' + encodeURIComponent(ev.domaine), xp: 150, hebdo: true, evenement: true };
+      evenementQ.cle = 'semaine-' + ev.debut + ':evenement';
+      evenementQ.reussie = evenementQ.fait >= evenementQ.cible || !!jeu.quetes[evenementQ.cle];
+    }
+    return { jour: liste, semaine: hebdo, evenement: evenementQ, bonus: bonus, double: double };
   }
 
   // --- Épreuves (boss) ------------------------------------------------------------------------------------------------
@@ -551,6 +588,8 @@
     const q = res.quetes.jour.filter(function (x) { return !x.reussie; })[0];
     if (q) return { titre: q.titre, detail: q.detail + ' · ' + Math.min(q.fait, q.cible) + ' / ' + q.cible, lien: q.lien, xp: q.xp };
     if (res.coffre.disponible && !res.coffre.ouvert) return { titre: 'Ouvrir le coffre du jour', detail: 'Toutes les quêtes sont faites', lien: '#carriere', xp: null };
+    const camp = res.ext && res.ext.campagne;
+    if (camp && camp.prochain) return { titre: 'Niveau ' + camp.prochain.numero + ' : ' + camp.prochain.titre, detail: camp.prochain.sous + (camp.prochain.etoiles ? ' · viser 3 étoiles' : ' · campagne'), lien: '#campagne/n=' + encodeURIComponent(camp.prochain.id), xp: null };
     if (!res.quetes.semaine.reussie) return { titre: res.quetes.semaine.titre, detail: res.quetes.semaine.detail, lien: res.quetes.semaine.lien, xp: res.quetes.semaine.xp };
     const b = res.boss.filter(function (x) { return !x.vaincu && !x.final; }).sort(function (a, c) { return c.meilleur - a.meilleur; })[0];
     if (b) return { titre: 'Épreuve : ' + b.nom, detail: b.tentatives ? 'Record ' + Math.round(100 * b.meilleur) + ' % : la victoire est à 75 %' : 'Jamais affrontée', lien: '#qcm/boss=' + encodeURIComponent(b.id), xp: null };
@@ -563,7 +602,7 @@
     const jeu = etatJeu(etat);
     let r = calculer(etat, ctx);
     const evenements = [];
-    const quetesFaites = r.quetes.jour.concat([r.quetes.semaine]).filter(function (q) { return q.reussie && !jeu.quetes[q.cle]; });
+    const quetesFaites = r.quetes.jour.concat([r.quetes.semaine], r.quetes.evenement ? [r.quetes.evenement] : []).filter(function (q) { return q.reussie && !jeu.quetes[q.cle]; });
     quetesFaites.forEach(function (q) { jeu.quetes[q.cle] = q.xp; evenements.push({ type: 'quete', titre: q.titre, xp: q.xp }); });
     if (r.quetes.bonus.reussie && !jeu.quetes[r.quetes.bonus.cle]) {
       jeu.quetes[r.quetes.bonus.cle] = r.quetes.bonus.xp;
@@ -595,6 +634,7 @@
   }
 
   const api = {
+    EXTENSIONS: EXTENSIONS, evenement: evenement, retour: retour,
     BAREME: BAREME, RANGS: RANGS, NIVEAU_MAX: NIVEAU_MAX, PALIERS: PALIERS, seuil: seuil, niveauDe: niveauDe, rangDe: rangDe,
     calculer: calculer, serie: serie, medaille: medaille, enregistrerBoss: enregistrerBoss, mettreAJour: mettreAJour,
     compacter: compacter, lundi: lundi, SUCCES: SUCCES, COULEURS: COULEURS, bonusCombo: bonusCombo, ajouterBonus: ajouterBonus,

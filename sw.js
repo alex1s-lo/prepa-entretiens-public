@@ -1,7 +1,7 @@
 // Fichier généré par construire.py : ne pas modifier à la main.
 // Usage hors ligne quand l'application est servie en http(s) (GitHub Pages) ; inactif en ouverture locale (file://).
 // Stratégie « réseau d'abord » : en ligne on reçoit toujours la dernière version, hors ligne on lit le cache.
-const VERSION = 'prepa-e1b29f99bc4b';
+const VERSION = 'prepa-65555387a0e7';
 const FICHIERS = [
   './index.html',
   './manifest.webmanifest',
@@ -13,6 +13,7 @@ const FICHIERS = [
   './app/icone-512.png',
   './app/icone-masquable-512.png',
   './app/jeu.js',
+  './app/jeu2.js',
   './app/kelly.js',
   './app/marche.js',
   './app/outils.js',
@@ -44,6 +45,7 @@ const FICHIERS = [
   './app/vendor/katex/katex.min.js',
   './app/vues/accueil.js',
   './app/vues/calcul.js',
+  './app/vues/campagne.js',
   './app/vues/carriere.js',
   './app/vues/cassetetes.js',
   './app/vues/cours.js',

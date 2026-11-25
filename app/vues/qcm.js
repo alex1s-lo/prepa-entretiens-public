@@ -73,6 +73,14 @@
       '<div class="carte"><div class="chiffre">' + (faites.length ? Math.round(100 * justes / faites.length) + ' %' : '–') + '</div><div class="legende">de réussite à la dernière tentative · ' + fausses + ' à retravailler</div></div></div>' +
       '<div class="ligne" style="margin:4px 0 20px"><button class="principal" data-qcm-tout>Session de ' + TAILLE + ' questions, tous domaines</button>' +
       (fausses ? '<button data-qcm-erreurs>Retravailler mes ' + fausses + ' erreur' + (fausses > 1 ? 's' : '') + '</button>' : '') + '</div>' +
+      (A.jeuActif() && P.jeu2 ? '<h2>Parties classées</h2><p class="doux">Les questions se calent sur ta cote dans le domaine : réussir une question plus difficile que ton niveau fait monter la cote, rater une plus facile la fait baisser. ' +
+        'Bronze, Argent, Or, Platine, Diamant, Quant, Légende.</p><div class="liste-qcm">' + domaines().map(function (d) {
+          const c = P.jeu2.coteJoueur(A.etat, d);
+          const l = P.jeu2.ligue(c.r);
+          return '<a class="ligne-qcm" href="#qcm/classee=' + encodeURIComponent(d) + '" data-classee="' + o.echapper(d) + '"><span class="nom-qcm">' + o.echapper(nomDomaine(d)) + '</span>' +
+            '<span class="badge-ligue ligue-' + o.echapper(l.nom.toLowerCase()) + '">' + o.echapper(l.nom) + ' · ' + c.r + '</span>' +
+            '<span class="legende">' + (c.n ? c.n + ' réponses' : 'non classé') + (l.suivante ? ' · ' + l.suivante.nom + ' à ' + l.suivante.cote : '') + '</span></a>';
+        }).join('') + '</div>' : '') +
       '<h2>Par domaine</h2><div class="liste-qcm">' + domaines().map(function (d) {
         const l = qs.filter(function (q) { return domaine(q) === d; });
         const f = l.filter(function (q) { return s[q.id]; });
@@ -115,7 +123,9 @@
     return f ? f.question : '';
   }
 
-  function rendreSession(main, ids) {
+  // mode : { niveau } (campagne), { classee: domaine } (partie classée), ou rien
+  function rendreSession(main, ids, mode) {
+    mode = mode || {};
     const parId = {};
     toutes().forEach(function (q) { parId[q.id] = q; });
     const liste = ids.map(function (id) { return parId[id]; }).filter(Boolean);
@@ -125,6 +135,9 @@
     let combo = 0;          // bonnes réponses d'affilée dans la session
     let bonusSession = 0;   // XP de combo gagnée dans la session
     const jeu = A.jeuActif() && P.jeu;
+    const J2 = jeu && P.jeu2;
+    let eloSession = 0;
+    const coteDepart = J2 && mode.classee ? P.jeu2.coteJoueur(A.etat, mode.classee).r : null;
     const libelleCombo = function () {
       if (!jeu || combo < 2) return '';
       const b = P.jeu.bonusCombo(combo + 1);
@@ -135,8 +148,11 @@
       const q = liste[rang];
       const ordre = o.melanger(Math.random, q.choix.map(function (c, i) { return i; }));
       let repondu = false;
-      main.innerHTML = '<p class="petit"><a href="#qcm">← QCM</a></p>' +
-        '<div class="ligne petit doux" style="margin-bottom:6px"><span>Question ' + (rang + 1) + ' sur ' + liste.length + '</span><span class="espace"></span>' +
+      const retourLien = mode.niveau ? '<a href="#campagne">← Campagne</a>' : '<a href="#qcm">← QCM</a>';
+      const tete = mode.niveau ? '<span class="tete-partie" style="margin:0">Niveau ' + mode.niveau.numero + ' · ' + o.echapper(mode.niveau.titre) + '</span><span>&nbsp;· ' : '<span>';
+      main.innerHTML = '<p class="petit">' + retourLien + '</p>' +
+        '<div class="ligne petit doux" style="margin-bottom:6px">' + tete + 'Question ' + (rang + 1) + ' sur ' + liste.length + '</span><span class="espace"></span>' +
+        (mode.classee && J2 ? '<span data-elo class="elo-direct">Cote ' + P.jeu2.coteJoueur(A.etat, mode.classee).r + '</span>' : '') +
         '<span data-combo>' + libelleCombo() + '</span><span>' + resultats.filter(Boolean).length + ' juste' + (resultats.filter(Boolean).length > 1 ? 's' : '') + '</span></div>' +
         barre(rang / liste.length) +
         '<section class="carte carte-qcm"><div class="petit doux source-qcm">' + source(q) + '</div>' +
@@ -163,7 +179,13 @@
           if (jeu) A.etat.jeu.meilleurCombo = Math.max(A.etat.jeu.meilleurCombo || 0, combo);
         } else combo = 0;
         A.son(juste ? (combo >= 3 ? 'combo' : 'juste') : 'faux');
+        let elo = null;
+        if (J2) { elo = P.jeu2.majElo(A.etat, A.contexteJeu(), q, juste); eloSession += elo.delta; }
         A.sauver();
+        if (elo && mode.classee) {
+          const ze = main.querySelector('[data-elo]');
+          if (ze) ze.innerHTML = 'Cote ' + elo.cote + ' <span class="' + (elo.delta >= 0 ? 'positif' : 'negatif') + '">' + (elo.delta >= 0 ? '+' : '') + elo.delta + '</span>';
+        }
         const zc = main.querySelector('[data-combo]');
         if (zc) zc.innerHTML = libelleCombo();
         main.querySelectorAll('[data-choix]').forEach(function (b) {
@@ -208,6 +230,7 @@
     function bilan() {
       controle = null;
       const n = resultats.filter(Boolean).length;
+      if (mode.niveau && J2) return bilanNiveau(n);
       const ratees = liste.filter(function (q, i) { return !resultats[i]; });
       // en mode carrière : où en sont les quêtes, et la suite en un clic
       const rj = jeu ? A.resultatJeu() : null;
@@ -216,6 +239,7 @@
         '<div class="carte"><div class="chiffre">' + n + ' / ' + liste.length + '</div><div class="legende">' +
         (n === liste.length ? 'Sans faute.' : n >= liste.length * 0.7 ? 'Solide : relis les pièges qui t’ont eu.' : 'Les questions ratées reviendront en priorité dans tes prochaines sessions.') +
         (bonusSession ? ' Bonus de combo : +' + bonusSession + ' XP.' : '') + '</div></div>' +
+        (mode.classee && J2 ? blocClassement(mode.classee, coteDepart) : '') +
         (rj ? '<div class="carte"><div class="ligne"><h2 style="margin:0">Quêtes</h2><span class="espace"></span><span class="legende">Niveau ' + rj.niveau + ' · ' +
           (rj.seuilSuivant ? (rj.seuilSuivant - rj.total) + ' XP avant le suivant' : 'niveau maximal') + '</span></div><ul class="quetes-mini">' + quetes.map(function (x) {
             return '<li class="' + (x.reussie ? 'reussie' : '') + '"><span>' + (x.reussie ? '✓ ' : '') + o.echapper(x.titre) + '</span>' + barre(Math.min(1, x.fait / x.cible)) +
@@ -234,12 +258,53 @@
       main.querySelector('[data-qcm-autre]').addEventListener('click', function () {
         const doms = {};
         liste.forEach(function (q) { doms[domaine(q)] = true; });
+        if (mode.classee) { A.aller('qcm', { classee: mode.classee, t: Date.now() }); return; }
         const memes = Object.keys(doms).length === 1 ? toutes().filter(function (q) { return doms[domaine(q)]; }) : toutes();
         lancer(tirer(memes, TAILLE));
       });
     }
 
+    // Fin d'un niveau de campagne : étoiles, record, niveau suivant.
+    function bilanNiveau(n) {
+      const niv = mode.niveau;
+      const ctx = A.contexteJeu();
+      const res = P.jeu2.terminerNiveau(A.etat, ctx, niv.id, n, liste.length);
+      A.sauver();
+      const camp = P.jeu2.campagne(A.etat, ctx);
+      let suivant = null, trouve = false;
+      camp.mondes.forEach(function (m) { m.niveaux.forEach(function (x) { if (trouve && !suivant) suivant = x; if (x.id === niv.id) trouve = true; }); });
+      const reussi = res.etoiles >= 1;
+      A.son(res.etoiles >= 2 ? 'coffre' : reussi ? 'quete' : 'faux');
+      const etoilesHtml = [1, 2, 3].map(function (k) { return '<span class="etoile' + (k <= res.etoiles ? ' pleine' : '') + '" style="animation-delay:' + (0.15 + 0.25 * k) + 's">★</span>'; }).join('');
+      const ratees = liste.filter(function (q, i) { return !resultats[i]; });
+      main.innerHTML = '<p class="petit"><a href="#campagne">← Campagne</a></p>' +
+        '<section class="carte fin-niveau' + (reussi ? ' reussi' : '') + '"><p class="tete-partie">Niveau ' + niv.numero + ' · ' + o.echapper(niv.sous) + '</p>' +
+        '<h1>' + (res.etoiles === 3 ? 'Parfait' : reussi ? 'Niveau réussi' : 'Pas encore') + '</h1><div class="etoiles-fin">' + etoilesHtml + '</div>' +
+        '<p class="chiffre">' + n + ' / ' + liste.length + '</p>' +
+        '<p class="doux">' + (res.record ? 'Nouveau record sur ce niveau. ' : '') + (res.nouveauMonde ? 'Monde terminé : +' + P.jeu2.MONDE_XP + ' XP. ' : '') +
+        (reussi ? (res.etoiles < 3 ? 'Une étoile de plus à ' + (res.etoiles === 1 ? '80 %' : '100 %') + '.' : '') : 'Il faut 60 % pour passer. Les questions changent à chaque partie.') +
+        (bonusSession ? ' Combo : +' + bonusSession + ' XP.' : '') + '</p>' +
+        '<div class="ligne centre">' + (reussi && suivant ? '<a class="bouton principal" href="#campagne/n=' + encodeURIComponent(suivant.id) + '" data-niveau-suivant>Niveau suivant <kbd>Entrée</kbd></a>' : '') +
+        '<a class="bouton' + (reussi && suivant ? '' : ' principal') + '" href="#qcm/niveau=' + encodeURIComponent(niv.id) + '/t=' + Date.now() + '" data-rejouer>Rejouer' + (reussi && suivant ? '' : ' <kbd>Entrée</kbd>') + '</a>' +
+        '<a class="bouton" href="#campagne">Carte</a></div></section>' +
+        (ratees.length ? '<h2>À revoir</h2><ul class="liens-fiches">' + ratees.map(function (q) {
+          return '<li>' + o.echapper(o.resume(o.sansTex(enonce(q)), 110)) + ' · ' + source(q) + '</li>';
+        }).join('') + '</ul>' : '');
+      const principal = main.querySelector('[data-niveau-suivant]') || main.querySelector('[data-rejouer]');
+      controle = { touche: function (e, saisie) { if (!saisie && e.key === 'Enter') { principal.click(); return true; } return false; } };
+      racine.scrollTo(0, 0);
+    }
+
     question();
+  }
+
+  function blocClassement(dom, depart) {
+    const c = P.jeu2.coteJoueur(A.etat, dom);
+    const l = P.jeu2.ligue(c.r);
+    const delta = c.r - (depart == null ? c.r : depart);
+    return '<div class="carte classement"><div class="ligne"><span class="badge-ligue ligue-' + o.echapper(l.nom.toLowerCase()) + '">' + o.echapper(l.nom) + '</span>' +
+      '<span class="chiffre" style="font-size:1.6rem">' + c.r + '</span><span class="' + (delta >= 0 ? 'positif' : 'negatif') + '">' + (delta >= 0 ? '+' : '') + delta + '</span>' +
+      '<span class="espace"></span><span class="legende">' + nomDomaine(dom) + (l.suivante ? ' · ' + l.suivante.nom + ' à ' + l.suivante.cote : ' · ligue maximale') + '</span></div></div>';
   }
 
   // Questions d'un chapitre du cours : celles du chapitre lui-même et celles de ses fiches.
@@ -255,6 +320,7 @@
     const prec = s[q.id] || { n: 0, j: 0 };
     s[q.id] = { n: prec.n + 1, j: prec.j + (juste ? 1 : 0), r: juste, d: A.aujourdhui() };
     A.noterActivite('qcm');
+    if (A.jeuActif() && P.jeu2) P.jeu2.majElo(A.etat, A.contexteJeu(), q, juste);
   }
   // Questions de l'épreuve : au hasard dans le domaine ; pour l'épreuve finale, une par domaine à tour de rôle.
   function questionsBoss(b) {
@@ -388,6 +454,30 @@
     controle = null;
     clearInterval(minuteurBoss);
     if (params.boss) return rendreBoss(main, params.boss);
+    if (params.niveau && P.jeu2) {
+      const ctx = A.contexteJeu();
+      const niv = ctx && P.jeu2.niveauParId(ctx, params.niveau);
+      if (niv) {
+        const parId = {};
+        toutes().forEach(function (q) { parId[q.id] = q; });
+        // tirage pondéré : d'abord les questions ratées ou jamais vues du vivier, puis les autres
+        const s = suivi();
+        const vivier = o.melanger(Math.random, niv.vivier.slice()).sort(function (a, b) {
+          const pa = s[a] ? (s[a].r ? 2 : 0) : 1, pb = s[b] ? (s[b].r ? 2 : 0) : 1;
+          return pa - pb;
+        });
+        const ids = o.melanger(Math.random, vivier.slice(0, Math.min(vivier.length, niv.n + 4))).slice(0, niv.n);
+        const camp = P.jeu2.campagne(A.etat, ctx);
+        let numero = 0;
+        camp.mondes.forEach(function (m) { m.niveaux.forEach(function (x) { if (x.id === niv.id) numero = x.numero; }); });
+        return rendreSession(main, ids, { niveau: Object.assign({}, niv, { numero: numero }) });
+      }
+    }
+    if (params.classee && P.jeu2) {
+      const ctx = A.contexteJeu();
+      const qs = ctx ? P.jeu2.questionsClassees(A.etat, ctx, params.classee, TAILLE, Math.random) : [];
+      if (qs.length) return rendreSession(main, qs.map(function (q) { return q.id; }), { classee: params.classee });
+    }
     if (params.s) return rendreSession(main, params.s.split(',').filter(Boolean));
     if (params.c) {
       const liste = tirer(duChapitre(params.c), TAILLE);

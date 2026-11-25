@@ -125,7 +125,11 @@
       html += '<div class="carte bandeau-carriere"><a class="bandeau-niveau" href="#carriere" title="Ma carrière">' + rj.niveau + '</a>' +
         '<a class="bandeau-texte" href="#carriere"><b>' + o.echapper(rj.rang) + '</b><span class="barre barre-xp"><span style="width:' + Math.round(100 * partXp) + '%"></span></span>' +
         '<span class="legende">' + (rj.seuilSuivant ? (rj.seuilSuivant - rj.total).toLocaleString('fr-FR') + ' XP avant le niveau ' + (rj.niveau + 1) : 'Niveau maximal') + ' · quêtes ' + qf + ' / ' + rj.quetes.jour.length +
-        (rj.serie ? ' · série ' + rj.serie + ' j' : '') + '</span></a>' +
+        (rj.serie ? ' · série ' + rj.serie + ' j' : '') + (function () {
+          if (!P.jeu2) return '';
+          const u = P.jeu2.usine(A.etat, A.contexteJeu(), rj, Date.now());
+          return u.demarree && u.stock > 0 ? ' · <strong>usine : ' + Math.round(u.stock).toLocaleString('fr-FR') + ' € à collecter' + (u.plein ? ' (entrepôt plein)' : '') + '</strong>' : '';
+        })() + '</span></a>' +
         (suite ? '<a class="bouton principal continuer" href="' + suite.lien + '"><span class="continuer-libelle">Continuer</span><span class="continuer-titre">' + o.echapper(suite.titre) + '</span></a>' : '') + '</div>';
     }
     const restantes = taches.filter(function (t) { return !t.fait; }).length;

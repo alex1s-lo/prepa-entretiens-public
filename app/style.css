@@ -1006,3 +1006,99 @@ a.info-niveau { text-decoration: none; }
   .entete .info-niveau .info-libelle { display: none; }
   .entete .info-niveau b::before { content: "Niv. "; font-weight: 500; color: var(--texte-faible); font-size: .75rem; }
 }
+
+/* --- Campagne : carte des niveaux --- */
+.monde { margin: 28px 0 8px; }
+.tete-monde { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.tete-monde h2 { margin: 0; }
+.numero-monde { font-size: .75rem; font-weight: 650; text-transform: uppercase; letter-spacing: .06em; color: var(--accent); }
+.recit { margin: 8px 0 0; max-width: 62ch; font-style: italic; color: var(--texte-doux); }
+.monde.verrouille { opacity: .55; }
+.chemin { position: relative; margin: 6px auto 0; max-width: 560px; }
+.trace { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.trace polyline { fill: none; stroke: var(--bord-fort); stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 2 12; vector-effect: non-scaling-stroke; }
+.monde.fini .trace polyline { stroke: var(--accent-bord); stroke-dasharray: none; }
+.noeud { position: absolute; transform: translate(-50%, -50%); display: grid; justify-items: center; gap: 2px; text-decoration: none; color: var(--texte); width: 72px; }
+.pastille-niveau { width: 54px; height: 54px; border-radius: 50%; display: grid; place-items: center; font-weight: 750; font-size: 1.1rem;
+  background: var(--surface); border: 3px solid var(--bord-fort); box-shadow: var(--ombre); transition: transform .15s; }
+.noeud.ouvert .pastille-niveau { border-color: var(--accent); color: var(--accent-fort); }
+.noeud.fait .pastille-niveau { background: var(--accent); border-color: var(--accent-fort); color: #fff; }
+.noeud.ferme { pointer-events: none; }
+.noeud.ferme .pastille-niveau { color: var(--texte-faible); background: var(--surface-2); font-size: .9rem; }
+.noeud.boss-niveau .pastille-niveau { width: 64px; height: 64px; font-size: 1.4rem; border-width: 4px; }
+.noeud:hover .pastille-niveau { transform: scale(1.08); }
+.noeud.courant .pastille-niveau { animation: pulsation 1.6s ease-in-out infinite; }
+@keyframes pulsation { 0%, 100% { box-shadow: 0 0 0 0 var(--accent-doux); } 50% { box-shadow: 0 0 0 10px var(--accent-doux); } }
+.etiquette-niveau { position: absolute; left: 100%; top: 6px; margin-left: 4px; width: 150px; font-size: .78rem; line-height: 1.25; color: var(--texte-doux); pointer-events: none; }
+.etiquette-niveau small { display: block; color: var(--texte-faible); }
+.noeud.gauche .etiquette-niveau { left: auto; right: 100%; margin: 0 4px 0 0; text-align: right; }
+.etoiles { display: inline-flex; gap: 1px; font-size: .85rem; line-height: 1; }
+.etoiles i { font-style: normal; color: var(--bord-fort); }
+.etoiles i.pleine { color: #e0a800; }
+.panneau-niveau { border-color: var(--accent); }
+.fin-niveau { text-align: center; display: grid; justify-items: center; }
+.fin-niveau h1 { margin: 4px 0; }
+.etoiles-fin { display: flex; gap: 10px; font-size: 3rem; line-height: 1; margin: 8px 0; }
+.etoiles-fin .etoile { color: var(--bord-fort); }
+.etoiles-fin .etoile.pleine { color: #e0a800; animation: etoile-arrivee .5s cubic-bezier(.2, 1.6, .4, 1) both; }
+@keyframes etoile-arrivee { from { transform: scale(0) rotate(-40deg); opacity: 0; } to { transform: scale(1) rotate(0); opacity: 1; } }
+.ligne.centre { justify-content: center; }
+
+/* --- Classement (Elo) --- */
+.badge-ligue { display: inline-block; font-size: .78rem; font-weight: 650; padding: 2px 9px; border-radius: 99px; border: 1px solid currentColor; }
+.ligue-bronze { color: #a0603a; } .ligue-argent { color: #7d8794; } .ligue-or { color: #b8860b; } .ligue-platine { color: #3f8f9a; }
+.ligue-diamant { color: #4a74d8; } .ligue-quant { color: #7a4fd0; } .ligue-légende { color: #c0392b; }
+a.ligne-qcm { text-decoration: none; }
+.classement .ligne { gap: 14px; align-items: center; }
+.elo-direct { margin-right: 12px; font-variant-numeric: tabular-nums; }
+
+/* --- Usine --- */
+.tete-usine .usine-chiffres { display: flex; gap: 24px; align-items: center; flex-wrap: wrap; }
+.usine-entrepot { flex: 1; min-width: 200px; display: grid; gap: 4px; }
+.barre-entrepot { height: 10px; }
+.grille-machines { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 10px; }
+.machine { border: 1px solid var(--bord); border-radius: var(--rayon-petit); padding: 12px 14px; background: var(--surface); display: grid; gap: 8px; }
+.machine.en-marche { border-color: var(--succes); }
+.machine.ralentie { border-color: var(--alerte); }
+.machine.enrayee { border-color: var(--erreur); background: var(--erreur-doux); }
+.machine.a-construire { border-style: dashed; opacity: .7; }
+.machine-tete { display: flex; align-items: center; gap: 10px; }
+.machine-titre { font-weight: 600; font-size: .9rem; }
+.machine-roue { width: 28px; height: 28px; flex: none; display: inline-block; animation: rotation 4s linear infinite; }
+.engrenage { width: 28px; height: 28px; }
+.engrenage.en-marche { color: var(--succes); } .engrenage.ralentie { color: var(--alerte); } .engrenage.enrayee { color: var(--erreur); } .engrenage.a-construire { color: var(--texte-faible); }
+@keyframes rotation { to { transform: rotate(360deg); } }
+.machine-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+.machine-actions .bouton, .machine-actions button { font-size: .8rem; padding: 5px 10px; }
+
+/* --- Collection --- */
+.raretes { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 14px; }
+.badge-rarete { font-size: .78rem; font-weight: 600; padding: 2px 9px; border-radius: 99px; border: 1px solid currentColor; }
+.rarete-commune { color: var(--texte-doux); } .rarete-rare { color: #3f7fd0; } .rarete-epique { color: #8a4fd6; } .rarete-legendaire { color: #c58a00; }
+.liste-sets { display: grid; gap: 8px; }
+.set { border: 1px solid var(--bord); border-radius: var(--rayon-petit); background: var(--surface); }
+.set.complet { border-color: var(--succes); }
+.set-tete { width: 100%; display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(80px, 30%); gap: 12px; align-items: center; background: none; border: 0; padding: 12px 14px; text-align: left; font: inherit; color: var(--texte); }
+.set-nom { font-weight: 600; }
+.grille-cartes { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; padding: 0 14px 14px; }
+.carte-collection { display: grid; gap: 4px; align-content: start; min-height: 108px; padding: 10px; border-radius: 10px; border: 2px solid var(--bord); background: var(--surface-2);
+  text-decoration: none; color: var(--texte-faible); font-size: .8rem; }
+.carte-collection .rarete-nom { font-size: .68rem; text-transform: uppercase; letter-spacing: .05em; font-weight: 650; }
+.carte-collection .carte-titre { font-weight: 600; font-size: .82rem; line-height: 1.3; }
+.carte-collection.obtenue { color: var(--texte); background: var(--surface); border-color: currentColor; }
+.carte-collection.obtenue.rarete-legendaire { background: linear-gradient(160deg, var(--surface), rgba(224, 168, 0, .12)); }
+.carte-collection.obtenue.rarete-epique { background: linear-gradient(160deg, var(--surface), rgba(138, 79, 214, .10)); }
+.carte-collection.obtenue .carte-titre, .carte-collection.obtenue .legende { color: var(--texte); }
+@media (max-width: 760px) {
+  .etiquette-niveau { display: none; }
+  .noeud { width: 60px; }
+  .pastille-niveau { width: 48px; height: 48px; }
+  .set-tete { grid-template-columns: 1fr auto; }
+  .set-tete .paliers { grid-column: 1 / -1; }
+}
+@media (prefers-reduced-motion: reduce) { .machine-roue, .noeud.courant .pastille-niveau, .etoiles-fin .etoile.pleine { animation: none !important; } }
+.carte-collection.obtenue.rarete-commune { border-color: var(--bord-fort); }
+.carte-collection.obtenue.rarete-rare { border-color: #3f7fd0; }
+.carte-collection.obtenue.rarete-epique { border-color: #8a4fd6; }
+.carte-collection.obtenue.rarete-legendaire { border-color: #c58a00; }
+.carte-collection.obtenue .rarete-nom { color: var(--texte-doux); }

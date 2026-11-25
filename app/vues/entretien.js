@@ -363,7 +363,7 @@
   }
 
   A.enregistrerVue({
-    id: 'entretien', titre: 'Entretien blanc', court: 'Entretien', icone: '▶', ordre: 5, rendre: rendre,
+    id: 'entretien', titre: 'Entretien blanc', court: 'Entretien', icone: '▶', ordre: 5.05, rendre: rendre,
     touche: function (e, saisie) { if (controle && controle.touche(e, saisie)) e.preventDefault(); }
   });
   P.entretien = { PROFILS: PROFILS, DUREES: DUREES, composer: composer, decouperRelance: decouperRelance, consignes: consignes, PROFIL_CANDIDAT_DEFAUT: PROFIL_CANDIDAT_DEFAUT };

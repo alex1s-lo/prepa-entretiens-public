@@ -467,7 +467,7 @@ function verifier(cond, message) { if (!cond) throw new Error(message); }
   // --- Mode carrière : niveau, quêtes, épreuve chronométrée corrigée à la fin, désactivation ---
   await naviguer('carriere', 'Carrière');
   verifier(!!(await page.$('.joueur .rang')), 'carrière : rang affiché');
-  verifier((await page.$$('.quetes .quete')).length === 4, 'carrière : trois quêtes du jour et une de la semaine');
+  verifier((await page.$$('.quetes .quete')).length >= 4, 'carrière : trois quêtes du jour, celle de la semaine et l’événement');
   verifier(!!(await page.$('[data-continuer]')), 'carrière : bouton Continuer');
   verifier(!!(await page.$('.coffre')), 'carrière : coffre du jour');
   await page.click('[data-onglet="competences"]');
@@ -508,6 +508,40 @@ function verifier(cond, message) { if (!cond) throw new Error(message); }
   await page.uncheck('#r-jeu');
   verifier(await page.evaluate(() => !window.Prepa.app.jeuActif()), 'mode carrière désactivable');
   await page.check('#r-jeu');
+
+  // --- Campagne : carte, niveau joué jusqu'aux étoiles ; usine ; partie classée ---
+  await naviguer('campagne', 'Campagne');
+  verifier((await page.$$('.monde')).length === 8, 'campagne : huit mondes');
+  verifier((await page.$$('.noeud')).length >= 50, 'campagne : niveaux sur la carte');
+  verifier((await page.$$('.noeud.ferme')).length > 0, 'campagne : niveaux verrouillés');
+  await page.click('[data-aller-courant]');
+  await page.waitForSelector('[data-jouer]');
+  await page.click('[data-jouer]');
+  for (let k = 0; k < 6; k++) {
+    await page.waitForSelector('.choix-qcm [data-choix]:not([disabled])');
+    await page.evaluate(() => {
+      const t = document.querySelector('.carte-qcm .question').textContent;
+      const q = window.Prepa.qcm.toutes().find((x) => { const f = window.Prepa.app.fiche(x.cible); const e = document.createElement('div'); e.innerHTML = window.Prepa.outils.markdown(x.question || (f && f.question) || ''); return e.textContent === t; });
+      document.querySelector('[data-choix="' + q.choix.findIndex((c) => c.ok) + '"]').click();
+    });
+    await page.waitForSelector('[data-qcm-suivante]');
+    await page.click('[data-qcm-suivante]');
+  }
+  await page.waitForSelector('.fin-niveau');
+  verifier((await page.$$('.etoiles-fin .etoile.pleine')).length === 3, 'campagne : trois étoiles sans faute');
+  verifier(!!(await page.$('[data-niveau-suivant]')), 'campagne : niveau suivant débloqué');
+  await page.goto(URL + '#carriere/onglet=usine');
+  await page.waitForSelector('[data-collecter]');
+  await page.click('[data-collecter]');
+  await page.waitForSelector('.grille-machines');
+  verifier(await page.evaluate(() => !!window.Prepa.app.etat.jeu.usine.derniere), 'usine démarrée');
+  await page.goto(URL + '#carriere/onglet=collection');
+  await page.waitForSelector('.liste-sets');
+  await page.goto(URL + '#qcm/classee=probas');
+  await page.waitForSelector('[data-elo]');
+  await page.keyboard.press('1');
+  await page.waitForSelector('[data-qcm-suivante]');
+  verifier(/[+-]\d/.test(await page.textContent('[data-elo]')), 'partie classée : la cote bouge');
 
   // --- Synchronisation entre deux appareils, avec un faux GitHub en mémoire (aucun appel réseau réel) ---
   const depotFictif = { fichier: null, sha: null, ecritures: 0 };
@@ -582,7 +616,7 @@ function verifier(cond, message) { if (!cond) throw new Error(message); }
   const mobile = await navigateur.newContext({ viewport: { width: 375, height: 740 }, deviceScaleFactor: 1 });
   const p2 = await mobile.newPage();
   p2.on('pageerror', (e) => erreurs.push('mobile pageerror: ' + e.message));
-  for (const v of ['accueil', 'revisions', 'calcul', 'entretien', 'marche', 'marche/onglet=kelly', 'test', 'plus', 'histoires', 'journal', 'guides', 'guides/g=antiseche', 'progres', 'reglages', 'revisions/onglet=banque', 'casse-tetes', 'casse-tetes/f=ct-p-racines-reelles', 'qcm', 'carriere']) {
+  for (const v of ['accueil', 'revisions', 'calcul', 'entretien', 'marche', 'marche/onglet=kelly', 'test', 'plus', 'histoires', 'journal', 'guides', 'guides/g=antiseche', 'progres', 'reglages', 'revisions/onglet=banque', 'casse-tetes', 'casse-tetes/f=ct-p-racines-reelles', 'qcm', 'carriere', 'campagne', 'carriere/onglet=usine', 'carriere/onglet=collection']) {
     await p2.goto(URL + '#' + v);
     await p2.waitForSelector('main h1');
     const deborde = await p2.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);

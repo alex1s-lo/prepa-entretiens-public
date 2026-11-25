@@ -20,7 +20,7 @@
       histoires: {},     // id d'histoire -> texte
       perso: [],         // fiches ajoutées par toi (questions posées en vrai)
       notes: {},         // id de fiche -> note personnelle
-      jeu: { quetes: {}, boss: {}, succes: {}, bonus: {}, coffres: {}, desk: {} },  // mode carrière : quêtes accomplies, épreuves, succès (le reste est recalculé)
+      jeu: { quetes: {}, boss: {}, succes: {}, bonus: {}, coffres: {}, desk: {}, niveaux: {}, elo: {}, usine: {} },  // mode carrière : quêtes accomplies, épreuves, succès (le reste est recalculé)
       qcm: {},           // id de question de QCM -> { n tentatives, j justes, r dernière juste, d date } (à part des révisions)
       cours: { exercices: {}, lus: {}, demos: {} },  // exercices faits, chapitres lus, démonstrations maîtrisées
       reglages: { profils: ['hf', 'banque', 'mm'], nouveauxParJour: 15, anglais: false, theme: 'auto', niveauCalcul: 2 }
@@ -37,7 +37,7 @@
     ['calcul', 'marche', 'entretiens', 'tests', 'kelly', 'journal', 'perso'].forEach(function (k) { if (!Array.isArray(e[k])) e[k] = []; });
     ['cartes', 'jours', 'histoires', 'notes', 'qcm'].forEach(function (k) { if (!e[k] || typeof e[k] !== 'object') e[k] = {}; });
     if (!e.jeu || typeof e.jeu !== 'object') e.jeu = {};
-    ['quetes', 'boss', 'succes', 'bonus', 'coffres', 'desk'].forEach(function (k) { if (!e.jeu[k] || typeof e.jeu[k] !== 'object') e.jeu[k] = {}; });
+    ['quetes', 'boss', 'succes', 'bonus', 'coffres', 'desk', 'niveaux', 'elo', 'usine'].forEach(function (k) { if (!e.jeu[k] || typeof e.jeu[k] !== 'object') e.jeu[k] = {}; });
     if (!e.cours || typeof e.cours !== 'object') e.cours = {};
     if (!e.cours.exercices || typeof e.cours.exercices !== 'object') e.cours.exercices = {};
     if (!e.cours.lus || typeof e.cours.lus !== 'object') e.cours.lus = {};
@@ -63,7 +63,7 @@
     if (!P.jeu || !cours || !P.qcm) return null;
     return {
       fiches: P_BANQUE().fiches, chapitres: cours.chapitres, qcm: P.qcm.toutes(), categories: P_BANQUE().categories || {},
-      themes: P_BANQUE().themes || {}, jour: aujourdhui(), maitrise: P.srs.maitrise, domaine: P.qcm.domaine
+      themes: P_BANQUE().themes || {}, jour: aujourdhui(), maitrise: P.srs.maitrise, domaine: P.qcm.domaine, fiche: fiche
     };
   }
   let jeuDernier = null;   // dernier résultat calculé (pour annoncer ce qui vient d'être gagné)
@@ -285,6 +285,7 @@
 
   // Icônes au trait (24 × 24), dessinées pour l'application : une par section.
   const TRACES = {
+    campagne: '<path d="M5 21V4"/><path d="M5 4h11l-2 4 2 4H5"/><circle cx="18" cy="19" r="1.6"/><path d="M8 19h7"/>',
     carriere: '<path d="M12 3.5 14.6 8.8l5.9.9-4.25 4.15 1 5.85L12 16.95 6.75 19.7l1-5.85L3.5 9.7l5.9-.9z"/>',
     qcm: '<rect x="3.5" y="3.5" width="17" height="17" rx="2.5"/><path d="m7.5 9 1.5 1.5 3-3"/><path d="M14 9.5h3"/><path d="M7.5 15.5h.01"/><path d="M10.5 15.5h6.5"/>',
     accueil: '<path d="M3.5 10.5 12 3.5l8.5 7"/><path d="M5.5 9v11h13V9"/><path d="M10 20v-6h4v6"/>',
@@ -313,7 +314,7 @@
   const GROUPES = [
     { titre: '', ids: ['accueil'] },
     { titre: 'Apprendre', ids: ['cours', 'revisions', 'calcul'] },
-    { titre: 'S’entraîner', ids: ['entretien', 'qcm', 'casse-tetes', 'marche'] },
+    { titre: 'S’entraîner', ids: ['campagne', 'entretien', 'qcm', 'casse-tetes', 'marche'] },
     { titre: 'Préparer', ids: ['histoires', 'journal', 'guides'] },
     { titre: 'Suivi', ids: ['carriere', 'progres', 'reglages'] }
   ];
@@ -321,7 +322,7 @@
   function rendreNavigation() {
     const nav = document.getElementById('navigation');
     const liste = Object.keys(vues).map(function (k) { return vues[k]; })
-      .filter(function (v) { return !v.cache && (v.id !== 'carriere' || jeuActif()); }).sort(function (a, b) { return a.ordre - b.ordre; });
+      .filter(function (v) { return !v.cache && ((v.id !== 'carriere' && v.id !== 'campagne') || jeuActif()); }).sort(function (a, b) { return a.ordre - b.ordre; });
     const lien = function (v, classe) {
       const pastille = v.pastille ? v.pastille() : '';
       return '<a href="#' + v.id + '"' + (classe ? ' class="' + classe + '"' : '') + (vueCourante === v ? ' aria-current="page"' : '') +
