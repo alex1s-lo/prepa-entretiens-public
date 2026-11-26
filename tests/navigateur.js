@@ -326,6 +326,18 @@ function verifier(cond, message) { if (!cond) throw new Error(message); }
   verifier((await page.$$('.liste-ct li.variante-ct')).length === 0, 'casse-têtes : variantes masquables');
   await page.check('[data-ct-variantes]');
   verifier((await page.textContent('[data-ct-vues]')).trim() !== '0', 'casse-têtes : compteur des énigmes vues');
+  // « jamais vue » ne ressert jamais une énigme déjà travaillée, même à revoir
+  await page.evaluate(() => { window.Prepa.app.etat.cartes['ct-prisonniers-boites'].echeance = '2000-01-01'; window.Prepa.app.sauver(); });
+  await page.goto(URL + '#casse-tetes');
+  await page.waitForSelector('[data-ct-hasard]');
+  for (let k = 0; k < 5; k++) {
+    await page.click('[data-ct-hasard]');
+    await page.waitForSelector('h1.titre-enigme');
+    const id = await page.evaluate(() => decodeURIComponent(location.hash.split('f=')[1] || ''));
+    verifier(id && !(await page.evaluate((i) => !!window.Prepa.app.etat.cartes[i], id)), 'casse-têtes : « jamais vue » propose une énigme jamais travaillée (' + id + ')');
+    await page.goto(URL + '#casse-tetes');
+    await page.waitForSelector('[data-ct-hasard]');
+  }
   await capture('16-casse-tetes');
 
   // --- Histoires ---

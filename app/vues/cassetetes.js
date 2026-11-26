@@ -138,7 +138,7 @@
       });
     });
     main.querySelector('[data-ct-hasard]').addEventListener('click', function () {
-      const f = tirer(1)[0];
+      const f = tirer(1, true)[0];
       if (!f) { A.toast('Tu as déjà vu toutes les énigmes de ces filtres.'); return; }
       A.aller('casse-tetes', { f: f.id });
     });
@@ -149,12 +149,17 @@
     });
   }
 
-  // Tirage : d'abord les énigmes à revoir, puis les jamais vues, dans les filtres courants (hors état).
-  function tirer(n) {
+  // Tirage dans les filtres courants. « Jamais vue » (bouton, lien après une énigme, ou filtre d'état « Jamais vus ») :
+  // uniquement des énigmes jamais travaillées. Sinon (session) : d'abord les énigmes à revoir, puis les jamais vues ;
+  // le filtre « À revoir » limite aux énigmes dues.
+  function tirer(n, jamaisVues) {
     const base = enigmes().filter(function (f) {
-      return (!filtres.cat || f.categorie === filtres.cat) && (!filtres.niveau || String(f.niveau) === filtres.niveau);
+      return (!filtres.cat || f.categorie === filtres.cat) && (!filtres.niveau || String(f.niveau) === filtres.niveau) &&
+        (!filtres.variantes ? !f.parent : true);
     });
-    const dues = o.melanger(Math.random, base.filter(function (f) { return etatDe(f) === 'revoir'; }));
+    const seulementNeuves = jamaisVues || filtres.etat === 'nouveaux';
+    const dues = seulementNeuves ? [] : o.melanger(Math.random, base.filter(function (f) { return etatDe(f) === 'revoir'; }));
+    if (filtres.etat === 'revoir' && !jamaisVues) return dues.slice(0, n);
     const neuves = base.filter(function (f) { return etatDe(f) === 'nouveau'; });
     // une variante passe après son problème d'origine : on la propose une fois l'origine déjà travaillée
     const pretes = o.melanger(Math.random, neuves.filter(function (f) { return !f.parent || A.etat.cartes[f.parent]; }));
@@ -180,7 +185,7 @@
           suite.innerHTML = '<div class="ligne fin"><button class="principal" data-ct-suivante>Énigme suivante →</button></div>';
           suite.querySelector('[data-ct-suivante]').addEventListener('click', function () { rendreEnigme(main, ids, rang + 1); racine.scrollTo(0, 0); });
         } else {
-          const autre = tirer(1)[0];
+          const autre = tirer(1, true)[0];
           suite.innerHTML = '<div class="ligne fin">' + (session ? '<span class="doux petit">Session terminée.</span><span class="espace"></span>' : '') +
             '<a class="bouton" href="#casse-tetes">Retour à la liste</a>' +
             (autre ? '<a class="bouton principal" href="#casse-tetes/f=' + encodeURIComponent(autre.id) + '">Une autre, jamais vue →</a>' : '') + '</div>';
