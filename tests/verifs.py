@@ -8,6 +8,7 @@ Bibliothèque standard uniquement.
 """
 from __future__ import annotations
 
+import functools
 import itertools
 import math
 import random
@@ -4141,3 +4142,375 @@ def _():
     for _ in range(n):
         g += any(rng.randrange(6) == 5 and rng.randrange(6) == 5 for _ in range(24))
     return g / n, 0.006
+
+
+# --- Casse-têtes, troisième série (classiques repérés sur Tradermath, QuantVault et techinterview.org) ---------------
+def _permutations_cartes(cartes, condition):
+    """Proportion des ordres relatifs (équiprobables) d'un petit ensemble de cartes qui vérifient la condition."""
+    ordres = list(itertools.permutations(cartes))
+    return F(sum(1 for o in ordres if condition(o)), len(ordres))
+
+
+@verif("ct-p-as-avant-rois")
+def _():
+    # seul compte l'ordre relatif des 4 as et des 4 rois : il faut les 4 as en tête
+    return _permutations_cartes("AAAARRRR", lambda o: o[:4] == ("A",) * 4)
+
+
+@verif("ct-p-roi-dame-avant-as")
+def _():
+    return _permutations_cartes("RDA", lambda o: o.index("A") == 2)
+
+
+@verif("ct-p-cartes-entre-as-rouges")
+def _():
+    # simulation exacte sur un petit paquet pour valider la formule (n - 2)/3, puis application à 52
+    for n in range(3, 8):
+        tot = F(0)
+        perms = list(itertools.permutations(range(n)))
+        for p in perms:
+            i, j = p.index(0), p.index(1)
+            tot += abs(i - j) - 1
+        assert tot / len(perms) == F(n - 2, 3)
+    return F(52 - 2, 3)
+
+
+@verif("ct-p-inversions-tri-bulles")
+def _():
+    for n in range(2, 7):
+        perms = list(itertools.permutations(range(n)))
+        inv = sum(sum(1 for a in range(n) for b in range(a + 1, n) if p[a] > p[b]) for p in perms)
+        assert F(inv, len(perms)) == F(n * (n - 1), 4)
+    return F(10 * 9, 4)
+
+
+@verif("ct-p-deux-parapluies")
+def _():
+    # état : nombre de parapluies au lieu de départ du trajet (l'autre lieu a le reste)
+    p = F(3, 10)
+    q = 1 - p
+    P = {0: {2: F(1)}, 1: {2: p, 1: q}, 2: {1: p, 0: q}}
+    # loi stationnaire candidate (calcul à la main), vérifiée exactement : pi = pi P
+    pi = {0: q / (3 - p), 1: 1 / (3 - p), 2: 1 / (3 - p)}
+    assert sum(pi.values()) == 1
+    for t in range(3):
+        assert sum(pi[s] * P[s].get(t, 0) for s in range(3)) == pi[t]
+    # mouillé : partir sans parapluie (état 0) et qu'il pleuve
+    return p * pi[0]
+
+
+@verif("ct-p-repetition-de")
+def _():
+    # E[N] = somme_{k >= 0} P(N > k) ; N > k : les k premiers lancers sont distincts
+    e = F(0)
+    for k in range(0, 7):
+        e += F(math.perm(6, k), 6 ** k)
+    return e
+
+
+@verif("ct-p-six-piles-avant-quatre-faces")
+def _():
+    @functools.lru_cache(None)
+    def v(h, t):
+        if h == 6:
+            return F(1)
+        if t == 4:
+            return F(0)
+        return (v(h + 1, t) + v(h, t + 1)) / 2
+    return v(0, 0)
+
+
+@verif("ct-p-somme-4-avant-2")
+def _():
+    s4 = sum(1 for a in DE for b in DE if a + b == 4)
+    s2 = sum(1 for a in DE for b in DE if a + b == 2)
+    return F(s4, s4 + s2)
+
+
+@verif("ct-p-somme-8-sachant-un-3")
+def _():
+    cas = [(a, b) for a in DE for b in DE if 3 in (a, b)]
+    return F(sum(a + b == 8 for a, b in cas), len(cas))
+
+
+@verif("ct-p-doubles-annules")
+def _():
+    return F(sum(0 if a == b else a + b for a in DE for b in DE), 36)
+
+
+@verif("ct-p-triangle-trois-des")
+def _():
+    ok = sum(1 for a in DE for b in DE for c in DE
+             if a + b > c and a + c > b and b + c > a)
+    return F(ok, 216)
+
+
+@verif("ct-p-une-boite-vide")
+def _():
+    issues = list(itertools.product(range(4), repeat=4))
+    return F(sum(1 for o in issues if len(set(o)) == 3), len(issues))
+
+
+@verif("ct-p-premiere-couleur-epuisee")
+def _():
+    # 5 rouges, 3 bleues : les rouges sont épuisées d'abord si la dernière boule est bleue
+    ordres = set(itertools.permutations("RRRRRBBB"))
+    return F(sum(1 for o in ordres if o[-1] == "B"), len(ordres))
+
+
+@verif("ct-p-cordes-se-coupent")
+def _():
+    # 4 points au hasard sur le cercle : seul l'ordre circulaire compte ; P1P2 coupe P3P4 si les points alternent
+    ordres = list(itertools.permutations(range(4)))
+    def coupe(o):
+        pos = {v: i for i, v in enumerate(o)}
+        a, b = sorted((pos[0], pos[1]))
+        return (a < pos[2] < b) != (a < pos[3] < b)
+    return F(sum(coupe(o) for o in ordres), len(ordres))
+
+
+@verif("ct-p-tirs-au-but")
+def _():
+    # P(but) : tireur G/D, gardien G/D
+    m = {("G", "G"): F(6, 10), ("G", "D"): F(9, 10), ("D", "G"): F(95, 100), ("D", "D"): F(7, 10)}
+    # valeur du jeu à somme nulle 2 x 2 sans point selle : max_q min_gardien
+    meilleur = None
+    for k in range(0, 2001):
+        q = F(k, 2000)
+        contre_g = q * m[("G", "G")] + (1 - q) * m[("D", "G")]
+        contre_d = q * m[("G", "D")] + (1 - q) * m[("D", "D")]
+        v = min(contre_g, contre_d)
+        if meilleur is None or v > meilleur:
+            meilleur = v
+    exact = F(87, 110)
+    assert abs(float(meilleur) - float(exact)) < 1e-3
+    q = F(5, 11)
+    assert q * m[("G", "G")] + (1 - q) * m[("D", "G")] == q * m[("G", "D")] + (1 - q) * m[("D", "D")] == exact
+    return exact
+
+
+@verif("ct-p-amibe")
+def _():
+    # point fixe de s = (1 + s + s^2 + s^3)/4, plus petite racine dans [0, 1], par itération depuis 0
+    s = 0.0
+    for _ in range(20000):
+        s = (1 + s + s * s + s ** 3) / 4
+    return s, 1e-6
+
+
+@verif("ct-p-capture-recapture")
+def _():
+    # estimateur de Lincoln-Petersen
+    return F(60 * 50, 6)
+
+
+@verif("ct-p-chars-allemands")
+def _():
+    # l'estimateur m (1 + 1/k) - 1 est sans biais : on le vérifie exactement pour un N donné, puis on l'applique
+    n_vrai, k = 30, 5
+    tirages = list(itertools.combinations(range(1, n_vrai + 1), k))
+    moyenne = F(sum(max(t) for t in tirages), len(tirages))
+    assert moyenne * (1 + F(1, k)) - 1 == n_vrai
+    return 60 * (1 + F(1, 5)) - 1
+
+
+@verif("ct-p-correlation-transitive")
+def _():
+    # la matrice de corrélation doit être semi-définie positive : son déterminant s'annule à la borne
+    r = F(8, 10)
+    def det(x):
+        return 1 + 2 * r * r * x - 2 * r * r - x * x
+    borne = 2 * r * r - 1
+    assert det(borne) == 0 and det(borne + F(1, 100)) > 0 and det(borne - F(1, 100)) < 0
+    return borne
+
+
+@verif("ct-p-piece-echiquier")
+def _():
+    # le centre de la pièce, uniforme dans une case de 5 cm, doit rester à 1 cm au moins des bords
+    rng = random.Random(7)
+    n, ok = 200000, 0
+    for _ in range(n):
+        x, y = rng.uniform(0, 5), rng.uniform(0, 5)
+        ok += 1 <= x <= 4 and 1 <= y <= 4
+    assert abs(ok / n - 9 / 25) < 0.005
+    return F(9, 25)
+
+
+@verif("ct-p-distance-carre")
+def _():
+    # écart |X1 - X2| de densité 2(1 - t) sur [0, 1] pour chaque coordonnée
+    return grille(lambda x, y: math.hypot(x, y) * 4 * (1 - x) * (1 - y), 800), 1e-5
+
+
+@verif("ct-p-garcons-filles-voisins")
+def _():
+    # linéarité : 19 paires voisines, chacune mixte avec probabilité 2 * 7 * 13 / (20 * 19) ; contrôle exhaustif réduit
+    for b, g in [(2, 3), (3, 4), (1, 5)]:
+        n = b + g
+        mots = set(itertools.permutations("B" * b + "G" * g))
+        tot = sum(sum(1 for i in range(n - 1) if w[i] != w[i + 1]) for w in mots)
+        assert F(tot, len(mots)) == F(2 * b * g, n)
+    return F(2 * 7 * 13, 20)
+
+
+@verif("ct-p-morpion-aleatoire")
+def _():
+    lignes = [(0, 1, 2), (3, 4, 5), (6, 7, 8), (0, 3, 6), (1, 4, 7), (2, 5, 8), (0, 4, 8), (2, 4, 6)]
+    @functools.lru_cache(None)
+    def p_x(plateau):
+        for a, b, c in lignes:
+            if plateau[a] != "." and plateau[a] == plateau[b] == plateau[c]:
+                return F(1) if plateau[a] == "X" else F(0)
+        libres = [i for i, v in enumerate(plateau) if v == "."]
+        if not libres:
+            return F(0)
+        joueur = "X" if len(libres) % 2 == 1 else "O"
+        return sum(p_x(plateau[:i] + joueur + plateau[i + 1:]) for i in libres) / len(libres)
+    return p_x("." * 9)
+
+
+@verif("ct-p-quatre-portes")
+def _():
+    # la voiture est derrière une porte au hasard ; on choisit la porte 0 ; l'animateur ouvre deux portes à chèvre
+    # parmi les trois autres ; on change pour la dernière porte fermée
+    gagne = F(0)
+    for voiture in range(4):
+        autres = [d for d in (1, 2, 3)]
+        chevres = [d for d in autres if d != voiture]
+        ouvertures = list(itertools.combinations(chevres, 2))
+        for o in ouvertures:
+            restante = [d for d in autres if d not in o][0]
+            gagne += F(1, 4) * F(1, len(ouvertures)) * (restante == voiture)
+    return gagne
+
+
+@verif("ct-p-pile-50-face-40")
+def _():
+    return math.sqrt(1.5 * 0.6)
+
+
+@verif("ct-p-pari-hollandais")
+def _():
+    # mises proportionnelles aux probabilités implicites : même gain quel que soit le résultat
+    c1, c2 = F(18, 10), F(26, 10)
+    m1, m2 = 1 / c1, 1 / c2
+    total = m1 + m2
+    assert m1 * c1 == m2 * c2
+    return float(100 * (1 / total - 1))
+
+
+@verif("ct-p-loto-sans-numero-commun")
+def _():
+    return F(math.comb(43, 6), math.comb(49, 6))
+
+
+@verif("ct-p-somme-difference-correlees")
+def _():
+    # Cov(X + Y, X - Y) = Var X - Var Y = 0 quelle que soit la corrélation ; vérifié sur une loi discrète corrélée
+    loi = {(0, 0): F(3, 10), (1, 1): F(3, 10), (0, 1): F(1, 10), (1, 0): F(1, 10), (2, 2): F(2, 10)}
+    def e(f):
+        return sum(p * f(x, y) for (x, y), p in loi.items())
+    cov = e(lambda x, y: (x + y) * (x - y)) - e(lambda x, y: x + y) * e(lambda x, y: x - y)
+    assert e(lambda x, y: x * x) - e(lambda x, y: x) ** 2 == e(lambda x, y: y * y) - e(lambda x, y: y) ** 2
+    return cov
+
+
+# dénombrement, nombres, mouvements, stratégie
+@verif("ct-isoceles-decagone")
+def _():
+    pts = range(10)
+    def d(i, j):
+        k = abs(i - j) % 10
+        return min(k, 10 - k)
+    return sum(1 for a, b, c in itertools.combinations(pts, 3)
+               if d(a, b) == d(a, c) or d(b, a) == d(b, c) or d(c, a) == d(c, b))
+
+
+@verif("ct-diagonale-cases-traversees")
+def _():
+    # compte direct : la diagonale de (0,0) à (18,12) traverse une case si elle passe par son intérieur
+    m, n, total = 18, 12, 0
+    for i in range(m):
+        for j in range(n):
+            # y = (n/m) x coupe l'intérieur de [i, i+1] x [j, j+1]
+            y0, y1 = F(n * i, m), F(n * (i + 1), m)
+            if max(y0, F(j)) < min(y1, F(j + 1)):
+                total += 1
+    assert total == m + n - math.gcd(m, n)
+    return total
+
+
+@verif("ct-zeros-1-a-1000")
+def _():
+    return sum(str(k).count("0") for k in range(1, 1001))
+
+
+@verif("ct-chiffres-produit-96")
+def _():
+    return next(k for k in range(1, 10 ** 6) if math.prod(int(c) for c in str(k)) == 96)
+
+
+@verif("ct-multiple-66")
+def _():
+    return next(k for k in range(600000, 700000) if k % 66 == 0)
+
+
+@verif("ct-fibonacci-dernier-chiffre")
+def _():
+    a, b = 0, 1
+    for _ in range(2026):
+        a, b = b, (a + b) % 10
+    return a
+
+
+@verif("ct-bits-permutation-100")
+def _():
+    return math.ceil(math.log2(math.factorial(100)))
+
+
+@verif("ct-escalator-marches")
+def _():
+    # N = 20 + 20 v et N = 32 + 16 v (v : marches par seconde de l'escalier)
+    v = F(32 - 20, 20 - 16)
+    return 20 + 20 * v
+
+
+@verif("ct-cloture-mur")
+def _():
+    return max(F(x, 10) * (100 - 2 * F(x, 10)) for x in range(0, 501))
+
+
+@verif("ct-grille-pain")
+def _():
+    # recherche exhaustive : à chaque tour de 30 s, au plus deux faces grillées, faces distinctes de tranches distinctes
+    from collections import deque
+    depart = (0, 0, 0)  # faces grillées par tranche
+    vus, file = {depart: 0}, deque([depart])
+    while file:
+        e = file.popleft()
+        if e == (2, 2, 2):
+            return 30 * vus[e]
+        restantes = [i for i in range(3) if e[i] < 2]
+        for k in (1, 2):
+            for choix in itertools.combinations(restantes, k):
+                n = list(e)
+                for i in choix:
+                    n[i] += 1
+                n = tuple(n)
+                if n not in vus:
+                    vus[n] = vus[e] + 1
+                    file.append(n)
+
+
+@verif("ct-tapis-roulant-courir")
+def _():
+    # courir 10 s à 2 m/s au lieu de 1 m/s : gain de temps selon l'endroit (100 m de sol, 100 m de tapis à 1 m/s)
+    def duree(sur_tapis):
+        if sur_tapis:
+            # 10 s de course sur le tapis (3 m/s) : 30 m, reste 70 m à 2 m/s
+            return 100 / 1 + 10 + 70 / 2
+        # 10 s de course au sol (2 m/s) : 20 m, reste 80 m à 1 m/s, puis le tapis à 2 m/s
+        return 10 + 80 / 1 + 100 / 2
+    assert duree(False) < duree(True)
+    return duree(True) - duree(False)

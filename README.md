@@ -22,7 +22,7 @@ Pas de serveur, pas de compte, pas de connexion Internet : la page ne charge rie
 |---|---|
 | **Aujourd'hui** | Le programme du jour, le compte à rebours jusqu'au prochain entretien, la question du jour |
 | **Cours** | Un cours complet en 23 chapitres, des probabilités au calcul stochastique, au pricing (exotiques et énergie compris), au risque, au market making, au machine learning et au code : définitions, démonstrations complètes ligne à ligne, exemples chiffrés, 160 exercices à réponse vérifiée, 21 simulations interactives, et des liens vers les fiches de révision correspondantes (voir plus bas) |
-| **Révisions** | 742 questions en répétition espacée : une question ratée revient le lendemain, une question facile dans quelques semaines. Session du jour, révision par thème, banque consultable avec recherche |
+| **Révisions** | 781 questions en répétition espacée : une question ratée revient le lendemain, une question facile dans quelques semaines. Session du jour, révision par thème, banque consultable avec recherche |
 | **Banque de questions** | Toutes les fiches rangées comme un sommaire : index des thèmes, puis groupes par chapitre du cours (ou par famille pour les casse-têtes), triés par difficulté, chaque variante sous son problème. Filtres par statut (jamais vue, à revoir, en cours, maîtrisée), difficulté, poste, essentiels ; recherche plein texte (<kbd>/</kbd>). Une ligne se déplie sur place (énoncé, solution, liens vers le cours et le QCM). Les filtres restent dans l'adresse ; « Réviser cette sélection » lance une session sur les 15 moins maîtrisées |
 | **Recherche** | <kbd>Ctrl</kbd> <kbd>K</kbd> (ou <kbd>⌘</kbd> <kbd>K</kbd>, ou le bouton en haut de la barre latérale) : pages, chapitres et sections du cours, questions, casse-têtes et guides dans une seule liste, au clavier |
 | **QCM** | Une question à choix multiples pour **chacune** des fiches (casse-têtes et variantes compris). Les mauvaises réponses sont des pièges courants (formule voisine, cas oublié, intuition trompeuse) et **chaque** réponse est expliquée après coup, la bonne comme les fausses. Pensé pour découvrir une notion en jouant : avant de répondre, « Voir le cours d'abord » affiche la section du cours qui l'explique (ou un indice), et « Je ne sais pas encore » montre la réponse sans pénalité ; après la réponse, la **correction détaillée** rappelle la bonne réponse et sa justification, donne la solution rédigée pas à pas de la fiche (avec le piège classique) et le point de cours en extrait, ouvert d'office après une erreur. La section est celle qui cite la fiche ; pour une fiche qu'aucun chapitre ne cite, seul le chapitre du domaine est proposé (le bon chapitre est trouvé environ 9 fois sur 10, la bonne section seulement 6 fois sur 10). Trois entrées : par domaine, par chapitre du cours, ou en parties classées. Les longueurs des réponses sont équilibrées (la bonne n'est nettement la plus longue que dans 13 % des questions), pour qu'on ne puisse pas deviner à la forme. Sessions de 10 par domaine ou tous domaines (d'abord les questions ratées, puis les jamais vues), bilan et « refaire mes erreurs ». Progression à part : répondre au QCM ne change pas le planning des révisions |
@@ -43,7 +43,7 @@ Pas de serveur, pas de compte, pas de connexion Internet : la page ne charge rie
 
 | Thème | Fiches | Thème | Fiches |
 |---|---|---|---|
-| Casse-têtes | 324 | Probabilités | 90 |
+| Casse-têtes | 363 | Probabilités | 90 |
 | Produits dérivés et pricing | 58 | Statistiques et économétrie | 41 |
 | Code et algorithmique | 39 | Calcul stochastique | 37 |
 | Marchés et trading | 33 | Machine learning | 31 |
@@ -52,7 +52,7 @@ Pas de serveur, pas de compte, pas de connexion Internet : la page ne charge rie
 
 Toutes les formules (fiches, guides, simulations) sont écrites en LaTeX et rendues par KaTeX, hors ligne ; un test vérifie que chacune se compile et qu'aucun symbole mathématique ne reste en texte simple.
 
-Chaque fiche a une solution rédigée, souvent un indice, le **piège classique** et les **relances probables** de l'intervieweur ; la plupart ont aussi une formulation en anglais (touche `e`). Les 435 questions à réponse chiffrée acceptent `1/6`, `0,1667`, `16,7 %`, `e^-1`, `√2/2`…
+Chaque fiche a une solution rédigée, souvent un indice, le **piège classique** et les **relances probables** de l'intervieweur ; la plupart ont aussi une formulation en anglais (touche `e`). Les 474 questions à réponse chiffrée acceptent `1/6`, `0,1667`, `16,7 %`, `e^-1`, `√2/2`…
 
 **Chaque réponse chiffrée est vérifiée par un calcul indépendant** dans `tests/verifs.py` : dénombrement exhaustif, chaîne de Markov résolue en fractions exactes, intégration numérique, programmation dynamique ou Monte-Carlo à graine fixe. Les prix d'options, par exemple, sont recalculés par intégration contre la densité log-normale, sans utiliser la formule de Black-Scholes. Une fiche ajoutée sans vérification fait échouer les tests.
 

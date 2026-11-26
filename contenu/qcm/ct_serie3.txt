@@ -1,0 +1,391 @@
+# QCM de la troisième série de casse-têtes (contenu/ct_serie3.txt).
+
+=== ct-p-as-avant-rois
+- 1/16, car il faut que chaque as précède son roi
+  Ce serait quatre duels indépendants ; ici il faut les quatre as avant **tous** les rois.
++ 1/70, car seul l'ordre des huit as et rois compte
+  Un seul des $\binom84 = 70$ placements des as parmi ces huit places les met tous en tête.
+- 1/24, le nombre d'ordres des quatre as
+  L'ordre des as entre eux n'importe pas ; on compare as et rois.
+- Presque 0, à cause des 44 autres cartes
+  Les cartes neutres ne changent pas l'ordre relatif des as et des rois.
+
+=== ct-p-roi-dame-avant-as
+- 1/4, chacune des deux cartes avant l'as avec probabilité 1/2
+  Les deux événements ne sont pas indépendants : ils dépendent tous deux de la place de l'as.
++ 1/3 : l'as doit être le dernier des trois
+  Trois cartes dans un ordre uniforme : chacune est la dernière avec probabilité $1/3$.
+- 2/3 : il suffit que l'as ne soit pas premier
+  Il faut que l'as soit après les **deux** autres, pas seulement après l'une.
+- 1/6 : un seul ordre sur les $3! = 6$
+  Deux ordres conviennent : roi-dame-as et dame-roi-as.
+
+=== ct-p-cartes-entre-as-rouges
++ 50/3, chaque carte étant entre les deux une fois sur trois
+  Parmi une carte et les deux as, chacune a la même chance d'être au milieu.
+- 25, la moitié des 50 autres cartes
+  Une carte donnée n'est entre les deux as qu'une fois sur trois.
+- 26, la moitié du paquet
+  Il faut retirer les deux as et raisonner sur les trois positions relatives.
+- 50/2, par symétrie avant et après les as
+  Il y a trois zones (avant, entre, après), de taille moyenne égale.
+
+=== ct-p-inversions-tri-bulles
+- 45, une par paire de nombres
+  Une paire n'est mal ordonnée qu'une fois sur deux.
++ 22,5, une paire sur deux étant inversée
+  Chaque échange corrige une inversion ; $\binom{10}{2}/2 = 45/2$.
+- 10, un passage par élément
+  Un passage peut faire plusieurs échanges ; on compte les inversions.
+- 9, le nombre de passages au pire
+  Ce sont les échanges qui sont demandés, pas les passages.
+
+=== ct-p-deux-parapluies
+- 30 %, chaque fois qu'il pleut
+  Tu as souvent un parapluie au départ : il faut la loi stationnaire.
++ Environ 7,8 % : $p(1-p)/(3-p)$
+  Mouillé quand on part sans parapluie (probabilité $\frac{1-p}{3-p}$) et qu'il pleut.
+- Environ 2,7 % : il faut deux pluies de suite
+  La chaîne à trois états donne $p\,\pi_0$, pas $p^2(1-p)$ ou un produit de ce type.
+- Environ 15 %, la moitié des jours de pluie
+  Le calcul de la loi stationnaire donne nettement moins.
+
+=== ct-p-repetition-de
+- 7 lancers, par le principe des tiroirs
+  7 est le maximum, pas la moyenne.
++ Environ 3,77 lancers
+  $\sum_k \mathbb{P}(N > k)$ avec $\mathbb{P}(N > k) = 6 \times 5 \cdots / 6^k$.
+- Environ 14,7 lancers
+  C'est le temps pour voir les six faces (collectionneur), pas la première répétition.
+- Exactement 3,5 lancers
+  C'est la moyenne d'un dé, sans rapport.
+
+=== ct-p-six-piles-avant-quatre-faces
+- 1/2, la pièce est équilibrée
+  Il faut 6 piles contre seulement 4 faces : la partie est déséquilibrée.
++ 65/256, au moins 6 piles dans 9 lancers
+  La partie se décide dans les 9 premiers lancers : $\sum_{k \ge 6}\binom9k / 2^9$.
+- 4/10, au prorata des objectifs
+  Le partage proportionnel n'est pas la bonne probabilité (problème des partis).
+- 1/64, il faut six piles d'affilée
+  Les piles n'ont pas besoin d'être consécutives.
+
+=== ct-p-somme-4-avant-2
++ 3/4 : trois issues contre une
+  On ne regarde que le premier lancer qui donne 4 ou 2.
+- 1/2, chacune finit par sortir
+  Elles n'ont pas la même probabilité à chaque lancer.
+- 3/36 : la probabilité d'un 4
+  C'est la probabilité par lancer, pas celle de gagner la course.
+- 2/3, on compte les sommes 2, 3 et 4
+  La somme 3 ne compte pas.
+
+=== ct-p-somme-8-sachant-un-3
+- 1/6 : l'autre dé doit montrer 5
+  « Au moins un 3 » ne désigne pas un dé particulier.
++ 2/11 : (3, 5) et (5, 3) parmi 11 issues
+  $6 + 6 - 1 = 11$ issues contiennent un 3 ; deux font 8.
+- 2/12 : deux issues sur douze
+  Le double 3 n'est compté qu'une fois : 11 issues.
+- 5/36 : la probabilité d'une somme de 8
+  On oublie l'information « au moins un 3 ».
+
+=== ct-p-doubles-annules
+- 7 € : la somme moyenne de deux dés
+  Les doubles ne rapportent rien : il faut retirer leur contribution.
++ Environ 5,83 € : $7 - 42/36$
+  Les doubles valent $42/36 = 7/6$ en espérance, qu'on retire.
+- Environ 5,83 € moins le double 6, soit 5,5 €
+  Tous les doubles sont annulés, pas seulement le double 6.
+- 35/36 de 7 €, soit 6,81 €
+  On ne retire pas une proportion d'issues mais la somme qu'elles rapportent.
+
+=== ct-p-triangle-trois-des
+- 1/2, par symétrie
+  Il n'y a pas de symétrie simple ici : il faut compter.
++ 37/72, soit 111 triplets sur 216
+  Trié $a \le b \le c$, la seule condition est $a + b > c$.
+- 1/4, comme pour un bâton cassé en trois
+  Le bâton cassé est un autre modèle (somme fixée).
+- 5/9, la probabilité de trois valeurs distinctes
+  Des valeurs égales forment aussi des triangles (isocèles, équilatéraux).
+
+=== ct-p-une-boite-vide
+- 1/4, une chance par boîte
+  Il faut compter les répartitions : $144/256$.
++ 9/16, soit 144 répartitions sur 256
+  Boîte vide (4), boîte double (3), paire de boules (6), le reste (2).
+- 3/8, en oubliant d'ordonner les deux dernières boules
+  Les deux boules restantes vont dans deux boîtes distinctes de 2 façons.
+- 81/256, chaque boule évite une boîte donnée
+  C'est $(3/4)^4$, la probabilité qu'une boîte **précise** soit vide.
+
+=== ct-p-premiere-couleur-epuisee
+- 5/8, les rouges sont majoritaires
+  C'est l'inverse : la couleur nombreuse dure plus longtemps.
++ 3/8 : il faut que la dernière boule soit bleue
+  La dernière boule est uniforme parmi les 8.
+- 1/2, les deux couleurs finissent par s'épuiser
+  Une seule s'épuise avant l'autre, et pas avec la même probabilité.
+- 3/5, le rapport des effectifs
+  On compare à la dernière boule, sur 8 au total.
+
+=== ct-p-cordes-se-coupent
+- 1/2, elles se coupent ou non
+  Deux issues ne sont pas équiprobables pour autant.
++ 1/3 : le partenaire doit être « en face »
+  Parmi les trois positions possibles du partenaire, une seule fait se couper les cordes.
+- 1/4, comme pour le triangle aigu
+  Autre problème, autre réponse.
+- 2/3, sauf si les cordes sont voisines
+  Les cordes se coupent dans un seul des trois appariements.
+
+=== ct-p-tirs-au-but
+- 0,9 : viser à gauche quand le gardien plonge à droite
+  Le gardien n'est pas obligé de plonger toujours du même côté.
++ Environ 79 % : viser à gauche 5 fois sur 11
+  À l'équilibre, le gardien est indifférent : $0{,}6q + 0{,}95(1 - q) = 0{,}9q + 0{,}7(1 - q)$.
+- Environ 79 % : viser à gauche 6 fois sur 11
+  La valeur est bonne mais la fréquence inversée : $q = 5/11$.
+- 0,7 : le gardien choisit toujours son meilleur côté
+  Une stratégie pure du gardien se fait exploiter.
+
+=== ct-p-amibe
+- 1/4, la probabilité de mourir dès la première minute
+  On peut aussi s'éteindre plus tard, après des divisions.
++ $\sqrt 2 - 1 \approx 0{,}41$
+  Plus petite racine de $s = (1 + s + s^2 + s^3)/4$.
+- 1, car chaque amibe finit par mourir
+  Les amibes se reproduisent assez (1,5 descendant en moyenne) pour survivre souvent.
+- Environ 0,38, en oubliant la division en trois
+  Sans le terme $s^3$, on résout $s^2 - 3s + 1 = 0$ : il faut tous les cas.
+
+=== ct-p-capture-recapture
+- 110, les poissons vus au total
+  Beaucoup de poissons n'ont jamais été pêchés.
++ 500, soit $60 \times 50/6$
+  La proportion de marqués dans l'échantillon estime celle du lac.
+- 360 : $60 \times 6$
+  Il faut diviser par le nombre de recaptures, pas multiplier.
+- 600, à 10 % de marqués
+  La seconde pêche donne 12 % de marqués, pas 10 %.
+
+=== ct-p-chars-allemands
+- 60, le plus grand numéro vu
+  Le maximum est toujours inférieur ou égal à $N$ : il sous-estime.
++ 71 : $60 \times (1 + 1/5) - 1$
+  $\mathbb{E}[\max] = k(N + 1)/(k + 1)$, d'où l'estimateur sans biais.
+- 72 : $60 \times (1 + 1/5)$
+  Il manque le $-1$ qui rend l'estimateur exactement sans biais.
+- 120 : deux fois le maximum
+  Doubler convient à la moyenne d'un tirage ; le maximum de 5 tirages est déjà proche de $N$.
+
+=== ct-p-correlation-transitive
+- 0,64, le produit des deux corrélations
+  C'est la corrélation « par $Y$ » ; le reste peut jouer contre.
++ 0,28 : $2 \times 0{,}8^2 - 1$
+  Avec $X = 0{,}8Y + 0{,}6U$, $Z = 0{,}8Y + 0{,}6V$ et $V = -U$.
+- 0,6, borne de l'inégalité triangulaire
+  La bonne borne vient de la positivité de la matrice de corrélation.
+- 0, car la corrélation n'est pas transitive
+  Pas transitive, mais contrainte : ici elle reste forcément positive.
+
+=== ct-p-piece-echiquier
+- 2/5 : la pièce couvre 2 cm sur 5
+  C'est la proportion à exclure, et il faut raisonner en surface.
++ 9/25 : le centre dans un carré de 3 cm
+  Le centre reste à au moins 1 cm de chaque bord.
+- 16/25 : un carré de 4 cm pour le centre
+  On retire le rayon de chaque côté : $5 - 2 = 3$ cm.
+- 3/5, sur une seule dimension
+  Il faut tenir compte des deux directions.
+
+=== ct-p-distance-carre
+- 0,707, la moitié de la diagonale
+  C'est une distance particulière, pas la moyenne.
++ Environ 0,52
+  $\int\!\!\int \sqrt{x^2 + y^2}\,4(1 - x)(1 - y)$, la densité des écarts étant $2(1 - t)$.
+- Environ 0,58, la racine de $1/3$
+  C'est la distance quadratique moyenne, qui majore la moyenne (Jensen).
+- Environ 0,38
+  C'est la distance moyenne au **centre** du carré.
+
+=== ct-p-garcons-filles-voisins
+- 7, une paire par garçon
+  Un garçon peut avoir deux voisines, ou aucune.
++ 9,1, par linéarité sur les 19 paires
+  Chaque paire de places voisines est mixte avec probabilité $2 \times \frac{7}{20} \times \frac{13}{19}$ : $19 \times$ cela fait $9{,}1$.
+- 9,5, la moitié des 19 paires
+  Une paire n'est pas mixte une fois sur deux : il y a plus de filles.
+- 4,55, en oubliant l'ordre garçon-fille
+  Fille-garçon compte aussi : facteur 2.
+
+=== ct-p-morpion-aleatoire
+- 1/2, le jeu est symétrique
+  X commence et pose un symbole de plus : il est avantagé.
++ Environ 58 %
+  Récursion exacte sur les positions : $737/1260$.
+- Environ 90 %, X a l'initiative
+  Au hasard, O gagne encore près de 29 % des parties.
+- Environ 33 %, gagnant, perdant ou nul
+  Les trois issues ne sont pas équiprobables.
+
+=== ct-p-quatre-portes
+- 1/2, il reste deux portes
+  L'animateur ne choisit pas au hasard : sa porte restante concentre l'information.
++ 3/4, en changeant
+  Ta porte garde sa probabilité de départ, $1/4$.
+- 1/4, changer ne sert à rien
+  Changer fait passer de $1/4$ à $3/4$.
+- 2/3, comme dans le cas à trois portes
+  Avec quatre portes et deux ouvertes, c'est $3/4$.
+
+=== ct-p-pile-50-face-40
+- 1,05 par jour : l'espérance gagne 5 %
+  L'espérance est portée par des trajectoires rarissimes ; la trajectoire typique perd.
++ Environ 0,949 par jour : $\sqrt{1{,}5 \times 0{,}6}$
+  Sur deux jours typiques, un pile et un face : facteur 0,9.
+- 0,9 par jour
+  0,9 est le facteur sur **deux** jours typiques.
+- 1 par jour : +50 % et −40 % se compensent à peu près
+  Les rendements se multiplient : $1{,}5 \times 0{,}6 = 0{,}9 < 1$.
+
+=== ct-p-pari-hollandais
+- Impossible : chaque bookmaker a sa marge
+  Les deux cotes ensemble laissent un arbitrage : $1/1{,}8 + 1/2{,}6 < 1$.
++ Miser en proportion de 1/cote : environ 6,4 % garantis
+  Chaque issue rend alors la même somme, $1/0{,}9402$ fois la mise totale.
+- Miser autant sur chaque issue : environ 6,4 % garantis
+  Mises égales : on récupère 90 % de la mise totale si A gagne, 130 % si B gagne ; aucun gain garanti.
+- Tout miser sur B, la meilleure cote : 160 %
+  Ce n'est pas un arbitrage : on perd tout si A gagne.
+
+=== ct-p-loto-sans-numero-commun
+- Environ 12 %, soit 6/49
+  C'est la probabilité qu'un numéro donné soit tiré.
++ Environ 44 % : $\binom{43}{6}/\binom{49}{6}$
+  Le second tirage doit éviter les 6 numéros du premier.
+- Environ 46 %, par $(43/49)^6$
+  Bon ordre de grandeur, mais les tirages sont sans remise : un peu moins.
+- Environ 87 %, par $43/49$
+  Il faut que les six numéros évitent le premier tirage, pas un seul.
+
+=== ct-p-somme-difference-correlees
+- La corrélation de $X$ et $Y$
+  La covariance ne dépend que de la différence des variances.
++ 0, quelle que soit la corrélation
+  $\mathrm{Cov}(X + Y, X - Y) = \mathrm{Var}X - \mathrm{Var}Y = 0$.
+- 1, si $X$ et $Y$ sont corrélées à 1
+  Si $X = Y$, $X - Y = 0$ : la corrélation n'est même pas définie.
+- −1, car l'une ajoute ce que l'autre retire
+  La covariance s'annule exactement à variances égales.
+
+=== ct-isoceles-decagone
+- 120, tous les triangles
+  $\binom{10}{3} = 120$ triangles, dont seulement une partie est isocèle.
++ 40 : 4 triangles par sommet principal
+  Pas d'équilatéral (3 ne divise pas 10), donc pas de double compte.
+- 50 : 5 triangles par sommet
+  La distance 5 donnerait deux sommets confondus.
+- 30, en comptant chaque triangle par ses trois sommets
+  Un triangle isocèle non équilatéral n'a qu'un sommet principal.
+
+=== ct-diagonale-cases-traversees
+- 30, la somme des côtés
+  Aux nœuds de la grille, deux franchissements comptent pour une seule case.
++ 24, soit $18 + 12 - 6$
+  On retire les passages par les nœuds de la grille.
+- 18, le grand côté
+  La diagonale traverse aussi des lignes horizontales.
+- 22 : $18 + 12 - 8$
+  Il faut retirer le pgcd, 6, pas un autre nombre.
+
+=== ct-zeros-1-a-1000
+- 189 : unités et dizaines seulement
+  1 000 apporte encore trois zéros.
++ 192 : 99 + 90 + 3
+  Unités (99), dizaines de 100 à 999 (90), et 1 000 (3).
+- 180 : 90 pour les unités, 90 pour les dizaines
+  Les multiples de 10 de 10 à 990 sont 99, pas 90.
+- 300 : un zéro par position et par centaine
+  Ce décompte grossier ignore les nombres à un ou deux chiffres.
+
+=== ct-chiffres-produit-96
+- 1 296, en commençant par un 1
+  Un 1 en tête allonge le nombre : il faut le moins de chiffres possible.
++ 268 : 96 = 2 × 6 × 8
+  Deux chiffres ne suffisent pas ; avec trois, le plus petit premier chiffre est 2.
+- 348 : 96 = 3 × 4 × 8
+  Correct mais pas minimal : 268 est plus petit.
+- 446 : 96 = 4 × 4 × 6
+  Correct mais pas minimal.
+
+=== ct-multiple-66
+- 600 000, divisible par 6
+  Il faut aussi être divisible par 11.
++ 600 006
+  Pair, somme des chiffres 12, somme alternée 0.
+- 600 066, en ajoutant 66
+  600 006 est plus petit et convient déjà.
+- 600 012, le multiple de 6 suivant
+  Il n'est pas divisible par 11.
+
+=== ct-fibonacci-dernier-chiffre
+- 6, le dernier chiffre de 2026 ou presque
+  Le dernier chiffre ne se lit pas sur l'indice.
++ 3, car la période des derniers chiffres vaut 60
+  $2026 \equiv 46 \pmod{60}$ et $F_{46}$ se termine par 3.
+- 5, car la période vaut 20
+  La période (de Pisano) modulo 10 vaut 60, pas 20.
+- 0, comme tous les termes d'indice pair
+  Les termes d'indice multiple de 15 se terminent par 0, pas ceux d'indice pair.
+
+=== ct-bits-permutation-100
+- 700 : 100 numéros de 7 bits
+  On code inutilement chaque numéro indépendamment.
++ 525 : $\lceil \log_2 100! \rceil$
+  Stirling : $\ln 100! \approx 363{,}7$, soit 524,8 bits.
+- 664 : $100 \log_2 100$
+  On oublie le terme $-n$ de Stirling : $\log_2 n! \approx n\log_2 n - 1{,}44n$.
+- 100 : un bit par élément
+  Il faut distinguer $100!$ ordres, pas $2^{100}$.
+
+=== ct-escalator-marches
+- 52, la somme des marches gravies
+  L'escalier apporte aussi des marches pendant la montée.
++ 80 : vitesse de l'escalier 3 marches par seconde
+  $N = 20 + 20v = 32 + 16v$.
+- 64, le double de 32
+  Il faut résoudre le système sur $N$ et la vitesse de l'escalier.
+- 40, la moyenne de 20 et 32 multipliée par 1,5
+  Ce n'est pas une moyenne : deux équations, deux inconnues.
+
+=== ct-cloture-mur
+- 625 m², un carré de 25 m
+  Le mur forme un côté : le côté parallèle peut mesurer 50 m.
++ 1 250 m² : 25 m × 50 m
+  $x(100 - 2x)$ est maximale en $x = 25$.
+- 2 500 m², un carré de 50 m
+  Un carré de 50 m demanderait 150 m de clôture.
+- 1 111 m², des côtés de 33,3 m
+  Trois côtés égaux ne sont pas l'optimum.
+
+=== ct-grille-pain
+- 120 s : chaque tranche en deux fournées
+  Finir une tranche avant la suivante laisse une place vide.
++ 90 s, en alternant les faces
+  (A1, B1), (A2, C1), (B2, C2) : trois fournées pleines.
+- 60 s, deux fournées
+  Il y a 6 faces pour 2 places : au moins 3 fournées.
+- 75 s, en grillant en partie une face
+  Une face se grille en une fournée complète de 30 s.
+
+=== ct-tapis-roulant-courir
+- Sur le tapis : 3 m/s, c'est plus rapide
+  On y passe moins de temps : 10 m d'avance y valent moins de temps.
++ Hors du tapis : 5 s gagnées
+  10 m d'avance valent 10 s au sol, seulement 5 s sur le tapis.
+- C'est pareil : 10 m d'avance dans les deux cas
+  La distance gagnée est la même, pas le temps.
+- Sur le tapis : 10 s gagnées
+  Le calcul complet donne 145 s sur le tapis contre 140 s au sol.

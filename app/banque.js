@@ -4542,6 +4542,873 @@ window.PREPA_BANQUE = {
    "titre": "Faire le tour d'un circuit de stations-service"
   },
   {
+   "id": "ct-p-as-avant-rois",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "On mélange un jeu de 52 cartes et on les retourne une à une. Probabilité que les quatre as sortent tous avant le premier roi ?",
+   "solution": "Les 8 cartes concernées sont dans un ordre relatif uniforme. Les positions des as parmi ces 8 places forment un sous-ensemble uniforme de taille 4 parmi $\\binom{8}{4} = 70$. Un seul convient (les 4 premières) : **1/70**.",
+   "indice": "Les 44 autres cartes ne changent rien : seul compte l'ordre relatif des 4 as et des 4 rois.",
+   "piege": "Multiplier $\\frac48 \\cdot \\frac37 \\cdot \\frac26 \\cdot \\frac15$ donne bien $1/70$ ; l'erreur classique est de faire intervenir les 44 cartes neutres, qui ne jouent aucun rôle.",
+   "relances": [
+    "Probabilité que le premier as sorte avant le premier roi ? ($1/2$, par symétrie.)",
+    "Et que les 4 as sortent avant les 4 rois **et** les 4 dames ? ($4!\\,8!/12! = 1/495$.)"
+   ],
+   "categorie": "probas",
+   "titre": "Les quatre as avant le premier roi",
+   "reponse": "1/70",
+   "valeur": 0.014285714285714285,
+   "tolerance": 0.005,
+   "duree": 120
+  },
+  {
+   "id": "ct-p-roi-dame-avant-as",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Dans un jeu de 52 cartes bien mélangé, probabilité que le roi de cœur **et** la dame de cœur apparaissent tous deux avant l'as de cœur ?",
+   "solution": "Les trois cartes sont dans un ordre relatif uniforme : chacune a la même chance d'être la dernière. Il faut que ce soit l'as : **1/3**.",
+   "indice": "Trois cartes seulement comptent ; laquelle est la dernière des trois ?",
+   "categorie": "probas",
+   "titre": "Le roi et la dame de cœur avant l'as de cœur",
+   "reponse": "1/3",
+   "valeur": 0.3333333333333333,
+   "tolerance": 0.005,
+   "duree": 90,
+   "voir": [
+    "ct-p-as-avant-rois"
+   ]
+  },
+  {
+   "id": "ct-p-cartes-entre-as-rouges",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Dans un jeu de 52 cartes mélangé, quel est le nombre moyen de cartes situées strictement entre l'as de cœur et l'as de carreau ?",
+   "solution": "Une autre carte donnée est, parmi elle et les deux as, au milieu avec probabilité $1/3$ (chacune des trois a la même chance d'être au milieu). Par linéarité : $50 \\times \\frac13 =$ **50/3** $\\approx 16{,}7$ cartes.",
+   "indice": "Linéarité de l'espérance : pour chacune des 50 autres cartes, probabilité qu'elle soit entre les deux as.",
+   "relances": [
+    "Généralisation : avec $n$ cartes, $(n - 2)/3$.",
+    "Les deux as rouges coupent le paquet en trois tas de taille moyenne égale ($50/3$ chacun) : même argument."
+   ],
+   "categorie": "probas",
+   "titre": "Combien de cartes entre les deux as rouges ?",
+   "reponse": "50/3",
+   "valeur": 16.666666666666668,
+   "tolerance": 0.005,
+   "duree": 180
+  },
+  {
+   "id": "ct-p-inversions-tri-bulles",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Le tri à bulles échange deux voisins mal ordonnés jusqu'à ce que la liste soit triée. En moyenne, combien d'échanges fait-il sur une permutation aléatoire de 10 nombres distincts ?",
+   "solution": "Le nombre d'échanges est le nombre d'inversions. Chacune des $\\binom{10}{2} = 45$ paires est inversée avec probabilité $1/2$. Espérance : $45/2 =$ **22,5**. En général $n(n-1)/4$ : le tri à bulles est quadratique en moyenne, pas seulement dans le pire cas.",
+   "indice": "Chaque échange de voisins corrige exactement une inversion (une paire mal ordonnée).",
+   "categorie": "probas",
+   "titre": "Les échanges du tri à bulles",
+   "reponse": "45/2",
+   "valeur": 22.5,
+   "tolerance": 0.005,
+   "duree": 180
+  },
+  {
+   "id": "ct-p-deux-parapluies",
+   "theme": "casse-tete",
+   "niveau": 3,
+   "profils": [
+    "mm",
+    "hf",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Tu as 2 parapluies, répartis entre ta maison et ton bureau. Tu fais l'aller-retour chaque jour ; il pleut à chaque trajet avec probabilité $p = 0{,}3$, indépendamment. Tu prends un parapluie s'il pleut et qu'il y en a un là où tu pars, jamais sinon. À long terme, quelle proportion de tes trajets fais-tu mouillé ?",
+   "solution": "État $s$ : parapluies au départ ($2 - s$ à l'arrivée). Transitions : $0 \\to 2$ toujours ; $1 \\to 2$ s'il pleut, $1 \\to 1$ sinon ; $2 \\to 1$ s'il pleut, $2 \\to 0$ sinon. La loi stationnaire vérifie $\\pi_1 = \\pi_2$ et $\\pi_0 = q\\,\\pi_2$ ($q = 1 - p$), d'où $\\pi_0 = \\frac{q}{3 - p}$.\nOn est mouillé quand on part sans parapluie et qu'il pleut : $p\\,\\pi_0 = \\frac{p(1 - p)}{3 - p} = \\frac{0{,}21}{2{,}7} =$ **7/90** $\\approx 7{,}8\\,\\%$.",
+   "indice": "Suis le nombre de parapluies au lieu de départ du trajet : c'est une chaîne de Markov à 3 états (0, 1, 2).",
+   "relances": [
+    "Avec $n$ parapluies : $\\frac{p(1-p)}{n + 1 - p}$.",
+    "Pour quelle probabilité de pluie est-on le plus souvent mouillé ? (Maximiser $p(1-p)/(3-p)$ : $p = 3 - \\sqrt 6 \\approx 0{,}55$.)"
+   ],
+   "categorie": "probas",
+   "titre": "Deux parapluies entre la maison et le bureau",
+   "reponse": "7/90",
+   "valeur": 0.07777777777777778,
+   "tolerance": 0.005,
+   "duree": 420
+  },
+  {
+   "id": "ct-p-repetition-de",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "On lance un dé jusqu'à obtenir une face déjà sortie. Nombre moyen de lancers ?",
+   "solution": "$\\mathbb{P}(N > k) = \\frac{6 \\times 5 \\times \\cdots \\times (6 - k + 1)}{6^k}$ pour $k \\le 6$, nul ensuite. Donc\n$$\\mathbb{E}[N] = 1 + 1 + \\tfrac56 + \\tfrac{20}{36} + \\tfrac{120}{216} + \\tfrac{360}{1296} + \\tfrac{720}{7776} = \\tfrac{1223}{324} \\approx 3{,}77.$$\nC'est le paradoxe des anniversaires en miniature : avec 365 jours, on attend environ 24,6 personnes.",
+   "indice": "$\\mathbb{E}[N] = \\sum_{k \\ge 0} \\mathbb{P}(N > k)$, et $N > k$ signifie que les $k$ premiers lancers sont tous différents.",
+   "categorie": "probas",
+   "titre": "Lancer un dé jusqu'à une face déjà vue",
+   "reponse": "1223/324",
+   "valeur": 3.7746913580246915,
+   "tolerance": 0.005,
+   "duree": 240
+  },
+  {
+   "id": "ct-p-six-piles-avant-quatre-faces",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "On lance une pièce équilibrée. Probabilité d'obtenir 6 piles avant d'obtenir 4 faces ?",
+   "solution": "6 piles avant 4 faces si et seulement si, sur les 9 premiers lancers, il y a au moins 6 piles (sinon il y a au moins 4 faces).\n$$\\frac{\\binom96 + \\binom97 + \\binom98 + \\binom99}{2^9} = \\frac{84 + 36 + 9 + 1}{512} = \\frac{130}{512} = \\textbf{65/256} \\approx 25\\,\\%.$$\nC'est le problème des partis de Pascal et Fermat (partager la mise d'une partie interrompue).",
+   "indice": "Imagine qu'on lance 9 fois quoi qu'il arrive : la partie est décidée dans ces 9 lancers.",
+   "categorie": "probas",
+   "titre": "Six piles avant quatre faces",
+   "reponse": "65/256",
+   "valeur": 0.25390625,
+   "tolerance": 0.005,
+   "duree": 180
+  },
+  {
+   "id": "ct-p-somme-4-avant-2",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "On lance deux dés à répétition. Probabilité d'obtenir une somme de 4 avant une somme de 2 ?",
+   "solution": "Somme 4 : 3 issues sur 36 ; somme 2 : 1 issue. Conditionnellement à la fin de la partie, 4 l'emporte avec probabilité $\\frac{3}{3 + 1} =$ **3/4**.",
+   "indice": "Les lancers qui ne donnent ni 4 ni 2 ne comptent pas : on regarde seulement le premier qui donne l'une des deux.",
+   "categorie": "probas",
+   "titre": "Une somme de 4 avant une somme de 2",
+   "reponse": "3/4",
+   "valeur": 0.75,
+   "tolerance": 0.005,
+   "duree": 90,
+   "source": "Entretiens Optiver (QuantVault)"
+  },
+  {
+   "id": "ct-p-somme-8-sachant-un-3",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "On lance deux dés ; on t'apprend qu'au moins l'un des deux montre un 3. Probabilité que la somme fasse 8 ?",
+   "solution": "Issues avec au moins un 3 : $6 + 6 - 1 = 11$. Somme 8 parmi elles : $(3, 5)$ et $(5, 3)$. Réponse : **2/11**.",
+   "indice": "Combien d'issues contiennent au moins un 3 ? (Attention au double 3.)",
+   "piege": "Répondre $1/6$ en pensant « l'autre dé doit faire 5 » : on oublie que l'information porte sur « au moins un des deux », pas sur un dé désigné.",
+   "categorie": "probas",
+   "titre": "Une somme de 8 sachant qu'un dé montre 3",
+   "reponse": "2/11",
+   "valeur": 0.18181818181818182,
+   "tolerance": 0.005,
+   "duree": 90,
+   "source": "Entretiens Optiver (QuantVault)"
+  },
+  {
+   "id": "ct-p-doubles-annules",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque"
+   ],
+   "type": "numerique",
+   "question": "On lance deux dés et tu reçois leur somme en euros, sauf si c'est un double : tu ne reçois alors rien. Quel est le juste prix de ce jeu ?",
+   "solution": "Sans annulation, l'espérance vaut 7. Les doubles rapportent $2 + 4 + \\cdots + 12 = 42$ sur 36 issues, soit $42/36 = 7/6$ en espérance, qu'on retire : $7 - \\frac76 =$ **35/6** $\\approx 5{,}83$ €.",
+   "indice": "Pars de 7 et retire la contribution des doubles.",
+   "relances": [
+    "Fais un marché : par exemple 5,70 – 5,95.",
+    "Et si les doubles rapportaient deux fois la somme ? ($7 + 7/6 = 49/6$.)"
+   ],
+   "categorie": "probas",
+   "titre": "La somme de deux dés, annulée sur un double",
+   "reponse": "35/6",
+   "valeur": 5.833333333333333,
+   "tolerance": 0.005,
+   "duree": 90,
+   "source": "Entretiens Optiver (QuantVault)"
+  },
+  {
+   "id": "ct-p-triangle-trois-des",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "On lance trois dés. Probabilité que les trois valeurs soient les longueurs des côtés d'un vrai triangle (inégalités strictes) ?",
+   "solution": "On compte les triplets ordonnés qui violent $a + b > c$ (avec $c$ le maximum). Il est plus simple de compter directement les cas valides, triés $a \\le b \\le c$, puis de les pondérer par leurs permutations. Le décompte donne 111 triplets ordonnés valides sur 216 :\n$$\\frac{111}{216} = \\textbf{37/72} \\approx 51\\,\\%.$$\nExemples : (2, 2, 3) valide ; (1, 2, 3) dégénéré, donc non.",
+   "indice": "Trie les valeurs $a \\le b \\le c$ : la seule condition est $a + b > c$. Compte selon la plus grande valeur.",
+   "relances": [
+    "Et avec des longueurs uniformes sur $[0, 1]$ ? ($1/2$.)"
+   ],
+   "categorie": "probas",
+   "titre": "Trois dés forment-ils un triangle ?",
+   "reponse": "37/72",
+   "valeur": 0.5138888888888888,
+   "tolerance": 0.005,
+   "duree": 300
+  },
+  {
+   "id": "ct-p-une-boite-vide",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "On lance 4 boules au hasard dans 4 boîtes (chaque boule choisit sa boîte uniformément, indépendamment). Probabilité qu'exactement une boîte reste vide ?",
+   "solution": "Choisir la boîte vide (4), la boîte double (3), les deux boules qui y vont ($\\binom42 = 6$), puis répartir les deux autres boules dans les deux boîtes restantes (2) : $4 \\times 3 \\times 6 \\times 2 = 144$ issues sur $4^4 = 256$. Réponse : **9/16**.",
+   "indice": "Une boîte vide, toutes les autres occupées : une boîte contient deux boules, deux en contiennent une.",
+   "categorie": "probas",
+   "titre": "Quatre boules, quatre boîtes, exactement une vide",
+   "reponse": "9/16",
+   "valeur": 0.5625,
+   "tolerance": 0.005,
+   "duree": 180
+  },
+  {
+   "id": "ct-p-premiere-couleur-epuisee",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Une urne contient 5 boules rouges et 3 bleues. On les tire toutes, sans remise. Probabilité que les rouges soient épuisées avant les bleues ?",
+   "solution": "La dernière boule est uniforme parmi les 8 : bleue avec probabilité **3/8**. Contre-intuitif : la couleur la plus nombreuse a plus de chances de durer jusqu'au bout.",
+   "indice": "Les rouges sont épuisées d'abord exactement quand la **dernière** boule tirée est bleue.",
+   "categorie": "probas",
+   "titre": "Quelle couleur s'épuise en premier ?",
+   "reponse": "3/8",
+   "valeur": 0.375,
+   "tolerance": 0.005,
+   "duree": 120,
+   "voir": [
+    "proba-derniere-boule"
+   ]
+  },
+  {
+   "id": "ct-p-cordes-se-coupent",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "On place 4 points au hasard sur un cercle. On relie le premier au deuxième et le troisième au quatrième. Probabilité que les deux cordes se coupent ?",
+   "solution": "Les 4 points découpent le cercle dans un ordre circulaire uniforme. Le partenaire du premier point est, parmi les trois autres en tournant, en position 1, 2 ou 3 avec probabilité $1/3$ chacune ; les cordes se coupent seulement s'il est en position 2 (les deux autres points sont alors de part et d'autre). Réponse : **1/3**.",
+   "indice": "Seul l'ordre des 4 points autour du cercle compte. Fixe le premier point et regarde avec qui il est relié.",
+   "categorie": "probas",
+   "titre": "Deux cordes aléatoires se coupent-elles ?",
+   "reponse": "1/3",
+   "valeur": 0.3333333333333333,
+   "tolerance": 0.005,
+   "duree": 120
+  },
+  {
+   "id": "ct-p-tirs-au-but",
+   "theme": "casse-tete",
+   "niveau": 3,
+   "profils": [
+    "mm",
+    "hf"
+   ],
+   "type": "numerique",
+   "question": "Un tireur vise à gauche (G) ou à droite (D) ; le gardien plonge à gauche ou à droite. Probabilités de but : (G, G) 0,6 ; (G, D) 0,9 ; (D, G) 0,95 ; (D, D) 0,7. Les deux jouent de façon optimale. Quelle est la probabilité de but ?",
+   "solution": "Le tireur vise à gauche avec probabilité $q$. Le gardien est indifférent si\n$$0{,}6q + 0{,}95(1 - q) = 0{,}9q + 0{,}7(1 - q) \\iff 0{,}25 = 0{,}55q \\iff q = \\tfrac{5}{11}.$$\nProbabilité de but : $0{,}6 \\times \\frac5{11} + 0{,}95 \\times \\frac6{11} = \\frac{8{,}7}{11} =$ **87/110** $\\approx 79\\,\\%$. Le tireur vise plus souvent son côté **faible** (D, où le gardien le surveille moins) : l'équilibre ne recommande pas le meilleur coup isolé.",
+   "indice": "Aucune stratégie pure n'est stable : le tireur choisit sa probabilité de viser à gauche pour rendre le gardien indifférent.",
+   "relances": [
+    "Avec quelle probabilité le gardien plonge-t-il à gauche ? (Rendre le tireur indifférent : $0{,}6g + 0{,}9(1-g) = 0{,}95g + 0{,}7(1-g)$, soit $g = 4/11$.)",
+    "Lien avec le market making : une cotation prévisible se fait exploiter ; on randomise."
+   ],
+   "categorie": "strategie",
+   "titre": "Le tir au but, un jeu à somme nulle",
+   "reponse": "87/110",
+   "valeur": 0.7909090909090909,
+   "tolerance": 0.005,
+   "duree": 420
+  },
+  {
+   "id": "ct-p-amibe",
+   "theme": "casse-tete",
+   "niveau": 3,
+   "profils": [
+    "mm",
+    "hf",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Une amibe, chaque minute, meurt, reste seule, se divise en 2 ou en 3, chacune avec probabilité $1/4$ ; ses descendantes évoluent de même, indépendamment. Probabilité que la population s'éteigne ?",
+   "solution": "$$s = \\tfrac14\\left(1 + s + s^2 + s^3\\right) \\iff s^3 + s^2 - 3s + 1 = 0 \\iff (s - 1)(s^2 + 2s - 1) = 0.$$\nLes racines sont $1$ et $-1 \\pm \\sqrt 2$. La probabilité d'extinction est la plus petite racine positive : **$\\sqrt 2 - 1 \\approx 0{,}414$** (la moyenne de descendants, $6/4 > 1$, exclut la racine 1).",
+   "indice": "Si $s$ est la probabilité d'extinction partant d'une amibe, partant de $k$ amibes elle vaut $s^k$. Conditionne sur la première minute.",
+   "categorie": "probas",
+   "titre": "L'amibe qui meurt ou se divise",
+   "reponse": "sqrt(2)-1",
+   "valeur": 0.41421356237309515,
+   "tolerance": 0.005,
+   "duree": 360,
+   "source": "Entretiens Optiver (QuantVault)"
+  },
+  {
+   "id": "ct-p-capture-recapture",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "On pêche 60 poissons, on les marque et on les relâche. Plus tard, on en pêche 50 : 6 sont marqués. Estimation du nombre de poissons du lac ?",
+   "solution": "$\\frac{6}{50} \\approx \\frac{60}{N}$, donc $N \\approx \\frac{60 \\times 50}{6} =$ **500** (estimateur de Lincoln-Petersen). Hypothèses : population fermée, marquage sans effet, mélange homogène.",
+   "indice": "La proportion de marqués dans la seconde pêche estime la proportion dans le lac.",
+   "relances": [
+    "Quel biais ? (Il surestime en petit échantillon ; correction de Chapman : $\\frac{61 \\times 51}{7} - 1 \\approx 443$.)"
+   ],
+   "categorie": "probas",
+   "titre": "Combien de poissons dans le lac ?",
+   "reponse": "500",
+   "valeur": 500.0,
+   "tolerance": 0.0,
+   "duree": 120
+  },
+  {
+   "id": "ct-p-chars-allemands",
+   "theme": "casse-tete",
+   "niveau": 3,
+   "profils": [
+    "mm",
+    "hf",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Les chars ennemis portent des numéros 1, 2, …, $N$. On en capture 5 au hasard ; le plus grand numéro observé est 60. Quelle estimation **sans biais** de $N$ ?",
+   "solution": "$\\mathbb{E}[m] = \\frac{k(N + 1)}{k + 1}$, donc $\\hat N = m\\left(1 + \\frac1k\\right) - 1$ est sans biais : $60 \\times 1{,}2 - 1 =$ **71**. Les Alliés estimaient ainsi la production allemande bien mieux que le renseignement classique.",
+   "indice": "Le maximum $m$ de $k$ tirages sous-estime $N$ : en moyenne, l'écart entre les numéros observés vaut à peu près l'écart au-dessus du maximum.",
+   "piege": "Prendre le maximum (60) : il est toujours inférieur ou égal à $N$, donc biaisé vers le bas.",
+   "categorie": "probas",
+   "titre": "Le problème des chars allemands",
+   "reponse": "71",
+   "valeur": 71.0,
+   "tolerance": 0.0,
+   "duree": 300
+  },
+  {
+   "id": "ct-p-correlation-transitive",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "$\\mathrm{corr}(X, Y) = 0{,}8$ et $\\mathrm{corr}(Y, Z) = 0{,}8$. Quelle est la plus petite valeur possible de $\\mathrm{corr}(X, Z)$ ?",
+   "solution": "Avec des variables réduites, $X = 0{,}8Y + 0{,}6U$, $Z = 0{,}8Y + 0{,}6V$ avec $U, V$ orthogonaux à $Y$. Alors $\\mathrm{corr}(X, Z) = 0{,}64 + 0{,}36\\,\\mathrm{corr}(U, V) \\ge 0{,}64 - 0{,}36 =$ **0,28** (atteint pour $V = -U$). En général : $\\rho_{XZ} \\ge 2\\rho^2 - 1$.",
+   "indice": "La matrice de corrélation doit être semi-définie positive ; ou bien écris $X$ et $Z$ comme $0{,}8\\,Y$ plus un bruit orthogonal à $Y$.",
+   "relances": [
+    "Avec $\\rho = 0{,}5$ ? ($2 \\times 0{,}25 - 1 = -0{,}5$ : $X$ et $Z$ peuvent être négativement corrélés.)",
+    "À partir de quelle valeur de $\\rho$ la corrélation est-elle forcément positive ? ($\\rho > 1/\\sqrt2$.)"
+   ],
+   "categorie": "probas",
+   "titre": "La corrélation est-elle transitive ?",
+   "reponse": "7/25",
+   "valeur": 0.28,
+   "tolerance": 0.005,
+   "duree": 240
+  },
+  {
+   "id": "ct-p-piece-echiquier",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "On lance une pièce de 2 cm de diamètre sur un grand damier de cases de 5 cm. Probabilité qu'elle tombe entièrement à l'intérieur d'une case ?",
+   "solution": "Le centre doit rester à au moins 1 cm (le rayon) de chaque bord : il tombe dans un carré de $3 \\times 3$ au centre de la case. Probabilité : $\\left(\\frac35\\right)^2 =$ **9/25**. C'est l'aiguille de Buffon en version simple, et le principe des jeux de fête foraine.",
+   "indice": "Raisonne sur le centre de la pièce, uniforme dans sa case.",
+   "categorie": "probas",
+   "titre": "Une pièce lancée sur un damier",
+   "reponse": "9/25",
+   "valeur": 0.36,
+   "tolerance": 0.005,
+   "duree": 120
+  },
+  {
+   "id": "ct-p-distance-carre",
+   "theme": "casse-tete",
+   "niveau": 3,
+   "profils": [
+    "hf",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "On choisit deux points uniformément et indépendamment dans le carré unité. Quelle est leur distance moyenne ? (Une bonne estimation suffit, puis la valeur exacte si tu peux.)",
+   "solution": "$$\\mathbb{E}[D] = \\int_0^1\\!\\!\\int_0^1 \\sqrt{x^2 + y^2}\\;4(1 - x)(1 - y)\\,dx\\,dy = \\frac{2 + \\sqrt 2 + 5\\ln(1 + \\sqrt 2)}{15} \\approx \\textbf{0,5214}.$$\nContrôles rapides : la distance quadratique moyenne vaut $\\sqrt{2 \\times 1/6} \\approx 0{,}577$, qui majore la moyenne (Jensen) ; et la distance moyenne au centre vaut environ 0,383.",
+   "indice": "L'écart des abscisses $|X_1 - X_2|$ a pour densité $2(1 - t)$ sur $[0, 1]$, de même pour les ordonnées.",
+   "categorie": "probas",
+   "titre": "Distance moyenne entre deux points d'un carré",
+   "reponse": "(2+sqrt(2)+5*ln(1+sqrt(2)))/15",
+   "valeur": 0.5214054331647207,
+   "tolerance": 0.002,
+   "duree": 420
+  },
+  {
+   "id": "ct-p-garcons-filles-voisins",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "7 garçons et 13 filles se placent au hasard sur une rangée. Nombre moyen de paires de voisins formées d'un garçon et d'une fille ?",
+   "solution": "Une paire de places voisines est mixte avec probabilité $2 \\times \\frac{7}{20} \\times \\frac{13}{19}$. Par linéarité : $19 \\times \\frac{2 \\times 7 \\times 13}{20 \\times 19} = \\frac{182}{20} =$ **9,1**.",
+   "indice": "Il y a 19 paires de places voisines ; linéarité de l'espérance.",
+   "categorie": "probas",
+   "titre": "Garçons et filles côte à côte",
+   "reponse": "91/10",
+   "valeur": 9.1,
+   "tolerance": 0.005,
+   "duree": 180
+  },
+  {
+   "id": "ct-p-morpion-aleatoire",
+   "theme": "casse-tete",
+   "niveau": 3,
+   "profils": [
+    "hf",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Deux joueurs jouent au morpion en posant chacun leur symbole sur une case libre choisie au hasard, X commençant. Probabilité que X gagne ? (Une estimation raisonnée, puis la méthode exacte.)",
+   "solution": "On calcule $P(\\text{plateau})$ = probabilité que X gagne, par récursion : position gagnée, nulle, ou moyenne sur les cases libres du joueur au trait. Le résultat exact est **737/1260** $\\approx 58{,}5\\,\\%$ ; O gagne environ 28,8 % du temps et il y a 12,7 % de nuls.\nEn entretien, on attend la méthode (récursion mémoïsée, quelques milliers d'états) et un ordre de grandeur justifié : avoir l'initiative et un symbole de plus vaut beaucoup.",
+   "indice": "Exactement : une récursion sur les positions, avec mémoïsation (il y en a peu). Pour l'intuition : X pose 5 symboles, O seulement 4.",
+   "categorie": "probas",
+   "titre": "Le morpion joué au hasard",
+   "reponse": "737/1260",
+   "valeur": 0.584920634920635,
+   "tolerance": 0.005,
+   "duree": 600
+  },
+  {
+   "id": "ct-p-quatre-portes",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Quatre portes, une voiture derrière l'une d'elles. Tu en choisis une ; l'animateur, qui sait tout, ouvre deux des trois autres portes, toujours sur des chèvres. Si tu changes pour la dernière porte fermée, quelle est ta probabilité de gagner ?",
+   "solution": "Ta porte a la voiture avec probabilité $1/4$, et l'ouverture ne change rien à cela (l'animateur peut toujours ouvrir deux chèvres). La porte restante récupère donc **3/4**.",
+   "indice": "Ta première porte garde sa probabilité de départ ; tout le reste se concentre sur la porte restante.",
+   "categorie": "probas",
+   "titre": "Monty Hall à quatre portes",
+   "reponse": "3/4",
+   "valeur": 0.75,
+   "tolerance": 0.005,
+   "duree": 120
+  },
+  {
+   "id": "ct-p-pile-50-face-40",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Chaque jour, ta richesse est multipliée par 1,5 sur pile et par 0,6 sur face (pièce équilibrée). Le jeu a une espérance positive (+5 % par jour). Par quel facteur ta richesse est-elle multipliée **typiquement** par jour sur une longue période ?",
+   "solution": "Sur deux jours typiques (un pile, un face), la richesse est multipliée par $1{,}5 \\times 0{,}6 = 0{,}9$ : facteur par jour **$\\sqrt{0{,}9} \\approx 0{,}949$**, soit −5,1 % par jour. La moyenne arithmétique ($+5\\,\\%$) est tirée par des trajectoires rarissimes ; la médiane tend vers 0.\nLeçon : c'est la moyenne des **logarithmes** qui gouverne la croissance (Kelly). Miser une fraction de sa richesse (par exemple 25 %) rend ce même jeu gagnant à long terme.",
+   "indice": "Sur beaucoup de jours, il y a autant de piles que de faces : regarde $1{,}5 \\times 0{,}6$.",
+   "relances": [
+    "Quelle fraction miser pour maximiser la croissance ? (Maximiser $\\frac12\\ln(1 + 0{,}5f) + \\frac12\\ln(1 - 0{,}4f)$ : $f = 1/4$.)"
+   ],
+   "categorie": "probas",
+   "titre": "+50 % sur pile, −40 % sur face",
+   "reponse": "sqrt(0.9)",
+   "valeur": 0.9486832980505138,
+   "tolerance": 0.005,
+   "duree": 240
+  },
+  {
+   "id": "ct-p-pari-hollandais",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque"
+   ],
+   "type": "numerique",
+   "question": "Un match à deux issues. Un bookmaker paie 1,8 fois la mise si A gagne ; un autre paie 2,6 fois la mise si B gagne. Comment miser pour gagner à coup sûr, et quel rendement garanti obtiens-tu (en %) ?",
+   "solution": "Mise sur chaque issue proportionnelle à l'inverse de sa cote : $x_A = 1/1{,}8$, $x_B = 1/2{,}6$, total $0{,}9402$. Chaque issue rend exactement 1. Rendement garanti : $\\frac{1}{0{,}9402} - 1 \\approx$ **6,36 %**. Pour 1 000 € : 591 € sur A, 409 € sur B, retour 1 064 € quoi qu'il arrive.",
+   "indice": "Les probabilités implicites $1/1{,}8$ et $1/2{,}6$ somment à moins de 1.",
+   "relances": [
+    "Ce qui ressemble à un arbitrage en pratique : limites de mise, annulation des paris, risque de contrepartie du bookmaker."
+   ],
+   "categorie": "probas",
+   "titre": "Deux bookmakers, un arbitrage",
+   "reponse": "100*(1/(1/1.8+1/2.6)-1)",
+   "valeur": 6.363636363636371,
+   "tolerance": 0.005,
+   "duree": 240
+  },
+  {
+   "id": "ct-p-loto-sans-numero-commun",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Deux tirages indépendants de 6 numéros distincts parmi 49. Probabilité qu'ils n'aient aucun numéro en commun ?",
+   "solution": "$\\frac{\\binom{43}{6}}{\\binom{49}{6}} = \\frac{43 \\times 42 \\times \\cdots \\times 38}{49 \\times 48 \\times \\cdots \\times 44} \\approx$ **0,436**. Ordre de grandeur rapide : chaque numéro du second tirage évite les 6 autres avec probabilité $\\approx 43/49$, et $(43/49)^6 \\approx 0{,}46$.",
+   "indice": "Fixe le premier tirage : le second doit éviter ses 6 numéros.",
+   "categorie": "probas",
+   "titre": "Deux grilles de loto sans numéro commun",
+   "reponse": "comb(43,6)/comb(49,6)",
+   "valeur": 0.4359649755116915,
+   "tolerance": 0.005,
+   "duree": 180,
+   "source": "Entretiens Optiver (QuantVault)"
+  },
+  {
+   "id": "ct-p-somme-difference-correlees",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "$X$ et $Y$ ont la même variance et une corrélation quelconque. Que vaut $\\mathrm{corr}(X + Y,\\; X - Y)$ ?",
+   "solution": "$\\mathrm{Cov}(X + Y, X - Y) = \\mathrm{Var}X - \\mathrm{Cov}(X, Y) + \\mathrm{Cov}(Y, X) - \\mathrm{Var}Y = \\mathrm{Var}X - \\mathrm{Var}Y =$ **0**. Application : deux actifs de même volatilité, la paire « long l'un, short l'autre » est non corrélée au panier égal.",
+   "indice": "Développe $\\mathrm{Cov}(X + Y, X - Y)$.",
+   "relances": [
+    "Non corrélées veut-il dire indépendantes ? (Pas en général ; oui si $(X, Y)$ est gaussien.)"
+   ],
+   "categorie": "probas",
+   "titre": "Somme et différence de deux variables corrélées",
+   "reponse": "0",
+   "valeur": 0.0,
+   "tolerance": 0.0,
+   "duree": 120
+  },
+  {
+   "id": "ct-isoceles-decagone",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Combien de triangles isocèles (équilatéraux compris) ont leurs trois sommets parmi les sommets d'un décagone régulier ?",
+   "solution": "Depuis un sommet, les deux autres sont symétriques par rapport à l'axe passant par lui : 4 choix (à distance 1, 2, 3 ou 4 de part et d'autre ; la distance 5 donnerait deux points confondus). Soit $10 \\times 4 = 40$ triangles. Un triangle compté deux fois serait équilatéral, impossible car 3 ne divise pas 10. Réponse : **40**.",
+   "indice": "Compte par sommet principal (celui d'où partent les deux côtés égaux) ; vérifie qu'aucun triangle n'est compté deux fois.",
+   "relances": [
+    "Avec un dodécagone ? ($12 \\times 5 = 60$, moins les 4 équilatéraux comptés trois fois : $60 - 2 \\times 4 = 52$.)"
+   ],
+   "categorie": "denombrement",
+   "titre": "Triangles isocèles dans un décagone",
+   "reponse": "40",
+   "valeur": 40.0,
+   "tolerance": 0.0,
+   "duree": 240
+  },
+  {
+   "id": "ct-diagonale-cases-traversees",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Un rectangle de $18 \\times 12$ cases. Combien de cases l'une de ses diagonales traverse-t-elle (en passant par leur intérieur) ?",
+   "solution": "Elle franchit 17 verticales et 11 horizontales intérieures, et passe par $\\mathrm{pgcd}(18, 12) - 1 = 5$ nœuds intérieurs où deux franchissements n'en font qu'un. Cases : $1 + 17 + 11 - 5 = 18 + 12 - \\mathrm{pgcd}(18, 12) =$ **24**.",
+   "indice": "À chaque ligne de la grille franchie, la diagonale entre dans une nouvelle case ; sauf quand elle franchit une verticale et une horizontale en même temps, en un nœud.",
+   "categorie": "denombrement",
+   "titre": "Les cases traversées par une diagonale",
+   "reponse": "24",
+   "valeur": 24.0,
+   "tolerance": 0.0,
+   "duree": 180
+  },
+  {
+   "id": "ct-zeros-1-a-1000",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "On écrit tous les entiers de 1 à 1 000. Combien de chiffres 0 écrit-on ?",
+   "solution": "Unités : les multiples de 10 de 10 à 990, soit 99. Dizaines : les nombres de 100 à 999 dont le chiffre des dizaines est 0, soit $9 \\times 10 = 90$. Et 1 000 apporte 3 zéros. Total : $99 + 90 + 3 =$ **192**.",
+   "indice": "Compte les zéros des unités, puis ceux des dizaines, puis 1 000.",
+   "categorie": "nombres",
+   "titre": "Combien de zéros pour écrire 1 à 1 000 ?",
+   "reponse": "192",
+   "valeur": 192.0,
+   "tolerance": 0.0,
+   "duree": 180,
+   "source": "Entretiens Optiver (QuantVault)"
+  },
+  {
+   "id": "ct-chiffres-produit-96",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Quel est le plus petit entier positif dont le produit des chiffres vaut 96 ?",
+   "solution": "$96 = 2^5 \\times 3$. Deux chiffres ne suffisent pas ($9 \\times 9 = 81 < 96$). Avec trois chiffres, le premier le plus petit possible : 1 imposerait un produit 96 avec deux chiffres, impossible ; avec 2 en tête, il reste $48 = 6 \\times 8$. Réponse : **268**.",
+   "indice": "Le moins de chiffres possible, puis les plus petits chiffres devant.",
+   "categorie": "nombres",
+   "titre": "Le plus petit entier dont les chiffres multiplient à 96",
+   "reponse": "268",
+   "valeur": 268.0,
+   "tolerance": 0.0,
+   "duree": 120,
+   "source": "Entretiens Optiver (QuantVault)"
+  },
+  {
+   "id": "ct-multiple-66",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Quel est le plus petit multiple de 66 supérieur ou égal à 600 000 ?",
+   "solution": "600 000 est divisible par 6 mais pas par 11 (somme alternée des chiffres : 6). On cherche le premier nombre pair, multiple de 3 et de 11 au-dessus : 600 006 (somme des chiffres 12 ; somme alternée $6 - 0 + 0 - 0 + 0 - 6 = 0$). Réponse : **600 006**.",
+   "indice": "$66 = 6 \\times 11$ : divisible par 2, 3 et 11.",
+   "categorie": "nombres",
+   "titre": "Le plus petit multiple de 66 au-delà de 600 000",
+   "reponse": "600006",
+   "valeur": 600006.0,
+   "tolerance": 0.0,
+   "duree": 90,
+   "source": "Entretiens Optiver (QuantVault)"
+  },
+  {
+   "id": "ct-fibonacci-dernier-chiffre",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Avec $F_0 = 0$, $F_1 = 1$, $F_{n+1} = F_n + F_{n-1}$, quel est le dernier chiffre de $F_{2026}$ ?",
+   "solution": "Le couple $(F_n \\bmod 10, F_{n+1} \\bmod 10)$ ne prend que 100 valeurs, donc la suite est périodique ; la période (de Pisano) vaut 60. $2026 = 60 \\times 33 + 46$, donc $F_{2026} \\equiv F_{46} = 1\\,836\\,311\\,903$ : dernier chiffre **3**.",
+   "indice": "Les derniers chiffres suivent la même récurrence modulo 10 : ils finissent par boucler.",
+   "relances": [
+    "Et modulo 2 ? (Période 3 : pair, impair, impair.)"
+   ],
+   "categorie": "nombres",
+   "titre": "Le dernier chiffre du 2026ᵉ nombre de Fibonacci",
+   "reponse": "3",
+   "valeur": 3.0,
+   "tolerance": 0.0,
+   "duree": 240
+  },
+  {
+   "id": "ct-bits-permutation-100",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Combien de bits faut-il au minimum pour coder n'importe quelle permutation de 100 éléments ? Calcul de tête, avec Stirling.",
+   "solution": "$\\ln 100! \\approx 100 \\times 4{,}605 - 100 + \\frac12\\ln(628) \\approx 460{,}5 - 100 + 3{,}2 = 363{,}7$. En bits : $363{,}7/\\ln 2 \\approx 524{,}8$, donc **525 bits** (contre 700 en écrivant 100 numéros sur 7 bits chacun).",
+   "indice": "Il faut $\\lceil \\log_2 100! \\rceil$ bits. Stirling : $\\ln n! \\approx n\\ln n - n + \\frac12\\ln(2\\pi n)$.",
+   "relances": [
+    "Borne inférieure du tri par comparaisons : la même quantité, $\\log_2 n!$ comparaisons."
+   ],
+   "categorie": "nombres",
+   "titre": "Combien de bits pour coder un ordre de 100 éléments ?",
+   "reponse": "525",
+   "valeur": 525.0,
+   "tolerance": 0.0,
+   "duree": 240
+  },
+  {
+   "id": "ct-escalator-marches",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Tu montes un escalier mécanique qui monte. À une marche par seconde, tu arrives en haut après avoir gravi 20 marches. À deux marches par seconde, tu en gravis 32. Combien de marches sont visibles sur l'escalier ?",
+   "solution": "Soit $v$ la vitesse de l'escalier (marches par seconde). Premier cas : 20 s, $N = 20 + 20v$. Second : $32/2 = 16$ s, $N = 32 + 16v$. D'où $4v = 12$, $v = 3$ et $N =$ **80**.",
+   "indice": "Pendant ta montée, l'escalier en apporte aussi : $N = $ marches gravies $+$ marches apportées.",
+   "categorie": "mouvement",
+   "titre": "Combien de marches sur l'escalier mécanique ?",
+   "reponse": "80",
+   "valeur": 80.0,
+   "tolerance": 0.0,
+   "duree": 180
+  },
+  {
+   "id": "ct-cloture-mur",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Avec 100 m de clôture, tu fermes un enclos rectangulaire adossé à un long mur (le mur forme un côté, sans clôture). Quelle aire maximale (en m²) ?",
+   "solution": "$A(x) = x(100 - 2x)$, maximale en $x = 25$ : côté parallèle 50 m, aire **1 250 m²**. Astuce : en reflétant l'enclos dans le mur, on obtient un rectangle de périmètre 200 m, maximal quand c'est un carré de 50 m : la moitié, 1 250 m².",
+   "indice": "Deux côtés de longueur $x$ perpendiculaires au mur, le côté parallèle mesure $100 - 2x$.",
+   "categorie": "geometrie",
+   "titre": "Un enclos le long d'un mur",
+   "reponse": "1250",
+   "valeur": 1250.0,
+   "tolerance": 0.0,
+   "duree": 120
+  },
+  {
+   "id": "ct-grille-pain",
+   "theme": "casse-tete",
+   "niveau": 1,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Un grille-pain grille une face de deux tranches à la fois, en 30 secondes. Il faut griller les deux faces de 3 tranches. Temps minimal (en secondes) ?",
+   "solution": "Il y a 6 faces et 2 places : au moins 3 fournées, 90 s. C'est atteignable : (A1, B1), puis (A2, C1), puis (B2, C2). Réponse : **90 s**. L'erreur est de finir une tranche avant de commencer la suivante (120 s).",
+   "indice": "6 faces à griller, 2 par fournée : la borne $3 \\times 30$ est-elle atteignable ?",
+   "categorie": "recherche",
+   "titre": "Trois tartines, un grille-pain à deux places",
+   "reponse": "90",
+   "valeur": 90.0,
+   "tolerance": 0.0,
+   "duree": 120
+  },
+  {
+   "id": "ct-tapis-roulant-courir",
+   "theme": "casse-tete",
+   "niveau": 2,
+   "profils": [
+    "mm",
+    "hf",
+    "banque",
+    "data"
+   ],
+   "type": "numerique",
+   "question": "Dans un aéroport : 100 m de couloir, puis 100 m de tapis roulant à 1 m/s. Tu marches à 1 m/s et tu peux courir à 2 m/s, mais seulement pendant 10 secondes en tout. Où courir, et combien de secondes gagnes-tu par rapport à l'autre choix ?",
+   "solution": "Courir dans le couloir : 20 m en 10 s, puis 80 m en 80 s, puis le tapis à 2 m/s en 50 s : 140 s. Courir sur le tapis : couloir en 100 s, puis 30 m en 10 s à 3 m/s et 70 m en 35 s : 145 s. Il faut courir **hors du tapis**, et l'on gagne **5 s**.\nIntuition : courir ajoute 1 m/s pendant 10 s, soit 10 m d'avance ; ces 10 m valent 10 s au sol (à 1 m/s) mais seulement 5 s sur le tapis (à 2 m/s). Même logique : s'il faut lacer ses chaussures, mieux vaut le faire sur le tapis.",
+   "indice": "Le gain se mesure en temps : on gagne plus là où l'on passe le plus de temps, c'est-à-dire là où l'on va le moins vite.",
+   "categorie": "mouvement",
+   "titre": "Courir sur le tapis roulant, ou à côté ?",
+   "reponse": "5",
+   "valeur": 5.0,
+   "tolerance": 0.0,
+   "duree": 240
+  },
+  {
    "id": "ct-pirates",
    "theme": "casse-tete",
    "niveau": 3,
