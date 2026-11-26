@@ -31,11 +31,11 @@
   C'est la probabilité qu'un point du carré tombe dans le disque inscrit.
 
 === ct-p-bertrand-corde
-+ Ça dépend du modèle de « corde au hasard » : $1/3$, $1/2$ ou $1/4$
-  Extrémités uniformes, rayon puis point, ou milieu uniforme : trois modèles, trois réponses.
-- $1/3$, sans ambiguïté
-  C'est une des réponses, pour un modèle précis ; l'énoncé ne le fixe pas.
-- $1/2$, par symétrie
++ Ça dépend du modèle de corde au hasard
+  Extrémités uniformes : $1/3$ ; rayon puis point : $1/2$ ; milieu uniforme : $1/4$. Trois modèles, trois réponses.
+- $1/3$, en tirant les deux extrémités
+  C'est la réponse d'un modèle précis ; l'énoncé ne le fixe pas.
+- $1/2$, par symétrie du cercle
   Aucune symétrie ne tranche entre les modèles : c'est tout le paradoxe.
 - La question n'a pas de réponse
   Elle en a, une par modèle ; il faut les donner toutes.
@@ -61,21 +61,21 @@
   On a supposé qu'on ne revenait jamais en arrière.
 
 === ct-p-piece-equitable
-+ Lancer deux fois : PF donne « pile », FP « face », PP ou FF : recommencer ; $\frac{1}{p(1-p)}$ lancers en moyenne
-  PF et FP ont la même probabilité $p(1 - p)$, quel que soit $p$.
++ Lancer deux fois : PF donne pile, FP face, sinon recommencer
+  PF et FP ont la même probabilité $p(1 - p)$ quel que soit $p$ ; $\frac{1}{p(1-p)}$ lancers en moyenne.
 - Lancer une fois et inverser le résultat une fois sur deux
   Il faudrait une source de hasard équitable, justement ce qu'on cherche.
-- Prendre la majorité sur trois lancers
+- Prendre la majorité sur trois lancers, ou plus
   Le biais est réduit mais pas supprimé.
-- C'est impossible sans connaître $p$
+- C'est impossible sans estimer $p$ au préalable
   La méthode de von Neumann n'a pas besoin de $p$.
 
 === ct-p-urnes-bleues
-+ Une seule boule bleue dans une urne, les 9 autres dans l'autre : $13/18$
-  $\frac12 \times 1 + \frac12 \times \frac49$.
-- Répartir également : $1/2$
++ Une bleue seule dans une urne, tout le reste dans l'autre
+  $\frac12 \times 1 + \frac12 \times \frac49 = \frac{13}{18}$.
+- Répartir également les couleurs entre les deux urnes
   La répartition égale ne profite pas du choix de l'urne.
-- Toutes les bleues dans une urne : $1/2 \times 1 + 1/2 \times 0$
+- Toutes les bleues dans une urne, toutes les rouges dans l'autre
   Elle vaut $1/2$ : l'urne des rouges est perdue à coup sûr.
 - Une bleue et une rouge dans une urne : $1/2$
   L'urne mixte ne garantit rien ; la bleue seule garantit $1/2$.
@@ -101,13 +101,13 @@
   C'est $(4/52)^2$, un tirage avec remise.
 
 === ct-p-pari-60-piles
-+ $\approx 2{,}8\,\%$ : ne pas jouer
++ Environ 2,8 % : ne pas jouer
   $\mathbb{P}(X \ge 60) \approx \mathbb{P}(Z \ge 1{,}9)$ ; gain espéré $\approx 0{,}28$ € pour 1 € de mise.
-- $\approx 16\,\%$ : jouer
+- Environ 16 % : jouer
   On a pris $\mathbb{P}(Z \ge 1)$ : 60 est à deux écarts-types, pas un.
-- $\approx 40\,\%$
+- Environ 40 % : jouer
   On a confondu 60 % de piles avec 60 piles sur 100 en pensant à une seule pièce.
-- $\approx 0{,}1\,\%$
+- Environ 0,1 % : ne pas jouer
   Trop pessimiste : c'est l'ordre de grandeur à trois écarts-types.
 
 === ct-p-roulette-russe
@@ -241,13 +241,13 @@
   Aucun calcul correct n'y mène.
 
 === ct-p-racines-reelles
-+ $\frac{5 + 3\ln 4}{36} \approx 0{,}254$
-  Il faut $b^2 \ge 4ac$, avec $\mathbb{P}(ac \le t) = t(1 - \ln t)$.
-- $1/4$
++ Environ 0,254
+  $\frac{5 + 3\ln 4}{36}$, en intégrant la condition $b^2 \ge 4ac$.
+- Exactement 1/4
   Valeur proche mais fausse : le calcul exact donne un terme en $\ln 4$.
-- $1/2$
+- Environ 0,5
   Le discriminant n'est pas positif une fois sur deux : $4ac$ est souvent plus grand que $b^2$.
-- $1/9$
+- Environ 0,11
   On a traité $b^2$ et $4ac$ comme des uniformes indépendantes.
 
 === ct-p-craps
@@ -301,8 +301,8 @@
   Une division par deux à chaque saut est une approximation, pas la réponse exacte.
 
 === ct-p-des-efron
-+ « Bat le plus souvent » n'est pas transitif : quel que soit ton dé, un autre le bat avec probabilité $5/9$
-  A bat B, B bat C, C bat A : celui qui choisit en second gagne.
++ « Bat le plus souvent » n'est pas transitif
+  Quel que soit ton dé, un autre le bat avec probabilité $5/9$ : celui qui choisit en second gagne.
 - Parce que mes dés ont une plus grande espérance
   Les trois dés peuvent avoir la même moyenne : c'est l'ordre qui compte.
 - Ce n'est pas une mauvaise affaire si tu prends le meilleur dé
@@ -311,8 +311,8 @@
   C'est la non-transitivité qui donne l'avantage au second, pas l'ordre en lui-même.
 
 === ct-p-simpson
-+ Oui (paradoxe de Simpson) : les groupes n'ont pas la même composition ; en backtest, toujours regarder par régime
-  Le traitement A est surtout donné aux patients graves, qui guérissent moins.
++ Oui : les groupes n'ont pas la même composition
+  Paradoxe de Simpson : A est surtout donné aux patients graves, qui guérissent moins. En backtest, toujours regarder par régime.
 - Non, c'est mathématiquement impossible
   Une moyenne pondérée peut s'inverser quand les poids diffèrent.
 - Oui, mais seulement avec de petits échantillons
@@ -321,18 +321,18 @@
   L'agrégat mélange un effet de composition ; il faut comprendre le mécanisme.
 
 === ct-fermi-pianos
-+ On décompose (habitants, pianos par foyer, accords par an, accords par accordeur) et on obtient quelques centaines
-  Ce qui est noté : la chaîne d'hypothèses, l'ordre de grandeur et la vérification.
-- Quelques dizaines de milliers
++ Quelques centaines, par une chaîne d'hypothèses explicites
+  Habitants, pianos par foyer, accords par an, accords par accordeur ; ce qui est noté : la chaîne, l'ordre de grandeur et la vérification.
+- Quelques dizaines de milliers, un par quartier
   Il faudrait un piano accordé chaque jour par habitant : l'ordre de grandeur est faux d'un facteur 100.
 - On refuse de répondre sans données
   L'exercice consiste justement à estimer avec des hypothèses explicites.
-- Exactement 1 200
+- Exactement 1 200, d'après l'annuaire
   La précision affichée est illusoire : on donne un ordre de grandeur.
 
 === ct-fermi-stations
-+ De l'ordre de 10 000, par la demande en carburant et un contrôle par l'offre
-  $\sim 45$ milliards de litres par an, $\sim 4$ millions de litres par station.
++ De l'ordre de 10 000
+  Demande : $\sim 45$ milliards de litres par an ; offre : $\sim 4$ millions de litres par station.
 - De l'ordre de 100 000
   Une station par 600 habitants vendrait trop peu pour vivre.
 - De l'ordre de 1 000
@@ -341,11 +341,11 @@
   Deux décompositions indépendantes suffisent à cadrer l'ordre de grandeur.
 
 === ct-fermi-balles-avion
-+ Quelques millions : volume utile divisé par le volume d'une balle, avec un taux de remplissage d'environ 60 %
-  $\sim 2\,000$ m³ et $\sim 140$ cm³ par balle.
-- Quelques milliers
++ Quelques millions, avec un taux de remplissage d'environ 60 %
+  $\sim 2\,000$ m³ utiles et $\sim 140$ cm³ par balle.
+- Quelques milliers, vu la taille d'une cabine
   Erreur d'unités : un mètre cube contient déjà plusieurs milliers de balles.
-- Quelques milliards
+- Quelques milliards, vu le volume d'un avion
   Il faudrait des balles de la taille d'une bille.
 - Exactement le volume divisé par celui d'une balle
   On oublie l'espace perdu entre des sphères (empilement d'environ 64 %).
@@ -361,9 +361,9 @@
   Il n'y a qu'environ 25 000 avions de ligne dans le monde.
 
 === ct-fermi-cafe
-+ Quelques millions par jour, par la demande (habitants, travailleurs, touristes) recoupée par l'offre (nombre de cafés)
-  Deux décompositions qui se contrôlent mutuellement.
-- Quelques milliers
++ Quelques millions par jour, recoupés par l'offre et la demande
+  Demande : habitants, travailleurs, touristes ; offre : nombre de cafés. Deux décompositions qui se contrôlent.
+- Quelques milliers, environ un par café et par jour
   Il y a des milliers de cafés à Paris, chacun en vend des centaines.
 - Un par habitant, soit 2 millions, sans autre calcul
   Une hypothèse unique non vérifiée ; il faut au moins un contrôle.
@@ -371,8 +371,8 @@
   L'estimation de Fermi se fait sans données.
 
 === ct-fermi-cheveux
-+ Environ 100 000 à 150 000 cheveux ; oui, deux Parisiens ont forcément le même nombre (tiroirs)
-  2 millions de Parisiens et au plus quelques centaines de milliers de valeurs possibles.
++ Environ 100 000 à 150 000 ; oui, forcément
+  Principe des tiroirs : 2 millions de Parisiens pour au plus quelques centaines de milliers de valeurs.
 - Environ 10 000 ; non, rien n'est forcé
   Ordre de grandeur trop petit, et les tiroirs s'appliquent de toute façon.
 - Environ 1 million ; oui
@@ -441,8 +441,8 @@
   La proportion attendue vaut $1/2$ quel que soit le nombre de familles.
 
 === ct-canard-renard
-+ Oui : tourner sur un cercle de rayon un peu inférieur à $R/4$ pour se mettre à l'opposé, puis foncer vers la rive
-  Il lui reste $\frac34 R$ à nager, contre $\pi R$ pour le renard, qui court 4 fois plus vite : $\pi > 3$.
++ Oui : tourner près de $R/4$ pour se mettre à l'opposé, puis foncer
+  Sur un cercle de rayon un peu inférieur à $R/4$, le canard tourne plus vite que le renard. Il lui reste $\frac34 R$ à nager, contre $\pi R$ à courir à vitesse 4 : $\pi > 3$.
 - Non : le renard court 4 fois plus vite, il l'attend toujours
   Foncer tout droit échoue, mais la stratégie en deux temps réussit.
 - Oui : il suffit de nager tout droit à l'opposé du renard
@@ -461,13 +461,13 @@
   Une moyenne ne donne pas une égalité ponctuelle.
 
 === ct-p-chuck-a-luck
-+ $-17/216 \approx -7{,}9$ centimes
-  $\frac{75 + 2 \times 15 + 3 \times 1 - 125}{216}$.
-- 0
++ Environ $-7{,}9$ centimes
+  $\frac{75 + 2 \times 15 + 3 \times 1 - 125}{216} = -\frac{17}{216}$.
+- 0 : le jeu est équitable
   L'intuition « trois dés, trois chances sur six » fait croire à un jeu équitable.
-- $+1/2$
+- Environ $+50$ centimes
   On a compté le gain moyen ($3 \times 1/6$) sans retirer la mise perdue quand le numéro ne sort pas.
-- $-1/6$
+- Environ $-16{,}7$ centimes
   On a oublié les gains doubles et triples.
 
 === ct-infection-grille
@@ -481,18 +481,18 @@
   Un damier marche, mais la diagonale (10 cases) suffit.
 
 === ct-p-nouilles
-+ $\sum_{k=1}^{100} \frac{1}{2k - 1} \approx 3{,}28$
-  Avec $k$ brins, la boucle se ferme avec probabilité $\frac{1}{2k - 1}$.
++ Environ 3,28
+  $\sum_{k=1}^{100} \frac{1}{2k - 1}$ : avec $k$ brins, la boucle se ferme avec probabilité $\frac{1}{2k - 1}$.
 - 50
   On a cru qu'un nœud sur deux fermait une boucle.
 - 1
   On pense que tout finit en une seule grande boucle ; il y en a plusieurs en moyenne.
-- $H_{100} \approx 5{,}19$
-  Ce serait $\sum 1/k$ ; la bonne probabilité est $1/(2k - 1)$.
+- Environ 5,19
+  Ce serait $H_{100} = \sum 1/k$ ; la bonne probabilité est $1/(2k - 1)$.
 
 === ct-sous-marin
-+ Oui : énumérer tous les couples $(a, v)$ et, à la minute $t$, tirer sur $a_t + v_t t$
-  $\mathbb{Z}^2$ est dénombrable : le vrai couple est atteint en un temps fini.
++ Oui : énumérer tous les couples (départ, vitesse)
+  À la minute $t$, tirer sur $a_t + v_t t$ ; $\mathbb{Z}^2$ est dénombrable, le vrai couple est atteint en un temps fini.
 - Non : la vitesse inconnue rend la cible infiniment éloignée
   L'énumération des couples contourne le problème.
 - Oui, mais seulement si $v \ge 0$
@@ -521,8 +521,8 @@
   Les triangles semblables éliminent la distance.
 
 === ct-hotel-hilbert
-+ Oui dans les deux cas : $n \to n + 1$ pour un client, $n \to 2n$ pour une infinité
-  Les chambres impaires se libèrent pour le car.
++ Oui dans les deux cas
+  $n \to n + 1$ pour un client ; $n \to 2n$ pour une infinité : les chambres impaires se libèrent pour le car.
 - Oui pour un client, non pour une infinité
   Doubler les numéros libère une infinité de chambres.
 - Non : l'hôtel est complet
@@ -571,13 +571,13 @@
   C'est l'espérance de $|U - V|$, un autre problème.
 
 === ct-p-couleurs-main
-+ $4\left(1 - \binom{39}{13}/\binom{52}{13}\right) \approx 3{,}95$
-  Une couleur manque avec probabilité $\approx 1{,}3\,\%$.
-- 4
++ Environ 3,95
+  $4\left(1 - \binom{39}{13}/\binom{52}{13}\right)$ : une couleur manque avec probabilité $\approx 1{,}3\,\%$.
+- Exactement 4
   Une main sans une couleur arrive : la moyenne est un peu sous 4.
-- $3{,}5$
+- Environ 3,5
   Trop pessimiste : avec 13 cartes, il manque rarement une couleur.
-- $13/4$
+- Environ 3,25
   On a divisé les cartes par les couleurs, ce qui n'a pas de sens ici.
 
 === ct-p-total-sept
@@ -591,9 +591,9 @@
   C'est le rapport de la récurrence, pas l'espérance.
 
 === ct-partage-secret
-+ Polynôme aléatoire de degré 2 de terme constant $s$, une valeur $P(i)$ par personne (schéma de Shamir)
-  Trois points déterminent le polynôme ; deux laissent $s$ totalement indéterminé.
-- Couper le code en 5 morceaux
++ Un polynôme aléatoire de degré 2, de terme constant $s$
+  Une valeur $P(i)$ par personne (schéma de Shamir) : trois points déterminent le polynôme, deux laissent $s$ indéterminé.
+- Couper le code en 5 morceaux, un par personne
   Deux personnes apprennent des morceaux du code, et il en faut 5 pour le reconstituer.
 - Donner à chacun le code chiffré avec la même clé
   Une seule personne avec la clé suffirait.

@@ -58,43 +58,70 @@
   }
 
   // --- Accueil du QCM -----------------------------------------------------------------------------------------------
-  function rendreAccueil(main) {
+  // Ligne de liste : nom, détail, avancement, et l'action au bout
+  function ligneListe(attrs, nom, detail, part, droite) {
+    return '<li><a class="ligne-liste" ' + attrs + '><span class="ll-nom">' + nom + '</span><span class="ll-detail">' + detail + '</span>' +
+      (part == null ? '' : '<span class="ll-barre">' + barre(part) + '</span>') + '<span class="ll-droite">' + (droite || 'Jouer') + '</span></a></li>';
+  }
+  function rendreAccueil(main, par) {
     const qs = toutes();
     const s = suivi();
     const faites = qs.filter(function (q) { return s[q.id]; });
     const justes = faites.filter(function (q) { return s[q.id].r; }).length;
     const fausses = faites.length - justes;
-    main.innerHTML = '<h1>QCM</h1><p class="doux">Une question à choix multiples par fiche et par chapitre du cours. Les mauvaises réponses ' +
-      'ne sont pas là pour faire nombre : ce sont les erreurs que l’on commet vraiment (oubli d’un cas, formule voisine, intuition trompeuse), ' +
-      'et chacune est expliquée après ta réponse. Tu ne connais pas encore la notion ? C’est prévu : « Voir le cours d’abord » affiche la section du cours qui l’explique, ' +
-      '« Je ne sais pas encore » montre la réponse sans pénalité, et chaque correction donne la solution rédigée pas à pas. Ta progression ici est <strong>séparée</strong> des révisions : elle ne change pas le planning des fiches.</p>' +
-      '<div class="grille stats-ct">' +
-      '<div class="carte"><div class="chiffre">' + qs.length + '</div><div class="legende">questions</div></div>' +
-      '<div class="carte"><div class="chiffre" data-qcm-faites>' + faites.length + '</div><div class="legende">déjà répondues</div>' + barre(faites.length / Math.max(1, qs.length)) + '</div>' +
-      '<div class="carte"><div class="chiffre">' + (faites.length ? Math.round(100 * justes / faites.length) + ' %' : '–') + '</div><div class="legende">de réussite à la dernière tentative · ' + fausses + ' à retravailler</div></div></div>' +
-      '<div class="ligne" style="margin:4px 0 20px"><button class="principal" data-qcm-tout>Session de ' + TAILLE + ' questions, tous domaines</button>' +
-      (fausses ? '<button data-qcm-erreurs>Retravailler mes ' + fausses + ' erreur' + (fausses > 1 ? 's' : '') + '</button>' : '') + '</div>' +
-      (A.jeuActif() && P.jeu2 ? '<h2>Parties classées</h2><p class="doux">Les questions se calent sur ta cote dans le domaine : réussir une question plus difficile que ton niveau fait monter la cote, rater une plus facile la fait baisser. ' +
-        'Bronze, Argent, Or, Platine, Diamant, Quant, Légende.</p><div class="liste-qcm">' + domaines().map(function (d) {
+    const jeuOn = A.jeuActif() && P.jeu2;
+    const onglets = [['domaines', 'Par domaine'], ['chapitres', 'Par chapitre du cours']].concat(jeuOn ? [['classees', 'Parties classées']] : []);
+    if (!onglets.some(function (x) { return x[0] === par; })) par = 'domaines';
+    let corps = '';
+    if (par === 'chapitres') {
+      const C = (racine.PREPA_COURS && racine.PREPA_COURS.chapitres) || [];
+      let partie = '';
+      corps = C.map(function (c) {
+        const l = duChapitre(c.id);
+        if (!l.length) return '';
+        const f = l.filter(function (q) { return s[q.id]; });
+        const j = f.filter(function (q) { return s[q.id].r; }).length;
+        const tete = c.partie !== partie ? (partie ? '</ul>' : '') + '<h2 class="tete-liste">' + o.echapper(c.partie) + '</h2><ul class="liste-lignes">' : '';
+        partie = c.partie;
+        return tete + ligneListe('href="#qcm/c=' + encodeURIComponent(c.id) + '"', '<span class="ll-num">' + c.numero + '</span>' + o.echapper(c.titre),
+          f.length + ' / ' + l.length + (f.length ? ' · ' + Math.round(100 * j / f.length) + ' % justes' : ''), f.length / l.length);
+      }).join('') + '</ul>';
+    } else if (par === 'classees') {
+      corps = '<p class="petit doux">Les questions se calent sur ta cote dans le domaine : réussir plus difficile que ton niveau la fait monter, rater plus facile la fait baisser.</p>' +
+        '<ul class="liste-lignes">' + domaines().map(function (d) {
           const c = P.jeu2.coteJoueur(A.etat, d);
           const l = P.jeu2.ligue(c.r);
-          return '<a class="ligne-qcm" href="#qcm/classee=' + encodeURIComponent(d) + '" data-classee="' + o.echapper(d) + '"><span class="nom-qcm">' + o.echapper(nomDomaine(d)) + '</span>' +
-            '<span class="badge-ligue ligue-' + o.echapper(l.nom.toLowerCase()) + '">' + o.echapper(l.nom) + ' · ' + c.r + '</span>' +
-            '<span class="legende">' + (c.n ? c.n + ' réponses' : 'non classé') + (l.suivante ? ' · ' + l.suivante.nom + ' à ' + l.suivante.cote : '') + '</span></a>';
-        }).join('') + '</div>' : '') +
-      '<h2>Par domaine</h2><div class="liste-qcm">' + domaines().map(function (d) {
+          return ligneListe('href="#qcm/classee=' + encodeURIComponent(d) + '" data-classee="' + o.echapper(d) + '"', o.echapper(nomDomaine(d)),
+            (c.n ? c.n + ' réponses' : 'Non classé') + (l.suivante ? ' · ' + l.suivante.nom + ' à ' + l.suivante.cote : ''), null,
+            '<span class="badge-ligue ligue-' + o.echapper(l.nom.toLowerCase()) + '">' + o.echapper(l.nom) + ' · ' + c.r + '</span>');
+        }).join('') + '</ul>';
+    } else {
+      corps = '<ul class="liste-lignes">' + domaines().map(function (d) {
         const l = qs.filter(function (q) { return domaine(q) === d; });
         const f = l.filter(function (q) { return s[q.id]; });
         const j = f.filter(function (q) { return s[q.id].r; }).length;
-        return '<button type="button" class="ligne-qcm" data-qcm-domaine="' + o.echapper(d) + '"><span class="nom-qcm">' + o.echapper(nomDomaine(d)) + '</span>' +
-          '<span class="legende">' + f.length + ' / ' + l.length + (f.length ? ' · ' + Math.round(100 * j / f.length) + ' % justes' : '') + '</span>' +
-          barre(f.length / Math.max(1, l.length)) + '</button>';
-      }).join('') + '</div>';
+        return ligneListe('href="#qcm" data-qcm-domaine="' + o.echapper(d) + '"', o.echapper(nomDomaine(d)),
+          f.length + ' / ' + l.length + (f.length ? ' · ' + Math.round(100 * j / f.length) + ' % justes' : ''), f.length / Math.max(1, l.length));
+      }).join('') + '</ul>';
+    }
+    main.innerHTML = '<div class="tete-page"><div><h1>QCM</h1><p class="chapeau">Une question par fiche et par chapitre du cours ; chaque réponse est corrigée et expliquée.</p></div>' +
+      '<div class="ligne">' + (fausses ? '<button data-qcm-erreurs>Mes ' + fausses + ' erreur' + (fausses > 1 ? 's' : '') + '</button>' : '') +
+      '<button class="principal" data-qcm-tout>Session de ' + TAILLE + '</button></div></div>' +
+      '<p class="resume-stats"><span><b data-qcm-faites>' + faites.length + '</b> / ' + qs.length + ' répondues</span>' +
+      '<span><b>' + (faites.length ? Math.round(100 * justes / faites.length) + ' %' : '–') + '</b> de réussite</span>' +
+      '<span><b>' + fausses + '</b> à retravailler</span></p>' +
+      '<details class="aide-page"><summary>Comment ça marche</summary><p>Les mauvaises réponses sont les erreurs que l’on commet vraiment (oubli d’un cas, formule voisine, intuition trompeuse). ' +
+      'Tu ne connais pas la notion ? « Voir le cours d’abord » affiche la section du cours qui l’explique, « Je ne sais pas encore » montre la réponse sans pénalité, ' +
+      'et chaque correction donne la solution rédigée pas à pas. Les ratées reviennent en priorité. Cette progression est séparée des révisions : elle ne change pas le planning des fiches.</p></details>' +
+      '<div class="onglets" role="tablist">' + onglets.map(function (x) {
+        return '<a class="bouton-onglet" role="tab" aria-selected="' + (x[0] === par) + '" href="#qcm/par=' + x[0] + '">' + x[1] + '</a>';
+      }).join('') + '</div>' + corps;
     main.querySelector('[data-qcm-tout]').addEventListener('click', function () { lancer(tirer(qs, TAILLE)); });
     const err = main.querySelector('[data-qcm-erreurs]');
     if (err) err.addEventListener('click', function () { lancer(tirer(qs.filter(function (q) { return etatQ(q) === 'fausse'; }), TAILLE)); });
     main.querySelectorAll('[data-qcm-domaine]').forEach(function (b) {
-      b.addEventListener('click', function () {
+      b.addEventListener('click', function (e) {
+        e.preventDefault();
         const d = b.getAttribute('data-qcm-domaine');
         lancer(tirer(qs.filter(function (q) { return domaine(q) === d; }), TAILLE));
       });
@@ -674,7 +701,7 @@
       const liste = tirer(duChapitre(params.c), TAILLE);
       if (liste.length) return rendreSession(main, liste.map(function (q) { return q.id; }));
     }
-    rendreAccueil(main);
+    rendreAccueil(main, params.par);
   }
 
   A.enregistrerVue({

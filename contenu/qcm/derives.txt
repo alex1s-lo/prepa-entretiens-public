@@ -15,7 +15,7 @@
 ? Quelle hypothèse de Black-Scholes est la plus démentie par les marchés d'options ?
 + La volatilité constante (d'où le smile)
   Les volatilités implicites varient avec le strike et la maturité.
-- L'absence d'arbitrage
+- L'absence d'opportunité d'arbitrage
   C'est l'hypothèse la plus solide : les arbitrages évidents disparaissent vite.
 - Le taux sans risque constant
   Fausse aussi, mais avec un effet faible sur les options courtes.
@@ -43,8 +43,8 @@
   Un call à la monnaie n'a pas de valeur intrinsèque, mais une valeur temps.
 
 === der-delta-atm
-+ Environ 0,54, au-dessus de 0,5 à cause du terme $+\sigma^2/2$ dans $d_1$
-  $d_1 = \sigma\sqrt T / 2 = 0{,}1$, $N(0{,}1) \approx 0{,}54$.
++ Environ 0,54
+  Au-dessus de 0,5 à cause du terme $+\sigma^2/2$ : $d_1 = \sigma\sqrt T / 2 = 0{,}1$, $N(0{,}1) \approx 0{,}54$.
 - Exactement 0,5
   Le forward vaut le spot, mais $d_1 \ne 0$.
 - Environ 0,46
@@ -53,13 +53,13 @@
   Trop : il faudrait $d_1 \approx 0{,}25$.
 
 === der-gamma-atm
-+ Environ 0,02 : le delta passe de 0,54 à 0,56
-  $\varphi(0{,}1)/(S\sigma\sqrt T) \approx 0{,}397/20$.
-- Environ 0,4
++ Environ 0,02 par euro
+  $\varphi(0{,}1)/(S\sigma\sqrt T) \approx 0{,}397/20$ : le delta passe de 0,54 à 0,56 pour 1 € de hausse.
+- Environ 0,4 par euro
   C'est $\varphi(d_1)$, sans diviser par $S\sigma\sqrt T$.
-- Environ 0,2
+- Environ 0,2 par euro
   On a divisé par $S$ seulement.
-- 0, car le call est à la monnaie
+- Zéro, à la monnaie
   Le gamma est au contraire maximal près de la monnaie.
 
 === der-vega-point
@@ -83,8 +83,8 @@
   C'est le prix du call à la monnaie.
 
 === der-digitale-replication
-+ Le delta et le gamma explosent près du strike à l'échéance ; on la couvre par un call spread
-  On remplace la marche par une pente, en sur-répliquant légèrement.
++ Delta et gamma explosent au strike : call spread
+  À l'échéance, près du strike ; le call spread remplace la marche par une pente, en sur-répliquant légèrement.
 - Elle est facile à couvrir, son payoff est borné
   Le payoff est borné mais discontinu : c'est la discontinuité qui pose problème.
 - On la couvre par un seul call au même strike
@@ -104,18 +104,18 @@
   On ne peut pas avoir les deux : la convexité se paie.
 
 === der-gamma-theta
-+ $\Theta \approx -\frac12 \Gamma S^2 \sigma^2$ : la convexité gagnée se paie par l'érosion du temps
-  Déduit de l'EDP de Black-Scholes pour un portefeuille delta-neutre.
-- $\Theta = \Gamma$
-  Mauvaise dimension et mauvais signe.
++ $\Theta \approx -\frac12 \Gamma S^2 \sigma^2$
+  La convexité gagnée se paie par l'érosion du temps (taux nul, position couverte en delta).
+- $\Theta \approx -\Gamma S \sigma$
+  Le signe est bon mais la dimension fausse : il manque un facteur $S\sigma/2$.
 - Aucune relation : ce sont des sensibilités indépendantes
   L'EDP les relie directement.
 - $\Theta = \frac12 \Gamma S^2 \sigma^2$
   Le signe est faux : un gamma positif implique un theta négatif.
 
 === der-pnl-couverture
-+ Oui en espérance ; le PnL dépend du gamma le long du chemin, $\frac12\Gamma S^2(\sigma_r^2 - \sigma_i^2)$
-  Gagner de l'argent dépend de quand la volatilité se réalise (gamma élevé près du strike).
++ Oui en espérance, mais le PnL dépend du chemin
+  $\frac12\Gamma S^2(\sigma_r^2 - \sigma_i^2)\,dt$ : gagner dépend de quand la volatilité se réalise (gamma élevé près du strike).
 - Oui, exactement $25\,\% - 20\,\% = 5\,\%$ du notionnel
   Le PnL n'est pas linéaire dans l'écart de volatilités.
 - Non : la couverture en delta neutralise tout
@@ -124,21 +124,21 @@
   C'est un PnL de chemin, pas de valeur finale.
 
 === der-call-americain
-+ Call : jamais (il vaut plus que $S - K$) ; put : parfois, pour toucher le strike plus tôt
-  Le call domine son exercice ; le put profond peut gagner à encaisser $K$ tôt si $r > 0$.
-- Les deux : jamais
-  Le put américain peut être exercé tôt.
++ Call : jamais ; put : parfois
+  Le call vaut plus que $S - K$ ; le put profond peut gagner à encaisser $K$ tôt si $r > 0$.
+- Call : parfois ; put : jamais
+  C'est l'inverse : sans dividende, le call ne s'exerce jamais tôt, le put si.
 - Les deux : quand ils sont profondément dans la monnaie
   Pour le call sans dividende, c'est encore faux.
-- Call : quand les taux sont élevés
+- Call : quand les taux sont élevés ; put : jamais
   Des taux élevés rendent l'exercice précoce du call encore moins intéressant.
 
 === der-convexite-strike
-+ Sinon il y a arbitrage (call spread, butterfly) ; $\partial^2 C / \partial K^2$ est la densité risque-neutre actualisée
-  Breeden-Litzenberger : un butterfly de prix négatif serait un arbitrage.
-- Par convention de marché
++ Sinon, call spread ou butterfly donnent un arbitrage
+  Breeden-Litzenberger : $\partial^2 C / \partial K^2$ est la densité risque-neutre actualisée, donc positive.
+- Par convention de marché, pour la lisibilité
   Ce sont des contraintes d'absence d'arbitrage.
-- $\partial^2 C / \partial K^2$ est le gamma
+- Parce que $\partial^2 C / \partial K^2$ est le gamma, toujours positif
   Le gamma est une dérivée par rapport à $S$, pas à $K$.
 - Parce que la volatilité baisse avec le strike
   Le smile ne détermine pas la monotonie ; c'est l'arbitrage.
@@ -146,37 +146,37 @@
 === der-bornes
 + $\max(S - K e^{-rT}, 0) \le C \le S$
   Le call domine le forward et ne paie jamais plus que l'action.
-- $0 \le C \le K$
+- $0 \le C \le K e^{-rT}$
   Le call peut valoir plus que $K$ si $S$ est très grand.
-- $S - K \le C \le S$
+- $\max(S - K, 0) \le C \le S$
   La borne basse utilise le strike actualisé, plus forte.
-- $C \ge S$
+- $S \le C \le S + K$
   Le call paie au plus $S_T$ : il vaut au plus $S$.
 
 === der-smile
-+ Les queues épaisses et la peur des krachs rendent les puts bas plus chers
++ Queues épaisses, peur des krachs : puts bas plus chers
   La volatilité monte quand le marché baisse (effet de levier) : skew négatif.
-- Parce que Black-Scholes est exact
+- Parce que Black-Scholes est exact aux strikes bas
   Si c'était le cas, la volatilité implicite serait plate.
 - Parce que les calls sont plus demandés que les puts
   La demande porte surtout sur les puts de protection.
-- C'est un artefact des données
+- C'est un artefact des données de fin de journée
   Le skew est stable depuis 1987.
 
 === der-forward-dividende
-+ $100 e^{0{,}03} \approx 103{,}05$
-  $F = S e^{(r - q)T}$.
-- $100 e^{0{,}07}$
-  On a ajouté le dividende au lieu de le retrancher.
-- $105$
++ Environ 103,05
+  $100 e^{(r - q)T} = 100 e^{0{,}03}$.
+- Environ 107,25
+  On a ajouté le dividende au taux au lieu de le retrancher : $100 e^{0{,}07}$.
+- Environ 105
   On a oublié le dividende, et utilisé un taux simple.
-- $100$
+- Exactement 100
   Le forward n'est pas l'espérance actuelle du prix.
 
 === der-forward-futures
-+ Futures standardisé, coté et réglé chaque jour (appels de marge) ; prix égaux si les taux sont déterministes
-  Avec des taux corrélés au sous-jacent, un biais de convexité apparaît.
-- Aucune différence
++ Le futures est réglé chaque jour ; prix égaux si les taux sont déterministes
+  Standardisé, coté, avec appels de marge ; avec des taux corrélés au sous-jacent, un biais de convexité apparaît.
+- Aucune différence de prix ni de flux
   Les règlements quotidiens changent les flux et le risque.
 - Le forward est toujours plus cher
   Le signe de l'écart dépend de la corrélation taux–sous-jacent.
@@ -184,9 +184,9 @@
   Il n'en a presque pas grâce à la chambre de compensation, pas faute de prix.
 
 === der-barriere-parite
-+ Knock-in + knock-out = vanille (même barrière, même strike)
-  Exactement l'une des deux existe à l'échéance.
-- Knock-in = knock-out
++ Knock-in + knock-out = vanille
+  Même barrière, même strike : exactement l'une des deux existe à l'échéance.
+- Knock-in = knock-out, par symétrie
   Elles se partagent les scénarios, elles ne sont pas égales.
 - Knock-out + vanille = knock-in
   La relation est une somme des deux barrières.
@@ -204,28 +204,28 @@
   Plus d'observations lissent le payoff.
 
 === der-monte-carlo-variance
-+ Variables antithétiques, variable de contrôle, échantillonnage préférentiel
++ Antithétiques, variable de contrôle, échantillonnage préférentiel
   Réduire $\sigma$ est moins coûteux que multiplier $N$.
 - Augmenter le nombre de trajectoires
   C'est réduire l'erreur, mais en $1/\sqrt N$ : ce n'est pas réduire la variance de l'estimateur par tirage.
-- Diminuer le pas de temps
+- Diminuer le pas de temps de la discrétisation
   Cela réduit le biais de discrétisation, pas la variance.
-- Utiliser un générateur plus rapide
+- Utiliser un générateur aléatoire plus rapide et plus récent
   La vitesse n'est pas la variance.
 
 === der-differences-finies
-+ Explicite : simple mais instable si le pas de temps est trop grand ; implicite : stable ; Crank-Nicolson : ordre 2 mais oscillations près des payoffs non lisses
-  Rannacher (quelques pas implicites au départ) corrige les oscillations.
-- Explicite toujours meilleur car plus précis
++ Explicite instable si le pas est grand ; Crank-Nicolson oscille
+  L'implicite est stable ; Crank-Nicolson est d'ordre 2 ; Rannacher (quelques pas implicites au départ) corrige les oscillations.
+- L'explicite est toujours le meilleur, car le plus précis en temps
   Il est d'ordre 1 en temps et conditionnellement stable.
 - Crank-Nicolson n'a aucun défaut
   Il oscille sur des payoffs discontinus.
-- Implicite instable
+- Implicite instable si le pas est grand ; Crank-Nicolson sans défaut
   Il est inconditionnellement stable.
 
 === der-vol-locale-stochastique
-+ Vol locale : calée exactement sur les vanilles mais smile futur trop plat ; vol stochastique : dynamique plus réaliste
-  La différence se voit sur les produits sensibles au smile futur (barrières, cliquets).
++ Vol locale calée sur les vanilles mais smile futur trop plat
+  La vol stochastique a une dynamique plus réaliste ; la différence se voit sur les barrières et les cliquets.
 - Elles donnent toujours les mêmes prix
   Seulement pour les vanilles de calage.
 - La vol stochastique est calée exactement sur toute la surface
@@ -234,9 +234,9 @@
   Elle est déterministe en $(t, S)$.
 
 === der-heston
-+ Variance en processus de retour à la moyenne en racine carrée ; Feller $2\kappa\theta \ge \xi^2$ empêche la variance de toucher 0
-  $\rho$ crée le skew, $\xi$ la convexité du smile.
-- La condition de Feller impose $\rho = 0$
++ Feller $2\kappa\theta \ge \xi^2$ empêche la variance de toucher 0
+  Variance en racine carrée avec retour à la moyenne ; $\rho$ crée le skew, $\xi$ la convexité du smile.
+- La condition de Feller impose $\rho = 0$ pour garder la variance positive
   Elle porte sur $\kappa$, $\theta$ et $\xi$.
 - $\xi$ est le niveau de long terme de la variance
   C'est $\theta$ ; $\xi$ est la volatilité de la variance.
@@ -244,18 +244,18 @@
   La volatilité y est stochastique.
 
 === der-sabr
-+ Volatilité stochastique sur le forward, utilisé pour interpoler le smile des swaptions et caps
-  $\beta$ règle la dépendance au niveau, $\rho$ le skew, $\nu$ la courbure.
-- Un modèle de taux court
++ Volatilité stochastique sur le forward, pour le smile des swaptions
+  Et des caps ; $\beta$ règle la dépendance au niveau, $\rho$ le skew, $\nu$ la courbure.
+- Un modèle de taux court calé sur la courbe
   SABR modélise un forward et sa volatilité, pas le taux court.
-- Un modèle de risque de crédit
+- Un modèle de risque de crédit des contreparties
   Sans rapport.
-- Un modèle à volatilité constante
+- Un modèle à volatilité constante par maturité
   $\alpha$ suit un processus aléatoire.
 
 === der-risque-neutre
-+ L'option se réplique avec l'action et du cash : son prix est le coût de la réplication, quel que soit le rendement attendu
-  On calcule comme si tous les actifs rapportaient le taux sans risque.
++ L'option se réplique avec l'action et du cash, quel que soit le rendement
+  Son prix est le coût de la réplication : on calcule comme si tous les actifs rapportaient le taux sans risque.
 - Les investisseurs sont supposés neutres au risque
   C'est un outil de calcul, pas une hypothèse sur les préférences.
 - Le rendement espéré est inclus via la volatilité
@@ -284,31 +284,31 @@
   On a oublié le facteur 2 du straddle et mal pris $\sqrt T$.
 
 === der-option-carre
-+ $10\,000\,e^{0{,}04} \approx 10\,408$
-  $\mathbb{E}[S_T^2] = S_0^2 e^{\sigma^2 T}$.
-- $10\,000$
++ Environ 10 408
+  $\mathbb{E}[S_T^2] = S_0^2 e^{\sigma^2 T} = 10\,000\,e^{0{,}04}$.
+- Exactement 10 000
   C'est $(\mathbb{E}S_T)^2$ : le carré est convexe, Jensen ajoute de la valeur.
-- $10\,000\,e^{0{,}02}$
-  On a mis $\sigma^2/2$ au lieu de $\sigma^2$.
-- $10\,000\,e^{-0{,}04}$
-  Signe inversé.
+- Environ 10 202
+  On a mis $\sigma^2/2$ au lieu de $\sigma^2$ : $10\,000\,e^{0{,}02}$.
+- Environ 9 608
+  Signe inversé : $10\,000\,e^{-0{,}04}$.
 
 === der-proba-exercice
-+ À peu près : la probabilité risque-neutre est $N(d_2)$, un peu plus faible, et la probabilité réelle diffère encore
-  Le delta est $N(d_1)$ sous la mesure risque-neutre.
-- Oui, exactement
++ À peu près : c'est $N(d_2)$, un peu plus faible
+  Le delta est $N(d_1)$ ; la probabilité risque-neutre d'exercice est $N(d_2)$, et la probabilité réelle diffère encore.
+- Oui, exactement : c'est la définition du delta
   Le delta est $N(d_1)$, pas $N(d_2)$.
-- Non, aucun rapport
+- Non, aucun rapport entre les deux
   C'est une bonne approximation rapide.
 - Non, c'est 70 %
   On a confondu avec le complémentaire.
 
 === der-sensibilite-taux-dividendes
-+ Taux en hausse : le call monte ; dividende plus élevé : le call baisse
++ Taux : le call monte ; dividende : il baisse
   Le forward monte avec $r$ et baisse avec les dividendes.
 - Taux en hausse : le call baisse
   Raisonnement d'obligation : l'option suit le forward.
 - Dividende plus élevé : le call monte
   Le dividende fait baisser le cours à son détachement.
-- Aucun effet : seul $S$ compte
+- Aucun effet : seul $S$ compte pour le call
   Le forward dépend de $r$ et $q$.

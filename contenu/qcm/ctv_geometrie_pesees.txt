@@ -1,13 +1,13 @@
 # QCM des variantes de casse-têtes : géométrie, mouvement, invariants, pesées, recherche, stratégie.
 
 === ct-points-antipodaux-moine
-+ Superposer les deux journées : un moine qui monte et un qui descend se croisent forcément
-  Ou : montée moins descente change de signe, donc s'annule (valeurs intermédiaires).
-- Seulement s'il marche à vitesse constante
++ Superposer les deux journées : deux moines se croisent forcément
+  L'un monte, l'autre descend le même jour. Ou : montée moins descente change de signe, donc s'annule (valeurs intermédiaires).
+- Seulement s'il marche à vitesse constante les deux jours
   L'argument ne dépend pas du rythme, pauses comprises.
 - Au milieu du sentier, à 13 h
   Rien n'impose le lieu ni l'heure : seule l'existence est garantie.
-- Ce n'est pas toujours vrai
+- Pas toujours : il faut qu'il parte à la même heure
   La continuité des deux trajets le garantit toujours.
 
 === ct-points-antipodaux-borsuk
@@ -81,23 +81,23 @@
   Un par heure : sous-estimation.
 
 === ct-superpositions-cinq-heures
-+ $300/11 \approx 27{,}27$ minutes après 5 h
-  150° d'avance, rattrapés à 5,5° par minute.
-- 25 minutes
++ Environ 27,27 minutes après 5 h
+  $300/11$ : 150° d'avance, rattrapés à 5,5° par minute.
+- 25 minutes après 5 h
   On a placé l'aiguille des minutes sur le 5 sans tenir compte de l'avance de l'aiguille des heures.
-- 30 minutes
+- 30 minutes après 5 h
   À 5 h 30 l'aiguille des heures est déjà entre 5 et 6, dépassée.
-- $150/6 = 25$ minutes
-  On a oublié que l'aiguille des heures avance de 0,5° par minute.
+- Environ 26 minutes après 5 h
+  Approximation sans calcul : l'aiguille des minutes rattrape 150° à $6 - 0{,}5 = 5{,}5$° par minute, soit $300/11$.
 
 === ct-vitesse-moyenne-impossible
-+ C'est impossible, même à vitesse infinie
++ Impossible, même à vitesse infinie
   Deux tours à 60 de moyenne prennent $d/30$, déjà dépensé au premier tour.
-- 90 km/h
+- 90 km/h, par moyenne des vitesses
   Moyenne arithmétique $(30 + 90)/2 = 60$, mais la moyenne des vitesses n'est pas la vitesse moyenne.
 - 120 km/h
   Il resterait du temps à rattraper : on ne peut pas.
-- 180 km/h
+- 180 km/h, pour rattraper le retard
   Toujours insuffisant : aucun temps ne reste.
 
 === ct-vitesse-moyenne-vent
@@ -151,19 +151,19 @@
   Distance $=$ vitesse $\times$ durée.
 
 === ct-echiquier-dominos-gomory
-+ Oui, toujours (circuit hamiltonien coupé en deux chemins pairs)
-  L'invariant de couleur était la seule obstruction.
++ Oui, toujours
+  Un circuit hamiltonien de l'échiquier, coupé aux deux cases, donne deux chemins de longueur paire ; l'invariant de couleur était la seule obstruction.
 - Non, cela dépend des cases retirées
   Toute paire de couleurs différentes convient.
 - Seulement si les cases sont voisines
   Elles peuvent être n'importe où.
-- Non, jamais
+- Non, jamais : le coloriage l'interdit
   Les couleurs restent équilibrées : 31 et 31.
 
 === ct-echiquier-dominos-barres
 + Non : avec la couleur $(i + j) \bmod 4$, on a 25, 26, 25 et 24 cases
   Chaque barre couvre une case de chaque couleur.
-- Oui, car $100 = 25 \times 4$
+- Oui, car $100 = 25 \times 4$ et le damier est équilibré
   L'aire est nécessaire, pas suffisante.
 - Non, par le coloriage en damier
   Le damier donne 50 et 50 : pas de contradiction.
@@ -173,7 +173,7 @@
 === ct-echiquier-dominos-triminos
 + Seulement la case centrale
   Deux coloriages modulo 3 imposent la couleur de la case retirée ; seul le centre convient, et il marche.
-- N'importe quelle case
+- N'importe quelle case du bord
   Le comptage des couleurs l'interdit.
 - Les quatre coins
   Ils sont de la mauvaise couleur dans l'un des deux coloriages.
@@ -261,11 +261,11 @@
   On a pesé les billes trois par trois.
 
 === ct-piles-pieces-plusieurs
-+ Prendre $1, 2, 4, \dots, 512$ pièces : l'excédent en binaire désigne les piles fausses
-  Chaque sous-ensemble a une somme distincte.
-- Prendre $1, 2, \dots, 10$ pièces
++ Prendre $1, 2, 4, \dots, 512$ pièces des piles successives
+  L'excédent, écrit en binaire, désigne les piles fausses : chaque sous-ensemble a une somme distincte.
+- Prendre $1, 2, \dots, 10$ pièces des piles successives
   $1 + 4 = 2 + 3$ : deux ensembles différents donneraient le même excédent.
-- Peser chaque pile
+- Peser chaque pile séparément
   Dix pesées, pas une.
 - C'est impossible en une pesée
   Les puissances de 2 le permettent.
@@ -273,11 +273,11 @@
 === ct-piles-pieces-poids-inconnu
 + Deux pesées : l'une donne l'écart $\delta$, l'autre $k\delta$
   Une seule pesée ne sépare pas $k$ et $\delta$.
-- Une pesée de $1, 2, \dots, 10$ pièces
+- Une pesée de $1, 2, \dots, 10$ pièces des piles successives
   L'écart $k\delta$ a deux inconnues.
-- Dix pesées
+- Dix pesées, une par pile
   Deux suffisent.
-- Impossible
+- Impossible sans connaître l'écart
   La pesée de référence lève l'ambiguïté.
 
 === ct-poids-balance-binaire
@@ -285,19 +285,19 @@
   Deux états par poids : binaire.
 - 4 poids : 1, 3, 9, 27
   Il faudrait pouvoir poser des poids des deux côtés.
-- 5 poids
+- 5 poids : 1, 2, 4, 8, 16
   $2^5 - 1 = 31 < 63$.
-- 63 poids de 1 g
+- 63 poids de 1 g chacun
   Correct mais loin du minimum.
 
 === ct-cordes-quinze
-+ Allumer A par les deux bouts et B par un bout ; quand A finit, allumer l'autre bout de B et commencer à compter
-  La mesure va de $t = 30$ à $t = 45$.
-- Allumer une corde par les quatre bouts
-  Une corde n'a que deux bouts.
++ A par les deux bouts, B par un bout ; puis l'autre bout de B, et compter
+  Quand A finit ($t = 30$), on allume l'autre bout de B : la mesure va de $t = 30$ à $t = 45$.
+- Allumer une corde par les deux bouts et au milieu
+  On ne sait pas où est le « milieu » en temps : la combustion est irrégulière.
 - Plier la corde en quatre
   Combustion irrégulière : pas de quart garanti.
-- Impossible avec deux cordes
+- Impossible : avec deux cordes, seules 30 et 60 minutes se mesurent
   On mesure 15 minutes entre deux événements.
 
 === ct-cordes-une-seule
@@ -311,8 +311,8 @@
   Allumer les deux bouts donne 30.
 
 === ct-cordes-trois
-+ A deux bouts, B et C un bout ; à 30, second bout de B ; à 45, second bout de C : fin à 52,5
-  C a alors 15 minutes de reste, divisées par deux.
++ A deux bouts, B et C un bout ; à 30 puis 45, les seconds bouts
+  À 30, second bout de B ; à 45, second bout de C, qui a 15 minutes de reste divisées par deux : fin à 52,5.
 - A deux bouts ; à 30, B deux bouts ; à 45, C deux bouts
   C, allumée à 45 par les deux bouts, dure 30 minutes.
 - Allumer les trois cordes par les deux bouts
@@ -321,23 +321,23 @@
   Chaque nouveau bout divise un reste par deux : 7,5 est possible.
 
 === ct-sabliers-neuf
-+ À 4 retourner le 4 ; à 7 retourner le 7 ; à 8 retourner le 7 (1 min) : fin à 9
-  À 8, le 7 n'a coulé qu'une minute depuis son retournement.
-- $4 + 4 + 1$
++ Retourner le 4 à 4, le 7 à 7, puis le 7 encore à 8
+  À 8, le 7 n'a coulé qu'une minute depuis son retournement : retourné, il en redonne une. Fin à 9.
+- Deux fois le 4, puis une minute de plus
   On ne sait pas mesurer 1 minute seule.
 - $7 + 2$, avec deux minutes mesurées par le 4
   On ne mesure pas 2 minutes directement.
-- Impossible
+- Impossible : 9 n'est pas une combinaison de 4 et 7
   La combinaison décrite donne 9.
 
 === ct-sabliers-treize
-+ Lancer les deux ; à 5 retourner le 5 ; à 9 le retourner encore : fin à 13
-  À 9, il a 4 minutes de sable en bas.
-- $9 + 5 - 1$
++ Lancer les deux, retourner le 5 à 5, puis encore à 9
+  À 9, il a 4 minutes de sable en bas : retourné, il finit à 13.
+- Le 9 puis le 5, moins une minute
   On ne sait pas retirer une minute.
-- $5 + 5 + 3$
+- Deux fois le 5, puis trois minutes de plus
   Pas de 3 minutes mesurables directement.
-- Impossible
+- Impossible : 13 n'est pas une somme de 5 et 9
   $13 = 9 + 4$, et $4 = 9 - 5$.
 
 === ct-cruches-petite-d-abord
@@ -431,7 +431,7 @@
   Trop.
 
 === ct-chevaux-soixante-quatre
-+ 11 (avec la méthode classique)
++ 11
   9 candidats pour 8 couloirs : une 11ᵉ course peut être nécessaire.
 - 10
   Il reste un cas où le cheval laissé de côté pourrait être 4ᵉ.
@@ -491,21 +491,21 @@
   C'est pour les deux plus lourdes.
 
 === ct-nombre-manquant-deux
-+ Somme et somme des carrés donnent $a + b$ et $a^2 + b^2$, donc $a$ et $b$
-  Ou le ou exclusif, séparé selon un bit de $a \oplus b$.
++ La somme et la somme des carrés
+  Elles donnent $a + b$ et $a^2 + b^2$, donc $a$ et $b$. Ou le ou exclusif, séparé selon un bit de $a \oplus b$.
 - La somme seule
   Elle ne donne que $a + b$.
 - Trier la liste
   $O(n \log n)$.
-- Le produit des éléments
+- Le produit des éléments, comparé à $n!$
   Dépassements énormes et une seule équation de plus… il faut deux équations bien choisies.
 
 === ct-nombre-manquant-doublon
-+ Somme et somme des carrés donnent $y - x$ et $y^2 - x^2$
-  On en déduit $x + y$, puis $x$ et $y$.
++ La somme et la somme des carrés
+  Elles donnent $y - x$ et $y^2 - x^2$, d'où $x + y$, puis $x$ et $y$.
 - La somme seule
   Elle donne seulement $y - x$.
-- Le ou exclusif seul
+- Le ou exclusif de tous les éléments
   Il donne $x \oplus y$, insuffisant seul.
 - Un tableau de comptage
   Juste, mais en mémoire $O(n)$.
@@ -531,8 +531,8 @@
   Le passage de 3 à 4 rend le problème impossible avec 2 places.
 
 === ct-tri-cinq-borne
-+ Arbre de décision binaire à au moins $n!$ feuilles : hauteur $\ge \log_2 n! \sim n \log_2 n$
-  Chaque comparaison a deux issues.
++ Un arbre de décision binaire a au moins $n!$ feuilles
+  Sa hauteur est donc au moins $\log_2 n! \sim n \log_2 n$ : chaque comparaison a deux issues.
 - Parce qu'il faut comparer toutes les paires : $n^2/2$
   C'est une borne supérieure d'un algorithme naïf, pas inférieure.
 - Parce que le tri fusion fait $n \log n$ comparaisons
@@ -561,13 +561,13 @@
   Il survit, mais ce n'est pas le plus grand.
 
 === ct-allumettes-misere
-+ Aucun coup ne garantit la victoire : 21 est perdant
-  Il faut laisser $4k + 1$, et $21 = 4 \times 5 + 1$.
-- Retirer 1
++ Aucun : 21 est perdant
+  Il faut laisser $4k + 1$ à l'adversaire, et $21 = 4 \times 5 + 1$.
+- Retirer 1, pour laisser 20
   C'est la réponse quand la dernière gagne.
-- Retirer 2
+- Retirer 2, pour laisser 19
   On laisse 19, que l'adversaire ramène à 17 ($4k + 1$).
-- Retirer 3
+- Retirer 3, pour laisser 18
   On laisse 18, ramené à 17.
 
 === ct-allumettes-general
@@ -704,7 +704,7 @@
 + $31/72$
   Deux triangles de côtés $5/6$ et $2/3$ exclus.
 - $1/2$
-  On croit à une chance sur deux parce que les deux attentes se « compensent » ; la géométrie donne 1/72$.
+  On croit à une chance sur deux parce que les deux attentes se « compensent » ; la géométrie donne $31/72$.
 - $1/4$
   Moyenne des deux attentes prise pour la probabilité.
 - $41/72$
@@ -761,13 +761,13 @@
   Depuis un voisin, sans le premier pas.
 
 === ct-p-piece-un-tiers
-+ $8/3$ lancers : PP « oui », PF ou FP « non », FF recommencer
-  Chaque paire conclut avec probabilité $3/4$.
-- 3 lancers
++ En moyenne 8/3 : PP « oui », PF ou FP « non », FF on recommence
+  Chaque paire conclut avec probabilité $3/4$ : $2 \times 4/3 = 8/3$ lancers.
+- 3 lancers, en comptant les piles
   Trois lancers ne donnent pas un nombre d'issues multiple de 3 ($2^3 = 8$) : il faut du rejet.
-- 2 lancers, sans rejet
-  Deux lancers ont 4 issues : on ne fait pas $1/3$ sans rejet.
-- Impossible avec une pièce équitable
+- 2 lancers : PP « oui », sinon « non »
+  Cela donne $1/4$, pas $1/3$ : 4 issues ne se partagent pas en tiers sans rejet.
+- Impossible : une pièce équitable ne donne que des puissances de 2
   Le rejet le permet.
 
 === ct-p-chaussettes-pair
@@ -783,9 +783,9 @@
 === ct-p-chaussettes-tiroirs
 + 12 pour deux rouges, 3 pour une paire
   Au pire on tire d'abord les 10 noires.
-- 4 pour deux rouges
+- 4 pour deux rouges, 2 pour une paire
   C'est une probabilité, pas une certitude.
-- 11 pour deux rouges
+- 11 pour deux rouges, 3 pour une paire
   Une rouge seulement au pire.
 - 2 pour une paire
   Deux chaussettes peuvent être de couleurs différentes.
@@ -801,13 +801,13 @@
   Trop.
 
 === ct-p-roulette-hasard
-+ $3/5$ sans tourner : il faut tourner ($2/3$)
-  Deux chambres consécutives vides : $2/5$, divisé par $2/3$.
-- $3/4$ sans tourner
++ Tourner : $2/3$ contre $3/5$
+  Sans tourner : deux chambres consécutives vides, $2/5$, divisé par $2/3$.
+- Ne pas tourner : $3/4$
   C'est le cas des balles adjacentes.
-- $2/3$ dans les deux cas
+- Égal : $2/3$ dans les deux cas
   Le coup vide informe différemment.
-- $1/2$ sans tourner
+- Tourner : $2/3$ contre $1/2$
   Trop pessimiste.
 
 === ct-p-morceau-plus-court
@@ -871,13 +871,13 @@
   Une série par lancer : seulement si tout alterne.
 
 === ct-p-ivrogne-equitable
-+ Il tombe presque sûrement, mais le temps moyen est infini
++ Presque sûrement, en un temps moyen infini
   Marche récurrente nulle.
-- Il tombe avec probabilité $1/2$
+- Avec probabilité $1/2$, en un temps moyen fini
   C'est pour une dérive vers l'intérieur.
 - Il ne tombe jamais presque sûrement
   La marche équitable revient toujours.
-- Il tombe en moyenne au bout de 1 pas
+- Presque sûrement, en un temps moyen fini
   La durée moyenne est infinie.
 
 === ct-p-serie-trois-piles

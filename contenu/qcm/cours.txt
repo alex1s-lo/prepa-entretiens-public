@@ -2,24 +2,24 @@
 
 === cours:mode-emploi
 ? Quelle est la meilleure façon de travailler un chapitre du cours ?
-+ Lire l'énoncé de chaque résultat, essayer la démonstration seul, puis faire les exercices et les fiches reliées
-  L'effort de reconstruction fixe bien mieux que la relecture.
++ Lire chaque énoncé, tenter la démonstration seul, puis faire les exercices
+  L'effort de reconstruction fixe bien mieux que la relecture ; les fiches reliées viennent ensuite.
 - Lire les démonstrations plusieurs fois sans les refaire
   La relecture passive donne une illusion de maîtrise.
-- Apprendre les formules par cœur sans démonstration
+- Apprendre les formules par cœur, puis passer directement aux fiches
   En entretien, on demande d'où viennent les formules.
-- Sauter les exercices pour gagner du temps
+- Lire tout le chapitre d'une traite, puis faire les exercices à la fin
   Ce sont eux qui révèlent ce qui n'est pas compris.
 
 === cours:esperance-variance-covariance
 ? Pourquoi la linéarité de l'espérance est-elle si puissante pour les problèmes de comptage ?
-+ Elle vaut même pour des variables dépendantes : on somme des indicatrices sans étudier leurs dépendances
-  Exemple : le nombre moyen de points fixes d'une permutation vaut 1.
++ Elle vaut même pour des variables dépendantes
+  On somme des indicatrices sans étudier leurs dépendances. Exemple : le nombre moyen de points fixes d'une permutation vaut 1.
 - Parce que les indicatrices sont toujours indépendantes
   Elles ne le sont presque jamais ; la linéarité n'en a pas besoin.
-- Parce que la variance est aussi linéaire
+- Parce que la variance est aussi linéaire, ce qui donne l'écart-type
   La variance d'une somme dépend des covariances.
-- Parce qu'elle donne la loi complète de la somme
+- Parce qu'elle donne la loi complète de la somme d'indicatrices
   Elle ne donne que l'espérance.
 
 === cours:esperance-variance-covariance
@@ -70,20 +70,20 @@
 ? Dans un processus de Poisson d'intensité $\lambda$, que dire des temps entre deux arrivées ?
 + Ils sont indépendants et exponentiels de paramètre $\lambda$
   Sans mémoire : l'attente depuis n'importe quel instant reste exponentielle.
-- Ils sont tous égaux à $1/\lambda$
+- Ils sont tous égaux à $1/\lambda$, d'où la régularité
   C'est leur moyenne seulement.
 - Ils sont uniformes sur $[0, 2/\lambda]$
   Loi exponentielle, pas uniforme.
-- Ils dépendent du nombre d'arrivées passées
+- Ils raccourcissent quand beaucoup d'arrivées ont déjà eu lieu
   Les accroissements sont indépendants.
 
 === cours:denombrement-et-poisson
 ? À quoi sert le principe de réflexion pour les chemins ?
-+ Compter les chemins qui touchent une barrière en les mettant en bijection avec des chemins vers un point réfléchi
-  D'où les nombres de Catalan et le théorème du scrutin.
-- Inverser l'ordre des pas d'un chemin
++ Compter les chemins qui touchent une barrière, par bijection
+  On réfléchit la fin du chemin après la première touche : il devient un chemin vers le point symétrique. D'où les nombres de Catalan et le théorème du scrutin.
+- Inverser l'ordre des pas pour compter les chemins à l'envers
   Ce n'est pas la réflexion utilisée.
-- Calculer l'espérance d'un chemin
+- Calculer l'espérance du maximum d'une marche aléatoire
   Il sert au dénombrement.
 - Montrer que tout chemin revient à 0
   C'est la récurrence, autre résultat.
@@ -92,11 +92,11 @@
 ? Si l'on garde chaque arrivée d'un processus de Poisson d'intensité $\lambda$ avec probabilité $p$, indépendamment :
 + On obtient un processus de Poisson d'intensité $p\lambda$
   Amincissement ; les arrivées rejetées forment un Poisson indépendant d'intensité $(1 - p)\lambda$.
-- On obtient un processus binomial
+- On obtient un processus binomial de paramètre $p$
   Le résultat reste un processus de Poisson.
 - L'intensité reste $\lambda$
   On garde moins d'arrivées.
-- Les deux sous-processus sont corrélés
+- Les arrivées gardées et rejetées forment deux processus corrélés
   Ils sont indépendants : c'est la propriété remarquable.
 
 === cours:conditionnement-markov-martingales
@@ -107,25 +107,25 @@
   On oublie l'a priori (erreur du taux de base).
 - Cote a posteriori $=$ cote a priori $+$ vraisemblance
   Les informations se multiplient.
-- La cote ne change jamais
+- La cote ne change pas : seule la probabilité est mise à jour
   Les données la modifient.
 
 === cours:conditionnement-markov-martingales
 ? Qu'est-ce que la méthode du premier pas ?
-+ Écrire l'espérance (ou la probabilité) depuis chaque état en conditionnant sur la première transition, puis résoudre le système
++ Conditionner sur la première transition, puis résoudre le système
   Exemples : attente d'une séquence, ruine du joueur.
-- Simuler la première étape et extrapoler
+- Simuler la première étape de nombreuses fois, puis extrapoler
   C'est un calcul exact, pas une simulation.
-- Calculer seulement le premier terme d'une série
+- Développer en série et ne garder que le premier terme, puis majorer
   On obtient un système d'équations.
-- Supposer que la chaîne est déjà stationnaire
+- Supposer la chaîne stationnaire et lire la réponse dans $\pi$
   On part d'un état donné.
 
 === cours:conditionnement-markov-martingales
 ? Le théorème d'arrêt $\mathbb{E}[M_\tau] = M_0$ :
-+ Demande des hypothèses (temps d'arrêt borné, ou martingale arrêtée bornée)
-  Sans elles, la martingale du doublement « gagne » à coup sûr.
-- Vaut pour tout temps aléatoire
++ Demande des hypothèses, comme un temps d'arrêt borné
+  Ou une martingale arrêtée bornée. Sans elles, la martingale du doublement « gagne » à coup sûr.
+- Vaut pour tout temps aléatoire fini, même s'il regarde le futur
   Il faut un temps d'arrêt, qui ne regarde pas le futur.
 - Vaut pour toute sous-martingale
   On obtient alors une inégalité.
@@ -134,13 +134,13 @@
 
 === cours:conditionnement-markov-martingales
 ? Pour une chaîne de Markov irréductible et apériodique sur un espace fini :
-+ La loi converge vers l'unique loi stationnaire $\pi$, et le temps moyen de retour en $i$ vaut $1/\pi_i$
++ La loi converge vers l'unique $\pi$ ; retour moyen en $i$ : $1/\pi_i$
   Théorème ergodique et formule de Kac.
 - La chaîne s'arrête dans un état absorbant
   Une chaîne irréductible n'a pas d'état absorbant (sauf cas trivial).
-- Il y a plusieurs lois stationnaires
+- Il y a plusieurs lois stationnaires, une par état de départ
   Elle est unique.
-- Le temps de retour moyen vaut $\pi_i$
+- La loi converge vers $\pi$ ; retour moyen en $i$ : $\pi_i$
   C'est l'inverse.
 
 === cours:lois-gaussiennes
@@ -156,11 +156,11 @@
 
 === cours:lois-gaussiennes
 ? Deux variables gaussiennes non corrélées sont-elles indépendantes ?
-+ Oui si elles forment un **vecteur** gaussien ; pas forcément sinon
++ Oui si elles forment un vecteur gaussien, pas forcément sinon
   Contre-exemple : $X$ et $\varepsilon X$ avec un signe aléatoire.
-- Toujours
+- Toujours : pour des gaussiennes, non corrélé équivaut à indépendant
   Il faut la loi jointe gaussienne.
-- Jamais
+- Jamais : la corrélation nulle ne dit rien de la dépendance
   Dans un vecteur gaussien, c'est vrai.
 - Seulement si elles ont la même variance
   La variance n'intervient pas.
@@ -178,24 +178,24 @@
 
 === cours:lois-gaussiennes
 ? Que dit le théorème central limite ?
-+ La somme centrée de variables i.i.d. de variance finie, divisée par $\sigma\sqrt n$, converge en loi vers $\mathcal{N}(0, 1)$
-  Variance finie indispensable.
-- Toute variable aléatoire est gaussienne
++ La somme centrée réduite de variables i.i.d. converge en loi vers $\mathcal{N}(0, 1)$
+  On divise par $\sigma\sqrt n$ ; la variance finie est indispensable.
+- Toute somme de variables indépendantes est exactement gaussienne
   Seule la somme normalisée l'est asymptotiquement.
-- La moyenne converge vers l'espérance
+- La moyenne empirique converge presque sûrement vers l'espérance
   C'est la loi des grands nombres.
-- Il vaut aussi pour des lois de variance infinie
+- Il vaut aussi pour des lois de variance infinie, comme Cauchy
   Sans variance finie, d'autres lois stables apparaissent.
 
 === cours:algebre-lineaire-covariances
 ? À quoi reconnaît-on une matrice de covariance valide ?
 + Symétrique et semi-définie positive (valeurs propres $\ge 0$)
   Sinon un portefeuille aurait une variance négative.
-- Tous ses coefficients sont positifs
+- Tous ses coefficients, diagonale comprise, sont positifs
   Des covariances négatives sont permises.
 - Ses corrélations sont toutes entre $-1$ et 1
   Nécessaire mais pas suffisant.
-- Son déterminant est égal à 1
+- Son déterminant vaut 1 et sa diagonale est positive
   Sans rapport.
 
 === cours:algebre-lineaire-covariances
@@ -211,79 +211,79 @@
 
 === cours:algebre-lineaire-covariances
 ? À quoi sert la factorisation de Cholesky $\Sigma = LL^T$ ?
-+ Simuler des variables corrélées : si $Z$ est un vecteur de gaussiennes indépendantes, $LZ$ a la covariance $\Sigma$
-  Elle échoue si $\Sigma$ n'est pas définie positive.
-- Trouver les valeurs propres
++ Simuler des variables corrélées : $LZ$ a la covariance $\Sigma$
+  Avec $Z$ un vecteur de gaussiennes indépendantes. Elle échoue si $\Sigma$ n'est pas définie positive.
+- Trouver les valeurs propres, lues sur la diagonale de $L$
   C'est la décomposition spectrale.
 - Inverser une matrice de corrélation sans calcul
   Elle aide, mais ce n'est pas son rôle principal ici.
-- Diagonaliser $\Sigma$
+- Diagonaliser $\Sigma$ dans une base orthonormée
   $L$ est triangulaire, pas diagonale.
 
 === cours:algebre-lineaire-covariances
 ? Que donne l'inverse de la matrice de covariance (matrice de précision) ?
-+ Les corrélations partielles et les coefficients de régression d'une variable sur toutes les autres
++ Les corrélations partielles et les coefficients de régression
   Un zéro dans la précision : indépendance conditionnelle (cas gaussien).
-- Les corrélations simples
+- Les corrélations simples entre chaque paire de variables du portefeuille
   Elles sont dans $\Sigma$.
-- Les volatilités inverses
+- Les inverses des volatilités, sur la diagonale
   Seulement dans le cas diagonal.
-- Rien d'utile
+- Rien d'utile : on ne l'utilise que pour vérifier l'inversibilité
   Elle est centrale en optimisation de portefeuille.
 
 === cours:statistiques-et-regression
 ? Un estimateur sans biais est-il toujours meilleur ?
-+ Non : un estimateur biaisé de plus faible variance peut avoir une erreur quadratique plus petite
++ Non : un léger biais peut réduire assez la variance pour gagner
   Erreur quadratique $=$ biais² $+$ variance ; c'est l'idée de Ridge.
 - Oui, le biais est toujours le défaut principal
   La variance compte autant.
-- Oui, par définition
+- Oui, par définition, puisqu'il vise juste en moyenne à chaque essai
   « Sans biais » ne veut pas dire précis.
 - Non, car les estimateurs sans biais n'existent pas
   Ils existent souvent.
 
 === cours:statistiques-et-regression
 ? Pourquoi un Sharpe estimé sur 2 ans est-il peu fiable ?
-+ Son erreur standard vaut environ $1/\sqrt{T}$ en années : $\approx 0{,}7$ sur 2 ans
-  Un Sharpe de 1 n'est alors pas significativement différent de 0.
++ Son erreur standard vaut environ $1/\sqrt{T}$ en années
+  Soit $\approx 0{,}7$ sur 2 ans : un Sharpe de 1 n'est pas significativement différent de 0.
 - Parce que les rendements ne sont jamais gaussiens
   C'est un problème secondaire.
 - Parce que le Sharpe dépend du taux sans risque
   Faible effet.
-- Il est fiable dès 100 observations
+- Il est fiable dès 100 observations, soit 5 mois de données quotidiennes
   Le temps calendaire compte plus que le nombre de points.
 
 === cours:statistiques-et-regression
 ? Que se passe-t-il quand on régresse un prix non stationnaire sur un autre, indépendant ?
-+ On obtient souvent un $R^2$ élevé et des t-stats énormes, à tort (régression fallacieuse)
-  Il faut travailler en rendements ou tester la cointégration.
-- Le $R^2$ est nul
++ Un $R^2$ élevé et des t-stats énormes, à tort
+  Régression fallacieuse : il faut travailler en rendements ou tester la cointégration.
+- Le $R^2$ est proche de zéro, comme attendu
   Les tendances communes créent une corrélation apparente.
-- Les tests restent valides
+- Les tests restent valides, seule la pente est biaisée
   Leurs lois habituelles ne s'appliquent plus.
 - La pente vaut 1
   Sans rapport.
 
 === cours:statistiques-et-regression
 ? Pourquoi le Lasso met-il des coefficients exactement à zéro, contrairement à Ridge ?
-+ La pénalité $|\beta|$ a un point anguleux en 0 : la solution est un seuillage doux
-  Ridge, pénalité lisse, ne fait que rétrécir.
++ La pénalité $|\beta|$ a un point anguleux en 0
+  La solution est un seuillage doux ; Ridge, pénalité lisse, ne fait que rétrécir.
 - Parce que le Lasso utilise moins de données
   Les deux utilisent les mêmes données.
 - Ridge met aussi des coefficients à zéro
   Seulement quand $\lambda \to \infty$.
-- Parce que le Lasso est non convexe
+- Parce que le Lasso est non convexe et choisit un minimum local
   Il est convexe.
 
 === cours:mouvement-brownien
 ? Pourquoi dit-on « $dW^2 = dt$ » ?
-+ La somme des carrés des accroissements sur $[0, t]$ converge vers $t$ (variation quadratique)
++ La somme des carrés des accroissements sur $[0, t]$ tend vers $t$
   Chaque carré vaut $\Delta t$ en moyenne et la variance de la somme tend vers 0.
-- Parce que $W_t^2 = t$
+- Parce que $W_t^2 = t$ pour tout $t$, presque sûrement
   Seulement son espérance vaut $t$.
-- Par convention de notation
+- Par convention de notation, pour simplifier le lemme d'Itô
   C'est un résultat démontré.
-- Parce que $dW = \sqrt{dt}$ exactement
+- Parce que $dW = \sqrt{dt}$ exactement, à chaque instant
   C'est un ordre de grandeur, pas une égalité.
 
 === cours:mouvement-brownien
@@ -312,18 +312,18 @@
 ? Conditionné à $W_T = x$, que devient $W_s$ pour $s < T$ (pont brownien) ?
 + Gaussien de moyenne $(s/T)x$ et de variance $s(T - s)/T$
   Interpolation linéaire, incertitude maximale au milieu.
-- Gaussien de moyenne $x$ et variance $s$
-  On ignore la position de départ.
-- Il vaut exactement $(s/T)x$
+- Gaussien de moyenne $x$ et de variance $s(T - s)/T$
+  La moyenne interpole entre 0 et $x$ : elle vaut $(s/T)x$.
+- Il vaut exactement $(s/T)x$, sans aléa
   Il reste aléatoire.
-- Sa variance ne change pas
+- Gaussien de moyenne $(s/T)x$ et de variance $s$
   Le conditionnement la réduit.
 
 === cours:integrale-et-lemme-ito
 ? Quelles sont les deux propriétés clés de l'intégrale d'Itô $\int_0^t H_s\,dW_s$ ($H$ adapté) ?
-+ Espérance nulle et isométrie $\mathbb{E}[(\int H\,dW)^2] = \mathbb{E}[\int H^2\,ds]$
-  Elles viennent de l'évaluation de $H$ au début de chaque intervalle.
-- Elle vaut $H_t W_t$
++ Espérance nulle, et l'isométrie d'Itô pour la variance
+  $\mathbb{E}[(\int H\,dW)^2] = \mathbb{E}[\int H^2\,ds]$ ; les deux viennent de l'évaluation de $H$ au début de chaque intervalle.
+- Elle vaut $H_t W_t$, comme une primitive classique
   Seulement si $H$ est constant.
 - Son espérance vaut $\int \mathbb{E}[H]\,ds$
   Elle est nulle.
@@ -334,8 +334,8 @@
 ? Lemme d'Itô : pour $dX = \mu\,dt + \sigma\,dW$ et $f(t, x)$ régulière, $df$ vaut :
 + $(f_t + \mu f_x + \frac12\sigma^2 f_{xx})\,dt + \sigma f_x\,dW$
   Le terme $\frac12\sigma^2 f_{xx}$ vient de $dX^2 = \sigma^2 dt$.
-- $f_t\,dt + f_x\,dX$
-  Oubli du second ordre.
+- $(f_t + \mu f_x)\,dt + \sigma f_x\,dW$
+  Calcul classique : il manque le terme $\frac12\sigma^2 f_{xx}$.
 - $(f_t + \mu f_x)\,dt + \sigma f_{xx}\,dW$
   Termes mélangés.
 - $(f_t + \frac12\sigma^2 f_x)\,dt + \sigma f_x\,dW$
@@ -354,25 +354,25 @@
 
 === cours:integrale-et-lemme-ito
 ? Comment vérifier rapidement qu'un processus $f(t, W_t)$ est une martingale ?
-+ Vérifier que la partie en $dt$ de son différentiel d'Itô est nulle (et une intégrabilité)
-  Par exemple $W_t^2 - t$, $e^{\theta W_t - \theta^2 t/2}$.
-- Vérifier que son espérance est constante
++ Vérifier que le terme en $dt$ de son différentiel d'Itô est nul
+  Plus une condition d'intégrabilité. Exemples : $W_t^2 - t$, $e^{\theta W_t - \theta^2 t/2}$.
+- Vérifier que son espérance reste constante au cours du temps
   Nécessaire, pas suffisant.
-- Vérifier qu'il est positif
+- Vérifier qu'il reste positif et borné sur $[0, T]$
   Sans rapport.
-- Vérifier qu'il est continu
+- Vérifier que ses trajectoires sont continues
   Insuffisant.
 
 === cours:equations-differentielles-stochastiques
 ? Solution du brownien géométrique $dS = \mu S\,dt + \sigma S\,dW$ :
 + $S_t = S_0 e^{(\mu - \sigma^2/2)t + \sigma W_t}$
   Itô sur $\ln S$.
-- $S_t = S_0 e^{\mu t + \sigma W_t}$
-  Oubli de la correction.
+- $S_t = S_0 e^{(\mu + \sigma^2/2)t + \sigma W_t}$
+  Mauvais signe de la correction d'Itô.
 - $S_t = S_0(1 + \mu t + \sigma W_t)$
   Solution d'une autre équation.
-- $S_t = S_0 e^{\mu t}$
-  Sans aléa.
+- $S_t = S_0 e^{\mu t}\,(1 + \sigma W_t)$
+  Ne vérifie pas l'équation : il faut appliquer Itô à $\ln S$.
 
 === cours:equations-differentielles-stochastiques
 ? Quelle est la variance stationnaire du processus d'Ornstein-Uhlenbeck $dX = \kappa(\theta - X)dt + \sigma dW$ ?
@@ -387,13 +387,13 @@
 
 === cours:equations-differentielles-stochastiques
 ? Quel avantage du modèle CIR sur Vasicek pour les taux ?
-+ Les taux restent positifs (si la condition de Feller est satisfaite), grâce au terme $\sqrt r$
-  Vasicek, gaussien, permet des taux négatifs.
++ Les taux restent positifs, grâce au terme en $\sqrt r$
+  Strictement si la condition de Feller est satisfaite ; Vasicek, gaussien, permet des taux négatifs.
 - CIR a des formules plus simples
   Les deux ont des formules fermées pour les zéro-coupons.
 - CIR n'a pas de retour à la moyenne
   Les deux en ont un.
-- CIR est gaussien
+- CIR est gaussien, donc plus simple à calibrer
   Il ne l'est pas.
 
 === cours:equations-differentielles-stochastiques
@@ -411,18 +411,18 @@
 ? Que donne la parité call-put pour des options européennes sans dividende ?
 + $C - P = S - K e^{-rT}$
   Long call, short put : un forward.
-- $C = P$
-  Seulement à la monnaie forward.
-- $C + P = S$
+- $C - P = S - K$
+  Il manque l'actualisation du strike.
+- $C + P = S + K e^{-rT}$
   Sans rapport.
 - $C - P = K - S$
   Signe inversé.
 
 === cours:arbitrage-et-risque-neutre
 ? Dans un arbre à une période, pourquoi la probabilité réelle de hausse n'intervient-elle pas dans le prix ?
-+ L'option se réplique exactement par l'action et du cash : son prix est le coût de la réplication
-  La probabilité risque-neutre est un outil de calcul.
-- Parce qu'elle vaut toujours 1/2
++ L'option se réplique par l'action et du cash
+  Son prix est le coût de la réplication ; la probabilité risque-neutre n'est qu'un outil de calcul.
+- Parce qu'elle vaut toujours 1/2 dans un arbre équilibré
   Elle peut valoir n'importe quoi.
 - Parce que les investisseurs sont neutres au risque
   Ce n'est pas une hypothèse sur les préférences.
@@ -431,13 +431,13 @@
 
 === cours:arbitrage-et-risque-neutre
 ? Que dit le théorème fondamental de l'évaluation ?
-+ Absence d'arbitrage ⇔ existence d'une probabilité équivalente sous laquelle les prix actualisés sont des martingales
-  Unicité de cette probabilité ⇔ marché complet.
-- Tout marché est complet
++ Pas d'arbitrage ⇔ il existe une probabilité risque-neutre équivalente
+  Sous elle, les prix actualisés sont des martingales ; son unicité équivaut à un marché complet.
+- Tout marché sans arbitrage est complet, et réciproquement
   Seulement certains.
 - La probabilité risque-neutre est la probabilité réelle
   Elles sont équivalentes, pas égales.
-- Il existe toujours un arbitrage
+- Il existe toujours un arbitrage, mais trop coûteux à exploiter
   Hypothèse inverse.
 
 === cours:arbitrage-et-risque-neutre
@@ -455,23 +455,23 @@
 ? Dans Black-Scholes, quel paramètre n'apparaît **pas** dans le prix d'un call ?
 + Le rendement espéré $\mu$ de l'action
   Il disparaît par la couverture.
-- La volatilité $\sigma$
+- La volatilité $\sigma$ de l'action
   Elle est centrale.
-- Le taux sans risque $r$
+- Le taux sans risque $r$ du marché
   Il intervient.
-- La maturité $T$
+- La maturité $T$ de l'option
   Elle intervient.
 
 === cours:black-scholes
 ? Quelle identité simplifie toutes les grecques de Black-Scholes ?
 + $S\varphi(d_1) = K e^{-rT}\varphi(d_2)$
   Les dérivées de $d_1$ et $d_2$ se compensent.
-- $N(d_1) = N(d_2)$
-  Faux en général.
+- $S N(d_1) = K e^{-rT} N(d_2)$
+  Faux en général : ce sont les densités qui se compensent.
 - $d_1 = d_2$
   Ils diffèrent de $\sigma\sqrt T$.
-- $\varphi(d_1) = 1$
-  Faux.
+- $\varphi(d_1) = \varphi(d_2)$
+  Faux : $d_1 \neq d_2$, il manque les facteurs $S$ et $Ke^{-rT}$.
 
 === cours:black-scholes
 ? Approximation d'un call à la monnaie forward :
@@ -499,7 +499,7 @@
 ? Pour une option achetée couverte en delta, quand gagne-t-on de l'argent ?
 + Quand la volatilité réalisée dépasse la volatilité implicite payée
   PnL $\approx \frac12\Gamma S^2(\sigma_r^2 - \sigma_i^2)\,dt$.
-- Quand le sous-jacent monte
+- Quand le sous-jacent monte, puisque le delta est positif
   La direction est couverte.
 - Toujours, grâce au gamma positif
   Le theta coûte.
@@ -508,31 +508,31 @@
 
 === cours:grecques-et-couverture
 ? Où le gamma d'une option vanille est-il maximal ?
-+ Près de la monnaie, et d'autant plus que l'échéance est proche
++ Près de la monnaie, surtout près de l'échéance
   Le delta y change le plus vite.
-- Profondément dans la monnaie
+- Profondément dans la monnaie, là où le delta vaut 1
   Le delta y est stable (proche de 1).
 - Loin hors de la monnaie
   Le delta y est proche de 0 et stable.
-- Il est constant
-  Il varie beaucoup.
+- Loin de l'échéance, quel que soit le strike
+  Loin de l'échéance, le gamma est faible et étalé ; il se concentre à la monnaie quand l'échéance approche.
 
 === cours:grecques-et-couverture
 ? Comment neutraliser à la fois delta et gamma d'un livre d'options ?
-+ D'abord une option pour le gamma, puis le sous-jacent pour le delta
++ Une option pour le gamma, puis le sous-jacent pour le delta
   Le sous-jacent n'a pas de gamma.
 - Uniquement avec le sous-jacent
   Il n'a pas de gamma.
-- D'abord le delta, puis le gamma
+- D'abord le sous-jacent pour le delta, puis une option pour le gamma
   L'option ajoutée modifie le delta.
-- Avec un forward
+- Avec un forward et du sous-jacent
   Gamma nul aussi.
 
 === cours:grecques-et-couverture
 ? Le vega d'un call est-il positif ?
-+ Oui, pour un call comme pour un put achetés : plus de volatilité, plus de valeur
-  $S\sqrt T\varphi(d_1) > 0$.
-- Négatif pour un put
++ Oui, et celui d'un put aussi
+  $S\sqrt T\varphi(d_1) > 0$ : plus de volatilité, plus de valeur, pour un call comme pour un put achetés.
+- Oui, mais celui d'un put est négatif
   Même vega que le call.
 - Nul à la monnaie
   Il y est maximal.
@@ -541,35 +541,35 @@
 
 === cours:volatilite
 ? Pourquoi paramétrer une surface en variance totale $w = \sigma^2 T$ ?
-+ L'absence d'arbitrage calendaire devient « $w$ croissante en $T$ à log-moneyness fixée »
-  Et elle s'additionne dans le temps.
++ Le non-arbitrage calendaire devient : $w$ croissante en $T$
+  À log-moneyness fixée ; et la variance totale s'additionne dans le temps.
 - Parce que la volatilité est linéaire en $T$
   Elle ne l'est pas.
-- Pour éviter les nombres négatifs
+- Pour éviter les volatilités négatives aux courtes maturités
   La volatilité est déjà positive.
 - C'est une convention sans utilité
   Elle rend les contraintes lisibles.
 
 === cours:volatilite
 ? Qu'est-ce qu'un arbitrage papillon ?
-+ Un prix de call non convexe en strike : un butterfly de prix négatif pour un payoff positif
-  Densité risque-neutre négative.
++ Un prix de call non convexe en strike
+  Le butterfly a alors un prix négatif pour un payoff positif : densité risque-neutre négative.
 - Une volatilité qui baisse avec la maturité
   C'est lié au calendaire.
-- Un smile asymétrique
+- Un smile asymétrique, plus cher du côté des puts
   Le skew n'est pas un arbitrage.
 - Une volatilité implicite supérieure à la réalisée
   C'est une prime, pas un arbitrage.
 
 === cours:volatilite
 ? Qu'apporte la volatilité locale de Dupire ?
-+ Un modèle qui reproduit exactement toutes les vanilles, mais avec un smile futur trop plat
++ Il reproduit toutes les vanilles, mais aplatit le smile futur
   Elle se déduit de la surface par la formule de Dupire.
-- Une volatilité aléatoire
+- Une volatilité aléatoire corrélée au sous-jacent
   Elle est déterministe en $(t, S)$.
 - Une meilleure dynamique du smile que Heston
   C'est l'inverse.
-- Elle ignore le smile
+- Elle ignore le smile et garde une volatilité par maturité
   Elle le reproduit.
 
 === cours:volatilite
@@ -596,33 +596,33 @@
 
 === cours:options-exotiques
 ? Une asiatique sur moyenne arithmétique vaut :
-+ Moins qu'une européenne de même strike à la monnaie
++ Moins que l'européenne à la monnaie
   La moyenne est moins volatile.
-- Plus
+- Plus que l'européenne à la monnaie
   La moyenne réduit la dispersion.
-- Autant
+- Autant, par parité
   La loi diffère.
-- Toujours zéro
+- Toujours zéro à la monnaie
   Elle a de la valeur.
 
 === cours:options-exotiques
 ? Pourquoi une digitale est-elle affectée au premier ordre par le skew ?
-+ C'est la dérivée d'un call par rapport au strike : la pente du smile s'ajoute au prix
-  $D = -\partial C_{BS}/\partial K - \text{vega}\,\partial\sigma/\partial K$.
-- Elle ne l'est pas
++ C'est la dérivée d'un call par rapport au strike
+  La pente du smile s'ajoute : $D = -\partial C_{BS}/\partial K - \text{vega}\,\partial\sigma/\partial K$.
+- Elle ne l'est pas : seul le niveau de volatilité compte
   Elle l'est fortement.
-- Parce qu'elle est à barrière
+- Parce qu'elle se couvre avec des options à barrière
   Ce n'est pas une barrière.
 - Parce que son payoff est continu
   Il est discontinu.
 
 === cours:options-exotiques
 ? Comment la corrélation affecte-t-elle un put worst-of ?
-+ Moins de corrélation, plus de dispersion : le put worst-of vaut plus
-  Un des actifs a plus de chances de s'effondrer.
++ Moins de corrélation : il vaut plus
+  Plus de dispersion : l'un des actifs a plus de chances de s'effondrer.
 - Plus de corrélation, plus de valeur
   C'est le call worst-of.
-- Aucun effet
+- Aucun effet : seules les volatilités comptent
   Effet majeur.
 - Il ne dépend que de la meilleure action
   Il porte sur la moins bonne.
@@ -651,21 +651,21 @@
 
 === cours:methodes-numeriques
 ? Quel est le défaut principal du schéma explicite de différences finies ?
-+ Il n'est stable que pour un pas de temps petit devant $\Delta x^2/\sigma^2$
-  Condition de type CFL.
++ Il n'est stable que pour un pas de temps assez petit
+  Petit devant $\Delta x^2/\sigma^2$ : condition de type CFL.
 - Il est toujours instable
   Stable sous condition.
-- Il est d'ordre 2 en temps
+- Il est d'ordre 2 en temps, donc trop coûteux
   Ordre 1.
 - Il exige d'inverser une matrice
   C'est l'implicite.
 
 === cours:methodes-numeriques
 ? Quand utiliser une variable de contrôle en Monte-Carlo ?
-+ Quand on connaît le prix exact d'un produit très corrélé au produit cherché
++ Quand un produit très corrélé a un prix exact connu
   Ex. : asiatique géométrique pour l'asiatique arithmétique.
-- Toujours, sans condition
-  Elle exige une forte corrélation et un prix connu.
+- Toujours, elle ne peut pas augmenter la variance
+  Mal choisie (faible corrélation, coefficient estimé), elle peut la dégrader ; il faut un prix connu et une forte corrélation.
 - Pour réduire le biais de discrétisation
   Elle réduit la variance.
 - Pour accélérer le générateur aléatoire
@@ -673,10 +673,10 @@
 
 === cours:taux-et-credit
 ? Que mesure la duration modifiée ?
-+ La sensibilité relative du prix à une variation du taux : $\Delta P/P \approx -D_{\mathrm{mod}}\,\Delta y$
-  Premier ordre ; la convexité corrige.
-- La maturité
-  Égale seulement pour un zéro-coupon (Macaulay).
++ La sensibilité relative du prix au taux
+  $\Delta P/P \approx -D_{\mathrm{mod}}\,\Delta y$ au premier ordre ; la convexité corrige.
+- La maturité moyenne des flux, en années
+  C'est la duration de Macaulay ; la modifiée la divise par $1 + y$ et mesure une sensibilité.
 - Le risque de crédit
   Sans rapport.
 - La variation absolue pour 1 point de base
@@ -684,10 +684,10 @@
 
 === cours:taux-et-credit
 ? Pourquoi la jambe variable d'un swap vaut-elle $1 - P(0, T_n)$ ?
-+ Chaque coupon variable se réplique par un prêt d'une période : la somme télescope
++ Chaque coupon se réplique par un prêt d'une période : la somme télescope
   On n'a pas besoin de prévoir les taux.
-- Parce que les taux futurs sont nuls
-  Ils ne le sont pas.
+- Parce que les taux futurs sont égaux aux taux forwards actuels
+  Ils ne le sont pas ; la réplication évite justement de faire cette hypothèse.
 - Parce qu'elle vaut toujours 1
   Il manque le remboursement final.
 - Par convention de marché
@@ -706,53 +706,53 @@
 
 === cours:taux-et-credit
 ? Qu'est-ce que la CVA ?
-+ L'ajustement de prix pour le risque de défaut de la contrepartie
++ L'ajustement de prix pour le défaut de la contrepartie
   $\approx (1 - R) \times \mathrm{PD} \times$ exposition attendue.
-- Une mesure de volatilité
+- La volatilité de crédit de la contrepartie
   Sans rapport.
-- Le coût de financement
+- Le coût de financement des positions non collatéralisées
   C'est la FVA.
 - Le défaut de la banque elle-même
   C'est la DVA.
 
 === cours:energie-et-matieres-premieres
 ? Qu'est-ce que l'effet Samuelson ?
-+ La volatilité des forwards diminue avec l'éloignement de la livraison
++ Les forwards lointains sont moins volatils
   Conséquence du retour à la moyenne du spot.
 - Les prix montent en hiver
   C'est la saisonnalité.
 - Les forwards sont plus volatils que le spot
   C'est l'inverse.
-- Les prix négatifs
+- L'apparition de prix négatifs sur l'électricité
   Autre phénomène.
 
 === cours:energie-et-matieres-premieres
 ? Pourquoi une centrale à gaz s'analyse-t-elle comme une option ?
-+ On ne produit que si le spread électricité – coût du combustible est positif : une suite d'options sur spread
-  Les contraintes techniques réduisent l'optionalité.
-- Parce qu'elle produit toujours
++ Elle ne produit que si le spread est positif
+  Spread électricité moins coût du combustible (spark spread) ; les contraintes techniques réduisent l'optionalité.
+- Parce qu'elle produit toujours, quel que soit le prix
   On peut arrêter.
 - Parce qu'elle est cotée
   Sans rapport.
-- Parce que le gaz est stockable
+- Parce que le gaz se stocke et se revend plus tard
   L'optionalité vient du choix de produire.
 
 === cours:energie-et-matieres-premieres
 ? Comment se calcule le prix sans arbitrage d'un produit livrant sur deux mois ?
 + Moyenne des forwards mensuels pondérée par le nombre d'heures
   Le produit se réplique par les deux mois.
-- Moyenne simple des deux prix
+- La moyenne simple des deux prix mensuels
   Les mois n'ont pas le même nombre d'heures.
 - Le prix du premier mois
   Ignore le second.
-- Le maximum des deux
+- Le maximum des deux prix mensuels, par absence d'arbitrage
   Le produit se réplique par les deux mois : son prix est une moyenne, jamais le maximum.
 
 === cours:energie-et-matieres-premieres
 ? Quel risque reste à un producteur qui vend à terme sa production attendue ?
-+ Le risque de volume : produire moins (ou plus) que prévu quand les prix ont bougé
-  Souvent corrélé aux prix.
-- Aucun
++ Le risque de volume, souvent lié aux prix
+  Produire moins (ou plus) que prévu justement quand les prix ont bougé.
+- Aucun : la vente à terme fige tout le revenu
   Le volume est incertain.
 - Seulement le risque de change
   Autre risque, secondaire ici.
@@ -774,18 +774,18 @@
 ? Pourquoi l'Expected Shortfall est-elle préférée à la VaR ?
 + Elle est sous-additive et décrit la taille des pertes dans la queue
   La VaR ne dit rien au-delà du quantile.
-- Elle est plus facile à estimer
+- Elle est plus facile à estimer, avec moins de données
   Elle est plus exigeante en données.
 - Elle est toujours plus petite
   Elle est plus grande au même niveau.
-- Elle ne dépend pas de la loi
+- Elle ne dépend pas de la loi des pertes, contrairement à la VaR
   Elle en dépend.
 
 === cours:risque-et-portefeuille
 ? Que maximise le critère de Kelly ?
 + La croissance espérée du logarithme de la richesse
   Mise optimale $f^* = (bp - q)/b$.
-- L'espérance de la richesse
+- L'espérance de la richesse au bout de chaque pari
   Mènerait à tout miser.
 - La probabilité de gagner chaque pari
   Sans rapport avec la mise.
@@ -805,20 +805,20 @@
 
 === cours:market-making-et-microstructure
 ? Dans Glosten-Milgrom, pourquoi l'ask est-il au-dessus de la valeur moyenne ?
-+ Un achat est plus probable quand la valeur est haute (clients informés) : l'ask est l'espérance sachant un achat
-  Le spread couvre la sélection adverse.
-- Pour payer les frais de bourse
++ L'ask est l'espérance de la valeur sachant qu'un client achète
+  Un achat est plus probable quand la valeur est haute (clients informés) : le spread couvre la sélection adverse.
+- Pour couvrir les frais de bourse et de compensation
   Pas modélisé.
-- Par risque d'inventaire
+- Par risque d'inventaire, qui croît avec la volatilité
   C'est Avellaneda-Stoikov.
 - Il ne l'est pas
   Il l'est dès qu'il y a des informés.
 
 === cours:market-making-et-microstructure
 ? Un teneur de marché long en inventaire, dans Avellaneda-Stoikov :
-+ Baisse ses deux cotations pour vendre plus facilement et acheter moins
-  Prix de réservation $s - q\gamma\sigma^2(T - t)$.
-- Monte ses cotations
++ Baisse ses deux cotations
+  Pour vendre plus facilement et acheter moins : prix de réservation $s - q\gamma\sigma^2(T - t)$.
+- Monte ses deux cotations
   Il accumulerait plus d'inventaire.
 - Élargit seulement le spread
   Il le décale aussi.
@@ -827,41 +827,41 @@
 
 === cours:market-making-et-microstructure
 ? Comment l'impact de marché d'un gros ordre croît-il avec sa taille $Q$ ?
-+ Environ en $\sqrt{Q/V}$ (loi en racine carrée)
++ En racine carrée de $Q/V$
   Concave : doubler la taille ne double pas l'impact.
-- Linéairement
+- Linéairement en $Q/V$
   Les données montrent une concavité.
-- Exponentiellement
+- Exponentiellement en $Q$
   Trop fort.
-- Il ne dépend pas de la taille
-  Il en dépend.
+- En $Q/V$ au carré
+  Bien trop fort : l'impact est concave en la taille.
 
 === cours:market-making-et-microstructure
 ? Ton bid-ask est pris à l'ask. Que fais-tu de ton marché ?
-+ Monter mon estimation et mes cotations : l'échange est une information
-  Surtout face à des contreparties informées.
++ Monter mon estimation et mes cotations
+  L'échange est une information, surtout face à des contreparties informées.
 - Ne rien changer
   On ignore l'information.
-- Baisser mes prix
+- Baisser mes prix pour attirer des vendeurs
   Sens inverse.
-- Arrêter de coter
+- Arrêter de coter jusqu'à la fin de la journée
   On ajuste plutôt.
 
 === cours:machine-learning
 ? Pourquoi la validation croisée aléatoire est-elle dangereuse en finance ?
-+ Les observations dépendent du temps : on entraîne sur le futur pour prédire le passé
-  Il faut du walk-forward avec purge.
-- Elle est trop lente
++ On entraîne sur le futur pour prédire le passé
+  Les observations dépendent du temps : il faut du walk-forward avec purge.
+- Elle est trop lente sur des séries longues
   Ce n'est pas le problème.
 - Elle n'utilise pas assez de données
   Elle en utilise trop, dont le futur.
-- Elle est toujours valide
+- Elle est valide dès que les données sont mélangées
   Elle suppose des données indépendantes.
 
 === cours:machine-learning
 ? Une forêt aléatoire réduit surtout :
-+ La variance, en moyennant des arbres décorrélés
-  Variance limite $\rho\sigma^2$.
++ La variance
+  En moyennant des arbres décorrélés ; variance limite $\rho\sigma^2$.
 - Le biais
   C'est le rôle du boosting.
 - Le bruit irréductible
@@ -871,9 +871,9 @@
 
 === cours:machine-learning
 ? Pourquoi un $R^2$ de 1 % peut-il suffire en prévision de rendements ?
-+ Un petit avantage appliqué à de nombreux paris indépendants donne un bon ratio d'information
-  $\mathrm{IR} \approx \mathrm{IC}\sqrt N$.
-- Il ne suffit jamais
++ Un petit avantage répété sur beaucoup de paris indépendants
+  Le ratio d'information croît comme $\mathrm{IC}\sqrt N$.
+- Il ne suffit jamais : en dessous de 10 %, le modèle est inutile
   En finance, il peut être très rentable.
 - Parce que les rendements sont prévisibles
   Ils le sont très peu.
@@ -882,20 +882,20 @@
 
 === cours:machine-learning
 ? En régression logistique, que représente $e^{\beta_j}$ ?
-+ Le facteur multiplicatif de la cote quand la variable $j$ augmente d'une unité
++ Le facteur multiplicatif de la cote pour $+1$ sur $x_j$
   Effet sur le log des cotes, linéaire.
 - La probabilité
   La probabilité n'est pas linéaire.
-- La variation de probabilité
+- La variation de probabilité pour $+1$ sur $x_j$
   Dépend du point de départ.
 - La variance de la prédiction
   Sans rapport.
 
 === cours:code-et-algorithmique
 ? Pourquoi l'ajout en fin de tableau dynamique est-il en $O(1)$ amorti ?
-+ La capacité est multipliée quand elle est pleine : le coût total des recopies est $O(n)$
-  Série géométrique.
-- Parce qu'il n'y a jamais de recopie
++ La capacité est multipliée quand elle est pleine
+  Série géométrique : le coût total des recopies est $O(n)$.
+- Parce que l'ajout ne recopie jamais les éléments existants
   Il y en a, rarement.
 - Parce que la mémoire est infinie
   Elle grandit par paliers.
@@ -908,7 +908,7 @@
   Arbre de décision à $n!$ feuilles.
 - $n$
   Ne suffit pas à distinguer les ordres.
-- $n^2$
+- $n^2/2$ comparaisons
   C'est le coût d'un tri naïf.
 - $\log_2 n$
   Recherche dichotomique.
@@ -917,17 +917,17 @@
 ? Quelle structure pour une médiane en flux ?
 + Deux tas équilibrés
   $O(\log n)$ par insertion, médiane en $O(1)$.
-- Une liste triée
+- Une liste triée par insertion
   Insertion en $O(n)$.
-- Un dictionnaire
+- Un dictionnaire des effectifs
   Pas d'ordre.
 - Une pile
   Sans rapport.
 
 === cours:code-et-algorithmique
 ? Le mélange qui échange chaque élément avec une position tirée dans **toute** la liste :
-+ Est biaisé : $n^n$ issues équiprobables ne se répartissent pas également sur $n!$ permutations
-  Fisher-Yates tire dans le préfixe restant.
++ Est biaisé
+  $n^n$ issues équiprobables ne se répartissent pas également sur $n!$ permutations ; Fisher-Yates tire dans le préfixe restant.
 - Est uniforme
   Le comptage montre le contraire.
 - Est plus rapide que Fisher-Yates
@@ -937,20 +937,20 @@
 
 === cours:entretiens
 ? Que cherchent d'abord les teneurs de marché dans leurs tests ?
-+ Calcul mental rapide, probabilités, prise de décision et jeux de marché sous pression
++ Calcul mental, probabilités et décisions rapides sous pression
   Rapidité et justesse.
 - Des démonstrations de calcul stochastique
   Plutôt en banque et en recherche.
 - Du code C++ avancé
   Dépend du poste ; ce n'est pas le cœur.
-- Une connaissance encyclopédique des produits
+- Une connaissance encyclopédique des produits dérivés et de leur cotation
   Le raisonnement prime.
 
 === cours:entretiens
 ? Face à une question dont tu ne connais pas la réponse :
-+ Raisonner à voix haute, poser des hypothèses, vérifier les ordres de grandeur
++ Raisonner à voix haute en posant des hypothèses
   C'est le raisonnement qui est évalué.
-- Rester silencieux jusqu'à trouver
+- Rester silencieux pour se concentrer jusqu'à trouver
   L'intervieweur ne voit rien.
 - Donner un chiffre au hasard
   Signal de manque de méthode.
@@ -959,11 +959,11 @@
 
 === cours:entretiens
 ? Quelle place pour les questions personnelles (« pourquoi nous ») ?
-+ Elles sont éliminatoires si on les néglige : réponses préparées, précises et sincères
-  Même chez les employeurs très techniques.
++ Éliminatoires si on les néglige : à préparer
+  Réponses préparées, précises et sincères, même chez les employeurs très techniques.
 - Aucune dans un poste technique
   Elles sont posées partout.
-- On improvise
+- On improvise pour paraître naturel et spontané
   La préparation se voit.
 - On récite le site de l'entreprise
   On attend un lien personnel.

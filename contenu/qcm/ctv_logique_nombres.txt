@@ -1,27 +1,27 @@
 # QCM des variantes de casse-têtes : logique, nombres, dénombrement.
 
 === ct-boites-etiquettes-pommes
-+ Non : une orange laisse deux possibilités (oranges ou mélange)
-  Seule la boîte « mélange » contient forcément un seul type de fruit.
++ Non : une orange laisse deux possibilités
+  Oranges ou mélange. Seule la boîte « mélange » contient forcément un seul type de fruit.
 - Oui, comme dans la boîte « mélange »
   La boîte « pommes » peut contenir le mélange, qui contient aussi des oranges.
-- Oui, si l'on tire une pomme
+- Oui, si l'on tire une pomme, sinon non
   Dans ce cas, oui ; mais il faut que cela marche dans tous les cas.
 - Non, il faut toujours trois fruits
   Un fruit suffit dans la boîte « mélange ».
 
 === ct-interrupteurs-trois-ampoules
-+ Allumer le 1 un moment, l'éteindre, allumer le 2 : allumée, éteinte chaude, éteinte froide
-  Trois états distincts pour trois ampoules, comme pour une seule ampoule.
++ Allumer le 1 un moment, l'éteindre, allumer le 2, puis entrer
+  Allumée, éteinte chaude, éteinte froide : trois états distincts pour trois ampoules.
 - Allumer les trois et observer laquelle s'éteint en dernier
   Il n'y a qu'une visite : on ne peut pas observer dans le temps.
 - C'est impossible avec une seule visite
   La chaleur fournit l'information manquante.
-- Allumer le 1 et le 2 en même temps
+- Allumer le 1 et le 2 en même temps, puis entrer
   Leurs ampoules seraient indiscernables.
 
 === ct-interrupteurs-quatre
-+ Combiner deux informations par ampoule (allumée ou non, chaude ou non) : 4 états
++ Allumée ou non, chaude ou non : 4 états
   Allumer 1 et 2 longtemps, éteindre 2, allumer 3 juste avant d'entrer.
 - C'est impossible : il n'y a que trois états
   « Allumée et froide » est un quatrième état si l'on allume juste avant d'entrer.
@@ -31,13 +31,13 @@
   Une ampoule éteinte ne dit pas combien de temps elle a brillé, seulement si elle a chauffé.
 
 === ct-deux-gardiens-un-seul
-+ « Si je te demandais si la gauche mène à la liberté, répondrais-tu oui ? »
++ « Si je te demandais si la gauche est libre, dirais-tu oui ? »
   Le menteur ment sur un mensonge : la double négation donne la vérité.
-- « La gauche mène-t-elle à la liberté ? »
+- « La gauche mène-t-elle à la liberté ? », et le croire
   La réponse dépend de la nature du gardien, inconnue.
-- « Es-tu menteur ? »
+- « Es-tu menteur ? », puis la question directe
   Les deux répondent « non ».
-- C'est impossible avec un seul gardien
+- C'est impossible : il faut interroger deux gardiens
   La question imbriquée suffit.
 
 === ct-deux-gardiens-villages
@@ -63,11 +63,11 @@
 === ct-chevaliers-fripons-meme-nature
 + B est chevalier ; la nature de A est indéterminée
   A chevalier ⇒ B chevalier ; A fripon ⇒ B de nature différente, donc chevalier.
-- A et B sont chevaliers
+- A et B sont tous les deux chevaliers
   A peut aussi être fripon : on ne sait rien de lui.
-- A est fripon, B chevalier
+- A est fripon et B chevalier, forcément
   Possible, mais pas forcé.
-- On ne peut rien dire
+- On ne peut rien dire de A ni de B
   On sait au moins que B est chevalier.
 
 === ct-chevaliers-fripons-trois
@@ -91,9 +91,9 @@
   Ils raisonnent tous pareil et lèvent la main en même temps.
 
 === ct-yeux-bleus-maris
-+ Les $k$ maris infidèles sont chassés ensemble le $k$-ième soir
++ Les $k$ infidèles, ensemble, le $k$-ième soir
   Même structure que les yeux bleus, chaque épouse trompée connaissant $k - 1$ infidèles.
-- Rien ne se passe
+- Rien ne se passe : personne n'apprend rien
   L'annonce publique déclenche le compte à rebours.
 - Ils sont chassés le premier soir
   Chaque épouse trompée connaît d'autres infidèles et ne peut pas conclure seule.
@@ -111,13 +111,13 @@
   Somme 13 unique : il n'aurait pas manqué d'information.
 
 === ct-ages-cinq-enfants
-+ Non : (1,1,3,3,8) et (1,2,2,2,9) restent possibles
-  Seule la somme 16 est ambiguë, et l'aîné unique n'élimine que (1,1,2,6,6).
-- Oui : 1, 1, 3, 3 et 8
++ Non : deux familles restent
+  (1,1,3,3,8) et (1,2,2,2,9) : seule la somme 16 est ambiguë, et l'aîné unique n'élimine que (1,1,2,6,6).
+- Oui : 1, 1, 3, 3 et 8 ans
   C'est plaquer la réponse du problème à trois filles.
-- Oui : 1, 2, 2, 2 et 9
+- Oui : 1, 2, 2, 2 et 9 ans
   Possible, mais pas unique.
-- Oui : 1, 1, 2, 6 et 6
+- Oui : 1, 1, 2, 6 et 6 ans
   Deux aînés de 6 ans : exclu par l'indice.
 
 === ct-chapeaux-k-couleurs
@@ -181,9 +181,9 @@
   C'est le nombre moyen de points fixes… qui vaut en fait 1.
 
 === ct-pieces-yeux-bandes-general
-+ Prendre $n$ pièces quelconques et toutes les retourner
++ Prendre $n$ pièces au hasard et les retourner
   Si elles contiennent $k$ faces, l'autre tas en a $n - k$, et elles aussi après retournement.
-- Faire deux tas de $N/2$
+- Faire deux tas de $N/2$ pièces
   Rien ne garantit l'égalité.
 - Prendre $N - n$ pièces et les retourner
   La taille du tas doit être le nombre de faces $n$.
@@ -321,8 +321,8 @@
   $\mathrm{pgcd}(6, 9, 20) = 1$ garantit seulement qu'il y en a un nombre fini.
 
 === ct-frobenius-pgcd
-+ Non : tous les montants impairs sont impossibles
-  $\mathrm{pgcd}(4, 6) = 2$ : on ne paie que des nombres pairs.
++ Non, aucun
+  $\mathrm{pgcd}(4, 6) = 2$ : tous les montants impairs sont impossibles.
 - Oui, 7
   7 est impossible, mais 9, 11, 13… aussi : il n'y a pas de plus grand.
 - Oui, 14
@@ -401,13 +401,13 @@
   $2^x$ finit par dominer $x^2$ : pas d'autre croisement.
 
 === ct-tour-puissances-quatre
-+ Une tour infinie ne peut pas valoir 4 : elle converge vers au plus $e$, et pour $\sqrt 2$ vers 2
-  $x^y = y$ est nécessaire mais pas suffisant.
++ Une tour infinie ne dépasse pas $e$ : pour $\sqrt 2$, elle vaut 2
+  $x^y = y$ est nécessaire mais pas suffisant : la tour converge vers le plus petit point fixe.
 - Il n'y a pas d'erreur : $\sqrt 2$ donne à la fois 2 et 4
   La suite converge vers un seul point fixe, le plus petit.
 - La bonne réponse est $\sqrt[4]{4}$
   C'est aussi $\sqrt 2$.
-- La tour diverge pour $\sqrt 2$
+- La tour diverge pour $\sqrt 2$, d'où les deux valeurs
   Elle converge, vers 2.
 
 === ct-tour-puissances-radical

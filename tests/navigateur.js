@@ -57,13 +57,26 @@ function verifier(cond, message) { if (!cond) throw new Error(message); }
   // la carte ratée (note 0) est due aujourd'hui
   verifier(Object.values(etat1.cartes).some((c) => c.intervalle === 0), 'carte ratée reprogrammée aujourd’hui');
 
-  // banque de questions : recherche
-  await page.click('[data-onglet="banque"]');
+  // banque de questions : page à part, rangée par thème puis chapitre ; filtres dans l'adresse
+  await page.click('a.onglet-lien[href="#banque"]');
   await page.waitForSelector('[data-cherche]');
+  verifier((await page.$$('.index-banque a')).length >= 10, 'banque : index des thèmes');
+  await page.click('.index-banque a[data-theme="probas"]');
+  await page.waitForFunction(() => /theme=probas/.test(location.hash));
+  verifier(/^Chapitre \d/.test((await page.textContent('.groupe-banque h2')).trim()), 'banque : groupes par chapitre du cours');
+  await page.click('.ligne-fiche [data-deplier]');
+  await page.waitForSelector('.ligne-fiche.ouverte .detail-fiche .actions-fiche');
+  verifier((await page.getAttribute('.ligne-fiche.ouverte [data-deplier]', 'aria-expanded')) === 'true', 'banque : ligne dépliée annoncée');
+  await page.click('.index-banque a[data-theme=""]');
   await page.fill('[data-cherche]', 'Itô');
-  await page.waitForTimeout(100);
-  const n = await page.$$eval('.liste-fiches > li', (l) => l.length);
+  await page.waitForFunction(() => /q=It/.test(location.hash));
+  const n = await page.$$eval('.ligne-fiche', (l) => l.length);
   verifier(n >= 3, 'recherche « Itô » : ' + n + ' résultats');
+  await page.goto(URL + '#revisions/onglet=banque/theme=stoch');
+  await page.waitForFunction(() => location.hash.indexOf('#banque') === 0);
+  verifier(await page.evaluate(() => /theme=stoch/.test(location.hash)), 'ancien lien de la banque redirigé');
+  await page.goto(URL + '#revisions/onglet=themes');
+  await page.waitForSelector('[data-onglet="themes"]');
   await page.click('[data-onglet="themes"]');
   await page.waitForSelector('a[href="#revisions/onglet=themes/theme=projets/mode=libre"]');
   verifier((await page.$$('.grille .carte')).length >= 12, 'cartes de thèmes');
@@ -84,12 +97,12 @@ function verifier(cond, message) { if (!cond) throw new Error(message); }
 
   // --- Cours : sommaire, chapitre avec formules, exercice vérifié, widget, lien fiche → cours ---
   await naviguer('cours', 'Cours');
-  verifier((await page.$$('.chapitre-carte')).length >= 2, 'chapitres du cours');
+  verifier((await page.$$('.ligne-toc')).length >= 2, 'chapitres du cours');
   verifier((await page.$$('[data-demo]')).length === 15, 'quinze démonstrations incontournables');
   await page.check('[data-demo="bs"]');
   verifier((await page.textContent('[data-compte-demos]')).startsWith('1 / 15'), 'démonstration cochée');
   verifier(await page.evaluate(() => !!JSON.parse(localStorage.getItem('prepa-entretiens-v1')).cours.demos.bs), 'démonstration enregistrée');
-  await page.click('.chapitre-carte[href="#cours/c=esperance-variance-covariance"]');
+  await page.click('.ligne-toc[href="#cours/c=esperance-variance-covariance"]');
   await page.waitForSelector('.cours-article .katex');
   verifier((await page.$$('.cours-article .katex')).length > 100, 'formules rendues par KaTeX');
   verifier((await page.$$('.cours-article code.tex')).length === 0, 'aucune formule laissée en TeX brut');
@@ -475,6 +488,34 @@ function verifier(cond, message) { if (!cond) throw new Error(message); }
   await page.waitForSelector('.choix-qcm [data-choix]');
   verifier(/Black-Scholes|Cours|chapitre/i.test(await page.textContent('.source-qcm')) || true, 'QCM du chapitre');
   verifier((await page.$$eval('.carte-qcm', (l) => l.length)) === 1, 'QCM du chapitre : une question affichée');
+  // --- Recherche globale : Ctrl+K, flèches, Entrée ---
+  await page.goto(URL + '#accueil');
+  await page.waitForSelector('[data-recherche]');
+  await page.keyboard.press('Control+k');
+  await page.waitForSelector('.palette input');
+  await page.keyboard.type('lemme ito');
+  await page.waitForSelector('.palette [role="option"]');
+  verifier(/Itô/.test(await page.textContent('.palette [role="option"][aria-selected="true"]')), 'recherche : premier résultat pertinent');
+  await page.keyboard.press('Enter');
+  await page.waitForFunction(() => location.hash.indexOf('#cours/c=integrale-et-lemme-ito') === 0);
+  verifier(!(await page.$('.voile-recherche')), 'recherche : fermée après le choix');
+  await page.keyboard.press('Control+k');
+  await page.waitForSelector('.palette input');
+  await page.keyboard.press('Escape');
+  verifier(!(await page.$('.voile-recherche')), 'recherche : Échap ferme');
+  await page.goto(URL + '#qcm/par=chapitres');
+  await page.waitForSelector('.ligne-liste[href^="#qcm/c="]');
+  verifier((await page.$$('.ligne-liste[href^="#qcm/c="]')).length >= 20, 'QCM : liste par chapitre du cours');
+  await page.goto(URL + '#cours');
+  await page.waitForSelector('.toc-cours');
+  verifier((await page.$$('.toc-cours .ligne-toc')).length >= 20, 'cours : table des matières');
+  // « Aller au contenu » ne change pas de page
+  await page.goto(URL + '#qcm');
+  await page.waitForSelector('[data-qcm-tout]');
+  await page.focus('.saut');
+  await page.keyboard.press('Enter');
+  verifier(await page.evaluate(() => location.hash === '#qcm' && document.activeElement.id === 'contenu'), 'lien d’évitement : focus sur le contenu');
+
   // --- Apprendre en répondant : cours avant de répondre, « Je ne sais pas encore », correction détaillée ---
   const idsAide = await page.evaluate(() => {
     const qs = window.Prepa.qcm.toutes();
@@ -659,7 +700,7 @@ function verifier(cond, message) { if (!cond) throw new Error(message); }
   const mobile = await navigateur.newContext({ viewport: { width: 375, height: 740 }, deviceScaleFactor: 1 });
   const p2 = await mobile.newPage();
   p2.on('pageerror', (e) => erreurs.push('mobile pageerror: ' + e.message));
-  for (const v of ['accueil', 'revisions', 'calcul', 'entretien', 'marche', 'marche/onglet=kelly', 'test', 'plus', 'histoires', 'journal', 'guides', 'guides/g=antiseche', 'progres', 'reglages', 'revisions/onglet=banque', 'casse-tetes', 'casse-tetes/f=ct-p-racines-reelles', 'qcm', 'carriere', 'campagne', 'carriere/onglet=usine', 'carriere/onglet=collection']) {
+  for (const v of ['accueil', 'revisions', 'calcul', 'entretien', 'marche', 'marche/onglet=kelly', 'test', 'plus', 'histoires', 'journal', 'guides', 'guides/g=antiseche', 'progres', 'reglages', 'banque', 'banque/theme=casse-tete', 'casse-tetes', 'casse-tetes/f=ct-p-racines-reelles', 'qcm', 'carriere', 'campagne', 'carriere/onglet=usine', 'carriere/onglet=collection']) {
     await p2.goto(URL + '#' + v);
     await p2.waitForSelector('main h1');
     const deborde = await p2.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);

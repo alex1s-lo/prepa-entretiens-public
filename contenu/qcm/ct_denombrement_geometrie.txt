@@ -131,13 +131,13 @@
   Un invariant prouve l'impossibilité sans aucun essai.
 
 === ct-cameleons
-+ Non : les différences d'effectifs modulo 3 sont invariantes, et aucune n'est nulle
-  Il faudrait deux effectifs nuls, donc une différence multiple de 3.
-- Oui, tous deviennent pourpres
++ Non : les différences d'effectifs modulo 3 sont invariantes
+  Il faudrait deux effectifs nuls, donc une différence multiple de 3 ; aucune ne l'est au départ.
+- Oui, tous finissent pourpres en assez de rencontres
   Atteindre $(0, 0, 45)$ exigerait $g - b \equiv 0$, or $g - b \equiv -2$ reste constant modulo 3.
 - Oui, car le total 45 est multiple de 3
   Le total ne suffit pas : ce sont les différences qui comptent.
-- Ça dépend de l'ordre des rencontres
+- Ça dépend de l'ordre des rencontres, qu'on peut choisir
   L'invariant vaut pour tous les ordres.
 
 === ct-poignees-impaires
@@ -151,19 +151,19 @@
   Possible mais inutile : le double comptage règle tout en une ligne.
 
 === ct-tableau-effacer
-+ Non : la parité de la somme est invariante et vaut celle de 55
-  $a + b$ et $|a - b|$ ont la même parité.
++ Non : la parité de la somme est invariante
+  $a + b$ et $|a - b|$ ont la même parité, et la somme initiale 55 est impaire.
 - Oui, en effaçant toujours deux nombres égaux
   Il n'y a pas de doublon au départ, et la parité interdit 0 de toute façon.
 - Oui, car on peut produire 1 puis $|1 - 1|$
   Il faudrait deux 1 à la fin : l'invariant l'empêche.
-- Ça dépend de l'ordre
+- Ça dépend de l'ordre dans lequel on efface
   L'invariant est valable quel que soit l'ordre.
 
 === ct-puzzle-15
-+ Non : la parité de la permutation plus la couleur de la case vide est invariante
-  L'échange de 14 et 15 change la parité sans déplacer la case vide.
-- Oui, avec beaucoup de coups
++ Non : un invariant de parité l'interdit
+  La parité de la permutation plus la couleur de la case vide est invariante ; l'échange de 14 et 15 la change sans déplacer la case vide.
+- Oui, avec beaucoup de coups bien choisis
   Sam Loyd offrait 1 000 \$ précisément parce que c'est impossible.
 - Oui, car on peut toujours faire tourner trois pièces
   Une rotation de trois pièces est paire : elle ne crée pas une transposition.
@@ -231,13 +231,13 @@
   On a calculé l'aire d'un disque de rayon 3, pas un volume.
 
 === ct-pole-nord
-+ Au pôle Nord, ou près du pôle Sud, 1 km au nord d'un cercle de circonférence $1/n$ km
-  Il existe une infinité de points de départ, pas seulement le pôle Nord.
-- Seulement au pôle Nord
++ Au pôle Nord, et aussi sur des cercles près du pôle Sud
+  1 km au nord d'un cercle de circonférence $1/n$ km : une infinité de points de départ.
+- Seulement au pôle Nord, point de départ unique
   La réponse classique, incomplète : les cercles près du pôle Sud marchent aussi.
 - Nulle part, c'est impossible sur une sphère
   Le pôle Nord est déjà une solution.
-- N'importe où sur l'équateur
+- N'importe où sur l'équateur, par symétrie
   Après 1 km vers l'est, on n'est pas revenu à la même longitude.
 
 === ct-somme-angles

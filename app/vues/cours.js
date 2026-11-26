@@ -308,23 +308,25 @@
     d.chapitres.forEach(function (c) { (parParties[c.partie] = parParties[c.partie] || []).push(c); });
     const tous = d.chapitres.length;
     const lus = d.chapitres.filter(function (c) { return etatCours().lus[c.id]; }).length;
-    let html = '<h1>Cours</h1><p class="doux">Le cours derrière les fiches : définitions, théorèmes et démonstrations complètes, calculs ' +
-      'détaillés ligne à ligne, exercices corrigés et simulations à manipuler. Chaque chapitre se termine par les fiches de révision qui s’y rattachent.</p>' +
+    const suite = d.chapitres.filter(function (c) { return !etatCours().lus[c.id]; })[0];
+    let html = '<div class="tete-page"><div><h1>Cours</h1><p class="chapeau">Définitions, théorèmes, démonstrations et exercices corrigés ; chaque chapitre renvoie à ses fiches de révision.</p></div>' +
+      (suite ? '<a class="bouton principal" href="#cours/c=' + suite.id + '">' + (lus ? 'Reprendre : chapitre ' : 'Commencer : chapitre ') + suite.numero + '</a>' : '') + '</div>' +
       '<div class="progression-cours"><div class="barre"><span style="width:' + Math.round(100 * lus / Math.max(1, tous)) + '%"></span></div>' +
       '<span class="legende">' + lus + ' chapitre' + (lus > 1 ? 's' : '') + ' lu' + (lus > 1 ? 's' : '') + ' sur ' + tous + '</span></div>' +
       rendreARefaire();
+    // table des matières : une ligne par chapitre (numéro, titre et résumé, durée, exercices, lu)
     d.parties.forEach(function (p) {
       const liste = parParties[p];
       if (!liste) return;
-      html += '<h2 class="partie-cours">' + o.echapper(p) + '</h2><div class="grille-chapitres">' + liste.map(function (c) {
+      html += '<h2 class="partie-cours">' + o.echapper(p) + '</h2><ol class="toc-cours">' + liste.map(function (c) {
         const pr = progression(c);
-        return '<a class="carte chapitre-carte" href="#cours/c=' + c.id + '"><div class="ligne petit doux"><span class="numero-chapitre">' + c.numero + '</span>' +
-          (c.duree ? '<span>' + o.echapper(c.duree) + '</span>' : '') + '<span class="espace"></span>' +
-          (pr.lu ? '<span class="etiquette succes">lu</span>' : '') + '</div><h3>' + o.echapper(c.titre) + '</h3>' +
-          '<p class="petit doux">' + ligne(c.resume) + '</p>' +
-          '<div class="ligne petit doux">' + (pr.total ? '<span>' + pr.faits + '/' + pr.total + ' exercices</span>' : '') +
-          (c.fiches.length ? '<span>' + c.fiches.length + ' fiches liées</span>' : '') + '</div></a>';
-      }).join('') + '</div>';
+        return '<li><a class="ligne-toc' + (pr.lu ? ' lu' : '') + '" href="#cours/c=' + c.id + '">' +
+          '<span class="toc-num">' + c.numero + '</span>' +
+          '<span class="toc-texte"><span class="toc-titre">' + o.echapper(c.titre) + '</span><span class="toc-resume">' + ligne(c.resume) + '</span></span>' +
+          '<span class="toc-meta">' + (c.duree ? '<span>' + o.echapper(c.duree) + '</span>' : '') +
+          (pr.total ? '<span>' + pr.faits + '/' + pr.total + ' ex.</span>' : '') + '</span>' +
+          '<span class="toc-etat">' + (pr.lu ? '<span class="etiquette succes">Lu</span>' : '') + '</span></a></li>';
+      }).join('') + '</ol>';
     });
     html += '<h2 class="partie-cours">À savoir refaire</h2>' + rendreIncontournables();
     main.innerHTML = html;
@@ -425,6 +427,8 @@
       main.querySelectorAll('.math-bloc').forEach(function (m) {
         const reste = m.scrollWidth - m.clientWidth - m.scrollLeft;
         m.classList.toggle('defile', reste > 2);
+        // une formule qui défile doit pouvoir défiler au clavier
+        if (m.scrollWidth - m.clientWidth > 2 && !m.hasAttribute('tabindex')) { m.tabIndex = 0; m.setAttribute('role', 'group'); m.setAttribute('aria-label', 'Formule, défile horizontalement'); }
       });
     };
     main.querySelectorAll('.math-bloc').forEach(function (m) { m.addEventListener('scroll', marquerDefilement, { passive: true }); });

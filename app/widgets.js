@@ -16,6 +16,8 @@
   function toile(conteneur, rapport) {
     const c = document.createElement('canvas');
     c.setAttribute('role', 'img');
+    const w = conteneur.closest && conteneur.closest('[data-widget]');
+    c.setAttribute('aria-label', 'Graphique de la simulation' + (w ? ' « ' + w.getAttribute('data-widget').replace(/-/g, ' ') + ' »' : '') + ' ; les valeurs sont données en texte à côté');
     conteneur.appendChild(c);
     c.rapport = rapport || 0.5;
     return c;

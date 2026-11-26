@@ -63,8 +63,7 @@
     let mondeChoisi = null;
     const choisi = params.n ? (function () { let r = null; camp.mondes.forEach(function (m) { m.niveaux.forEach(function (x) { if (x.id === params.n) { r = x; mondeChoisi = m; } }); }); return r; })() : null;
     const courant = camp.prochain;
-    let h = '<h1>Campagne</h1><p class="doux">Ta candidature, de l’envoi du CV à l’offre, en ' + camp.total + ' niveaux. Une étoile pour passer (60 %), deux à 80 %, trois sans faute. ' +
-      'Les questions changent à chaque partie et les ratées reviennent en priorité.</p>' +
+    let h = '<h1>Campagne</h1><p class="doux">Ta candidature en ' + camp.total + ' niveaux, du CV à l’offre. Une étoile à 60 %, deux à 80 %, trois sans faute.</p>' +
       '<div class="grille stats-ct"><div class="carte"><div class="chiffre">' + camp.etoiles + ' ★</div><div class="legende">sur ' + camp.etoilesMax + '</div></div>' +
       '<div class="carte"><div class="chiffre">' + camp.mondesFinis + ' / ' + camp.mondes.length + '</div><div class="legende">mondes terminés</div></div>' +
       '<div class="carte"><div class="chiffre">' + (courant ? courant.numero : '✓') + '</div><div class="legende">' + (courant ? 'prochain niveau : ' + o.echapper(courant.titre) : 'toute la campagne à 3 étoiles') + '</div></div></div>';

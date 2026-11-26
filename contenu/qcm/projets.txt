@@ -1,9 +1,9 @@
 # QCM des fiches sur les projets personnels (contenu/projets.txt).
 
 === proj-ia-et-synthetique
-+ Reconnaître les limites franchement, puis montrer ce que tu as vérifié toi-même (vérité connue, tests, choix de modélisation)
-  Le synthétique permet de mesurer l'erreur ; l'IA a écrit du code dont tu dois pouvoir défendre chaque ligne.
-- Minimiser l'usage de l'IA
++ Reconnaître les limites, puis montrer ce que tu as vérifié toi-même
+  Vérité connue, tests, choix de modélisation : le synthétique mesure l'erreur, et tu dois pouvoir défendre chaque ligne écrite avec l'IA.
+- Minimiser l'usage de l'IA pour ne pas inquiéter
   Mentir ou esquiver est le pire signal ; on l'apprend vite en creusant.
 - Dire que les données synthétiques valent des données réelles
   Elles valident le code, pas une performance de marché.
@@ -11,9 +11,9 @@
   Ce n'est pas une réponse : on attend ce que **tu** as compris et vérifié.
 
 === proj-vs-pitch
-+ Problème, données, méthode, résultat chiffré, limites et prochaine étape, en deux minutes
++ Problème, méthode, résultat chiffré, limites, en deux minutes
   Une trame claire, avec un chiffre et une limite assumée.
-- Commencer par le détail du code
+- Commencer par le détail du code et de l'architecture
   L'interlocuteur décroche avant de savoir à quoi il sert.
 - Lister toutes les difficultés rencontrées
   On attend d'abord le problème et le résultat.
@@ -21,24 +21,24 @@
   Le recul critique est ce qui distingue un bon pitch.
 
 === proj-vs-variance-totale
-+ $k$ retire l'effet du portage ; $w$ est additive dans le temps et rend l'arbitrage calendaire lisible
-  Le calendaire devient « $w$ croissante en $T$ à $k$ fixé ».
++ $k$ retire le portage ; $w$ rend l'arbitrage calendaire lisible
+  $w$ est additive dans le temps ; le calendaire devient « $w$ croissante en $T$ à $k$ fixé ».
 - Pour accélérer l'optimisation
   Ce n'est pas la raison principale : c'est la lecture des contraintes.
 - Parce que la volatilité implicite est linéaire en $k$
   Elle ne l'est pas ; SVI est justement non linéaire.
-- Par convention, sans raison
+- Par convention de marché, pour comparer les maturités
   Les deux choix ont une justification économique.
 
 === proj-vs-svi
-+ $w(k) = a + b[\rho(k - m) + \sqrt{(k - m)^2 + \sigma^2}]$ : niveau, pente des ailes, asymétrie, translation, courbure
-  Cinq paramètres, avec $b \ge 0$ et $|\rho| < 1$.
-- $w(k) = a + bk + ck^2$
++ $w(k) = a + b[\rho(k - m) + \sqrt{(k - m)^2 + \sigma^2}]$
+  Niveau, pente des ailes, asymétrie, translation, courbure ; $b \ge 0$ et $|\rho| < 1$.
+- $w(k) = a + b(k - m) + c(k - m)^2$
   Une parabole : ailes non linéaires, contraire aux bornes de Lee.
 - $\sigma(K) = a + b\ln K$
   Linéaire en log-strike : pas de courbure.
-- $w(k) = a\,e^{bk}$
-  Croissance exponentielle des ailes, interdite.
+- $w(k) = a + b[\rho(k - m) + (k - m)^2 + \sigma^2]$
+  Sans la racine, les ailes deviennent paraboliques : contraire aux bornes de Lee.
 
 === proj-vs-ailes
 + 0,16, bien sous la borne de Lee (2)
@@ -51,9 +51,9 @@
   La borne vaut 2 pour la variance totale.
 
 === proj-vs-papillon
-+ Un butterfly a un payoff positif, donc un prix positif : $C$ convexe en $K$, densité positive
++ $C$ convexe en $K$ : un butterfly a un prix positif
   On vérifie la fonction $g(k)$ de Gatheral-Jacquier, positive.
-- C'est un arbitrage entre maturités
+- Un arbitrage entre deux maturités de même strike
   C'est le calendaire.
 - Il suffit que la volatilité implicite soit croissante
   La condition porte sur la convexité des prix.
@@ -61,9 +61,9 @@
   La parité ne dit rien de la convexité en strike.
 
 === proj-vs-calendaire
-+ À $k$ fixé, la variance totale doit croître avec $T$ ; contrôler deux tranches ajustées séparément ne garantit rien entre les points
-  Il faut une contrainte globale ou un contrôle sur une grille fine.
-- La volatilité implicite doit croître avec $T$
++ À $k$ fixé, la variance totale doit croître avec $T$, partout
+  Contrôler deux tranches ajustées séparément ne garantit rien entre les points : contrainte globale ou grille fine.
+- La volatilité implicite doit croître avec $T$, à strike fixé
   C'est la **variance totale** qui doit croître, pas la volatilité.
 - Le prix des calls doit baisser avec la maturité
   C'est l'inverse : il augmente.
@@ -71,17 +71,17 @@
   Il concerne toutes les options.
 
 === proj-vs-minimum-local
-+ La fonction d'erreur n'est pas convexe : un optimiseur local s'arrête au minimum le plus proche
++ L'erreur n'est pas convexe : minima locaux
   Plusieurs points de départ, puis on garde le meilleur ajustement sans arbitrage.
-- Pour accélérer le calcul
+- Pour accélérer le calcul en parallèle
   Plusieurs départs coûtent plus de temps.
-- Parce que SVI a une solution analytique
+- Parce que SVI a une solution analytique à vérifier
   Elle n'en a pas en général.
 - Pour moyenner les paramètres obtenus
   On garde le meilleur, on ne moyenne pas.
 
 === proj-vs-otm
-+ Leur valeur temps est grande devant le bruit de prix : la volatilité implicite est mieux déterminée
++ Leur implicite est mieux déterminée : valeur temps grande devant le bruit
   Une option très dans la monnaie a un vega faible et une implicite instable.
 - Elles sont plus liquides partout
   Pas toujours ; la raison est la sensibilité au bruit.
@@ -91,38 +91,38 @@
   Elle s'applique toujours.
 
 === proj-vs-rmse
-+ Ça valide le code contre une vérité connue, pas une performance de marché
++ Ça valide le code, pas une performance de marché
   Inférieure au bruit injecté : le modèle n'a pas sur-ajusté le bruit.
 - C'est excellent, prêt pour la production
   Sur de vraies cotations, la vérité est inconnue.
 - C'est mauvais, il faudrait 0
   Avec du bruit, une erreur nulle signalerait un sur-ajustement.
-- Ça ne veut rien dire
+- Ça ne veut rien dire sur des données synthétiques
   C'est une mesure utile, à condition de la situer.
 
 === proj-vs-heston
-+ Fonction caractéristique fermée et inversion de Gil-Pelaez ; le « trap » est une discontinuité du logarithme complexe, évitée par une autre forme
-  Albrecher et al. donnent une formulation continue.
-- Par Monte-Carlo uniquement
++ Fonction caractéristique et Gil-Pelaez ; trap : un log complexe discontinu
+  Évitée par une autre forme de la fonction caractéristique (Albrecher et al.).
+- Par Monte-Carlo uniquement, faute de formule
   Possible mais lent et bruité ; le semi-analytique est standard.
 - Par Black-Scholes avec la volatilité moyenne
   Ce serait une approximation grossière.
-- Le trap est une condition de Feller violée
+- Par Gil-Pelaez ; le trap est une condition de Feller violée
   Feller concerne la variance qui touche 0, pas l'intégration numérique.
 
 === proj-vs-donnees-reelles
-+ Utiliser bid et ask, pondérer par vega, déduire le forward de la parité call-put, filtrer les cotations douteuses
-  Les vraies données sont bruitées et incomplètes.
-- Rien, le code marche déjà
++ Bid et ask, pondération par vega, forward par parité, filtrage
+  Les vraies données sont bruitées et incomplètes : forward déduit de la parité call-put, cotations douteuses filtrées.
+- Rien : le code marche déjà sur le synthétique
   Données réelles : spreads, forward inconnu, cotations aberrantes.
 - Ajouter plus de paramètres à SVI
   Plus de paramètres, c'est plus de sur-ajustement.
-- Utiliser seulement les options dans la monnaie
+- Utiliser seulement les options dans la monnaie, plus liquides
   Leur volatilité implicite est la moins fiable.
 
 === proj-sa-pitch
-+ Problème, données synthétiques, cointégration, walk-forward, Sharpe hors échantillon, limites (coûts, synthétique)
-  Le recul sur le synthétique et les coûts est ce qui convainc.
++ Problème, méthode, Sharpe hors échantillon et limites assumées
+  Données synthétiques, cointégration, walk-forward ; le recul sur le synthétique et les coûts est ce qui convainc.
 - Annoncer le Sharpe de 2,9 comme une performance réelle
   Il est obtenu sur un marché construit pour l'effet.
 - Décrire seulement le test de Dickey-Fuller
@@ -131,9 +131,9 @@
   Ce n'est pas le sujet.
 
 === proj-sa-coint-corr
-+ La corrélation porte sur les rendements à court terme ; la cointégration sur un écart de prix stationnaire qui revient
-  Deux prix très corrélés peuvent diverger indéfiniment.
-- C'est la même chose
++ Corrélation : rendements ; cointégration : écart qui revient
+  L'écart est stationnaire ; deux prix très corrélés peuvent diverger indéfiniment.
+- C'est la même chose, vue à deux horizons
   Ni l'une n'implique l'autre.
 - La cointégration est une corrélation de 1
   Elle porte sur les niveaux, pas sur la corrélation des rendements.
@@ -141,8 +141,8 @@
   Sans cointégration, l'écart n'a aucune raison de revenir.
 
 === proj-sa-engle-granger
-+ Régression des log-prix, puis test de Dickey-Fuller sur les résidus avec des valeurs critiques adaptées
-  Les résidus estimés demandent des seuils plus sévères que le Dickey-Fuller standard.
++ Régression des log-prix, puis Dickey-Fuller sur les résidus
+  Avec des valeurs critiques adaptées : les résidus estimés demandent des seuils plus sévères.
 - Test de Dickey-Fuller sur chaque prix séparément
   Il teste la racine unitaire de chaque série, pas leur relation.
 - Corrélation des rendements supérieure à 0,8
@@ -161,19 +161,19 @@
   Seuls 5 % passent par hasard.
 
 === proj-sa-walk-forward
-+ Estimer sur une fenêtre passée, trader la suivante avec les paramètres figés, avancer
++ Estimer sur le passé, trader la fenêtre suivante, avancer
   Aucune information future n'entre dans les décisions.
 - Estimer sur toute la période puis trader toute la période
   Biais d'anticipation : on utilise le futur.
-- Mélanger aléatoirement les jours
+- Mélanger aléatoirement les jours avant de découper
   Détruit la structure temporelle et fait fuiter le futur.
 - Choisir les paires sur la période de test
   C'est exactement la fuite à éviter.
 
 === proj-sa-sharpe-haut
-+ Il vient d'un marché synthétique où l'effet existe par construction
++ L'effet existe par construction dans le synthétique
   Il montre que le pipeline fonctionne, pas qu'un tel effet existe sur le marché.
-- Parce qu'il faut plus de capital
+- Parce qu'il faut plus de capital pour l'atteindre
   Ce n'est pas le problème.
 - Parce que le Sharpe est trop faible
   2,9 est très élevé, justement suspect.
@@ -181,9 +181,9 @@
   La vraie raison est l'origine synthétique.
 
 === proj-sa-echec-reel
-+ Rupture de la relation, $\beta$ instable, coûts, capacité, faux positifs
-  Chaque point a une parade à proposer.
-- Rien, la méthode est robuste
++ Rupture de la relation, $\beta$ instable, coûts
+  Aussi capacité et faux positifs : chaque point a une parade à proposer.
+- Rien : la méthode est robuste hors échantillon
   Réponse naïve.
 - Seulement des données manquantes
   C'est un détail technique.
@@ -191,27 +191,27 @@
   La rupture de cointégration est le premier risque.
 
 === proj-sa-stop
-+ Au-delà, la cointégration est probablement cassée : on coupe une position qui peut ne jamais revenir
-  Le seuil 4 est arbitraire et doit être testé.
++ Au-delà, la relation est sans doute cassée : on coupe
+  Une position qui peut ne jamais revenir ; le seuil 4 est arbitraire et doit être testé.
 - Pour respecter une règle réglementaire
   Aucune règle de ce type.
-- Parce que le spread revient toujours avant 4
+- Parce que le spread revient toujours avant 4 écarts-types
   S'il revenait toujours, le stop serait inutile.
 - Sans stop, on gagnerait toujours plus
   Une seule relation cassée peut tout effacer.
 
 === proj-sa-beta-dynamique
-+ Fenêtre glissante, ou filtre de Kalman avec $\beta_t$ en marche aléatoire
-  Le filtre de Kalman pondère l'information de façon optimale.
-- Régression sur toute la période
++ Fenêtre glissante, ou filtre de Kalman
+  $\beta_t$ en marche aléatoire ; Kalman pondère l'information de façon optimale.
+- Une régression sur toute la période
   Donne un $\beta$ constant, avec fuite du futur.
 - Prendre $\beta = 1$
   Ignore la relation réelle.
-- Moyenne des prix
+- Le rapport des prix moyens
   Sans rapport.
 
 === proj-sa-couts
-+ Le Sharpe chute fortement avec les coûts : la rentabilité dépend de l'exécution
++ Le Sharpe chute : tout dépend de l'exécution
   3,15 sans coûts, 0,31 à 50 pb.
 - Les coûts ne changent rien
   Une stratégie à fort turnover y est très sensible.
@@ -221,13 +221,13 @@
   Impossible.
 
 === proj-mm-pitch
-+ Gagner le spread en maîtrisant l'inventaire (Avellaneda-Stoikov), simulateur, comparaison à un teneur naïf, limites
-  Moins de PnL moyen mais deux fois moins de risque.
++ Gagner le spread en maîtrisant l'inventaire
+  Avellaneda-Stoikov sur simulateur, avec les limites : moins de PnL moyen mais deux fois moins de risque.
 - Montrer que la stratégie gagne toujours
   Ce n'est ni vrai ni l'objectif.
 - Détailler seulement l'équation HJB
   Trop technique pour un pitch.
-- Comparer à un marché réel
+- Comparer à un marché réel de cryptomonnaies
   Le simulateur est synthétique ; il faut le dire.
 
 === proj-mm-reservation
@@ -251,9 +251,9 @@
   On a pris $\sigma^2$ seul.
 
 === proj-mm-intensite
-+ Taux d'exécution d'un ordre à distance $\delta$ ; on calibre A et $k$ en régressant le log des exécutions sur la distance
-  $\ln \lambda = \ln A - k\delta$ : une régression linéaire.
-- La probabilité que le prix monte
++ Le taux d'exécution à distance $\delta$, calibré par régression
+  $\ln \lambda = \ln A - k\delta$ : on régresse le log des exécutions sur la distance.
+- La probabilité que le prix monte de $\delta$ avant l'exécution
   Sans rapport.
 - Le spread du marché
   C'est une conséquence, pas l'intensité.
@@ -261,9 +261,9 @@
   On peut les estimer sur les données d'exécution.
 
 === proj-mm-moins-de-pnl
-+ Elle échange un peu de PnL moyen contre beaucoup moins de risque et d'inventaire
++ Un peu de PnL contre beaucoup moins de risque
   Ratio rendement sur risque meilleur.
-- Elle n'est pas meilleure
+- Elle n'est pas meilleure, seulement plus prudente
   Elle l'est en rendement ajusté du risque.
 - Parce qu'elle trade plus souvent
   Elle refuse au contraire certains échanges.
@@ -273,7 +273,7 @@
 === proj-mm-manque
 + La sélection adverse, la file d'attente, l'impact de marché
   La limite principale : être exécuté quand le prix va contre soi.
-- Rien d'important
+- Rien d'important pour un premier modèle de ce type
   Réponse naïve.
 - Plus de décimales dans les prix
   Détail.
@@ -281,9 +281,9 @@
   Sans rapport.
 
 === proj-mm-taux-execution
-+ Le simulateur discret autorise au plus une exécution par côté et par pas : probabilité $1 - e^{-\lambda dt}$
-  $\lambda T$ est la moyenne en temps continu, qui compte plusieurs exécutions possibles.
-- Parce que $2\lambda T$ est faux en temps continu
++ Une exécution au plus par côté et par pas : $1 - e^{-\lambda dt}$
+  Le simulateur est discret ; $\lambda T$ est la moyenne en temps continu, qui compte plusieurs exécutions possibles.
+- Parce que $2\lambda T$ est faux, même en temps continu
   Il est juste en continu ; c'est le simulateur qui est discret.
 - Par erreur de code
   C'est un choix cohérent avec la discrétisation.
@@ -291,11 +291,11 @@
   Le test vérifie la cohérence, pas un objectif.
 
 === proj-mm-hjb
-+ D'un contrôle stochastique : maximiser une utilité exponentielle, équation HJB, ansatz et approximations
-  L'utilité CARA permet de séparer la richesse.
++ D'un contrôle stochastique : utilité exponentielle, HJB
+  Puis un ansatz et des approximations ; l'utilité CARA permet de séparer la richesse.
 - D'une simple moyenne des prix
   Sans optimisation.
-- De Black-Scholes
+- De Black-Scholes appliqué à l'inventaire
   Un autre cadre.
 - D'une régression sur des données réelles
   C'est un modèle théorique.

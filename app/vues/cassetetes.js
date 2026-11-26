@@ -64,9 +64,7 @@
     const aRevoir = toutes.filter(function (f) { return etatDe(f) === 'revoir'; }).length;
     const nVariantes = toutes.filter(function (f) { return f.parent; }).length;
 
-    main.innerHTML = '<h1>Casse-têtes</h1><p class="doux">Les énigmes posées en entretien quant, recensées sur une vingtaine de sources et ' +
-      'dédoublonnées. Les variantes d’un problème sont des énigmes à part entière, rangées juste sous lui. Cherche à voix haute avant de regarder l’indice ; ' +
-      'la note que tu te donnes décide quand l’énigme reviendra.</p>' +
+    main.innerHTML = '<h1>Casse-têtes</h1><p class="doux">Les énigmes des entretiens quant, avec leurs variantes. Cherche à voix haute avant l’indice ; ta note décide quand l’énigme revient.</p>' +
       '<div class="grille stats-ct">' +
       '<div class="carte"><div class="chiffre">' + toutes.length + '</div><div class="legende">énigmes, dont ' + nVariantes + ' variantes d’un problème classique</div></div>' +
       '<div class="carte"><div class="chiffre" data-ct-vues>' + vues + '</div><div class="legende">déjà vues · ' + (toutes.length - vues) + ' jamais vues</div>' +

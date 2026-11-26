@@ -15,13 +15,11 @@
     arreterMinuteur();
     partie = null;
     const etat = A.etat;
-    main.appendChild(A.el('<div><h1>Calcul mental</h1><p class="doux">Les teneurs de marché et beaucoup de desks de trading font passer ' +
-      'un test de calcul chronométré, souvent dès le début du processus. Le seul moyen de progresser : un peu chaque jour. ' +
-      'Tape la réponse puis <kbd>Entrée</kbd> ; une erreur ne bloque pas, la question suivante arrive tout de suite.</p></div>'));
+    main.appendChild(A.el('<div><h1>Calcul mental</h1><p class="doux">Le test chronométré des market makers, souvent posé dès le premier tour. Tape la réponse puis <kbd>Entrée</kbd> : une erreur ne bloque pas.</p></div>'));
     const formats = C.FORMATS.map(function (f) {
       const sessions = etat.calcul.filter(function (s) { return s.format === f.id; });
       const record = sessions.reduce(function (m, s) { return Math.max(m, s.justes); }, 0);
-      return '<div class="carte"><h3 style="margin-top:0">' + o.echapper(f.nom) + '</h3><p class="petit doux">' + o.echapper(f.detail) + '</p>' +
+      return '<div class="carte"><h2 class="titre-carte">' + o.echapper(f.nom) + '</h2><p class="petit doux">' + o.echapper(f.detail) + '</p>' +
         (sessions.length ? '<p class="petit">Record : <b>' + record + '</b> bonnes réponses · ' + sessions.length + ' session' + (sessions.length > 1 ? 's' : '') + '</p>' : '') +
         '<button class="principal" data-format="' + f.id + '">Commencer</button></div>';
     }).join('');

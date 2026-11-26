@@ -2,24 +2,24 @@
 
 === stats-p-valeur
 ? Une p-valeur de 0,03 signifie :
-+ Si $H_0$ était vraie, on observerait un résultat au moins aussi extrême dans 3 % des cas
++ Sous $H_0$, un tel résultat ou plus extrême : 3 fois sur 100
   C'est une probabilité calculée sous l'hypothèse nulle.
 - Il y a 3 % de chances que $H_0$ soit vraie
   Confusion classique : la p-valeur n'est pas $\mathbb{P}(H_0 \mid \text{données})$.
-- L'effet est petit
+- L'effet mesuré est petit, de l'ordre de 3 %
   La p-valeur ne mesure pas la taille de l'effet.
 - Il y a 97 % de chances que l'effet soit réel
   Même confusion, retournée.
 
 === stats-erreurs
 ? En trading, retenir un signal qui n'a en réalité aucun pouvoir prédictif, c'est :
-+ Une erreur de première espèce (faux positif)
-  On rejette à tort $H_0$ « pas d'effet ».
++ Une erreur de première espèce
+  Un faux positif : on rejette à tort $H_0$ « pas d'effet ».
 - Une erreur de seconde espèce
   C'est rater un vrai signal.
 - Un manque de puissance
   La puissance concerne la détection des vrais effets.
-- Un biais de survie
+- Un biais de survie dans les données
   C'est un autre biais, lié aux données disparues.
 
 === stats-sharpe-annualise
@@ -55,28 +55,28 @@
 === stats-bonferroni
 + Environ $3{,}2 \times 10^{-5}$
   $0{,}05/1\,540$.
-- 0,05
+- Environ 0,05
   Sans correction.
 - $0{,}05 \times 1\,540$
   On a multiplié au lieu de diviser.
-- 0,01
+- Environ 0,01
   Correction insuffisante pour 1 540 tests.
 
 === stats-biais-backtest
-+ Regard vers le futur, biais de survie, sur-ajustement, coûts ignorés
-  Chacun gonfle la performance d'un backtest.
-- Trop peu de paramètres
++ Regard vers le futur, biais de survie, sur-ajustement
+  Plus les coûts ignorés : chacun gonfle la performance d'un backtest.
+- Trop peu de paramètres, donc un modèle trop rigide
   Le risque est l'excès de paramètres.
-- Utiliser des données propres
+- Utiliser des données nettoyées et ajustées des dividendes
   C'est souhaitable.
 - Tester sur un autre marché
   C'est une bonne pratique.
 
 === stats-ols-hypotheses
 ? Quelle violation des hypothèses des MCO **biaise** les coefficients (et pas seulement leurs écarts-types) ?
-+ Une variable omise corrélée aux régresseurs (non-exogénéité)
++ Une variable omise corrélée aux régresseurs
   $\mathbb{E}[\varepsilon \mid X] \ne 0$ biaise $\hat\beta$.
-- L'hétéroscédasticité
+- L'hétéroscédasticité des résidus, fréquente en finance
   Les coefficients restent sans biais ; seuls les écarts-types sont faux.
 - L'autocorrélation des résidus
   Même effet : écarts-types faux, coefficients sans biais.
@@ -94,39 +94,39 @@
   C'est la corrélation.
 
 === stats-donnees-doublees
-+ Coefficients inchangés ; écarts-types divisés par environ $\sqrt 2$ ; t-stats multipliées par $\sqrt 2$
-  Le logiciel croit avoir deux fois plus d'information.
-- Tout reste identique
++ Coefficients inchangés, t-stats multipliées par $\sqrt 2$
+  Les écarts-types sont divisés par environ $\sqrt 2$ : le logiciel croit avoir deux fois plus d'information.
+- Tout reste identique, coefficients et t-stats
   La taille d'échantillon apparente double.
 - Les coefficients doublent
   $X^TX$ et $X^Ty$ doublent ensemble.
-- Les t-stats sont divisées par 2
+- Coefficients inchangés, t-stats divisées par 2
   Elles augmentent, à tort.
 
 === stats-r2
-+ Part de variance expliquée ; 1 % peut être très rentable sur des rendements
++ Part de variance expliquée ; 1 % peut être rentable
   Un faible pouvoir prédictif appliqué souvent fait un bon Sharpe.
-- 1 % est toujours inutile
+- Part de variance expliquée ; 1 % est inutile
   En finance, les signaux sont faibles mais exploitables.
-- Le $R^2$ mesure la causalité
+- La force du lien de cause à effet
   Il ne dit rien de la causalité.
 - Un $R^2$ élevé garantit un bon modèle
   Il peut venir d'un sur-ajustement ou d'une régression fallacieuse.
 
 === stats-regression-fallacieuse
-+ Pas forcément : deux marches aléatoires indépendantes donnent souvent ce résultat
++ Pas forcément : deux marches aléatoires indépendantes le font souvent
   Il faut travailler en rendements ou tester la cointégration.
-- Oui, la relation est très forte
+- Oui, la relation est très forte et significative
   Les tests usuels sont invalides sur des séries non stationnaires.
-- Oui, si la t-stat dépasse 2
+- Oui, si la t-stat de la pente dépasse 2
   La t-stat n'a pas sa loi habituelle ici.
 - Non, un $R^2$ de 0,9 est toujours faux
   Il peut être vrai en cas de cointégration.
 
 === stats-stationnarite
-+ Moyenne et autocovariances stables ; les prix non, les rendements à peu près
-  Les prix ont une racine unitaire.
-- Les prix sont stationnaires
++ Loi stable dans le temps : rendements à peu près, prix non
+  Moyenne et autocovariances stables ; les prix ont une racine unitaire.
+- Loi stable dans le temps : prix oui, rendements non
   Ils dérivent sans revenir.
 - Les rendements ne sont jamais stationnaires
   Approximativement oui, malgré la volatilité variable.
@@ -134,11 +134,11 @@
   Une série stationnaire varie, mais sa loi est stable.
 
 === stats-adf
-+ Test d'une racine unitaire ; sur des résidus estimés, la régression a déjà minimisé leur variance, d'où des seuils plus sévères
-  Valeurs critiques de MacKinnon pour Engle-Granger.
++ Racine unitaire ; sur des résidus, seuils plus sévères
+  La régression a déjà minimisé leur variance ; valeurs critiques de MacKinnon pour Engle-Granger.
 - Les valeurs critiques sont les mêmes
   L'estimation préalable rend les résidus « trop » stationnaires.
-- C'est un test de normalité
+- Un test de normalité des résidus
   C'est un test de racine unitaire.
 - On teste la corrélation des résidus
   On teste $\gamma = 0$ dans la régression de $\Delta x_t$.
@@ -154,8 +154,8 @@
   Pas l'estimateur du maximum de vraisemblance.
 
 === stats-variance-n-moins-un
-+ La moyenne empirique est ajustée aux données : les écarts sont trop petits en moyenne
-  Diviser par $n - 1$ corrige ce biais.
++ Les écarts à la moyenne empirique sont trop petits
+  La moyenne empirique est ajustée aux données ; diviser par $n - 1$ corrige ce biais.
 - Pour avoir une valeur plus grande, par prudence
   C'est une correction exacte du biais, pas de la prudence.
 - Parce que la première observation ne compte pas
@@ -194,9 +194,9 @@
   C'est le résultat avec une corrélation nulle.
 
 === stats-heteroscedasticite
-+ Variance des erreurs non constante ; tests de White ou Breusch-Pagan ; écarts-types robustes (HAC pour l'autocorrélation)
-  Coefficients sans biais, inférence corrigée.
-- Elle biaise les coefficients
++ Variance des erreurs non constante ; écarts-types robustes
+  Tests de White ou Breusch-Pagan ; HAC si de l'autocorrélation s'ajoute. Coefficients sans biais, inférence corrigée.
+- Variance des erreurs non constante ; elle biaise les coefficients
   Elle fausse seulement les écarts-types.
 - On la corrige en supprimant des observations
   On corrige l'inférence, pas les données.
@@ -214,9 +214,9 @@
   On a soustrait 0,25 au lieu de diviser.
 
 === stats-pca-taux
-+ Niveau, pente, courbure expliquent presque toute la variance ; sert à couvrir et réduire le risque
-  Trois facteurs suffisent souvent à plus de 95 %.
-- Un facteur par maturité
++ Niveau, pente, courbure : presque toute la variance
+  Plus de 95 % en général ; sert à couvrir et à réduire le risque.
+- Un facteur par maturité, indépendants entre eux
   Les taux sont très corrélés : peu de facteurs suffisent.
 - Le premier facteur est la courbure
   C'est le niveau.
@@ -224,18 +224,18 @@
   Elle décrit la covariance, elle ne prévoit pas.
 
 === stats-colinearite
-+ Coefficients instables et peu significatifs ; régulariser (ridge), combiner ou retirer une variable
-  Les prédictions peuvent rester bonnes.
-- Les coefficients deviennent biaisés
++ Coefficients instables ; régulariser ou retirer une variable
+  Ridge, combinaison ou retrait ; les prédictions peuvent rester bonnes.
+- Les coefficients deviennent biaisés vers zéro
   Ils restent sans biais mais très variables.
-- Le $R^2$ chute
+- Le $R^2$ chute fortement
   Le $R^2$ global n'est pas affecté.
 - Rien, les MCO gèrent cela
   La variance des estimateurs explose.
 
 === stats-correlation-rendements
-+ La corrélation dépend de l'horizon (dynamiques de long terme, décalages, bruit de microstructure)
-  Un même couple peut être corrélé à court terme et peu à long terme.
++ La corrélation dépend de l'horizon des rendements
+  Dynamiques de long terme, décalages, bruit de microstructure : un couple peut être corrélé à court terme et peu à long terme.
 - C'est une erreur de calcul
   C'est un phénomène réel.
 - La corrélation mensuelle est toujours plus forte
@@ -244,9 +244,9 @@
   Seulement pour des rendements i.i.d.
 
 === stats-bootstrap
-+ Rééchantillonner les données ; par blocs pour garder la dépendance temporelle
++ Rééchantillonner les données, par blocs
   Un bootstrap simple casserait l'autocorrélation.
-- Simuler des données gaussiennes
+- Simuler des données gaussiennes de même variance
   C'est un bootstrap paramétrique, pas celui du projet.
 - Le bootstrap enlève tout biais
   Il estime la dispersion, pas le biais de sélection.
@@ -254,11 +254,11 @@
   Détruit la structure temporelle.
 
 === stats-sharpe-deflate
-+ Correction du Sharpe du meilleur parmi $N$ essais, gonflé par la sélection
++ Le Sharpe du meilleur de $N$ essais, corrigé de la sélection
   Même sans effet, le maximum de $N$ Sharpe estimés est positif.
-- Sharpe après inflation
+- Le Sharpe corrigé de l'inflation
   Sans rapport avec l'inflation.
-- Sharpe après coûts
+- Le Sharpe après coûts de transaction et frais
   C'est un autre ajustement.
-- Sharpe annualisé
+- Le Sharpe ramené à une année
   L'annualisation n'est pas la déflation.

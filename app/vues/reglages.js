@@ -25,7 +25,7 @@
       '<label class="case"><input type="checkbox" id="r-sons"' + (r.sons !== false ? ' checked' : '') + '> Sons du mode carrière (discrets)</label>' +
       '<label for="r-theme">Apparence</label><select id="r-theme"><option value="auto">Comme le système</option><option value="light">Claire</option><option value="dark">Sombre</option></select></form>' +
       '<div class="carte"><h2 style="margin-top:0">Mon profil pour l’entretien</h2><p class="petit doux">Utilisé dans les consignes de l’entretien oral avec Claude. ' +
-      'Complète les parties entre crochets ; n’écris que des faits vrais.</p><textarea id="r-candidat" style="min-height:12em">' +
+      'Complète les parties entre crochets ; n’écris que des faits vrais.</p><textarea id="r-candidat" aria-label="Ma présentation de candidat" style="min-height:12em">' +
       o.echapper(r.profilCandidat || P.entretien.PROFIL_CANDIDAT_DEFAUT) + '</textarea></div>' +
       (A.restreint ? '' : '<div class="carte" data-carte-synchro></div>') +
       '<div class="carte"><h2 style="margin-top:0">Sauvegarde</h2><p>Ta progression est enregistrée <b>dans ce navigateur</b>, sur cet appareil. ' +

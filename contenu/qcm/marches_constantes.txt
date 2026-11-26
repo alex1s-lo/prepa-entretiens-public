@@ -41,43 +41,43 @@
   Sous-estimation de la valeur de l'option d'arrêt.
 
 === mm-faire-un-marche
-+ Estimer à voix haute, coter un bid et un ask autour, puis ajuster en fonction des échanges
-  Si on te prend ton ask, ton estimation monte.
-- Donner un seul nombre
++ Estimer à voix haute, coter bid et ask autour, puis ajuster
+  Ajuster en fonction des échanges : si on te prend ton ask, ton estimation monte.
+- Donner un seul nombre, sa meilleure estimation
   Un marché, c'est deux prix.
 - Refuser faute de connaître la réponse
   On attend une estimation raisonnée.
-- Coter très large pour ne jamais perdre
+- Coter très large pour ne jamais perdre d'argent sur l'échange
   Un marché trop large n'est pas utile ; on évalue la prise de risque.
 
 === mm-marche-somme-des
-+ Autour de 7 au départ (par exemple 6,5–7,5), puis autour de 9,5 une fois le 6 connu
-  $6 + 3{,}5$, et l'écart se resserre car il reste un seul dé.
++ Autour de 7, puis autour de 9,5 une fois le 6 connu
+  Par exemple 6,5–7,5 au départ ; puis $6 + 3{,}5$, et l'écart se resserre car il reste un seul dé.
 - Garder le même marché
   L'information du premier dé change tout.
-- Coter 12 après le 6
+- Autour de 7, puis autour de 12 une fois le 6 connu
   Le second dé vaut 3,5 en moyenne.
-- Élargir le marché après le 6
+- Autour de 7, puis plus large après le 6
   L'incertitude diminue : on peut le resserrer.
 
 === mm-selection-adverse
-+ Les contreparties informées traitent quand le prix est faux ; on élargit le spread, on réduit la taille, on ajuste vite
-  Glosten-Milgrom : le spread rémunère ce risque.
++ Les informés traitent quand ton prix est faux
+  On réduit aussi la taille et on ajuste vite ; Glosten-Milgrom : le spread rémunère ce risque.
 - Le risque que le client ne paie pas
   C'est le risque de contrepartie.
 - Le coût de l'inventaire seulement
   C'est une autre composante du spread.
-- On s'en protège en cotant plus serré
-  On s'expose encore plus.
+- Le risque d'être informé trop tard : on cote plus serré
+  Coter serré expose encore plus aux contreparties informées.
 
 === mm-carnet-ordres
-+ Ordres limites en attente des deux côtés ; un ordre au marché consomme le meilleur prix ; priorité prix puis temps
-  Le spread est l'écart entre meilleur bid et meilleur ask.
++ Les ordres limites en attente, servis par priorité prix puis temps
+  Un ordre au marché consomme le meilleur prix ; le spread est l'écart entre meilleur bid et meilleur ask.
 - Un registre des transactions passées
   C'est l'historique, pas le carnet.
 - Les ordres au marché attendent dans le carnet
   Ils s'exécutent immédiatement.
-- Priorité à la taille d'abord
+- Les ordres limites en attente, servis par taille d'abord
   En général prix puis temps.
 
 === mm-composantes-spread
@@ -85,35 +85,35 @@
   Plus large sur les actifs volatils, illiquides ou à information asymétrique.
 - Uniquement la commission de la bourse
   Une petite partie seulement.
-- La volatilité seule
+- La volatilité seule de l'actif
   Elle joue via l'inventaire et l'information.
-- La marge du régulateur
+- La marge imposée par le régulateur des marchés et la bourse
   Sans rapport.
 
 === mm-impact-marche
-+ Impact $\approx \sigma_{\mathrm{jour}}\sqrt{Q/V}$ ; exécuter progressivement (TWAP, VWAP)
-  Loi en racine carrée, empirique.
++ Impact en $\sigma\sqrt{Q/V}$ : exécuter progressivement
+  Loi en racine carrée, empirique ; exécution TWAP ou VWAP.
 - Impact proportionnel à $Q$
   L'impact est concave.
 - Aucun impact pour 5 % du volume
   Il est significatif.
-- Tout acheter à l'ouverture
+- Tout acheter à l'ouverture, quand la liquidité est forte
   Maximise l'impact.
 
 === mm-arbitrage-etf
-+ Créations et rachats contre le panier : si l'ETF cote au-dessus, on crée et vend ; en dessous, on rachète et vend le panier
-  Maintient l'ETF proche de sa valeur liquidative.
++ Créations et rachats de parts contre le panier sous-jacent
+  ETF au-dessus : on crée et on vend ; en dessous : on rachète et on vend le panier. L'ETF reste proche de sa valeur liquidative.
 - Il n'y a pas de lien entre l'ETF et son panier
   Le mécanisme de création les relie.
 - On arbitre en achetant l'ETF à terme
   Le mécanisme passe par les participants autorisés.
-- Seuls les particuliers peuvent créer des parts
+- Seuls les particuliers peuvent créer des parts, en direct
   Ce sont les participants autorisés.
 
 === mm-pnl-trader-options
-+ Delta (nul si couvert) + $\frac12\Gamma(\delta S)^2$ + $\Theta\,\delta t$ + vega $\times \delta\sigma$ + inexpliqué
-  Le PnL explain vérifie les grecques et les modèles.
-- Seulement le delta
++ $\frac12\Gamma(\delta S)^2$ + $\Theta\,\delta t$ + vega $\times \delta\sigma$ + reste
+  Plus le delta, nul si couvert ; le reste inexpliqué signale une erreur de modèle ou de données.
+- Seulement le delta, multiplié par la variation du sous-jacent
   Le livre est couvert en delta.
 - Seulement le theta
   Il manque gamma et vega.
@@ -121,9 +121,9 @@
   On attend l'attribution par risque.
 
 === mm-vix
-+ Volatilité implicite à 30 jours du S&P 500, tirée d'un panier d'options ; on l'échange via futures et options sur VIX
-  L'indice lui-même ne s'achète pas.
-- Une volatilité historique
++ Volatilité implicite à 30 jours du S&P 500
+  Tirée d'un panier d'options ; l'indice ne s'achète pas, on passe par les futures et options sur VIX.
+- La volatilité historique à 30 jours du S&P 500, achetable
   Elle est implicite.
 - On peut acheter l'indice directement
   Pas de réplication simple de l'indice.
@@ -131,9 +131,9 @@
   C'est un panier d'options hors de la monnaie.
 
 === mm-carry
-+ Gagner ce que rapporte une position si les prix ne bougent pas ; risque de retournement brutal
-  Exemples : carry de change, pente de courbe.
-- Une stratégie sans risque
++ Gagner ce que rapporte une position si rien ne bouge
+  Exemples : carry de change, pente de courbe ; risque de retournement brutal.
+- Une stratégie sans risque, si l'on reste diversifié
   « Monter en ascenseur, descendre par la fenêtre ».
 - Acheter les actifs qui ont le plus monté
   C'est du momentum.
@@ -141,7 +141,7 @@
   Elle porte un risque.
 
 === mm-pari-favorable
-+ Ça dépend de ma richesse : l'espérance est positive mais perdre 1 million peut être ruineux
++ Ça dépend de ma richesse : perdre 1 million peut ruiner
   Utilité concave et Kelly.
 - Oui, toujours : l'espérance est positive
   L'espérance seule ignore le risque.
@@ -151,9 +151,9 @@
   Bonne idée, mais la question est le pari unique.
 
 === mm-sujet-de-marche
-+ Préparer un sujet précis, chiffré, avec un avis argumenté et les risques
++ Un sujet précis, chiffré, avec un avis argumenté
   Montrer qu'on suit les marchés et qu'on sait raisonner.
-- Résumer l'actualité générale
+- Résumer l'actualité générale des marchés de la semaine
   Trop vague.
 - Dire qu'on ne suit pas les marchés
   Signal négatif.
@@ -161,11 +161,11 @@
   On attend le raisonnement.
 
 === mm-short-gamma
-+ Il doit vendre quand l'indice baisse et acheter quand il monte : cela amplifie les mouvements
++ Il vend quand ça baisse, achète quand ça monte : il amplifie
   Couverture procyclique.
-- Il gagne quand le marché bouge fortement
+- Il gagne quand le marché bouge fortement, dans un sens ou l'autre
   C'est l'inverse : il perd.
-- Il stabilise le marché
+- Il stabilise le marché en revendant à la hausse
   C'est le desk long gamma qui stabilise.
 - Rien, il est couvert en delta
   La couverture doit être refaite en suivant le marché.

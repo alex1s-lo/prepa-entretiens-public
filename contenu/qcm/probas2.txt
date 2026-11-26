@@ -1,14 +1,14 @@
 # QCM des fiches de probabilités (contenu/probas2.txt).
 
 === proba-faces-distinctes
-+ $6(1 - (5/6)^6) \approx 3{,}99$
-  Linéarité : chaque face sort au moins une fois avec probabilité $1 - (5/6)^6$.
-- 6
++ Environ 3,99
+  $6(1 - (5/6)^6)$ : chaque face apparaît avec probabilité $1 - (5/6)^6$.
+- Exactement 6
   Six lancers ne donnent six faces différentes qu'avec probabilité $6!/6^6 \approx 1{,}5\,\%$.
-- $5$
+- Environ 5
   Intuition « une seule répétition » : en moyenne il y en a deux.
-- $6 \times 5/6 = 5$
-  On a multiplié par $5/6$ au lieu d'utiliser la probabilité d'absence $(5/6)^6$.
+- Environ 4,5
+  Estimation au jugé entre 3 et 6 : l'espérance se calcule en sommant les indicatrices de chaque face.
 
 === proba-max-trois-des
 + $1071/216 \approx 4{,}96$
@@ -31,13 +31,13 @@
   Trois issues (plus grand, égal, plus petit) ne sont pas équiprobables.
 
 === proba-de-mere-un
-+ $1 - (5/6)^4 \approx 0{,}518$
-  Complémentaire : aucun 6 en quatre lancers a probabilité $(5/6)^4$.
-- $2/3$
++ Environ 0,518
+  $1 - (5/6)^4$ : on passe par le complémentaire, aucun as en quatre lancers.
+- Environ 0,667
   On a additionné $4 \times 1/6$ : les événements « 6 au lancer $k$ » ne sont pas disjoints.
-- $(1/6)^4$
+- Environ 0,0008
   C'est la probabilité de faire **quatre** 6.
-- $1/2$
+- Exactement 0,5
   Valeur proche par hasard, mais sans raisonnement : le pari est légèrement favorable.
 
 === proba-esperance-sachant-somme

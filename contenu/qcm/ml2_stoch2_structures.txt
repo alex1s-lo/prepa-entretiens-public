@@ -21,21 +21,21 @@
   On a élevé l'IC au carré.
 
 === ml-desequilibre-temporel
-+ Ça dépend : il faut comparer à la référence naïve (proportion de hausses) et tester la significativité
-  54 % peut ne rien valoir si le marché a monté 54 % des jours.
++ Ça dépend : il faut le comparer à la proportion de hausses
+  54 % peut ne rien valoir si le marché a monté 54 % des jours ; il faut aussi tester la significativité.
 - Excellent : tout ce qui dépasse 50 % est rentable
   Ignore la référence et les coûts.
-- Mauvais : il faut 90 %
+- Mauvais : un modèle utile dépasse 70 %
   En finance, de faibles avantages peuvent suffire.
-- L'exactitude suffit à juger
+- Bon, puisque l'exactitude suffit à juger un modèle
   Il faut aussi l'amplitude des gains et pertes.
 
 === ml-arbre-decision
-+ À chaque nœud, la séparation qui réduit le plus l'impureté ; un arbre profond mémorise le bruit
-  On élague ou on agrège plusieurs arbres.
++ La séparation qui réduit le plus l'impureté, nœud par nœud
+  Un arbre profond mémorise le bruit : on élague ou on agrège plusieurs arbres.
 - Il choisit les variables au hasard
   C'est la forêt aléatoire qui tire des sous-ensembles.
-- Un arbre ne sur-apprend jamais
+- Un seuil au hasard : un arbre ne sur-apprend jamais
   Un arbre profond sur-apprend facilement.
 - Il minimise une régression linéaire à chaque nœud
   Il choisit un seuil.
@@ -81,53 +81,53 @@
   On a élevé au carré.
 
 === ml-surapprentissage-signes
-+ Écart important entre erreur d'entraînement et de validation ; on régularise, simplifie, ajoute des données
-  Et on vérifie sur une période hors échantillon.
++ Un grand écart entraînement–validation
+  On régularise, on simplifie, on ajoute des données, et on vérifie hors échantillon.
 - Une erreur d'entraînement élevée
   C'est plutôt du sous-apprentissage.
-- Un modèle trop simple
+- Un modèle trop simple pour les données
   Il sous-apprend.
 - Une validation meilleure que l'entraînement
   Inhabituel, mais pas du sur-apprentissage.
 
 === ml-arret-precoce
-+ Arrêter quand l'erreur de validation cesse de baisser ; en séries temporelles, la validation doit être postérieure à l'entraînement
-  Sinon la règle d'arrêt elle-même fuit le futur.
++ Arrêter quand l'erreur de validation, postérieure, cesse de baisser
+  En séries temporelles, la validation doit être postérieure à l'entraînement, sinon la règle d'arrêt fuit le futur.
 - Arrêter quand l'erreur d'entraînement est nulle
   C'est l'inverse : on aurait sur-appris.
 - Choisir l'arrêt sur l'échantillon de test
   Le test doit rester intact.
-- Valider sur des dates mélangées
+- Arrêter quand l'erreur de validation, sur des dates mélangées, remonte
   Fuite d'information.
 
 === ml-desequilibre-classes
-+ Pas obligatoire ; si l'on rééchantillonne, les probabilités prédites sont biaisées et doivent être recalibrées
-  Pondération des classes et seuil adapté suffisent souvent.
-- Toujours sur-échantillonner
++ Pas obligatoire, mais il faut alors recalibrer
+  Rééchantillonner biaise les probabilités prédites ; pondérer les classes et adapter le seuil suffit souvent.
+- Toujours sur-échantillonner la classe rare
   Risque de sur-apprentissage et de probabilités faussées.
 - Les probabilités restent exactes après rééchantillonnage
   Elles reflètent la nouvelle proportion.
-- Supprimer les positifs rares
+- Supprimer les positifs rares, trop bruités
   On perd l'information utile.
 
 === ml-features-finance
-+ Rendements passés sur plusieurs horizons, volatilité, volumes, valorisation… calculés seulement avec l'information disponible à la date
-  Attention aux données révisées et aux dates de publication.
-- Le rendement des 5 jours suivants
++ Rendements passés, volatilité, volumes, connus à la date
+  Sur plusieurs horizons ; attention aux données révisées et aux dates de publication.
+- Rendements des 5 jours suivants, volatilité, volumes
   C'est la cible : fuite totale.
 - Toutes les variables possibles sans sélection
   Sur-apprentissage garanti.
-- Les prix bruts non stationnaires
+- Les prix bruts non stationnaires, sans transformation
   À transformer en rendements ou ratios.
 
 === ml-regression-quantile
-+ Estime un quantile conditionnel par la perte asymétrique « pinball » ; utile pour le risque et les queues
-  Robuste aux valeurs extrêmes.
++ Elle estime un quantile conditionnel par une perte asymétrique
+  La perte « pinball » ; utile pour le risque et les queues, et robuste aux valeurs extrêmes.
 - Elle estime la moyenne conditionnelle
   Ce sont les moindres carrés.
 - Elle suppose des erreurs gaussiennes
   Elle ne fait pas d'hypothèse de loi.
-- Elle sert seulement aux données discrètes
+- Elle sert seulement aux données discrètes, comme les notes
   Elle s'applique aux variables continues.
 
 === stoch-esperance-exponentielle
@@ -201,13 +201,13 @@
   C'est $\mathrm{Var}(W_t^2)$.
 
 === stoch-temps-atteinte
-+ Fini presque sûrement, mais d'espérance infinie ; loi de Lévy (densité en $t^{-3/2}$)
-  Principe de réflexion : $\mathbb{P}(\tau \le t) = 2\,\mathbb{P}(W_t \ge 1)$.
-- Fini et d'espérance 1
++ Fini presque sûrement, mais d'espérance infinie
+  Loi de Lévy, densité en $t^{-3/2}$ ; principe de réflexion : $\mathbb{P}(\tau \le t) = 2\,\mathbb{P}(W_t \ge 1)$.
+- Fini presque sûrement, d'espérance 1
   Raisonnement « distance 1 à vitesse 1 ».
-- Infini avec probabilité $1/2$
+- Infini avec probabilité $1/2$, par symétrie
   Le brownien finit toujours par atteindre 1.
-- Exponentiel
+- Exponentiel, de moyenne 1
   Sa queue est polynomiale, bien plus épaisse.
 
 === stoch-ito-produit
@@ -231,31 +231,31 @@
   On a divisé dans le mauvais sens.
 
 === struct-reverse-convertible
-+ Obligation à coupon élevé, mais remboursée en actions si celles-ci baissent : l'investisseur a vendu un put
-  Le coupon est la prime du put.
++ Un coupon élevé, mais remboursé en actions si elles baissent
+  L'investisseur a vendu un put : le coupon est la prime du put.
 - Une obligation convertible classique
   L'option est vendue, pas achetée.
 - Un produit sans risque de perte en capital
   On peut perdre beaucoup.
-- Le coupon vient d'un risque de crédit
+- Le coupon rémunère seulement un risque de crédit
   Surtout de l'option vendue.
 
 === struct-autocall
-+ Remboursement anticipé avec coupon si le sous-jacent dépasse un seuil ; risque de perte sous la barrière ; la banque porte risques de corrélation, dividendes et gamma près des barrières
-  Produit très vendu, couverture délicate.
-- Un produit sans option
++ Rappel anticipé au-dessus d'un seuil, perte sous la barrière
+  La banque porte les risques de corrélation, de dividendes et de gamma près des barrières : couverture délicate.
+- Un produit sans option, à coupon fixe garanti
   Plusieurs options digitales et barrières.
-- Le client ne peut rien perdre
+- Le client ne peut rien perdre, seulement le coupon
   Le capital est exposé sous la barrière.
 - La banque n'a aucun risque
   Elle porte des risques importants de couverture.
 
 === struct-worst-of
-+ Le put worst-of vaut plus quand la corrélation baisse ; le call worst-of vaut moins
++ Moins de corrélation : put plus cher, call moins cher
   Plus de dispersion, plus de chances qu'un actif s'effondre.
 - Le put worst-of vaut plus quand la corrélation monte
   C'est l'inverse.
-- La corrélation n'a pas d'effet
+- La corrélation n'a pas d'effet au premier ordre
   Elle est le paramètre clé.
 - Les deux montent avec la corrélation
   Seul le call worst-of en profite.
@@ -271,28 +271,28 @@
   L'indice serait aussi volatil que ses composants.
 
 === struct-cliquet
-+ Suite d'options à départ différé sur des performances plafonnées et planchers : sensible au smile futur
++ Des options à départ différé, plafonnées : sensibles au smile futur
   Volatilité locale et stochastique donnent des prix très différents.
-- Une simple option européenne
+- Une simple option européenne à plusieurs strikes
   Plusieurs périodes de performance.
 - Son prix ne dépend que de la vol à la monnaie
   Il dépend de la dynamique du smile.
-- Une option sur taux
+- Une option sur taux, à départs successifs
   Généralement sur actions.
 
 === struct-greques-barriere
-+ Gamma et vega très élevés et instables près de la barrière : toucher 70 active un put très dans la monnaie
-  Le delta peut sauter.
-- Toutes les grecques sont nulles
++ Gamma et vega très élevés et instables près de la barrière
+  Toucher 70 active un put très dans la monnaie : le delta peut sauter.
+- Toutes les grecques sont nulles à la barrière
   On est à la barrière.
-- Le delta est stable
+- Le delta est stable, le gamma presque nul
   Il change brutalement.
 - Le put est déjà sans valeur
   Il peut s'activer.
 
 === struct-couverture-dividendes
-+ Les produits vendus rendent la banque longue des dividendes ; elle se couvre par des futures ou swaps de dividendes
-  Le forward baisse quand les dividendes montent.
++ Elle est longue des dividendes : futures ou swaps de dividendes
+  Les produits vendus la rendent longue ; le forward baisse quand les dividendes montent.
 - Les dividendes n'affectent pas les dérivés
   Ils changent le forward.
 - Elle est courte des dividendes et se couvre en achetant des actions

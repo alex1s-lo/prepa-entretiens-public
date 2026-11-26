@@ -32,7 +32,7 @@
   On a pris $3\sigma^2$.
 
 === stoch-ito-carre
-+ $d(W^2) = 2W\,dW + dt$, car $(dW)^2 = dt$
++ $d(W^2) = 2W\,dW + dt$
   Le terme de second ordre ne s'annule pas.
 - $d(W^2) = 2W\,dW$
   Règle classique, oublie la variation quadratique.
@@ -78,8 +78,8 @@
   Oubli du terme d'Itô.
 - $S_t = S_0(1 + \mu t + \sigma W_t)$
   Solution d'une équation à coefficients constants, pas proportionnels.
-- $S_t = S_0 e^{\mu t}$
-  Oubli de l'aléa.
+- $S_t = S_0 \exp((\mu + \sigma^2/2)t + \sigma W_t)$
+  Mauvais signe de la correction d'Itô.
 
 === stoch-esperance-gbm
 + $100\,e^{0{,}05} \approx 105{,}13$
@@ -92,13 +92,13 @@
   Composition simple, pas continue.
 
 === stoch-mediane-gbm
-+ $100\,e^{-0{,}02} \approx 98{,}02$
-  La médiane du log est $\ln 100 - \sigma^2/2$.
-- 100
++ Environ 98,02
+  $100\,e^{(\mu - \sigma^2/2)T} = 100\,e^{-0{,}02}$ : la médiane est sous l'espérance.
+- Exactement 100
   C'est l'espérance quand $\mu = 0$.
-- $100\,e^{0{,}02}$
+- Environ 102,02
   Signe inversé.
-- $100\,e^{-0{,}2}$
+- Environ 81,87
   On a pris $\sigma$ au lieu de $\sigma^2/2$.
 
 === stoch-proba-au-dessus
@@ -112,13 +112,13 @@
   On a pris $W_1 > 1$.
 
 === stoch-martingale-exponentielle
-+ Itô donne $dM = \theta M\,dW$ sans terme en $dt$ ; elle sert au changement de probabilité et aux temps d'atteinte
-  C'est la densité de Girsanov.
++ Itô donne $dM = \theta M\,dW$, sans terme en $dt$
+  Elle sert au changement de probabilité (densité de Girsanov) et aux temps d'atteinte.
 - Parce que $\mathbb{E}[e^{\theta W_t}] = 1$
   Cette espérance vaut $e^{\theta^2 t/2}$, d'où la correction.
 - Parce que l'exponentielle est croissante
   Sans rapport.
-- Ce n'est pas une martingale
+- Ce n'est pas une martingale, à cause du terme en $t$
   Elle l'est.
 
 === stoch-sortie-intervalle
@@ -152,18 +152,18 @@
   C'est $\mathbb{P}(|W_1| \le 1)$.
 
 === stoch-variation-quadratique
-+ La limite de $\sum (\Delta X)^2$ ; pour le brownien, elle vaut $t$, d'où $dW^2 = dt$
++ La limite de $\sum (\Delta X)^2$, égale à $t$ pour le brownien
   Les termes ont espérance $\Delta t$ et une variance qui disparaît.
 - Elle vaut 0 comme pour une fonction dérivable
   Le brownien est trop irrégulier.
-- Elle vaut $W_t^2$
+- La limite de $\sum (\Delta X)^2$, égale à $W_t^2$
   C'est une quantité déterministe, $t$.
 - C'est la variance de $W_t$
   Même valeur $t$, mais notion trajectorielle différente.
 
 === stoch-w-cube
-+ Non : $d(W^3) = 3W^2\,dW + 3W\,dt$ ; $W^3 - 3\int_0^t W_s\,ds$ en est une
-  Il faut retirer le terme de dérive.
++ Non : $W^3 - 3\int_0^t W_s\,ds$ en est une
+  $d(W^3) = 3W^2\,dW + 3W\,dt$ : il faut retirer le terme de dérive.
 - Oui, car $\mathbb{E}[W_t^3] = 0$
   Espérance nulle ne suffit pas à faire une martingale.
 - Non, il faut retirer $3t$
@@ -172,11 +172,11 @@
   Seul $W$ lui-même est une martingale parmi les puissances.
 
 === stoch-ornstein-uhlenbeck
-+ $dX = \kappa(\theta - X)dt + \sigma dW$ ; variance stationnaire $\sigma^2/(2\kappa)$ ; demi-vie $\ln 2/\kappa$
-  Modèle d'un spread qui revient à la moyenne.
-- Variance stationnaire $\sigma^2/\kappa$
++ Variance stationnaire $\sigma^2/(2\kappa)$, demi-vie $\ln 2/\kappa$
+  $dX = \kappa(\theta - X)dt + \sigma dW$ : un spread qui revient à la moyenne.
+- Variance stationnaire $\sigma^2/\kappa$, demi-vie $\ln 2/\kappa$
   Il manque le facteur 2.
-- Demi-vie $1/\kappa$
+- Variance stationnaire $\sigma^2/(2\kappa)$, demi-vie $1/\kappa$
   C'est la constante de temps, pas la demi-vie.
 - Il diverge comme un brownien
   Il revient vers $\theta$.
@@ -192,19 +192,19 @@
   On a multiplié par $\kappa$.
 
 === stoch-ito-stratonovich
-+ Itô évalue l'intégrande au début de l'intervalle : non anticipatif, cohérent avec le trading
-  Stratonovich prend le milieu et suit le calcul classique.
++ Itô évalue l'intégrande au début de l'intervalle
+  Cohérent avec le trading ; Stratonovich prend le milieu et suit le calcul classique.
 - Elles donnent toujours le même résultat
   Elles diffèrent d'un terme de covariation.
-- Stratonovich est martingale
+- Stratonovich, au milieu, est une martingale
   C'est l'intégrale d'Itô qui l'est.
-- La finance utilise Stratonovich
+- La finance utilise Stratonovich, plus réaliste
   Elle utilise Itô.
 
 === stoch-girsanov
-+ Changer de probabilité ajoute une dérive au brownien ; on choisit celle qui fait rapporter $r$ à l'actif
-  $W_t + \int \theta\,ds$ devient brownien sous $Q$.
-- Il change la volatilité
++ Changer de probabilité ajoute une dérive au brownien
+  $W_t + \int \theta\,ds$ devient brownien sous $Q$ ; on choisit la dérive qui fait rapporter $r$ à l'actif.
+- Changer de probabilité modifie la volatilité du brownien
   La volatilité est invariante par changement de mesure équivalent.
 - Il supprime l'aléa
   Le processus reste aléatoire.
@@ -212,21 +212,21 @@
   Il s'applique à tout brownien.
 
 === stoch-feynman-kac
-+ Solution d'une EDP parabolique $=$ espérance d'une fonction du processus ; Black-Scholes : prix $= e^{-rT}\mathbb{E}^{\mathbb{Q}}[\text{payoff}]$
-  Relie le monde EDP et le monde Monte-Carlo.
-- Une formule pour la variance
++ La solution d'une EDP parabolique est une espérance
+  Pour Black-Scholes : prix $= e^{-rT}\mathbb{E}^{\mathbb{Q}}[\text{payoff}]$. Elle relie le monde EDP et le monde Monte-Carlo.
+- Une formule pour la variance d'une intégrale d'Itô
   Sans rapport.
 - Elle résout toute EDP non linéaire
   Le cadre est linéaire.
-- Elle donne le delta directement
+- Elle donne le delta directement, sans le prix
   Elle donne le prix.
 
 === stoch-discretisation-euler
-+ $X_{n+1} = X_n + a\Delta t + b\sqrt{\Delta t}\,Z_n$ ; ordre fort $1/2$, faible 1
-  Milstein améliore l'ordre fort.
++ $X_{n+1} = X_n + a\Delta t + b\sqrt{\Delta t}\,Z_n$, d'ordre fort $1/2$
+  Ordre faible 1 ; Milstein améliore l'ordre fort.
 - $X_{n+1} = X_n + a\Delta t + b\Delta t\,Z_n$
   Le bruit est en $\sqrt{\Delta t}$.
-- Ordre fort 1
-  C'est l'ordre faible d'Euler.
+- $X_{n+1} = X_n + a\Delta t + b\sqrt{\Delta t}\,Z_n$, d'ordre fort 1
+  Le schéma est le bon, mais l'ordre fort d'Euler est $1/2$ ; 1 est son ordre faible.
 - Euler est exact pour le brownien géométrique
   Il ne l'est pas ; le schéma log est exact.

@@ -1,33 +1,33 @@
 # QCM des fiches d'algorithmique et de code (contenu/algo.txt).
 
 === algo-achat-vente-une-fois
-+ Un seul passage en gardant le plus bas prix vu : $O(n)$ en temps, $O(1)$ en mémoire
-  Le meilleur gain vendant au jour $i$ vaut $p_i - \min_{j \le i} p_j$.
-- Acheter au minimum global, vendre au maximum global
++ Un seul passage en retenant le plus bas prix vu jusque-là : $O(n)$
+  Le meilleur gain vendant au jour $i$ vaut $p_i - \min_{j \le i} p_j$ ; mémoire $O(1)$.
+- Acheter au minimum global de la série, vendre à son maximum global
   Le maximum peut précéder le minimum.
 - Tester toutes les paires : $O(n^2)$, c'est optimal
   Correct mais pas optimal.
-- Trier les prix : $O(n \log n)$
+- Trier les prix puis prendre le plus grand écart : $O(n \log n)$
   Le tri détruit l'ordre chronologique, essentiel ici.
 
 === algo-kadane
-+ Kadane : meilleure somme finissant en $i$ $= \max(x_i, x_i + \text{précédente})$, en $O(n)$
-  On garde aussi le meilleur global vu.
-- Somme de tous les éléments positifs
++ Meilleure somme finissant en $i$ $= \max(x_i,\ x_i + \text{précédente})$
+  Algorithme de Kadane, en $O(n)$ ; on garde aussi le meilleur global vu.
+- Faire la somme de tous les éléments positifs de la liste
   Le sous-tableau doit être contigu.
-- Tester tous les sous-tableaux : $O(n^3)$ ou $O(n^2)$ au mieux
+- Tester tous les sous-tableaux contigus et garder la meilleure somme : $O(n^2)$
   Correct mais lent.
-- Le maximum moins le minimum
+- Le maximum de la liste moins son minimum, en un passage
   C'est une autre question (le meilleur trade).
 
 === algo-drawdown
-+ Un passage en suivant le plus haut atteint et la pire baisse relative depuis ce sommet
++ Suivre le plus haut atteint et la pire baisse depuis ce sommet
   $O(n)$ ; le drawdown se mesure depuis le sommet **antérieur**.
-- (max − min) / max
+- $(\max - \min)/\max$ sur toute la courbe, en un passage
   Le minimum peut précéder le maximum.
-- La plus grande baisse journalière
+- La plus grande baisse d'un jour sur l'autre, en pourcentage
   Un drawdown s'étale sur plusieurs jours.
-- L'écart-type des rendements
+- L'écart-type des rendements quotidiens, annualisé par $\sqrt{252}$
   C'est la volatilité, pas le drawdown.
 
 === algo-two-sum
@@ -41,23 +41,23 @@
   Elle exige une liste triée.
 
 === algo-moyenne-mobile
-+ Somme glissante : ajouter l'entrant, retirer le sortant ; $O(n)$
-  Chaque prix est ajouté et retiré une seule fois.
-- Recalculer chaque fenêtre
-  $O(nk)$.
-- Trier la fenêtre
-  Inutile pour une moyenne.
++ Somme glissante : ajouter l'entrant, retirer le sortant
+  $O(n)$ : chaque prix est ajouté et retiré une seule fois.
+- Recalculer la somme des $k$ prix à chaque nouvelle date
+  Correct mais en $O(nk)$, pas $O(n)$.
+- Garder la fenêtre triée et lire son milieu
+  Ça donne la médiane glissante, pas la moyenne, et plus lentement.
 - Moyenne de toute la série
   Ce n'est pas une moyenne mobile.
 
 === algo-mediane-flux
-+ Deux tas (max pour la moitié basse, min pour la haute) : $O(\log n)$ par prix
-  La médiane se lit au sommet des tas.
-- Trier toute la liste à chaque arrivée
-  $O(n \log n)$ par prix.
-- Garder la moyenne courante
++ Deux tas : un tas max pour la moitié basse, un tas min pour la haute
+  $O(\log n)$ par prix ; la médiane se lit au sommet des tas.
+- Insérer chaque prix dans une liste triée et lire son milieu
+  Correct mais $O(n)$ par insertion (décalage des éléments), contre $O(\log n)$ avec deux tas.
+- Mettre à jour la moyenne courante à chaque prix, en $O(1)$
   Moyenne et médiane diffèrent.
-- Une seule file
+- Une file qui garde les prix dans leur ordre d'arrivée
   Ne donne pas la médiane.
 
 === algo-reservoir
@@ -71,31 +71,31 @@
   Favorise les derniers éléments.
 
 === algo-melange
-+ Fisher-Yates (échanger $i$ avec un $j \le i$) ; la version « dans toute la liste » donne $n^n$ issues, non divisible par $n!$
-  Les permutations ne peuvent alors pas être équiprobables.
++ Fisher-Yates : échanger $i$ avec un $j \le i$ tiré uniformément
+  La version « $j$ dans toute la liste » donne $n^n$ issues équiprobables, non divisible par $n!$ : les permutations ne peuvent pas être équiprobables.
 - Trier par une clé aléatoire avec un comparateur aléatoire
   Un comparateur incohérent donne un mélange biaisé.
 - Échanger chaque élément avec une position dans toute la liste
   C'est la version biaisée.
-- Mélanger deux fois corrige le biais
-  Le nombre d'issues reste mal divisible.
+- Échanger avec n'importe quelle position, mais mélanger deux fois de suite
+  Le nombre d'issues ($n^{2n}$) reste non divisible par $n!$ en général : le biais demeure.
 
 === algo-rand7
-+ Deux appels donnent 25 valeurs uniformes ; on garde les 21 premières (modulo 7), sinon on recommence
-  Échantillonnage par rejet.
-- `rand5() + rand5() % 3`
++ 25 valeurs par deux appels ; garder 21, sinon recommencer
+  Échantillonnage par rejet : $5 \times (a-1) + b$ est uniforme sur 1..25 ; on prend le reste modulo 7.
+- `rand5() + rand5() % 3`, qui couvre bien les valeurs de 1 à 7
   Non uniforme.
-- `rand5() * 7 // 5`
+- Remettre à l'échelle : `rand5() * 7 // 5`, une seule fois
   Ne produit pas toutes les valeurs uniformément.
-- Additionner deux `rand5()` et garder modulo 7
+- Additionner deux `rand5()` et garder le reste modulo 7, plus 1
   La somme n'est pas uniforme.
 
 === algo-recherche-binaire
-+ Le prix est croissant en $\sigma$ : on resserre un intervalle autour de la volatilité
++ Le prix est croissant en $\sigma$ : on resserre un intervalle
   Robuste ; Newton (avec le vega) est plus rapide.
-- Le prix est décroissant en $\sigma$
+- Le prix est décroissant en $\sigma$ : on part d'un $\sigma$ élevé
   Il est croissant.
-- On teste toutes les volatilités de 0 à 1
+- On teste toutes les volatilités de 0 à 1 par pas fin
   Recherche linéaire, lente.
 - La dichotomie ne marche que sur des entiers
   Elle marche sur toute fonction monotone.
@@ -111,21 +111,21 @@
   On a pris $\log_{10}$.
 
 === algo-parentheses
-+ Une pile : empiler les ouvrantes, dépiler et vérifier à chaque fermante
++ Une pile : empiler les ouvrantes, vérifier à chaque fermante
   Pile vide à la fin.
-- Compter les ouvrantes et fermantes
+- Compter les ouvrantes et les fermantes de chaque type
   `([)]` a les bons comptes mais est mal formée.
 - Vérifier la symétrie de la chaîne
   `()()` n'est pas symétrique.
-- Une file
+- Une file : on retire la première ouvrante à chaque fermante
   L'ordre doit être le dernier ouvert, premier fermé.
 
 === algo-lru
-+ Table de hachage plus liste doublement chaînée (`OrderedDict`)
-  Accès et déplacement en $O(1)$.
-- Une liste triée par date
++ Table de hachage et liste doublement chaînée
+  Accès et déplacement en tête en $O(1)$ ; c'est ce que fait `OrderedDict`.
+- Une liste triée par date de dernier accès
   Insertion en $O(n)$.
-- Un tas sur les dates
+- Un tas min sur les dates de dernier accès
   Mise à jour en $O(\log n)$.
 - Un dictionnaire seul
   Ne garde pas l'ordre d'usage de façon efficace à mettre à jour.
@@ -151,82 +151,82 @@
   Nombre de pas.
 
 === algo-mutable-defaut
-+ `[1]` puis `[1, 2]` : la liste par défaut est créée une seule fois
-  Utiliser `liste=None` puis `if liste is None: liste = []`.
++ `[1]` puis `[1, 2]`
+  La liste par défaut est créée une seule fois, à la définition. Correctif : `liste=None` puis `if liste is None: liste = []`.
 - `[1]` puis `[2]`
   Ce serait le cas si la valeur par défaut était réévaluée.
-- Une erreur
+- Une erreur `TypeError` sur la liste partagée
   Le code s'exécute.
 - `[2]` puis `[1, 2]`
   Ordre faux.
 
 === algo-gil
-+ Un verrou qui empêche les threads Python de tourner en parallèle ; on utilise NumPy, des processus ou du code compilé
-  Les threads restent utiles pour les entrées-sorties.
-- Un ramasse-miettes
++ Un verrou : un seul thread Python exécute du code à la fois
+  On contourne avec NumPy, des processus ou du code compilé ; les threads restent utiles pour les entrées-sorties.
+- Le ramasse-miettes qui libère la mémoire des threads
   C'est un verrou.
-- Il accélère les threads
+- Un mécanisme qui répartit les threads sur tous les cœurs
   Il les sérialise.
-- Il n'existe qu'en Java
+- Une particularité de la machine virtuelle Java, absente de Python
   C'est une caractéristique de CPython.
 
 === algo-generateurs
-+ Une fonction avec `yield` qui produit les valeurs à la demande : utile pour les flux et la mémoire
-  Rien n'est calculé avant d'être demandé.
++ Une fonction avec `yield` qui produit les valeurs à la demande
+  Rien n'est calculé avant d'être demandé : utile pour les flux et pour la mémoire.
 - Une fonction qui renvoie une liste complète
   C'est l'opposé.
-- Un générateur de nombres aléatoires
+- Le module qui génère des nombres aléatoires reproductibles
   Homonymie.
-- Une classe abstraite
+- Une classe abstraite dont on dérive des itérateurs
   Sans rapport.
 
 === algo-dict-complexite
-+ Liste $O(n)$, dictionnaire et ensemble $O(1)$ en moyenne grâce au hachage
++ Liste $O(n)$ ; dictionnaire et ensemble $O(1)$ en moyenne
   Au pire $O(n)$ en cas de collisions.
-- Tous en $O(\log n)$
+- Tous en $O(\log n)$, car Python garde les éléments triés
   Ce serait un arbre équilibré.
 - Dictionnaire $O(n)$
   Le hachage donne $O(1)$ en moyenne.
-- Liste $O(1)$
+- Liste $O(1)$ ; dictionnaire $O(\log n)$
   Il faut parcourir.
 
 === algo-numpy-vectorisation
-+ Boucles en C sur des données contiguës typées ; le broadcasting étend les dimensions sans copie
-  On évite l'interprétation objet par objet.
++ Des boucles en C sur des données contiguës et typées
+  On évite l'interprétation objet par objet ; le broadcasting étend les dimensions sans copie.
 - NumPy utilise plusieurs cœurs pour tout
   Pas forcément ; la vitesse vient surtout du code compilé.
-- Le broadcasting copie les tableaux
+- Le broadcasting copie les tableaux pour aligner les formes
   Il les étend virtuellement.
 - Les boucles Python sont aussi rapides
   Elles sont typiquement 10 à 100 fois plus lentes.
 
 === algo-pandas-pieges
-+ Alignement silencieux sur l'index, `shift` mal orienté (regard vers le futur), NaN, fuseaux horaires
++ Alignement sur l'index, `shift` mal orienté, NaN, fuseaux horaires
   Tous produisent des erreurs sans message.
-- pandas ne gère pas les dates
+- pandas ne gère pas les dates : il faut tout convertir en texte
   Il les gère, avec des pièges.
 - `shift(-1)` est sans danger pour les rendements futurs
   C'est précisément le regard vers le futur.
-- Les NaN lèvent toujours une erreur
+- Les NaN lèvent toujours une erreur, donc on les voit tout de suite
   Ils se propagent silencieusement.
 
 === algo-flottants
-+ 0,1 n'est pas représentable exactement en binaire ; comparer avec une tolérance, compter en centimes ou utiliser `Decimal`
-  L'erreur d'arrondi est de l'ordre de $10^{-16}$.
-- Python a un bug
++ 0,1 n'est pas exact en binaire : comparer avec une tolérance
+  Ou compter en centimes, ou utiliser `Decimal` ; l'erreur d'arrondi est de l'ordre de $10^{-16}$.
+- Un bug de Python, corrigé dans les versions récentes
   C'est la norme IEEE 754.
-- Il faut utiliser des `float32`
+- Passer en `float32`, plus prévisible pour les décimales
   Encore moins précis.
 - Utiliser `==` après `round`
   Fragile au voisinage des arrondis.
 
 === algo-cpp-bases
 ? Pourquoi déclarer virtuel le destructeur d'une classe de base ?
-+ Pour que la destruction via un pointeur de base appelle le destructeur de la classe dérivée
++ Pour que `delete` via un pointeur de base détruise l'objet dérivé
   Sinon, comportement indéfini et fuite de ressources.
-- Pour accélérer la destruction
+- Pour accélérer la destruction des objets alloués sur le tas
   Il ajoute une indirection.
-- Pour interdire l'héritage
+- Pour interdire qu'on dérive de la classe de base
   C'est le rôle de `final`.
 - Parce que tous les destructeurs doivent l'être
   Seulement pour les classes de base polymorphes.

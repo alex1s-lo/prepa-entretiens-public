@@ -264,19 +264,25 @@
     else racine.location.hash = h;
   }
 
+  let dejaAffiche = false;
   function afficher() {
     const cible = lireHash();
     if (typeof nettoyage === 'function') { try { nettoyage(); } catch (e) { /* rien */ } }
     nettoyage = null;
     vueCourante = vues[cible.id];
-    const main = document.getElementById('contenu');
-    main.innerHTML = '';
+    // un conteneur neuf à chaque page : les écouteurs posés par la page précédente ne s'accumulent pas
+    const ancien = document.getElementById('contenu');
+    const main = ancien.cloneNode(false);
+    ancien.parentNode.replaceChild(main, ancien);
     const res = vueCourante.rendre(main, cible.params);
     if (typeof res === 'function') nettoyage = res;
     rendreNavigation();
     rafraichirEntete();
     document.title = vueCourante.titre + ' · Prépa entretiens';
     if (!cible.params.garder) racine.scrollTo(0, 0);
+    // au changement de page (pas au premier affichage), le focus va au contenu pour les lecteurs d'écran
+    if (dejaAffiche && !document.querySelector('.voile-recherche') && !main.contains(document.activeElement)) { try { main.focus({ preventScroll: true }); } catch (e) { /* rien */ } }
+    dejaAffiche = true;
   }
 
   // Sur téléphone, seules les sections principales (ordre ≤ 5 : accueil, cours, révisions, calcul, entretien) sont dans
@@ -285,6 +291,7 @@
 
   // Icônes au trait (24 × 24), dessinées pour l'application : une par section.
   const TRACES = {
+    banque: '<path d="M8 6h12M8 12h12M8 18h12"/><path d="M4 6h.01M4 12h.01M4 18h.01"/>',
     campagne: '<path d="M5 21V4"/><path d="M5 4h11l-2 4 2 4H5"/><circle cx="18" cy="19" r="1.6"/><path d="M8 19h7"/>',
     carriere: '<path d="M12 3.5 14.6 8.8l5.9.9-4.25 4.15 1 5.85L12 16.95 6.75 19.7l1-5.85L3.5 9.7l5.9-.9z"/>',
     qcm: '<rect x="3.5" y="3.5" width="17" height="17" rx="2.5"/><path d="m7.5 9 1.5 1.5 3-3"/><path d="M14 9.5h3"/><path d="M7.5 15.5h.01"/><path d="M10.5 15.5h6.5"/>',
@@ -313,7 +320,7 @@
   // Regroupement de la barre latérale (ordinateur) ; les sections absentes de la liste vont dans le dernier groupe.
   const GROUPES = [
     { titre: '', ids: ['accueil'] },
-    { titre: 'Apprendre', ids: ['cours', 'revisions', 'calcul'] },
+    { titre: 'Apprendre', ids: ['cours', 'revisions', 'banque', 'calcul'] },
     { titre: 'S’entraîner', ids: ['campagne', 'entretien', 'qcm', 'casse-tetes', 'marche'] },
     { titre: 'Préparer', ids: ['histoires', 'journal', 'guides'] },
     { titre: 'Suivi', ids: ['carriere', 'progres', 'reglages'] }
@@ -567,6 +574,9 @@
     if (P.jeu) { try { P.jeu.compacter(etat, aujourdhui()); resultatJeu(); } catch (err) { jeuDernier = null; } }
     appliquerTheme();
     racine.addEventListener('hashchange', afficher);
+    // « Aller au contenu » : déplace le focus sans toucher à l'adresse (le # sert au routage)
+    const saut = document.querySelector('.saut');
+    if (saut) saut.addEventListener('click', function (e) { e.preventDefault(); const m = document.getElementById('contenu'); if (m) m.focus(); });
     document.addEventListener('keydown', surTouche);
     // un clic sur la section déjà ouverte la réaffiche (par exemple pour quitter un bilan)
     document.addEventListener('click', function (e) {

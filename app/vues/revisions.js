@@ -275,15 +275,21 @@
 
   function rendre(main, params) {
     controleCourant = null;
+    if (params.onglet === 'banque') {
+      // ancien onglet : la banque a sa propre page
+      const p = Object.assign({}, params); delete p.onglet;
+      let h = '#banque';
+      Object.keys(p).forEach(function (k) { h += '/' + k + '=' + encodeURIComponent(p[k]); });
+      racine.location.replace(h);
+      return;
+    }
     const onglet = params.onglet || 'session';
-    main.appendChild(A.el('<div><h1>Révisions</h1><p class="doux">Une question à la fois : réponds (à voix haute, comme en entretien), ' +
-      'regarde la solution, puis note-toi honnêtement. L’outil te la reposera au bon moment : tout de suite si tu l’as ratée, ' +
-      'dans quelques semaines si elle était facile.</p></div>'));
-    const onglets = A.el('<div class="onglets" role="tablist">' +
-      ['session:Session du jour', 'themes:Par thème', 'banque:Banque de questions'].map(function (x) {
+    main.appendChild(A.el('<div><h1>Révisions</h1><p class="doux">Réponds à voix haute, regarde la solution, note-toi : chaque question revient au bon moment.</p></div>'));
+    const onglets = A.el('<div class="onglets"><div class="onglets-tabs" role="tablist">' +
+      ['session:Session du jour', 'themes:Par thème'].map(function (x) {
         const p = x.split(':');
         return '<button role="tab" aria-selected="' + (p[0] === onglet) + '" data-onglet="' + p[0] + '">' + p[1] + '</button>';
-      }).join('') + '</div>');
+      }).join('') + '</div><a class="onglet-lien" href="#banque">Banque de questions →</a></div>');
     onglets.addEventListener('click', function (e) {
       const b = e.target.closest('[data-onglet]');
       if (b) { session = null; A.aller('revisions', { onglet: b.getAttribute('data-onglet') }); }
@@ -291,12 +297,15 @@
     main.appendChild(onglets);
     const zone = A.el('<div></div>');
     main.appendChild(zone);
-    if (onglet === 'banque') rendreBanque(zone, params);
-    else if (onglet === 'themes' && !params.theme) rendreThemes(zone);
+    if (onglet === 'themes' && !params.theme) rendreThemes(zone);
     else {
       const mode = params.mode || 'jour';
       const finie = session && session.rang >= session.file.length;
       if (params.fiche) session = { mode: 'unique', theme: null, file: [params.fiche], rang: 0, notes: [], remis: {} };
+      else if (params.ids) {
+        const ids = params.ids.split(',').filter(function (id) { return A.fiche(id); });
+        if (!session || finie || session.mode !== 'liste' || session.cle !== params.ids) session = { mode: 'liste', cle: params.ids, theme: null, file: ids, rang: 0, notes: [], remis: {} };
+      }
       else if (params.chapitre) {
         if (!session || finie || session.mode !== 'chapitre' || session.theme !== params.chapitre) nouvelleSession('chapitre', params.chapitre);
       }
@@ -322,7 +331,7 @@
     const chapitreSession = session.mode === 'chapitre' && P.cours ? P.cours.chapitre(session.theme) : null;
     const titre = chapitreSession ? 'Cours, chapitre ' + chapitreSession.numero + ' : ' + chapitreSession.titre :
       session.mode === 'libre' ? 'Révision libre : ' + A.nomTheme(session.theme) :
-      session.mode === 'unique' ? 'Question choisie' : 'Session du jour';
+      session.mode === 'unique' ? 'Question choisie' : session.mode === 'liste' ? 'Sélection de la banque' : 'Session du jour';
     zone.appendChild(A.el('<div class="ligne petit doux" style="margin-bottom:8px"><span>' + o.echapper(titre) + '</span><span class="espace"></span>' +
       '<span class="progression-texte">' + (session.rang + 1) + ' / ' + total + '</span></div>'));
     zone.appendChild(A.el('<div class="barre" style="margin-bottom:14px"><span style="width:' + Math.round(100 * session.rang / total) + '%"></span></div>'));
@@ -369,7 +378,7 @@
       '<p class="legende">' + essentiels.length + ' questions qui reviennent le plus souvent · maîtrise ' + Math.round(100 * me) + ' %</p>' +
       '<div class="barre" style="margin:8px 0 12px"><span style="width:' + Math.round(100 * me) + '%"></span></div>' +
       '<div class="ligne"><a class="bouton principal" href="#revisions/onglet=themes/theme=essentiels/mode=libre">Réviser</a>' +
-      '<a class="bouton" href="#revisions/onglet=banque/essentiels=1">Parcourir</a></div></div>' : '';
+      '<a class="bouton" href="#banque/essentiels=1">Parcourir</a></div></div>' : '';
     const html = carteEssentiels + themesDisponibles().map(function (t) {
       const liste = toutes.filter(function (f) { return f.theme === t; });
       if (!liste.length) return '';
@@ -379,56 +388,9 @@
         '<p class="legende">' + liste.length + ' questions · ' + vues + ' déjà vues · maîtrise ' + Math.round(100 * m) + ' %</p>' +
         '<div class="barre" style="margin:8px 0 12px"><span style="width:' + Math.round(100 * m) + '%"></span></div>' +
         '<div class="ligne"><a class="bouton principal" href="#revisions/onglet=themes/theme=' + t + '/mode=libre">Réviser</a>' +
-        '<a class="bouton" href="#revisions/onglet=banque/theme=' + t + '">Parcourir</a></div></div>';
+        '<a class="bouton" href="#banque/theme=' + t + '">Parcourir</a></div></div>';
     }).join('');
     zone.appendChild(A.el('<div class="grille">' + html + '</div>'));
-  }
-
-  function rendreBanque(zone, params) {
-    const etat = A.etat;
-    const banque = A.banque();
-    zone.innerHTML = '<div class="carte"><div class="ligne">' +
-      '<input data-cherche placeholder="Chercher (ex. Itô, gamma, dés, Kelly…)" style="flex:2;min-width:180px" value="' + o.echapper(params.q || '') + '">' +
-      '<select data-theme aria-label="Thème"><option value="">Tous les thèmes</option>' + themesDisponibles().map(function (t) {
-        return '<option value="' + t + '"' + (params.theme === t ? ' selected' : '') + '>' + o.echapper(A.nomTheme(t)) + '</option>';
-      }).join('') + '</select>' +
-      '<select data-profil aria-label="Profil"><option value="">Tous les profils</option>' + Object.keys(banque.profils).map(function (p) {
-        return '<option value="' + p + '">' + o.echapper(banque.profils[p]) + '</option>';
-      }).join('') + '</select>' +
-      '<select data-niveau aria-label="Difficulté"><option value="">Toutes difficultés</option><option value="1">★</option><option value="2">★★</option><option value="3">★★★</option></select>' +
-      '<label class="case" style="margin:0"><input type="checkbox" data-essentiels' + (params.essentiels ? ' checked' : '') + '> Essentiels</label>' +
-      '</div><p class="legende" data-compte></p></div><ul class="liste-fiches carte" data-liste></ul>';
-    const liste = zone.querySelector('[data-liste]');
-    function normaliser(s) { return String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); }
-    function filtrer() {
-      const q = normaliser(zone.querySelector('[data-cherche]').value.trim());
-      const th = zone.querySelector('[data-theme]').value;
-      const pr = zone.querySelector('[data-profil]').value;
-      const nv = zone.querySelector('[data-niveau]').value;
-      const es = zone.querySelector('[data-essentiels]').checked;
-      const res = A.fiches().filter(function (f) {
-        if (th && f.theme !== th) return false;
-        if (pr && f.profils.indexOf(pr) < 0) return false;
-        if (nv && String(f.niveau) !== nv) return false;
-        if (es && !f.essentiel) return false;
-        if (q && normaliser(f.question + ' ' + (f.en || '') + ' ' + f.solution + ' ' + o.sansTex(f.question + ' ' + f.solution) + ' ' + (f.titre || '')).indexOf(q) < 0) return false;
-        return true;
-      });
-      zone.querySelector('[data-compte]').textContent = res.length + ' question' + (res.length > 1 ? 's' : '');
-      liste.innerHTML = res.slice(0, 300).map(function (f) {
-        const e = etat.cartes[f.id];
-        const statut = !e ? '<span class="etiquette">nouvelle</span>' :
-          '<span class="etiquette ' + (P.srs.maitrise(e) > 0.6 ? 'succes' : P.srs.maitrise(e) < 0.2 ? 'erreur' : 'alerte') + '">maîtrise ' + Math.round(100 * P.srs.maitrise(e)) + ' %</span>';
-        return '<li><details><summary>' + o.echapper(o.resume(f.question, 160)) + ' ' + statut + '</summary>' +
-          '<div class="ligne petit">' + etiquettes(f) + '</div><div class="question">' + o.markdown(f.question) + '</div>' +
-          '<details><summary class="petit">Solution</summary>' + o.markdown(f.solution) +
-          (f.relances ? '<div class="bloc-titre">Relances</div><ul>' + f.relances.map(function (r) { return '<li>' + o.enLigne(r) + '</li>'; }).join('') + '</ul>' : '') +
-          '</details><p><a class="bouton" href="#revisions/fiche=' + encodeURIComponent(f.id) + '">S’entraîner sur celle-ci</a></p></details></li>';
-      }).join('') || '<li class="doux">Aucune question ne correspond.</li>';
-    }
-    zone.addEventListener('input', filtrer);
-    zone.addEventListener('change', filtrer);
-    filtrer();
   }
 
   A.enregistrerVue({

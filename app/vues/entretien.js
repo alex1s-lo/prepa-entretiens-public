@@ -78,10 +78,7 @@
     if (courant && !courant.fini) { rendreEtape(main); return function () { if (controle && controle.arreter) controle.arreter(); }; }
     const etat = A.etat;
     const profilDefaut = etat.reglages.profils[0] || 'hf';
-    main.appendChild(A.el('<div><h1>Entretien blanc</h1><p class="doux">Une suite de questions comme dans un vrai entretien : ' +
-      'présentation, un de tes projets, des questions techniques choisies pour le type de maison, puis la motivation. ' +
-      'Réponds <b>à voix haute</b>, en pensant tout haut, avant de regarder la solution : c’est ce qui est noté en vrai. ' +
-      'Le chrono tourne ; les notes alimentent aussi tes révisions.</p></div>'));
+    main.appendChild(A.el('<div><h1>Entretien blanc</h1><p class="doux">Présentation, projet, questions techniques puis motivation, chronométrés. Réponds à voix haute avant de regarder la solution.</p></div>'));
     const form = A.el('<form class="carte" data-config><h2 style="margin-top:0">Préparer l’entretien</h2>' +
       '<label for="eb-profil">Type de poste</label><select id="eb-profil">' + Object.keys(PROFILS).map(function (p) {
         return '<option value="' + p + '"' + (p === profilDefaut ? ' selected' : '') + '>' + o.echapper(PROFILS[p].nom) + '</option>';

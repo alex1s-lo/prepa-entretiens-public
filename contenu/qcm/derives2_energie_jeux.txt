@@ -61,39 +61,39 @@
   On a mal calculé la volatilité effective ($\sqrt{0{,}02}$).
 
 === der-swap-variance
-+ Paie la variance réalisée moins un strike ; se réplique par un panier d'options pondérées en $1/K^2$ ; strike au-dessus de la vol ATM à cause du skew
-  Les puts bas, chers, entrent dans la réplication.
-- Il se réplique par un seul straddle
++ Options pondérées en $1/K^2$ ; strike au-dessus de la vol ATM
+  Il paie la variance réalisée moins un strike ; les puts bas, chers à cause du skew, entrent dans la réplication.
+- Il se réplique par un straddle à la monnaie, rééquilibré
   Le straddle a une exposition qui dépend du prix.
-- Son strike vaut toujours la vol ATM
+- Son strike vaut la vol ATM, car le swap est symétrique
   Le skew le pousse au-dessus.
 - Il paie la volatilité réalisée
   C'est un swap de volatilité, convexe différemment.
 
 === der-quanto
-+ Option sur un actif étranger payée en devise domestique à un taux fixé ; l'ajustement vient de la corrélation actif–change
-  Dérive ajustée de $-\rho\sigma_S\sigma_X$.
++ Payé en devise domestique à taux fixé : corrélation actif–change
+  La dérive est ajustée de $-\rho\sigma_S\sigma_X$.
 - Une option sur le taux de change seul
   C'est une option de change.
-- Aucun ajustement n'est nécessaire
+- Aucun ajustement : le change est fixé d'avance
   La corrélation modifie la dérive.
-- Un ajustement de dividende
+- Un ajustement de dividende de l'actif étranger
   Sans rapport.
 
 === der-couverture-discrete
-+ Une erreur de couverture de variance proportionnelle au gamma, d'espérance nulle ; avec coûts, on couvre moins souvent (bandes)
-  Compromis erreur contre coûts (Leland, Whalley-Wilmott).
-- La couverture devient parfaite
++ Erreur centrée liée au gamma ; avec coûts, moins souvent
+  Variance proportionnelle au gamma ; compromis erreur contre coûts par bandes (Leland, Whalley-Wilmott).
+- La couverture reste parfaite si l'on suit le delta
   Seulement en continu.
-- Le PnL a une espérance positive
+- Le PnL a une espérance positive, grâce au gamma
   L'erreur est centrée.
 - Il faut couvrir plus souvent avec des coûts
   Les coûts poussent à couvrir moins souvent.
 
 === der-greeks-portefeuille
-+ D'abord une autre option pour annuler le gamma, puis l'action pour le delta
++ Une option pour le gamma, puis l'action pour le delta
   L'action n'a pas de gamma.
-- D'abord l'action, puis l'option
+- D'abord l'action pour le delta, puis une option pour le gamma
   L'option ajoutée change à nouveau le delta.
 - L'action seule suffit
   Elle n'annule pas le gamma.
@@ -101,33 +101,33 @@
   Son gamma est nul.
 
 === der-strangle-straddle
-+ Straddle : call et put de même strike ; strangle : strikes différents, moins cher, il faut un plus grand mouvement
-  Deux paris sur la volatilité, à coût et seuil différents.
-- Le strangle est plus cher
++ Strangle : strikes différents, moins cher, plus de mouvement requis
+  Straddle : call et put de même strike. Deux paris sur la volatilité, à coût et seuil différents.
+- Le strangle est plus cher, car il couvre deux strikes
   Il est hors de la monnaie des deux côtés.
-- Le straddle parie sur la baisse
+- Le straddle parie sur la baisse, le strangle sur la hausse
   Il parie sur l'amplitude.
 - Ce sont des positions courtes en volatilité
   Achetés, ils sont longs en volatilité.
 
 === nrj-specificites-electricite
-+ Non stockable, équilibre instantané, saisonnalité forte, pics de prix et retour rapide à la moyenne
-  Le prix spot peut sauter de plusieurs ordres de grandeur.
++ Non stockable : pics de prix et retour rapide à la moyenne
+  Équilibre instantané, saisonnalité forte : le prix spot peut sauter de plusieurs ordres de grandeur.
 - Elle se stocke comme le pétrole
   Stockage très limité et coûteux.
-- Son prix suit un brownien géométrique simple
+- Son prix suit un brownien géométrique simple, sans saisonnalité
   Retour à la moyenne et sauts.
 - Elle se négocie seulement au comptant
   Forwards, futures et options existent.
 
 === nrj-prix-negatifs
-+ L'offre dépasse la demande et certains producteurs préfèrent payer plutôt que s'arrêter (rigidités, subventions)
-  Arrêter une centrale coûte, le renouvelable subventionné produit à prix négatif.
-- C'est une erreur de cotation
++ L'offre dépasse la demande, et s'arrêter coûte plus cher
+  Arrêter une centrale coûte ; le renouvelable subventionné produit même à prix négatif.
+- C'est une erreur de cotation, corrigée ensuite
   C'est un phénomène réel et fréquent.
-- À cause d'un taux d'intérêt négatif
+- À cause d'un taux d'intérêt négatif sur les contrats
   Sans rapport.
-- Parce que la demande est trop forte
+- La demande est trop forte pour le réseau
   C'est l'excès d'offre.
 
 === nrj-spark-spread
@@ -141,28 +141,28 @@
   C'est avec le CO$_2$.
 
 === nrj-clean-spark
-+ $-12$ €/MWh : elle ne doit pas produire
++ −12 €/MWh : elle ne produit pas
   $90 - 70 - 32$.
 - 20 €/MWh : elle produit
   On a oublié le CO$_2$.
-- 4 €/MWh
+- 4 €/MWh : elle produit
   On a pris 0,2 t par MWh.
-- $-44$ €/MWh
+- −44 €/MWh : elle ne produit pas
   On a compté le CO$_2$ deux fois.
 
 === nrj-centrale-option
-+ Chaque heure, produire si le spread est positif : une série d'options sur spread
++ Une série d'options sur spread : produire s'il est positif
   Valorisation par simulation, avec contraintes techniques.
 - C'est un actif sans optionalité
   On peut arrêter la production.
-- Une option sur le seul prix du gaz
+- Une option sur le seul prix du gaz, au comptant
   L'option porte sur l'écart électricité–gaz.
 - Elle se valorise comme une obligation
   Ses flux sont aléatoires et optionnels.
 
 === nrj-schwartz
-+ Log-prix en Ornstein-Uhlenbeck ; la volatilité des forwards baisse avec la maturité (effet Samuelson)
-  Les forwards lointains bougent peu.
++ Log-prix en Ornstein-Uhlenbeck : forwards lointains moins volatils
+  Effet Samuelson : les forwards lointains bougent peu.
 - Brownien géométrique, forwards aussi volatils que le spot
   Ignore le retour à la moyenne.
 - Le forward vaut toujours le spot
@@ -171,21 +171,21 @@
   Pas de retour à la moyenne.
 
 === nrj-couverture-producteur
-+ Vendre à terme une partie de la production, acheter des puts ; restent les risques de volume, de base et de contrepartie
-  La couverture parfaite n'existe pas.
-- Acheter des forwards
++ Vendre à terme une partie et acheter des puts
+  Restent les risques de volume, de base et de contrepartie : la couverture parfaite n'existe pas.
+- Acheter des forwards sur toute la production
   Cela augmente l'exposition à la baisse.
-- Tout couvrir à 100 %
+- Vendre à terme 100 % de la production attendue
   Risque de volume : on peut produire moins que prévu.
 - Rien, les prix remontent toujours
   Pari, pas couverture.
 
 === nrj-parler-stage
-+ Relier honnêtement les compétences du stage (données, modélisation, prix de l'énergie) au poste visé
-  Sans exagérer ni inventer.
++ Relier honnêtement ses compétences au poste visé
+  Données, modélisation, prix de l'énergie : sans exagérer ni inventer.
 - Dire que le stage n'a aucun rapport
   On perd une occasion.
-- Prétendre avoir fait du trading
+- Le présenter comme une expérience de trading
   Mensonge vite démasqué.
 - Parler seulement de l'entreprise
   On attend ton apport.
@@ -241,9 +241,9 @@
   Approximation sans calcul.
 
 === jeu-saint-petersbourg
-+ Peu, malgré l'espérance infinie : utilité concave et richesse finie de la banque
-  Bernoulli : l'utilité logarithmique donne une valeur finie.
-- Une somme infinie
++ Peu, malgré l'espérance infinie
+  Utilité concave et richesse finie de la banque ; Bernoulli : l'utilité logarithmique donne une valeur finie.
+- Une somme infinie, son espérance
   Personne ne le ferait.
 - 2 €
   Ce n'est que le premier terme.
@@ -251,13 +251,13 @@
   Le jeu rapporte au moins 2 €.
 
 === jeu-deux-enveloppes
-+ Supposer 50 et 200 équiprobables quelle que soit la somme vue est impossible avec une loi a priori
-  Aucune loi propre ne rend ces cas toujours équiprobables.
-- Il faut toujours changer
++ Supposer 50 et 200 équiprobables pour toute somme vue
+  Aucune loi a priori propre ne rend ces cas toujours équiprobables.
+- Rien : il faut toujours changer
   Le paradoxe vient d'un raisonnement faux.
-- L'espérance vaut bien 125
+- Rien : l'espérance vaut bien 125
   Seulement avec une hypothèse impossible.
-- Il ne faut jamais changer
+- Rien : il ne faut jamais changer
   Par symétrie, changer ne change rien sans information.
 
 === jeu-pari-de-plus-grand
@@ -271,11 +271,11 @@
   Probabilité d'égalité.
 
 === jeu-pari-sequence
-+ Non : la plus longue suite de piles est d'environ $\log_2 100 \approx 6$, au moins 5 est très probable
-  Il gagne environ 80 % du temps.
++ Non : sur 100 lancers, 5 piles d'affilée est très probable
+  La plus longue suite fait environ $\log_2 100 \approx 6$ : il gagne environ 80 % du temps.
 - Oui : 5 piles d'affilée est rare
   Rare à un endroit donné, pas sur 100 lancers.
-- Indifférent, le pari est équitable
+- Indifférent : le pari est équitable à 50 %
   Il est déséquilibré.
 - Oui si la pièce est équilibrée
   C'est justement le cas où il gagne.

@@ -1,11 +1,11 @@
 # QCM des casse-têtes de pesées, de recherche et de stratégie.
 
 === ct-pieces-balance
-+ 4 contre 4, puis des pesées qui mélangent pièces suspectes et pièces sûres, en déplaçant certaines d'un plateau à l'autre
-  24 cas pour 27 issues : chaque pesée doit séparer les cas en trois groupes de taille presque égale.
++ 4 contre 4, puis des pesées qui mélangent pièces suspectes et sûres
+  En déplaçant certaines d'un plateau à l'autre : 24 cas pour 27 issues, chaque pesée sépare en trois groupes presque égaux.
 - 6 contre 6, puis 3 contre 3, puis 1 contre 1
   La première pesée laisse 12 cas sur une seule issue « penche » et gaspille l'issue « équilibre ».
-- 4 contre 4, puis 2 contre 2 parmi le groupe suspect
+- 4 contre 4, puis 2 contre 2 parmi le groupe suspect, puis 1 contre 1
   Sans mélanger pièces sûres et suspectes, on ne sépare pas « lourde » et « légère » assez vite.
 - C'est impossible en 3 pesées, il en faut 4
   24 cas tiennent dans $3^3 = 27$ issues, et une construction existe.
@@ -41,18 +41,18 @@
   Quatre suffisent dès qu'on utilise les deux plateaux.
 
 === ct-cordes
-+ A par les deux bouts et B par un bout ; quand A finit, allumer le second bout de B
-  A dure 30 min ; il reste 30 min à B, qui finit en 15 min : total 45.
++ A par les deux bouts, B par un bout ; puis le second bout de B
+  Quand A finit (30 min), on allume l'autre bout de B : ses 30 min restantes durent 15 min. Total 45.
 - Couper une corde en deux et brûler une moitié
   La combustion est irrégulière : une demi-corde ne dure pas forcément 30 min.
 - Brûler A par un bout, puis la moitié de B
   On ne sait pas repérer la moitié d'une corde irrégulière.
-- C'est impossible avec deux cordes
+- C'est impossible : les cordes brûlent de façon irrégulière
   Allumer par les deux bouts divise toujours la durée restante par deux.
 
 === ct-sabliers
-+ Lancer les deux ; à 7 retourner le petit ; à 11, le retourner encore : il se vide à 15
-  À 11, il a 4 min de sable en bas ; retourné, il les rend en 4 min.
++ Lancer les deux ; retourner le petit à 7, puis encore à 11
+  À 11, le petit a coulé 4 minutes depuis son retournement : retourné, il les redonne et se vide à 15.
 - Lancer le 11 puis deux fois de suite le petit
   $11 + 7 + 7 = 25$ : on ne mesure pas 15.
 - Lancer le 7 deux fois et attendre 1 minute de plus
@@ -73,9 +73,9 @@
 === ct-vin-eau
 + Autant de vin dans l'eau que d'eau dans le vin
   Chaque verre retrouve son volume ; ce qui manque de vin d'un côté a été remplacé par de l'eau.
-- Plus de vin dans l'eau
+- Plus de vin dans l'eau, versé en premier
   On pense que la première cuillère était pure ; mais la seconde rapporte aussi du vin.
-- Plus d'eau dans le vin
+- Plus d'eau dans le vin, à cause du mélange
   La seconde cuillère est un mélange, mais l'égalité des volumes compense exactement.
 - Ça dépend de la taille de la cuillère
   L'égalité vaut quelle que soit la cuillère, et même si l'on mélange mal.
@@ -151,8 +151,8 @@
   Ces 15 pesées ne donnent que la plus lourde.
 
 === ct-celebrite
-+ Éliminer les candidats un à un (« c connaît x ? »), puis vérifier le dernier : $3(n - 1)$ questions au plus
-  Chaque question élimine quelqu'un ; la vérification finale est indispensable.
++ Éliminer un candidat par question, puis vérifier le dernier
+  « c connaît x ? » élimine l'un des deux ; $3(n - 1)$ questions au plus, vérification comprise.
 - Demander à chacun s'il connaît tout le monde : $O(n^2)$
   Correct mais trop lent : on veut $O(n)$.
 - Garder le candidat le plus connu sans vérification
@@ -161,9 +161,9 @@
   L'élimination montre que $O(n)$ suffit.
 
 === ct-nombre-manquant
-+ Somme attendue $n(n+1)/2$ moins la somme de la liste (ou un ou exclusif) ; pour un doublon, l'algorithme de Floyd
-  Temps $O(n)$, mémoire $O(1)$ dans les deux cas.
-- Trier la liste puis la parcourir
++ $n(n+1)/2$ moins la somme ; pour un doublon, Floyd
+  Ou un ou exclusif ; temps $O(n)$, mémoire $O(1)$ dans les deux cas.
+- Trier la liste, puis chercher le trou ou la répétition
   Le tri coûte $O(n \log n)$.
 - Utiliser un tableau de présence
   Juste, mais en mémoire $O(n)$.
@@ -221,11 +221,11 @@
   $2^6 = 64 < 120 = 5!$ : impossible.
 
 === ct-stations-circuit
-+ Partir de la station qui suit le point le plus bas du réservoir « virtuel »
++ Partir juste après le point le plus bas du réservoir cumulé
   Depuis là, le niveau ne descend jamais sous 0 ; un seul passage suffit.
 - Partir de la station qui a le plus d'essence
   Elle peut être suivie d'un trajet très long : ce n'est pas un critère.
-- Essayer chaque station de départ
+- Essayer chaque station de départ jusqu'à réussir le tour
   Juste mais en $O(n^2)$, pas en un passage.
 - Il n'en existe pas toujours
   La somme exacte garantit l'existence (argument du minimum).
@@ -271,24 +271,24 @@
   C'est le nombre total de coups possibles, gagnants ou non.
 
 === ct-pieces-en-rangee
-+ Oui : il choisit la parité (positions paires ou impaires) la plus riche, et peut prendre toutes ses pièces
-  Après chacun de ses coups, les deux extrémités sont de l'autre parité.
++ Oui : il prend toutes les pièces de la parité la plus riche
+  Positions paires ou impaires : après chacun de ses coups, les deux extrémités sont de l'autre parité.
 - Non, l'adversaire peut toujours le contrer
   Avec un nombre pair de pièces, la stratégie des parités est imparable.
 - Oui, en prenant toujours la plus grande extrémité
   La gourmandise peut perdre : elle ouvre parfois une grosse pièce à l'adversaire.
-- Ça dépend des valeurs
+- Ça dépend des valeurs des pièces aux extrémités
   La garantie de la moitié vaut pour toutes les valeurs (pas le maximum exact).
 
 === ct-table-ronde
 + Le premier joueur, en jouant au centre puis symétriquement
   La position reste symétrique : à chaque coup adverse correspond une place libre.
-- Le second joueur, par symétrie
+- Le second joueur, en copiant par symétrie
   Le centre est son propre symétrique : le premier joueur le prend et devient le « copieur ».
 - Ça dépend de la taille de la table
   La stratégie de symétrie marche pour toute table centrée.
-- Celui qui pose la plus grande pièce
-  Toutes les pièces sont identiques.
+- Le second joueur, s'il joue toujours au bord
+  Aucune stratégie ne le sauve : le premier joueur prend le centre puis copie symétriquement.
 
 === ct-duel-trois
 + En l'air
@@ -311,8 +311,8 @@
   Le nombre est le même quelle que soit la méthode.
 
 === ct-somme-quinze
-+ Match nul : c'est le morpion déguisé, via le carré magique 2 7 6 / 9 5 1 / 4 3 8
-  Les triplets de somme 15 sont les lignes du carré magique.
++ Match nul : c'est le morpion déguisé
+  Les triplets de somme 15 sont les lignes du carré magique 2 7 6 / 9 5 1 / 4 3 8.
 - Le premier joueur gagne en prenant 5
   5 est le meilleur premier coup (centre du morpion), mais l'adversaire peut toujours tenir le nul.
 - Le second joueur gagne
@@ -321,11 +321,11 @@
   L'isomorphisme avec le morpion donne la réponse immédiatement.
 
 === ct-martingale-doublement
-+ Non : espérance négative à chaque coup, et une longue série de pertes ruine un capital fini
++ Non : une série de pertes finit par ruiner un capital fini
   On gagne souvent 1 €, on perd rarement une somme énorme ; l'espérance reste négative.
 - Oui, on finit toujours par gagner
   Seulement avec un capital et un temps infinis, et sans plafond de mise.
 - Oui, si l'on s'arrête après le premier gain
   Le théorème d'arrêt : aucune règle d'arrêt bornée ne transforme un jeu défavorable en jeu favorable.
-- Oui, sur rouge et noir seulement
+- Oui, sur rouge et noir seulement, avec une petite mise
   La probabilité $18/37 < 1/2$ rend la stratégie encore pire.

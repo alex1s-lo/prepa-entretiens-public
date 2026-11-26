@@ -61,10 +61,10 @@
     const parite = o.ecartJours('2026-01-01', jour) % 2 === 0;
     const proposeMarche = etat.reglages.profils[0] === 'mm' || !parite;
 
-    let html = '<h1>Aujourd’hui</h1><p class="doux">' + o.dateLisible(jour) + ' · 30 à 45 minutes chaque jour valent mieux que trois heures le week-end.</p>';
+    let html = '<h1>Aujourd’hui</h1><p class="doux">' + o.dateLisible(jour) + '</p>';
 
-    if (debutant) {
-      html += '<div class="carte carte-mise-en-avant"><h2>Par où commencer</h2><ol class="etapes">' +
+    if (debutant && !etat.reglages.guideMasque) {
+      html += '<div class="carte carte-mise-en-avant"><div class="ligne"><h2 style="margin:0">Par où commencer</h2><span class="espace"></span><button class="discret" data-masquer-guide>Masquer</button></div><ol class="etapes">' +
         '<li><a href="#reglages">Réglages</a> : choisis le type de poste que tu vises en priorité et complète ton profil.</li>' +
         '<li><a href="#revisions">Révisions</a> : fais ta première session (15 questions). Réponds à voix haute avant de regarder la solution.</li>' +
         '<li><a href="#calcul">Calcul mental</a> : un sprint de 2 minutes pour connaître ton niveau de départ.</li>' +
@@ -156,6 +156,8 @@
       prev.map(function (v) { const m = Math.max.apply(null, prev.concat([1])); return '<span class="' + (v ? '' : 'vide') + '" style="height:' + Math.max(4, Math.round(100 * v / m)) + '%" title="' + v + '"></span>'; }).join('') +
       '</div><div class="axe"><span>auj.</span><span></span><span></span><span></span><span></span><span></span><span>+6</span></div></div></div>';
     main.innerHTML = html;
+    const mg = main.querySelector('[data-masquer-guide]');
+    if (mg) mg.addEventListener('click', function () { etat.reglages.guideMasque = true; A.sauver(); mg.closest('.carte').remove(); });
   }
 
   A.enregistrerVue({ id: 'accueil', titre: 'Aujourd’hui', court: 'Accueil', icone: '⌂', ordre: 1, rendre: rendre });

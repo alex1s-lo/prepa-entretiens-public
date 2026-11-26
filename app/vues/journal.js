@@ -29,8 +29,7 @@
     const avenir = etat.journal.filter(function (e) { return e.date >= jour && !e.passe; }).sort(function (a, b) { return a.date < b.date ? -1 : 1; });
     const passes = etat.journal.filter(function (e) { return !(e.date >= jour && !e.passe); }).sort(function (a, b) { return a.date < b.date ? 1 : -1; });
     const prochain = avenir[0];
-    let html = '<h1>Journal d’entretiens</h1><p class="doux">Note tes entretiens à venir : l’accueil affiche le compte à rebours et la liste de préparation. ' +
-      'Après chaque entretien, note les questions posées : elles deviennent des fiches de révision (« Mes questions »).</p>';
+    let html = '<h1>Journal d’entretiens</h1><p class="doux">Tes entretiens à venir, et les questions posées, qui deviennent des fiches de révision.</p>';
     if (prochain) {
       const n = o.ecartJours(jour, prochain.date);
       const etape = n >= 2 ? 0 : n === 1 ? 1 : 2;

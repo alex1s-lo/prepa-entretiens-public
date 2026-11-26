@@ -15,7 +15,7 @@
   Vérité et mensonge se composent toujours en un mensonge : la porte désignée est la mauvaise.
 - « Laquelle mène à la liberté ? », et suivre la réponse
   La réponse dépend du gardien interrogé, que tu ne connais pas.
-- « Es-tu le menteur ? »
+- « Es-tu le menteur ? », puis suivre son indication
   Les deux répondent « non » : on n'apprend rien.
 - « Laquelle mène à la liberté ? », et prendre l'autre porte
   Ce serait juste face au menteur seulement : il faut une question qui marche pour les deux.
@@ -31,9 +31,9 @@
   La contradiction élimine tous les cas sauf un.
 
 === ct-trois-oracles
-+ Poser des questions imbriquées « Si je te demandais Q, répondrais-tu da ? », d'abord pour trouver un oracle qui n'est pas Aléatoire
-  La question imbriquée neutralise le sens inconnu de « da » et le menteur ; on interroge ensuite un oracle sûr.
-- Demander à chacun « Es-tu Aléatoire ? »
++ Des questions imbriquées, d'abord pour écarter Aléatoire
+  « Si je te demandais Q, répondrais-tu da ? » neutralise le sens inconnu de « da » et le menteur ; on interroge ensuite un oracle sûr.
+- Demander à chacun « Es-tu Aléatoire ? », puis recouper
   Aléatoire peut répondre n'importe quoi, et le sens de « da » est inconnu : aucune conclusion possible.
 - Demander « 1 + 1 = 2 ? » pour apprendre le sens de « da »
   Le menteur et Aléatoire brouillent la réponse : on n'apprend ni le sens de « da » ni l'identité.
@@ -111,9 +111,9 @@
   Elles restent indéterminées, mais la réponse du n° 1 ne l'est pas.
 
 === ct-prisonniers-ampoule
-+ Un compteur unique éteint et compte ; chacun des autres allume une seule fois
++ Un compteur unique éteint et compte ; les autres allument une fois
   Le compteur annonce quand il a compté 99 allumages : chaque prisonnier n'a contribué qu'une fois.
-- Chacun allume l'ampoule à chaque passage
+- Chacun allume l'ampoule à chaque passage s'il la trouve éteinte
   Le compteur ne pourrait pas distinguer un nouveau prisonnier d'un prisonnier déjà venu.
 - Annoncer au bout d'un nombre de jours assez grand
   Ce n'est jamais une certitude, et une erreur les condamne.
@@ -135,7 +135,7 @@
   Le n° 1 est sûr de mourir s'il fuit ; sachant cela, le n° 2 aussi, et ainsi de suite.
 - Annoncer qu'on tirera sur le premier qui s'enfuit
   S'ils s'enfuient tous en même temps, chacun a une chance de survivre.
-- Tirer au hasard parmi les fuyards
+- Tirer au hasard parmi les fuyards, pour rester imprévisible
   Chaque fuyard a alors une probabilité non nulle de survivre : ils fuient tous.
 - C'est impossible avec une seule balle
   La menace crédible et ordonnée suffit, par récurrence.
@@ -181,8 +181,8 @@
   Trois allers-retours suffisent, chacun gardant sa clé.
 
 === ct-cinq-cartes-fitch
-+ Montrer en premier une carte de la même couleur que la cachée, et coder l'écart (1 à 6) par l'ordre des trois autres
-  Deux cartes partagent une couleur ; l'une est à au plus 6 crans de l'autre ; $3! = 6$ ordres codent l'écart.
++ Une carte de même couleur d'abord, l'écart codé par l'ordre des autres
+  Deux cartes partagent une couleur ; l'une est à au plus 6 crans de l'autre ; $3! = 6$ ordres codent l'écart de 1 à 6.
 - Montrer les quatre cartes dans l'ordre croissant
   Un seul ordre ne transmet aucune information.
 - Le magicien déduit la carte manquante des 48 restantes
@@ -341,11 +341,11 @@
   On a pris $\log_{10} 2 \approx 1/3$ : trop grossier.
 
 === ct-irrationnel
-+ Par l'absurde dans les deux cas : $p^2 = 2q^2$ force $p$ et $q$ pairs ; $p_1 \cdots p_n + 1$ n'a aucun des $p_i$ comme facteur
-  Deux preuves classiques par contradiction, à savoir réciter en une minute.
++ Par l'absurde : $p^2 = 2q^2$ ; puis $p_1 \cdots p_n + 1$
+  $p^2 = 2q^2$ force $p$ et $q$ pairs ; $p_1 \cdots p_n + 1$ n'a aucun des $p_i$ comme facteur.
 - $\sqrt 2 = 1{,}41421\dots$ ne se termine pas, donc il est irrationnel
   Un développement infini peut être périodique (comme $1/3$) : il faut une preuve.
-- $p_1 \cdots p_n + 1$ est toujours premier
+- Par l'absurde : $p_1 \cdots p_n + 1$ est toujours premier
   Faux ($2 \cdot 3 \cdot 5 \cdot 7 \cdot 11 \cdot 13 + 1 = 30\,031 = 59 \times 509$) ; il a seulement un facteur premier nouveau.
 - Les premiers sont infinis car il y a une infinité d'entiers
   Ce n'est pas un argument : il faut montrer qu'on ne peut pas tous les lister.
