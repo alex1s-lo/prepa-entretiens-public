@@ -497,7 +497,8 @@
     clic: [[440, 0, .04]]
   };
   function son(nom) {
-    if (etat.reglages.sons === false || !jeuActif()) return;
+    // sons désactivés par défaut : ils ne jouent que si on les a activés dans les Réglages
+    if (etat.reglages.sonsActifs !== true || !jeuActif()) return;
     try {
       const AC = racine.AudioContext || racine.webkitAudioContext;
       if (!AC) return;
