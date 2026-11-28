@@ -10,8 +10,12 @@ Tu vises un stage de césure de 5 à 6 mois à partir de [mois de début]. Les r
 | 3 à 8 min | Un sprint de calcul mental | Calcul mental |
 | 5 à 10 min | Un entretien blanc court, ou une partie de market making (en alternance) | Entretien blanc, Market making |
 | 2 min | Répéter une histoire à voix haute | Mes histoires |
+| 10 à 20 min, deux à trois fois par semaine | Un chapitre du cours, puis son QCM (« Par chapitre du cours ») ou un niveau de la Campagne | Cours, QCM, Campagne |
+| 5 à 10 min, un jour sur deux | Un casse-tête jamais vu, en cherchant à voix haute avant l'indice | Casse-têtes |
 
 Le plus important est la régularité : la répétition espacée ne marche que si tu reviens chaque jour, même dix minutes.
+
+Pour retrouver une question ou une notion : `Ctrl+K` cherche dans tout le contenu, et la **Banque** range toutes les fiches par thème et par chapitre. Tu découvres une notion ? Le QCM propose « Voir le cours d'abord » et « Je ne sais pas encore » : mieux vaut s'avouer qu'on ne sait pas que cliquer au hasard.
 
 ## Semaine 1 : poser les bases
 

@@ -25,6 +25,14 @@ def textes_attendus() -> tuple[str, str]:
         lignes.append(f"| {construire.THEMES[a[0]]} | {a[1]} | {construire.THEMES.get(b[0], '')} | {b[1]} |")
     s = (RACINE / "README.md").read_text(encoding="utf-8")
     s = re.sub(r"\| \*\*Révisions\*\* \| \d+ questions", f"| **Révisions** | {n} questions", s)
+    qcm = construire.lire_qcm()
+    cours = sum(q["cible"].startswith("cours:") for q in qcm)
+    enigmes = [f for f in fiches if f.get("categorie")]
+    variantes = sum(1 for f in enigmes if f.get("parent"))
+    s = re.sub(r"\| \*\*QCM\*\* \| \d+ questions à choix multiples \(dont \d+ sur le cours\)",
+               f"| **QCM** | {len(qcm)} questions à choix multiples (dont {cours} sur le cours)", s)
+    s = re.sub(r": \d+ énigmes, dont \d+ variantes\.", f": {len(enigmes)} énigmes, dont {variantes} variantes.", s)
+    s = re.sub(r"range les \d+ fiches", f"range les {n} fiches", s)
     s = re.sub(r"Les \d+ questions à réponse chiffrée", f"Les {num} questions à réponse chiffrée", s)
     s = re.sub(r"\*\*Les essentiels\*\* \(`contenu/essentiels.lst`\) : \d+ questions",
                f"**Les essentiels** (`contenu/essentiels.lst`) : {ess} questions", s)

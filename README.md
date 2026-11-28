@@ -12,6 +12,8 @@ Elle est pensée pour une préparation quotidienne de 30 à 45 minutes, pas pour
 
 Sur téléphone, la barre du bas garde les cinq sections du quotidien ; les autres sont sous « Plus ».
 
+**Se repérer** : <kbd>Ctrl</kbd> <kbd>K</kbd> (ou la loupe) cherche dans tout le contenu ; la **Banque** range les 781 fiches par thème et par chapitre du cours ; le **Cours** est une table des matières ; le **QCM** s'ouvre par domaine, par chapitre ou en parties classées. Les sons du mode jeu sont coupés par défaut.
+
 Pas de serveur, pas de compte, pas de connexion Internet : la page ne charge rien de l'extérieur et n'envoie rien. La progression est enregistrée dans le navigateur ; **Réglages → Exporter** crée une sauvegarde à réimporter ailleurs (autre navigateur, téléphone).
 
 **Synchroniser téléphone et ordinateur** (facultatif, Réglages) : la progression est chiffrée sur l'appareil (AES-GCM, clé tirée d'une phrase de passe), puis déposée dans un dépôt GitHub **privé** qui t'appartient ; chaque appareil la fusionne avec la sienne, élément par élément (la modification la plus récente l'emporte, les historiques s'additionnent sans doublon). C'est automatique : à l'ouverture, une vingtaine de secondes après chaque réponse, au retour du réseau. Hors ligne, rien ne change : la synchronisation reprend dès que le réseau revient. Il faut une fois : un dépôt privé vide, un jeton GitHub « fine-grained » limité à ce dépôt (permission *Contents : Read and write*) et une phrase de passe ; le deuxième appareil se configure en collant un **code de liaison**. Le jeton et la phrase de passe restent dans le navigateur de chaque appareil et ne sont jamais synchronisés. « Tout effacer » n'efface que l'appareil : la copie synchronisée revient à la synchronisation suivante.
@@ -22,14 +24,14 @@ Pas de serveur, pas de compte, pas de connexion Internet : la page ne charge rie
 |---|---|
 | **Aujourd'hui** | Le programme du jour, le compte à rebours jusqu'au prochain entretien, la question du jour |
 | **Cours** | Un cours complet en 23 chapitres, des probabilités au calcul stochastique, au pricing (exotiques et énergie compris), au risque, au market making, au machine learning et au code : définitions, démonstrations complètes ligne à ligne, exemples chiffrés, 160 exercices à réponse vérifiée, 21 simulations interactives, et des liens vers les fiches de révision correspondantes (voir plus bas) |
-| **Révisions** | 781 questions en répétition espacée : une question ratée revient le lendemain, une question facile dans quelques semaines. Session du jour, révision par thème, banque consultable avec recherche |
+| **Révisions** | 781 questions en répétition espacée : une question ratée revient le lendemain, une question facile dans quelques semaines. Session du jour, révision par thème ; la banque de questions a sa propre page (ligne suivante) |
 | **Banque de questions** | Toutes les fiches rangées comme un sommaire : index des thèmes, puis groupes par chapitre du cours (ou par famille pour les casse-têtes), triés par difficulté, chaque variante sous son problème. Filtres par statut (jamais vue, à revoir, en cours, maîtrisée), difficulté, poste, essentiels ; recherche plein texte (<kbd>/</kbd>). Une ligne se déplie sur place (énoncé, solution, liens vers le cours et le QCM). Les filtres restent dans l'adresse ; « Réviser cette sélection » lance une session sur les 15 moins maîtrisées |
 | **Recherche** | <kbd>Ctrl</kbd> <kbd>K</kbd> (ou <kbd>⌘</kbd> <kbd>K</kbd>, ou le bouton en haut de la barre latérale) : pages, chapitres et sections du cours, questions, casse-têtes et guides dans une seule liste, au clavier |
-| **QCM** | Une question à choix multiples pour **chacune** des fiches (casse-têtes et variantes compris). Les mauvaises réponses sont des pièges courants (formule voisine, cas oublié, intuition trompeuse) et **chaque** réponse est expliquée après coup, la bonne comme les fausses. Pensé pour découvrir une notion en jouant : avant de répondre, « Voir le cours d'abord » affiche la section du cours qui l'explique (ou un indice), et « Je ne sais pas encore » montre la réponse sans pénalité ; après la réponse, la **correction détaillée** rappelle la bonne réponse et sa justification, donne la solution rédigée pas à pas de la fiche (avec le piège classique) et le point de cours en extrait, ouvert d'office après une erreur. La section est celle qui cite la fiche ; pour une fiche qu'aucun chapitre ne cite, seul le chapitre du domaine est proposé (le bon chapitre est trouvé environ 9 fois sur 10, la bonne section seulement 6 fois sur 10). Trois entrées : par domaine, par chapitre du cours, ou en parties classées. Les longueurs des réponses sont équilibrées (la bonne n'est nettement la plus longue que dans 13 % des questions), pour qu'on ne puisse pas deviner à la forme. Sessions de 10 par domaine ou tous domaines (d'abord les questions ratées, puis les jamais vues), bilan et « refaire mes erreurs ». Progression à part : répondre au QCM ne change pas le planning des révisions |
+| **QCM** | 869 questions à choix multiples (dont 88 sur le cours) : au moins une pour **chacune** des fiches, casse-têtes et variantes compris. Les mauvaises réponses sont des pièges courants (formule voisine, cas oublié, intuition trompeuse) et **chaque** réponse est expliquée après coup, la bonne comme les fausses. Pensé pour découvrir une notion en jouant : avant de répondre, « Voir le cours d'abord » affiche la section du cours qui l'explique (ou un indice), et « Je ne sais pas encore » montre la réponse sans pénalité ; après la réponse, la **correction détaillée** rappelle la bonne réponse et sa justification, donne la solution rédigée pas à pas de la fiche (avec le piège classique) et le point de cours en extrait, ouvert d'office après une erreur. La section est celle qui cite la fiche ; pour une fiche qu'aucun chapitre ne cite, seul le chapitre du domaine est proposé (le bon chapitre est trouvé environ 9 fois sur 10, la bonne section seulement 6 fois sur 10). Trois entrées : par domaine, par chapitre du cours, ou en parties classées. Les longueurs des réponses sont équilibrées (la bonne n'est nettement la plus longue que dans 13 % des questions), pour qu'on ne puisse pas deviner à la forme. Sessions de 10 par domaine ou tous domaines (d'abord les questions ratées, puis les jamais vues), bilan et « refaire mes erreurs ». Progression à part : répondre au QCM ne change pas le planning des révisions |
 | **Calcul mental** | Format « 80 questions en 8 minutes », sprint de 2 minutes, ordres de grandeur (estimer à 5 % près), **probabilités rapides** (dés, pièces, cartes, urnes, à l'infini), **pricing d'options de tête** (calls et straddles à la monnaie, parité, forwards, delta, vega, vol implicite d'un straddle), suites logiques, entraînement libre ; courbes de progression |
 | **Entretien blanc** | Un entretien complet et chronométré, composé pour un type de maison (hedge fund, teneur de marché, banque, risque, data) : présentation, un de tes projets, technique, motivation. Après une question sur deux environ, l'intervieweur **relance** (« et avec trois dés ? », « quelle limite ? ») ; tu réponds, puis tu vois la réponse attendue. L'intervieweur peut aussi lire chaque question à voix haute (synthèse vocale du navigateur, en français ou en anglais). Et des consignes à coller dans l'application Claude pour un **entretien oral en mode vocal** |
 | **Test en ligne** | Le format des tests de présélection : questions chiffrées tirées de la banque selon le type de poste, chrono global, navigation libre entre les questions, corrigé à la fin (Entretien blanc → Test en ligne) |
-| **Casse-têtes** | Toutes les énigmes qui tombent en entretien quant, recensées sur une vingtaine de sources publiques et dédoublonnées. Chaque **variante** d'un problème classique est une énigme à part entière (énoncé, indice, correction), rangée sous son problème d'origine, avec un lien dans les deux sens. Onze familles (logique, pesées, stratégie, probabilités, dénombrement, nombres, invariants, recherche optimale, géométrie, vitesses et calendriers, estimations de Fermi), recherche, filtres, compteur des énigmes **jamais vues**, tirage au hasard ou session de 5, notation reliée à la répétition espacée. Un casse-tête jamais vu est proposé chaque jour sur l'accueil |
+| **Casse-têtes** | Toutes les énigmes qui tombent en entretien quant, recensées sur plus de vingt sources publiques (sites d'entraînement, articles, listes de questions rapportées par des candidats) et dédoublonnées : 431 énigmes, dont 172 variantes. Les énoncés et solutions sont réécrits ici, jamais recopiés ; une fiche inspirée d'une liste précise porte son champ `source:`. Chaque **variante** d'un problème classique est une énigme à part entière (énoncé, indice, correction), rangée sous son problème d'origine, avec un lien dans les deux sens. Onze familles (logique, pesées, stratégie, probabilités, dénombrement, nombres, invariants, recherche optimale, géométrie, vitesses et calendriers, estimations de Fermi), recherche, filtres, compteur des énigmes **jamais vues**, tirage au hasard ou session de 5, notation reliée à la répétition espacée. Le bouton « jamais vue » ne propose que des énigmes jamais travaillées. Un casse-tête jamais vu est proposé chaque jour sur l'accueil |
 | **Market making** | « Fais-moi un marché sur la somme de quatre dés » : tu cotes bid/ask, des contreparties (dont certaines informées) traitent, l'information arrive tour par tour ; bilan avec avantage à la valeur juste et sélection adverse. Onglet **Paris répétés** : combien miser sur un pari favorable ? Ta richesse comparée à Kelly, demi-Kelly et double Kelly sur les mêmes tirages |
 | **Mes histoires** | Les réponses de parcours et de motivation (présente-toi, pourquoi le quant, stage actuel, échec, IA…), en français **et en anglais**, avec consignes, compteur de durée à l'oral et chrono de répétition ; elles peuvent être ajoutées aux consignes de l'entretien oral avec Claude pour qu'il les challenge |
 | **Journal** | Tes vrais entretiens : liste de préparation J−7 / J−1 / Jour J, **fiche de préparation imprimable** par entretien (tes notes, présentation, « pourquoi nous », questions à poser, les 15 questions techniques à revoir pour ce type de maison), et les questions posées deviennent des fiches de révision |
@@ -82,9 +84,15 @@ Les fiches « Projets types » reprennent des questions et des chiffres de trois
 - Les chapitres sont des fichiers Markdown lisibles dans `contenu/cours/` (encadrés `:::theoreme`, `:::preuve`, `:::exercice`…, formules entre `$`, renvois `[[n:id-du-chapitre]]` qui deviennent le numéro du chapitre avec un lien) ; `python construire.py` les valide et régénère `app/cours.js`.
 - Les chapitres techniques ont été relus par des relecteurs indépendants chargés de chercher les erreurs mathématiques (en recalculant chaque valeur) ; leurs corrections sont intégrées.
 
-### Raccourcis clavier (révisions et entretien blanc)
+### Raccourcis clavier
 
-`espace` voir la solution · `i` indice · `e` français / anglais · `l` écouter la question · `1` raté · `2` difficile · `3` bon · `4` facile
+| Où | Touches |
+|---|---|
+| Partout | <kbd>Ctrl</kbd> <kbd>K</kbd> (ou <kbd>⌘</kbd> <kbd>K</kbd>) ouvre la recherche : flèches pour choisir, <kbd>Entrée</kbd> pour ouvrir, <kbd>Échap</kbd> pour fermer |
+| Révisions, entretien blanc, casse-têtes | `espace` voir la solution · `i` indice · `e` français / anglais · `l` écouter la question · `1` raté · `2` difficile · `3` bon · `4` facile |
+| QCM | `1` à `5` ou `A` à `E` pour répondre · `?` « je ne sais pas encore » · `Entrée` question suivante |
+| Banque de questions | `/` va au champ de recherche |
+| Campagne | `Entrée` lance le niveau choisi (ou le prochain niveau) |
 
 ## Ajouter ou corriger une question
 
@@ -121,7 +129,9 @@ Les QCM sont dans `contenu/qcm/*.txt`, un bloc par question (plusieurs blocs peu
   Pourquoi c'est faux.
 ```
 
-Il faut exactement une bonne réponse, de 3 à 5 réponses, et une explication pour chacune ; `construire.py` écrit `app/qcm.js`, et `tests/test_qcm.py` vérifie que chaque fiche a son QCM. `python outils/formules.py fichier.txt` propose une conversion des formules écrites en texte simple, à relire.
+Il faut exactement une bonne réponse, de 3 à 5 réponses, et une explication pour chacune. Les réponses doivent rester de longueur comparable : une bonne réponse nettement plus longue que les pièges se devine à sa forme (le détail va dans l'explication) ; `construire.py` écrit `app/qcm.js`, et `tests/test_qcm.py` vérifie que chaque fiche a son QCM. `python outils/formules.py fichier.txt` propose une conversion des formules écrites en texte simple, à relire.
+
+Pour un casse-tête numérique : renseigner `categorie:` et `titre:`, écrire la fiche, ajouter sa vérification indépendante dans `tests/verifs.py`, son QCM dans `contenu/qcm/`, puis lancer `python construire.py`, `python tests/comptes_readme.py` et `python -m unittest`.
 
 Puis `python construire.py` régénère `app/banque.js` (que la page charge). Pour une question numérique, ajouter sa vérification dans `tests/verifs.py`. Les questions posées en vrai s'ajoutent plus simplement depuis le Journal, sans toucher aux fichiers.
 
@@ -130,32 +140,43 @@ Puis `python construire.py` régénère `app/banque.js` (que la page charge). Po
 ```
 index.html              la page (ouvrable directement, aucun serveur)
 Ouvrir.bat              lanceur Windows
-construire.py           contenu/ → app/banque.js et sw.js (bibliothèque standard Python)
+construire.py           contenu/ → app/banque.js, app/qcm.js, app/cours.js, sw.js, artefact.html (bibliothèque standard Python)
+cours.py                lecture et validation des chapitres (blocs, exercices, formules, liens vers les fiches)
 icones.py               génère les icônes PNG
 manifest.webmanifest    installation sur téléphone
 sw.js                   généré : cache hors ligne (http(s) seulement)
 artefact.html           généré : variante pour une page privée claude.ai (export par copie, sans impression)
-contenu/*.txt           les fiches, par thème
+contenu/*.txt           les fiches, par thème (casse-têtes : ct_*.txt, variantes : ctv_*.txt)
+contenu/qcm/*.txt       les QCM, un bloc par question
 contenu/guides/*.md     les guides
 contenu/essentiels.lst  les questions à maîtriser en priorité
 contenu/cours/*.md      les chapitres du cours
-cours.py                lecture et validation des chapitres (blocs, exercices, formules, liens vers les fiches)
-app/banque.js           généré : ne pas modifier à la main
+outils/formules.py      aide à la conversion des formules en LaTeX
+outils/publier.py       produit la version publique (sans éléments personnels)
+app/banque.js           généré : les fiches et les guides, ne pas modifier à la main
+app/qcm.js              généré : les QCM
 app/cours.js            généré : les chapitres du cours
-app/widgets.js          les simulations interactives du cours (canvas)
 app/vendor/katex/       KaTeX 0.16.11 (rendu des formules, licence MIT)
+app/app.js              état, sauvegarde locale, navigation, thème, export/import
 app/outils.js           Markdown simple, lecture des réponses numériques, dates, hasard reproductible
 app/srs.js              répétition espacée (variante de SM-2) et file du jour
+app/recherche.js        recherche globale (Ctrl+K)
+app/synchro.js          synchronisation chiffrée entre appareils (facultative)
+app/jeu.js              mode jeu : XP, niveaux, quêtes, épreuves, succès, desk (fonctions pures)
+app/jeu2.js             campagne, cote Elo, collection, usine
 app/calcul.js           générateurs de calcul mental et de suites (décimaux exacts)
 app/marche.js           moteur du jeu de market making (dés, cartes sans remise)
 app/kelly.js            jeu de paris répétés (critère de Kelly)
-app/app.js              état, sauvegarde locale, navigation, export/import
-app/vues/*.js           un fichier par écran
-tests/test_banque.py    format des fiches, banque à jour, réponses vérifiées
-tests/verifs.py         une vérification indépendante par réponse chiffrée
+app/widgets.js          les simulations interactives du cours (canvas)
+app/vues/*.js           un fichier par écran (accueil, cours, révisions, banque, qcm, campagne, carrière, casse-têtes…)
+tests/test_banque.py    format des fiches, banque à jour, réponses chiffrées vérifiées
+tests/verifs.py         une vérification indépendante par réponse chiffrée des fiches
 tests/test_cours.py     chapitres bien formés, cours.js à jour, exercices vérifiés
 tests/verifs_cours.py   une vérification indépendante par exercice du cours
-tests/js/               tests des modules JavaScript (node --test)
+tests/test_qcm.py       un QCM par fiche, format, chapitres couverts
+tests/test_application.py  lance les tests JavaScript et le parcours navigateur
+tests/comptes_readme.py met à jour les nombres cités dans ce README
+tests/js/               tests des modules JavaScript (node --test) : modules, maths, synchro, jeu, jeu2
 tests/navigateur.js     parcours complet dans Chromium (Playwright), mobile compris
 ```
 
@@ -164,8 +185,9 @@ JavaScript sans framework ni dépendance, scripts classiques (pas de modules ES)
 ## Tests
 
 ```bash
-python -m unittest            # depuis ce dossier : banque, vérifications, JS (si Node), navigateur (si Playwright)
-node --test tests/js/modules.test.js
+python -m unittest            # depuis ce dossier : banque, QCM, cours, vérifications, JS (si Node), navigateur (si Playwright)
+node --test tests/js/*.test.js
+python tests/comptes_readme.py   # recompte les fiches et QCM cités dans ce README
 node tests/navigateur.js captures/   # parcours complet, avec captures d'écran
 ```
 
@@ -185,4 +207,6 @@ Dans ce dépôt : Settings → Pages → « Deploy from a branch », branche `ma
 - Les notes en révision sont auto-évaluées : leur valeur dépend de ton honnêteté.
 - Les descriptions des processus de recrutement (guides, chapitre 17 du cours) résument des pages officielles et des témoignages anonymes consultés en novembre 2026 : ce sont des tendances, à revérifier avant chaque entretien.
 - Le cours a été rédigé avec l'aide d'une IA. Les réponses chiffrées sont vérifiées par les tests, mais le texte peut contenir des imprécisions : en cas de doute, refais le calcul (c'est aussi le meilleur entraînement).
+- Les correspondances entre une question de QCM et la section du cours qui l'explique sont calculées automatiquement : fiable pour le chapitre, moins pour la section exacte ; en cas de doute, le lien mène au chapitre.
+- Les sources de casse-têtes dont l'énoncé est payant (par exemple une partie de Tradermath) n'ont servi que de liste de sujets : leurs solutions ne sont pas reprises.
 - Les fiches de projets supposent les versions actuelles des projets ; si tu modifies un projet, mets à jour `contenu/projets.txt`.

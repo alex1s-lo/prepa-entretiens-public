@@ -9,6 +9,13 @@ Une sélection courte. Mieux vaut un livre travaillé à fond que cinq feuillet�
 - **Mark Joshi, Nick Denson et Andrew Downes, _Quant Job Interview Questions and Answers_** : orienté banque (pricing, C++).
 - **Frederick Mosteller, _Fifty Challenging Problems in Probability_** : court, classique, excellent pour l'intuition.
 
+## Sites et listes de questions en ligne
+
+- **Tradermath** (tradermath.org) : bibliothèque d'un millier de questions d'entretien classées par catégorie, difficulté et entreprise ; seule une partie est gratuite.
+- **QuantVault** (quantvault.org) : listes de questions rapportées par des candidats (Optiver, notamment), avec solutions rédigées ; une partie est gratuite.
+- **techinterview.org** : articles sur les énigmes de probabilité et de logique les plus posées par les salles de marché.
+- Les énigmes de ces sources et de beaucoup d'autres sont dans la section Casse-têtes, réécrites et vérifiées ; ces sites servent à en trouver d'autres à ajouter.
+
 ## Probabilités et calcul stochastique
 
 - **Joseph Blitzstein et Jessica Hwang, _Introduction to Probability_** : clair, beaucoup d'exercices de type entretien.
